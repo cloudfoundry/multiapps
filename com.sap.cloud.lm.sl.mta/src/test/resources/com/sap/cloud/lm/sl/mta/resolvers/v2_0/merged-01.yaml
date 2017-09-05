@@ -1,0 +1,54 @@
+_schema-version: "2.0.0"
+ID: com.sap.mta.v2.test.config-01
+version: 1.0.0
+
+modules:
+  - name: foo
+    type: foo
+    properties:
+      FOO_GROUP_1: 
+        - foo-group-sequence: ~{bar/bar-test1}.group1-value1
+        - foo-group-sequence: ~{bar/bar-test2}.group1-value2
+      FOO_GROUP_2:
+        foo-group-test2: ~{bar/bar-test2}.group2-value1
+        foo-group-test3: ~{bar/bar-test3}.group2-value2
+      foo-root-property: ~{bar/bar-test1}.foo-test1-value
+      foo-invalid-ref: ~{invalidRef}.invalidRef
+    parameters:
+      FOO_GROUP_3:
+        foo-group-test2: ~{bar/bar-test2}.group2-value1
+        foo-group-test3: ~{bar/bar-test3}.group2-value2
+    requires:
+      - name: bar
+        parameters:
+          foo-test1: ~{bar-test2}.foo-test1-value
+          foo-test2: foo-test4-value
+        properties:
+          foo-test1: foo-test2-value
+          foo-test2: foo-test2-value
+          foo-test3: ~{bar-test2}.foo-test3-value
+          foo-test4: ~{bar-test1}.foo-test4-value.~{bar-test3}
+      - name: baz
+    provides:
+      - name: foo
+
+  - name: qux
+    type: qux
+    properties:
+      bar-test: bar-test-value
+    provides:
+      - name: bar
+        properties:
+          bar-test1: bar-test1-value
+          bar-test2: bar-test2-value
+          bar-test3: bar-test3-value
+      - name: qux
+    requires:
+      - name: baz
+
+resources:
+  - name: baz
+    type: baz
+
+parameters:
+  test: test

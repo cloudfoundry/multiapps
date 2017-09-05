@@ -1,0 +1,68 @@
+{
+  "modules2_0": [
+    {
+      "requiredDependencies2_0": [],
+      "providedDependencies2_0": [
+        {
+          "isPublic": true,
+          "name": "foo",
+          "properties": {
+            "TEST_03": "TEST_03_VALUE",
+            "TEST_04": "TEST_04_VALUE"
+          }
+        }
+      ],
+      "parameters": {
+        "TEST_01": "TEST_01_VALUE",
+        "TEST_02": "TEST_02_VALUE",
+        "TEST_05": "TEST_05_VALUE",
+        "TEST_06": "TEST_06_VALUE"
+      },
+      "name": "foo",
+      "type": "foo",
+      "properties": {}
+    },
+    {
+      "requiredDependencies2_0": [
+        {
+          "name": "foo",
+          "properties": {},
+          "parameters": {
+            "TEST_10": "TEST_10_VALUE"
+          }
+        }
+      ],
+      "providedDependencies2_0": [
+        {
+          "isPublic": true,
+          "name": "bar",
+          "properties": {}
+        }
+      ],
+      "parameters": {
+        "TEST_05": "TEST_05_VALUE",
+        "TEST_06": "TEST_06_VALUE"
+      },
+      "name": "bar",
+      "type": "bar",
+      "properties": {}
+    }
+  ],
+  "resources2_0": [
+    {
+      "parameters": {
+        "TEST_09": "TEST_09_VALUE",
+        "TEST_10": "TEST_10_VALUE"
+      },
+      "name": "baz",
+      "type": "baz",
+      "properties": {
+        "TEST_07": "TEST_07_VALUE"
+      }
+    }
+  ],
+  "parameters": {},
+  "id": "com.sap.sample.mta",
+  "version": "1.0.0",
+  "schemaVersion": "2.0.0"
+}

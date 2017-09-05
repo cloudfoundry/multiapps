@@ -1,0 +1,19 @@
+[
+  [
+    {
+      "foo-test-1": "foo-test-1-value",
+      "foo-test-2": "foo-test-2-value"
+    },
+    {}
+  ],
+  [
+    {
+      "bar-test-3": "bar-test-3-value"
+    },
+    {}
+  ],
+  [
+    {},
+    {}
+  ]
+]

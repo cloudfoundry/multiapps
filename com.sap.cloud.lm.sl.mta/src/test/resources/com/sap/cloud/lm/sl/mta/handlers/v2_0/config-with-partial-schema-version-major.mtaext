@@ -1,0 +1,3 @@
+_schema-version: 2
+ID: mtaext-partial-schema-version-test
+extends: partial-schema-version-test

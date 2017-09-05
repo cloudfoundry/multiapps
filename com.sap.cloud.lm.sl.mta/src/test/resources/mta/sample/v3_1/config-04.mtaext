@@ -1,0 +1,10 @@
+_schema-version: "3"
+ID: com.sap.mta.sample.v2.config-04
+extends: com.sap.mta.sample.v2
+
+targets: [CF-QUAL]
+
+modules:
+  - name: web-server
+    parameters:
+      test: bazz

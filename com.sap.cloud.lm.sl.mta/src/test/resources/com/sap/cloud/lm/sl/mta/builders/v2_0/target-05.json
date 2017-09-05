@@ -1,0 +1,20 @@
+[
+  {
+    "name": "CF-TEST",
+    "module-types": [
+      {
+        "name": "foo",
+        "parameters": {
+          "foo-test-3": "foo-test-3-value",
+          "foo-test-4": "foo-test-4-value"
+        }
+      },
+      {
+        "name": "bar",
+        "parameters": {
+          "bar-test-4": "bar-test-4-value"
+        }
+      }
+    ]
+  }
+]

@@ -1,0 +1,33 @@
+_schema-version: "2.0.0"
+ID: com.sap.sample.mta
+version: 1.0.0
+
+modules:
+  - name: foo
+    type: foo
+    parameters:
+      TEST_01: TEST_01_VALUE
+      TEST_02: TEST_02_VALUE
+    provides:
+      - name: foo
+        properties:
+          TEST_03: TEST_03_VALUE
+          TEST_04: TEST_04_VALUE
+
+  - name: bar
+    type: bar
+    requires:
+      - name: foo
+        parameters:
+          TEST_10: TEST_10_VALUE
+    parameters:
+      TEST_05: TEST_05_VALUE
+      TEST_06: TEST_06_VALUE
+
+resources:
+  - name: baz
+    type: baz
+    properties:
+      TEST_07: TEST_07_VALUE
+
+

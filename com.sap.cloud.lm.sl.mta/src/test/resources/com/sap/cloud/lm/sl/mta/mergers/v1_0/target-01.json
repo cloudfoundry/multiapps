@@ -1,0 +1,26 @@
+{
+  "name": "XSA-INITIAL",
+  "type": "XSA",
+  "description": "Blah Blah..",
+  "properties": {
+    "TEST_10": "TEST_10_VALUE",
+    "TEST_11": "TEST_11_VALUE"
+  },
+  "module-types": [
+    {
+      "name": "foo",
+      "properties": {
+        "TEST_12": "TEST_12_VALUE"
+      }
+    }
+  ],
+  "resource-types": [
+    {
+      "name": "baz",
+      "properties": {
+        "TEST_14": "TEST_14_VALUE",
+        "TEST_15": "TEST_15_VALUE"
+      }
+    }
+  ]
+}

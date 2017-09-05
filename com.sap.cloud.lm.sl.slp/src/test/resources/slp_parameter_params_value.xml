@@ -1,0 +1,24 @@
+<Parameter xmlns="http://www.sap.com/lmsl/slp">
+    <id>fileList</id>
+    <type>slp.parameter.type.TABLE</type>
+    <tablevalue>
+        <Tuple>
+            <id>1</id>
+            <value>
+                <Parameter>
+                    <id>param1</id>
+                    <default>defaultValue1</default>
+                </Parameter>
+                <Parameter>
+                    <id>param2</id>
+                    <value>value2</value>
+                    <default>defaultValue2</default>
+                </Parameter>
+                <Parameter>
+                    <id>param3</id>
+                    <default>defaultValue3</default>
+                </Parameter>
+            </value>
+        </Tuple>
+    </tablevalue>
+</Parameter>

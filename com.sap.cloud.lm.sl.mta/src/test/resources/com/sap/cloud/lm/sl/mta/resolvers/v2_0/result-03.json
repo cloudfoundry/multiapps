@@ -1,0 +1,67 @@
+{
+  "modules2_0": [
+    {
+      "requiredDependencies2_0": [
+        {
+          "name": "pricing",
+          "properties": {},
+          "parameters": {}
+        }
+      ],
+      "providedDependencies2_0": [
+        {
+          "isPublic": true,
+          "name": "web-server",
+          "properties": {}
+        }
+      ],
+      "parameters": {},
+      "name": "web-server",
+      "type": "com.sap.static-content",
+      "properties": {}
+    },
+    {
+      "requiredDependencies2_0": [
+        {
+          "name": "pricing-db",
+          "properties": {},
+          "parameters": {}
+        }
+      ],
+      "providedDependencies2_0": [
+        {
+          "isPublic": true,
+          "name": "pricing",
+          "properties": {}
+        }
+      ],
+      "parameters": {},
+      "name": "pricing",
+      "type": "org.nodejs",
+      "properties": {}
+    },
+    {
+      "requiredDependencies2_0": [],
+      "providedDependencies2_0": [
+        {
+          "isPublic": true,
+          "name": "pricing-db",
+          "properties": {}
+        }
+      ],
+      "parameters": {},
+      "name": "pricing-db",
+      "type": "com.sap.hana.hdi",
+      "properties": {}
+    }
+  ],
+  "resources2_0": [],
+  "parameters": {
+    "bar": "password",
+    "baz": "https://api.sap.cf.com",
+    "foo": "deployer",
+    "qux": "git://github.wdf.sap.corp/xs2-java/xs2javabuildpack"
+  },
+  "id": "com.sap.mta.sample.v2",
+  "version": "1.2.1-beta+20150403144937853"
+}

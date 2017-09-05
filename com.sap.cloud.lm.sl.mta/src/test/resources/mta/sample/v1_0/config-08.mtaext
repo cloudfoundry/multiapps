@@ -1,0 +1,4 @@
+ID: com.sap.mta.sample.config-08
+extends: com.sap.mta.sample
+
+target-platforms: [CF-PROD]

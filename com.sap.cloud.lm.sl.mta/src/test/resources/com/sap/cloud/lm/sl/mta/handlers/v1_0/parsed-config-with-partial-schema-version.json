@@ -1,0 +1,9 @@
+{
+  "id": "mtaext-partial-schema-version-test",
+  "parentId": "partial-schema-version-test",
+  "schemaVersion": "1.0.0",
+  "deployTargets": [],
+  "modules1_0": [],
+  "resources1_0": [],
+  "properties": {}
+}

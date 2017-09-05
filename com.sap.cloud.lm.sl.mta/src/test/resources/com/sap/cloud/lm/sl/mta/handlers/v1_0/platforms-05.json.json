@@ -1,0 +1,14 @@
+[
+  {
+    "name": "CLOUD-FOUNDRY",
+    "properties": {},
+    "moduleTypes1_0": [],
+    "resourceTypes1_0": []
+  },
+  {
+    "name": "HCP-CLASSIC",
+    "properties": {},
+    "moduleTypes1_0": [],
+    "resourceTypes1_0": []
+  }
+]

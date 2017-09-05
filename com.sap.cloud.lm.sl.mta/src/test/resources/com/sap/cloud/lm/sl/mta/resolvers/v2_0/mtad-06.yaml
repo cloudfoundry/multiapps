@@ -1,0 +1,23 @@
+ID: com.sap.mta.sample.v2
+version: 1.2.1-beta+20150403144937853
+
+modules:
+  - name: web-server
+    type: com.sap.static-content
+    requires:
+      - name: pricing
+  - name: pricing
+    type: org.nodejs
+    parameters:
+      host: api
+    requires:
+      - name: pricing-db
+    provides:
+      - name: pricing
+        properties:
+          foo: ${host}
+          bar: ${buildpack}
+          baz: ${test}
+          qux: ${user}
+  - name: pricing-db
+    type: com.sap.hana.hdi

@@ -1,0 +1,33 @@
+_schema-version: "3.1.0"
+ID: mta
+version: 1.0.0
+
+modules:
+  - name: foo
+    type: foo
+    properties:
+      test_1: ""
+      test_2: value
+      test_3: []
+      test_4: [a,b]
+      test_5: {}
+    properties-metadata:
+      test_1:
+        optional: false
+      test_3:
+        optional: false
+      test_5:
+        optional: false
+    parameters:
+      test_1: ""
+      test_2: value
+      test_3: []
+      test_4: [a,b]
+      test_5: {}
+    parameters-metadata:
+      test_1:
+        optional: false
+      test_3:
+        optional: false
+      test_5:
+        optional: false

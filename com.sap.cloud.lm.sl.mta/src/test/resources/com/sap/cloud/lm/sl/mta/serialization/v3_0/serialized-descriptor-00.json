@@ -1,0 +1,62 @@
+{
+  "modules2_0": [
+    {
+      "requiredDependencies2_0": [
+        {
+          "name": "test-service",
+          "properties": {
+            "required-dependency-property": "required-property"
+          },
+          "parameters": {
+            "required-dependency-parameter": "required-parameter"
+          }
+        }
+      ],
+      "providedDependencies2_0": [
+        {
+          "isPublic": false,
+          "name": "providesSomething",
+          "properties": {}
+        },
+        {
+          "isPublic": true,
+          "name": "test-module",
+          "properties": {}
+        }
+      ],
+      "parameters": {
+        "some-parameter": "module-parameter"
+      },
+      "name": "test-module",
+      "type": "javascript.nodejs",
+      "properties": {
+        "health-check-type": "none",
+        "health-check-timeout": 180,
+        "no-start": true,
+        "password": "sensitive_data"
+      }
+    }
+  ],
+  "resources2_0": [
+    {
+      "parameters": {
+        "test-parameter": "resource-parameter",
+        "some-parameter-map": [
+          {
+            "first-parameter": "first-parameter",
+            "second-parameter": "second-parameter"
+          }
+        ]
+      },
+      "name": "test-service",
+      "type": "org.postgresql",
+      "properties": {}
+    }
+  ],
+  "parameters": {
+    "descriptor-parameter": "some-parameter"
+  },
+  "id": "ztana",
+  "version": "1.0.0",
+  "schemaVersion": "3.0.0"
+}
