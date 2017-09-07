@@ -2,21 +2,21 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    
+
     <groupId>com.sap.cloud.lm.sl</groupId>
     <artifactId>com.sap.cloud.lm.sl.open.parent</artifactId>
     <version>1.48.0-SNAPSHOT</version>
     <packaging>pom</packaging>
     <name>LM SL Open Source Parent</name>
-    
+
     <parent>
         <groupId>com.sap.ldi</groupId>
         <artifactId>ldi-parent</artifactId>
         <version>8.1.0</version>
     </parent>
-    
+
     <url>https://projectportal.int.sap.hana.ondemand.com/projects/com.sap.cloud.lm.sl.open</url>
-    
+
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <junit.version>4.12</junit.version>
@@ -42,16 +42,16 @@
         <jackson-asl.version>1.9.13</jackson-asl.version>
         <semver4j.version>2.0.1</semver4j.version>
         <activiti.common.version>1.28.0</activiti.common.version>
-        <slp.version>1.2.2</slp.version>
+        <slp.version>1.2.3</slp.version>
     </properties>
-    
+
     <modules>
         <module>com.sap.cloud.lm.sl.common</module>
         <module>com.sap.cloud.lm.sl.slp</module>
         <module>com.sap.cloud.lm.sl.persistence</module>
         <module>com.sap.cloud.lm.sl.mta</module>
     </modules>
-    
+
     <build>
         <pluginManagement>
             <plugins>
@@ -121,14 +121,14 @@
             </plugin>
         </plugins>
     </build>
-    
+
     <distributionManagement>
         <snapshotRepository>
             <id>sofia.snapshots.hosted</id>
             <url>http://nexus:8081/nexus/content/repositories/deploy.snapshots/</url>
         </snapshotRepository>
     </distributionManagement>
-    
+
     <dependencyManagement>
         <dependencies>
             <dependency>
@@ -202,11 +202,6 @@
                 <artifactId>commons-fileupload</artifactId>
                 <version>${commons-fileupload.version}</version>
             </dependency>
-            <!-- <dependency>
-                <groupId>org.apache.httpcomponents</groupId>
-                <artifactId>httpmime</artifactId>
-                <version>${httpclient.version}</version>
-            </dependency> -->
             <dependency>
                 <groupId>commons-logging</groupId>
                 <artifactId>commons-logging</artifactId>
