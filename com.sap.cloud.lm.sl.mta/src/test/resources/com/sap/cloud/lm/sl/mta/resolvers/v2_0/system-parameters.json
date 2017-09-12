@@ -2,7 +2,7 @@
   "generalParameters": {
     "platform": "initial initial",
     "org": "initial",
-    "buildpack": "git://github.wdf.sap.corp/xs2-java/xs2javabuildpack",
+    "buildpack": "git://example.com/xs2-java/xs2javabuildpack",
     "user": "i318495",
     "default-uri": "${host}.${domain}"
   },

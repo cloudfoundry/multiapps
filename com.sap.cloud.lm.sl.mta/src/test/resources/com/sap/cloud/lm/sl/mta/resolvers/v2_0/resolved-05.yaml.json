@@ -74,7 +74,7 @@
             {
               "forwardAuthToken": true,
               "name": "backend1",
-              "url": "https://mo-9254dec0d.mo.sap.corp:51088"
+              "url": "https://example.com:51088"
             },
             {
               "forwardAuthToken": true,
@@ -94,7 +94,7 @@
       "name": "backend1",
       "properties": {
         "name": "backend1",
-        "url": "https://mo-9254dec0d.mo.sap.corp:51088"
+        "url": "https://example.com:51088"
       }
     },
     {

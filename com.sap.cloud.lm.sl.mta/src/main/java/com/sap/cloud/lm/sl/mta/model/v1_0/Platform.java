@@ -17,7 +17,7 @@ import com.sap.cloud.lm.sl.mta.model.VisitableElement;
 import com.sap.cloud.lm.sl.mta.model.Visitor;
 
 /**
- * @see <a href= "https://github.wdf.sap.corp/mta/spec/blob/master/schemas/v1/platform-types-schema.yaml"> Platform descriptor schema</a>
+ * @see <a href= "https://[My Github Repo]/mta/spec/blob/master/schemas/v1/platform-types-schema.yaml"> Platform descriptor schema</a>
  */
 public class Platform implements VisitableElement, NamedElement, PropertiesContainer {
 

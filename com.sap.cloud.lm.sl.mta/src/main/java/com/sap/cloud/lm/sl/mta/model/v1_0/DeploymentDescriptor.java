@@ -21,7 +21,7 @@ import com.sap.cloud.lm.sl.mta.util.YamlElement;
 import com.sap.cloud.lm.sl.mta.util.YamlElementOrder;
 
 /**
- * @see <a href="https://github.wdf.sap.corp/mta/spec/blob/master/schemas/v1/mtad-schema.yaml"> MTA Deployment descriptor schema</a>
+ * @see <a href="https://[My Github Repo]/mta/spec/blob/master/schemas/v1/mtad-schema.yaml"> MTA Deployment descriptor schema</a>
  */
 @YamlElementOrder({ "id", "description", "version", "provider", "copyright", "schemaVersion", "properties", "modules1_0", "resources1_0" })
 public class DeploymentDescriptor implements VisitableElement, IdentifiableElement, PropertiesContainer {

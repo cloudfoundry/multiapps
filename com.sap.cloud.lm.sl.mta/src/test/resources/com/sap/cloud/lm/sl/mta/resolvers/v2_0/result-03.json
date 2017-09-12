@@ -60,7 +60,7 @@
     "bar": "password",
     "baz": "https://api.sap.cf.com",
     "foo": "deployer",
-    "qux": "git://github.wdf.sap.corp/xs2-java/xs2javabuildpack"
+    "qux": "git://example.com/xs2-java/xs2javabuildpack"
   },
   "id": "com.sap.mta.sample.v2",
   "version": "1.2.1-beta+20150403144937853"
