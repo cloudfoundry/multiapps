@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.yaml.snakeyaml.Yaml;
+import org.yaml.snakeyaml.constructor.SafeConstructor;
 
 import com.sap.cloud.lm.sl.common.ParsingException;
 import com.sap.cloud.lm.sl.common.util.CommonUtil;
@@ -52,7 +53,7 @@ public class YamlUtil {
     }
 
     public static String convertToYaml(Object object) {
-        Yaml yaml = new Yaml(new YamlRepresenter());
+        Yaml yaml = new Yaml(new SafeConstructor(), new YamlRepresenter());
         return yaml.dumpAsMap(object);
     }
 
