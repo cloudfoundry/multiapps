@@ -14,7 +14,22 @@
         <artifactId>ldi-parent</artifactId>
         <version>8.1.0</version>
     </parent>
-   
+
+    <repositories>
+        <repository>
+            <id>lib</id>
+            <name>lib</name>
+            <url>file://${project.basedir}/lib</url>
+            <releases>
+                <enabled>true</enabled>
+                <checksumPolicy>ignore</checksumPolicy>
+            </releases>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </repository>
+    </repositories>
+    
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <junit.version>4.12</junit.version>
