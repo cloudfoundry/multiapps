@@ -22,8 +22,8 @@ import com.sap.cloud.lm.sl.persistence.processors.DefaultFileUploadProcessor;
 
 public class FileSystemFileServiceTest extends DatabaseFileServiceTest {
 
-    private static final String TEST_FILE_LOCATION = "src/test/resources/com.sap.cloud.lm.sl.web-0.1.0-SNAPSHOT.war";
-    private static final String SECOND_FILE_TEST_LOCATION = "src/test/resources/hell.jpg";
+    private static final String TEST_FILE_LOCATION = "src/test/resources/pexels-photo-401794.jpeg";
+    private static final String SECOND_FILE_TEST_LOCATION = "src/test/resources/pexels-photo-463467.jpeg";
 
     private String spaceId;
     private String namespace;

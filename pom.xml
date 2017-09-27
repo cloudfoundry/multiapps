@@ -6,11 +6,6 @@
     <version>1.50.0-SNAPSHOT</version>
     <packaging>pom</packaging>
     <name>LM SL Open Source Parent</name>
-    <parent>
-        <groupId>com.sap.ldi</groupId>
-        <artifactId>ldi-parent</artifactId>
-        <version>8.1.0</version>
-    </parent>
     <profiles>
         <profile>
             <id>open</id>
@@ -132,12 +127,6 @@
             </plugin>
         </plugins>
     </build>
-    <distributionManagement>
-        <snapshotRepository>
-            <id>sofia.snapshots.hosted</id>
-            <url>http://nexus:8081/nexus/content/repositories/deploy.snapshots/</url>
-        </snapshotRepository>
-    </distributionManagement>
     <dependencyManagement>
         <dependencies>
             <dependency>
