@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.sap.cloud.lm.sl</groupId>
     <artifactId>com.sap.cloud.lm.sl.open.parent</artifactId>
@@ -46,7 +47,6 @@
         <activiti.version>5.22.0</activiti.version>
         <commons-lang3.version>3.3</commons-lang3.version>
         <mybatis.version>3.3.0</mybatis.version>
-        <joda-time.version>2.8</joda-time.version>
         <jackson-asl.version>1.9.13</jackson-asl.version>
         <semver4j.version>2.0.1</semver4j.version>
         <activiti.common.version>1.28.0</activiti.common.version>
@@ -262,11 +262,6 @@
                 <groupId>org.mybatis</groupId>
                 <artifactId>mybatis</artifactId>
                 <version>${mybatis.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>joda-time</groupId>
-                <artifactId>joda-time</artifactId>
-                <version>${joda-time.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.codehaus.jackson</groupId>
