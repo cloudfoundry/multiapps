@@ -38,8 +38,7 @@ To build `com.sap.cloud.lm.sl.common`, `com.sap.cloud.lm.sl.mta`, `com.sap.cloud
 $ mvn clean install
 ```
 # How to obtain support
-TODO
-
+If you need any support, have any question or have found a bug, please report it in the [GitHub bug tracking system](https://github.com/SAP/cloud-mta-java-common/issues). We shall get back to you.
 # License
 Copyright (c) 2017 SAP SE or an SAP affiliate company. All rights reserved.
 This file is licensed under the Apache Software License, v. 2 except as noted otherwise in the [LICENSE](TODO) file.
