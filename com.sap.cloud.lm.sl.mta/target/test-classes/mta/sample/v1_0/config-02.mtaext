@@ -1,5 +1,0 @@
-ID: com.sap.mta.sample.config-02
-extends: com.sap.mta.sample
-
-modules:
-  - name: web-serverx
