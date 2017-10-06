@@ -1,4 +1,0 @@
--------------------------------------------------------------------------------
-Test set: com.sap.cloud.lm.sl.common.util.CommonUtilTest
--------------------------------------------------------------------------------
-Tests run: 5, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.065 sec

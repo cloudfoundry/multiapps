@@ -1,3 +1,0 @@
-_schema-version: "2.1.0"
-ID: com.sap.mta.test.config-08
-extends: com.sap.mta.test

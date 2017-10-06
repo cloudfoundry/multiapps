@@ -1,7 +1,0 @@
-ID: com.sap.mta.test.config-03
-extends: com.sap.mta.test
-
-resources:
-  - name: foo
-
-  - name: foo
