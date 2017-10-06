@@ -1,6 +1,4 @@
-# cloud-mta-java-common
-
-[![Build Status](https://travis-ci.org/SAP/cloud-mta-java-common.svg?branch=master)](https://travis-ci.org/SAP/cloud-mta-java-common)
+# cloud-mta-java-common [![Build Status](https://travis-ci.org/SAP/cloud-mta-java-common.svg?branch=master)](https://travis-ci.org/SAP/cloud-mta-java-common)
 
 Provides common components like parsers, validators, persistence and utilities for [Multi-Target Application (MTA)](https://www.sap.com/documents/2016/06/e2f618e4-757c-0010-82c7-eda71af511fa.html) models. These common components are reused across different MTA deployer implementations. One such instance is the [Cloud Foundry MTA deploy service](https://github.com/SAP/cf-mta-deploy-service).
 
