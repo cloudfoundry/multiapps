@@ -1,0 +1,14 @@
+[
+    {
+        "name": "CF-QUAL",
+        "parameters": {
+            "org.cf.api-url": "https://api.sap.cf.com"
+        }
+    },
+    {
+        "name": "CF-PROD",
+        "properties": {
+            "org.cf.api-url": "https://api.sap.cf.com"
+        }
+    }
+]

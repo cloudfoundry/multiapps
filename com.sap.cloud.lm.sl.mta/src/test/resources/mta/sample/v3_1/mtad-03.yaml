@@ -1,0 +1,14 @@
+_schema-version: "3"
+ID: com.sap.mta.sample.v2
+version: 1.2.1-beta+20150403144937853
+
+modules:
+  - name: web-server
+    type: com.sap.static-content
+    path: "web-server/"
+    parameters:
+      test: baz
+    parameters-metadata:
+      test:
+        overwritable: false
+        optional: false

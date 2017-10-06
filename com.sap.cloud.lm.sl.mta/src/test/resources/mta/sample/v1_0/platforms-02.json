@@ -1,0 +1,20 @@
+[
+    {
+        "name": "CLOUD-FOUNDRY",
+        "module-types": [
+            {
+                "name": "com.sap.static-content",
+                "parameters": {}
+            }
+        ]
+    },
+    {
+        "name": "HCP-CLASSIC",
+        "module-types": [
+            {
+                "name": "com.sap.static-content",
+                "properties": {}
+            }
+        ]
+    }
+]

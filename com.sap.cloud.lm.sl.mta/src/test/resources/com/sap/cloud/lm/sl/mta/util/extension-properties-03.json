@@ -1,0 +1,9 @@
+{
+	"jvm_args": {
+		"scalar_arg": 12,
+		"jvm_args_map": {
+			"value2": "extensionValue",
+			"value3": "newValue"
+		}
+	}
+}

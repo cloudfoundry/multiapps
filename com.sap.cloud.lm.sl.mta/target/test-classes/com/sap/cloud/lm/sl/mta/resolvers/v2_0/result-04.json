@@ -1,0 +1,70 @@
+{
+  "modules2_0": [
+    {
+      "requiredDependencies2_0": [
+        {
+          "name": "pricing",
+          "properties": {},
+          "parameters": {}
+        }
+      ],
+      "providedDependencies2_0": [
+        {
+          "isPublic": true,
+          "name": "web-server",
+          "properties": {}
+        }
+      ],
+      "parameters": {},
+      "name": "web-server",
+      "type": "com.sap.static-content",
+      "properties": {}
+    },
+    {
+      "requiredDependencies2_0": [
+        {
+          "name": "pricing-db",
+          "properties": {},
+          "parameters": {}
+        }
+      ],
+      "providedDependencies2_0": [
+        {
+          "isPublic": true,
+          "name": "pricing",
+          "properties": {}
+        }
+      ],
+      "parameters": {
+        "self": "self",
+        "self-test": "self"
+      },
+      "name": "pricing",
+      "type": "org.nodejs",
+      "properties": {
+        "bar": "test",
+        "baz": "i318495",
+        "foo": "nodejs-test",
+        "qux": "self"
+      }
+    },
+    {
+      "requiredDependencies2_0": [],
+      "providedDependencies2_0": [
+        {
+          "isPublic": true,
+          "name": "pricing-db",
+          "properties": {}
+        }
+      ],
+      "parameters": {},
+      "name": "pricing-db",
+      "type": "com.sap.hana.hdi",
+      "properties": {}
+    }
+  ],
+  "resources2_0": [],
+  "parameters": {},
+  "id": "com.sap.mta.sample.v2",
+  "version": "1.2.1-beta+20150403144937853"
+}

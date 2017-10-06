@@ -1,0 +1,27 @@
+ID: com.sap.mta.test
+version: 1.0.0
+
+modules:
+  - name: foo
+    type: foo
+    requires: [bar]
+    provides:
+      - name: foo
+    properties:
+      dependency-type: hard
+
+  - name: bar
+    type: bar
+    requires: [baz]
+    provides:
+      - name: bar
+    properties:
+      dependency-type: soft
+
+  - name: baz
+    type: baz
+    requires: [foo]
+    provides:
+      - name: baz
+    properties:
+      dependency-type: hard

@@ -1,0 +1,32 @@
+ID: com.sap.sample.mta
+version: 1.0.0
+
+modules:
+  - name: foo
+    type: foo
+    properties:
+      TEST_01: TEST_01_VALUE
+      TEST_02: TEST_02_VALUE
+    provides:
+      - name: foo
+        groups: [TEST_1_GROUP, TEST_2_GROUP]
+        properties:
+          TEST_03: TEST_03_VALUE
+          TEST_04: TEST_04_VALUE
+
+  - name: bar
+    type: bar
+    requires: [foo]
+    properties:
+      TEST_05: TEST_05_VALUE
+      TEST_06: TEST_06_VALUE
+
+resources:
+  - name: baz
+    type: baz
+    properties:
+      TEST_07: TEST_07_VALUE
+
+properties:
+  TEST_08: TEST_08_VALUE
+  TEST_09: TEST_09_VALUE

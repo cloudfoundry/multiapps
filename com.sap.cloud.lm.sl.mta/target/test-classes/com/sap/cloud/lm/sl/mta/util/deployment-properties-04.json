@@ -1,0 +1,11 @@
+{
+	"jvm_args": {
+		"scalar_arg": 12.34,
+		"jvm_args_map": {
+			"value1": 2,
+			"value2": "propertyValue"
+		}
+	},
+
+	"scalar_param": 4
+}

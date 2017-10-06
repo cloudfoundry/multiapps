@@ -1,0 +1,43 @@
+[
+  {
+    "parameters": {
+      "org.cf.username": "deployer",
+      "org.cf.password": "Top.,Secret87",
+      "org.cf.org": "SAP-STANDARD",
+      "org.cf.space": "STAGING"
+    },
+    "platformModuleTypes2_0": [
+      {
+        "parameters": {
+          "buildpack": "nodejs-test"
+        },
+        "name": "org.nodejs",
+        "properties": {
+          "test": "test"
+        }
+      }
+    ],
+    "platformResourceTypes2_0": [
+      {
+        "parameters": {
+          "service": "hdi-hana2",
+          "plan": "hdi-shared"
+        },
+        "name": "com.sap.hana.hdi-container"
+      }
+    ],
+    "name": "CF-QUAL"
+  },
+  {
+    "parameters": {
+      "org.cf.api-url": "https://api.sap.cf.com",
+      "org.cf.username": "superuser",
+      "org.cf.password": "EiGuhdeWie?",
+      "org.cf.org": "SAP-STANDARD",
+      "org.cf.space": "PRODUCTIVE"
+    },
+    "platformModuleTypes2_0": [],
+    "platformResourceTypes2_0": [],
+    "name": "CF-PROD"
+  }
+]

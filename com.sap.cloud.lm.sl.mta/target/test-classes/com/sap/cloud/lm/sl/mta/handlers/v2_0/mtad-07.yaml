@@ -1,0 +1,11 @@
+ID: com.sap.mta.test
+version: 1.0.0
+
+modules:
+  - name: foo
+    type: foo
+
+  - name: bar
+    type: bar
+    requires:
+      - name: foo

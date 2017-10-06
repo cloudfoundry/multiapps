@@ -1,0 +1,32 @@
+[
+  {
+    "name": "CF-TEST",
+    "module-types": [
+      {
+        "name": "foo",
+        "properties": {
+          "foo-test-5": "foo-test-5-value"
+        }
+      },
+      {
+        "name": "bar",
+        "properties": {}
+      },
+      {
+        "name": "baz",
+        "properties": {
+          "baz-test-5": "baz-test-5-value",
+          "baz-test-6": "baz-test-6-value"
+        }
+      }
+    ],
+    "resource-types": [
+      {
+        "name": "quux",
+        "properties": {
+          "quux-test-2": "quux-test-2-value"
+        }
+      }
+    ]
+  }
+]

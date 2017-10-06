@@ -1,0 +1,9 @@
+_schema-version: "3"
+ID: com.sap.mta.sample.v2.config-02 
+extends: com.sap.mta.sample.v2
+
+modules:
+  - name: web-serverx
+  - name: web-server
+    properties:
+      test: bar

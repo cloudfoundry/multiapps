@@ -1,0 +1,9 @@
+ID: com.sap.mta.sample
+version: 1.2.1-beta+20150403144937853
+
+modules:
+  - name: web-server
+    type: com.sap.static-content
+    provides:
+      - name: provided
+        public: not-a-true-or-false

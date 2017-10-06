@@ -1,0 +1,4 @@
+-------------------------------------------------------------------------------
+Test set: com.sap.cloud.lm.sl.persistence.services.FileSystemFileServiceTest
+-------------------------------------------------------------------------------
+Tests run: 11, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 1.074 sec

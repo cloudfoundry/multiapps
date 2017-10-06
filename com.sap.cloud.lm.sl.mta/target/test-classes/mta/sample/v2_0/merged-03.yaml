@@ -1,0 +1,79 @@
+ID: com.sap.mta.sample.v2
+version: 1.2.1-beta+20150403144937853
+
+modules:
+  - name: web-server
+    type: com.sap.static-content
+    path: "web-server/"
+    requires:
+      - name: internal-odata
+        group: configuration
+        properties:
+          odata.svc_root: ~{odata.svc_root}
+      - name: internal-odata-service
+        group: configuration
+    properties:
+      docu-url: "http://help.sap.com/saphelp_nw74/en/5c"
+      default-locale: zho
+    parameters:
+      host: www
+      domain: bestprice.sap.com
+
+  - name: pricing
+    type: org.nodejs
+    properties:
+      docu-url: "http://help.sap.com/saphelp_nw74/en/5c"
+      default-locale: zho
+    parameters:
+      host: api
+      domain: bestprice.sap.com
+    provides:
+      - name: internal-odata
+        properties:
+          odata.svc_root: "odata/"
+          test:
+    requires:
+      - name: pricing-db
+        group: pricing-configuration
+        parameters:
+          custom-property: custom-property-value
+      - name: pricing-db-service
+        group: pricing-configuration
+      - name: competitor-data
+        group: pricing-configuration
+        properties:
+          url: ~{url}
+          application-key: ~{application-key}
+          secret-key: ~{secret-key}
+          competitor-name: Something Ltd.
+
+  - name: pricing-db
+    type: com.sap.hana.hdi
+    properties:
+      default-locale: zho
+      test:
+    requires:
+      - name: pricing-db-service
+        group: db-configuration
+        properties:
+          test:
+
+resources:
+  - name: pricing-db-service
+    type: com.sap.hana.hdi-container
+
+  - name: internal-odata-service
+    type: com.sap.user-provided
+    properties:
+      username: "technicalUser"
+      password: "shfzj86g"
+
+  - name: competitor-data
+    properties:
+      url: "https://marketwatch.il/v2/"
+      application-key: "25892e17-80f6-415f-9c65-7395632f0223"
+      secret-key: "cd171f7c-560d-4a62-8d65-16b87419a58c"
+      test:
+
+parameters:
+  com.sap.releaseMetadataRefGuid: c6bc22d0-48b4-47d1-9fd4

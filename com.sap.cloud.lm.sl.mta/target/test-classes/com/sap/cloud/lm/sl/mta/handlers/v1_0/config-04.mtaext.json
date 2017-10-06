@@ -1,0 +1,33 @@
+{
+  "id": "com.sap.mta.test.config-03",
+  "parentId": "com.sap.mta.test",
+  "deployTargets": [],
+  "modules1_0": [
+    {
+      "name": "foo",
+      "properties": {},
+      "providedDependencies1_0": [
+        {
+          "name": "foo",
+          "properties": {}
+        },
+        {
+          "name": "bar",
+          "properties": {}
+        }
+      ]
+    },
+    {
+      "name": "bar",
+      "properties": {},
+      "providedDependencies1_0": [
+        {
+          "name": "baz",
+          "properties": {}
+        }
+      ]
+    }
+  ],
+  "resources1_0": [],
+  "properties": {}
+}

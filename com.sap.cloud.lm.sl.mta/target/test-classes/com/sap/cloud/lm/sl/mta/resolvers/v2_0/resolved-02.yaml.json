@@ -1,0 +1,90 @@
+{
+  "modules2_0": [
+    {
+      "requiredDependencies2_0": [
+        {
+          "name": "bar",
+          "properties": {
+            "foo-test1": "foo-test1-value",
+            "foo-test2": "foo-test2-value",
+            "foo-test3": "bar-test2-value.foo-test3-value",
+            "foo-test4": "bar-test1-value.foo-test4-value.bar-test3-value"
+          },
+          "parameters": {
+            "foo-test2": "foo-test4-value"
+          }
+        },
+        {
+          "name": "baz",
+          "properties": {
+            "baz-test": {
+              "baz-test1": "baz-test1-value",
+              "baz-test2": "baz-test2-value"
+            }
+          },
+          "parameters": {}
+        }
+      ],
+      "providedDependencies2_0": [
+        {
+          "isPublic": true,
+          "name": "foo",
+          "properties": {}
+        }
+      ],
+      "parameters": {},
+      "name": "foo",
+      "type": "foo",
+      "properties": {}
+    },
+    {
+      "requiredDependencies2_0": [
+        {
+          "name": "baz",
+          "properties": {},
+          "parameters": {}
+        }
+      ],
+      "providedDependencies2_0": [
+        {
+          "isPublic": true,
+          "name": "bar",
+          "properties": {
+            "bar-test1": "bar-test1-value",
+            "bar-test2": "bar-test2-value",
+            "bar-test3": "bar-test3-value"
+          }
+        },
+        {
+          "isPublic": true,
+          "name": "qux",
+          "properties": {}
+        }
+      ],
+      "parameters": {},
+      "name": "qux",
+      "type": "qux",
+      "properties": {
+        "bar-test": "bar-test-value"
+      }
+    }
+  ],
+  "resources2_0": [
+    {
+      "parameters": {},
+      "name": "baz",
+      "properties": {
+        "baz-test": {
+          "baz-test1": "baz-test1-value",
+          "baz-test2": "baz-test2-value"
+        }
+      }
+    }
+  ],
+  "parameters": {
+    "test": "test"
+  },
+  "id": "com.sap.mta.v2.test.config-01",
+  "version": "1.0.0",
+  "schemaVersion": "2.0.0"
+}

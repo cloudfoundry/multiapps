@@ -1,0 +1,36 @@
+_schema-version: "3.1.0"
+ID: com.sap.mta.v2.test.config-01
+version: 1.0.0
+
+modules:
+  - name: qux
+    type: qux
+    properties:
+      bar-test: bar-test-value
+      baz-test2: ~{baz/baz-test3}.baz-test3.reference
+    provides:
+      - name: bar
+        properties:
+          bar-test1: bar-test1-value
+          bar-test2: bar-test2-value
+          bar-test3: bar-test3-value
+      - name: qux
+    requires:
+      - name: baz
+        properties:
+          baz-test4: ~{baz-test/baz-test4}.baz-test/baz-test4-reference 
+          baz-test3: ~{baz-test3}.baz-test3-reference 
+          
+resources:
+  - name: baz
+    requires:
+      - name: bar
+    properties:
+      baz-test:
+        baz-test1: ~{bar/bar-test1}.bar-test1-reference
+        baz-test2: baz-test2-value
+      baz-test3: ~{bar/bar-test2}.bar-test2-reference-bar-test1-reference.~{bar/bar-test1}
+      baz-test/baz-test4: "baz-test/baz-test4-value"
+
+parameters:
+  test: ~{bar/bar-test3}

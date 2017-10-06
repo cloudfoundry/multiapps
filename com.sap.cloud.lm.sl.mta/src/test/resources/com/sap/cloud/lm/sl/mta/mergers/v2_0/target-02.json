@@ -1,0 +1,33 @@
+{
+  "name": "XSA-INITIAL",
+  "type": "XSA",
+  "description": "Blah Blah..",
+  "parameters": {
+    "TEST_08": "TEST_08_DIFFERENT_VALUE",
+    "TEST_09": "TEST_09_DIFFERENT_VALUE"
+  },
+  "module-types": [
+    {
+      "name": "foo",
+      "parameters": {
+        "TEST_01": "TEST_03_DIFFERENT_VALUE"
+      }
+    },
+    {
+      "name": "bar",
+      "parameters": {
+        "TEST_05": "TEST_05_DIFFERENT_VALUE"
+      }
+    }
+  ],
+  "resource-types": [
+    {
+      "name": "baz",
+      "parameters": {
+        "TEST_10": "TEST_10_VALUE",
+        "TEST_11": "TEST_11_VALUE",
+        "TEST_07": "TEST_07_DIFFERENT_VALUE"
+      }
+    }
+  ]
+}

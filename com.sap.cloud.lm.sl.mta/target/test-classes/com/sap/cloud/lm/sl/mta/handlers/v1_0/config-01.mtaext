@@ -1,0 +1,7 @@
+ID: com.sap.mta.test.config-01
+extends: com.sap.mta.test
+
+modules:
+  - name: foo
+
+  - name: foo

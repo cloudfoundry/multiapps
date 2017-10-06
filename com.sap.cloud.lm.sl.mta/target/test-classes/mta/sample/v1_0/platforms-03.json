@@ -1,0 +1,14 @@
+[
+    {
+        "name": "CLOUD-FOUNDRY",
+        "properties": {
+            "org.cf.api": "https://api.sap.cf.com"
+        }
+    },
+    {
+        "name": "HCP-CLASSIC",
+        "parameters": {
+            "org.cf.api": "https://api.sap.cf.com"
+        }
+    }
+]

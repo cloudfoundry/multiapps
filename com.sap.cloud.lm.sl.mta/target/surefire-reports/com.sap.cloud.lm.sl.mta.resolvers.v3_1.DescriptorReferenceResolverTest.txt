@@ -1,0 +1,4 @@
+-------------------------------------------------------------------------------
+Test set: com.sap.cloud.lm.sl.mta.resolvers.v3_1.DescriptorReferenceResolverTest
+-------------------------------------------------------------------------------
+Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.035 sec

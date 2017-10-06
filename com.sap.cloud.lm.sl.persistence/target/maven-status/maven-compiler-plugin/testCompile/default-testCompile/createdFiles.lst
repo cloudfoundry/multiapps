@@ -1,0 +1,7 @@
+com/sap/cloud/lm/sl/persistence/processors/DefaultFileDownloadProcessorTest$1.class
+com/sap/cloud/lm/sl/persistence/services/DatabaseFileServiceTest$1.class
+com/sap/cloud/lm/sl/persistence/services/DatabaseFileServiceTest.class
+com/sap/cloud/lm/sl/persistence/processors/DefaultFileUploadProcessorTest.class
+com/sap/cloud/lm/sl/persistence/services/ProgressMessageServiceTest.class
+com/sap/cloud/lm/sl/persistence/processors/DefaultFileDownloadProcessorTest.class
+com/sap/cloud/lm/sl/persistence/services/FileSystemFileServiceTest.class

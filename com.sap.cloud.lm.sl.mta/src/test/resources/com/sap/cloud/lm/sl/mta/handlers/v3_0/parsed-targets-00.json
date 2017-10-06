@@ -1,0 +1,30 @@
+[
+  {
+    "platformModuleTypes3_0": [
+      {
+        "parameters": {
+          "memory": "1G"
+        },
+        "name": "java.tomcat",
+        "properties": {
+          "TARGET_RUNTIME": "TOMCAT"
+        }
+      }
+    ],
+    "platformResourceTypes3_0": [
+      {
+        "parameters": {
+          "TABLES_LIMIT": 100.0
+        },
+        "name": "hana"
+      }
+    ],
+    "parameters": {
+      "org": "ORG",
+      "space": "PROD"
+    },
+    "name": "CF-PROD",
+    "type": "CF",
+    "description": "A collection of default configuration parameters for Cloud Foundy"
+  }
+]

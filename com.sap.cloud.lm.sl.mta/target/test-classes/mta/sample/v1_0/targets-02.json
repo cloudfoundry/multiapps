@@ -1,0 +1,20 @@
+[
+    {
+        "name": "CF-QUAL",
+        "module-types": [
+            {
+                "name": "com.sap.static-content",
+                "properties": {}
+            }
+        ]
+    },
+    {
+        "name": "CF-PROD",
+        "module-types": [
+            {
+                "name": "com.sap.static-content",
+                "parameters": {}
+            }
+        ]
+    }
+]

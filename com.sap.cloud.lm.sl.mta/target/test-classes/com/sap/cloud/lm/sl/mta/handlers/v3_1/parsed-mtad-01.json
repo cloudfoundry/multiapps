@@ -1,0 +1,176 @@
+{
+  "modules3_1": [
+    {
+      "requiredDependencies3_1": [
+        {
+          "propertiesMetadata": {
+            "metadata": {
+              "moduleRequiredSensitiveProperty": {
+                "sensitive": true
+              },
+              "moduleRequiredTaggedSensitiveProperty": {
+                "sensitive": true
+              }
+            }
+          },
+          "parametersMetadata": {
+            "metadata": {
+              "moduleRequiredSensitiveParameter": {
+                "sensitive": true
+              },
+              "moduleRequiredSensitiveTaggedParameter": {
+                "sensitive": true
+              }
+            }
+          },
+          "name": "some-requirement",
+          "group": "destinations",
+          "properties": {
+            "moduleRequiredTaggedSensitiveProperty": "tagged-property",
+            "moduleRequiredNormalProperty": "property",
+            "moduleRequiredSensitiveProperty": "sensitive-property"
+          },
+          "parameters": {
+            "moduleRequiredSensitiveTaggedParameter": "tagged-parameter",
+            "moduleRequiredNormalParameter": "parameter",
+            "moduleRequiredSensitiveParameter": "sensitive-parameter"
+          }
+        }
+      ],
+      "providedDependencies3_1": [
+        {
+          "propertiesMetadata": {
+            "metadata": {
+              "moduleProvidedSensitiveProperty": {
+                "sensitive": true
+              },
+              "moduleProvidedTaggedSensitiveProperty": {
+                "sensitive": true
+              }
+            }
+          },
+          "parameters": {},
+          "parametersMetadata": {
+            "metadata": {}
+          },
+          "isPublic": false,
+          "name": "some-app",
+          "properties": {
+            "moduleProvidedTaggedSensitiveProperty": "sensitive-property",
+            "moduleProvidedNormalProperty": "property",
+            "moduleProvidedSensitiveProperty": "sensitive-property"
+          }
+        },
+        {
+          "propertiesMetadata": {
+            "metadata": {}
+          },
+          "parameters": {},
+          "parametersMetadata": {
+            "metadata": {}
+          },
+          "isPublic": false,
+          "name": "java-hello-world",
+          "properties": {}
+        }
+      ],
+      "propertiesMetadata": {
+        "metadata": {
+          "moduleSensitiveProperty": {
+            "sensitive": true
+          },
+          "moduleSensitiveTaggedProperty": {
+            "sensitive": true
+          }
+        }
+      },
+      "parametersMetadata": {
+        "metadata": {
+          "moduleSensitiveParameter": {
+            "sensitive": true
+          },
+          "moduleSensitiveTaggedParameter": {
+            "sensitive": true
+          }
+        }
+      },
+      "path": "somepath/",
+      "parameters": {
+        "moduleSensitiveTaggedParameter": "tagged-parameter",
+        "normalParameter": "parameter",
+        "moduleSensitiveParameter": "sensitive-parameter"
+      },
+      "name": "java-hello-world",
+      "type": "some.type",
+      "properties": {
+        "moduleSensitiveTaggedProperty": "tagged-property",
+        "moduleNormalProperty": "property",
+        "moduleSensitiveProperty": "sensitive-property"
+      }
+    }
+  ],
+  "resources3_1": [
+    {
+      "propertiesMetadata": {
+        "metadata": {
+          "resourceSensitiveProperty": {
+            "sensitive": true
+          },
+          "resourceSensitiveTaggedProperty": {
+            "sensitive": true
+          }
+        }
+      },
+      "parametersMetadata": {
+        "metadata": {
+          "resourceSensitiveParameter": {
+            "sensitive": true
+          },
+          "resourceTaggedSensitiveParameter": {
+            "sensitive": true
+          }
+        }
+      },
+      "requiredDependencies3_1": [],
+      "isOptional": true,
+      "parameters": {
+        "resourceTaggedSensitiveParameter": "tagged-parameter",
+        "resourceNormalParameter": "parameter"
+      },
+      "name": "some-resource",
+      "properties": {
+        "resourceSensitiveTaggedProperty": "tagged-property",
+        "resourceNormalProperty": "property",
+        "resourceSensitiveProperty": "sensitive-property"
+      }
+    },
+    {
+      "propertiesMetadata": {
+        "metadata": {}
+      },
+      "parametersMetadata": {
+        "metadata": {}
+      },
+      "requiredDependencies3_1": [],
+      "isOptional": false,
+      "parameters": {},
+      "name": "some-other-resource",
+      "properties": {}
+    }
+  ],
+  "parametersMetadata": {
+    "metadata": {
+      "deploymendDescriptorSensitiveTaggedParameter": {
+        "sensitive": true
+      }
+    }
+  },
+  "parameters": {
+    "deploymendDescriptorSensitiveTaggedParameter": "tagged-parameter",
+    "deploymendDescriptorNormalParameter": "parameter",
+    "deploymentDescriptorSensitiveParameter": "sensitive-parameter"
+  },
+  "id": "com.sap.xs2.samples.javahelloworld",
+  "version": "0.1.0",
+  "schemaVersion": "3.1.0"
+}

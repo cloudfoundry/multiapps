@@ -1,0 +1,35 @@
+_schema-version: 2.0.0
+ID: ztana
+version: 1.0.0
+
+modules:
+  - name: test-module # this comment should not affect the resulting descriptor
+    type: javascript.nodejs
+    properties:
+      health-check-type: none
+      health-check-timeout: 180
+      no-start: true
+      password: sensitive_data
+    parameters:
+      some-parameter: module-parameter
+    requires:
+      - name: test-service
+        properties:
+          required-dependency-property: required-property
+        parameters:
+          required-dependency-parameter: required-parameter
+    provides:
+      - name: providesSomething
+        public: false
+
+resources:
+  - name: test-service
+    type: org.postgresql
+    parameters:
+      test-parameter: resource-parameter
+      some-parameter-map:
+        - first-parameter: first-parameter
+          second-parameter: second-parameter
+
+parameters:
+  descriptor-parameter: some-parameter

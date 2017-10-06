@@ -1,0 +1,32 @@
+ID: mta-extension
+ext_description: description
+extends: mta-id
+ext_provider: provider-id
+_schema-version: 2.0.0
+target-platforms:
+  - first-target
+  - second-target
+modules: 
+- name: test-module
+  properties:
+    module-property: property # this comment should not affect the resulting descriptor
+  parameters:
+    module-parameter: parameter
+  provides:
+    - name: provided-dependency
+      properties:
+        provided-property: some-property
+  requires:
+    - name: required-dependency
+      properties:
+        required-property: property-value
+      parameters:
+        required-parameter: parameter-value
+resources:
+- name: test-resource
+  properties:
+    resource-property: some-resource-property
+  parameters:
+    resource-parameter: some-resource-parameter
+parameters:
+  descriptor-property: some-descriptor-property

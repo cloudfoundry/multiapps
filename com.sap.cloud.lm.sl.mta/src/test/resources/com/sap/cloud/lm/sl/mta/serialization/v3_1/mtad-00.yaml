@@ -1,0 +1,57 @@
+_schema-version: 3.1.0
+ID: ztana
+version: 1.0.0
+
+modules:
+  - name: ztana # this comment should not affect the resulting descriptor
+    type: javascript.nodejs
+    properties:
+      health-check-type: none
+      health-check-timeout: 180
+      no-start: true
+      password: !sensitive sensitive_data
+    properties-metadata:
+      password:
+        overwritable: true
+      health-check-type:
+        sensitive: true
+    parameters:
+      url: ~{default-url}
+    parameters-metadata:
+      url:
+        sensitive: true
+    requires:
+      - name: ztana-service
+        properties:
+          required-property: property
+        parameters:
+          pass: !sensitive secretpass
+        properties-metadata:
+          required-property:
+            sensitive: true
+
+resources:
+  - name: ztana-service
+    type: org.postgresql
+
+    properties:
+      test-property: resource-property
+      some-property-map:
+        - first-property: first-property
+          second-property: second-property
+    properties-metadata:
+      test-property:
+        sensitive: true
+
+    parameters:
+      resource-parameter: value
+    parameters-metadata:
+      resource-parameter:
+        sensitive: true
+
+parameters:
+  descriptor-parameter: !sensitive true
+
+parameters-metadata:
+  descriptor-parameter:
+    overwritable: true

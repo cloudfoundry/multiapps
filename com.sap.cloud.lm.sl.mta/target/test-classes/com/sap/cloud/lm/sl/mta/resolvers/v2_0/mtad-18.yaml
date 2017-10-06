@@ -1,0 +1,33 @@
+_schema-version: "3.1.0"
+ID: com.sap.sample.mta.test
+version: 1.0.0
+
+modules:
+  - name: test-module
+    type: javascript.nodejs
+    properties:
+      property: ${param}
+    parameters:
+      health-check-timeout: ${time}
+    requires:
+      - name: my-resource
+        properties:
+          required-prop: ${helper-param}
+        parameters:
+          custom-param: ${helper-param}
+
+resources:
+  - name: my-resource
+    type: org.cloudfoundry.managed-service
+    parameters:
+      service: ${service1}
+      service-plan: ${service-plan1}
+    properties:
+      custom_prop: ${helper-param}
+
+parameters:
+  param: env-value
+  time: 180
+  helper-param: foobar
+  service1: fs-storage
+  service-plan1: free

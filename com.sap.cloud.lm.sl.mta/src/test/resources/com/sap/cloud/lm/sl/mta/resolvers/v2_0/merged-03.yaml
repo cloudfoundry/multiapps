@@ -1,0 +1,45 @@
+_schema-version: "2.0.0"
+ID: com.sap.mta.v2.test.config-01
+version: 1.0.0
+
+modules:
+  - name: foo
+    type: foo
+    requires:
+      - name: bar
+        properties:
+          foo-test1: foo-test1-value
+          foo-test2: foo-test2-value
+          foo-test3: ~{bar-test2}.foo-test3-value
+          foo-test4: ~{bar-test1}.foo-test4-value.~{bar-test3}
+        parameters:
+          foo-test2: foo-test4-value
+      - name: baz
+        properties:
+          baz-test: ~{non-existing}
+    provides:
+      - name: foo
+
+  - name: qux
+    type: qux
+    properties:
+      bar-test: bar-test-value
+    provides:
+      - name: bar
+        properties:
+          bar-test1: bar-test1-value
+          bar-test2: bar-test2-value
+          bar-test3: bar-test3-value
+      - name: qux
+    requires:
+      - name: baz
+
+resources:
+  - name: baz
+    properties:
+      baz-test:
+        baz-test1: baz-test1-value
+        baz-test2: baz-test2-value
+
+parameters:
+  test: test
