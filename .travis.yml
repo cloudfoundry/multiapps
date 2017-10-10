@@ -7,4 +7,4 @@ notifications:
     on_failure: always
 script:
    - 'if [ "$TRAVIS_PULL_REQUEST" != "false" ]; then mvn clean install; fi'
-   - 'if [ "$TRAVIS_PULL_REQUEST" = "false" ]; then mvn deploy; fi'
+   - 'if [ "$TRAVIS_PULL_REQUEST" = "false" ]; then mvn deploy --settings .travis.settings.xml; fi'
