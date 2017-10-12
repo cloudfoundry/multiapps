@@ -27,8 +27,11 @@ public class SLProcessStepHelper {
 
     private ProgressMessageService progressMessageService;
     protected ProcessLoggerProviderFactory processLoggerProviderFactory;
-    private String indexedStepName;
     private StepIndexProvider stepIndexProvider;
+
+    private String indexedStepName;
+    private int stepIndex;
+    private boolean isInError;
 
     public SLProcessStepHelper(ProgressMessageService progressMessageService, ProcessLoggerProviderFactory processLoggerProviderFactory,
         StepIndexProvider stepIndexProvider) {
@@ -46,37 +49,47 @@ public class SLProcessStepHelper {
     }
 
     void preExecuteStep(DelegateExecution context, ExecutionStatus initialStatus) throws SLException {
-        boolean isInError = isInError(context);
-        int stepIndex = computeStepIndex(context, initialStatus, isInError);
+        init(context, initialStatus);
 
-        indexedStepName = context.getCurrentActivityId() + stepIndex;
         context.setVariable(Constants.INDEXED_STEP_NAME, indexedStepName);
 
         if (isInError) {
-            progressMessageService.removeByProcessIdAndTaskId(getCorrelationId(context), indexedStepName);
-            if (context.hasVariable(Constants.RETRY_STEP_NAME)) {
-                String taskId = (String) context.getVariable(Constants.RETRY_STEP_NAME) + stepIndex;
-                progressMessageService.removeByProcessIdAndTaskId(getCorrelationId(context), taskId);
-                context.removeVariable(Constants.RETRY_STEP_NAME);
-            }
+            deletePreviousExecutionData(context);
         }
         logTaskStartup(context, indexedStepName);
+    }
+
+    private void init(DelegateExecution context, ExecutionStatus initialStatus) {
+        this.isInError = isInError(context);
+        this.stepIndex = computeStepIndex(context, initialStatus, isInError);
+        this.indexedStepName = computeIndexedStepName(context, stepIndex);
+    }
+
+    private int computeStepIndex(DelegateExecution context, ExecutionStatus initialStatus, boolean isInError) {
+        int stepIndex = getLastStepIndex(context);
+        if (!isInError && !initialStatus.equals(ExecutionStatus.LOGICAL_RETRY) && !initialStatus.equals(ExecutionStatus.RUNNING)) {
+            return ++stepIndex;
+        }
+        return stepIndex;
+    }
+
+    private String computeIndexedStepName(DelegateExecution context, int stepIndex) {
+        return context.getCurrentActivityId() + stepIndex;
+    }
+
+    protected void deletePreviousExecutionData(DelegateExecution context) {
+        progressMessageService.removeByProcessIdAndTaskId(getCorrelationId(context), indexedStepName);
+        if (context.hasVariable(Constants.RETRY_STEP_NAME)) {
+            String taskId = (String) context.getVariable(Constants.RETRY_STEP_NAME) + stepIndex;
+            progressMessageService.removeByProcessIdAndTaskId(getCorrelationId(context), taskId);
+            context.removeVariable(Constants.RETRY_STEP_NAME);
+        }
     }
 
     private void logTaskStartup(DelegateExecution context, String indexedStepName) {
         String message = format(Messages.EXECUTING_ACTIVITI_TASK, context.getId(), context.getCurrentActivityId());
         progressMessageService.add(new ProgressMessage(getCorrelationId(context), indexedStepName, ProgressMessageType.TASK_STARTUP,
             message, new Timestamp(System.currentTimeMillis())));
-    }
-
-    private int computeStepIndex(DelegateExecution context, ExecutionStatus initialStatus, boolean isInError) {
-        int stepIndex = getLastStepIndex(context);
-
-        if (!isInError && !initialStatus.equals(ExecutionStatus.LOGICAL_RETRY) && !initialStatus.equals(ExecutionStatus.RUNNING)) {
-            return ++stepIndex;
-        }
-
-        return stepIndex;
     }
 
     void failStepIfProcessIsAborted(DelegateExecution context) throws SLException {
@@ -93,7 +106,7 @@ public class SLProcessStepHelper {
         AbstractProcessComponentUtil.finalizeLogs(context, processLoggerProviderFactory);
     }
 
-    void logException(DelegateExecution context, Throwable t) {
+    protected void logException(DelegateExecution context, Throwable t) {
         getLogger(context).error(Messages.EXCEPTION_CAUGHT, t);
 
         if (!(t instanceof SLException) && !(t instanceof LogicalRetryException)) {

@@ -12,7 +12,9 @@ import org.apache.commons.io.FileUtils;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 
 import com.sap.cloud.lm.sl.common.util.DigestHelper;
 import com.sap.cloud.lm.sl.persistence.model.FileEntry;
@@ -20,11 +22,14 @@ import com.sap.cloud.lm.sl.persistence.processors.DefaultFileUploadProcessor;
 
 public class FileSystemFileServiceTest extends DatabaseFileServiceTest {
 
-    private static final String TEST_FILE_LOCATION = "src/test/resources/com.sap.cloud.lm.sl.web-0.1.0-SNAPSHOT.war";
-    private static final String SECOND_FILE_TEST_LOCATION = "src/test/resources/hell.jpg";
+    private static final String TEST_FILE_LOCATION = "src/test/resources/pexels-photo-401794.jpeg";
+    private static final String SECOND_FILE_TEST_LOCATION = "src/test/resources/pexels-photo-463467.jpeg";
 
     private String spaceId;
     private String namespace;
+
+    @Rule
+    public ExpectedException expectedException = ExpectedException.none();
 
     private Path temporaryStorageLocation;
 
@@ -119,6 +124,17 @@ public class FileSystemFileServiceTest extends DatabaseFileServiceTest {
 
         String testFileDigest = DigestHelper.computeFileChecksum(testFilePath, DIGEST_METHOD).toLowerCase();
         validateFileContent(addedFile, testFileDigest);
+    }
+
+    @Test
+    public void testFileContentNotExisting() throws Exception {
+        String testFileDigest = DigestHelper.computeFileChecksum(Paths.get(TEST_FILE_LOCATION), DIGEST_METHOD).toLowerCase();
+        FileEntry dummyFileEntry = new FileEntry();
+        dummyFileEntry.setId("not-existing-file-id");
+        dummyFileEntry.setSpace("not-existing-space-id");
+        expectedException.expect(FileStorageException.class);
+        expectedException.expectMessage("File with id not-existing-file-id and space not-existing-space-id does not exist.");
+        validateFileContent(dummyFileEntry, testFileDigest);
     }
 
     @Override

@@ -31,18 +31,18 @@ public class DatabaseFileServiceTest {
 
     protected static final String DIGEST_METHOD = "MD5";
 
-    private static final String WAR_RESOURCE_NAME = "com.sap.cloud.lm.sl.web-0.1.0-SNAPSHOT.war";
-    private static final String WAR_STORAGE_NAME = "sl_sysapp.war";
-    private static final int WAR_SIZE = 14877376;
-    private static final String WAR_MD5_DIGEST = "01f5fe82cb9e70f3dca930856510ad90";
+    private static final String PIC1_RESOURCE_NAME = "pexels-photo-401794.jpeg";
+    private static final String PIC1_STORAGE_NAME = "pic1.jpeg";
+    private static final int PIC1_SIZE = 2095730;
+    private static final String PIC1_MD5_DIGEST = "b39a167875c3771c384c9aa5601fc2d6";
     private static final String SYSTEM_NAMESPACE = "system/deployables";
     private static final String MY_SPACE_ID = "myspace";
 
-    private static final String IMG_STORAGE_NAME = "arborek.jpg";
-    private static final String IMG_RESOURCE_NAME = "hell.jpg";
+    private static final String PIC2_RESOURCE_NAME = "pexels-photo-463467.jpeg";
+    private static final String PIC2_STORAGE_NAME = "pic2.jpeg";
     private static final String PERSONAL_NAMESPACE = "dido";
 
-    private static final BigInteger MAX_UPLOAD_SIZE = BigInteger.valueOf(WAR_SIZE);
+    private static final BigInteger MAX_UPLOAD_SIZE = BigInteger.valueOf(PIC1_SIZE);
 
     protected AbstractFileService fileService;
 
@@ -85,8 +85,8 @@ public class DatabaseFileServiceTest {
     @SuppressWarnings("deprecation")
     protected void insertInitialData() throws Exception {
         // store a file
-        InputStream resourceStream = getResource(WAR_RESOURCE_NAME);
-        storedFile = fileService.addFile(MY_SPACE_ID, SYSTEM_NAMESPACE, WAR_STORAGE_NAME, resourceStream, MAX_UPLOAD_SIZE, false);
+        InputStream resourceStream = getResource(PIC1_RESOURCE_NAME);
+        storedFile = fileService.addFile(MY_SPACE_ID, SYSTEM_NAMESPACE, PIC1_STORAGE_NAME, resourceStream, MAX_UPLOAD_SIZE, false);
     }
 
     private InputStream getResource(String name) {
@@ -95,13 +95,13 @@ public class DatabaseFileServiceTest {
 
     private void verifyInitialEntry(FileEntry entry) {
         // verify image name
-        assertEquals(WAR_STORAGE_NAME, entry.getName());
+        assertEquals(PIC1_STORAGE_NAME, entry.getName());
         assertEquals(SYSTEM_NAMESPACE, entry.getNamespace());
         // the size of the uploaded file
-        assertEquals(BigInteger.valueOf(WAR_SIZE), entry.getSize());
+        assertEquals(BigInteger.valueOf(PIC1_SIZE), entry.getSize());
 
         // verify the MD5 digest, compare with one taken with md5sum
-        assertEquals(WAR_MD5_DIGEST.toLowerCase(), entry.getDigest().toLowerCase());
+        assertEquals(PIC1_MD5_DIGEST.toLowerCase(), entry.getDigest().toLowerCase());
         assertEquals(DIGEST_METHOD, entry.getDigestAlgorithm());
     }
 
@@ -116,8 +116,8 @@ public class DatabaseFileServiceTest {
 
     @Test
     public void testUploadTwoFiles() throws Exception {
-        InputStream resourceStream = getResource(IMG_RESOURCE_NAME);
-        fileService.addFile(MY_SPACE_ID, SYSTEM_NAMESPACE, IMG_STORAGE_NAME, new DefaultFileUploadProcessor(false), resourceStream);
+        InputStream resourceStream = getResource(PIC2_RESOURCE_NAME);
+        fileService.addFile(MY_SPACE_ID, SYSTEM_NAMESPACE, PIC2_STORAGE_NAME, new DefaultFileUploadProcessor(false), resourceStream);
         List<FileEntry> listFiles = fileService.listFiles(MY_SPACE_ID, SYSTEM_NAMESPACE);
         assertEquals(2, listFiles.size());
     }
@@ -130,7 +130,7 @@ public class DatabaseFileServiceTest {
 
     @Test
     public void testFileContent() throws Exception {
-        Path expectedFile = Paths.get("src/test/resources/", WAR_RESOURCE_NAME);
+        Path expectedFile = Paths.get("src/test/resources/", PIC1_RESOURCE_NAME);
         String expectedFileDigest = DigestHelper.computeFileChecksum(expectedFile, DIGEST_METHOD).toLowerCase();
         validateFileContent(storedFile, expectedFileDigest);
     }
@@ -167,8 +167,8 @@ public class DatabaseFileServiceTest {
         List<FileEntry> systemFiles = fileService.listFiles(MY_SPACE_ID, SYSTEM_NAMESPACE);
         assertEquals(1, systemFiles.size());
 
-        InputStream resourceStream = getResource(IMG_RESOURCE_NAME);
-        fileService.addFile(MY_SPACE_ID, PERSONAL_NAMESPACE, IMG_STORAGE_NAME, resourceStream, MAX_UPLOAD_SIZE, false);
+        InputStream resourceStream = getResource(PIC2_RESOURCE_NAME);
+        fileService.addFile(MY_SPACE_ID, PERSONAL_NAMESPACE, PIC2_STORAGE_NAME, resourceStream, MAX_UPLOAD_SIZE, false);
 
         personalFiles = fileService.listFiles(MY_SPACE_ID, PERSONAL_NAMESPACE);
         assertEquals(1, personalFiles.size());

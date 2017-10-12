@@ -2,7 +2,7 @@
 	"activeSubprocessIds": [
 		"sub-process-1",
 		"sub-process-2",
-		"sub-process-3",
+		"sub-process-3"
 	],
 	"superProcessId": "super-process-id",
 	"userId": "test-user",
