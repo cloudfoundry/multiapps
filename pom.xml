@@ -67,22 +67,22 @@
             <id>nvvalchev</id>
             <name>Nikolay Valchev</name>
             <email>nikolay.valchev@sap.com</email>
-            <organization>${organization.name}</organization>
-            <organizationUrl>${organization.url}</organizationUrl>
+            <organization>${project.organization.name}</organization>
+            <organizationUrl>${project.organization.url}</organizationUrl>
         </developer>
         <developer>
             <id>nictas</id>
             <name>Alexander Tsvetkovv</name>
             <email>aleksandar.tsvetkov@sap.com</email>
-            <organization>${organization.name}</organization>
-            <organizationUrl>${organization.url}</organizationUrl>
+            <organization>${project.organization.name}</organization>
+            <organizationUrl>${project.organization.url}</organizationUrl>
         </developer>
         <developer>
             <id>enchobelezirev</id>
             <name>Encho Belezirev</name>
             <email>encho.belezirev@sap.com</email>
-            <organization>${organization.name}</organization>
-            <organizationUrl>${organization.url}</organizationUrl>
+            <organization>${project.organization.name}</organization>
+            <organizationUrl>${project.organization.url}</organizationUrl>
         </developer>
     </developers>
 
@@ -149,6 +149,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-deploy-plugin</artifactId>
+                <version>2.8.2</version>
                 <configuration>
                     <skip>false</skip>
                 </configuration>
@@ -424,17 +425,6 @@
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-release-plugin</artifactId>
                         <version>2.5</version>
-                        <configuration>
-                            <autoVersionSubmodules>true</autoVersionSubmodules>
-                            <useReleaseProfile>false</useReleaseProfile>
-                            <releaseProfiles>release</releaseProfiles>
-                            <goals>deploy</goals>
-                        </configuration>
-                    </plugin>
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-release-plugin</artifactId>
-                        <version>2.5.3</version>
                         <configuration>
                             <autoVersionSubmodules>true</autoVersionSubmodules>
                             <useReleaseProfile>false</useReleaseProfile>
