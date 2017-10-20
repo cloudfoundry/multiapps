@@ -43,6 +43,7 @@ public class ProgressMessageService {
     private static final String INSERT_MESSAGE = "INSERT INTO {0} (ID, PROCESS_ID, TASK_ID, TYPE, TEXT, TIMESTAMP) VALUES({1}, ?, ?, ?, ?, ?)";
     private static final String DELETE_MESSAGE_BY_PROCESS_AND_TASK_ID = "DELETE FROM {0} WHERE PROCESS_ID=? AND TASK_ID=?";
     private static final String DELETE_MESSAGE_BY_PROCESS_ID = "DELETE FROM {0} WHERE PROCESS_ID=?";
+    private static final String UPDATE_MESSAGE_BY_ID = "UPDATE {0} SET TEXT=?, TIMESTAMP=? WHERE ID=?";
 
     private static final String ID_SEQ_NAME = "ID_SEQ";
 
@@ -110,6 +111,35 @@ public class ProgressMessageService {
             });
         } catch (SQLException e) {
             throw new SLException(e, MessageFormat.format(Messages.ERROR_SAVING_MESSAGE, msg.getProcessId(), msg.getTaskId()));
+        }
+    }
+
+    public boolean update(final long existingId, final ProgressMessage newMsg) throws SLException {
+        SqlExecutor<Boolean> executor = new ProgressMessageSqlExecutor<Boolean>();
+        try {
+            return executor.execute(new StatementExecutor<Boolean>() {
+                @Override
+                public Boolean execute(Connection connection) throws SQLException {
+                    PreparedStatement statement = null;
+                    int rowsUpdated = 0;
+                    try {
+                        statement = connection.prepareStatement(getQuery(UPDATE_MESSAGE_BY_ID, tableName));
+                        statement.setString(1, newMsg.getText());
+                        statement.setTimestamp(2, new Timestamp(newMsg.getTimestamp().getTime()));
+                        statement.setLong(3, existingId);
+                        rowsUpdated = statement.executeUpdate();
+                        JdbcUtil.commit(connection);
+                        return (rowsUpdated == 1);
+                    } catch (SQLException e) {
+                        JdbcUtil.rollback(connection);
+                        throw e;
+                    } finally {
+                        JdbcUtil.closeQuietly(statement);
+                    }
+                }
+            });
+        } catch (SQLException e) {
+            throw new SLException(e, MessageFormat.format(Messages.ERROR_UPDATING_MESSAGE, newMsg.getId()));
         }
     }
 
