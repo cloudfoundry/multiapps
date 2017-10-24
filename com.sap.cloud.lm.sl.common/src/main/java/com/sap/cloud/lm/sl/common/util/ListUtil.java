@@ -3,6 +3,7 @@ package com.sap.cloud.lm.sl.common.util;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.LinkedHashSet;
 import java.util.List;
 
 public class ListUtil {
@@ -46,6 +47,10 @@ public class ListUtil {
             return Collections.emptyList();
         }
         return Arrays.asList(item);
+    }
+
+    public static <T> List<T> removeDuplicates(List<T> list) {
+        return new ArrayList<T>(new LinkedHashSet<T>(list));
     }
 
 }
