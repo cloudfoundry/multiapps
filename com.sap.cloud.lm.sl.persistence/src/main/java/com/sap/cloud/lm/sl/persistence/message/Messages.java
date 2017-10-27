@@ -32,6 +32,9 @@ public final class Messages {
     public static final String DELETING_LOCAL_FILE_BECAUSE_OF_INFECTION = "File \"{0}\" is infected and will be removed";
 
     // WARN log messages:
+    public static final String COULD_NOT_CLOSE_RESULT_SET = "Could not close result set.";
+    public static final String COULD_NOT_CLOSE_STATEMENT = "Could not close statement.";
+    public static final String COULD_NOT_CLOSE_CONNECTION = "Could not close connection.";
 
     // INFO log messages:
     public static final String SCANNING_FILE = "Scanning file \"{0}\"...";
