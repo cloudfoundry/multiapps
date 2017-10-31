@@ -14,7 +14,6 @@ import com.sap.cloud.lm.sl.mta.model.v3_1.Resource;
 import com.sap.cloud.lm.sl.mta.model.v3_1.Resource.ResourceBuilder;
 import com.sap.cloud.lm.sl.mta.parsers.ListParser;
 import com.sap.cloud.lm.sl.mta.schema.MapElement;
-import com.sap.cloud.lm.sl.mta.util.MetadataUpdater;
 
 public class ResourceParser extends com.sap.cloud.lm.sl.mta.parsers.v3_0.ResourceParser {
 

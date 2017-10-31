@@ -13,7 +13,6 @@ import com.sap.cloud.lm.sl.mta.model.v3_1.Module.ModuleBuilder;
 import com.sap.cloud.lm.sl.mta.model.v3_1.ProvidedDependency;
 import com.sap.cloud.lm.sl.mta.model.v3_1.RequiredDependency;
 import com.sap.cloud.lm.sl.mta.schema.MapElement;
-import com.sap.cloud.lm.sl.mta.util.MetadataUpdater;
 
 public class ModuleParser extends com.sap.cloud.lm.sl.mta.parsers.v3_0.ModuleParser {
 
