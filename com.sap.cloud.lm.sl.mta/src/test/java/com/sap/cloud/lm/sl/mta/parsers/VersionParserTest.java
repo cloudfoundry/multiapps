@@ -84,15 +84,7 @@ public class VersionParserTest {
             {
                 "", null, "Invalid version (no major version): ",
             },
-            // (16) Supported build version with no beta:
-            {
-                "1.0.0-", "1.0.0", null,
-            },
-            // (17) Supported build version with no beta:
-            {
-                "0.0-", "0.0.0", null,
-            },
-            // (18) Supported version with SNAPSHOT:
+            // (16) Supported version with SNAPSHOT:
             {
                 "1.9-SHAPHOT", "1.9.0-SHAPHOT", null,
             }
