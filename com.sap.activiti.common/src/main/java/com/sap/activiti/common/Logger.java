@@ -40,6 +40,10 @@ public class Logger {
         this.loggerImpl = loggerImpl;
     }
 
+    public org.slf4j.Logger getLoggerImpl() {
+        return loggerImpl;
+    }
+
     private Logger(Class<?> clazz) {
         loggerImpl = LoggerFactory.getLogger(clazz);
     }

@@ -32,12 +32,10 @@
         <mybatis.version>3.3.0</mybatis.version>
         <jackson-asl.version>1.9.13</jackson-asl.version>
         <semver4j.version>2.1.0</semver4j.version>
-        <activiti.common.version>1.30.0</activiti.common.version>
-        <slp.version>1.2.3</slp.version>
+        <activiti.common.version>1.30.1</activiti.common.version>
     </properties>
     <modules>
         <module>com.sap.cloud.lm.sl.common</module>
-        <module>com.sap.cloud.lm.sl.slp</module>
         <module>com.sap.cloud.lm.sl.persistence</module>
         <module>com.sap.cloud.lm.sl.mta</module>
     </modules>
@@ -363,17 +361,6 @@
                 <version>${activiti.common.version}</version>
             </dependency>
             <dependency>
-                <groupId>com.sap.lmsl.slp</groupId>
-                <artifactId>com.sap.lmsl.slp.java</artifactId>
-                <version>${slp.version}</version>
-                <exclusions>
-                    <exclusion>
-                        <groupId>javax.ws.rs</groupId>
-                        <artifactId>javax.ws.rs</artifactId>
-                    </exclusion>
-                </exclusions>
-            </dependency>
-            <dependency>
                 <groupId>com.sap.cloud.lm.sl</groupId>
                 <artifactId>com.sap.cloud.lm.sl.common</artifactId>
                 <version>${project.version}</version>
@@ -388,16 +375,6 @@
             <dependency>
                 <groupId>com.sap.cloud.lm.sl</groupId>
                 <artifactId>com.sap.cloud.lm.sl.persistence</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.sap.cloud.lm.sl</groupId>
-                <artifactId>com.sap.cloud.lm.sl.slp</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.sap.cloud.lm.sl</groupId>
-                <artifactId>com.sap.cloud.lm.sl.slp.client</artifactId>
                 <version>${project.version}</version>
             </dependency>
         </dependencies>

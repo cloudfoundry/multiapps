@@ -12,6 +12,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.sql.Types;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
@@ -47,7 +48,8 @@ public abstract class AbstractFileService {
     private static final String DEFAULT_DATASOURCE_JNDI_NAME = "java:comp/env/jdbc/DefaultDB";
 
     private static final String SELECT_FILES_BY_NAMESPACE_AND_SPACE = "SELECT FILE_ID, SPACE, DIGEST, DIGEST_ALGORITHM, MODIFIED, FILE_NAME, NAMESPACE, FILE_SIZE FROM {0} WHERE NAMESPACE=? AND SPACE=?";
-    private static final String SELECT_FILES_BY_NAMESPACE = "SELECT FILE_ID, SPACE, DIGEST, DIGEST_ALGORITHM, MODIFIED, FILE_NAME, NAMESPACE, FILE_SIZE FROM {0} WHERE NAMESPACE=? AND SPACE=?";
+    private static final String SELECT_FILES_BY_NAMESPACE = "SELECT FILE_ID, SPACE, DIGEST, DIGEST_ALGORITHM, MODIFIED, FILE_NAME, NAMESPACE, FILE_SIZE FROM {0} WHERE NAMESPACE=?";
+    private static final String SELECT_FILES_BY_SPACE = "SELECT FILE_ID, SPACE, DIGEST, DIGEST_ALGORITHM, MODIFIED, FILE_NAME, NAMESPACE, FILE_SIZE FROM {0} WHERE SPACE=?";
     private static final String SELECT_FILE_BY_ID = "SELECT FILE_ID, SPACE, DIGEST, DIGEST_ALGORITHM, MODIFIED, FILE_NAME, NAMESPACE, FILE_SIZE FROM {0} WHERE FILE_ID=? AND SPACE=?";
     private static final String DELETE_FILE_BY_ID = "DELETE FROM {0} WHERE FILE_ID=? AND SPACE=?";
     private static final String DELETE_FILES_BY_NAMESPACE = "DELETE FROM {0} WHERE NAMESPACE=? AND SPACE=?";
@@ -109,6 +111,12 @@ public abstract class AbstractFileService {
         return addFile(space, namespace, name, new DefaultFileUploadProcessor(scanUpload), is);
     }
 
+    public FileEntry addFile(String space, String name,
+        FileUploadProcessor<? extends OutputStream, ? extends OutputStream> fileUploadProcessor, InputStream is)
+        throws FileStorageException {
+        return addFile(space, null, name, fileUploadProcessor, is);
+    }
+
     /**
      * Uploads a new file.
      *
@@ -122,7 +130,7 @@ public abstract class AbstractFileService {
      */
     public FileEntry addFile(String space, String namespace, String name,
         FileUploadProcessor<? extends OutputStream, ? extends OutputStream> fileUploadProcessor, InputStream is)
-            throws FileStorageException {
+        throws FileStorageException {
         // Stream the file to a temp location and get the size and MD5 digest
         // as an alternative we can pass the original stream to the database,
         // and decorate the blob stream to calculate digest and size, but this will still require
@@ -144,7 +152,7 @@ public abstract class AbstractFileService {
 
     public FileEntry addFile(String space, String namespace, String name,
         FileUploadProcessor<? extends OutputStream, ? extends OutputStream> fileUploadProcessor, File existingFile)
-            throws VirusScannerException, FileStorageException {
+        throws VirusScannerException, FileStorageException {
         try {
             FileUpload fileUpload = createFileUpload(existingFile);
 
@@ -165,7 +173,7 @@ public abstract class AbstractFileService {
 
     private FileEntry uploadFileToDatabase(String space, String namespace, String name,
         FileUploadProcessor<? extends OutputStream, ? extends OutputStream> fileUploadProcessor, FileUpload fileUpload)
-            throws VirusScannerException, FileStorageException {
+        throws VirusScannerException, FileStorageException {
 
         if (fileUploadProcessor.shouldScanFile()) {
             scanUpload(fileUpload);
@@ -228,11 +236,12 @@ public abstract class AbstractFileService {
                 public Void execute(Connection connection) throws SQLException {
                     PreparedStatement stmt = null;
                     try {
+
                         stmt = connection.prepareStatement(getQuery(INSERT_FILE, tableName));
                         stmt.setString(1, fileEntry.getId());
                         stmt.setString(2, fileEntry.getSpace());
                         stmt.setString(3, fileEntry.getName());
-                        stmt.setString(4, fileEntry.getNamespace());
+                        setOrNull(stmt, 4, fileEntry.getNamespace());
                         getDatabaseDialect().setBigInteger(stmt, 5, fileEntry.getSize());
                         stmt.setString(6, fileEntry.getDigest());
                         stmt.setString(7, fileEntry.getDigestAlgorithm());
@@ -247,7 +256,6 @@ public abstract class AbstractFileService {
                     }
                     return null;
                 }
-
             });
         } catch (SQLException e) {
             throw new FileStorageException(e.getMessage(), e);
@@ -331,11 +339,15 @@ public abstract class AbstractFileService {
                     try {
                         if (space == null) {
                             stmt = connection.prepareStatement(getQuery(SELECT_FILES_BY_NAMESPACE, tableName));
+                            stmt.setString(1, namespace);
+                        } else if (namespace == null) {
+                            stmt = connection.prepareStatement(getQuery(SELECT_FILES_BY_SPACE, tableName));
+                            stmt.setString(1, space);
                         } else {
                             stmt = connection.prepareStatement(getQuery(SELECT_FILES_BY_NAMESPACE_AND_SPACE, tableName));
+                            stmt.setString(1, namespace);
                             stmt.setString(2, space);
                         }
-                        stmt.setString(1, namespace);
                         resultSet = stmt.executeQuery();
                         while (resultSet.next()) {
                             files.add(getFileEntry(resultSet));
@@ -402,6 +414,14 @@ public abstract class AbstractFileService {
     public void processFileContent(final String space, final String fileId, final FileContentProcessor streamProcessor)
         throws FileStorageException {
         processFileContent(new DefaultFileDownloadProcessor(space, fileId, streamProcessor));
+    }
+
+    private void setOrNull(PreparedStatement stmt, int position, String value) throws SQLException {
+        if (value == null) {
+            stmt.setNull(position, Types.NULL);
+        } else {
+            stmt.setString(position, value);
+        }
     }
 
     /**
