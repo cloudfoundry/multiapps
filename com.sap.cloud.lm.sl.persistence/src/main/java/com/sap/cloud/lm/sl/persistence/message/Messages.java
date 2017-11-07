@@ -10,6 +10,7 @@ public final class Messages {
     public static final String FILE_UPLOAD_FAILED = "Upload of file \"{0}\" to \"{1}\" failed";
     public static final String FILE_NOT_FOUND = "File \"{0}\" not found";
     public static final String ERROR_SAVING_MESSAGE = "Error saving message for process id \"{0}\" and task id \"{1}\"";
+    public static final String ERROR_UPDATING_MESSAGE = "Error updating message with id \"{0}\"";
     public static final String ERROR_DELETING_MESSAGES_BY_PROCESS_ID = "Error deleting messages for process id \"{0}\"";
     public static final String ERROR_DELETING_MESSAGES_BY_PROCESS_ID_AND_TASK_ID = "Error deleting messages for process id \"{0}\" and task id \"{1}\"";
     public static final String ERROR_GETTING_ALL_MESSAGES = "Error getting all messages";
