@@ -15,21 +15,30 @@ import java.util.zip.ZipInputStream;
 import org.apache.commons.io.IOUtils;
 import org.junit.Test;
 
+import com.sap.cloud.lm.sl.common.ContentException;
+
 public class ArchiveHandlerTest {
 
     private static final String SAMPLE_MTAR = "com.sap.mta.sample-1.2.1-beta.mtar";
     private static final String SAMPLE_FLAT_MTAR = "com.sap.mta.sample-1.2.1-beta-flat.mtar";
     private static final long MAX_MTA_DESCRIPTOR_SIZE = 1024 * 1024L;
+    private static final long MAX_MANIFEST_SIZE = 1024 * 1024l;
+    private static final long MAX_RESOURCE_FILE_SIZE = 1024 * 1024 * 1024L;
 
     @Test
     public void testGetManifest() throws Exception {
-        Manifest manifest = ArchiveHandler.getManifest(ArchiveHandlerTest.class.getResourceAsStream(SAMPLE_MTAR));
+        Manifest manifest = ArchiveHandler.getManifest(ArchiveHandlerTest.class.getResourceAsStream(SAMPLE_MTAR), MAX_MANIFEST_SIZE);
         Map<String, Attributes> entries = manifest.getEntries();
         assertEquals(4, entries.size());
         assertTrue(entries.containsKey("web/web-server.zip"));
         assertTrue(entries.containsKey("applogic/pricing.zip"));
         assertTrue(entries.containsKey("db/pricing-db.zip"));
         assertTrue(entries.containsKey("META-INF/mtad.yaml"));
+    }
+    
+    @Test(expected = ContentException.class)
+    public void testGetManifestExceedsSizeLimit() throws Exception {
+        ArchiveHandler.getManifest(ArchiveHandlerTest.class.getResourceAsStream(SAMPLE_MTAR), 512l);
     }
 
     @Test
@@ -38,20 +47,32 @@ public class ArchiveHandlerTest {
             MAX_MTA_DESCRIPTOR_SIZE);
         assertTrue(descriptor.contains("com.sap.mta.sample"));
     }
+    
+    @Test(expected = ContentException.class)
+    public void testGetDescriptorExceedsSize() throws Exception {
+        ArchiveHandler.getDescriptor(ArchiveHandlerTest.class.getResourceAsStream(SAMPLE_MTAR),
+            1024l);
+    }
 
     @Test
     public void testGetModuleContent() throws Exception {
         byte[] moduleContent = ArchiveHandler.getFileContent(ArchiveHandlerTest.class.getResourceAsStream(SAMPLE_MTAR),
-            "web/web-server.zip");
+            "web/web-server.zip", 2 * 1024 * 1024);
 
         InputStream entryStream = getEntryStream(moduleContent, "readme.txt");
         String readmeContent = IOUtils.toString(entryStream);
         assertEquals("App router code will be packaged in this archive", readmeContent);
     }
+    
+    @Test(expected = ContentException.class)
+    public void testGetModuleContentExceedsSize() throws Exception {
+        ArchiveHandler.getFileContent(ArchiveHandlerTest.class.getResourceAsStream(SAMPLE_MTAR),
+            "web/web-server.zip",  128l);
+    }
 
     @Test
     public void testGetManifestFlat() throws Exception {
-        Manifest manifest = ArchiveHandler.getManifest(ArchiveHandlerTest.class.getResourceAsStream(SAMPLE_FLAT_MTAR));
+        Manifest manifest = ArchiveHandler.getManifest(ArchiveHandlerTest.class.getResourceAsStream(SAMPLE_FLAT_MTAR), MAX_MANIFEST_SIZE);
         Map<String, Attributes> entries = manifest.getEntries();
         assertEquals(4, entries.size());
         assertTrue(entries.containsKey("web/"));
@@ -71,7 +92,7 @@ public class ArchiveHandlerTest {
     public void testGetModuleContentFlat() throws Exception {
         InputStream is = null;
         try {
-            is = ArchiveHandler.getInputStream(ArchiveHandlerTest.class.getResourceAsStream(SAMPLE_FLAT_MTAR), "web/");
+            is = ArchiveHandler.getInputStream(ArchiveHandlerTest.class.getResourceAsStream(SAMPLE_FLAT_MTAR), "web/", MAX_RESOURCE_FILE_SIZE);
             ZipInputStream zis = (ZipInputStream) is;
             for (ZipEntry e; (e = zis.getNextEntry()) != null;) {
                 if (e.getName().equals("web/readme.txt")) {
