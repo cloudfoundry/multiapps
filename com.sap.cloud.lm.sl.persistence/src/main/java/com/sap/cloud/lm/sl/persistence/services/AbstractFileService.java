@@ -16,6 +16,7 @@ import java.sql.Types;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 import javax.naming.InitialContext;
@@ -217,7 +218,7 @@ public abstract class AbstractFileService {
 
     private FileEntry createFileEntry(String space, String namespace, String name, FileUpload localFile) {
         FileEntry fileEntry = new FileEntry();
-        fileEntry.setId(UUID.randomUUID().toString());
+        fileEntry.setId(generateRandomId());
         fileEntry.setSpace(space);
         fileEntry.setName(name);
         fileEntry.setNamespace(namespace);
@@ -226,6 +227,10 @@ public abstract class AbstractFileService {
         fileEntry.setDigestAlgorithm(localFile.getDigestAlgorithm());
         fileEntry.setModified(new Timestamp(System.currentTimeMillis()));
         return fileEntry;
+    }
+
+    protected String generateRandomId() {
+        return UUID.randomUUID().toString();
     }
 
     private void insertFileAttributes(final FileEntry fileEntry) throws FileStorageException {
@@ -291,6 +296,8 @@ public abstract class AbstractFileService {
             throw new FileStorageException(e.getMessage(), e);
         }
     }
+
+    public abstract int deleteAllByFileIds(final Map<String, List<String>> fileIdsToSpace) throws FileStorageException;
 
     public int deleteFile(final String space, final String id) throws FileStorageException {
         deleteFileContent(space, id);

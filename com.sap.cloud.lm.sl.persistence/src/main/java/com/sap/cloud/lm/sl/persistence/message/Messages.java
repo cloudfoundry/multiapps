@@ -25,6 +25,7 @@ public final class Messages {
     public static final String ERROR_PROCESSING_CONTENT_OF_NON_EXISTING_FILE = "Could not process content of non existing file with name {0}";
     public static final String FILE_WITH_ID_DOES_NOT_EXIST = "File with id {0} and space {1} does not exist.";
     public static final String ERROR_DELETING_FILE_WITH_ID = "Error deleting file with id {0}";
+    public static final String ERROR_DELETING_FILES_ATTRIBUTES = "Error deleting files attributes";
 
     // Audit log messages:
 

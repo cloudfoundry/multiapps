@@ -1,6 +1,7 @@
 package com.sap.cloud.lm.sl.persistence.services;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 
 import java.io.IOException;
@@ -10,7 +11,10 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.sql.DataSource;
 import javax.xml.bind.DatatypeConverter;
@@ -25,6 +29,8 @@ import com.sap.cloud.lm.sl.persistence.model.FileEntry;
 import com.sap.cloud.lm.sl.persistence.processors.DefaultFileDownloadProcessor;
 import com.sap.cloud.lm.sl.persistence.processors.DefaultFileUploadProcessor;
 
+//@PrepareForTest({ UUID.class })
+//@RunWith(PowerMockRunner.class)
 public class DatabaseFileServiceTest {
 
     private static final String LIQUIBASE_CHANGELOG_LOCATION = "com/sap/cloud/lm/sl/persistence/db/changelog/db-changelog.xml";
@@ -36,7 +42,8 @@ public class DatabaseFileServiceTest {
     private static final int PIC1_SIZE = 2095730;
     private static final String PIC1_MD5_DIGEST = "b39a167875c3771c384c9aa5601fc2d6";
     private static final String SYSTEM_NAMESPACE = "system/deployables";
-    private static final String MY_SPACE_ID = "myspace";
+    protected static final String MY_SPACE_ID = "myspace";
+    protected static final String MY_SPACE_2_ID = "myspace2";
 
     private static final String PIC2_RESOURCE_NAME = "pexels-photo-463467.jpeg";
     private static final String PIC2_STORAGE_NAME = "pic2.jpeg";
@@ -84,9 +91,12 @@ public class DatabaseFileServiceTest {
 
     @SuppressWarnings("deprecation")
     protected void insertInitialData() throws Exception {
-        // store a file
+        storedFile = addFileEntry(MY_SPACE_ID);
+    }
+    
+    private FileEntry addFileEntry(String spaceId) throws FileStorageException {
         InputStream resourceStream = getResource(PIC1_RESOURCE_NAME);
-        storedFile = fileService.addFile(MY_SPACE_ID, SYSTEM_NAMESPACE, PIC1_STORAGE_NAME, resourceStream, MAX_UPLOAD_SIZE, false);
+        return fileService.addFile(spaceId, SYSTEM_NAMESPACE, PIC1_STORAGE_NAME, resourceStream, MAX_UPLOAD_SIZE, false);
     }
 
     private InputStream getResource(String name) {
@@ -194,6 +204,33 @@ public class DatabaseFileServiceTest {
 
         List<FileEntry> namespaceFiles = fileService.listFiles(MY_SPACE_ID, SYSTEM_NAMESPACE);
         assertEquals(0, namespaceFiles.size());
+    }
+    
+    @Test
+    public void testDeleteAllByFileIds() throws Exception {
+        FileEntry fileEntry1 = addFileEntry(MY_SPACE_ID);
+        FileEntry fileEntry2 = addFileEntry(MY_SPACE_ID);
+        FileEntry fileEntry3 = addFileEntry(MY_SPACE_2_ID);
+        FileEntry fileEntry4 = addFileEntry(MY_SPACE_2_ID);
+        
+        Map<String, List<String>> fileIdsToSpace = new HashMap<>();
+        fileIdsToSpace.put(MY_SPACE_ID, Arrays.asList(fileEntry1.getId()));
+        fileIdsToSpace.put(MY_SPACE_2_ID, Arrays.asList(fileEntry3.getId()));
+        int deletedFiles = fileService.deleteAllByFileIds(fileIdsToSpace);
+        
+        assertEquals(2, deletedFiles);
+        
+        FileEntry missingEntry = fileService.getFile(MY_SPACE_ID, fileEntry1.getId());
+        assertNull(missingEntry);
+        
+        FileEntry existingEntry = fileService.getFile(MY_SPACE_ID, fileEntry2.getId());
+        assertNotNull(existingEntry);
+        
+        FileEntry missingEntry2 = fileService.getFile(MY_SPACE_ID, fileEntry3.getId());
+        assertNull(missingEntry2);
+        
+        FileEntry existingEntry2 = fileService.getFile(MY_SPACE_ID, fileEntry4.getId());
+        assertNull(existingEntry2);
     }
 
 }

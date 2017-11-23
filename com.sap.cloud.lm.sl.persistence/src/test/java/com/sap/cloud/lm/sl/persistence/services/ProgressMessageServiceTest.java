@@ -136,6 +136,25 @@ public class ProgressMessageServiceTest {
         assertSameProgressMessage(progressMessage1, messagesError.get(0));
     }
 
+    @Test
+    public void testRemoveAllByProcessIds() throws SLException {
+        int deletedMessages = service.removeAllByProcessIds(Arrays.asList("nonexisting"));
+        assertEquals(0, deletedMessages);
+
+        deletedMessages = service.removeAllByProcessIds(Arrays.asList(processInstanceId1));
+        assertEquals(2, deletedMessages);
+
+        List<ProgressMessage> allMessages = service.findAll();
+        assertEquals(2, allMessages.size());
+        assertSameProgressMessage(progressMessage3, allMessages.get(0));
+        assertSameProgressMessage(progressMessage4, allMessages.get(1));
+
+        deletedMessages = service.removeAllByProcessIds(Arrays.asList(processInstanceId2));
+        assertEquals(2, deletedMessages);
+        allMessages = service.findAll();
+        assertEquals(0, allMessages.size());
+    }
+
     private static void assertSameProgressMessage(ProgressMessage expected, ProgressMessage actual) {
         assertNotNull(actual.getId());
         assertEquals(expected.getProcessId(), actual.getProcessId());

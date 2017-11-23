@@ -2,16 +2,26 @@ package com.sap.cloud.lm.sl.persistence.services;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.text.MessageFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.apache.commons.io.IOUtils;
 
+import com.sap.cloud.lm.sl.common.SLException;
+import com.sap.cloud.lm.sl.persistence.message.Messages;
 import com.sap.cloud.lm.sl.persistence.model.FileEntry;
 import com.sap.cloud.lm.sl.persistence.processors.DefaultFileDownloadProcessor;
+import com.sap.cloud.lm.sl.persistence.services.SqlExecutor.StatementExecutor;
+import com.sap.cloud.lm.sl.persistence.util.JdbcUtil;
 
 public class ProcessLogsService extends DatabaseFileService {
     private static final String TABLE_NAME = "process_log";
+    private static final String DELETE_CONTENT_BY_NAMESPACE = "DELETE FROM {0} WHERE NAMESPACE=?";
 
     private static ProcessLogsService instance;
 
@@ -57,6 +67,38 @@ public class ProcessLogsService extends DatabaseFileService {
             }
         }
         return null;
+    }
+
+    public int deleteAllByProcessIds(final List<String> processIds) throws SLException {
+        SqlExecutor<Integer> executor = new FileServiceSqlExecutor<Integer>();
+        try {
+            return executor.execute(new StatementExecutor<Integer>() {
+                @Override
+                public Integer execute(Connection connection) throws SQLException {
+                    int rowsRemoved = 0;
+                    PreparedStatement statement = null;
+                    try {
+                        connection.setAutoCommit(false);
+                        statement = connection.prepareStatement(getQuery(DELETE_CONTENT_BY_NAMESPACE, tableName));
+                        for (String processId : processIds) {
+                            statement.setString(1, processId);
+                            statement.addBatch();
+                        }
+                        int[] rowsRemovedArray = statement.executeBatch();
+                        rowsRemoved = Arrays.stream(rowsRemovedArray).sum();
+                        JdbcUtil.commit(connection);
+                    } catch (SQLException e) {
+                        JdbcUtil.rollback(connection);
+                        throw e;
+                    } finally {
+                        JdbcUtil.closeQuietly(statement);
+                    }
+                    return rowsRemoved;
+                }
+            });
+        } catch (SQLException e) {
+            throw new SLException(e, MessageFormat.format(Messages.ERROR_DELETING_MESSAGES_BY_PROCESS_ID, processIds));
+        }
     }
 
 }
