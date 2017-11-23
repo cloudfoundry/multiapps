@@ -1,11 +1,16 @@
 package com.sap.cloud.lm.sl.persistence.services;
 
+import static org.junit.Assert.assertEquals;
+
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.security.NoSuchAlgorithmException;
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 import org.apache.commons.io.FileUtils;
@@ -47,7 +52,7 @@ public class FileSystemFileServiceTest extends DatabaseFileServiceTest {
         Path testFilePath = Paths.get(TEST_FILE_LOCATION).toAbsolutePath();
         FileEntry addedFile = fileService.addFile(spaceId, namespace, testFilePath.toFile().getName(),
             new DefaultFileUploadProcessor(false), Files.newInputStream(testFilePath));
-        validateFileExistance(addedFile);
+        assertFileExists(true, addedFile);
     }
 
     @Test
@@ -57,7 +62,7 @@ public class FileSystemFileServiceTest extends DatabaseFileServiceTest {
             testFilePath.toFile());
         FileEntry addedFile = fileService.addFile(spaceId, namespace, testFilePath.toFile().getName(),
             new DefaultFileUploadProcessor(false), testFilePath.toFile());
-        validateFileExistance(addedFile);
+        assertFileExists(true, addedFile);
     }
 
     @Test
@@ -66,7 +71,7 @@ public class FileSystemFileServiceTest extends DatabaseFileServiceTest {
         FileEntry addedFile = fileService.addFile(spaceId, namespace, testFilePath.toFile().getName(),
             new DefaultFileUploadProcessor(false), testFilePath.toFile());
 
-        validateFileExistance(addedFile);
+        assertFileExists(true, addedFile);
     }
 
     @Test
@@ -155,6 +160,30 @@ public class FileSystemFileServiceTest extends DatabaseFileServiceTest {
         // No need for testing as the isolation is covered in the other test case scenarios
     }
 
+    @Override
+    public void testDeleteAllByFileIds() throws Exception {
+        Path testFilePath = Paths.get(TEST_FILE_LOCATION).toAbsolutePath();
+        FileEntry fileEntry1 = fileService.addFile(MY_SPACE_ID, namespace, testFilePath.toFile().getName(),
+            new DefaultFileUploadProcessor(false), Files.newInputStream(testFilePath));
+        FileEntry fileEntry2 = fileService.addFile(MY_SPACE_ID, namespace, testFilePath.toFile().getName(),
+            new DefaultFileUploadProcessor(false), Files.newInputStream(testFilePath));
+        FileEntry fileEntry3 = fileService.addFile(MY_SPACE_2_ID, namespace, testFilePath.toFile().getName(),
+            new DefaultFileUploadProcessor(false), Files.newInputStream(testFilePath));
+        FileEntry fileEntry4 = fileService.addFile(MY_SPACE_2_ID, namespace, testFilePath.toFile().getName(),
+            new DefaultFileUploadProcessor(false), Files.newInputStream(testFilePath));
+
+        Map<String, List<String>> fileIdsToSpace = new HashMap<>();
+        fileIdsToSpace.put(MY_SPACE_ID, Arrays.asList(fileEntry1.getId()));
+        fileIdsToSpace.put(MY_SPACE_2_ID, Arrays.asList(fileEntry3.getId()));
+        int deletedFiles = fileService.deleteAllByFileIds(fileIdsToSpace);
+
+        assertEquals(2, deletedFiles);
+        assertFileExists(false, fileEntry1);
+        assertFileExists(true, fileEntry2);
+        assertFileExists(false, fileEntry3);
+        assertFileExists(true, fileEntry4);
+    }
+
     private void validateFilesEquality(List<FileEntry> actualFileEntries, FileEntry... expected) {
         for (FileEntry expectedFileEntry : expected) {
             FileEntry actualFileEntry = find(expectedFileEntry, actualFileEntries);
@@ -182,8 +211,9 @@ public class FileSystemFileServiceTest extends DatabaseFileServiceTest {
         return null;
     }
 
-    private void validateFileExistance(FileEntry actualFile) {
-        Assert.assertTrue(Files.exists(Paths.get(temporaryStorageLocation.toString(), spaceId, "files", actualFile.getId())));
+    private void assertFileExists(boolean exceptedFileExist, FileEntry actualFile) {
+        Assert.assertEquals(exceptedFileExist,
+            Files.exists(Paths.get(temporaryStorageLocation.toString(), actualFile.getSpace(), "files", actualFile.getId())));
     }
 
     @After

@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.text.MessageFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -167,6 +168,38 @@ public class ProgressMessageService {
             });
         } catch (SQLException e) {
             throw new SLException(e, MessageFormat.format(Messages.ERROR_DELETING_MESSAGES_BY_PROCESS_ID, processId));
+        }
+    }
+
+    public int removeAllByProcessIds(final List<String> processIds) throws SLException {
+        SqlExecutor<Integer> executor = new ProgressMessageSqlExecutor<Integer>();
+        try {
+            return executor.execute(new StatementExecutor<Integer>() {
+                @Override
+                public Integer execute(Connection connection) throws SQLException {
+                    int rowsRemoved = 0;
+                    PreparedStatement statement = null;
+                    try {
+                        connection.setAutoCommit(false);
+                        statement = connection.prepareStatement(getQuery(DELETE_MESSAGE_BY_PROCESS_ID, tableName));
+                        for (String processId : processIds) {
+                            statement.setString(1, processId);
+                            statement.addBatch();
+                        }
+                        int[] rowsRemovedArray = statement.executeBatch();
+                        rowsRemoved = Arrays.stream(rowsRemovedArray).sum();
+                        JdbcUtil.commit(connection);
+                    } catch (SQLException e) {
+                        JdbcUtil.rollback(connection);
+                        throw e;
+                    } finally {
+                        JdbcUtil.closeQuietly(statement);
+                    }
+                    return rowsRemoved;
+                }
+            });
+        } catch (SQLException e) {
+            throw new SLException(e, MessageFormat.format(Messages.ERROR_DELETING_MESSAGES_BY_PROCESS_ID, processIds));
         }
     }
 
