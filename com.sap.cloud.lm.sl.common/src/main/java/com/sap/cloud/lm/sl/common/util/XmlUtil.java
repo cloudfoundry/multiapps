@@ -7,6 +7,7 @@ import java.io.StringWriter;
 import java.io.Writer;
 import java.net.URL;
 import java.text.MessageFormat;
+import java.util.Map;
 
 import javax.xml.XMLConstants;
 import javax.xml.bind.JAXBContext;
@@ -37,11 +38,26 @@ public class XmlUtil {
         return toXml(object, false);
     }
 
+    public static <T> String toXml(T object, Map<String, Object> properties) throws SLException {
+        return toXml(object, true, properties);
+    }
+
     public static <T> String toXml(T object, boolean formattedOutput) throws SLException {
         try {
             Writer buffer = new StringWriter();
             getMarshaller(getContext(object.getClass()), formattedOutput).marshal(object, buffer);
 
+            return buffer.toString();
+        } catch (JAXBException e) {
+            handleMarshallingException(e);
+            return null;
+        }
+    }
+
+    public static <T> String toXml(T object, boolean formattedOutput, Map<String, Object> properties) throws SLException {
+        try {
+            Writer buffer = new StringWriter();
+            getMarshaller(getContext(object.getClass()), properties).marshal(object, buffer);
             return buffer.toString();
         } catch (JAXBException e) {
             handleMarshallingException(e);
@@ -84,6 +100,22 @@ public class XmlUtil {
         } catch (JAXBException e) {
             throw new SLException(Messages.COULD_NOT_CREATE_JAXB_MARSHALLER, e);
         }
+    }
+
+    private static Marshaller getMarshaller(JAXBContext context, Map<String, Object> properties) throws SLException {
+        try {
+            return properties.isEmpty() ? getRegularMarshaller(context) : getPropertyMarshaller(context, properties);
+        } catch (JAXBException e) {
+            throw new SLException(Messages.COULD_NOT_CREATE_JAXB_MARSHALLER, e);
+        }
+    }
+
+    private static Marshaller getPropertyMarshaller(JAXBContext context, Map<String, Object> properties) throws JAXBException {
+        Marshaller marshaller = getRegularMarshaller(context);
+        for (Map.Entry<String, Object> property : properties.entrySet()) {
+            marshaller.setProperty(property.getKey(), property.getValue());
+        }
+        return marshaller;
     }
 
     private static Marshaller getFormattingMarshaller(JAXBContext context) throws JAXBException {
