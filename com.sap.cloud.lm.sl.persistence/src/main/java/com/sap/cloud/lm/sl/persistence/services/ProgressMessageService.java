@@ -7,7 +7,6 @@ import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.text.MessageFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -16,6 +15,7 @@ import javax.naming.NamingException;
 import javax.sql.DataSource;
 
 import com.sap.cloud.lm.sl.common.SLException;
+import com.sap.cloud.lm.sl.common.util.CommonUtil;
 import com.sap.cloud.lm.sl.persistence.dialects.DatabaseDialect;
 import com.sap.cloud.lm.sl.persistence.dialects.DefaultDatabaseDialect;
 import com.sap.cloud.lm.sl.persistence.message.Messages;
@@ -187,7 +187,7 @@ public class ProgressMessageService {
                             statement.addBatch();
                         }
                         int[] rowsRemovedArray = statement.executeBatch();
-                        rowsRemoved = Arrays.stream(rowsRemovedArray).sum();
+                        rowsRemoved = CommonUtil.sumOfInts(rowsRemovedArray);
                         JdbcUtil.commit(connection);
                     } catch (SQLException e) {
                         JdbcUtil.rollback(connection);
