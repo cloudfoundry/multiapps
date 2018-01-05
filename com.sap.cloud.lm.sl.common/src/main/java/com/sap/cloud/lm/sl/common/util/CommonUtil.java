@@ -97,5 +97,13 @@ public class CommonUtil {
         String trimmedString = string.substring(0, limit - abbreviationMarker.length());
         return trimmedString + abbreviationMarker;
     }
+    
+    public static int sumOfInts(int... integers) {
+        int sum = 0;
+        for( int i : integers) {
+            sum += i;
+        }
+        return sum;
+    }
 
 }

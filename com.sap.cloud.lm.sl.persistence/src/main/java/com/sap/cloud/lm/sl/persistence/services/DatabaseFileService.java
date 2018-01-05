@@ -7,7 +7,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.MessageFormat;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -15,6 +14,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.sap.cloud.lm.sl.common.SLException;
+import com.sap.cloud.lm.sl.common.util.CommonUtil;
 import com.sap.cloud.lm.sl.persistence.message.Messages;
 import com.sap.cloud.lm.sl.persistence.model.FileEntry;
 import com.sap.cloud.lm.sl.persistence.processors.FileDownloadProcessor;
@@ -159,7 +159,7 @@ public class DatabaseFileService extends AbstractFileService {
                             }
                         }
                         int[] rowsRemovedArray = statement.executeBatch();
-                        rowsRemoved = Arrays.stream(rowsRemovedArray).sum();
+                        rowsRemoved = CommonUtil.sumOfInts(rowsRemovedArray);
                         JdbcUtil.commit(connection);
                     } catch (SQLException e) {
                         JdbcUtil.rollback(connection);
