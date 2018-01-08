@@ -32,7 +32,6 @@
         <mybatis.version>3.3.0</mybatis.version>
         <jackson-asl.version>1.9.13</jackson-asl.version>
         <semver4j.version>2.1.0</semver4j.version>
-        <activiti.common.version>1.30.1</activiti.common.version>
     </properties>
     <modules>
         <module>com.sap.cloud.lm.sl.common</module>
@@ -341,24 +340,6 @@
                 <groupId>com.vdurmont</groupId>
                 <artifactId>semver4j</artifactId>
                 <version>${semver4j.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.sap.activiti.common</groupId>
-                <artifactId>com.sap.activiti.common</artifactId>
-                <version>${activiti.common.version}</version>
-                <exclusions>
-                    <exclusion>
-                        <groupId>com.sap.hcp.oss.org.activiti</groupId>
-                        <artifactId>activiti-rest</artifactId>
-                    </exclusion>
-                </exclusions>
-            </dependency>
-            <dependency>
-                <groupId>com.sap.activiti.common</groupId>
-                <artifactId>com.sap.activiti.common</artifactId>
-                <type>test-jar</type>
-                <scope>test</scope>
-                <version>${activiti.common.version}</version>
             </dependency>
             <dependency>
                 <groupId>com.sap.cloud.lm.sl</groupId>
