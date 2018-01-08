@@ -53,4 +53,12 @@ public class ListUtil {
         return new ArrayList<T>(new LinkedHashSet<T>(list));
     }
 
+    public static <T> void addUnique(List<T> original, List<T> newValues) {
+        for (T item : newValues) {
+            if (!original.contains(item)) {
+                original.add(item);
+            }
+        }
+    }
+
 }
