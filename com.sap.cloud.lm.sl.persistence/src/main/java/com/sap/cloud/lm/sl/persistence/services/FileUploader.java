@@ -14,6 +14,7 @@ import java.text.MessageFormat;
 
 import javax.xml.bind.DatatypeConverter;
 
+import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -44,7 +45,8 @@ public class FileUploader {
      * @throws FileStorageException
      */
     @SuppressWarnings({ "unchecked" })
-    public static FileUpload uploadFile(InputStream is, @SuppressWarnings("rawtypes") FileUploadProcessor fileUploadProcessor) throws FileStorageException {
+    public static FileUpload uploadFile(InputStream is, @SuppressWarnings("rawtypes") FileUploadProcessor fileUploadProcessor)
+        throws FileStorageException {
         BigInteger size = BigInteger.valueOf(0);
         MessageDigest digest;
         try {
@@ -79,17 +81,8 @@ public class FileUploader {
             }
             throw new FileStorageException(e);
         } finally {
-            try {
-                if (outputWrapperStream != null) {
-                    outputWrapperStream.close();
-                }
-                if (outputFileStream != null) {
-                    outputFileStream.close();
-                }
-            } catch (IOException e) {
-                logger.error(Messages.UPLOAD_STREAM_FAILED_TO_CLOSE);
-            }
-
+            IOUtils.closeQuietly(outputWrapperStream);
+            IOUtils.closeQuietly(outputFileStream);
         }
 
         FileUpload fileContent = new FileUpload(tempFile, size, getDigestString(digest.digest()), DIGEST_METHOD);
