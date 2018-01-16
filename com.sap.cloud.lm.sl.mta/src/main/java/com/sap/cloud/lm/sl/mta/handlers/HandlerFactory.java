@@ -19,7 +19,7 @@ import com.sap.cloud.lm.sl.mta.resolvers.ResolverBuilder;
 
 public class HandlerFactory implements HandlerConstructor {
 
-    public static Integer HIGHEST_VERSION_INPUT = Integer.MAX_VALUE;
+    public static final Integer HIGHEST_VERSION_INPUT = Integer.MAX_VALUE;
 
     protected int majorVersion;
     protected int minorVersion;
