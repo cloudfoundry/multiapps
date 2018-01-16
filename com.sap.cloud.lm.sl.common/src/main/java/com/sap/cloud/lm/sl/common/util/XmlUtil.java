@@ -189,7 +189,7 @@ public class XmlUtil {
     }
 
     private static void handleMarshallingException(Exception e) throws SLException {
-        throw new SLException(Messages.UNABLE_TO_MARSHAL_OBJECT, e);
+        throw new SLException(e, Messages.UNABLE_TO_MARSHAL_OBJECT);
     }
 
 }

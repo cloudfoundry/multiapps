@@ -1,6 +1,7 @@
 package com.sap.cloud.lm.sl.common.model.xml;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
@@ -26,7 +27,7 @@ public class MapWrapper extends Wrapper {
 
     @SuppressWarnings("unchecked")
     public MapWrapper(Object o) {
-        Map<String, Object> map = (Map<String, Object>) o;
+        Map<String, Object> map = o == null ? Collections.<String, Object> emptyMap() : (Map<String, Object>) o;
 
         for (String key : map.keySet()) {
             this.map.add(new Entry(key, wrap(map.get(key))));
