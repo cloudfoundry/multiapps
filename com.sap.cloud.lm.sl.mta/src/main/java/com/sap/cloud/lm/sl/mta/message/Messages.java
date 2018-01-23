@@ -47,8 +47,6 @@ public class Messages {
     public static final String ERROR_PARSING_YAML_STRING = "Error while parsing YAML string: %n%s%n%s";
     public static final String MANDATORY_ELEMENT_HAS_NO_VALUE = "The {0} \"{1}\" is not optional and has no value.";
     public static final String INCOMPATIBLE_TYPES = "Type {0} is not compatible with type {1}";
-    public static final String HIGHER_VERSION_ALREADY_DEPLOYED = "Higher version already deployed";
-    public static final String SAME_OR_HIGHER_VERSION_ALREADY_DEPLOYED = "Same or higher version already deployed";
 
     // Audit log messages:
 
