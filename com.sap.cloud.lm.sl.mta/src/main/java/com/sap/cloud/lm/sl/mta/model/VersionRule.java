@@ -1,50 +1,40 @@
 package com.sap.cloud.lm.sl.mta.model;
 
-import static com.sap.cloud.lm.sl.mta.message.Messages.SAME_OR_HIGHER_VERSION_ALREADY_DEPLOYED;
-import static com.sap.cloud.lm.sl.mta.message.Messages.HIGHER_VERSION_ALREADY_DEPLOYED;
-
 public enum VersionRule {
 
-    HIGHER(SAME_OR_HIGHER_VERSION_ALREADY_DEPLOYED, new VersionHandler() {
+    SAME_HIGHER(new VersionRuleValidator() {
         @Override
-        public boolean accept(Version candidateVersion, Version baseVersion) {
-            return candidateVersion.compareTo(baseVersion) > 0;
+        public boolean allows(DeploymentType deploymentType) {
+            return deploymentType != DeploymentType.DOWNGRADE;
         }
     }),
 
-    SAME_HIGHER(HIGHER_VERSION_ALREADY_DEPLOYED, new VersionHandler() {
+    HIGHER(new VersionRuleValidator() {
         @Override
-        public boolean accept(Version candidateVersion, Version baseVersion) {
-            return candidateVersion.compareTo(baseVersion) >= 0;
+        public boolean allows(DeploymentType deploymentType) {
+            return deploymentType != DeploymentType.DOWNGRADE && deploymentType != DeploymentType.REDEPLOYMENT;
         }
     }),
 
-    ALL("", new VersionHandler() {
+    ALL(new VersionRuleValidator() {
         @Override
-        public boolean accept(Version candidateVersion, Version baseVersion) {
+        public boolean allows(DeploymentType deploymentType) {
             return true;
         }
     });
 
-    public boolean accept(Version candidateVersion, Version baseVersion) {
-        return versionHandler.accept(candidateVersion, baseVersion);
+    private interface VersionRuleValidator {
+        boolean allows(DeploymentType deploymentType);
     }
 
-    String errorMessage;
+    private VersionRuleValidator versionRuleValidator;
 
-    public String getErrorMessage() {
-        return errorMessage;
+    private VersionRule(VersionRuleValidator versionRuleValidator) {
+        this.versionRuleValidator = versionRuleValidator;
     }
 
-    private VersionRule(String errorMessage, VersionHandler versionHandler) {
-        this.errorMessage = errorMessage;
-        this.versionHandler = versionHandler;
+    public boolean allows(DeploymentType deploymentType) {
+        return versionRuleValidator.allows(deploymentType);
     }
-
-    private interface VersionHandler {
-        boolean accept(Version candidateVersion, Version baseVersion);
-    }
-
-    private VersionHandler versionHandler;
 
 }
