@@ -22,7 +22,7 @@ import com.sap.cloud.lm.sl.persistence.processors.FileDownloadProcessor;
 
 public class FileSystemFileService extends AbstractFileService {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(DatabaseFileService.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(FileSystemFileService.class);
 
     private static final String DEFAULT_FILES_STORAGE_PATH = "files";
     private static FileSystemFileService instance;
@@ -73,8 +73,10 @@ public class FileSystemFileService extends AbstractFileService {
     public void processFileContent(FileDownloadProcessor fileDownloadProcessor) throws FileStorageException {
         InputStream fileContentStream = null;
         try {
-            String fileId = fileDownloadProcessor.getFileEntry().getId();
-            String space = fileDownloadProcessor.getFileEntry().getSpace();
+            String fileId = fileDownloadProcessor.getFileEntry()
+                .getId();
+            String space = fileDownloadProcessor.getFileEntry()
+                .getSpace();
             Path filesDirectory = getFilesDirectory(space);
             Path filePathLocation = Paths.get(filesDirectory.toString(), fileId);
             if (!Files.exists(filePathLocation)) {
