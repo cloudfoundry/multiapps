@@ -5,27 +5,23 @@ import java.sql.SQLException;
 
 import com.sap.cloud.lm.sl.persistence.util.JdbcUtil;
 
-class SqlExecutor<T> {
+abstract class SqlExecutor<T> {
+
     public T execute(StatementExecutor<T> statementExecutor) throws SQLException {
-        T result = null;
+        Connection connection = getConnection();
         try {
-            Connection connection = getConnection();
-            try {
-                result = statementExecutor.execute(connection);
-            } finally {
-                JdbcUtil.closeQuietly(connection);
-            }
-        } catch (SQLException e) {
-            throw e;
+            return statementExecutor.execute(connection);
+        } finally {
+            JdbcUtil.closeQuietly(connection);
         }
-        return result;
     }
 
-    protected Connection getConnection() throws SQLException {
-        return null;
-    }
+    protected abstract Connection getConnection() throws SQLException;
 
     protected interface StatementExecutor<T> {
+
         T execute(Connection connection) throws SQLException;
+
     }
+
 }
