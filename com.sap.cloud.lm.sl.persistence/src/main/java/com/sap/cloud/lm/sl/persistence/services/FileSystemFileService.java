@@ -7,6 +7,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.text.MessageFormat;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -79,18 +80,14 @@ public class FileSystemFileService extends AbstractFileService {
 
     @Override
     public void processFileContent(FileDownloadProcessor fileDownloadProcessor) throws FileStorageException {
+        FileEntry fileEntry = fileDownloadProcessor.getFileEntry();
+        if (invalidateEntryWithoutContent(fileEntry)) {
+            throw new FileStorageException(
+                MessageFormat.format(Messages.FILE_WITH_ID_DOES_NOT_EXIST, fileEntry.getId(), fileEntry.getSpace()));
+        }
         InputStream fileContentStream = null;
         try {
-            String fileId = fileDownloadProcessor.getFileEntry()
-                .getId();
-            String space = fileDownloadProcessor.getFileEntry()
-                .getSpace();
-            Path filesDirectory = getFilesDirectory(space);
-            Path filePathLocation = Paths.get(filesDirectory.toString(), fileId);
-            if (!Files.exists(filePathLocation)) {
-                deleteFileAttributes(space, fileId);
-                throw new FileStorageException(MessageFormat.format(Messages.FILE_WITH_ID_DOES_NOT_EXIST, fileId, space));
-            }
+            Path filePathLocation = getFilePath(fileDownloadProcessor.getFileEntry());
             fileContentStream = Files.newInputStream(filePathLocation);
             fileDownloadProcessor.processContent(fileContentStream);
         } catch (Exception e) {
@@ -100,6 +97,11 @@ public class FileSystemFileService extends AbstractFileService {
                 IOUtils.closeQuietly(fileContentStream);
             }
         }
+    }
+
+    private Path getFilePath(FileEntry entry) throws IOException {
+        Path filesDirectory = getFilesDirectory(entry.getSpace());
+        return Paths.get(filesDirectory.toString(), entry.getId());
     }
 
     @Override
@@ -142,4 +144,44 @@ public class FileSystemFileService extends AbstractFileService {
         Path filesPerSpaceDirectory = Paths.get(storagePath, space, DEFAULT_FILES_STORAGE_PATH);
         return filesPerSpaceDirectory;
     }
+
+    @Override
+    public List<FileEntry> listFiles(String space, String namespace) throws FileStorageException {
+        List<FileEntry> allEntries = super.listFiles(space, namespace);
+        return invalidateEntriesWithoutContent(allEntries);
+    }
+
+    @Override
+    public FileEntry getFile(String space, String id) throws FileStorageException {
+        FileEntry entry = super.getFile(space, id);
+        return invalidateEntryWithoutContent(entry) ? null : entry;
+    }
+
+    private List<FileEntry> invalidateEntriesWithoutContent(List<FileEntry> entries) throws FileStorageException {
+        List<FileEntry> entriesWithContent = new ArrayList<>();
+        for (FileEntry entry : entries) {
+            if (!invalidateEntryWithoutContent(entry)) {
+                entriesWithContent.add(entry);
+            }
+        }
+        return entriesWithContent;
+    }
+
+    private boolean invalidateEntryWithoutContent(FileEntry entry) throws FileStorageException {
+        boolean shouldDelete = !hasContent(entry);
+        if (shouldDelete) {
+            deleteFileAttributes(entry.getSpace(), entry.getId());
+        }
+        return shouldDelete;
+    }
+
+    private boolean hasContent(FileEntry entry) throws FileStorageException {
+        try {
+            Path filePath = getFilePath(entry);
+            return Files.exists(filePath);
+        } catch (IOException e) {
+            throw new FileStorageException(e.getMessage(), e);
+        }
+    }
+
 }
