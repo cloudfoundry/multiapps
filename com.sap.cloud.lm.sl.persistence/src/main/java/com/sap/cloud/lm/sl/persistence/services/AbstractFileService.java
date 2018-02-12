@@ -122,7 +122,7 @@ public abstract class AbstractFileService {
      * Uploads a new file.
      *
      * @param space
-     * @param namespace namescape where the file will be uploaded
+     * @param namespace namespace where the file will be uploaded
      * @param name name of the uploaded file
      * @param fileProcessor file processor
      * @param is input stream to read the content from
@@ -235,26 +235,25 @@ public abstract class AbstractFileService {
             executor.execute(new StatementExecutor<Void>() {
                 @Override
                 public Void execute(Connection connection) throws SQLException {
-                    PreparedStatement stmt = null;
+                    PreparedStatement statement = null;
                     try {
-
-                        stmt = connection.prepareStatement(getQuery(INSERT_FILE, tableName));
-                        stmt.setString(1, fileEntry.getId());
-                        stmt.setString(2, fileEntry.getSpace());
-                        stmt.setString(3, fileEntry.getName());
-                        setOrNull(stmt, 4, fileEntry.getNamespace());
-                        getDatabaseDialect().setBigInteger(stmt, 5, fileEntry.getSize());
-                        stmt.setString(6, fileEntry.getDigest());
-                        stmt.setString(7, fileEntry.getDigestAlgorithm());
-                        stmt.setTimestamp(8, new Timestamp(fileEntry.getModified()
+                        statement = connection.prepareStatement(getQuery(INSERT_FILE, tableName));
+                        statement.setString(1, fileEntry.getId());
+                        statement.setString(2, fileEntry.getSpace());
+                        statement.setString(3, fileEntry.getName());
+                        setOrNull(statement, 4, fileEntry.getNamespace());
+                        getDatabaseDialect().setBigInteger(statement, 5, fileEntry.getSize());
+                        statement.setString(6, fileEntry.getDigest());
+                        statement.setString(7, fileEntry.getDigestAlgorithm());
+                        statement.setTimestamp(8, new Timestamp(fileEntry.getModified()
                             .getTime()));
-                        stmt.executeUpdate();
+                        statement.executeUpdate();
                         JdbcUtil.commit(connection);
                     } catch (SQLException e) {
                         JdbcUtil.rollback(connection);
                         throw e;
                     } finally {
-                        JdbcUtil.closeQuietly(stmt);
+                        JdbcUtil.closeQuietly(statement);
                     }
                     return null;
                 }
@@ -273,19 +272,19 @@ public abstract class AbstractFileService {
                 @Override
                 public Integer execute(Connection connection) throws SQLException {
                     int rowsDeleted = 0;
-                    PreparedStatement stmt = null;
+                    PreparedStatement statement = null;
                     try {
-                        stmt = connection.prepareStatement(getQuery(DELETE_FILES_BY_NAMESPACE, tableName));
-                        stmt.setString(1, namespace);
-                        stmt.setString(2, space);
-                        rowsDeleted = stmt.executeUpdate();
+                        statement = connection.prepareStatement(getQuery(DELETE_FILES_BY_NAMESPACE, tableName));
+                        statement.setString(1, namespace);
+                        statement.setString(2, space);
+                        rowsDeleted = statement.executeUpdate();
                         JdbcUtil.commit(connection);
                         return rowsDeleted;
                     } catch (SQLException e) {
                         JdbcUtil.rollback(connection);
                         throw e;
                     } finally {
-                        JdbcUtil.closeQuietly(stmt);
+                        JdbcUtil.closeQuietly(statement);
                     }
                 }
             });
@@ -309,20 +308,20 @@ public abstract class AbstractFileService {
             return executor.execute(new StatementExecutor<Integer>() {
                 @Override
                 public Integer execute(Connection connection) throws SQLException {
-                    PreparedStatement stmt = null;
+                    PreparedStatement statement = null;
                     int rowsDeleted = 0;
                     try {
-                        stmt = connection.prepareStatement(getQuery(DELETE_FILE_BY_ID, tableName));
-                        stmt.setString(1, id);
-                        stmt.setString(2, space);
-                        rowsDeleted = stmt.executeUpdate();
+                        statement = connection.prepareStatement(getQuery(DELETE_FILE_BY_ID, tableName));
+                        statement.setString(1, id);
+                        statement.setString(2, space);
+                        rowsDeleted = statement.executeUpdate();
                         JdbcUtil.commit(connection);
                         return rowsDeleted;
                     } catch (SQLException e) {
                         JdbcUtil.rollback(connection);
                         throw e;
                     } finally {
-                        JdbcUtil.closeQuietly(stmt);
+                        JdbcUtil.closeQuietly(statement);
                     }
                 }
             });
@@ -338,27 +337,27 @@ public abstract class AbstractFileService {
                 @Override
                 public List<FileEntry> execute(Connection connection) throws SQLException {
                     List<FileEntry> files = new ArrayList<FileEntry>();
-                    PreparedStatement stmt = null;
+                    PreparedStatement statement = null;
                     ResultSet resultSet = null;
                     try {
                         if (space == null) {
-                            stmt = connection.prepareStatement(getQuery(SELECT_FILES_BY_NAMESPACE, tableName));
-                            stmt.setString(1, namespace);
+                            statement = connection.prepareStatement(getQuery(SELECT_FILES_BY_NAMESPACE, tableName));
+                            statement.setString(1, namespace);
                         } else if (namespace == null) {
-                            stmt = connection.prepareStatement(getQuery(SELECT_FILES_BY_SPACE, tableName));
-                            stmt.setString(1, space);
+                            statement = connection.prepareStatement(getQuery(SELECT_FILES_BY_SPACE, tableName));
+                            statement.setString(1, space);
                         } else {
-                            stmt = connection.prepareStatement(getQuery(SELECT_FILES_BY_NAMESPACE_AND_SPACE, tableName));
-                            stmt.setString(1, namespace);
-                            stmt.setString(2, space);
+                            statement = connection.prepareStatement(getQuery(SELECT_FILES_BY_NAMESPACE_AND_SPACE, tableName));
+                            statement.setString(1, namespace);
+                            statement.setString(2, space);
                         }
-                        resultSet = stmt.executeQuery();
+                        resultSet = statement.executeQuery();
                         while (resultSet.next()) {
                             files.add(getFileEntry(resultSet));
                         }
                     } finally {
                         JdbcUtil.closeQuietly(resultSet);
-                        JdbcUtil.closeQuietly(stmt);
+                        JdbcUtil.closeQuietly(statement);
                     }
                     return files;
                 }
@@ -379,19 +378,19 @@ public abstract class AbstractFileService {
                 @Override
                 public FileEntry execute(Connection connection) throws SQLException {
                     FileEntry fileEntry = null;
-                    PreparedStatement stmt = null;
+                    PreparedStatement statement = null;
                     ResultSet resultSet = null;
                     try {
-                        stmt = connection.prepareStatement(getQuery(SELECT_FILE_BY_ID, tableName));
-                        stmt.setString(1, id);
-                        stmt.setString(2, space);
-                        resultSet = stmt.executeQuery();
+                        statement = connection.prepareStatement(getQuery(SELECT_FILE_BY_ID, tableName));
+                        statement.setString(1, id);
+                        statement.setString(2, space);
+                        resultSet = statement.executeQuery();
                         if (resultSet.next()) {
                             fileEntry = getFileEntry(resultSet);
                         }
                     } finally {
                         JdbcUtil.closeQuietly(resultSet);
-                        JdbcUtil.closeQuietly(stmt);
+                        JdbcUtil.closeQuietly(statement);
                     }
                     return fileEntry;
                 }
@@ -420,11 +419,11 @@ public abstract class AbstractFileService {
         processFileContent(new DefaultFileDownloadProcessor(space, fileId, streamProcessor));
     }
 
-    private void setOrNull(PreparedStatement stmt, int position, String value) throws SQLException {
+    private void setOrNull(PreparedStatement statement, int position, String value) throws SQLException {
         if (value == null) {
-            stmt.setNull(position, Types.NULL);
+            statement.setNull(position, Types.NULL);
         } else {
-            stmt.setString(position, value);
+            statement.setString(position, value);
         }
     }
 
