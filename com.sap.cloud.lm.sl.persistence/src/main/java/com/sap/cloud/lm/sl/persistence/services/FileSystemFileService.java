@@ -46,7 +46,7 @@ public class FileSystemFileService extends AbstractFileService {
     }
 
     @Override
-    protected boolean uploadFileContent(InputStream inputStream, FileEntry fileEntry) throws FileStorageException {
+    protected boolean storeFileContent(InputStream inputStream, FileEntry fileEntry) throws FileStorageException {
         try {
             Path filesDirectory = getFilesDirectory(fileEntry.getSpace());
             Path newFilePath = Paths.get(filesDirectory.toString(), fileEntry.getId());

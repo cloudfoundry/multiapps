@@ -47,7 +47,7 @@ public class DatabaseFileService extends AbstractFileService {
     }
 
     @Override
-    protected boolean uploadFileContent(final InputStream inputStream, final FileEntry fileEntry) throws FileStorageException {
+    protected boolean storeFileContent(final InputStream inputStream, final FileEntry fileEntry) throws FileStorageException {
         SqlExecutor<Boolean> executor = new FileServiceSqlExecutor<>();
         try {
             return executor.execute(new StatementExecutor<Boolean>() {

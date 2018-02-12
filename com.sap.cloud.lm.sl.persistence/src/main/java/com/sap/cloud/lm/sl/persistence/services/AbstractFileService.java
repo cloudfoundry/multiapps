@@ -137,16 +137,15 @@ public abstract class AbstractFileService {
         // and decorate the blob stream to calculate digest and size, but this will still require
         // two roundtrips to the database (insert of the content and then update with the digest and
         // size), which is probably inefficient
-        FileUpload localFile = null;
+        FileUpload fileUpload = null;
         try {
+            fileUpload = FileUploader.uploadFile(is, fileUploadProcessor);
 
-            localFile = FileUploader.uploadFile(is, fileUploadProcessor);
-
-            return uploadFileToDatabase(space, namespace, name, fileUploadProcessor, localFile);
+            return addFile(space, namespace, name, fileUploadProcessor, fileUpload);
         } finally {
             IOUtils.closeQuietly(is);
-            if (localFile != null) {
-                FileUploader.removeFile(localFile);
+            if (fileUpload != null) {
+                FileUploader.removeFile(fileUpload);
             }
         }
     }
@@ -157,7 +156,7 @@ public abstract class AbstractFileService {
         try {
             FileUpload fileUpload = createFileUpload(existingFile);
 
-            return uploadFileToDatabase(space, namespace, name, fileUploadProcessor, fileUpload);
+            return addFile(space, namespace, name, fileUploadProcessor, fileUpload);
         } catch (NoSuchAlgorithmException e) {
             throw new SLException(MessageFormat.format(Messages.ERROR_CALCULATING_FILE_DIGEST, existingFile.getName()), e);
         } catch (FileNotFoundException e) {
@@ -172,47 +171,30 @@ public abstract class AbstractFileService {
             DigestHelper.computeFileChecksum(existingFile.toPath(), FileUploader.DIGEST_METHOD), FileUploader.DIGEST_METHOD);
     }
 
-    private FileEntry uploadFileToDatabase(String space, String namespace, String name,
+    private FileEntry addFile(String space, String namespace, String name,
         FileUploadProcessor<? extends OutputStream, ? extends OutputStream> fileUploadProcessor, FileUpload fileUpload)
         throws VirusScannerException, FileStorageException {
 
         if (fileUploadProcessor.shouldScanFile()) {
             scanUpload(fileUpload);
         }
-
         FileEntry fileEntry = createFileEntry(space, namespace, name, fileUpload);
-
-        insertFileAttributes(fileEntry);
-        InputStream localStream = null;
-        boolean uploadedSuccesfully = false;
-
-        try {
-            localStream = fileUpload.getInputStream();
-            uploadedSuccesfully = uploadFileContent(localStream, fileEntry);
-        } finally {
-            IOUtils.closeQuietly(localStream);
-        }
-
-        if (!uploadedSuccesfully) {
-            throw new FileStorageException(MessageFormat.format(Messages.FILE_UPLOAD_FAILED, name, namespace));
-        }
-
+        storeFile(fileEntry, fileUpload);
         return fileEntry;
     }
 
     private void scanUpload(FileUpload file) throws VirusScannerException, FileStorageException {
-        if (virusScanner != null)
-            try {
-                LOGGER.info(MessageFormat.format(Messages.SCANNING_FILE, file.getFile()));
-                virusScanner.scanFile(file.getFile());
-                LOGGER.info(MessageFormat.format(Messages.SCANNING_FILE_SUCCESS, file.getFile()));
-            } catch (VirusScannerException e) {
-                LOGGER.error(MessageFormat.format(Messages.DELETING_LOCAL_FILE_BECAUSE_OF_INFECTION, file.getFile()));
-                FileUploader.removeFile(file);
-                throw e;
-            }
-        else {
+        if (virusScanner == null) {
             throw new FileStorageException(Messages.NO_VIRUS_SCANNER_CONFIGURED);
+        }
+        try {
+            LOGGER.info(MessageFormat.format(Messages.SCANNING_FILE, file.getFile()));
+            virusScanner.scanFile(file.getFile());
+            LOGGER.info(MessageFormat.format(Messages.SCANNING_FILE_SUCCESS, file.getFile()));
+        } catch (VirusScannerException e) {
+            LOGGER.error(MessageFormat.format(Messages.DELETING_LOCAL_FILE_BECAUSE_OF_INFECTION, file.getFile()));
+            FileUploader.removeFile(file);
+            throw e;
         }
     }
 
@@ -230,7 +212,21 @@ public abstract class AbstractFileService {
     }
 
     protected String generateRandomId() {
-        return UUID.randomUUID().toString();
+        return UUID.randomUUID()
+            .toString();
+    }
+
+    private void storeFile(FileEntry fileEntry, FileUpload fileUpload) throws FileStorageException {
+        insertFileAttributes(fileEntry);
+        try {
+            boolean uploadedSuccesfully = storeFileContent(fileUpload.getInputStream(), fileEntry);
+            if (!uploadedSuccesfully) {
+                throw new FileStorageException(
+                    MessageFormat.format(Messages.FILE_UPLOAD_FAILED, fileEntry.getName(), fileEntry.getNamespace()));
+            }
+        } finally {
+            IOUtils.closeQuietly(fileUpload.getInputStream());
+        }
     }
 
     private void insertFileAttributes(final FileEntry fileEntry) throws FileStorageException {
@@ -250,7 +246,8 @@ public abstract class AbstractFileService {
                         getDatabaseDialect().setBigInteger(stmt, 5, fileEntry.getSize());
                         stmt.setString(6, fileEntry.getDigest());
                         stmt.setString(7, fileEntry.getDigestAlgorithm());
-                        stmt.setTimestamp(8, new Timestamp(fileEntry.getModified().getTime()));
+                        stmt.setTimestamp(8, new Timestamp(fileEntry.getModified()
+                            .getTime()));
                         stmt.executeUpdate();
                         JdbcUtil.commit(connection);
                     } catch (SQLException e) {
@@ -267,7 +264,7 @@ public abstract class AbstractFileService {
         }
     }
 
-    protected abstract boolean uploadFileContent(final InputStream inputStream, final FileEntry fileEntry) throws FileStorageException;
+    protected abstract boolean storeFileContent(final InputStream inputStream, final FileEntry fileEntry) throws FileStorageException;
 
     public int deleteAll(final String space, final String namespace) throws FileStorageException {
         SqlExecutor<Integer> executor = new FileServiceSqlExecutor<Integer>();
