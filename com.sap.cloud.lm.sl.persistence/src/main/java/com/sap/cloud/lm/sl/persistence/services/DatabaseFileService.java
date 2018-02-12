@@ -53,21 +53,21 @@ public class DatabaseFileService extends AbstractFileService {
             return executor.execute(new StatementExecutor<Boolean>() {
                 @Override
                 public Boolean execute(Connection connection) throws SQLException {
-                    PreparedStatement stmt = null;
+                    PreparedStatement statement = null;
                     int rowsInserted = 0;
                     try {
                         connection.setAutoCommit(false);
-                        stmt = connection.prepareStatement(getQuery(UPDATE_FILE_CONTENT_BY_ID, tableName));
-                        getDatabaseDialect().setBlobAsBinaryStream(stmt, 1, inputStream);
-                        stmt.setString(2, fileEntry.getId());
-                        rowsInserted = stmt.executeUpdate();
+                        statement = connection.prepareStatement(getQuery(UPDATE_FILE_CONTENT_BY_ID, tableName));
+                        getDatabaseDialect().setBlobAsBinaryStream(statement, 1, inputStream);
+                        statement.setString(2, fileEntry.getId());
+                        rowsInserted = statement.executeUpdate();
                         JdbcUtil.commit(connection);
                         return rowsInserted > 0;
                     } catch (SQLException e) {
                         JdbcUtil.rollback(connection);
                         throw e;
                     } finally {
-                        JdbcUtil.closeQuietly(stmt);
+                        JdbcUtil.closeQuietly(statement);
                         connection.setAutoCommit(true);
                     }
                 }
@@ -86,14 +86,14 @@ public class DatabaseFileService extends AbstractFileService {
             executor.execute(new StatementExecutor<Void>() {
                 @Override
                 public Void execute(Connection connection) throws SQLException {
-                    PreparedStatement stmt = null;
+                    PreparedStatement statement = null;
                     ResultSet resultSet = null;
                     try {
                         connection.setAutoCommit(false);
-                        stmt = connection.prepareStatement(getQuery(SELECT_FILE_CONTENT_BY_ID, tableName));
-                        stmt.setString(1, fileDownloadProcessor.getFileEntry().getId());
-                        stmt.setString(2, fileDownloadProcessor.getFileEntry().getSpace());
-                        resultSet = stmt.executeQuery();
+                        statement = connection.prepareStatement(getQuery(SELECT_FILE_CONTENT_BY_ID, tableName));
+                        statement.setString(1, fileDownloadProcessor.getFileEntry().getId());
+                        statement.setString(2, fileDownloadProcessor.getFileEntry().getSpace());
+                        resultSet = statement.executeQuery();
                         JdbcUtil.commit(connection);
                         if (resultSet.next()) {
                             processFileContent(resultSet, fileDownloadProcessor);
@@ -104,7 +104,7 @@ public class DatabaseFileService extends AbstractFileService {
                     } finally {
                         connection.setAutoCommit(true);
                         JdbcUtil.closeQuietly(resultSet);
-                        JdbcUtil.closeQuietly(stmt);
+                        JdbcUtil.closeQuietly(statement);
                     }
                     return null;
                 }
