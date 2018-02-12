@@ -30,6 +30,7 @@ public class DatabaseFileService extends AbstractFileService {
     private static final String INSERT_FILE_CONTENT = "UPDATE {0} SET CONTENT=? WHERE FILE_ID=?";
     private static final String SELECT_FILE_CONTENT_BY_ID = "SELECT FILE_ID, SPACE, CONTENT FROM {0} WHERE FILE_ID=? AND SPACE=?";
     private static final String DELETE_FILE_BY_FILE_ID = "DELETE FROM {0} WHERE FILE_ID=? AND SPACE=?";
+    private static final String DELETE_FILES_WITHOUT_CONTENT = "DELETE FROM {0} WHERE CONTENT IS NULL";
 
     private static final Logger LOGGER = LoggerFactory.getLogger(DatabaseFileService.class);
 
@@ -90,6 +91,7 @@ public class DatabaseFileService extends AbstractFileService {
 
     @Override
     public void processFileContent(final FileDownloadProcessor fileDownloadProcessor) throws FileStorageException {
+        deleteEntriesWithoutContent();
         SqlExecutor<Void> executor = new FileServiceSqlExecutor<Void>();
         try {
             executor.execute(new StatementExecutor<Void>() {
@@ -185,4 +187,43 @@ public class DatabaseFileService extends AbstractFileService {
             throw new SLException(e, Messages.ERROR_DELETING_FILES_ATTRIBUTES);
         }
     }
+
+    @Override
+    public List<FileEntry> listFiles(String space, String namespace) throws FileStorageException {
+        deleteEntriesWithoutContent();
+        return super.listFiles(space, namespace);
+    }
+
+    @Override
+    public FileEntry getFile(String space, String id) throws FileStorageException {
+        deleteEntriesWithoutContent();
+        return super.getFile(space, id);
+    }
+
+    private int deleteEntriesWithoutContent() throws FileStorageException {
+        SqlExecutor<Integer> executor = new FileServiceSqlExecutor<>();
+        try {
+            return executor.execute(new StatementExecutor<Integer>() {
+                @Override
+                public Integer execute(Connection connection) throws SQLException {
+                    PreparedStatement statement = null;
+                    try {
+                        statement = connection.prepareStatement(getQuery(DELETE_FILES_WITHOUT_CONTENT, tableName));
+                        int rowsDeleted = statement.executeUpdate();
+                        JdbcUtil.commit(connection);
+                        return rowsDeleted;
+                    } catch (SQLException e) {
+                        JdbcUtil.rollback(connection);
+                        throw e;
+                    } finally {
+                        JdbcUtil.closeQuietly(statement);
+                    }
+                }
+
+            });
+        } catch (SQLException e) {
+            throw new FileStorageException(e.getMessage(), e);
+        }
+    }
+
 }
