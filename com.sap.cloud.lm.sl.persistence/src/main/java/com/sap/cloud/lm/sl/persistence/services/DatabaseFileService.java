@@ -27,7 +27,7 @@ import com.sap.cloud.lm.sl.persistence.util.JdbcUtil;
  */
 public class DatabaseFileService extends AbstractFileService {
 
-    private static final String UPDATE_FILE_CONTENT_BY_ID = "UPDATE {0} SET CONTENT = ? WHERE FILE_ID = ?";
+    private static final String INSERT_FILE_CONTENT = "UPDATE {0} SET CONTENT=? WHERE FILE_ID=?";
     private static final String SELECT_FILE_CONTENT_BY_ID = "SELECT FILE_ID, SPACE, CONTENT FROM {0} WHERE FILE_ID=? AND SPACE=?";
     private static final String DELETE_FILE_BY_FILE_ID = "DELETE FROM {0} WHERE FILE_ID=? AND SPACE=?";
 
@@ -47,27 +47,25 @@ public class DatabaseFileService extends AbstractFileService {
     }
 
     @Override
-    protected boolean storeFileContent(final InputStream inputStream, final FileEntry fileEntry) throws FileStorageException {
-        SqlExecutor<Boolean> executor = new FileServiceSqlExecutor<>();
+    protected boolean storeFile(final FileEntry fileEntry, final InputStream inputStream) throws FileStorageException {
+        SqlExecutor<Boolean> executor = new FileServiceSqlExecutor<Boolean>();
         try {
             return executor.execute(new StatementExecutor<Boolean>() {
                 @Override
                 public Boolean execute(Connection connection) throws SQLException {
-                    PreparedStatement statement = null;
-                    int rowsInserted = 0;
                     try {
                         connection.setAutoCommit(false);
-                        statement = connection.prepareStatement(getQuery(UPDATE_FILE_CONTENT_BY_ID, tableName));
-                        getDatabaseDialect().setBlobAsBinaryStream(statement, 1, inputStream);
-                        statement.setString(2, fileEntry.getId());
-                        rowsInserted = statement.executeUpdate();
+                        boolean attributesStoredSuccessfully = storeFileAttributes(connection, fileEntry);
+                        if (!attributesStoredSuccessfully) {
+                            return false;
+                        }
+                        boolean contentStoredSuccessfully = storeFileContent(connection, fileEntry, inputStream);
                         JdbcUtil.commit(connection);
-                        return rowsInserted > 0;
+                        return contentStoredSuccessfully;
                     } catch (SQLException e) {
                         JdbcUtil.rollback(connection);
                         throw e;
                     } finally {
-                        JdbcUtil.closeQuietly(statement);
                         connection.setAutoCommit(true);
                     }
                 }
@@ -76,7 +74,18 @@ public class DatabaseFileService extends AbstractFileService {
         } catch (SQLException e) {
             throw new FileStorageException(e.getMessage(), e);
         }
+    }
 
+    private boolean storeFileContent(Connection connection, FileEntry fileEntry, InputStream inputStream) throws SQLException {
+        PreparedStatement statement = null;
+        try {
+            statement = connection.prepareStatement(getQuery(INSERT_FILE_CONTENT, tableName));
+            getDatabaseDialect().setBlobAsBinaryStream(statement, 1, inputStream);
+            statement.setString(2, fileEntry.getId());
+            return statement.executeUpdate() > 0;
+        } finally {
+            JdbcUtil.closeQuietly(statement);
+        }
     }
 
     @Override
@@ -91,15 +100,17 @@ public class DatabaseFileService extends AbstractFileService {
                     try {
                         connection.setAutoCommit(false);
                         statement = connection.prepareStatement(getQuery(SELECT_FILE_CONTENT_BY_ID, tableName));
-                        statement.setString(1, fileDownloadProcessor.getFileEntry().getId());
-                        statement.setString(2, fileDownloadProcessor.getFileEntry().getSpace());
+                        statement.setString(1, fileDownloadProcessor.getFileEntry()
+                            .getId());
+                        statement.setString(2, fileDownloadProcessor.getFileEntry()
+                            .getSpace());
                         resultSet = statement.executeQuery();
                         JdbcUtil.commit(connection);
                         if (resultSet.next()) {
                             processFileContent(resultSet, fileDownloadProcessor);
                         } else {
-                            throw new SQLException(
-                                MessageFormat.format(Messages.FILE_NOT_FOUND, fileDownloadProcessor.getFileEntry().getId()));
+                            throw new SQLException(MessageFormat.format(Messages.FILE_NOT_FOUND, fileDownloadProcessor.getFileEntry()
+                                .getId()));
                         }
                     } finally {
                         connection.setAutoCommit(true);
