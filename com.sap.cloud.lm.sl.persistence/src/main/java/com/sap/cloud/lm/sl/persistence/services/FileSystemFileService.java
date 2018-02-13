@@ -47,11 +47,11 @@ public class FileSystemFileService extends AbstractFileService {
 
     @Override
     protected boolean storeFile(FileEntry fileEntry, InputStream inputStream) throws FileStorageException {
-        boolean attributesStoredSuccessfully = storeFileAttributes(fileEntry);
-        if (!attributesStoredSuccessfully) {
+        boolean contentStoredSuccessfully = storeFileContent(fileEntry, inputStream);
+        if (!contentStoredSuccessfully) {
             return false;
         }
-        return storeFileContent(fileEntry, inputStream);
+        return storeFileAttributes(fileEntry);
     }
 
     private boolean storeFileContent(FileEntry fileEntry, InputStream inputStream) throws FileStorageException {
