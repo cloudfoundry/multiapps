@@ -2,6 +2,7 @@ package com.sap.cloud.lm.sl.mta.model.v1_0;
 
 import static com.sap.cloud.lm.sl.common.util.CommonUtil.getOrDefault;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -10,6 +11,8 @@ import java.util.Map;
 import com.sap.cloud.lm.sl.common.util.ListUtil;
 import com.sap.cloud.lm.sl.common.util.MapUtil;
 import com.sap.cloud.lm.sl.mta.builders.Builder;
+import com.sap.cloud.lm.sl.mta.model.AuditableConfiguration;
+import com.sap.cloud.lm.sl.mta.model.ConfigurationIdentifier;
 import com.sap.cloud.lm.sl.mta.model.ElementContext;
 import com.sap.cloud.lm.sl.mta.model.NamedElement;
 import com.sap.cloud.lm.sl.mta.model.PropertiesContainer;
@@ -19,8 +22,9 @@ import com.sap.cloud.lm.sl.mta.model.Visitor;
 /**
  * @see <a href="https://[My Github Repo]/mta/spec/blob/master/schemas/v1/platforms-schema.yaml"> Target platform descriptor schema </a>
  */
-public class Target implements VisitableElement, NamedElement, PropertiesContainer {
+public class Target implements VisitableElement, NamedElement, PropertiesContainer, AuditableConfiguration {
 
+    private static final String CONFIGURATION_TYPE = "target";
     private String name;
     private String type;
     private String description;
@@ -165,6 +169,25 @@ public class Target implements VisitableElement, NamedElement, PropertiesContain
             this.platformResourceTypes1_0 = ListUtil.cast(resourceTypes);
         }
 
+    }
+
+    @Override
+    public String getConfigurationType() {
+        return CONFIGURATION_TYPE;
+    }
+
+    @Override
+    public String getConfiguratioName() {
+        return name;
+    }
+
+    @Override
+    public List<ConfigurationIdentifier> getConfigurationIdentifiers() {
+        List<ConfigurationIdentifier> configurationIdentifiers = new ArrayList<>();
+        configurationIdentifiers.add(new ConfigurationIdentifier("name", name));
+        configurationIdentifiers.add(new ConfigurationIdentifier("description", description));
+        configurationIdentifiers.add(new ConfigurationIdentifier("type", type));
+        return configurationIdentifiers;
     }
 
 }
