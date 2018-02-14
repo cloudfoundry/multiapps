@@ -15,8 +15,6 @@ import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.sap.cloud.lm.sl.common.SLException;
-import com.sap.cloud.lm.sl.common.util.CommonUtil;
 import com.sap.cloud.lm.sl.persistence.message.Messages;
 import com.sap.cloud.lm.sl.persistence.model.FileEntry;
 import com.sap.cloud.lm.sl.persistence.processors.FileDownloadProcessor;
@@ -118,23 +116,14 @@ public class FileSystemFileService extends AbstractFileService {
     }
 
     @Override
-    public int deleteAllByFileIds(Map<String, List<String>> spaceToFileIds) throws SLException {
+    public int deleteAllByFileIds(Map<String, List<String>> spaceToFileIds) throws FileStorageException {
+        int deletedFileAttributes = super.deleteAllByFileIds(spaceToFileIds);
+        LOGGER.debug(MessageFormat.format(Messages.DELETING_FILE_ATTRIBUTES_COUNT, deletedFileAttributes));
         int deletedFiles = 0;
         for (String space : spaceToFileIds.keySet()) {
-            Path filesPerSpaceDirectory = getFilesPerSpaceDirectory(space);
-            if (!Files.exists(filesPerSpaceDirectory) || CommonUtil.isNullOrEmpty(spaceToFileIds.get(space))) {
-                continue;
-            }
             for (String fileId : spaceToFileIds.get(space)) {
-                Path filePath = Paths.get(filesPerSpaceDirectory.toString(), fileId);
-                try {
-                    if (Files.deleteIfExists(filePath)) {
-                        LOGGER.info(MessageFormat.format(Messages.DELETING_FILE_WITH_PATH, filePath.toString()));
-                        deletedFiles++;
-                    }
-                } catch (IOException e) {
-                    throw new SLException(MessageFormat.format(Messages.ERROR_DELETING_FILE_WITH_ID, fileId), e);
-                }
+                deleteFileContent(space, fileId);
+                deletedFiles++;
             }
         }
         return deletedFiles;

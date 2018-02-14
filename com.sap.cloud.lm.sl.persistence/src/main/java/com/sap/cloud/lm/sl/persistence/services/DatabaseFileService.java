@@ -8,13 +8,10 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.MessageFormat;
 import java.util.List;
-import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.sap.cloud.lm.sl.common.SLException;
-import com.sap.cloud.lm.sl.common.util.CommonUtil;
 import com.sap.cloud.lm.sl.persistence.message.Messages;
 import com.sap.cloud.lm.sl.persistence.model.FileEntry;
 import com.sap.cloud.lm.sl.persistence.processors.FileDownloadProcessor;
@@ -29,7 +26,6 @@ public class DatabaseFileService extends AbstractFileService {
 
     private static final String INSERT_FILE_CONTENT = "UPDATE {0} SET CONTENT=? WHERE FILE_ID=?";
     private static final String SELECT_FILE_CONTENT_BY_ID = "SELECT FILE_ID, SPACE, CONTENT FROM {0} WHERE FILE_ID=? AND SPACE=?";
-    private static final String DELETE_FILE_BY_FILE_ID = "DELETE FROM {0} WHERE FILE_ID=? AND SPACE=?";
     private static final String DELETE_FILES_WITHOUT_CONTENT = "DELETE FROM {0} WHERE CONTENT IS NULL";
 
     private static final Logger LOGGER = LoggerFactory.getLogger(DatabaseFileService.class);
@@ -151,41 +147,6 @@ public class DatabaseFileService extends AbstractFileService {
      */
     @Override
     protected void deleteFileContent(String space, String id) throws FileStorageException {
-    }
-
-    @Override
-    public int deleteAllByFileIds(final Map<String, List<String>> spaceToFileIds) throws SLException {
-        SqlExecutor<Integer> executor = new FileServiceSqlExecutor<Integer>();
-        try {
-            return executor.execute(new StatementExecutor<Integer>() {
-                @Override
-                public Integer execute(Connection connection) throws SQLException {
-                    int rowsRemoved = 0;
-                    PreparedStatement statement = null;
-                    try {
-                        statement = connection.prepareStatement(getQuery(DELETE_FILE_BY_FILE_ID, tableName));
-                        for (String space : spaceToFileIds.keySet()) {
-                            for (String fileId : spaceToFileIds.get(space)) {
-                                statement.setString(1, fileId);
-                                statement.setString(2, space);
-                                statement.addBatch();
-                            }
-                        }
-                        int[] rowsRemovedArray = statement.executeBatch();
-                        rowsRemoved = CommonUtil.sumOfInts(rowsRemovedArray);
-                        JdbcUtil.commit(connection);
-                    } catch (SQLException e) {
-                        JdbcUtil.rollback(connection);
-                        throw e;
-                    } finally {
-                        JdbcUtil.closeQuietly(statement);
-                    }
-                    return rowsRemoved;
-                }
-            });
-        } catch (SQLException e) {
-            throw new SLException(e, Messages.ERROR_DELETING_FILES_ATTRIBUTES);
-        }
     }
 
     @Override
