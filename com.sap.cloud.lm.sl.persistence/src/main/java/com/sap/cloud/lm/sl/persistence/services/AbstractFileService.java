@@ -212,19 +212,20 @@ public abstract class AbstractFileService {
     }
 
     protected String generateRandomId() {
-        return UUID.randomUUID()
-            .toString();
+        return UUID.randomUUID().toString();
     }
 
     private void storeFile(FileEntry fileEntry, FileUpload fileUpload) throws FileStorageException {
+        InputStream fileStream = null;
         try {
-            boolean storedSuccessfully = storeFile(fileEntry, fileUpload.getInputStream());
+            fileStream = fileUpload.getInputStream();
+            boolean storedSuccessfully = storeFile(fileEntry, fileStream);
             if (!storedSuccessfully) {
                 throw new FileStorageException(
                     MessageFormat.format(Messages.FILE_UPLOAD_FAILED, fileEntry.getName(), fileEntry.getNamespace()));
             }
         } finally {
-            IOUtils.closeQuietly(fileUpload.getInputStream());
+            IOUtils.closeQuietly(fileStream);
         }
     }
 
@@ -255,8 +256,7 @@ public abstract class AbstractFileService {
             getDatabaseDialect().setBigInteger(statement, 5, fileEntry.getSize());
             statement.setString(6, fileEntry.getDigest());
             statement.setString(7, fileEntry.getDigestAlgorithm());
-            statement.setTimestamp(8, new Timestamp(fileEntry.getModified()
-                .getTime()));
+            statement.setTimestamp(8, new Timestamp(fileEntry.getModified().getTime()));
             return statement.executeUpdate() > 0;
         } finally {
             JdbcUtil.closeQuietly(statement);
