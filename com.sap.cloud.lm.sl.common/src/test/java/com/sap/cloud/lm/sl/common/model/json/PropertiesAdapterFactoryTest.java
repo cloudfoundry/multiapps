@@ -13,22 +13,20 @@ import com.sap.cloud.lm.sl.common.util.MapUtil;
 
 public class PropertiesAdapterFactoryTest {
 
-    @SuppressWarnings("unchecked")
     @Test
     public void test1() throws Exception {
         Foo foo = new Foo(MapUtil.asMap("test1", createTestProperties()));
 
         String json = JsonUtil.toJson(foo, true);
-        // System.out.println(json);
+         System.out.println(json);
 
         foo = JsonUtil.fromJson(json, Foo.class);
 
-        Map<String, Object> nestedProperties = ((Map<String, Object>) foo.getProperties().get("test1"));
-        assertTrue(nestedProperties.get("port") instanceof Integer);
-        assertTrue(((Map<String, Object>) nestedProperties.get("test")).get("port") instanceof Integer);
+        Map<String, Object> actualProperties = ((Map<String, Object>) foo.getProperties().get("test1"));
+
+        assertTestProperties(actualProperties);
     }
 
-    @SuppressWarnings("unchecked")
     @Test
     public void test2() throws Exception {
         Map<String, Object> properties = new TreeMap<String, Object>();
@@ -36,23 +34,39 @@ public class PropertiesAdapterFactoryTest {
         Bar bar = new Bar(properties);
 
         String json = JsonUtil.toJson(bar, true);
-        // System.out.println(json);
+         System.out.println(json);
 
         bar = JsonUtil.fromJson(json, Bar.class);
 
-        Map<String, Object> nestedProperties = ((Map<String, Object>) bar.getProperties().get("test1"));
-        assertTrue(nestedProperties.get("port") instanceof Integer);
-        assertTrue(((Map<String, Object>) nestedProperties.get("test")).get("port") instanceof Integer);
+        @SuppressWarnings("unchecked")
+        Map<String, Object> actualProperties = ((Map<String, Object>) bar.getProperties().get("test1"));
+        
+        assertTestProperties(actualProperties);
     }
 
     private Map<String, Object> createTestProperties() {
         Map<String, Object> testProperties1 = new TreeMap<String, Object>();
         testProperties1.put("host", "localhost");
         testProperties1.put("port", 30030);
+        testProperties1.put("long-value", (long) Integer.MAX_VALUE * 10);
+        testProperties1.put("double-value", 1.5);
         Map<String, Object> testProperties2 = new TreeMap<String, Object>();
         testProperties2.put("port", 50000);
+        testProperties2.put("long-value", (long) Integer.MAX_VALUE * 10);
+        testProperties2.put("double-value", 1.5);
         testProperties1.put("test", testProperties2);
         return testProperties1;
+    }
+
+    @SuppressWarnings("unchecked")
+    private void assertTestProperties(Map<String, Object> actualProperties) {
+        assertTrue(actualProperties.get("host") instanceof String);
+        assertTrue(actualProperties.get("port") instanceof Integer);
+        assertTrue(actualProperties.get("long-value") instanceof Long);
+        assertTrue(actualProperties.get("double-value") instanceof Double);
+        assertTrue(((Map<String, Object>) actualProperties.get("test")).get("port") instanceof Integer);
+        assertTrue(((Map<String, Object>) actualProperties.get("test")).get("long-value") instanceof Long);
+        assertTrue(((Map<String, Object>) actualProperties.get("test")).get("double-value") instanceof Double);
     }
 
     private static class Foo {
