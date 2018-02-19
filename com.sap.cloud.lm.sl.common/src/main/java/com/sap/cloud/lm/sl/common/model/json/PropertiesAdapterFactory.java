@@ -50,7 +50,7 @@ public class PropertiesAdapterFactory implements TypeAdapterFactory {
 
             private Object parseValue(Object value) {
                 if (value instanceof Double) {
-                    return attemptToCastToInteger((Double) value);
+                    return attemptToCastToNumber((Double) value);
                 } else if (value instanceof List) {
                     List<?> list = (List<?>) value;
                     List<Object> result = new ArrayList<Object>();
@@ -69,8 +69,11 @@ public class PropertiesAdapterFactory implements TypeAdapterFactory {
                 return value;
             }
 
-            private Object attemptToCastToInteger(Double value) {
+            private Number attemptToCastToNumber(Double value) {
                 if (isInteger(value)) {
+                    if (Double.compare(value, (double) Integer.MAX_VALUE) > 0) {
+                        return value.longValue();
+                    }
                     return value.intValue();
                 }
                 return value;
