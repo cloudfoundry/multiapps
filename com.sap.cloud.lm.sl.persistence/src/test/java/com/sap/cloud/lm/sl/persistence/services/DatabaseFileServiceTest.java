@@ -3,6 +3,7 @@ package com.sap.cloud.lm.sl.persistence.services;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -11,10 +12,15 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.text.MessageFormat;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 import javax.xml.bind.DatatypeConverter;
 
@@ -28,10 +34,14 @@ import com.sap.cloud.lm.sl.persistence.DataSourceWithDialect;
 import com.sap.cloud.lm.sl.persistence.model.FileEntry;
 import com.sap.cloud.lm.sl.persistence.processors.DefaultFileDownloadProcessor;
 import com.sap.cloud.lm.sl.persistence.processors.DefaultFileUploadProcessor;
+import com.sap.cloud.lm.sl.persistence.util.JdbcUtil;
 
 public class DatabaseFileServiceTest {
 
-    protected static final String LIQUIBASE_CHANGELOG_LOCATION = "com/sap/cloud/lm/sl/persistence/db/changelog/db-changelog.xml";
+    private static final String UPDATE_MODIFICATION_TIME = "UPDATE {0} SET MODIFIED=? WHERE FILE_ID=?";
+    private static final String DEFAULT_TABLE_NAME = "LM_SL_PERSISTENCE_FILE";
+
+    private static final String LIQUIBASE_CHANGELOG_LOCATION = "com/sap/cloud/lm/sl/persistence/db/changelog/db-changelog.xml";
 
     protected static final String DIGEST_METHOD = "MD5";
 
@@ -83,9 +93,7 @@ public class DatabaseFileServiceTest {
 
     protected void tearDownConnection() throws Exception {
         // actually close the connection
-        testDataSource.getDataSource()
-            .getConnection()
-            .close();
+        testDataSource.getDataSource().getConnection().close();
     }
 
     protected void insertInitialData() throws Exception {
@@ -99,9 +107,7 @@ public class DatabaseFileServiceTest {
     }
 
     private InputStream getResource(String name) {
-        return Thread.currentThread()
-            .getContextClassLoader()
-            .getResourceAsStream(name);
+        return Thread.currentThread().getContextClassLoader().getResourceAsStream(name);
     }
 
     private void verifyInitialEntry(FileEntry entry) {
@@ -112,8 +118,7 @@ public class DatabaseFileServiceTest {
         assertEquals(BigInteger.valueOf(PIC1_SIZE), entry.getSize());
 
         // verify the MD5 digest, compare with one taken with md5sum
-        assertEquals(PIC1_MD5_DIGEST.toLowerCase(), entry.getDigest()
-            .toLowerCase());
+        assertEquals(PIC1_MD5_DIGEST.toLowerCase(), entry.getDigest().toLowerCase());
         assertEquals(DIGEST_METHOD, entry.getDigestAlgorithm());
     }
 
@@ -143,8 +148,7 @@ public class DatabaseFileServiceTest {
     @Test
     public void testFileContent() throws Exception {
         Path expectedFile = Paths.get("src/test/resources/", PIC1_RESOURCE_NAME);
-        String expectedFileDigest = DigestHelper.computeFileChecksum(expectedFile, DIGEST_METHOD)
-            .toLowerCase();
+        String expectedFileDigest = DigestHelper.computeFileChecksum(expectedFile, DIGEST_METHOD).toLowerCase();
         validateFileContent(storedFile, expectedFileDigest);
     }
 
@@ -155,8 +159,7 @@ public class DatabaseFileServiceTest {
                 public void processFileContent(InputStream contentStream) throws Exception {
                     // make a digest out of the content and compare it to the original
                     final byte[] digest = calculateFileDigest(contentStream);
-                    assertEquals(expectedFileChecksum, DatatypeConverter.printHexBinary(digest)
-                        .toLowerCase());
+                    assertEquals(expectedFileChecksum, DatatypeConverter.printHexBinary(digest).toLowerCase());
                 }
 
             }));
@@ -190,8 +193,7 @@ public class DatabaseFileServiceTest {
         systemFiles = fileService.listFiles(MY_SPACE_ID, SYSTEM_NAMESPACE);
         assertEquals(1, systemFiles.size());
 
-        fileService.deleteFile(MY_SPACE_ID, systemFiles.get(0)
-            .getId());
+        fileService.deleteFile(MY_SPACE_ID, systemFiles.get(0).getId());
 
         personalFiles = fileService.listFiles(MY_SPACE_ID, PERSONAL_NAMESPACE);
         assertEquals(1, personalFiles.size());
@@ -236,6 +238,45 @@ public class DatabaseFileServiceTest {
 
         FileEntry existingEntry2 = fileService.getFile(MY_SPACE_ID, fileEntry4.getId());
         assertNull(existingEntry2);
+    }
+
+    @Test
+    public void testListByModificationTime() throws Exception {
+        Date now = new Date();
+        long modificationTime = TimeUnit.DAYS.toMillis(5);
+
+        FileEntry fileEntry1 = addFileEntry(MY_SPACE_ID);
+        FileEntry fileEntry2 = addFileEntry(MY_SPACE_ID);
+        FileEntry fileEntry3 = addFileEntry(MY_SPACE_2_ID);
+        FileEntry fileEntry4 = addFileEntry(MY_SPACE_2_ID);
+
+        Date pastModificationDate = new Date(now.getTime() - (2 * modificationTime));
+        setMofidicationDate(fileEntry2, pastModificationDate);
+        setMofidicationDate(fileEntry4, pastModificationDate);
+
+        Map<String, List<String>> fileIdsToSpace = new HashMap<>();
+        fileIdsToSpace.put(MY_SPACE_ID, Arrays.asList(fileEntry1.getId()));
+        fileIdsToSpace.put(MY_SPACE_2_ID, Arrays.asList(fileEntry3.getId()));
+
+        Date expirationModificationDate = new Date(now.getTime() - modificationTime);
+        List<FileEntry> oldEntries = fileService.listByModificationTime(expirationModificationDate);
+        assertEquals(2, oldEntries.size());
+
+        assertTrue(oldEntries.get(0).getId().equals(fileEntry2.getId()));
+        assertTrue(oldEntries.get(1).getId().equals(fileEntry4.getId()));
+    }
+
+    private void setMofidicationDate(FileEntry fileEntry, Date modificationDate) throws SQLException {
+        PreparedStatement statement = null;
+        try {
+            statement = testDataSource.getDataSource().getConnection().prepareStatement(
+                MessageFormat.format(UPDATE_MODIFICATION_TIME, DEFAULT_TABLE_NAME));
+            statement.setTimestamp(1, new java.sql.Timestamp(modificationDate.getTime()));
+            statement.setString(2, fileEntry.getId());
+            statement.executeUpdate();
+        } finally {
+            JdbcUtil.closeQuietly(statement);
+        }
     }
 
 }

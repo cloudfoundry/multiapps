@@ -26,6 +26,8 @@ public final class Messages {
     public static final String FILE_WITH_ID_DOES_NOT_EXIST = "File with id {0} and space {1} does not exist.";
     public static final String ERROR_DELETING_FILE_WITH_ID = "Error deleting file with id {0}";
     public static final String ERROR_DELETING_FILES_ATTRIBUTES = "Error deleting files attributes";
+    public static final String ERROR_GETTING_FILES_WITH_SPACE_AND_NAMESPACE = "Error getting files with space {0} and namespace {1}";
+    public static final String ERROR_GETTING_FILES_MODIFIED_BEFORE = "Error getting files modified before {0}";
     public static final String ERROR_DELETING_PROCESS_LOGS_WITH_NAMESPACES = "Error deleting process logs with namespaces \"{0}\"";
 
     // Audit log messages:
@@ -52,7 +54,7 @@ public final class Messages {
     public static final String CREATING_APPENDER = "Creating appender for logger \"{0}\"...";
     public static final String REMOVING_ALL_LOGGERS_FOR_PROCESS = "Removing loggers {1} for process \"{0}\"...";
     public static final String REMOVING_ALL_APPENDERS_FROM_LOGGER = "Removing all appenders from logger \"{0}\"...";
-    public static final String DELETING_FILE_ATTRIBUTES_COUNT = "Deleted file attributes count: {0}";
+    public static final String DELETED_FILE_ATTRIBUTES_COUNT = "Deleted file attributes: {0}";
 
     // TRACE log messages:
 

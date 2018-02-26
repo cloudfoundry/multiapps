@@ -1,17 +1,21 @@
 package com.sap.cloud.lm.sl.persistence.services;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.nio.file.attribute.FileTime;
 import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
+import java.util.concurrent.TimeUnit;
 
 import org.apache.commons.io.FileUtils;
 import org.junit.After;
@@ -44,39 +48,34 @@ public class FileSystemFileServiceTest extends DatabaseFileServiceTest {
         this.testDataSource = createDataSource();
         this.temporaryStorageLocation = Files.createTempDirectory("testfileService");
         fileService = createFileService(testDataSource);
-        spaceId = UUID.randomUUID()
-            .toString();
-        namespace = UUID.randomUUID()
-            .toString();
+        spaceId = UUID.randomUUID().toString();
+        namespace = UUID.randomUUID().toString();
         insertInitialData();
     }
 
     @Test
     public void testAddFile() throws FileStorageException, IOException {
-        Path testFilePath = Paths.get(TEST_FILE_LOCATION)
-            .toAbsolutePath();
-        FileEntry addedFile = fileService.addFile(spaceId, namespace, testFilePath.toFile()
-            .getName(), new DefaultFileUploadProcessor(false), Files.newInputStream(testFilePath));
+        Path testFilePath = Paths.get(TEST_FILE_LOCATION).toAbsolutePath();
+        FileEntry addedFile = fileService.addFile(spaceId, namespace, testFilePath.toFile().getName(),
+            new DefaultFileUploadProcessor(false), Files.newInputStream(testFilePath));
         assertFileExists(true, addedFile);
     }
 
     @Test
     public void testAddFileWichAlreadyExists() throws FileStorageException, IOException {
-        Path testFilePath = Paths.get(TEST_FILE_LOCATION)
-            .toAbsolutePath();
-        fileService.addFile(spaceId, namespace, testFilePath.toFile()
-            .getName(), new DefaultFileUploadProcessor(false), testFilePath.toFile());
-        FileEntry addedFile = fileService.addFile(spaceId, namespace, testFilePath.toFile()
-            .getName(), new DefaultFileUploadProcessor(false), testFilePath.toFile());
+        Path testFilePath = Paths.get(TEST_FILE_LOCATION).toAbsolutePath();
+        fileService.addFile(spaceId, namespace, testFilePath.toFile().getName(), new DefaultFileUploadProcessor(false),
+            testFilePath.toFile());
+        FileEntry addedFile = fileService.addFile(spaceId, namespace, testFilePath.toFile().getName(),
+            new DefaultFileUploadProcessor(false), testFilePath.toFile());
         assertFileExists(true, addedFile);
     }
 
     @Test
     public void testAddExistingFile() throws FileStorageException, IOException {
-        Path testFilePath = Paths.get(TEST_FILE_LOCATION)
-            .toAbsolutePath();
-        FileEntry addedFile = fileService.addFile(spaceId, namespace, testFilePath.toFile()
-            .getName(), new DefaultFileUploadProcessor(false), testFilePath.toFile());
+        Path testFilePath = Paths.get(TEST_FILE_LOCATION).toAbsolutePath();
+        FileEntry addedFile = fileService.addFile(spaceId, namespace, testFilePath.toFile().getName(),
+            new DefaultFileUploadProcessor(false), testFilePath.toFile());
 
         assertFileExists(true, addedFile);
     }
@@ -92,10 +91,9 @@ public class FileSystemFileServiceTest extends DatabaseFileServiceTest {
 
     @Test
     public void testGetFile() throws FileStorageException, NoSuchAlgorithmException, IOException {
-        Path testFilePath = Paths.get(TEST_FILE_LOCATION)
-            .toAbsolutePath();
-        FileEntry addedFile = fileService.addFile(spaceId, namespace, testFilePath.toFile()
-            .getName(), new DefaultFileUploadProcessor(false), testFilePath.toFile());
+        Path testFilePath = Paths.get(TEST_FILE_LOCATION).toAbsolutePath();
+        FileEntry addedFile = fileService.addFile(spaceId, namespace, testFilePath.toFile().getName(),
+            new DefaultFileUploadProcessor(false), testFilePath.toFile());
 
         FileEntry actualFile = fileService.getFile(spaceId, addedFile.getId());
         String expectedFileFileDigest = DigestHelper.computeFileChecksum(testFilePath, DIGEST_METHOD);
@@ -105,10 +103,9 @@ public class FileSystemFileServiceTest extends DatabaseFileServiceTest {
 
     @Test
     public void testDeleteFile() throws FileStorageException {
-        Path testFilePath = Paths.get(TEST_FILE_LOCATION)
-            .toAbsolutePath();
-        FileEntry addedFile = fileService.addFile(spaceId, namespace, testFilePath.toFile()
-            .getName(), new DefaultFileUploadProcessor(false), testFilePath.toFile());
+        Path testFilePath = Paths.get(TEST_FILE_LOCATION).toAbsolutePath();
+        FileEntry addedFile = fileService.addFile(spaceId, namespace, testFilePath.toFile().getName(),
+            new DefaultFileUploadProcessor(false), testFilePath.toFile());
 
         int deletionResult = fileService.deleteFile(spaceId, addedFile.getId());
         Assert.assertEquals(1, deletionResult);
@@ -117,12 +114,12 @@ public class FileSystemFileServiceTest extends DatabaseFileServiceTest {
     @Test
     public void testUploadTwoFiles() throws FileStorageException, IOException {
         Path testFilePath = Paths.get(TEST_FILE_LOCATION);
-        FileEntry firstAddedFile = fileService.addFile(spaceId, namespace, testFilePath.toFile()
-            .getName(), new DefaultFileUploadProcessor(false), Files.newInputStream(testFilePath));
+        FileEntry firstAddedFile = fileService.addFile(spaceId, namespace, testFilePath.toFile().getName(),
+            new DefaultFileUploadProcessor(false), Files.newInputStream(testFilePath));
 
         Path secondTestFilePath = Paths.get(SECOND_FILE_TEST_LOCATION);
-        FileEntry secondAddedFile = fileService.addFile(spaceId, namespace, secondTestFilePath.toFile()
-            .getName(), new DefaultFileUploadProcessor(false), Files.newInputStream(secondTestFilePath));
+        FileEntry secondAddedFile = fileService.addFile(spaceId, namespace, secondTestFilePath.toFile().getName(),
+            new DefaultFileUploadProcessor(false), Files.newInputStream(secondTestFilePath));
 
         List<FileEntry> fileEntries = fileService.listFiles(spaceId, namespace);
         Assert.assertEquals(2, fileEntries.size());
@@ -133,18 +130,16 @@ public class FileSystemFileServiceTest extends DatabaseFileServiceTest {
     @Override
     public void testFileContent() throws Exception {
         Path testFilePath = Paths.get(TEST_FILE_LOCATION);
-        FileEntry addedFile = fileService.addFile(spaceId, namespace, testFilePath.toFile()
-            .getName(), new DefaultFileUploadProcessor(false), Files.newInputStream(testFilePath));
+        FileEntry addedFile = fileService.addFile(spaceId, namespace, testFilePath.toFile().getName(),
+            new DefaultFileUploadProcessor(false), Files.newInputStream(testFilePath));
 
-        String testFileDigest = DigestHelper.computeFileChecksum(testFilePath, DIGEST_METHOD)
-            .toLowerCase();
+        String testFileDigest = DigestHelper.computeFileChecksum(testFilePath, DIGEST_METHOD).toLowerCase();
         validateFileContent(addedFile, testFileDigest);
     }
 
     @Test
     public void testFileContentNotExisting() throws Exception {
-        String testFileDigest = DigestHelper.computeFileChecksum(Paths.get(TEST_FILE_LOCATION), DIGEST_METHOD)
-            .toLowerCase();
+        String testFileDigest = DigestHelper.computeFileChecksum(Paths.get(TEST_FILE_LOCATION), DIGEST_METHOD).toLowerCase();
         FileEntry dummyFileEntry = new FileEntry();
         dummyFileEntry.setId("not-existing-file-id");
         dummyFileEntry.setSpace("not-existing-space-id");
@@ -156,11 +151,11 @@ public class FileSystemFileServiceTest extends DatabaseFileServiceTest {
     @Override
     public void testUploadTwoIdenticalFiles() throws Exception {
         Path testFilePath = Paths.get(TEST_FILE_LOCATION);
-        fileService.addFile(spaceId, namespace, testFilePath.toFile()
-            .getName(), new DefaultFileUploadProcessor(false), Files.newInputStream(testFilePath));
+        fileService.addFile(spaceId, namespace, testFilePath.toFile().getName(), new DefaultFileUploadProcessor(false),
+            Files.newInputStream(testFilePath));
 
-        fileService.addFile(spaceId, namespace, testFilePath.toFile()
-            .getName(), new DefaultFileUploadProcessor(false), Files.newInputStream(testFilePath));
+        fileService.addFile(spaceId, namespace, testFilePath.toFile().getName(), new DefaultFileUploadProcessor(false),
+            Files.newInputStream(testFilePath));
 
         List<FileEntry> listFiles = fileService.listFiles(spaceId, namespace);
         Assert.assertEquals(2, listFiles.size());
@@ -173,20 +168,18 @@ public class FileSystemFileServiceTest extends DatabaseFileServiceTest {
 
     @Override
     public void testDeleteAllByFileIds() throws Exception {
-        Path testFilePath = Paths.get(TEST_FILE_LOCATION)
-            .toAbsolutePath();
-        Path secondTestFilePath = Paths.get(SECOND_FILE_TEST_LOCATION)
-            .toAbsolutePath();
+        Path testFilePath = Paths.get(TEST_FILE_LOCATION).toAbsolutePath();
+        Path secondTestFilePath = Paths.get(SECOND_FILE_TEST_LOCATION).toAbsolutePath();
 
-        FileEntry fileEntry1 = fileService.addFile(MY_SPACE_ID, namespace, testFilePath.toFile()
-            .getName(), new DefaultFileUploadProcessor(false), Files.newInputStream(testFilePath));
-        FileEntry fileEntry2 = fileService.addFile(MY_SPACE_ID, namespace, secondTestFilePath.toFile()
-            .getName(), new DefaultFileUploadProcessor(false), Files.newInputStream(secondTestFilePath));
+        FileEntry fileEntry1 = fileService.addFile(MY_SPACE_ID, namespace, testFilePath.toFile().getName(),
+            new DefaultFileUploadProcessor(false), Files.newInputStream(testFilePath));
+        FileEntry fileEntry2 = fileService.addFile(MY_SPACE_ID, namespace, secondTestFilePath.toFile().getName(),
+            new DefaultFileUploadProcessor(false), Files.newInputStream(secondTestFilePath));
 
-        FileEntry fileEntry3 = fileService.addFile(MY_SPACE_2_ID, namespace, testFilePath.toFile()
-            .getName(), new DefaultFileUploadProcessor(false), Files.newInputStream(testFilePath));
-        FileEntry fileEntry4 = fileService.addFile(MY_SPACE_2_ID, namespace, secondTestFilePath.toFile()
-            .getName(), new DefaultFileUploadProcessor(false), Files.newInputStream(secondTestFilePath));
+        FileEntry fileEntry3 = fileService.addFile(MY_SPACE_2_ID, namespace, testFilePath.toFile().getName(),
+            new DefaultFileUploadProcessor(false), Files.newInputStream(testFilePath));
+        FileEntry fileEntry4 = fileService.addFile(MY_SPACE_2_ID, namespace, secondTestFilePath.toFile().getName(),
+            new DefaultFileUploadProcessor(false), Files.newInputStream(secondTestFilePath));
 
         Map<String, List<String>> fileIdsToSpace = new HashMap<>();
         fileIdsToSpace.put(MY_SPACE_ID, Arrays.asList(fileEntry1.getId()));
@@ -198,6 +191,32 @@ public class FileSystemFileServiceTest extends DatabaseFileServiceTest {
         assertFileExists(true, fileEntry2);
         assertFileExists(false, fileEntry3);
         assertFileExists(true, fileEntry4);
+    }
+
+    @Test
+    public void testListByModificationTime() throws Exception {
+        Date now = new Date();
+        long modificationTime = TimeUnit.DAYS.toMillis(5);
+
+        Path testFilePath = Paths.get(TEST_FILE_LOCATION).toAbsolutePath();
+        Path secondTestFilePath = Paths.get(SECOND_FILE_TEST_LOCATION).toAbsolutePath();
+        FileEntry fileEntry1 = fileService.addFile(MY_SPACE_ID, namespace, testFilePath.toFile().getName(),
+            new DefaultFileUploadProcessor(false), Files.newInputStream(testFilePath));
+        fileService.addFile(MY_SPACE_ID, namespace, secondTestFilePath.toFile().getName(), new DefaultFileUploadProcessor(false),
+            Files.newInputStream(secondTestFilePath));
+        
+        Files.setLastModifiedTime(getFileLocation(fileEntry1), FileTime.fromMillis(now.getTime() - (2 * modificationTime)));
+
+        List<FileEntry> allEntries = fileService.listFiles(namespace);
+        assertEquals(2, allEntries.size());
+
+        List<FileEntry> oldEntries = fileService.listByModificationTime(new Date(now.getTime() - modificationTime));
+
+        allEntries = fileService.listFiles(namespace);
+        assertEquals(2, allEntries.size());
+
+        assertEquals(1, oldEntries.size());
+        assertTrue(oldEntries.get(0).getId().equals(fileEntry1.getId()));
     }
 
     private void validateFilesEquality(List<FileEntry> actualFileEntries, FileEntry... expected) {
@@ -220,8 +239,7 @@ public class FileSystemFileServiceTest extends DatabaseFileServiceTest {
 
     private FileEntry find(FileEntry expected, List<FileEntry> actualFileEntries) {
         for (FileEntry fileEntry : actualFileEntries) {
-            if (expected.getId()
-                .equals(fileEntry.getId())) {
+            if (expected.getId().equals(fileEntry.getId())) {
                 return fileEntry;
             }
         }
@@ -229,8 +247,11 @@ public class FileSystemFileServiceTest extends DatabaseFileServiceTest {
     }
 
     private void assertFileExists(boolean exceptedFileExist, FileEntry actualFile) {
-        Assert.assertEquals(exceptedFileExist,
-            Files.exists(Paths.get(temporaryStorageLocation.toString(), actualFile.getSpace(), "files", actualFile.getId())));
+        Assert.assertEquals(exceptedFileExist, Files.exists(getFileLocation(actualFile)));
+    }
+
+    private Path getFileLocation(FileEntry actualFile) {
+        return Paths.get(temporaryStorageLocation.toString(), actualFile.getSpace(), "files", actualFile.getId());
     }
 
     @After

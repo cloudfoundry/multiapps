@@ -2,12 +2,17 @@ package com.sap.cloud.lm.sl.persistence.services;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.file.FileVisitResult;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.nio.file.SimpleFileVisitor;
 import java.nio.file.StandardCopyOption;
+import java.nio.file.attribute.BasicFileAttributes;
+import java.nio.file.attribute.FileTime;
 import java.text.MessageFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -72,7 +77,7 @@ public class FileSystemFileService extends AbstractFileService {
     @Override
     public void processFileContent(FileDownloadProcessor fileDownloadProcessor) throws FileStorageException {
         FileEntry fileEntry = fileDownloadProcessor.getFileEntry();
-        if (invalidateEntryWithoutContent(fileEntry)) {
+        if (removeOrphanedFileAttributes(fileEntry)) {
             throw new FileStorageException(
                 MessageFormat.format(Messages.FILE_WITH_ID_DOES_NOT_EXIST, fileEntry.getId(), fileEntry.getSpace()));
         }
@@ -111,7 +116,7 @@ public class FileSystemFileService extends AbstractFileService {
     @Override
     public int deleteAllByFileIds(Map<String, List<String>> spaceToFileIds) throws FileStorageException {
         int deletedFileAttributes = super.deleteAllByFileIds(spaceToFileIds);
-        LOGGER.debug(MessageFormat.format(Messages.DELETING_FILE_ATTRIBUTES_COUNT, deletedFileAttributes));
+        LOGGER.debug(MessageFormat.format(Messages.DELETED_FILE_ATTRIBUTES_COUNT, deletedFileAttributes));
         int deletedFiles = 0;
         for (String space : spaceToFileIds.keySet()) {
             for (String fileId : spaceToFileIds.get(space)) {
@@ -130,26 +135,50 @@ public class FileSystemFileService extends AbstractFileService {
     @Override
     public List<FileEntry> listFiles(String space, String namespace) throws FileStorageException {
         List<FileEntry> allEntries = super.listFiles(space, namespace);
-        return invalidateEntriesWithoutContent(allEntries);
+        return removeOrhpanedFilesAttributes(allEntries);
+    }
+
+    @Override
+    public List<FileEntry> listByModificationTime(final Date modificationTime) throws FileStorageException {
+        List<FileEntry> fileEntriesAttributes = super.listByModificationTime(modificationTime);
+        removeOrhpanedFilesAttributes(fileEntriesAttributes);
+
+        final List<FileEntry> oldEntries = new ArrayList<FileEntry>();
+        final FileTime modificationTimeUpperBound = FileTime.fromMillis(modificationTime.getTime());
+        try {
+            Files.walkFileTree(Paths.get(storagePath), new SimpleFileVisitor<Path>() {
+
+                @Override
+                public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException {
+                    if (attrs.lastModifiedTime().compareTo(modificationTimeUpperBound) < 0) {
+                        oldEntries.add(getFileEntry(file, attrs));
+                    }
+                    return super.visitFile(file, attrs);
+                }
+            });
+        } catch (IOException e) {
+            throw new FileStorageException(e.getMessage(), e);
+        }
+        return oldEntries;
     }
 
     @Override
     public FileEntry getFile(String space, String id) throws FileStorageException {
         FileEntry entry = super.getFile(space, id);
-        return invalidateEntryWithoutContent(entry) ? null : entry;
+        return removeOrphanedFileAttributes(entry) ? null : entry;
     }
 
-    private List<FileEntry> invalidateEntriesWithoutContent(List<FileEntry> entries) throws FileStorageException {
+    private List<FileEntry> removeOrhpanedFilesAttributes(List<FileEntry> entries) throws FileStorageException {
         List<FileEntry> entriesWithContent = new ArrayList<>();
         for (FileEntry entry : entries) {
-            if (!invalidateEntryWithoutContent(entry)) {
+            if (!removeOrphanedFileAttributes(entry)) {
                 entriesWithContent.add(entry);
             }
         }
         return entriesWithContent;
     }
 
-    private boolean invalidateEntryWithoutContent(FileEntry entry) throws FileStorageException {
+    private boolean removeOrphanedFileAttributes(FileEntry entry) throws FileStorageException {
         boolean shouldDelete = !hasContent(entry);
         if (shouldDelete) {
             deleteFileAttributes(entry.getSpace(), entry.getId());
@@ -164,6 +193,14 @@ public class FileSystemFileService extends AbstractFileService {
         } catch (IOException e) {
             throw new FileStorageException(e.getMessage(), e);
         }
+    }
+
+    private FileEntry getFileEntry(Path file, BasicFileAttributes attrs) {
+        FileEntry fileEntry = new FileEntry();
+        fileEntry.setId(file.getFileName().toString());
+        fileEntry.setSpace(file.getParent().toString());
+        fileEntry.setModified(new Date(attrs.lastModifiedTime().toMillis()));
+        return fileEntry;
     }
 
 }
