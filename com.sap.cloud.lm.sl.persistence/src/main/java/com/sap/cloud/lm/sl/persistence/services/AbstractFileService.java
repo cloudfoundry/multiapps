@@ -214,7 +214,8 @@ public abstract class AbstractFileService {
     }
 
     protected String generateRandomId() {
-        return UUID.randomUUID().toString();
+        return UUID.randomUUID()
+            .toString();
     }
 
     private void storeFile(FileEntry fileEntry, FileUpload fileUpload) throws FileStorageException {
@@ -258,7 +259,8 @@ public abstract class AbstractFileService {
             getDatabaseDialect().setBigInteger(statement, 5, fileEntry.getSize());
             statement.setString(6, fileEntry.getDigest());
             statement.setString(7, fileEntry.getDigestAlgorithm());
-            statement.setTimestamp(8, new Timestamp(fileEntry.getModified().getTime()));
+            statement.setTimestamp(8, new Timestamp(fileEntry.getModified()
+                .getTime()));
             return statement.executeUpdate() > 0;
         } finally {
             JdbcUtil.closeQuietly(statement);
@@ -305,9 +307,13 @@ public abstract class AbstractFileService {
                         statement = connection.prepareStatement(getQuery(DELETE_FILE_BY_FILE_ID, tableName));
                         for (String space : spaceToFileIds.keySet()) {
                             for (String fileId : spaceToFileIds.get(space)) {
-                                statement.setString(1, fileId);
-                                statement.setString(2, space);
-                                statement.addBatch();
+                                //This is needed because file might be in multiple chunks
+                                for (String fileChunckId : getFileChunkIds(fileId)) {
+                                    LOGGER.info("Execute DELETE FROM " + tableName + " WHERE FILE_ID=" + fileChunckId + "AND SPACE=" + space);
+                                    statement.setString(1, fileChunckId);
+                                    statement.setString(2, space);
+                                    statement.addBatch();
+                                }
                             }
                         }
                         int[] rowsRemovedArray = statement.executeBatch();
@@ -468,6 +474,13 @@ public abstract class AbstractFileService {
      */
     public abstract void processFileContent(final FileDownloadProcessor fileDownloadProcessor) throws FileStorageException;
 
+    protected String[] getFileChunkIds(String fileId) {
+        if (fileId == null) {
+            return new String[] {};
+        }
+        return fileId.split(",");
+    }
+    
     private DataSource getDataSource() {
         if (dataSource == null) {
             dataSource = lookupDataSource();

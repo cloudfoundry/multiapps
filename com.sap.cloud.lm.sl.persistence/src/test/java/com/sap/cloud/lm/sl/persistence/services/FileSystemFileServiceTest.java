@@ -163,18 +163,21 @@ public class FileSystemFileServiceTest extends DatabaseFileServiceTest {
     @Override
     public void testDeleteAllByFileIds() throws Exception {
         Path testFilePath = Paths.get(TEST_FILE_LOCATION).toAbsolutePath();
+        Path secondTestFilePath = Paths.get(SECOND_FILE_TEST_LOCATION).toAbsolutePath();
+        
         FileEntry fileEntry1 = fileService.addFile(MY_SPACE_ID, namespace, testFilePath.toFile().getName(),
             new DefaultFileUploadProcessor(false), Files.newInputStream(testFilePath));
-        FileEntry fileEntry2 = fileService.addFile(MY_SPACE_ID, namespace, testFilePath.toFile().getName(),
-            new DefaultFileUploadProcessor(false), Files.newInputStream(testFilePath));
+        FileEntry fileEntry2 = fileService.addFile(MY_SPACE_ID, namespace, secondTestFilePath.toFile().getName(),
+            new DefaultFileUploadProcessor(false), Files.newInputStream(secondTestFilePath));
+        
         FileEntry fileEntry3 = fileService.addFile(MY_SPACE_2_ID, namespace, testFilePath.toFile().getName(),
             new DefaultFileUploadProcessor(false), Files.newInputStream(testFilePath));
-        FileEntry fileEntry4 = fileService.addFile(MY_SPACE_2_ID, namespace, testFilePath.toFile().getName(),
-            new DefaultFileUploadProcessor(false), Files.newInputStream(testFilePath));
+        FileEntry fileEntry4 = fileService.addFile(MY_SPACE_2_ID, namespace, secondTestFilePath.toFile().getName(),
+            new DefaultFileUploadProcessor(false), Files.newInputStream(secondTestFilePath));
 
         Map<String, List<String>> fileIdsToSpace = new HashMap<>();
-        fileIdsToSpace.put(MY_SPACE_ID, Arrays.asList(fileEntry1.getId()));
-        fileIdsToSpace.put(MY_SPACE_2_ID, Arrays.asList(fileEntry3.getId()));
+        fileIdsToSpace.put(MY_SPACE_ID, Arrays.asList(fileEntry1.getId() ));
+        fileIdsToSpace.put(MY_SPACE_2_ID, Arrays.asList(fileEntry3.getId() ));
         int deletedFiles = fileService.deleteAllByFileIds(fileIdsToSpace);
 
         assertEquals(2, deletedFiles);
@@ -183,7 +186,27 @@ public class FileSystemFileServiceTest extends DatabaseFileServiceTest {
         assertFileExists(false, fileEntry3);
         assertFileExists(true, fileEntry4);
     }
-
+    
+    @Test
+    public void testDeleteFileInChunks() throws Exception{
+        Path testFilePath = Paths.get(TEST_FILE_LOCATION).toAbsolutePath();
+        Path secondTestFilePath = Paths.get(SECOND_FILE_TEST_LOCATION).toAbsolutePath();
+        
+        FileEntry fileEntry1 = fileService.addFile(MY_SPACE_ID, namespace, testFilePath.toFile().getName(),
+            new DefaultFileUploadProcessor(false), Files.newInputStream(testFilePath));
+        FileEntry fileEntry2 = fileService.addFile(MY_SPACE_ID, namespace, secondTestFilePath.toFile().getName(),
+            new DefaultFileUploadProcessor(false), Files.newInputStream(secondTestFilePath));
+        
+        Map<String, List<String>> fileIdsToSpace = new HashMap<>();
+        fileIdsToSpace.put(MY_SPACE_ID, Arrays.asList(fileEntry1.getId() + "," +  fileEntry2.getId() ));
+        int deletedFiles = fileService.deleteAllByFileIds(fileIdsToSpace);
+        
+        assertEquals(2, deletedFiles);
+        assertFileExists(false, fileEntry1);
+        assertFileExists(false, fileEntry2);
+    }
+    
+    
     private void validateFilesEquality(List<FileEntry> actualFileEntries, FileEntry... expected) {
         for (FileEntry expectedFileEntry : expected) {
             FileEntry actualFileEntry = find(expectedFileEntry, actualFileEntries);

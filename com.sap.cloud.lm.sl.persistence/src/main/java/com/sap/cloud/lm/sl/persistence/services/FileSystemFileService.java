@@ -69,7 +69,7 @@ public class FileSystemFileService extends AbstractFileService {
         try {
             Path filesDirectory = getFilesDirectory(space);
             Path filePath = Paths.get(filesDirectory.toString(), id);
-            LOGGER.debug(MessageFormat.format(Messages.DELETING_FILE_WITH_PATH, filePath.toString()));
+            LOGGER.info(MessageFormat.format(Messages.DELETING_FILE_WITH_PATH, filePath.toString()));
             Files.deleteIfExists(filePath);
         } catch (IOException e) {
             throw new FileStorageException(MessageFormat.format(Messages.ERROR_DELETING_FILE_WITH_ID, id), e);
@@ -122,8 +122,11 @@ public class FileSystemFileService extends AbstractFileService {
         int deletedFiles = 0;
         for (String space : spaceToFileIds.keySet()) {
             for (String fileId : spaceToFileIds.get(space)) {
-                deleteFileContent(space, fileId);
-                deletedFiles++;
+                //This is needed because file might be in multiple chunks
+                for (String fileChunckId : getFileChunkIds(fileId)) {
+                    deleteFileContent(space, fileChunckId);
+                    deletedFiles++;
+                }
             }
         }
         return deletedFiles;
