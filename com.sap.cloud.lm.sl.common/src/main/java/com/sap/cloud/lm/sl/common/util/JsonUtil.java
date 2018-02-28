@@ -2,7 +2,6 @@ package com.sap.cloud.lm.sl.common.util;
 
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Type;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
@@ -13,7 +12,6 @@ import java.util.Map;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonSyntaxException;
-import com.google.gson.TypeAdapterFactory;
 import com.google.gson.reflect.TypeToken;
 import com.sap.cloud.lm.sl.common.ParsingException;
 import com.sap.cloud.lm.sl.common.message.Messages;
@@ -21,7 +19,6 @@ import com.sap.cloud.lm.sl.common.message.Messages;
 public class JsonUtil {
 
     private static final int MAX_LENGTH = 128;
-    private static final String CHARSET_UTF_8 = "UTF-8";
 
     public static Map<String, Object> convertJsonToMap(InputStream json) throws ParsingException {
         return convertJsonToMap(json, new TypeToken<Map<String, Object>>() {
@@ -100,7 +97,8 @@ public class JsonUtil {
         if (enableExpose) {
             builder.excludeFieldsWithoutExposeAnnotation();
         }
-        return builder.create().toJson(obj);
+        return builder.create()
+            .toJson(obj);
     }
 
     public static <T> T fromJson(String json, Type type) throws ParsingException {
@@ -113,11 +111,9 @@ public class JsonUtil {
     }
 
     public static <T> byte[] getAsBinaryJson(Object obj) {
-        try {
-            return new GsonBuilder().create().toJson(obj).getBytes(CHARSET_UTF_8);
-        } catch (UnsupportedEncodingException e) {
-            throw new RuntimeException(e);
-        }
+        return new GsonBuilder().create()
+            .toJson(obj)
+            .getBytes(StandardCharsets.UTF_8);
     }
 
     public static <V> V getFromStringJson(String stringJson, Class<V> clazz) {
@@ -130,8 +126,8 @@ public class JsonUtil {
 
     public static <V> V getFromBinaryJson(byte[] binaryJson, Class<V> clazz) {
         try {
-            return new Gson().fromJson(new String(binaryJson, CHARSET_UTF_8), clazz);
-        } catch (JsonSyntaxException | UnsupportedEncodingException e) {
+            return new Gson().fromJson(new String(binaryJson, StandardCharsets.UTF_8), clazz);
+        } catch (JsonSyntaxException e) {
             throw new RuntimeException(e);
         }
     }
