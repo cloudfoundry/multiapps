@@ -24,9 +24,9 @@ import com.sap.cloud.lm.sl.persistence.util.JdbcUtil;
  */
 public class DatabaseFileService extends AbstractFileService {
 
-    private static final String INSERT_FILE_CONTENT = "UPDATE {0} SET CONTENT=? WHERE FILE_ID=?";
-    private static final String SELECT_FILE_CONTENT_BY_ID = "SELECT FILE_ID, SPACE, CONTENT FROM {0} WHERE FILE_ID=? AND SPACE=?";
-    private static final String DELETE_FILES_WITHOUT_CONTENT = "DELETE FROM {0} WHERE CONTENT IS NULL";
+    private static final String INSERT_FILE_CONTENT = "UPDATE %s SET CONTENT=? WHERE FILE_ID=?";
+    private static final String SELECT_FILE_CONTENT_BY_ID = "SELECT FILE_ID, SPACE, CONTENT FROM %s WHERE FILE_ID=? AND SPACE=?";
+    private static final String DELETE_FILES_WITHOUT_CONTENT = "DELETE FROM %s WHERE CONTENT IS NULL";
 
     private static final Logger LOGGER = LoggerFactory.getLogger(DatabaseFileService.class);
 
@@ -45,7 +45,7 @@ public class DatabaseFileService extends AbstractFileService {
 
     @Override
     protected boolean storeFile(final FileEntry fileEntry, final InputStream inputStream) throws FileStorageException {
-        SqlExecutor<Boolean> executor = new FileServiceSqlExecutor<Boolean>();
+        SqlExecutor<Boolean> executor = new FileServiceSqlExecutor<>();
         try {
             return executor.execute(new StatementExecutor<Boolean>() {
                 @Override
@@ -88,7 +88,7 @@ public class DatabaseFileService extends AbstractFileService {
     @Override
     public void processFileContent(final FileDownloadProcessor fileDownloadProcessor) throws FileStorageException {
         deleteEntriesWithoutContent();
-        SqlExecutor<Void> executor = new FileServiceSqlExecutor<Void>();
+        SqlExecutor<Void> executor = new FileServiceSqlExecutor<>();
         try {
             executor.execute(new StatementExecutor<Void>() {
                 @Override

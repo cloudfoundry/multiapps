@@ -49,14 +49,14 @@ public abstract class AbstractFileService {
 
     private static final String DEFAULT_DATASOURCE_JNDI_NAME = "java:comp/env/jdbc/DefaultDB";
 
-    private static final String SELECT_FILES_BY_NAMESPACE_AND_SPACE = "SELECT FILE_ID, SPACE, DIGEST, DIGEST_ALGORITHM, MODIFIED, FILE_NAME, NAMESPACE, FILE_SIZE FROM {0} WHERE NAMESPACE=? AND SPACE=?";
-    private static final String SELECT_FILES_BY_NAMESPACE = "SELECT FILE_ID, SPACE, DIGEST, DIGEST_ALGORITHM, MODIFIED, FILE_NAME, NAMESPACE, FILE_SIZE FROM {0} WHERE NAMESPACE=?";
-    private static final String SELECT_FILES_BY_SPACE = "SELECT FILE_ID, SPACE, DIGEST, DIGEST_ALGORITHM, MODIFIED, FILE_NAME, NAMESPACE, FILE_SIZE FROM {0} WHERE SPACE=?";
-    private static final String SELECT_FILE_BY_ID = "SELECT FILE_ID, SPACE, DIGEST, DIGEST_ALGORITHM, MODIFIED, FILE_NAME, NAMESPACE, FILE_SIZE FROM {0} WHERE FILE_ID=? AND SPACE=?";
-    private static final String DELETE_FILE_BY_ID = "DELETE FROM {0} WHERE FILE_ID=? AND SPACE=?";
-    private static final String DELETE_FILES_BY_NAMESPACE = "DELETE FROM {0} WHERE NAMESPACE=? AND SPACE=?";
-    private static final String INSERT_FILE_ATTRIBUTES = "INSERT INTO {0} (FILE_ID, SPACE, FILE_NAME, NAMESPACE, FILE_SIZE, DIGEST, DIGEST_ALGORITHM, MODIFIED) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
-    private static final String DELETE_FILE_BY_FILE_ID = "DELETE FROM {0} WHERE FILE_ID=? AND SPACE=?";
+    private static final String SELECT_FILES_BY_NAMESPACE_AND_SPACE = "SELECT FILE_ID, SPACE, DIGEST, DIGEST_ALGORITHM, MODIFIED, FILE_NAME, NAMESPACE, FILE_SIZE FROM %s WHERE NAMESPACE=? AND SPACE=?";
+    private static final String SELECT_FILES_BY_NAMESPACE = "SELECT FILE_ID, SPACE, DIGEST, DIGEST_ALGORITHM, MODIFIED, FILE_NAME, NAMESPACE, FILE_SIZE FROM %s WHERE NAMESPACE=?";
+    private static final String SELECT_FILES_BY_SPACE = "SELECT FILE_ID, SPACE, DIGEST, DIGEST_ALGORITHM, MODIFIED, FILE_NAME, NAMESPACE, FILE_SIZE FROM %s WHERE SPACE=?";
+    private static final String SELECT_FILE_BY_ID = "SELECT FILE_ID, SPACE, DIGEST, DIGEST_ALGORITHM, MODIFIED, FILE_NAME, NAMESPACE, FILE_SIZE FROM %s WHERE FILE_ID=? AND SPACE=?";
+    private static final String DELETE_FILE_BY_ID = "DELETE FROM %s WHERE FILE_ID=? AND SPACE=?";
+    private static final String DELETE_FILES_BY_NAMESPACE = "DELETE FROM %s WHERE NAMESPACE=? AND SPACE=?";
+    private static final String INSERT_FILE_ATTRIBUTES = "INSERT INTO %s (FILE_ID, SPACE, FILE_NAME, NAMESPACE, FILE_SIZE, DIGEST, DIGEST_ALGORITHM, MODIFIED) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+    private static final String DELETE_FILE_BY_FILE_ID = "DELETE FROM %s WHERE FILE_ID=? AND SPACE=?";
 
     protected static final String DEFAULT_TABLE_NAME = "LM_SL_PERSISTENCE_FILE";
 
@@ -160,7 +160,7 @@ public abstract class AbstractFileService {
 
             return addFile(space, namespace, name, fileUploadProcessor, fileUpload);
         } catch (NoSuchAlgorithmException e) {
-            throw new SLException(MessageFormat.format(Messages.ERROR_CALCULATING_FILE_DIGEST, existingFile.getName()), e);
+            throw new SLException(Messages.ERROR_CALCULATING_FILE_DIGEST, existingFile.getName(), e);
         } catch (FileNotFoundException e) {
             throw new FileStorageException(MessageFormat.format(Messages.ERROR_FINDING_FILE_TO_UPLOAD, existingFile.getName()), e);
         } catch (IOException e) {
@@ -235,7 +235,7 @@ public abstract class AbstractFileService {
     protected abstract boolean storeFile(final FileEntry fileEntry, final InputStream inputStream) throws FileStorageException;
 
     protected boolean storeFileAttributes(final FileEntry fileEntry) throws FileStorageException {
-        SqlExecutor<Boolean> executor = new FileServiceSqlExecutor<Boolean>();
+        SqlExecutor<Boolean> executor = new FileServiceSqlExecutor<>();
         try {
             return executor.execute(new StatementExecutor<Boolean>() {
                 @Override
@@ -268,18 +268,17 @@ public abstract class AbstractFileService {
     }
 
     public int deleteAll(final String space, final String namespace) throws FileStorageException {
-        SqlExecutor<Integer> executor = new FileServiceSqlExecutor<Integer>();
+        SqlExecutor<Integer> executor = new FileServiceSqlExecutor<>();
         try {
             return executor.execute(new StatementExecutor<Integer>() {
                 @Override
                 public Integer execute(Connection connection) throws SQLException {
-                    int rowsDeleted = 0;
                     PreparedStatement statement = null;
                     try {
                         statement = connection.prepareStatement(getQuery(DELETE_FILES_BY_NAMESPACE, tableName));
                         statement.setString(1, namespace);
                         statement.setString(2, space);
-                        rowsDeleted = statement.executeUpdate();
+                        int rowsDeleted = statement.executeUpdate();
                         JdbcUtil.commit(connection);
                         return rowsDeleted;
                     } catch (SQLException e) {
@@ -296,12 +295,11 @@ public abstract class AbstractFileService {
     }
 
     public int deleteAllByFileIds(final Map<String, List<String>> spaceToFileIds) throws FileStorageException {
-        SqlExecutor<Integer> executor = new FileServiceSqlExecutor<Integer>();
+        SqlExecutor<Integer> executor = new FileServiceSqlExecutor<>();
         try {
             return executor.execute(new StatementExecutor<Integer>() {
                 @Override
                 public Integer execute(Connection connection) throws SQLException {
-                    int rowsRemoved = 0;
                     PreparedStatement statement = null;
                     try {
                         statement = connection.prepareStatement(getQuery(DELETE_FILE_BY_FILE_ID, tableName));
@@ -314,15 +312,15 @@ public abstract class AbstractFileService {
                             }
                         }
                         int[] rowsRemovedArray = statement.executeBatch();
-                        rowsRemoved = CommonUtil.sumOfInts(rowsRemovedArray);
+                        int rowsRemoved = CommonUtil.sumOfInts(rowsRemovedArray);
                         JdbcUtil.commit(connection);
+                        return rowsRemoved;
                     } catch (SQLException e) {
                         JdbcUtil.rollback(connection);
                         throw e;
                     } finally {
                         JdbcUtil.closeQuietly(statement);
                     }
-                    return rowsRemoved;
                 }
             });
         } catch (SQLException e) {
@@ -338,18 +336,17 @@ public abstract class AbstractFileService {
     protected abstract void deleteFileContent(String space, String id) throws FileStorageException;
 
     public int deleteFileAttributes(final String space, final String id) throws FileStorageException {
-        SqlExecutor<Integer> executor = new FileServiceSqlExecutor<Integer>();
+        SqlExecutor<Integer> executor = new FileServiceSqlExecutor<>();
         try {
             return executor.execute(new StatementExecutor<Integer>() {
                 @Override
                 public Integer execute(Connection connection) throws SQLException {
                     PreparedStatement statement = null;
-                    int rowsDeleted = 0;
                     try {
                         statement = connection.prepareStatement(getQuery(DELETE_FILE_BY_ID, tableName));
                         statement.setString(1, id);
                         statement.setString(2, space);
-                        rowsDeleted = statement.executeUpdate();
+                        int rowsDeleted = statement.executeUpdate();
                         JdbcUtil.commit(connection);
                         return rowsDeleted;
                     } catch (SQLException e) {
@@ -366,15 +363,15 @@ public abstract class AbstractFileService {
     }
 
     public List<FileEntry> listFiles(final String space, final String namespace) throws FileStorageException {
-        SqlExecutor<List<FileEntry>> executor = new FileServiceSqlExecutor<List<FileEntry>>();
+        SqlExecutor<List<FileEntry>> executor = new FileServiceSqlExecutor<>();
         try {
             return executor.execute(new StatementExecutor<List<FileEntry>>() {
                 @Override
                 public List<FileEntry> execute(Connection connection) throws SQLException {
-                    List<FileEntry> files = new ArrayList<FileEntry>();
                     PreparedStatement statement = null;
                     ResultSet resultSet = null;
                     try {
+                        List<FileEntry> files = new ArrayList<>();
                         if (space == null) {
                             statement = connection.prepareStatement(getQuery(SELECT_FILES_BY_NAMESPACE, tableName));
                             statement.setString(1, namespace);
@@ -390,11 +387,11 @@ public abstract class AbstractFileService {
                         while (resultSet.next()) {
                             files.add(getFileEntry(resultSet));
                         }
+                        return files;
                     } finally {
                         JdbcUtil.closeQuietly(resultSet);
                         JdbcUtil.closeQuietly(statement);
                     }
-                    return files;
                 }
             });
         } catch (SQLException e) {
@@ -407,12 +404,11 @@ public abstract class AbstractFileService {
     }
 
     public FileEntry getFile(final String space, final String id) throws FileStorageException {
-        SqlExecutor<FileEntry> executor = new FileServiceSqlExecutor<FileEntry>();
+        SqlExecutor<FileEntry> executor = new FileServiceSqlExecutor<>();
         try {
             return executor.execute(new StatementExecutor<FileEntry>() {
                 @Override
                 public FileEntry execute(Connection connection) throws SQLException {
-                    FileEntry fileEntry = null;
                     PreparedStatement statement = null;
                     ResultSet resultSet = null;
                     try {
@@ -421,13 +417,13 @@ public abstract class AbstractFileService {
                         statement.setString(2, space);
                         resultSet = statement.executeQuery();
                         if (resultSet.next()) {
-                            fileEntry = getFileEntry(resultSet);
+                            return getFileEntry(resultSet);
                         }
+                        return null;
                     } finally {
                         JdbcUtil.closeQuietly(resultSet);
                         JdbcUtil.closeQuietly(statement);
                     }
-                    return fileEntry;
                 }
             });
         } catch (SQLException e) {
@@ -494,7 +490,7 @@ public abstract class AbstractFileService {
     }
 
     protected String getQuery(String statementTemplate, String tableName) {
-        return MessageFormat.format(statementTemplate, tableName);
+        return String.format(statementTemplate, tableName);
     }
 
     protected class FileServiceSqlExecutor<T> extends SqlExecutor<T> {

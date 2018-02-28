@@ -5,7 +5,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
-import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -35,16 +34,16 @@ public class ProgressMessageService {
 
     private static final String DEFAULT_DATASOURCE_JNDI_NAME = "java:comp/env/jdbc/DefaultDB";
 
-    private static final String SELECT_MESSAGE_BY_PROCESS_ID = "SELECT ID, PROCESS_ID, TASK_ID, TYPE, TEXT, TIMESTAMP FROM {0} WHERE PROCESS_ID=? ORDER BY ID";
-    private static final String SELECT_MESSAGE_BY_PROCESS_AND_TASK_ID = "SELECT ID, PROCESS_ID, TASK_ID, TYPE, TEXT, TIMESTAMP FROM {0} WHERE PROCESS_ID=? AND TASK_ID=? ORDER BY ID";
-    private static final String SELECT_MESSAGE_BY_PROCESS_AND_TASK_ID_PREFIX = "SELECT TASK_ID FROM {0} WHERE PROCESS_ID=? AND TASK_ID LIKE ? ORDER BY ID DESC";
-    private static final String SELECT_MESSAGE_SPECIFIC_MESSAGE = "SELECT ID, PROCESS_ID, TASK_ID, TYPE, TEXT, TIMESTAMP FROM {0} WHERE PROCESS_ID=? AND TASK_ID=? AND TYPE=? ORDER BY ID";
-    private static final String SELECT_MESSAGE_BY_PROCESS_ID_AND_TYPE = "SELECT ID, PROCESS_ID, TASK_ID, TYPE, TEXT, TIMESTAMP FROM {0} WHERE PROCESS_ID=? AND TYPE=? ORDER BY ID";
-    private static final String SELECT_ALL_MESSAGES = "SELECT ID, PROCESS_ID, TASK_ID, TYPE, TEXT, TIMESTAMP FROM {0} ORDER BY ID";
-    private static final String INSERT_MESSAGE = "INSERT INTO {0} (ID, PROCESS_ID, TASK_ID, TYPE, TEXT, TIMESTAMP) VALUES({1}, ?, ?, ?, ?, ?)";
-    private static final String DELETE_MESSAGE_BY_PROCESS_AND_TASK_ID = "DELETE FROM {0} WHERE PROCESS_ID=? AND TASK_ID=?";
-    private static final String DELETE_MESSAGE_BY_PROCESS_ID = "DELETE FROM {0} WHERE PROCESS_ID=?";
-    private static final String UPDATE_MESSAGE_BY_ID = "UPDATE {0} SET TEXT=?, TIMESTAMP=? WHERE ID=?";
+    private static final String SELECT_MESSAGE_BY_PROCESS_ID = "SELECT ID, PROCESS_ID, TASK_ID, TYPE, TEXT, TIMESTAMP FROM %s WHERE PROCESS_ID=? ORDER BY ID";
+    private static final String SELECT_MESSAGE_BY_PROCESS_AND_TASK_ID = "SELECT ID, PROCESS_ID, TASK_ID, TYPE, TEXT, TIMESTAMP FROM %s WHERE PROCESS_ID=? AND TASK_ID=? ORDER BY ID";
+    private static final String SELECT_MESSAGE_BY_PROCESS_AND_TASK_ID_PREFIX = "SELECT TASK_ID FROM %s WHERE PROCESS_ID=? AND TASK_ID LIKE ? ORDER BY ID DESC";
+    private static final String SELECT_MESSAGE_SPECIFIC_MESSAGE = "SELECT ID, PROCESS_ID, TASK_ID, TYPE, TEXT, TIMESTAMP FROM %s WHERE PROCESS_ID=? AND TASK_ID=? AND TYPE=? ORDER BY ID";
+    private static final String SELECT_MESSAGE_BY_PROCESS_ID_AND_TYPE = "SELECT ID, PROCESS_ID, TASK_ID, TYPE, TEXT, TIMESTAMP FROM %s WHERE PROCESS_ID=? AND TYPE=? ORDER BY ID";
+    private static final String SELECT_ALL_MESSAGES = "SELECT ID, PROCESS_ID, TASK_ID, TYPE, TEXT, TIMESTAMP FROM %s ORDER BY ID";
+    private static final String INSERT_MESSAGE = "INSERT INTO %s (ID, PROCESS_ID, TASK_ID, TYPE, TEXT, TIMESTAMP) VALUES(%s, ?, ?, ?, ?, ?)";
+    private static final String DELETE_MESSAGE_BY_PROCESS_AND_TASK_ID = "DELETE FROM %s WHERE PROCESS_ID=? AND TASK_ID=?";
+    private static final String DELETE_MESSAGE_BY_PROCESS_ID = "DELETE FROM %s WHERE PROCESS_ID=?";
+    private static final String UPDATE_MESSAGE_BY_ID = "UPDATE %s SET TEXT=?, TIMESTAMP=? WHERE ID=?";
 
     private static final String ID_SEQ_NAME = "ID_SEQ";
 
@@ -84,24 +83,25 @@ public class ProgressMessageService {
         this.databaseDialect = databaseDialect;
     }
 
-    public boolean add(final ProgressMessage msg) throws SLException {
-        SqlExecutor<Boolean> executor = new ProgressMessageSqlExecutor<Boolean>();
+    public boolean add(final ProgressMessage message) throws SLException {
+        SqlExecutor<Boolean> executor = new ProgressMessageSqlExecutor<>();
         try {
             return executor.execute(new StatementExecutor<Boolean>() {
                 @Override
                 public Boolean execute(Connection connection) throws SQLException {
                     PreparedStatement statement = null;
-                    int rowsInserted = 0;
                     try {
                         statement = connection.prepareStatement(getQuery(INSERT_MESSAGE, tableName));
-                        statement.setString(1, msg.getProcessId());
-                        statement.setString(2, msg.getTaskId());
-                        statement.setString(3, msg.getType().name());
-                        statement.setString(4, msg.getText());
-                        statement.setTimestamp(5, new Timestamp(msg.getTimestamp().getTime()));
-                        rowsInserted = statement.executeUpdate();
+                        statement.setString(1, message.getProcessId());
+                        statement.setString(2, message.getTaskId());
+                        statement.setString(3, message.getType()
+                            .name());
+                        statement.setString(4, message.getText());
+                        statement.setTimestamp(5, new Timestamp(message.getTimestamp()
+                            .getTime()));
+                        int rowsInserted = statement.executeUpdate();
                         JdbcUtil.commit(connection);
-                        return (rowsInserted > 0);
+                        return rowsInserted > 0;
                     } catch (SQLException e) {
                         JdbcUtil.rollback(connection);
                         throw e;
@@ -111,26 +111,26 @@ public class ProgressMessageService {
                 }
             });
         } catch (SQLException e) {
-            throw new SLException(e, MessageFormat.format(Messages.ERROR_SAVING_MESSAGE, msg.getProcessId(), msg.getTaskId()));
+            throw new SLException(e, Messages.ERROR_SAVING_MESSAGE, message.getProcessId(), message.getTaskId());
         }
     }
 
-    public boolean update(final long existingId, final ProgressMessage newMsg) throws SLException {
-        SqlExecutor<Boolean> executor = new ProgressMessageSqlExecutor<Boolean>();
+    public boolean update(final long existingId, final ProgressMessage newMessage) throws SLException {
+        SqlExecutor<Boolean> executor = new ProgressMessageSqlExecutor<>();
         try {
             return executor.execute(new StatementExecutor<Boolean>() {
                 @Override
                 public Boolean execute(Connection connection) throws SQLException {
                     PreparedStatement statement = null;
-                    int rowsUpdated = 0;
                     try {
                         statement = connection.prepareStatement(getQuery(UPDATE_MESSAGE_BY_ID, tableName));
-                        statement.setString(1, newMsg.getText());
-                        statement.setTimestamp(2, new Timestamp(newMsg.getTimestamp().getTime()));
+                        statement.setString(1, newMessage.getText());
+                        statement.setTimestamp(2, new Timestamp(newMessage.getTimestamp()
+                            .getTime()));
                         statement.setLong(3, existingId);
-                        rowsUpdated = statement.executeUpdate();
+                        int rowsUpdated = statement.executeUpdate();
                         JdbcUtil.commit(connection);
-                        return (rowsUpdated == 1);
+                        return rowsUpdated == 1;
                     } catch (SQLException e) {
                         JdbcUtil.rollback(connection);
                         throw e;
@@ -140,22 +140,21 @@ public class ProgressMessageService {
                 }
             });
         } catch (SQLException e) {
-            throw new SLException(e, MessageFormat.format(Messages.ERROR_UPDATING_MESSAGE, newMsg.getId()));
+            throw new SLException(e, Messages.ERROR_UPDATING_MESSAGE, newMessage.getId());
         }
     }
 
     public int removeByProcessId(final String processId) throws SLException {
-        SqlExecutor<Integer> executor = new ProgressMessageSqlExecutor<Integer>();
+        SqlExecutor<Integer> executor = new ProgressMessageSqlExecutor<>();
         try {
             return executor.execute(new StatementExecutor<Integer>() {
                 @Override
                 public Integer execute(Connection connection) throws SQLException {
-                    int rowsRemoved = 0;
                     PreparedStatement statement = null;
                     try {
                         statement = connection.prepareStatement(getQuery(DELETE_MESSAGE_BY_PROCESS_ID, tableName));
                         statement.setString(1, processId);
-                        rowsRemoved = statement.executeUpdate();
+                        int rowsRemoved = statement.executeUpdate();
                         JdbcUtil.commit(connection);
                         return rowsRemoved;
                     } catch (SQLException e) {
@@ -167,17 +166,16 @@ public class ProgressMessageService {
                 }
             });
         } catch (SQLException e) {
-            throw new SLException(e, MessageFormat.format(Messages.ERROR_DELETING_MESSAGES_BY_PROCESS_ID, processId));
+            throw new SLException(e, Messages.ERROR_DELETING_MESSAGES_BY_PROCESS_ID, processId);
         }
     }
 
     public int removeAllByProcessIds(final List<String> processIds) throws SLException {
-        SqlExecutor<Integer> executor = new ProgressMessageSqlExecutor<Integer>();
+        SqlExecutor<Integer> executor = new ProgressMessageSqlExecutor<>();
         try {
             return executor.execute(new StatementExecutor<Integer>() {
                 @Override
                 public Integer execute(Connection connection) throws SQLException {
-                    int rowsRemoved = 0;
                     PreparedStatement statement = null;
                     try {
                         connection.setAutoCommit(false);
@@ -187,35 +185,7 @@ public class ProgressMessageService {
                             statement.addBatch();
                         }
                         int[] rowsRemovedArray = statement.executeBatch();
-                        rowsRemoved = CommonUtil.sumOfInts(rowsRemovedArray);
-                        JdbcUtil.commit(connection);
-                    } catch (SQLException e) {
-                        JdbcUtil.rollback(connection);
-                        throw e;
-                    } finally {
-                        JdbcUtil.closeQuietly(statement);
-                    }
-                    return rowsRemoved;
-                }
-            });
-        } catch (SQLException e) {
-            throw new SLException(e, MessageFormat.format(Messages.ERROR_DELETING_MESSAGES_BY_PROCESS_ID, processIds));
-        }
-    }
-
-    public int removeByProcessIdAndTaskId(final String processId, final String taskId) throws SLException {
-        SqlExecutor<Integer> executor = new ProgressMessageSqlExecutor<Integer>();
-        try {
-            return executor.execute(new StatementExecutor<Integer>() {
-                @Override
-                public Integer execute(Connection connection) throws SQLException {
-                    int rowsRemoved = 0;
-                    PreparedStatement statement = null;
-                    try {
-                        statement = connection.prepareStatement(getQuery(DELETE_MESSAGE_BY_PROCESS_AND_TASK_ID, tableName));
-                        statement.setString(1, processId);
-                        statement.setString(2, taskId);
-                        rowsRemoved = statement.executeUpdate();
+                        int rowsRemoved = CommonUtil.sumOfInts(rowsRemovedArray);
                         JdbcUtil.commit(connection);
                         return rowsRemoved;
                     } catch (SQLException e) {
@@ -227,30 +197,57 @@ public class ProgressMessageService {
                 }
             });
         } catch (SQLException e) {
-            throw new SLException(e, MessageFormat.format(Messages.ERROR_DELETING_MESSAGES_BY_PROCESS_ID_AND_TASK_ID, processId, taskId));
+            throw new SLException(e, Messages.ERROR_DELETING_MESSAGES_BY_PROCESS_ID, processIds);
+        }
+    }
+
+    public int removeByProcessIdAndTaskId(final String processId, final String taskId) throws SLException {
+        SqlExecutor<Integer> executor = new ProgressMessageSqlExecutor<>();
+        try {
+            return executor.execute(new StatementExecutor<Integer>() {
+                @Override
+                public Integer execute(Connection connection) throws SQLException {
+                    PreparedStatement statement = null;
+                    try {
+                        statement = connection.prepareStatement(getQuery(DELETE_MESSAGE_BY_PROCESS_AND_TASK_ID, tableName));
+                        statement.setString(1, processId);
+                        statement.setString(2, taskId);
+                        int rowsRemoved = statement.executeUpdate();
+                        JdbcUtil.commit(connection);
+                        return rowsRemoved;
+                    } catch (SQLException e) {
+                        JdbcUtil.rollback(connection);
+                        throw e;
+                    } finally {
+                        JdbcUtil.closeQuietly(statement);
+                    }
+                }
+            });
+        } catch (SQLException e) {
+            throw new SLException(e, Messages.ERROR_DELETING_MESSAGES_BY_PROCESS_ID_AND_TASK_ID, processId, taskId);
         }
     }
 
     public List<ProgressMessage> findAll() throws SLException {
-        SqlExecutor<List<ProgressMessage>> executor = new ProgressMessageSqlExecutor<List<ProgressMessage>>();
+        SqlExecutor<List<ProgressMessage>> executor = new ProgressMessageSqlExecutor<>();
         try {
             return executor.execute(new StatementExecutor<List<ProgressMessage>>() {
                 @Override
                 public List<ProgressMessage> execute(Connection connection) throws SQLException {
-                    List<ProgressMessage> messages = new ArrayList<ProgressMessage>();
                     PreparedStatement statement = null;
                     ResultSet resultSet = null;
                     try {
+                        List<ProgressMessage> messages = new ArrayList<>();
                         statement = connection.prepareStatement(getQuery(SELECT_ALL_MESSAGES, tableName));
                         resultSet = statement.executeQuery();
                         while (resultSet.next()) {
                             messages.add(getMessage(resultSet));
                         }
+                        return messages;
                     } finally {
                         JdbcUtil.closeQuietly(resultSet);
                         JdbcUtil.closeQuietly(statement);
                     }
-                    return messages;
                 }
             });
         } catch (SQLException e) {
@@ -259,43 +256,43 @@ public class ProgressMessageService {
     }
 
     public List<ProgressMessage> findByProcessId(final String processId) throws SLException {
-        SqlExecutor<List<ProgressMessage>> executor = new ProgressMessageSqlExecutor<List<ProgressMessage>>();
+        SqlExecutor<List<ProgressMessage>> executor = new ProgressMessageSqlExecutor<>();
         try {
             return executor.execute(new StatementExecutor<List<ProgressMessage>>() {
                 @Override
                 public List<ProgressMessage> execute(Connection connection) throws SQLException {
-                    List<ProgressMessage> messages = new ArrayList<ProgressMessage>();
                     PreparedStatement statement = null;
                     ResultSet resultSet = null;
                     try {
+                        List<ProgressMessage> messages = new ArrayList<>();
                         statement = connection.prepareStatement(getQuery(SELECT_MESSAGE_BY_PROCESS_ID, tableName));
                         statement.setString(1, processId);
                         resultSet = statement.executeQuery();
                         while (resultSet.next()) {
                             messages.add(getMessage(resultSet));
                         }
+                        return messages;
                     } finally {
                         JdbcUtil.closeQuietly(resultSet);
                         JdbcUtil.closeQuietly(statement);
                     }
-                    return messages;
                 }
             });
         } catch (SQLException e) {
-            throw new SLException(e, MessageFormat.format(Messages.ERROR_GETTING_MESSAGE_BY_PROCESS_ID, processId));
+            throw new SLException(e, Messages.ERROR_GETTING_MESSAGE_BY_PROCESS_ID, processId);
         }
     }
 
     public List<ProgressMessage> findByProcessIdAndTaskId(final String processId, final String taskId) throws SLException {
-        SqlExecutor<List<ProgressMessage>> executor = new ProgressMessageSqlExecutor<List<ProgressMessage>>();
+        SqlExecutor<List<ProgressMessage>> executor = new ProgressMessageSqlExecutor<>();
         try {
             return executor.execute(new StatementExecutor<List<ProgressMessage>>() {
                 @Override
                 public List<ProgressMessage> execute(Connection connection) throws SQLException {
-                    List<ProgressMessage> messages = new ArrayList<ProgressMessage>();
                     PreparedStatement statement = null;
                     ResultSet resultSet = null;
                     try {
+                        List<ProgressMessage> messages = new ArrayList<>();
                         statement = connection.prepareStatement(getQuery(SELECT_MESSAGE_BY_PROCESS_AND_TASK_ID, tableName));
                         statement.setString(1, processId);
                         statement.setString(2, taskId);
@@ -303,20 +300,20 @@ public class ProgressMessageService {
                         while (resultSet.next()) {
                             messages.add(getMessage(resultSet));
                         }
+                        return messages;
                     } finally {
                         JdbcUtil.closeQuietly(resultSet);
                         JdbcUtil.closeQuietly(statement);
                     }
-                    return messages;
                 }
             });
         } catch (SQLException e) {
-            throw new SLException(e, MessageFormat.format(Messages.ERROR_GETTING_MESSAGE_PROCESS_ID_TASK_ID, processId, taskId));
+            throw new SLException(e, Messages.ERROR_GETTING_MESSAGE_PROCESS_ID_TASK_ID, processId, taskId);
         }
     }
 
     public String findLastTaskId(final String processId, final String taskId) throws SLException {
-        SqlExecutor<String> executor = new ProgressMessageSqlExecutor<String>();
+        SqlExecutor<String> executor = new ProgressMessageSqlExecutor<>();
         try {
             return executor.execute(new StatementExecutor<String>() {
                 @Override
@@ -339,21 +336,21 @@ public class ProgressMessageService {
                 }
             });
         } catch (SQLException e) {
-            throw new SLException(e, MessageFormat.format(Messages.ERROR_GETTING_MESSAGE_PROCESS_ID_STARTING_WITH, processId, taskId));
+            throw new SLException(e, Messages.ERROR_GETTING_MESSAGE_PROCESS_ID_STARTING_WITH, processId, taskId);
         }
     }
 
     public List<ProgressMessage> findByProcessIdTaskIdAndType(final String processId, final String taskId, final ProgressMessageType type)
         throws SLException {
-        SqlExecutor<List<ProgressMessage>> executor = new ProgressMessageSqlExecutor<List<ProgressMessage>>();
+        SqlExecutor<List<ProgressMessage>> executor = new ProgressMessageSqlExecutor<>();
         try {
             return executor.execute(new StatementExecutor<List<ProgressMessage>>() {
                 @Override
                 public List<ProgressMessage> execute(Connection connection) throws SQLException {
-                    List<ProgressMessage> messages = new ArrayList<ProgressMessage>();
                     PreparedStatement statement = null;
                     ResultSet resultSet = null;
                     try {
+                        List<ProgressMessage> messages = new ArrayList<>();
                         statement = connection.prepareStatement(getQuery(SELECT_MESSAGE_SPECIFIC_MESSAGE, tableName));
                         statement.setString(1, processId);
                         statement.setString(2, taskId);
@@ -362,29 +359,28 @@ public class ProgressMessageService {
                         while (resultSet.next()) {
                             messages.add(getMessage(resultSet));
                         }
+                        return messages;
                     } finally {
                         JdbcUtil.closeQuietly(resultSet);
                         JdbcUtil.closeQuietly(statement);
                     }
-                    return messages;
                 }
             });
         } catch (SQLException e) {
-            throw new SLException(e,
-                MessageFormat.format(Messages.ERROR_GETTING_MESSAGE_PROCESS_ID_TASK_ID_TYPE, processId, taskId, type.name()));
+            throw new SLException(e, Messages.ERROR_GETTING_MESSAGE_PROCESS_ID_TASK_ID_TYPE, processId, taskId, type.name());
         }
     }
 
     public List<ProgressMessage> findByProcessIdAndType(final String processInstanceId, final ProgressMessageType type) throws SLException {
-        SqlExecutor<List<ProgressMessage>> executor = new ProgressMessageSqlExecutor<List<ProgressMessage>>();
+        SqlExecutor<List<ProgressMessage>> executor = new ProgressMessageSqlExecutor<>();
         try {
             return executor.execute(new StatementExecutor<List<ProgressMessage>>() {
                 @Override
                 public List<ProgressMessage> execute(Connection connection) throws SQLException {
-                    List<ProgressMessage> messages = new ArrayList<ProgressMessage>();
                     PreparedStatement statement = null;
                     ResultSet resultSet = null;
                     try {
+                        List<ProgressMessage> messages = new ArrayList<>();
                         statement = connection.prepareStatement(getQuery(SELECT_MESSAGE_BY_PROCESS_ID_AND_TYPE, tableName));
                         statement.setString(1, processInstanceId);
                         statement.setString(2, type.name());
@@ -392,15 +388,15 @@ public class ProgressMessageService {
                         while (resultSet.next()) {
                             messages.add(getMessage(resultSet));
                         }
+                        return messages;
                     } finally {
                         JdbcUtil.closeQuietly(resultSet);
                         JdbcUtil.closeQuietly(statement);
                     }
-                    return messages;
                 }
             });
         } catch (SQLException e) {
-            throw new SLException(e, MessageFormat.format(Messages.ERROR_GETTING_MESSAGE_PROCESS_ID_TYPE, processInstanceId, type.name()));
+            throw new SLException(e, Messages.ERROR_GETTING_MESSAGE_PROCESS_ID_TYPE, processInstanceId, type.name());
         }
     }
 
@@ -440,7 +436,7 @@ public class ProgressMessageService {
     }
 
     private String getQuery(String statementTemplate, String tableName) {
-        return MessageFormat.format(statementTemplate, tableName, getDatabaseDialect().getSequenceNextValueSyntax(ID_SEQ_NAME));
+        return String.format(statementTemplate, tableName, getDatabaseDialect().getSequenceNextValueSyntax(ID_SEQ_NAME));
     }
 
     private class ProgressMessageSqlExecutor<T> extends SqlExecutor<T> {
