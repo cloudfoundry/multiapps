@@ -37,6 +37,7 @@ public final class Messages {
     public static final String COULD_NOT_CLOSE_RESULT_SET = "Could not close result set.";
     public static final String COULD_NOT_CLOSE_STATEMENT = "Could not close statement.";
     public static final String COULD_NOT_CLOSE_CONNECTION = "Could not close connection.";
+    public static final String COULD_NOT_ROLLBACK_TRANSACTION = "Could not rollback transaction!";
 
     // INFO log messages:
     public static final String SCANNING_FILE = "Scanning file \"{0}\"...";
