@@ -122,11 +122,8 @@ public class FileSystemFileService extends AbstractFileService {
         int deletedFiles = 0;
         for (String space : spaceToFileIds.keySet()) {
             for (String fileId : spaceToFileIds.get(space)) {
-                //This is needed because file might be in multiple chunks
-                for (String fileChunckId : getFileChunkIds(fileId)) {
-                    deleteFileContent(space, fileChunckId);
+                    deleteFileContent(space, fileId);
                     deletedFiles++;
-                }
             }
         }
         return deletedFiles;
