@@ -28,21 +28,22 @@ public class ProgressMessageService {
     private static final String COLUMN_NAME_ID = "ID";
     private static final String COLUMN_NAME_PROCESS_ID = "PROCESS_ID";
     private static final String COLUMN_NAME_TASK_ID = "TASK_ID";
+    private static final String COLUMN_NAME_TASK_EXECUTION_ID = "TASK_EXECUTION_ID";
     private static final String COLUMN_NAME_TYPE = "TYPE";
     private static final String COLUMN_NAME_TEXT = "TEXT";
     private static final String COLUMN_NAME_TIMESTAMP = "TIMESTAMP";
 
     private static final String DEFAULT_DATASOURCE_JNDI_NAME = "java:comp/env/jdbc/DefaultDB";
 
-    private static final String SELECT_MESSAGE_BY_PROCESS_ID = "SELECT ID, PROCESS_ID, TASK_ID, TYPE, TEXT, TIMESTAMP FROM %s WHERE PROCESS_ID=? ORDER BY ID";
-    private static final String SELECT_MESSAGE_BY_PROCESS_AND_TASK_ID = "SELECT ID, PROCESS_ID, TASK_ID, TYPE, TEXT, TIMESTAMP FROM %s WHERE PROCESS_ID=? AND TASK_ID=? ORDER BY ID";
-    private static final String SELECT_MESSAGE_BY_PROCESS_AND_TASK_ID_PREFIX = "SELECT TASK_ID FROM %s WHERE PROCESS_ID=? AND TASK_ID LIKE ? ORDER BY ID DESC";
-    private static final String SELECT_MESSAGE_SPECIFIC_MESSAGE = "SELECT ID, PROCESS_ID, TASK_ID, TYPE, TEXT, TIMESTAMP FROM %s WHERE PROCESS_ID=? AND TASK_ID=? AND TYPE=? ORDER BY ID";
-    private static final String SELECT_MESSAGE_BY_PROCESS_ID_AND_TYPE = "SELECT ID, PROCESS_ID, TASK_ID, TYPE, TEXT, TIMESTAMP FROM %s WHERE PROCESS_ID=? AND TYPE=? ORDER BY ID";
-    private static final String SELECT_ALL_MESSAGES = "SELECT ID, PROCESS_ID, TASK_ID, TYPE, TEXT, TIMESTAMP FROM %s ORDER BY ID";
-    private static final String INSERT_MESSAGE = "INSERT INTO %s (ID, PROCESS_ID, TASK_ID, TYPE, TEXT, TIMESTAMP) VALUES(%s, ?, ?, ?, ?, ?)";
-    private static final String DELETE_MESSAGE_BY_PROCESS_AND_TASK_ID = "DELETE FROM %s WHERE PROCESS_ID=? AND TASK_ID=?";
-    private static final String DELETE_MESSAGE_BY_PROCESS_ID = "DELETE FROM %s WHERE PROCESS_ID=?";
+    private static final String SELECT_MESSAGES_BY_PROCESS_ID = "SELECT ID, PROCESS_ID, TASK_ID, TASK_EXECUTION_ID, TYPE, TEXT, TIMESTAMP FROM %s WHERE PROCESS_ID=? ORDER BY ID";
+    private static final String SELECT_MESSAGES_BY_PROCESS_AND_TASK_ID_AND_TASK_EXECUTION_ID = "SELECT ID, PROCESS_ID, TASK_ID, TASK_EXECUTION_ID, TYPE, TEXT, TIMESTAMP FROM %s WHERE PROCESS_ID=? AND TASK_ID=? AND TASK_EXECUTION_ID=? ORDER BY ID";
+    private static final String SELECT_MESSAGES_BY_PROCESS_AND_TASK_ID = "SELECT TASK_EXECUTION_ID FROM %s WHERE PROCESS_ID=? AND TASK_ID=? ORDER BY ID DESC";
+    private static final String SELECT_SPECIFIC_MESSAGE = "SELECT ID, PROCESS_ID, TASK_ID, TASK_EXECUTION_ID, TYPE, TEXT, TIMESTAMP FROM %s WHERE PROCESS_ID=? AND TASK_ID=? AND TASK_EXECUTION_ID=? AND TYPE=? ORDER BY ID";
+    private static final String SELECT_MESSAGES_BY_PROCESS_ID_AND_TYPE = "SELECT ID, PROCESS_ID, TASK_ID, TASK_EXECUTION_ID, TYPE, TEXT, TIMESTAMP FROM %s WHERE PROCESS_ID=? AND TYPE=? ORDER BY ID";
+    private static final String SELECT_ALL_MESSAGES = "SELECT ID, PROCESS_ID, TASK_ID, TASK_EXECUTION_ID, TYPE, TEXT, TIMESTAMP FROM %s ORDER BY ID";
+    private static final String INSERT_MESSAGE = "INSERT INTO %s (ID, PROCESS_ID, TASK_ID, TASK_EXECUTION_ID, TYPE, TEXT, TIMESTAMP) VALUES(%s, ?, ?, ?, ?, ?, ?)";
+    private static final String DELETE_MESSAGES_BY_PROCESS_AND_TASK_ID = "DELETE FROM %s WHERE PROCESS_ID=? AND TASK_ID=? AND TASK_EXECUTION_ID=?";
+    private static final String DELETE_MESSAGES_BY_PROCESS_ID = "DELETE FROM %s WHERE PROCESS_ID=?";
     private static final String UPDATE_MESSAGE_BY_ID = "UPDATE %s SET TEXT=?, TIMESTAMP=? WHERE ID=?";
 
     private static final String ID_SEQ_NAME = "ID_SEQ";
@@ -94,10 +95,11 @@ public class ProgressMessageService {
                         statement = connection.prepareStatement(getQuery(INSERT_MESSAGE, tableName));
                         statement.setString(1, message.getProcessId());
                         statement.setString(2, message.getTaskId());
-                        statement.setString(3, message.getType()
+                        statement.setString(3, message.getTaskExecutionId());
+                        statement.setString(4, message.getType()
                             .name());
-                        statement.setString(4, message.getText());
-                        statement.setTimestamp(5, new Timestamp(message.getTimestamp()
+                        statement.setString(5, message.getText());
+                        statement.setTimestamp(6, new Timestamp(message.getTimestamp()
                             .getTime()));
                         int rowsInserted = statement.executeUpdate();
                         JdbcUtil.commit(connection);
@@ -111,7 +113,8 @@ public class ProgressMessageService {
                 }
             });
         } catch (SQLException e) {
-            throw new SLException(e, Messages.ERROR_SAVING_MESSAGE, message.getProcessId(), message.getTaskId());
+            throw new SLException(e, Messages.ERROR_SAVING_MESSAGE, message.getProcessId(), message.getTaskId(),
+                message.getTaskExecutionId());
         }
     }
 
@@ -152,7 +155,7 @@ public class ProgressMessageService {
                 public Integer execute(Connection connection) throws SQLException {
                     PreparedStatement statement = null;
                     try {
-                        statement = connection.prepareStatement(getQuery(DELETE_MESSAGE_BY_PROCESS_ID, tableName));
+                        statement = connection.prepareStatement(getQuery(DELETE_MESSAGES_BY_PROCESS_ID, tableName));
                         statement.setString(1, processId);
                         int rowsRemoved = statement.executeUpdate();
                         JdbcUtil.commit(connection);
@@ -166,7 +169,7 @@ public class ProgressMessageService {
                 }
             });
         } catch (SQLException e) {
-            throw new SLException(e, Messages.ERROR_DELETING_MESSAGES_BY_PROCESS_ID, processId);
+            throw new SLException(e, Messages.ERROR_DELETING_MESSAGES_WITH_PROCESS_ID, processId);
         }
     }
 
@@ -179,7 +182,7 @@ public class ProgressMessageService {
                     PreparedStatement statement = null;
                     try {
                         connection.setAutoCommit(false);
-                        statement = connection.prepareStatement(getQuery(DELETE_MESSAGE_BY_PROCESS_ID, tableName));
+                        statement = connection.prepareStatement(getQuery(DELETE_MESSAGES_BY_PROCESS_ID, tableName));
                         for (String processId : processIds) {
                             statement.setString(1, processId);
                             statement.addBatch();
@@ -197,11 +200,12 @@ public class ProgressMessageService {
                 }
             });
         } catch (SQLException e) {
-            throw new SLException(e, Messages.ERROR_DELETING_MESSAGES_BY_PROCESS_ID, processIds);
+            throw new SLException(e, Messages.ERROR_DELETING_MESSAGES_WITH_PROCESS_ID, processIds);
         }
     }
 
-    public int removeByProcessIdAndTaskId(final String processId, final String taskId) throws SLException {
+    public int removeByProcessIdTaskIdAndTaskExecutionId(final String processId, final String taskId, final String taskExecutionId)
+        throws SLException {
         SqlExecutor<Integer> executor = new ProgressMessageSqlExecutor<>();
         try {
             return executor.execute(new StatementExecutor<Integer>() {
@@ -209,9 +213,10 @@ public class ProgressMessageService {
                 public Integer execute(Connection connection) throws SQLException {
                     PreparedStatement statement = null;
                     try {
-                        statement = connection.prepareStatement(getQuery(DELETE_MESSAGE_BY_PROCESS_AND_TASK_ID, tableName));
+                        statement = connection.prepareStatement(getQuery(DELETE_MESSAGES_BY_PROCESS_AND_TASK_ID, tableName));
                         statement.setString(1, processId);
                         statement.setString(2, taskId);
+                        statement.setString(3, taskExecutionId);
                         int rowsRemoved = statement.executeUpdate();
                         JdbcUtil.commit(connection);
                         return rowsRemoved;
@@ -224,7 +229,8 @@ public class ProgressMessageService {
                 }
             });
         } catch (SQLException e) {
-            throw new SLException(e, Messages.ERROR_DELETING_MESSAGES_BY_PROCESS_ID_AND_TASK_ID, processId, taskId);
+            throw new SLException(e, Messages.ERROR_DELETING_MESSAGES_WITH_PROCESS_ID_TASK_ID_AND_TASK_EXECUTION_ID, processId, taskId,
+                taskExecutionId);
         }
     }
 
@@ -265,7 +271,7 @@ public class ProgressMessageService {
                     ResultSet resultSet = null;
                     try {
                         List<ProgressMessage> messages = new ArrayList<>();
-                        statement = connection.prepareStatement(getQuery(SELECT_MESSAGE_BY_PROCESS_ID, tableName));
+                        statement = connection.prepareStatement(getQuery(SELECT_MESSAGES_BY_PROCESS_ID, tableName));
                         statement.setString(1, processId);
                         resultSet = statement.executeQuery();
                         while (resultSet.next()) {
@@ -279,11 +285,12 @@ public class ProgressMessageService {
                 }
             });
         } catch (SQLException e) {
-            throw new SLException(e, Messages.ERROR_GETTING_MESSAGE_BY_PROCESS_ID, processId);
+            throw new SLException(e, Messages.ERROR_GETTING_MESSAGES_WITH_PROCESS_ID, processId);
         }
     }
 
-    public List<ProgressMessage> findByProcessIdAndTaskId(final String processId, final String taskId) throws SLException {
+    public List<ProgressMessage> findByProcessIdTaskIdAndTaskExecutionId(final String processId, final String taskId,
+        final String taskExecutionId) throws SLException {
         SqlExecutor<List<ProgressMessage>> executor = new ProgressMessageSqlExecutor<>();
         try {
             return executor.execute(new StatementExecutor<List<ProgressMessage>>() {
@@ -293,9 +300,11 @@ public class ProgressMessageService {
                     ResultSet resultSet = null;
                     try {
                         List<ProgressMessage> messages = new ArrayList<>();
-                        statement = connection.prepareStatement(getQuery(SELECT_MESSAGE_BY_PROCESS_AND_TASK_ID, tableName));
+                        statement = connection
+                            .prepareStatement(getQuery(SELECT_MESSAGES_BY_PROCESS_AND_TASK_ID_AND_TASK_EXECUTION_ID, tableName));
                         statement.setString(1, processId);
                         statement.setString(2, taskId);
+                        statement.setString(3, taskExecutionId);
                         resultSet = statement.executeQuery();
                         while (resultSet.next()) {
                             messages.add(getMessage(resultSet));
@@ -308,11 +317,12 @@ public class ProgressMessageService {
                 }
             });
         } catch (SQLException e) {
-            throw new SLException(e, Messages.ERROR_GETTING_MESSAGE_PROCESS_ID_TASK_ID, processId, taskId);
+            throw new SLException(e, Messages.ERROR_GETTING_MESSAGES_WITH_PROCESS_ID_TASK_ID_AND_TASK_EXECUTION_ID, processId, taskId,
+                taskExecutionId);
         }
     }
 
-    public String findLastTaskId(final String processId, final String taskId) throws SLException {
+    public String findLastTaskExecutionId(final String processId, final String taskId) throws SLException {
         SqlExecutor<String> executor = new ProgressMessageSqlExecutor<>();
         try {
             return executor.execute(new StatementExecutor<String>() {
@@ -321,12 +331,12 @@ public class ProgressMessageService {
                     PreparedStatement statement = null;
                     ResultSet resultSet = null;
                     try {
-                        statement = connection.prepareStatement(getQuery(SELECT_MESSAGE_BY_PROCESS_AND_TASK_ID_PREFIX, tableName));
+                        statement = connection.prepareStatement(getQuery(SELECT_MESSAGES_BY_PROCESS_AND_TASK_ID, tableName));
                         statement.setString(1, processId);
-                        statement.setString(2, taskId + "%");
+                        statement.setString(2, taskId);
                         resultSet = statement.executeQuery();
                         if (resultSet.next()) {
-                            return resultSet.getString(1);
+                            return resultSet.getString(COLUMN_NAME_TASK_EXECUTION_ID);
                         }
                     } finally {
                         JdbcUtil.closeQuietly(resultSet);
@@ -336,12 +346,12 @@ public class ProgressMessageService {
                 }
             });
         } catch (SQLException e) {
-            throw new SLException(e, Messages.ERROR_GETTING_MESSAGE_PROCESS_ID_STARTING_WITH, processId, taskId);
+            throw new SLException(e, Messages.ERROR_GETTING_LAST_MESSAGE_WITH_PROCESS_ID_AND_TASK_ID, processId, taskId);
         }
     }
 
-    public List<ProgressMessage> findByProcessIdTaskIdAndType(final String processId, final String taskId, final ProgressMessageType type)
-        throws SLException {
+    public List<ProgressMessage> findByProcessIdTaskIdTaskExecutionIdAndType(final String processId, final String taskId,
+        final String taskExecutionId, final ProgressMessageType type) throws SLException {
         SqlExecutor<List<ProgressMessage>> executor = new ProgressMessageSqlExecutor<>();
         try {
             return executor.execute(new StatementExecutor<List<ProgressMessage>>() {
@@ -351,10 +361,11 @@ public class ProgressMessageService {
                     ResultSet resultSet = null;
                     try {
                         List<ProgressMessage> messages = new ArrayList<>();
-                        statement = connection.prepareStatement(getQuery(SELECT_MESSAGE_SPECIFIC_MESSAGE, tableName));
+                        statement = connection.prepareStatement(getQuery(SELECT_SPECIFIC_MESSAGE, tableName));
                         statement.setString(1, processId);
                         statement.setString(2, taskId);
-                        statement.setString(3, type.name());
+                        statement.setString(3, taskExecutionId);
+                        statement.setString(4, type.name());
                         resultSet = statement.executeQuery();
                         while (resultSet.next()) {
                             messages.add(getMessage(resultSet));
@@ -367,7 +378,8 @@ public class ProgressMessageService {
                 }
             });
         } catch (SQLException e) {
-            throw new SLException(e, Messages.ERROR_GETTING_MESSAGE_PROCESS_ID_TASK_ID_TYPE, processId, taskId, type.name());
+            throw new SLException(e, Messages.ERROR_GETTING_MESSAGES_WITH_PROCESS_ID_TASK_ID_TASK_EXECUTION_ID_AND_TYPE, processId, taskId,
+                taskExecutionId, type.name());
         }
     }
 
@@ -381,7 +393,7 @@ public class ProgressMessageService {
                     ResultSet resultSet = null;
                     try {
                         List<ProgressMessage> messages = new ArrayList<>();
-                        statement = connection.prepareStatement(getQuery(SELECT_MESSAGE_BY_PROCESS_ID_AND_TYPE, tableName));
+                        statement = connection.prepareStatement(getQuery(SELECT_MESSAGES_BY_PROCESS_ID_AND_TYPE, tableName));
                         statement.setString(1, processInstanceId);
                         statement.setString(2, type.name());
                         resultSet = statement.executeQuery();
@@ -396,7 +408,7 @@ public class ProgressMessageService {
                 }
             });
         } catch (SQLException e) {
-            throw new SLException(e, Messages.ERROR_GETTING_MESSAGE_PROCESS_ID_TYPE, processInstanceId, type.name());
+            throw new SLException(e, Messages.ERROR_GETTING_MESSAGES_WITH_PROCESS_ID_AND_TYPE, processInstanceId, type.name());
         }
     }
 
@@ -405,6 +417,7 @@ public class ProgressMessageService {
         message.setId(resultSet.getLong(COLUMN_NAME_ID));
         message.setProcessId(resultSet.getString(COLUMN_NAME_PROCESS_ID));
         message.setTaskId(resultSet.getString(COLUMN_NAME_TASK_ID));
+        message.setTaskExecutionId(resultSet.getString(COLUMN_NAME_TASK_EXECUTION_ID));
         message.setText(resultSet.getString(COLUMN_NAME_TEXT));
         message.setType(ProgressMessageType.valueOf(resultSet.getString(COLUMN_NAME_TYPE)));
         Timestamp dbTimestamp = resultSet.getTimestamp(COLUMN_NAME_TIMESTAMP);

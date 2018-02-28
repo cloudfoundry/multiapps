@@ -8,6 +8,7 @@ public class ProgressMessage implements Comparable<ProgressMessage> {
     private long id;
     private String processId;
     private String taskId;
+    private String taskExecutionId;
     private ProgressMessageType type;
     private String text;
     private Date timestamp;
@@ -15,9 +16,10 @@ public class ProgressMessage implements Comparable<ProgressMessage> {
     public ProgressMessage() {
     }
 
-    public ProgressMessage(String processId, String taskId, ProgressMessageType type, String text, Date timestamp) {
+    public ProgressMessage(String processId, String taskId, String taskExecutionId, ProgressMessageType type, String text, Date timestamp) {
         this.processId = processId;
         this.taskId = taskId;
+        this.taskExecutionId = taskExecutionId;
         this.type = type;
         setText(text);
         this.timestamp = timestamp;
@@ -45,6 +47,14 @@ public class ProgressMessage implements Comparable<ProgressMessage> {
 
     public void setTaskId(String taskId) {
         this.taskId = taskId;
+    }
+
+    public String getTaskExecutionId() {
+        return taskExecutionId;
+    }
+
+    public void setTaskExecutionId(String taskExecutionId) {
+        this.taskExecutionId = taskExecutionId;
     }
 
     public ProgressMessageType getType() {

@@ -95,7 +95,7 @@ public class ProcessLogsService extends DatabaseFileService {
                 }
             });
         } catch (SQLException e) {
-            throw new SLException(e, Messages.ERROR_DELETING_MESSAGES_BY_PROCESS_ID, processIds);
+            throw new SLException(e, Messages.ERROR_DELETING_MESSAGES_WITH_PROCESS_ID, processIds);
         }
     }
 

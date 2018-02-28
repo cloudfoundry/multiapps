@@ -22,6 +22,10 @@
     <include
         file="com/sap/cloud/lm/sl/persistence/db/changelog/db-changelog-add_trigger_for_lm_sl_persistance_file_process_log_cf.xml" />
     <include
-        file="com/sap/cloud/lm/sl/persistence/db/changelog/db-changelog-alter_lm_sl_persistance_file_alter_namespace_column_allow_null.xml"></include>
+        file="com/sap/cloud/lm/sl/persistence/db/changelog/db-changelog-alter_lm_sl_persistance_file_alter_namespace_column_allow_null.xml" />
+    <include
+        file="com/sap/cloud/lm/sl/persistence/db/changelog/db-changelog-alter_progress_message_add_task_execution_id_column.xml" />
+    <include
+        file="com/sap/cloud/lm/sl/persistence/db/changelog/db-changelog-alter_task_extension_add_task_execution_id_column.xml" />
 
 </databaseChangeLog>
