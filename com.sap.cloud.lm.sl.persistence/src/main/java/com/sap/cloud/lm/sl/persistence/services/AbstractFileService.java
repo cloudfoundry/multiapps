@@ -307,13 +307,10 @@ public abstract class AbstractFileService {
                         statement = connection.prepareStatement(getQuery(DELETE_FILE_BY_FILE_ID, tableName));
                         for (String space : spaceToFileIds.keySet()) {
                             for (String fileId : spaceToFileIds.get(space)) {
-                                //This is needed because file might be in multiple chunks
-                                for (String fileChunckId : getFileChunkIds(fileId)) {
-                                    LOGGER.info("Execute DELETE FROM " + tableName + " WHERE FILE_ID=" + fileChunckId + "AND SPACE=" + space);
-                                    statement.setString(1, fileChunckId);
+                                    LOGGER.info(MessageFormat.format(Messages.DELETING_FILE_IN_TABLE, fileId, space, tableName));
+                                    statement.setString(1, fileId);
                                     statement.setString(2, space);
                                     statement.addBatch();
-                                }
                             }
                         }
                         int[] rowsRemovedArray = statement.executeBatch();
@@ -474,13 +471,6 @@ public abstract class AbstractFileService {
      */
     public abstract void processFileContent(final FileDownloadProcessor fileDownloadProcessor) throws FileStorageException;
 
-    protected String[] getFileChunkIds(String fileId) {
-        if (fileId == null) {
-            return new String[] {};
-        }
-        return fileId.split(",");
-    }
-    
     private DataSource getDataSource() {
         if (dataSource == null) {
             dataSource = lookupDataSource();
