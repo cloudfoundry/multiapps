@@ -41,7 +41,7 @@ public class ProcessLogsPersistenceService extends DatabaseFileService {
     }
 
     public List<String> getLogNames(String space, String namespace) throws FileStorageException {
-        List<String> result = new ArrayList<String>();
+        List<String> result = new ArrayList<>();
         List<FileEntry> logFiles = listFiles(space, namespace);
         for (FileEntry logFile : logFiles) {
             result.add(logFile.getName());
@@ -104,7 +104,7 @@ public class ProcessLogsPersistenceService extends DatabaseFileService {
 
     public boolean deleteLog(String space, String fileId) throws FileStorageException {
         int rowsDeleted = deleteFile(space, fileId);
-        return (rowsDeleted > 0) ? true : false;
+        return rowsDeleted > 0;
     }
 
     public String findFileId(String namespace, String fileName) throws FileStorageException {

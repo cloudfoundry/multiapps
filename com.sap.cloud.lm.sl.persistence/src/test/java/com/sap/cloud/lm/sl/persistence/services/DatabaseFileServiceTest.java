@@ -29,8 +29,6 @@ import com.sap.cloud.lm.sl.persistence.model.FileEntry;
 import com.sap.cloud.lm.sl.persistence.processors.DefaultFileDownloadProcessor;
 import com.sap.cloud.lm.sl.persistence.processors.DefaultFileUploadProcessor;
 
-//@PrepareForTest({ UUID.class })
-//@RunWith(PowerMockRunner.class)
 public class DatabaseFileServiceTest {
 
     private static final String LIQUIBASE_CHANGELOG_LOCATION = "com/sap/cloud/lm/sl/persistence/db/changelog/db-changelog.xml";
@@ -89,11 +87,11 @@ public class DatabaseFileServiceTest {
         testDataSource.getConnection().close();
     }
 
-    @SuppressWarnings("deprecation")
     protected void insertInitialData() throws Exception {
         storedFile = addFileEntry(MY_SPACE_ID);
     }
     
+    @SuppressWarnings("deprecation")
     private FileEntry addFileEntry(String spaceId) throws FileStorageException {
         InputStream resourceStream = getResource(PIC1_RESOURCE_NAME);
         return fileService.addFile(spaceId, SYSTEM_NAMESPACE, PIC1_STORAGE_NAME, resourceStream, MAX_UPLOAD_SIZE, false);

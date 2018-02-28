@@ -5,7 +5,6 @@ import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,7 +20,7 @@ import com.sap.cloud.lm.sl.persistence.util.JdbcUtil;
 
 public class ProcessLogsService extends DatabaseFileService {
     private static final String TABLE_NAME = "process_log";
-    private static final String DELETE_CONTENT_BY_NAMESPACE = "DELETE FROM {0} WHERE NAMESPACE=?";
+    private static final String DELETE_CONTENT_BY_NAMESPACE = "DELETE FROM %s WHERE NAMESPACE=?";
 
     private static ProcessLogsService instance;
 
@@ -37,7 +36,7 @@ public class ProcessLogsService extends DatabaseFileService {
     }
 
     public List<String> getLogNames(String space, String processId) throws FileStorageException {
-        List<String> result = new ArrayList<String>();
+        List<String> result = new ArrayList<>();
         List<FileEntry> logFiles = listFiles(space, processId);
         for (FileEntry logFile : logFiles) {
             result.add(logFile.getName());
@@ -70,12 +69,11 @@ public class ProcessLogsService extends DatabaseFileService {
     }
 
     public int deleteAllByProcessIds(final List<String> processIds) throws SLException {
-        SqlExecutor<Integer> executor = new FileServiceSqlExecutor<Integer>();
+        SqlExecutor<Integer> executor = new FileServiceSqlExecutor<>();
         try {
             return executor.execute(new StatementExecutor<Integer>() {
                 @Override
                 public Integer execute(Connection connection) throws SQLException {
-                    int rowsRemoved = 0;
                     PreparedStatement statement = null;
                     try {
                         connection.setAutoCommit(false);
@@ -85,19 +83,19 @@ public class ProcessLogsService extends DatabaseFileService {
                             statement.addBatch();
                         }
                         int[] rowsRemovedArray = statement.executeBatch();
-                        rowsRemoved = CommonUtil.sumOfInts(rowsRemovedArray);
+                        int rowsRemoved = CommonUtil.sumOfInts(rowsRemovedArray);
                         JdbcUtil.commit(connection);
+                        return rowsRemoved;
                     } catch (SQLException e) {
                         JdbcUtil.rollback(connection);
                         throw e;
                     } finally {
                         JdbcUtil.closeQuietly(statement);
                     }
-                    return rowsRemoved;
                 }
             });
         } catch (SQLException e) {
-            throw new SLException(e, MessageFormat.format(Messages.ERROR_DELETING_MESSAGES_BY_PROCESS_ID, processIds));
+            throw new SLException(e, Messages.ERROR_DELETING_MESSAGES_BY_PROCESS_ID, processIds);
         }
     }
 
