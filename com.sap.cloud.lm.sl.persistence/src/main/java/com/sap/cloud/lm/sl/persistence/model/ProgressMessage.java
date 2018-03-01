@@ -57,6 +57,10 @@ public class ProgressMessage implements Comparable<ProgressMessage> {
         this.taskExecutionId = taskExecutionId;
     }
 
+    public String getFullTaskId() {
+        return getTaskId() + getTaskExecutionId();
+    }
+
     public ProgressMessageType getType() {
         return type;
     }
