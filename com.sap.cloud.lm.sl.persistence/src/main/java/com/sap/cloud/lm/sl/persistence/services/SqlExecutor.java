@@ -5,9 +5,9 @@ import java.sql.SQLException;
 
 import com.sap.cloud.lm.sl.persistence.util.JdbcUtil;
 
-abstract class SqlExecutor<T> {
+abstract class SqlExecutor {
 
-    public T execute(StatementExecutor<T> statementExecutor) throws SQLException {
+    public <T> T execute(StatementExecutor<T> statementExecutor) throws SQLException {
         Connection connection = getConnection();
         try {
             return statementExecutor.execute(connection);

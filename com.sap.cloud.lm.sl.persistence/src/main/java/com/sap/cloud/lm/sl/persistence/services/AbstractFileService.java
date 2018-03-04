@@ -65,6 +65,7 @@ public abstract class AbstractFileService {
     protected final String tableName;
     protected DataSource dataSource;
     protected DatabaseDialect databaseDialect;
+    protected SqlExecutor sqlExecutor = new FileServiceSqlExecutor();
     private VirusScanner virusScanner;
 
     public AbstractFileService(String tableName) {
@@ -235,9 +236,8 @@ public abstract class AbstractFileService {
     protected abstract boolean storeFile(final FileEntry fileEntry, final InputStream inputStream) throws FileStorageException;
 
     protected boolean storeFileAttributes(final FileEntry fileEntry) throws FileStorageException {
-        SqlExecutor<Boolean> executor = new FileServiceSqlExecutor<>();
         try {
-            return executor.execute(new StatementExecutor<Boolean>() {
+            return sqlExecutor.execute(new StatementExecutor<Boolean>() {
                 @Override
                 public Boolean execute(Connection connection) throws SQLException {
                     return storeFileAttributes(connection, fileEntry);
@@ -268,9 +268,8 @@ public abstract class AbstractFileService {
     }
 
     public int deleteAll(final String space, final String namespace) throws FileStorageException {
-        SqlExecutor<Integer> executor = new FileServiceSqlExecutor<>();
         try {
-            return executor.execute(new StatementExecutor<Integer>() {
+            return sqlExecutor.execute(new StatementExecutor<Integer>() {
                 @Override
                 public Integer execute(Connection connection) throws SQLException {
                     PreparedStatement statement = null;
@@ -295,9 +294,8 @@ public abstract class AbstractFileService {
     }
 
     public int deleteAllByFileIds(final Map<String, List<String>> spaceToFileIds) throws FileStorageException {
-        SqlExecutor<Integer> executor = new FileServiceSqlExecutor<>();
         try {
-            return executor.execute(new StatementExecutor<Integer>() {
+            return sqlExecutor.execute(new StatementExecutor<Integer>() {
                 @Override
                 public Integer execute(Connection connection) throws SQLException {
                     PreparedStatement statement = null;
@@ -336,9 +334,8 @@ public abstract class AbstractFileService {
     protected abstract void deleteFileContent(String space, String id) throws FileStorageException;
 
     public int deleteFileAttributes(final String space, final String id) throws FileStorageException {
-        SqlExecutor<Integer> executor = new FileServiceSqlExecutor<>();
         try {
-            return executor.execute(new StatementExecutor<Integer>() {
+            return sqlExecutor.execute(new StatementExecutor<Integer>() {
                 @Override
                 public Integer execute(Connection connection) throws SQLException {
                     PreparedStatement statement = null;
@@ -363,9 +360,8 @@ public abstract class AbstractFileService {
     }
 
     public List<FileEntry> listFiles(final String space, final String namespace) throws FileStorageException {
-        SqlExecutor<List<FileEntry>> executor = new FileServiceSqlExecutor<>();
         try {
-            return executor.execute(new StatementExecutor<List<FileEntry>>() {
+            return sqlExecutor.execute(new StatementExecutor<List<FileEntry>>() {
                 @Override
                 public List<FileEntry> execute(Connection connection) throws SQLException {
                     PreparedStatement statement = null;
@@ -404,9 +400,8 @@ public abstract class AbstractFileService {
     }
 
     public FileEntry getFile(final String space, final String id) throws FileStorageException {
-        SqlExecutor<FileEntry> executor = new FileServiceSqlExecutor<>();
         try {
-            return executor.execute(new StatementExecutor<FileEntry>() {
+            return sqlExecutor.execute(new StatementExecutor<FileEntry>() {
                 @Override
                 public FileEntry execute(Connection connection) throws SQLException {
                     PreparedStatement statement = null;
@@ -493,7 +488,7 @@ public abstract class AbstractFileService {
         return String.format(statementTemplate, tableName);
     }
 
-    protected class FileServiceSqlExecutor<T> extends SqlExecutor<T> {
+    protected class FileServiceSqlExecutor extends SqlExecutor {
 
         @Override
         protected Connection getConnection() throws SQLException {
