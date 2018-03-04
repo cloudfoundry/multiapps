@@ -46,24 +46,14 @@ public class DatabaseFileService extends AbstractFileService {
     @Override
     protected boolean storeFile(final FileEntry fileEntry, final InputStream inputStream) throws FileStorageException {
         try {
-            return sqlExecutor.execute(new StatementExecutor<Boolean>() {
+            return sqlExecutor.executeInSingleTransaction(new StatementExecutor<Boolean>() {
                 @Override
                 public Boolean execute(Connection connection) throws SQLException {
-                    try {
-                        connection.setAutoCommit(false);
-                        boolean attributesStoredSuccessfully = storeFileAttributes(connection, fileEntry);
-                        if (!attributesStoredSuccessfully) {
-                            return false;
-                        }
-                        boolean contentStoredSuccessfully = storeFileContent(connection, fileEntry, inputStream);
-                        JdbcUtil.commit(connection);
-                        return contentStoredSuccessfully;
-                    } catch (SQLException e) {
-                        JdbcUtil.rollback(connection);
-                        throw e;
-                    } finally {
-                        connection.setAutoCommit(true);
+                    boolean attributesStoredSuccessfully = storeFileAttributes(connection, fileEntry);
+                    if (!attributesStoredSuccessfully) {
+                        return false;
                     }
+                    return storeFileContent(connection, fileEntry, inputStream);
                 }
 
             });
@@ -88,20 +78,18 @@ public class DatabaseFileService extends AbstractFileService {
     public void processFileContent(final FileDownloadProcessor fileDownloadProcessor) throws FileStorageException {
         deleteEntriesWithoutContent();
         try {
-            sqlExecutor.execute(new StatementExecutor<Void>() {
+            sqlExecutor.executeInSingleTransaction(new StatementExecutor<Void>() {
                 @Override
                 public Void execute(Connection connection) throws SQLException {
                     PreparedStatement statement = null;
                     ResultSet resultSet = null;
                     try {
-                        connection.setAutoCommit(false);
                         statement = connection.prepareStatement(getQuery(SELECT_FILE_CONTENT_BY_ID, tableName));
                         statement.setString(1, fileDownloadProcessor.getFileEntry()
                             .getId());
                         statement.setString(2, fileDownloadProcessor.getFileEntry()
                             .getSpace());
                         resultSet = statement.executeQuery();
-                        JdbcUtil.commit(connection);
                         if (resultSet.next()) {
                             processFileContent(resultSet, fileDownloadProcessor);
                         } else {
@@ -109,7 +97,6 @@ public class DatabaseFileService extends AbstractFileService {
                                 .getId()));
                         }
                     } finally {
-                        connection.setAutoCommit(true);
                         JdbcUtil.closeQuietly(resultSet);
                         JdbcUtil.closeQuietly(statement);
                     }
@@ -168,11 +155,7 @@ public class DatabaseFileService extends AbstractFileService {
                     try {
                         statement = connection.prepareStatement(getQuery(DELETE_FILES_WITHOUT_CONTENT, tableName));
                         int rowsDeleted = statement.executeUpdate();
-                        JdbcUtil.commit(connection);
                         return rowsDeleted;
-                    } catch (SQLException e) {
-                        JdbcUtil.rollback(connection);
-                        throw e;
                     } finally {
                         JdbcUtil.closeQuietly(statement);
                     }
