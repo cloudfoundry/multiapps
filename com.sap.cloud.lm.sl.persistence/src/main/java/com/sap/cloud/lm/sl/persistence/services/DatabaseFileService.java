@@ -45,9 +45,8 @@ public class DatabaseFileService extends AbstractFileService {
 
     @Override
     protected boolean storeFile(final FileEntry fileEntry, final InputStream inputStream) throws FileStorageException {
-        SqlExecutor<Boolean> executor = new FileServiceSqlExecutor<>();
         try {
-            return executor.execute(new StatementExecutor<Boolean>() {
+            return sqlExecutor.execute(new StatementExecutor<Boolean>() {
                 @Override
                 public Boolean execute(Connection connection) throws SQLException {
                     try {
@@ -88,9 +87,8 @@ public class DatabaseFileService extends AbstractFileService {
     @Override
     public void processFileContent(final FileDownloadProcessor fileDownloadProcessor) throws FileStorageException {
         deleteEntriesWithoutContent();
-        SqlExecutor<Void> executor = new FileServiceSqlExecutor<>();
         try {
-            executor.execute(new StatementExecutor<Void>() {
+            sqlExecutor.execute(new StatementExecutor<Void>() {
                 @Override
                 public Void execute(Connection connection) throws SQLException {
                     PreparedStatement statement = null;
@@ -162,9 +160,8 @@ public class DatabaseFileService extends AbstractFileService {
     }
 
     private int deleteEntriesWithoutContent() throws FileStorageException {
-        SqlExecutor<Integer> executor = new FileServiceSqlExecutor<>();
         try {
-            return executor.execute(new StatementExecutor<Integer>() {
+            return sqlExecutor.execute(new StatementExecutor<Integer>() {
                 @Override
                 public Integer execute(Connection connection) throws SQLException {
                     PreparedStatement statement = null;

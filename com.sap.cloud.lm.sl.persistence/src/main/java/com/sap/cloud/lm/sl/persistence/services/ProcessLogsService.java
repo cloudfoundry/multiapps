@@ -69,9 +69,8 @@ public class ProcessLogsService extends DatabaseFileService {
     }
 
     public int deleteAllByProcessIds(final List<String> processIds) throws SLException {
-        SqlExecutor<Integer> executor = new FileServiceSqlExecutor<>();
         try {
-            return executor.execute(new StatementExecutor<Integer>() {
+            return sqlExecutor.execute(new StatementExecutor<Integer>() {
                 @Override
                 public Integer execute(Connection connection) throws SQLException {
                     PreparedStatement statement = null;
