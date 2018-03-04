@@ -278,11 +278,7 @@ public abstract class AbstractFileService {
                         statement.setString(1, namespace);
                         statement.setString(2, space);
                         int rowsDeleted = statement.executeUpdate();
-                        JdbcUtil.commit(connection);
                         return rowsDeleted;
-                    } catch (SQLException e) {
-                        JdbcUtil.rollback(connection);
-                        throw e;
                     } finally {
                         JdbcUtil.closeQuietly(statement);
                     }
@@ -303,19 +299,14 @@ public abstract class AbstractFileService {
                         statement = connection.prepareStatement(getQuery(DELETE_FILE_BY_FILE_ID, tableName));
                         for (String space : spaceToFileIds.keySet()) {
                             for (String fileId : spaceToFileIds.get(space)) {
-                                    LOGGER.info(MessageFormat.format(Messages.DELETING_FILE_IN_TABLE, fileId, space, tableName));
-                                    statement.setString(1, fileId);
-                                    statement.setString(2, space);
-                                    statement.addBatch();
+                                LOGGER.info(MessageFormat.format(Messages.DELETING_FILE_IN_TABLE, fileId, space, tableName));
+                                statement.setString(1, fileId);
+                                statement.setString(2, space);
+                                statement.addBatch();
                             }
                         }
                         int[] rowsRemovedArray = statement.executeBatch();
-                        int rowsRemoved = CommonUtil.sumOfInts(rowsRemovedArray);
-                        JdbcUtil.commit(connection);
-                        return rowsRemoved;
-                    } catch (SQLException e) {
-                        JdbcUtil.rollback(connection);
-                        throw e;
+                        return CommonUtil.sumOfInts(rowsRemovedArray);
                     } finally {
                         JdbcUtil.closeQuietly(statement);
                     }
@@ -344,11 +335,7 @@ public abstract class AbstractFileService {
                         statement.setString(1, id);
                         statement.setString(2, space);
                         int rowsDeleted = statement.executeUpdate();
-                        JdbcUtil.commit(connection);
                         return rowsDeleted;
-                    } catch (SQLException e) {
-                        JdbcUtil.rollback(connection);
-                        throw e;
                     } finally {
                         JdbcUtil.closeQuietly(statement);
                     }

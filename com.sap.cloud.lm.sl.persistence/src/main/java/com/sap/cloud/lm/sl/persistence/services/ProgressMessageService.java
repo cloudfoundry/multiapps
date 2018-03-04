@@ -102,11 +102,7 @@ public class ProgressMessageService {
                         statement.setTimestamp(6, new Timestamp(message.getTimestamp()
                             .getTime()));
                         int rowsInserted = statement.executeUpdate();
-                        JdbcUtil.commit(connection);
                         return rowsInserted > 0;
-                    } catch (SQLException e) {
-                        JdbcUtil.rollback(connection);
-                        throw e;
                     } finally {
                         JdbcUtil.closeQuietly(statement);
                     }
@@ -131,11 +127,7 @@ public class ProgressMessageService {
                             .getTime()));
                         statement.setLong(3, existingId);
                         int rowsUpdated = statement.executeUpdate();
-                        JdbcUtil.commit(connection);
                         return rowsUpdated == 1;
-                    } catch (SQLException e) {
-                        JdbcUtil.rollback(connection);
-                        throw e;
                     } finally {
                         JdbcUtil.closeQuietly(statement);
                     }
@@ -156,11 +148,7 @@ public class ProgressMessageService {
                         statement = connection.prepareStatement(getQuery(DELETE_MESSAGES_BY_PROCESS_ID, tableName));
                         statement.setString(1, processId);
                         int rowsRemoved = statement.executeUpdate();
-                        JdbcUtil.commit(connection);
                         return rowsRemoved;
-                    } catch (SQLException e) {
-                        JdbcUtil.rollback(connection);
-                        throw e;
                     } finally {
                         JdbcUtil.closeQuietly(statement);
                     }
@@ -173,24 +161,18 @@ public class ProgressMessageService {
 
     public int removeAllByProcessIds(final List<String> processIds) throws SLException {
         try {
-            return sqlExecutor.execute(new StatementExecutor<Integer>() {
+            return sqlExecutor.executeInSingleTransaction(new StatementExecutor<Integer>() {
                 @Override
                 public Integer execute(Connection connection) throws SQLException {
                     PreparedStatement statement = null;
                     try {
-                        connection.setAutoCommit(false);
                         statement = connection.prepareStatement(getQuery(DELETE_MESSAGES_BY_PROCESS_ID, tableName));
                         for (String processId : processIds) {
                             statement.setString(1, processId);
                             statement.addBatch();
                         }
                         int[] rowsRemovedArray = statement.executeBatch();
-                        int rowsRemoved = CommonUtil.sumOfInts(rowsRemovedArray);
-                        JdbcUtil.commit(connection);
-                        return rowsRemoved;
-                    } catch (SQLException e) {
-                        JdbcUtil.rollback(connection);
-                        throw e;
+                        return CommonUtil.sumOfInts(rowsRemovedArray);
                     } finally {
                         JdbcUtil.closeQuietly(statement);
                     }
@@ -214,11 +196,7 @@ public class ProgressMessageService {
                         statement.setString(2, taskId);
                         statement.setString(3, taskExecutionId);
                         int rowsRemoved = statement.executeUpdate();
-                        JdbcUtil.commit(connection);
                         return rowsRemoved;
-                    } catch (SQLException e) {
-                        JdbcUtil.rollback(connection);
-                        throw e;
                     } finally {
                         JdbcUtil.closeQuietly(statement);
                     }

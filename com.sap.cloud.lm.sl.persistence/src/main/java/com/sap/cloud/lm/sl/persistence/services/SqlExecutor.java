@@ -10,8 +10,29 @@ abstract class SqlExecutor {
     public <T> T execute(StatementExecutor<T> statementExecutor) throws SQLException {
         Connection connection = getConnection();
         try {
-            return statementExecutor.execute(connection);
+            T result = statementExecutor.execute(connection);
+            JdbcUtil.commit(connection);
+            return result;
+        } catch (SQLException e) {
+            JdbcUtil.rollback(connection);
+            throw e;
         } finally {
+            JdbcUtil.closeQuietly(connection);
+        }
+    }
+
+    public <T> T executeInSingleTransaction(StatementExecutor<T> statementExecutor) throws SQLException {
+        Connection connection = getConnection();
+        try {
+            connection.setAutoCommit(false);
+            T result = statementExecutor.execute(connection);
+            JdbcUtil.commit(connection);
+            return result;
+        } catch (SQLException e) {
+            JdbcUtil.rollback(connection);
+            throw e;
+        } finally {
+            connection.setAutoCommit(true);
             JdbcUtil.closeQuietly(connection);
         }
     }
