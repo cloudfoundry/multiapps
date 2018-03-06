@@ -58,7 +58,7 @@ public class ProgressMessage implements Comparable<ProgressMessage> {
     }
 
     public String getFullTaskId() {
-        return getTaskId() + getTaskExecutionId();
+        return getTaskExecutionId() == null ? getTaskId() : getTaskId() + getTaskExecutionId();
     }
 
     public ProgressMessageType getType() {
@@ -95,8 +95,8 @@ public class ProgressMessage implements Comparable<ProgressMessage> {
 
     @Override
     public String toString() {
-        return "ProgressMessage [id=" + id + ", processId=" + processId + ", taskId=" + taskId + ", type=" + type + ", text=" + text
-            + ", timestamp=" + timestamp + "]";
+        return "ProgressMessage [id=" + id + ", processId=" + processId + ", taskId=" + taskId + ", taskExecutionId=" + taskExecutionId
+            + ", type=" + type + ", text=" + text + ", timestamp=" + timestamp + "]";
     }
 
     @Override

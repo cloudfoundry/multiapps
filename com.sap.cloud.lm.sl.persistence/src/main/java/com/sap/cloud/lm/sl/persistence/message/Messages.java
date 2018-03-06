@@ -44,7 +44,6 @@ public final class Messages {
     public static final String SCANNING_FILE_SUCCESS = "File \"{0}\" is not infected";
     public static final String FAILED_TO_DELETE_FILE = "Failed to delete file {0}";
     public static final String DELETING_FILE_IN_TABLE = "File id:{0} in space: {1} will be deleted from {2}.";
-    public static final String POPULATED_TASK_EXECUTION_ID_COLUMN = "Task execution IDs were successfully split from task IDs in the \"{0}\" table!";
 
     // DEBUG log messages:
     public static final String DELETING_FILE_WITH_PATH = "Deleting file with path {0}...";
