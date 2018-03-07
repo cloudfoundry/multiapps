@@ -9,9 +9,13 @@ import java.sql.SQLException;
 import java.text.MessageFormat;
 import java.util.List;
 
+import javax.sql.DataSource;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.sap.cloud.lm.sl.persistence.dialects.DatabaseDialect;
+import com.sap.cloud.lm.sl.persistence.dialects.DefaultDatabaseDialect;
 import com.sap.cloud.lm.sl.persistence.message.Messages;
 import com.sap.cloud.lm.sl.persistence.model.FileEntry;
 import com.sap.cloud.lm.sl.persistence.processors.FileDownloadProcessor;
@@ -30,23 +34,22 @@ public class DatabaseFileService extends AbstractFileService {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(DatabaseFileService.class);
 
-    private static DatabaseFileService instance;
-
-    public static DatabaseFileService getInstance() {
-        if (instance == null) {
-            instance = new DatabaseFileService(DEFAULT_TABLE_NAME);
-        }
-        return instance;
+    public DatabaseFileService(DataSource dataSource) {
+        this(dataSource, new DefaultDatabaseDialect());
     }
 
-    public DatabaseFileService(String tableName) {
-        super(tableName);
+    public DatabaseFileService(DataSource dataSource, DatabaseDialect databaseDialect) {
+        this(DEFAULT_TABLE_NAME, dataSource, databaseDialect);
+    }
+
+    protected DatabaseFileService(String tableName, DataSource dataSource, DatabaseDialect databaseDialect) {
+        super(tableName, dataSource, databaseDialect);
     }
 
     @Override
     protected boolean storeFile(final FileEntry fileEntry, final InputStream inputStream) throws FileStorageException {
         try {
-            return sqlExecutor.executeInSingleTransaction(new StatementExecutor<Boolean>() {
+            return getSqlExecutor().executeInSingleTransaction(new StatementExecutor<Boolean>() {
                 @Override
                 public Boolean execute(Connection connection) throws SQLException {
                     boolean attributesStoredSuccessfully = storeFileAttributes(connection, fileEntry);
@@ -65,7 +68,7 @@ public class DatabaseFileService extends AbstractFileService {
     private boolean storeFileContent(Connection connection, FileEntry fileEntry, InputStream inputStream) throws SQLException {
         PreparedStatement statement = null;
         try {
-            statement = connection.prepareStatement(getQuery(INSERT_FILE_CONTENT, tableName));
+            statement = connection.prepareStatement(getQuery(INSERT_FILE_CONTENT));
             getDatabaseDialect().setBlobAsBinaryStream(statement, 1, inputStream);
             statement.setString(2, fileEntry.getId());
             return statement.executeUpdate() > 0;
@@ -78,13 +81,13 @@ public class DatabaseFileService extends AbstractFileService {
     public void processFileContent(final FileDownloadProcessor fileDownloadProcessor) throws FileStorageException {
         deleteEntriesWithoutContent();
         try {
-            sqlExecutor.executeInSingleTransaction(new StatementExecutor<Void>() {
+            getSqlExecutor().executeInSingleTransaction(new StatementExecutor<Void>() {
                 @Override
                 public Void execute(Connection connection) throws SQLException {
                     PreparedStatement statement = null;
                     ResultSet resultSet = null;
                     try {
-                        statement = connection.prepareStatement(getQuery(SELECT_FILE_CONTENT_BY_ID, tableName));
+                        statement = connection.prepareStatement(getQuery(SELECT_FILE_CONTENT_BY_ID));
                         statement.setString(1, fileDownloadProcessor.getFileEntry()
                             .getId());
                         statement.setString(2, fileDownloadProcessor.getFileEntry()
@@ -148,12 +151,12 @@ public class DatabaseFileService extends AbstractFileService {
 
     private int deleteEntriesWithoutContent() throws FileStorageException {
         try {
-            return sqlExecutor.execute(new StatementExecutor<Integer>() {
+            return getSqlExecutor().execute(new StatementExecutor<Integer>() {
                 @Override
                 public Integer execute(Connection connection) throws SQLException {
                     PreparedStatement statement = null;
                     try {
-                        statement = connection.prepareStatement(getQuery(DELETE_FILES_WITHOUT_CONTENT, tableName));
+                        statement = connection.prepareStatement(getQuery(DELETE_FILES_WITHOUT_CONTENT));
                         int rowsDeleted = statement.executeUpdate();
                         return rowsDeleted;
                     } finally {

@@ -19,8 +19,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
-import javax.naming.InitialContext;
-import javax.naming.NamingException;
 import javax.sql.DataSource;
 
 import org.apache.commons.io.IOUtils;
@@ -31,7 +29,6 @@ import com.sap.cloud.lm.sl.common.SLException;
 import com.sap.cloud.lm.sl.common.util.CommonUtil;
 import com.sap.cloud.lm.sl.common.util.DigestHelper;
 import com.sap.cloud.lm.sl.persistence.dialects.DatabaseDialect;
-import com.sap.cloud.lm.sl.persistence.dialects.DefaultDatabaseDialect;
 import com.sap.cloud.lm.sl.persistence.message.Messages;
 import com.sap.cloud.lm.sl.persistence.model.FileEntry;
 import com.sap.cloud.lm.sl.persistence.model.FileUpload;
@@ -47,8 +44,6 @@ import virusscanner.VirusScannerException;
 
 public abstract class AbstractFileService {
 
-    private static final String DEFAULT_DATASOURCE_JNDI_NAME = "java:comp/env/jdbc/DefaultDB";
-
     private static final String SELECT_FILES_BY_NAMESPACE_AND_SPACE = "SELECT FILE_ID, SPACE, DIGEST, DIGEST_ALGORITHM, MODIFIED, FILE_NAME, NAMESPACE, FILE_SIZE FROM %s WHERE NAMESPACE=? AND SPACE=?";
     private static final String SELECT_FILES_BY_NAMESPACE = "SELECT FILE_ID, SPACE, DIGEST, DIGEST_ALGORITHM, MODIFIED, FILE_NAME, NAMESPACE, FILE_SIZE FROM %s WHERE NAMESPACE=?";
     private static final String SELECT_FILES_BY_SPACE = "SELECT FILE_ID, SPACE, DIGEST, DIGEST_ALGORITHM, MODIFIED, FILE_NAME, NAMESPACE, FILE_SIZE FROM %s WHERE SPACE=?";
@@ -58,39 +53,25 @@ public abstract class AbstractFileService {
     private static final String INSERT_FILE_ATTRIBUTES = "INSERT INTO %s (FILE_ID, SPACE, FILE_NAME, NAMESPACE, FILE_SIZE, DIGEST, DIGEST_ALGORITHM, MODIFIED) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
     private static final String DELETE_FILE_BY_FILE_ID = "DELETE FROM %s WHERE FILE_ID=? AND SPACE=?";
 
-    protected static final String DEFAULT_TABLE_NAME = "LM_SL_PERSISTENCE_FILE";
-
     private static final Logger LOGGER = LoggerFactory.getLogger(AbstractFileService.class);
 
-    protected final String tableName;
-    protected DataSource dataSource;
-    protected DatabaseDialect databaseDialect;
-    protected SqlExecutor sqlExecutor = new FileServiceSqlExecutor();
+    protected static final String DEFAULT_TABLE_NAME = "LM_SL_PERSISTENCE_FILE";
+
+    private final String tableName;
+    private final DataSource dataSource;
+    private final DatabaseDialect databaseDialect;
+    private final SqlExecutor sqlExecutor;
     private VirusScanner virusScanner;
 
-    public AbstractFileService(String tableName) {
+    protected AbstractFileService(String tableName, DataSource dataSource, DatabaseDialect databaseDialect) {
         this.tableName = tableName;
-    }
-
-    public void setDataSource(DataSource dataSource) {
         this.dataSource = dataSource;
-    }
-
-    public void setDatabaseDialect(DatabaseDialect databaseDialect) {
         this.databaseDialect = databaseDialect;
+        this.sqlExecutor = new FileServiceSqlExecutor();
     }
 
     public void setVirusScanner(VirusScanner virusScanner) {
         this.virusScanner = virusScanner;
-    }
-
-    public void init(DataSource dataSource) {
-        init(dataSource, new DefaultDatabaseDialect());
-    }
-
-    public void init(DataSource dataSource, DatabaseDialect databaseDialect) {
-        this.dataSource = dataSource;
-        this.databaseDialect = databaseDialect;
     }
 
     @Deprecated
@@ -237,7 +218,7 @@ public abstract class AbstractFileService {
 
     protected boolean storeFileAttributes(final FileEntry fileEntry) throws FileStorageException {
         try {
-            return sqlExecutor.execute(new StatementExecutor<Boolean>() {
+            return getSqlExecutor().execute(new StatementExecutor<Boolean>() {
                 @Override
                 public Boolean execute(Connection connection) throws SQLException {
                     return storeFileAttributes(connection, fileEntry);
@@ -251,7 +232,7 @@ public abstract class AbstractFileService {
     protected boolean storeFileAttributes(Connection connection, FileEntry fileEntry) throws SQLException {
         PreparedStatement statement = null;
         try {
-            statement = connection.prepareStatement(getQuery(INSERT_FILE_ATTRIBUTES, tableName));
+            statement = connection.prepareStatement(getQuery(INSERT_FILE_ATTRIBUTES));
             statement.setString(1, fileEntry.getId());
             statement.setString(2, fileEntry.getSpace());
             statement.setString(3, fileEntry.getName());
@@ -269,12 +250,12 @@ public abstract class AbstractFileService {
 
     public int deleteAll(final String space, final String namespace) throws FileStorageException {
         try {
-            return sqlExecutor.execute(new StatementExecutor<Integer>() {
+            return getSqlExecutor().execute(new StatementExecutor<Integer>() {
                 @Override
                 public Integer execute(Connection connection) throws SQLException {
                     PreparedStatement statement = null;
                     try {
-                        statement = connection.prepareStatement(getQuery(DELETE_FILES_BY_NAMESPACE, tableName));
+                        statement = connection.prepareStatement(getQuery(DELETE_FILES_BY_NAMESPACE));
                         statement.setString(1, namespace);
                         statement.setString(2, space);
                         int rowsDeleted = statement.executeUpdate();
@@ -291,12 +272,12 @@ public abstract class AbstractFileService {
 
     public int deleteAllByFileIds(final Map<String, List<String>> spaceToFileIds) throws FileStorageException {
         try {
-            return sqlExecutor.execute(new StatementExecutor<Integer>() {
+            return getSqlExecutor().execute(new StatementExecutor<Integer>() {
                 @Override
                 public Integer execute(Connection connection) throws SQLException {
                     PreparedStatement statement = null;
                     try {
-                        statement = connection.prepareStatement(getQuery(DELETE_FILE_BY_FILE_ID, tableName));
+                        statement = connection.prepareStatement(getQuery(DELETE_FILE_BY_FILE_ID));
                         for (String space : spaceToFileIds.keySet()) {
                             for (String fileId : spaceToFileIds.get(space)) {
                                 LOGGER.info(MessageFormat.format(Messages.DELETING_FILE_IN_TABLE, fileId, space, tableName));
@@ -326,12 +307,12 @@ public abstract class AbstractFileService {
 
     public int deleteFileAttributes(final String space, final String id) throws FileStorageException {
         try {
-            return sqlExecutor.execute(new StatementExecutor<Integer>() {
+            return getSqlExecutor().execute(new StatementExecutor<Integer>() {
                 @Override
                 public Integer execute(Connection connection) throws SQLException {
                     PreparedStatement statement = null;
                     try {
-                        statement = connection.prepareStatement(getQuery(DELETE_FILE_BY_ID, tableName));
+                        statement = connection.prepareStatement(getQuery(DELETE_FILE_BY_ID));
                         statement.setString(1, id);
                         statement.setString(2, space);
                         int rowsDeleted = statement.executeUpdate();
@@ -348,7 +329,7 @@ public abstract class AbstractFileService {
 
     public List<FileEntry> listFiles(final String space, final String namespace) throws FileStorageException {
         try {
-            return sqlExecutor.execute(new StatementExecutor<List<FileEntry>>() {
+            return getSqlExecutor().execute(new StatementExecutor<List<FileEntry>>() {
                 @Override
                 public List<FileEntry> execute(Connection connection) throws SQLException {
                     PreparedStatement statement = null;
@@ -356,13 +337,13 @@ public abstract class AbstractFileService {
                     try {
                         List<FileEntry> files = new ArrayList<>();
                         if (space == null) {
-                            statement = connection.prepareStatement(getQuery(SELECT_FILES_BY_NAMESPACE, tableName));
+                            statement = connection.prepareStatement(getQuery(SELECT_FILES_BY_NAMESPACE));
                             statement.setString(1, namespace);
                         } else if (namespace == null) {
-                            statement = connection.prepareStatement(getQuery(SELECT_FILES_BY_SPACE, tableName));
+                            statement = connection.prepareStatement(getQuery(SELECT_FILES_BY_SPACE));
                             statement.setString(1, space);
                         } else {
-                            statement = connection.prepareStatement(getQuery(SELECT_FILES_BY_NAMESPACE_AND_SPACE, tableName));
+                            statement = connection.prepareStatement(getQuery(SELECT_FILES_BY_NAMESPACE_AND_SPACE));
                             statement.setString(1, namespace);
                             statement.setString(2, space);
                         }
@@ -388,13 +369,13 @@ public abstract class AbstractFileService {
 
     public FileEntry getFile(final String space, final String id) throws FileStorageException {
         try {
-            return sqlExecutor.execute(new StatementExecutor<FileEntry>() {
+            return getSqlExecutor().execute(new StatementExecutor<FileEntry>() {
                 @Override
                 public FileEntry execute(Connection connection) throws SQLException {
                     PreparedStatement statement = null;
                     ResultSet resultSet = null;
                     try {
-                        statement = connection.prepareStatement(getQuery(SELECT_FILE_BY_ID, tableName));
+                        statement = connection.prepareStatement(getQuery(SELECT_FILE_BY_ID));
                         statement.setString(1, id);
                         statement.setString(2, space);
                         resultSet = statement.executeQuery();
@@ -449,34 +430,23 @@ public abstract class AbstractFileService {
      */
     public abstract void processFileContent(final FileDownloadProcessor fileDownloadProcessor) throws FileStorageException;
 
-    private DataSource getDataSource() {
-        if (dataSource == null) {
-            dataSource = lookupDataSource();
-        }
+    protected String getQuery(String statementTemplate) {
+        return String.format(statementTemplate, tableName);
+    }
+
+    protected DataSource getDataSource() {
         return dataSource;
     }
 
     protected DatabaseDialect getDatabaseDialect() {
-        if (databaseDialect == null) {
-            databaseDialect = new DefaultDatabaseDialect();
-        }
         return databaseDialect;
     }
 
-    private static DataSource lookupDataSource() {
-        try {
-            return (DataSource) new InitialContext().lookup(DEFAULT_DATASOURCE_JNDI_NAME);
-        } catch (NamingException e) {
-            throw new IllegalStateException(e.getMessage(), e);
-        }
+    protected SqlExecutor getSqlExecutor() {
+        return sqlExecutor;
     }
 
-    protected String getQuery(String statementTemplate, String tableName) {
-        return String.format(statementTemplate, tableName);
-    }
-
-    protected class FileServiceSqlExecutor extends SqlExecutor {
-
+    private class FileServiceSqlExecutor extends SqlExecutor {
         @Override
         protected Connection getConnection() throws SQLException {
             return getDataSource().getConnection();

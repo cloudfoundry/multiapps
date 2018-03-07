@@ -11,10 +11,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import javax.sql.DataSource;
+
 import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.sap.cloud.lm.sl.persistence.dialects.DatabaseDialect;
+import com.sap.cloud.lm.sl.persistence.dialects.DefaultDatabaseDialect;
 import com.sap.cloud.lm.sl.persistence.message.Messages;
 import com.sap.cloud.lm.sl.persistence.model.FileEntry;
 import com.sap.cloud.lm.sl.persistence.processors.FileDownloadProcessor;
@@ -24,20 +28,16 @@ public class FileSystemFileService extends AbstractFileService {
     private static final Logger LOGGER = LoggerFactory.getLogger(FileSystemFileService.class);
 
     private static final String DEFAULT_FILES_STORAGE_PATH = "files";
-    private static FileSystemFileService instance;
 
     private String storagePath;
 
-    public static FileSystemFileService getInstance() {
-        if (instance == null) {
-            instance = new FileSystemFileService(DEFAULT_FILES_STORAGE_PATH);
-        }
-        return instance;
+    public FileSystemFileService(DataSource dataSource) {
+        this(dataSource, new DefaultDatabaseDialect());
     }
 
-    public FileSystemFileService(String storagePath) {
-        super(DEFAULT_TABLE_NAME);
-        this.storagePath = storagePath;
+    public FileSystemFileService(DataSource dataSource, DatabaseDialect databaseDialect) {
+        super(DEFAULT_TABLE_NAME, dataSource, databaseDialect);
+        this.storagePath = DEFAULT_FILES_STORAGE_PATH;
     }
 
     public void setStoragePath(String storagePath) {
@@ -122,8 +122,8 @@ public class FileSystemFileService extends AbstractFileService {
         int deletedFiles = 0;
         for (String space : spaceToFileIds.keySet()) {
             for (String fileId : spaceToFileIds.get(space)) {
-                    deleteFileContent(space, fileId);
-                    deletedFiles++;
+                deleteFileContent(space, fileId);
+                deletedFiles++;
             }
         }
         return deletedFiles;
