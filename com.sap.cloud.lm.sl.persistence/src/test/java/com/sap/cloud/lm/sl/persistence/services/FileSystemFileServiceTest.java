@@ -244,8 +244,6 @@ public class FileSystemFileServiceTest extends DatabaseFileServiceTest {
 
     @Override
     protected AbstractFileService createFileService(DataSourceWithDialect dataSource) {
-        FileSystemFileService fileService = new FileSystemFileService(testDataSource);
-        fileService.setStoragePath(temporaryStorageLocation.toString());
-        return fileService;
+        return new FileSystemFileService(testDataSource, temporaryStorageLocation.toString());
     }
 }

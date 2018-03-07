@@ -29,11 +29,11 @@ public class FileSystemFileService extends AbstractFileService {
     private String storagePath;
 
     public FileSystemFileService(DataSourceWithDialect dataSourceWithDialect) {
-        super(DEFAULT_TABLE_NAME, dataSourceWithDialect);
-        this.storagePath = DEFAULT_FILES_STORAGE_PATH;
+        this(dataSourceWithDialect, DEFAULT_FILES_STORAGE_PATH);
     }
 
-    public void setStoragePath(String storagePath) {
+    public FileSystemFileService(DataSourceWithDialect dataSourceWithDialect, String storagePath) {
+        super(DEFAULT_TABLE_NAME, dataSourceWithDialect);
         this.storagePath = storagePath;
     }
 
