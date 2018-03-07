@@ -5,6 +5,9 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.SequenceInputStream;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,20 +15,26 @@ import javax.sql.DataSource;
 
 import org.apache.commons.io.IOUtils;
 
+import com.sap.cloud.lm.sl.common.SLException;
+import com.sap.cloud.lm.sl.common.util.CommonUtil;
 import com.sap.cloud.lm.sl.persistence.dialects.DatabaseDialect;
 import com.sap.cloud.lm.sl.persistence.dialects.DefaultDatabaseDialect;
+import com.sap.cloud.lm.sl.persistence.message.Messages;
 import com.sap.cloud.lm.sl.persistence.model.FileEntry;
 import com.sap.cloud.lm.sl.persistence.processors.DefaultFileDownloadProcessor;
 import com.sap.cloud.lm.sl.persistence.processors.DefaultFileUploadProcessor;
 import com.sap.cloud.lm.sl.persistence.services.DatabaseFileService;
 import com.sap.cloud.lm.sl.persistence.services.FileContentProcessor;
 import com.sap.cloud.lm.sl.persistence.services.FileStorageException;
+import com.sap.cloud.lm.sl.persistence.services.SqlExecutor.StatementExecutor;
+import com.sap.cloud.lm.sl.persistence.util.JdbcUtil;
 
 public class ProcessLogsPersistenceService extends DatabaseFileService {
 
     private static final String LOG_FILE_EXTENSION = ".log";
     private static final String TABLE_NAME = "process_log";
     private static final String DEFAULT_SPACE = "DEFAULT";
+    private static final String DELETE_CONTENT_BY_NAMESPACE = "DELETE FROM %s WHERE NAMESPACE=?";
 
     public ProcessLogsPersistenceService(DataSource dataSource) {
         this(dataSource, new DefaultDatabaseDialect());
@@ -161,6 +170,30 @@ public class ProcessLogsPersistenceService extends DatabaseFileService {
             }
         };
         processFileContent(new DefaultFileDownloadProcessor(space, fileId, fileProcessor));
+    }
+
+    public int deleteAllByNamespaces(final List<String> namespaces) throws SLException {
+        try {
+            return getSqlExecutor().executeInSingleTransaction(new StatementExecutor<Integer>() {
+                @Override
+                public Integer execute(Connection connection) throws SQLException {
+                    PreparedStatement statement = null;
+                    try {
+                        statement = connection.prepareStatement(getQuery(DELETE_CONTENT_BY_NAMESPACE));
+                        for (String namespace : namespaces) {
+                            statement.setString(1, namespace);
+                            statement.addBatch();
+                        }
+                        int[] rowsRemovedArray = statement.executeBatch();
+                        return CommonUtil.sumOfInts(rowsRemovedArray);
+                    } finally {
+                        JdbcUtil.closeQuietly(statement);
+                    }
+                }
+            });
+        } catch (SQLException e) {
+            throw new SLException(e, Messages.ERROR_DELETING_PROCESS_LOGS_WITH_NAMESPACES, namespaces);
+        }
     }
 
 }
