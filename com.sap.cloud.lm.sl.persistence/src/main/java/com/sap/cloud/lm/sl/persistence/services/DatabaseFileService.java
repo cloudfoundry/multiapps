@@ -9,13 +9,10 @@ import java.sql.SQLException;
 import java.text.MessageFormat;
 import java.util.List;
 
-import javax.sql.DataSource;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.sap.cloud.lm.sl.persistence.dialects.DatabaseDialect;
-import com.sap.cloud.lm.sl.persistence.dialects.DefaultDatabaseDialect;
+import com.sap.cloud.lm.sl.persistence.DataSourceWithDialect;
 import com.sap.cloud.lm.sl.persistence.message.Messages;
 import com.sap.cloud.lm.sl.persistence.model.FileEntry;
 import com.sap.cloud.lm.sl.persistence.processors.FileDownloadProcessor;
@@ -34,16 +31,12 @@ public class DatabaseFileService extends AbstractFileService {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(DatabaseFileService.class);
 
-    public DatabaseFileService(DataSource dataSource) {
-        this(dataSource, new DefaultDatabaseDialect());
+    public DatabaseFileService(DataSourceWithDialect dataSourceWithDialect) {
+        this(DEFAULT_TABLE_NAME, dataSourceWithDialect);
     }
 
-    public DatabaseFileService(DataSource dataSource, DatabaseDialect databaseDialect) {
-        this(DEFAULT_TABLE_NAME, dataSource, databaseDialect);
-    }
-
-    protected DatabaseFileService(String tableName, DataSource dataSource, DatabaseDialect databaseDialect) {
-        super(tableName, dataSource, databaseDialect);
+    protected DatabaseFileService(String tableName, DataSourceWithDialect dataSourceWithDialect) {
+        super(tableName, dataSourceWithDialect);
     }
 
     @Override
@@ -69,7 +62,7 @@ public class DatabaseFileService extends AbstractFileService {
         PreparedStatement statement = null;
         try {
             statement = connection.prepareStatement(getQuery(INSERT_FILE_CONTENT));
-            getDatabaseDialect().setBlobAsBinaryStream(statement, 1, inputStream);
+            getDataSourceDialect().setBlobAsBinaryStream(statement, 1, inputStream);
             statement.setString(2, fileEntry.getId());
             return statement.executeUpdate() > 0;
         } finally {
@@ -113,7 +106,7 @@ public class DatabaseFileService extends AbstractFileService {
     }
 
     private void processFileContent(ResultSet resultSet, final FileDownloadProcessor fileDownloadProcessor) throws SQLException {
-        InputStream fileStream = getDatabaseDialect().getBinaryStreamFromBlob(resultSet, FileServiceColumnNames.CONTENT);
+        InputStream fileStream = getDataSourceDialect().getBinaryStreamFromBlob(resultSet, FileServiceColumnNames.CONTENT);
         try {
             fileDownloadProcessor.processContent(fileStream);
         } catch (Exception e) {

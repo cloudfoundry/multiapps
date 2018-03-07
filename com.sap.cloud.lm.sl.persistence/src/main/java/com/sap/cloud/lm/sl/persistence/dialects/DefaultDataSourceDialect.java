@@ -6,7 +6,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class DefaultDatabaseDialect implements DatabaseDialect {
+public class DefaultDataSourceDialect implements DataSourceDialect {
     
     @Override
     public String getSequenceNextValueSyntax(String sequenceName) {

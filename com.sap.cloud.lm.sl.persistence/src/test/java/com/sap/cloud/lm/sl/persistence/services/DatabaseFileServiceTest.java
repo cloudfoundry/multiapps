@@ -16,7 +16,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.sql.DataSource;
 import javax.xml.bind.DatatypeConverter;
 
 import org.junit.After;
@@ -25,6 +24,7 @@ import org.junit.Test;
 
 import com.sap.cloud.lm.sl.common.util.DigestHelper;
 import com.sap.cloud.lm.sl.common.util.TestDataSourceProvider;
+import com.sap.cloud.lm.sl.persistence.DataSourceWithDialect;
 import com.sap.cloud.lm.sl.persistence.model.FileEntry;
 import com.sap.cloud.lm.sl.persistence.processors.DefaultFileDownloadProcessor;
 import com.sap.cloud.lm.sl.persistence.processors.DefaultFileUploadProcessor;
@@ -53,16 +53,20 @@ public class DatabaseFileServiceTest {
 
     private FileEntry storedFile;
 
-    protected DataSource testDataSource;
+    protected DataSourceWithDialect testDataSource;
 
     @Before
     public void setUp() throws Exception {
-        this.testDataSource = TestDataSourceProvider.getDataSource(LIQUIBASE_CHANGELOG_LOCATION);
+        this.testDataSource = createDataSource();
         this.fileService = createFileService(testDataSource);
         insertInitialData();
     }
 
-    protected AbstractFileService createFileService(DataSource dataSource) {
+    protected DataSourceWithDialect createDataSource() throws Exception {
+        return new DataSourceWithDialect(TestDataSourceProvider.getDataSource(LIQUIBASE_CHANGELOG_LOCATION));
+    }
+
+    protected AbstractFileService createFileService(DataSourceWithDialect dataSource) {
         return new DatabaseFileService(dataSource);
     }
 
@@ -79,7 +83,8 @@ public class DatabaseFileServiceTest {
 
     protected void tearDownConnection() throws Exception {
         // actually close the connection
-        testDataSource.getConnection()
+        testDataSource.getDataSource()
+            .getConnection()
             .close();
     }
 

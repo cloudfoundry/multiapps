@@ -19,8 +19,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
-import javax.sql.DataSource;
-
 import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -28,7 +26,8 @@ import org.slf4j.LoggerFactory;
 import com.sap.cloud.lm.sl.common.SLException;
 import com.sap.cloud.lm.sl.common.util.CommonUtil;
 import com.sap.cloud.lm.sl.common.util.DigestHelper;
-import com.sap.cloud.lm.sl.persistence.dialects.DatabaseDialect;
+import com.sap.cloud.lm.sl.persistence.DataSourceWithDialect;
+import com.sap.cloud.lm.sl.persistence.dialects.DataSourceDialect;
 import com.sap.cloud.lm.sl.persistence.message.Messages;
 import com.sap.cloud.lm.sl.persistence.model.FileEntry;
 import com.sap.cloud.lm.sl.persistence.model.FileUpload;
@@ -58,14 +57,14 @@ public abstract class AbstractFileService {
     protected static final String DEFAULT_TABLE_NAME = "LM_SL_PERSISTENCE_FILE";
 
     private final String tableName;
-    private final DatabaseDialect databaseDialect;
+    private final DataSourceWithDialect dataSourceWithDialect;
     private final SqlExecutor sqlExecutor;
     private VirusScanner virusScanner;
 
-    protected AbstractFileService(String tableName, DataSource dataSource, DatabaseDialect databaseDialect) {
+    protected AbstractFileService(String tableName, DataSourceWithDialect dataSourceWithDialect) {
         this.tableName = tableName;
-        this.databaseDialect = databaseDialect;
-        this.sqlExecutor = new SqlExecutor(dataSource);
+        this.dataSourceWithDialect = dataSourceWithDialect;
+        this.sqlExecutor = new SqlExecutor(dataSourceWithDialect.getDataSource());
     }
 
     public void setVirusScanner(VirusScanner virusScanner) {
@@ -235,7 +234,7 @@ public abstract class AbstractFileService {
             statement.setString(2, fileEntry.getSpace());
             statement.setString(3, fileEntry.getName());
             setOrNull(statement, 4, fileEntry.getNamespace());
-            getDatabaseDialect().setBigInteger(statement, 5, fileEntry.getSize());
+            getDataSourceDialect().setBigInteger(statement, 5, fileEntry.getSize());
             statement.setString(6, fileEntry.getDigest());
             statement.setString(7, fileEntry.getDigestAlgorithm());
             statement.setTimestamp(8, new Timestamp(fileEntry.getModified()
@@ -399,7 +398,7 @@ public abstract class AbstractFileService {
         fileEntry.setSpace(resultSet.getString(FileServiceColumnNames.SPACE));
         fileEntry.setName(resultSet.getString(FileServiceColumnNames.FILE_NAME));
         fileEntry.setNamespace(resultSet.getString(FileServiceColumnNames.NAMESPACE));
-        fileEntry.setSize(getDatabaseDialect().getBigInteger(resultSet, FileServiceColumnNames.FILE_SIZE));
+        fileEntry.setSize(getDataSourceDialect().getBigInteger(resultSet, FileServiceColumnNames.FILE_SIZE));
         fileEntry.setDigestAlgorithm(resultSet.getString(FileServiceColumnNames.DIGEST_ALGORITHM));
         fileEntry.setModified(resultSet.getDate(FileServiceColumnNames.MODIFIED));
         return fileEntry;
@@ -432,8 +431,8 @@ public abstract class AbstractFileService {
         return String.format(statementTemplate, tableName);
     }
 
-    protected DatabaseDialect getDatabaseDialect() {
-        return databaseDialect;
+    protected DataSourceDialect getDataSourceDialect() {
+        return dataSourceWithDialect.getDataSourceDialect();
     }
 
     protected SqlExecutor getSqlExecutor() {
