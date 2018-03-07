@@ -11,14 +11,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import javax.sql.DataSource;
-
 import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.sap.cloud.lm.sl.persistence.dialects.DatabaseDialect;
-import com.sap.cloud.lm.sl.persistence.dialects.DefaultDatabaseDialect;
+import com.sap.cloud.lm.sl.persistence.DataSourceWithDialect;
 import com.sap.cloud.lm.sl.persistence.message.Messages;
 import com.sap.cloud.lm.sl.persistence.model.FileEntry;
 import com.sap.cloud.lm.sl.persistence.processors.FileDownloadProcessor;
@@ -31,12 +28,8 @@ public class FileSystemFileService extends AbstractFileService {
 
     private String storagePath;
 
-    public FileSystemFileService(DataSource dataSource) {
-        this(dataSource, new DefaultDatabaseDialect());
-    }
-
-    public FileSystemFileService(DataSource dataSource, DatabaseDialect databaseDialect) {
-        super(DEFAULT_TABLE_NAME, dataSource, databaseDialect);
+    public FileSystemFileService(DataSourceWithDialect dataSourceWithDialect) {
+        super(DEFAULT_TABLE_NAME, dataSourceWithDialect);
         this.storagePath = DEFAULT_FILES_STORAGE_PATH;
     }
 

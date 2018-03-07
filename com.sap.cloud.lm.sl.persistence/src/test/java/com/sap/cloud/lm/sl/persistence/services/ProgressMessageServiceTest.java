@@ -8,13 +8,12 @@ import java.sql.Timestamp;
 import java.util.Arrays;
 import java.util.List;
 
-import javax.sql.DataSource;
-
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
 import com.sap.cloud.lm.sl.common.util.TestDataSourceProvider;
+import com.sap.cloud.lm.sl.persistence.DataSourceWithDialect;
 import com.sap.cloud.lm.sl.persistence.model.ProgressMessage;
 import com.sap.cloud.lm.sl.persistence.model.ProgressMessage.ProgressMessageType;
 import com.sap.cloud.lm.sl.persistence.util.JdbcUtil;
@@ -33,7 +32,7 @@ public class ProgressMessageServiceTest {
 
     private ProgressMessageService service;
 
-    private DataSource testDataSource;
+    private DataSourceWithDialect testDataSource;
     private ProgressMessage progressMessage1;
     private ProgressMessage progressMessage2;
     private ProgressMessage progressMessage3;
@@ -46,7 +45,7 @@ public class ProgressMessageServiceTest {
     }
 
     private void setUpConnection() throws Exception {
-        testDataSource = TestDataSourceProvider.getDataSource(LIQUIBASE_CHANGELOG_LOCATION);
+        testDataSource = new DataSourceWithDialect(TestDataSourceProvider.getDataSource(LIQUIBASE_CHANGELOG_LOCATION));
         service = new ProgressMessageService(testDataSource);
     }
 
@@ -71,7 +70,7 @@ public class ProgressMessageServiceTest {
         service.removeByProcessId(PROCESS_INSTANCE_ID_1);
         service.removeByProcessId(PROCESS_INSTANCE_ID_2);
         service.removeByProcessId("test-processId");
-        JdbcUtil.closeQuietly(testDataSource.getConnection());
+        JdbcUtil.closeQuietly(testDataSource.getDataSource().getConnection());
     }
 
     @Test

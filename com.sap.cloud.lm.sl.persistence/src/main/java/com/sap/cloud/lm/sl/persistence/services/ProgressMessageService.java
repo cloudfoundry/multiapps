@@ -9,12 +9,10 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import javax.sql.DataSource;
-
 import com.sap.cloud.lm.sl.common.SLException;
 import com.sap.cloud.lm.sl.common.util.CommonUtil;
-import com.sap.cloud.lm.sl.persistence.dialects.DatabaseDialect;
-import com.sap.cloud.lm.sl.persistence.dialects.DefaultDatabaseDialect;
+import com.sap.cloud.lm.sl.persistence.DataSourceWithDialect;
+import com.sap.cloud.lm.sl.persistence.dialects.DataSourceDialect;
 import com.sap.cloud.lm.sl.persistence.message.Messages;
 import com.sap.cloud.lm.sl.persistence.model.ProgressMessage;
 import com.sap.cloud.lm.sl.persistence.model.ProgressMessage.ProgressMessageType;
@@ -47,21 +45,17 @@ public class ProgressMessageService {
     private static final String DEFAULT_TABLE_NAME = "PROGRESS_MESSAGE";
 
     private final String tableName;
-    private final DatabaseDialect databaseDialect;
+    private final DataSourceWithDialect dataSourceWithDialect;
     private final SqlExecutor sqlExecutor;
 
-    public ProgressMessageService(DataSource dataSource) {
-        this(dataSource, new DefaultDatabaseDialect());
+    public ProgressMessageService(DataSourceWithDialect dataSourceWithDialect) {
+        this(DEFAULT_TABLE_NAME, dataSourceWithDialect);
     }
 
-    public ProgressMessageService(DataSource dataSource, DatabaseDialect databaseDialect) {
-        this(DEFAULT_TABLE_NAME, dataSource, databaseDialect);
-    }
-
-    protected ProgressMessageService(String tableName, DataSource dataSource, DatabaseDialect databaseDialect) {
+    protected ProgressMessageService(String tableName, DataSourceWithDialect dataSourceWithDialect) {
         this.tableName = tableName;
-        this.databaseDialect = databaseDialect;
-        this.sqlExecutor = new SqlExecutor(dataSource);
+        this.dataSourceWithDialect = dataSourceWithDialect;
+        this.sqlExecutor = new SqlExecutor(dataSourceWithDialect.getDataSource());
     }
 
     public boolean add(final ProgressMessage message) throws SLException {
@@ -374,11 +368,11 @@ public class ProgressMessageService {
     }
 
     private String getQuery(String statementTemplate, String tableName) {
-        return String.format(statementTemplate, tableName, getDatabaseDialect().getSequenceNextValueSyntax(ID_SEQ_NAME));
+        return String.format(statementTemplate, tableName, getDataSourceDialect().getSequenceNextValueSyntax(ID_SEQ_NAME));
     }
 
-    protected DatabaseDialect getDatabaseDialect() {
-        return databaseDialect;
+    protected DataSourceDialect getDataSourceDialect() {
+        return dataSourceWithDialect.getDataSourceDialect();
     }
 
     protected SqlExecutor getSqlExecutor() {

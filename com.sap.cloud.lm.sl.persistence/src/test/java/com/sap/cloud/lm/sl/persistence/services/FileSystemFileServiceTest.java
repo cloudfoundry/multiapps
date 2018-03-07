@@ -13,8 +13,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
-import javax.sql.DataSource;
-
 import org.apache.commons.io.FileUtils;
 import org.junit.After;
 import org.junit.Assert;
@@ -24,7 +22,7 @@ import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
 import com.sap.cloud.lm.sl.common.util.DigestHelper;
-import com.sap.cloud.lm.sl.common.util.TestDataSourceProvider;
+import com.sap.cloud.lm.sl.persistence.DataSourceWithDialect;
 import com.sap.cloud.lm.sl.persistence.model.FileEntry;
 import com.sap.cloud.lm.sl.persistence.processors.DefaultFileUploadProcessor;
 
@@ -43,7 +41,7 @@ public class FileSystemFileServiceTest extends DatabaseFileServiceTest {
 
     @Before
     public void setUp() throws Exception {
-        this.testDataSource = TestDataSourceProvider.getDataSource(LIQUIBASE_CHANGELOG_LOCATION);
+        this.testDataSource = createDataSource();
         this.temporaryStorageLocation = Files.createTempDirectory("testfileService");
         fileService = createFileService(testDataSource);
         spaceId = UUID.randomUUID()
@@ -245,7 +243,7 @@ public class FileSystemFileServiceTest extends DatabaseFileServiceTest {
     }
 
     @Override
-    protected AbstractFileService createFileService(DataSource dataSource) {
+    protected AbstractFileService createFileService(DataSourceWithDialect dataSource) {
         FileSystemFileService fileService = new FileSystemFileService(testDataSource);
         fileService.setStoragePath(temporaryStorageLocation.toString());
         return fileService;

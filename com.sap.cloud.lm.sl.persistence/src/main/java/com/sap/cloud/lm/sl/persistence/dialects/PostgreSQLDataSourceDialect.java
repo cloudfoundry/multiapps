@@ -4,7 +4,7 @@ import java.math.BigInteger;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
-public class PostgreSQLDatabaseDialect extends DefaultDatabaseDialect implements DatabaseDialect {
+public class PostgreSQLDataSourceDialect extends DefaultDataSourceDialect implements DataSourceDialect {
     
     @Override
     public String getSequenceNextValueSyntax(String sequenceName) {

@@ -11,21 +11,15 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.sql.DataSource;
-
 import org.apache.commons.io.IOUtils;
 
 import com.sap.cloud.lm.sl.common.SLException;
 import com.sap.cloud.lm.sl.common.util.CommonUtil;
-import com.sap.cloud.lm.sl.persistence.dialects.DatabaseDialect;
-import com.sap.cloud.lm.sl.persistence.dialects.DefaultDatabaseDialect;
+import com.sap.cloud.lm.sl.persistence.DataSourceWithDialect;
 import com.sap.cloud.lm.sl.persistence.message.Messages;
 import com.sap.cloud.lm.sl.persistence.model.FileEntry;
 import com.sap.cloud.lm.sl.persistence.processors.DefaultFileDownloadProcessor;
 import com.sap.cloud.lm.sl.persistence.processors.DefaultFileUploadProcessor;
-import com.sap.cloud.lm.sl.persistence.services.DatabaseFileService;
-import com.sap.cloud.lm.sl.persistence.services.FileContentProcessor;
-import com.sap.cloud.lm.sl.persistence.services.FileStorageException;
 import com.sap.cloud.lm.sl.persistence.services.SqlExecutor.StatementExecutor;
 import com.sap.cloud.lm.sl.persistence.util.JdbcUtil;
 
@@ -36,12 +30,8 @@ public class ProcessLogsPersistenceService extends DatabaseFileService {
     private static final String DEFAULT_SPACE = "DEFAULT";
     private static final String DELETE_CONTENT_BY_NAMESPACE = "DELETE FROM %s WHERE NAMESPACE=?";
 
-    public ProcessLogsPersistenceService(DataSource dataSource) {
-        this(dataSource, new DefaultDatabaseDialect());
-    }
-
-    public ProcessLogsPersistenceService(DataSource dataSource, DatabaseDialect databaseDialect) {
-        super(TABLE_NAME, dataSource, databaseDialect);
+    public ProcessLogsPersistenceService(DataSourceWithDialect dataSourceWithDialect) {
+        super(TABLE_NAME, dataSourceWithDialect);
     }
 
     public List<String> getLogNames(String namespace) throws FileStorageException {
