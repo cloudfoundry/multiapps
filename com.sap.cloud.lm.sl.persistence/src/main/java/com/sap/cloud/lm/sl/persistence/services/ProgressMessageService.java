@@ -47,7 +47,6 @@ public class ProgressMessageService {
     private static final String DEFAULT_TABLE_NAME = "PROGRESS_MESSAGE";
 
     private final String tableName;
-    private final DataSource dataSource;
     private final DatabaseDialect databaseDialect;
     private final SqlExecutor sqlExecutor;
 
@@ -61,9 +60,8 @@ public class ProgressMessageService {
 
     protected ProgressMessageService(String tableName, DataSource dataSource, DatabaseDialect databaseDialect) {
         this.tableName = tableName;
-        this.dataSource = dataSource;
         this.databaseDialect = databaseDialect;
-        this.sqlExecutor = new ProgressMessageServiceSqlExecutor();
+        this.sqlExecutor = new SqlExecutor(dataSource);
     }
 
     public boolean add(final ProgressMessage message) throws SLException {
@@ -379,10 +377,6 @@ public class ProgressMessageService {
         return String.format(statementTemplate, tableName, getDatabaseDialect().getSequenceNextValueSyntax(ID_SEQ_NAME));
     }
 
-    protected DataSource getDataSource() {
-        return dataSource;
-    }
-
     protected DatabaseDialect getDatabaseDialect() {
         return databaseDialect;
     }
@@ -391,10 +385,4 @@ public class ProgressMessageService {
         return sqlExecutor;
     }
 
-    private class ProgressMessageServiceSqlExecutor extends SqlExecutor {
-        @Override
-        protected Connection getConnection() throws SQLException {
-            return getDataSource().getConnection();
-        }
-    }
 }
