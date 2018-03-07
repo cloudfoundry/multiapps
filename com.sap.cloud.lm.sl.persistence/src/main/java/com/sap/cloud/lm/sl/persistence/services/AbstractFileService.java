@@ -58,16 +58,14 @@ public abstract class AbstractFileService {
     protected static final String DEFAULT_TABLE_NAME = "LM_SL_PERSISTENCE_FILE";
 
     private final String tableName;
-    private final DataSource dataSource;
     private final DatabaseDialect databaseDialect;
     private final SqlExecutor sqlExecutor;
     private VirusScanner virusScanner;
 
     protected AbstractFileService(String tableName, DataSource dataSource, DatabaseDialect databaseDialect) {
         this.tableName = tableName;
-        this.dataSource = dataSource;
         this.databaseDialect = databaseDialect;
-        this.sqlExecutor = new FileServiceSqlExecutor();
+        this.sqlExecutor = new SqlExecutor(dataSource);
     }
 
     public void setVirusScanner(VirusScanner virusScanner) {
@@ -434,23 +432,12 @@ public abstract class AbstractFileService {
         return String.format(statementTemplate, tableName);
     }
 
-    protected DataSource getDataSource() {
-        return dataSource;
-    }
-
     protected DatabaseDialect getDatabaseDialect() {
         return databaseDialect;
     }
 
     protected SqlExecutor getSqlExecutor() {
         return sqlExecutor;
-    }
-
-    private class FileServiceSqlExecutor extends SqlExecutor {
-        @Override
-        protected Connection getConnection() throws SQLException {
-            return getDataSource().getConnection();
-        }
     }
 
     public class FileServiceColumnNames {
