@@ -31,7 +31,7 @@ import com.sap.cloud.lm.sl.persistence.processors.DefaultFileUploadProcessor;
 
 public class DatabaseFileServiceTest {
 
-    private static final String LIQUIBASE_CHANGELOG_LOCATION = "com/sap/cloud/lm/sl/persistence/db/changelog/db-changelog.xml";
+    protected static final String LIQUIBASE_CHANGELOG_LOCATION = "com/sap/cloud/lm/sl/persistence/db/changelog/db-changelog.xml";
 
     protected static final String DIGEST_METHOD = "MD5";
 
@@ -53,12 +53,17 @@ public class DatabaseFileServiceTest {
 
     private FileEntry storedFile;
 
-    private DataSource testDataSource;
+    protected DataSource testDataSource;
 
     @Before
     public void setUp() throws Exception {
-        setupConnection();
+        this.testDataSource = TestDataSourceProvider.getDataSource(LIQUIBASE_CHANGELOG_LOCATION);
+        this.fileService = createFileService(testDataSource);
         insertInitialData();
+    }
+
+    protected AbstractFileService createFileService(DataSource dataSource) {
+        return new DatabaseFileService(dataSource);
     }
 
     @After
@@ -72,25 +77,16 @@ public class DatabaseFileServiceTest {
         fileService.deleteAll(MY_SPACE_ID, PERSONAL_NAMESPACE);
     }
 
-    protected void setupConnection() throws Exception {
-        fileService = getFileService();
-        testDataSource = TestDataSourceProvider.getDataSource(LIQUIBASE_CHANGELOG_LOCATION);
-        fileService.init(testDataSource);
-    }
-
-    protected AbstractFileService getFileService() {
-        return new DatabaseFileService("LM_SL_PERSISTENCE_FILE");
-    }
-
     protected void tearDownConnection() throws Exception {
         // actually close the connection
-        testDataSource.getConnection().close();
+        testDataSource.getConnection()
+            .close();
     }
 
     protected void insertInitialData() throws Exception {
         storedFile = addFileEntry(MY_SPACE_ID);
     }
-    
+
     @SuppressWarnings("deprecation")
     private FileEntry addFileEntry(String spaceId) throws FileStorageException {
         InputStream resourceStream = getResource(PIC1_RESOURCE_NAME);
@@ -98,7 +94,9 @@ public class DatabaseFileServiceTest {
     }
 
     private InputStream getResource(String name) {
-        return Thread.currentThread().getContextClassLoader().getResourceAsStream(name);
+        return Thread.currentThread()
+            .getContextClassLoader()
+            .getResourceAsStream(name);
     }
 
     private void verifyInitialEntry(FileEntry entry) {
@@ -109,7 +107,8 @@ public class DatabaseFileServiceTest {
         assertEquals(BigInteger.valueOf(PIC1_SIZE), entry.getSize());
 
         // verify the MD5 digest, compare with one taken with md5sum
-        assertEquals(PIC1_MD5_DIGEST.toLowerCase(), entry.getDigest().toLowerCase());
+        assertEquals(PIC1_MD5_DIGEST.toLowerCase(), entry.getDigest()
+            .toLowerCase());
         assertEquals(DIGEST_METHOD, entry.getDigestAlgorithm());
     }
 
@@ -139,18 +138,20 @@ public class DatabaseFileServiceTest {
     @Test
     public void testFileContent() throws Exception {
         Path expectedFile = Paths.get("src/test/resources/", PIC1_RESOURCE_NAME);
-        String expectedFileDigest = DigestHelper.computeFileChecksum(expectedFile, DIGEST_METHOD).toLowerCase();
+        String expectedFileDigest = DigestHelper.computeFileChecksum(expectedFile, DIGEST_METHOD)
+            .toLowerCase();
         validateFileContent(storedFile, expectedFileDigest);
     }
 
     protected void validateFileContent(FileEntry storedFile, final String expectedFileChecksum) throws FileStorageException {
-        fileService.processFileContent(
-            new DefaultFileDownloadProcessor(storedFile.getSpace(), storedFile.getId(), new FileContentProcessor() {
+        fileService
+            .processFileContent(new DefaultFileDownloadProcessor(storedFile.getSpace(), storedFile.getId(), new FileContentProcessor() {
                 @Override
                 public void processFileContent(InputStream contentStream) throws Exception {
                     // make a digest out of the content and compare it to the original
                     final byte[] digest = calculateFileDigest(contentStream);
-                    assertEquals(expectedFileChecksum, DatatypeConverter.printHexBinary(digest).toLowerCase());
+                    assertEquals(expectedFileChecksum, DatatypeConverter.printHexBinary(digest)
+                        .toLowerCase());
                 }
 
             }));
@@ -184,7 +185,8 @@ public class DatabaseFileServiceTest {
         systemFiles = fileService.listFiles(MY_SPACE_ID, SYSTEM_NAMESPACE);
         assertEquals(1, systemFiles.size());
 
-        fileService.deleteFile(MY_SPACE_ID, systemFiles.get(0).getId());
+        fileService.deleteFile(MY_SPACE_ID, systemFiles.get(0)
+            .getId());
 
         personalFiles = fileService.listFiles(MY_SPACE_ID, PERSONAL_NAMESPACE);
         assertEquals(1, personalFiles.size());
@@ -203,30 +205,30 @@ public class DatabaseFileServiceTest {
         List<FileEntry> namespaceFiles = fileService.listFiles(MY_SPACE_ID, SYSTEM_NAMESPACE);
         assertEquals(0, namespaceFiles.size());
     }
-    
+
     @Test
     public void testDeleteAllByFileIds() throws Exception {
         FileEntry fileEntry1 = addFileEntry(MY_SPACE_ID);
         FileEntry fileEntry2 = addFileEntry(MY_SPACE_ID);
         FileEntry fileEntry3 = addFileEntry(MY_SPACE_2_ID);
         FileEntry fileEntry4 = addFileEntry(MY_SPACE_2_ID);
-        
+
         Map<String, List<String>> fileIdsToSpace = new HashMap<>();
         fileIdsToSpace.put(MY_SPACE_ID, Arrays.asList(fileEntry1.getId()));
         fileIdsToSpace.put(MY_SPACE_2_ID, Arrays.asList(fileEntry3.getId()));
         int deletedFiles = fileService.deleteAllByFileIds(fileIdsToSpace);
-        
+
         assertEquals(2, deletedFiles);
-        
+
         FileEntry missingEntry = fileService.getFile(MY_SPACE_ID, fileEntry1.getId());
         assertNull(missingEntry);
-        
+
         FileEntry existingEntry = fileService.getFile(MY_SPACE_ID, fileEntry2.getId());
         assertNotNull(existingEntry);
-        
+
         FileEntry missingEntry2 = fileService.getFile(MY_SPACE_ID, fileEntry3.getId());
         assertNull(missingEntry2);
-        
+
         FileEntry existingEntry2 = fileService.getFile(MY_SPACE_ID, fileEntry4.getId());
         assertNull(existingEntry2);
     }

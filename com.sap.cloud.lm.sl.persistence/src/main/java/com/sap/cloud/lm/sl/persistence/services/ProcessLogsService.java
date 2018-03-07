@@ -8,10 +8,14 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.sql.DataSource;
+
 import org.apache.commons.io.IOUtils;
 
 import com.sap.cloud.lm.sl.common.SLException;
 import com.sap.cloud.lm.sl.common.util.CommonUtil;
+import com.sap.cloud.lm.sl.persistence.dialects.DatabaseDialect;
+import com.sap.cloud.lm.sl.persistence.dialects.DefaultDatabaseDialect;
 import com.sap.cloud.lm.sl.persistence.message.Messages;
 import com.sap.cloud.lm.sl.persistence.model.FileEntry;
 import com.sap.cloud.lm.sl.persistence.processors.DefaultFileDownloadProcessor;
@@ -19,20 +23,16 @@ import com.sap.cloud.lm.sl.persistence.services.SqlExecutor.StatementExecutor;
 import com.sap.cloud.lm.sl.persistence.util.JdbcUtil;
 
 public class ProcessLogsService extends DatabaseFileService {
+
     private static final String TABLE_NAME = "process_log";
     private static final String DELETE_CONTENT_BY_NAMESPACE = "DELETE FROM %s WHERE NAMESPACE=?";
 
-    private static ProcessLogsService instance;
-
-    public static ProcessLogsService getInstance() {
-        if (instance == null) {
-            instance = new ProcessLogsService();
-        }
-        return instance;
+    public ProcessLogsService(DataSource dataSource) {
+        this(dataSource, new DefaultDatabaseDialect());
     }
 
-    public ProcessLogsService() {
-        super(TABLE_NAME);
+    public ProcessLogsService(DataSource dataSource, DatabaseDialect databaseDialect) {
+        super(TABLE_NAME, dataSource, databaseDialect);
     }
 
     public List<String> getLogNames(String space, String processId) throws FileStorageException {
@@ -61,7 +61,8 @@ public class ProcessLogsService extends DatabaseFileService {
     public String findFileId(String space, String processId, String fileName) throws FileStorageException {
         List<FileEntry> listFiles = listFiles(space, processId);
         for (FileEntry fileEntry : listFiles) {
-            if (fileEntry.getName().equals(fileName)) {
+            if (fileEntry.getName()
+                .equals(fileName)) {
                 return fileEntry.getId();
             }
         }
@@ -70,12 +71,12 @@ public class ProcessLogsService extends DatabaseFileService {
 
     public int deleteAllByProcessIds(final List<String> processIds) throws SLException {
         try {
-            return sqlExecutor.executeInSingleTransaction(new StatementExecutor<Integer>() {
+            return getSqlExecutor().executeInSingleTransaction(new StatementExecutor<Integer>() {
                 @Override
                 public Integer execute(Connection connection) throws SQLException {
                     PreparedStatement statement = null;
                     try {
-                        statement = connection.prepareStatement(getQuery(DELETE_CONTENT_BY_NAMESPACE, tableName));
+                        statement = connection.prepareStatement(getQuery(DELETE_CONTENT_BY_NAMESPACE));
                         for (String processId : processIds) {
                             statement.setString(1, processId);
                             statement.addBatch();

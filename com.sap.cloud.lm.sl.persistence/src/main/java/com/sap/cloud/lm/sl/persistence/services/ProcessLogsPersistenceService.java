@@ -8,8 +8,12 @@ import java.io.SequenceInputStream;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.sql.DataSource;
+
 import org.apache.commons.io.IOUtils;
 
+import com.sap.cloud.lm.sl.persistence.dialects.DatabaseDialect;
+import com.sap.cloud.lm.sl.persistence.dialects.DefaultDatabaseDialect;
 import com.sap.cloud.lm.sl.persistence.model.FileEntry;
 import com.sap.cloud.lm.sl.persistence.processors.DefaultFileDownloadProcessor;
 import com.sap.cloud.lm.sl.persistence.processors.DefaultFileUploadProcessor;
@@ -23,17 +27,12 @@ public class ProcessLogsPersistenceService extends DatabaseFileService {
     private static final String TABLE_NAME = "process_log";
     private static final String DEFAULT_SPACE = "DEFAULT";
 
-    private static ProcessLogsPersistenceService instance;
-
-    public static ProcessLogsPersistenceService getInstance() {
-        if (instance == null) {
-            instance = new ProcessLogsPersistenceService();
-        }
-        return instance;
+    public ProcessLogsPersistenceService(DataSource dataSource) {
+        this(dataSource, new DefaultDatabaseDialect());
     }
 
-    public ProcessLogsPersistenceService() {
-        super(TABLE_NAME);
+    public ProcessLogsPersistenceService(DataSource dataSource, DatabaseDialect databaseDialect) {
+        super(TABLE_NAME, dataSource, databaseDialect);
     }
 
     public List<String> getLogNames(String namespace) throws FileStorageException {
@@ -114,7 +113,8 @@ public class ProcessLogsPersistenceService extends DatabaseFileService {
     public String findFileId(String space, String namespace, String fileName) throws FileStorageException {
         List<FileEntry> listFiles = listFiles(space, namespace);
         for (FileEntry fileEntry : listFiles) {
-            if (fileEntry.getName().equals(fileName)) {
+            if (fileEntry.getName()
+                .equals(fileName)) {
                 return fileEntry.getId();
             }
         }
@@ -122,7 +122,10 @@ public class ProcessLogsPersistenceService extends DatabaseFileService {
     }
 
     private static String getFileName(String logId, String name) {
-        return new StringBuilder(logId).append(".").append(name).append(LOG_FILE_EXTENSION).toString();
+        return new StringBuilder(logId).append(".")
+            .append(name)
+            .append(LOG_FILE_EXTENSION)
+            .toString();
     }
 
     public void appendLog(String namespace, String logName, String logDir) throws IOException, FileStorageException {

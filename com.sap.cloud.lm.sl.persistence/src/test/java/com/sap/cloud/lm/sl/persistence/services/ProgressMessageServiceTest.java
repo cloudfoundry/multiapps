@@ -46,9 +46,8 @@ public class ProgressMessageServiceTest {
     }
 
     private void setUpConnection() throws Exception {
-        service = new ProgressMessageService("PROGRESS_MESSAGE");
         testDataSource = TestDataSourceProvider.getDataSource(LIQUIBASE_CHANGELOG_LOCATION);
-        service.init(testDataSource);
+        service = new ProgressMessageService(testDataSource);
     }
 
     private void initializeData() {

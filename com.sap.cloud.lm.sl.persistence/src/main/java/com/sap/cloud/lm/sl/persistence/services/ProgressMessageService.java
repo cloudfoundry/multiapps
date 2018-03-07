@@ -9,8 +9,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import javax.naming.InitialContext;
-import javax.naming.NamingException;
 import javax.sql.DataSource;
 
 import com.sap.cloud.lm.sl.common.SLException;
@@ -33,8 +31,6 @@ public class ProgressMessageService {
     private static final String COLUMN_NAME_TEXT = "TEXT";
     private static final String COLUMN_NAME_TIMESTAMP = "TIMESTAMP";
 
-    private static final String DEFAULT_DATASOURCE_JNDI_NAME = "java:comp/env/jdbc/DefaultDB";
-
     private static final String SELECT_MESSAGES_BY_PROCESS_ID = "SELECT ID, PROCESS_ID, TASK_ID, TASK_EXECUTION_ID, TYPE, TEXT, TIMESTAMP FROM %s WHERE PROCESS_ID=? ORDER BY ID";
     private static final String SELECT_MESSAGES_BY_PROCESS_AND_TASK_ID_AND_TASK_EXECUTION_ID = "SELECT ID, PROCESS_ID, TASK_ID, TASK_EXECUTION_ID, TYPE, TEXT, TIMESTAMP FROM %s WHERE PROCESS_ID=? AND TASK_ID=? AND TASK_EXECUTION_ID=? ORDER BY ID";
     private static final String SELECT_MESSAGES_BY_PROCESS_AND_TASK_ID = "SELECT TASK_EXECUTION_ID FROM %s WHERE PROCESS_ID=? AND TASK_ID=? ORDER BY ID DESC";
@@ -50,44 +46,29 @@ public class ProgressMessageService {
 
     private static final String DEFAULT_TABLE_NAME = "PROGRESS_MESSAGE";
 
-    private static ProgressMessageService instance;
-
     private final String tableName;
-    private DataSource dataSource;
-    private DatabaseDialect databaseDialect;
-    private SqlExecutor sqlExecutor = new ProgressMessageServiceSqlExecutor();
+    private final DataSource dataSource;
+    private final DatabaseDialect databaseDialect;
+    private final SqlExecutor sqlExecutor;
 
-    public static ProgressMessageService getInstance() {
-        if (instance == null) {
-            instance = new ProgressMessageService(DEFAULT_TABLE_NAME);
-        }
-        return instance;
+    public ProgressMessageService(DataSource dataSource) {
+        this(dataSource, new DefaultDatabaseDialect());
     }
 
-    public ProgressMessageService(String tableName) {
+    public ProgressMessageService(DataSource dataSource, DatabaseDialect databaseDialect) {
+        this(DEFAULT_TABLE_NAME, dataSource, databaseDialect);
+    }
+
+    protected ProgressMessageService(String tableName, DataSource dataSource, DatabaseDialect databaseDialect) {
         this.tableName = tableName;
-    }
-
-    public void setDataSource(DataSource dataSource) {
-        this.dataSource = dataSource;
-    }
-
-    public void setDatabaseDialect(DatabaseDialect databaseDialect) {
-        this.databaseDialect = databaseDialect;
-    }
-
-    public void init(DataSource dataSource) {
-        init(dataSource, new DefaultDatabaseDialect());
-    }
-
-    public void init(DataSource dataSource, DatabaseDialect databaseDialect) {
         this.dataSource = dataSource;
         this.databaseDialect = databaseDialect;
+        this.sqlExecutor = new ProgressMessageServiceSqlExecutor();
     }
 
     public boolean add(final ProgressMessage message) throws SLException {
         try {
-            return sqlExecutor.execute(new StatementExecutor<Boolean>() {
+            return getSqlExecutor().execute(new StatementExecutor<Boolean>() {
                 @Override
                 public Boolean execute(Connection connection) throws SQLException {
                     PreparedStatement statement = null;
@@ -116,7 +97,7 @@ public class ProgressMessageService {
 
     public boolean update(final long existingId, final ProgressMessage newMessage) throws SLException {
         try {
-            return sqlExecutor.execute(new StatementExecutor<Boolean>() {
+            return getSqlExecutor().execute(new StatementExecutor<Boolean>() {
                 @Override
                 public Boolean execute(Connection connection) throws SQLException {
                     PreparedStatement statement = null;
@@ -140,7 +121,7 @@ public class ProgressMessageService {
 
     public int removeByProcessId(final String processId) throws SLException {
         try {
-            return sqlExecutor.execute(new StatementExecutor<Integer>() {
+            return getSqlExecutor().execute(new StatementExecutor<Integer>() {
                 @Override
                 public Integer execute(Connection connection) throws SQLException {
                     PreparedStatement statement = null;
@@ -161,7 +142,7 @@ public class ProgressMessageService {
 
     public int removeAllByProcessIds(final List<String> processIds) throws SLException {
         try {
-            return sqlExecutor.executeInSingleTransaction(new StatementExecutor<Integer>() {
+            return getSqlExecutor().executeInSingleTransaction(new StatementExecutor<Integer>() {
                 @Override
                 public Integer execute(Connection connection) throws SQLException {
                     PreparedStatement statement = null;
@@ -186,7 +167,7 @@ public class ProgressMessageService {
     public int removeByProcessIdTaskIdAndTaskExecutionId(final String processId, final String taskId, final String taskExecutionId)
         throws SLException {
         try {
-            return sqlExecutor.execute(new StatementExecutor<Integer>() {
+            return getSqlExecutor().execute(new StatementExecutor<Integer>() {
                 @Override
                 public Integer execute(Connection connection) throws SQLException {
                     PreparedStatement statement = null;
@@ -210,7 +191,7 @@ public class ProgressMessageService {
 
     public List<ProgressMessage> findAll() throws SLException {
         try {
-            return sqlExecutor.execute(new StatementExecutor<List<ProgressMessage>>() {
+            return getSqlExecutor().execute(new StatementExecutor<List<ProgressMessage>>() {
                 @Override
                 public List<ProgressMessage> execute(Connection connection) throws SQLException {
                     PreparedStatement statement = null;
@@ -236,7 +217,7 @@ public class ProgressMessageService {
 
     public List<ProgressMessage> findByProcessId(final String processId) throws SLException {
         try {
-            return sqlExecutor.execute(new StatementExecutor<List<ProgressMessage>>() {
+            return getSqlExecutor().execute(new StatementExecutor<List<ProgressMessage>>() {
                 @Override
                 public List<ProgressMessage> execute(Connection connection) throws SQLException {
                     PreparedStatement statement = null;
@@ -264,7 +245,7 @@ public class ProgressMessageService {
     public List<ProgressMessage> findByProcessIdTaskIdAndTaskExecutionId(final String processId, final String taskId,
         final String taskExecutionId) throws SLException {
         try {
-            return sqlExecutor.execute(new StatementExecutor<List<ProgressMessage>>() {
+            return getSqlExecutor().execute(new StatementExecutor<List<ProgressMessage>>() {
                 @Override
                 public List<ProgressMessage> execute(Connection connection) throws SQLException {
                     PreparedStatement statement = null;
@@ -295,7 +276,7 @@ public class ProgressMessageService {
 
     public String findLastTaskExecutionId(final String processId, final String taskId) throws SLException {
         try {
-            return sqlExecutor.execute(new StatementExecutor<String>() {
+            return getSqlExecutor().execute(new StatementExecutor<String>() {
                 @Override
                 public String execute(Connection connection) throws SQLException {
                     PreparedStatement statement = null;
@@ -323,7 +304,7 @@ public class ProgressMessageService {
     public List<ProgressMessage> findByProcessIdTaskIdTaskExecutionIdAndType(final String processId, final String taskId,
         final String taskExecutionId, final ProgressMessageType type) throws SLException {
         try {
-            return sqlExecutor.execute(new StatementExecutor<List<ProgressMessage>>() {
+            return getSqlExecutor().execute(new StatementExecutor<List<ProgressMessage>>() {
                 @Override
                 public List<ProgressMessage> execute(Connection connection) throws SQLException {
                     PreparedStatement statement = null;
@@ -354,7 +335,7 @@ public class ProgressMessageService {
 
     public List<ProgressMessage> findByProcessIdAndType(final String processInstanceId, final ProgressMessageType type) throws SLException {
         try {
-            return sqlExecutor.execute(new StatementExecutor<List<ProgressMessage>>() {
+            return getSqlExecutor().execute(new StatementExecutor<List<ProgressMessage>>() {
                 @Override
                 public List<ProgressMessage> execute(Connection connection) throws SQLException {
                     PreparedStatement statement = null;
@@ -394,30 +375,20 @@ public class ProgressMessageService {
         return message;
     }
 
-    private DataSource getDataSource() {
-        if (dataSource == null) {
-            dataSource = lookupDataSource();
-        }
+    private String getQuery(String statementTemplate, String tableName) {
+        return String.format(statementTemplate, tableName, getDatabaseDialect().getSequenceNextValueSyntax(ID_SEQ_NAME));
+    }
+
+    protected DataSource getDataSource() {
         return dataSource;
     }
 
-    private DatabaseDialect getDatabaseDialect() {
-        if (databaseDialect == null) {
-            databaseDialect = new DefaultDatabaseDialect();
-        }
+    protected DatabaseDialect getDatabaseDialect() {
         return databaseDialect;
     }
 
-    private static DataSource lookupDataSource() {
-        try {
-            return (DataSource) new InitialContext().lookup(DEFAULT_DATASOURCE_JNDI_NAME);
-        } catch (NamingException e) {
-            throw new IllegalStateException(e);
-        }
-    }
-
-    private String getQuery(String statementTemplate, String tableName) {
-        return String.format(statementTemplate, tableName, getDatabaseDialect().getSequenceNextValueSyntax(ID_SEQ_NAME));
+    protected SqlExecutor getSqlExecutor() {
+        return sqlExecutor;
     }
 
     private class ProgressMessageServiceSqlExecutor extends SqlExecutor {
@@ -426,5 +397,4 @@ public class ProgressMessageService {
             return getDataSource().getConnection();
         }
     }
-
 }
