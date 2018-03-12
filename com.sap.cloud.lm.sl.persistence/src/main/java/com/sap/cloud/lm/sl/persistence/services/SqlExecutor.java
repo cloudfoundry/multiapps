@@ -7,15 +7,15 @@ import javax.sql.DataSource;
 
 import com.sap.cloud.lm.sl.persistence.util.JdbcUtil;
 
-class SqlExecutor {
+public class SqlExecutor {
 
     private DataSource dataSource;
 
-    SqlExecutor(DataSource dataSource) {
+    public SqlExecutor(DataSource dataSource) {
         this.dataSource = dataSource;
     }
 
-    <T> T execute(StatementExecutor<T> statementExecutor) throws SQLException {
+    public <T> T execute(StatementExecutor<T> statementExecutor) throws SQLException {
         Connection connection = dataSource.getConnection();
         try {
             T result = statementExecutor.execute(connection);
@@ -29,7 +29,7 @@ class SqlExecutor {
         }
     }
 
-    <T> T executeInSingleTransaction(StatementExecutor<T> statementExecutor) throws SQLException {
+    public <T> T executeInSingleTransaction(StatementExecutor<T> statementExecutor) throws SQLException {
         Connection connection = dataSource.getConnection();
         try {
             connection.setAutoCommit(false);
@@ -45,7 +45,7 @@ class SqlExecutor {
         }
     }
 
-    interface StatementExecutor<T> {
+    public interface StatementExecutor<T> {
 
         T execute(Connection connection) throws SQLException;
 
