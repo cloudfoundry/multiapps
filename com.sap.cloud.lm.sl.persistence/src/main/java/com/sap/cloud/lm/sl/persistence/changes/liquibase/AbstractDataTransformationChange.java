@@ -1,4 +1,4 @@
-package com.sap.cloud.lm.sl.persistence.liquibase;
+package com.sap.cloud.lm.sl.persistence.changes.liquibase;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
