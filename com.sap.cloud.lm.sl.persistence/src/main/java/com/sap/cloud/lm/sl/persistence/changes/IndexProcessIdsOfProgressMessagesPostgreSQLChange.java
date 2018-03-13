@@ -17,7 +17,7 @@ import com.sap.cloud.lm.sl.persistence.util.JdbcUtil;
 public class IndexProcessIdsOfProgressMessagesPostgreSQLChange implements AsyncChange {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(IndexProcessIdsOfProgressMessagesPostgreSQLChange.class);
-    private static final String CREATE_INDEX = "CREATE INDEX CONCURRENTLY IDX_PROGRESS_MESSAGE_PROCESS_ID ON PROGRESS_MESSAGE(PROCESS_ID)";
+    private static final String CREATE_INDEX = "CREATE INDEX CONCURRENTLY IF NOT EXISTS IDX_PROGRESS_MESSAGE_PROCESS_ID ON PROGRESS_MESSAGE(PROCESS_ID)";
 
     @Override
     public void execute(DataSource dataSource) throws SQLException {
