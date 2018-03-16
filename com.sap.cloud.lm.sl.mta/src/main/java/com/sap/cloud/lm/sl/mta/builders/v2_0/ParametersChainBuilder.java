@@ -11,13 +11,13 @@ import com.sap.cloud.lm.sl.mta.model.ParametersContainer;
 import com.sap.cloud.lm.sl.mta.model.v2_0.DeploymentDescriptor;
 import com.sap.cloud.lm.sl.mta.model.v2_0.Module;
 import com.sap.cloud.lm.sl.mta.model.v2_0.ModuleType;
+import com.sap.cloud.lm.sl.mta.model.v2_0.Platform;
 import com.sap.cloud.lm.sl.mta.model.v2_0.PlatformModuleType;
 import com.sap.cloud.lm.sl.mta.model.v2_0.PlatformResourceType;
 import com.sap.cloud.lm.sl.mta.model.v2_0.RequiredDependency;
 import com.sap.cloud.lm.sl.mta.model.v2_0.Resource;
 import com.sap.cloud.lm.sl.mta.model.v2_0.ResourceType;
 import com.sap.cloud.lm.sl.mta.model.v2_0.Target;
-import com.sap.cloud.lm.sl.mta.model.v2_0.Platform;
 import com.sap.cloud.lm.sl.mta.util.PropertiesUtil;
 
 public class ParametersChainBuilder extends PropertiesChainBuilder {

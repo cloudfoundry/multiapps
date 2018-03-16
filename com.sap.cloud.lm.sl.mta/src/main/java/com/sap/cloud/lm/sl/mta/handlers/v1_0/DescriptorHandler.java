@@ -16,19 +16,20 @@ import com.sap.cloud.lm.sl.mta.model.v1_0.ExtensionProvidedDependency;
 import com.sap.cloud.lm.sl.mta.model.v1_0.ExtensionResource;
 import com.sap.cloud.lm.sl.mta.model.v1_0.Module;
 import com.sap.cloud.lm.sl.mta.model.v1_0.ModuleType;
+import com.sap.cloud.lm.sl.mta.model.v1_0.Platform;
 import com.sap.cloud.lm.sl.mta.model.v1_0.PlatformModuleType;
 import com.sap.cloud.lm.sl.mta.model.v1_0.PlatformResourceType;
 import com.sap.cloud.lm.sl.mta.model.v1_0.ProvidedDependency;
 import com.sap.cloud.lm.sl.mta.model.v1_0.Resource;
 import com.sap.cloud.lm.sl.mta.model.v1_0.ResourceType;
 import com.sap.cloud.lm.sl.mta.model.v1_0.Target;
-import com.sap.cloud.lm.sl.mta.model.v1_0.Platform;
 
 public class DescriptorHandler {
 
     public Target findTarget(List<Target> targets, String targetName, Target defaultTarget) {
         for (Target target : targets) {
-            if (target.getName().equals(targetName)) {
+            if (target.getName()
+                .equals(targetName)) {
                 return target;
             }
         }
@@ -44,7 +45,8 @@ public class DescriptorHandler {
             return platforms.get(0);
         }
         for (Platform platform : platforms) {
-            if (platform.getName().equals(platformName)) {
+            if (platform.getName()
+                .equals(platformName)) {
                 return platform;
             }
         }
@@ -53,7 +55,8 @@ public class DescriptorHandler {
 
     public ResourceType findResourceType(Platform platform, String resourceTypeName) {
         for (ResourceType resourceType : platform.getResourceTypes1_0()) {
-            if (resourceType.getName().equals(resourceTypeName)) {
+            if (resourceType.getName()
+                .equals(resourceTypeName)) {
                 return resourceType;
             }
         }
@@ -62,7 +65,8 @@ public class DescriptorHandler {
 
     public PlatformResourceType findTargetResourceType(Target target, String resourceTypeName) {
         for (PlatformResourceType resourceType : target.getResourceTypes1_0()) {
-            if (resourceType.getName().equals(resourceTypeName)) {
+            if (resourceType.getName()
+                .equals(resourceTypeName)) {
                 return resourceType;
             }
         }
@@ -71,7 +75,8 @@ public class DescriptorHandler {
 
     public ModuleType findModuleType(Platform platform, String moduleTypeName) {
         for (ModuleType moduleType : platform.getModuleTypes1_0()) {
-            if (moduleType.getName().equals(moduleTypeName)) {
+            if (moduleType.getName()
+                .equals(moduleTypeName)) {
                 return moduleType;
             }
         }
@@ -80,7 +85,8 @@ public class DescriptorHandler {
 
     public PlatformModuleType findPlatformModuleType(Target target, String moduleTypeName) {
         for (PlatformModuleType moduleType : target.getModuleTypes1_0()) {
-            if (moduleType.getName().equals(moduleTypeName)) {
+            if (moduleType.getName()
+                .equals(moduleTypeName)) {
                 return moduleType;
             }
         }
@@ -89,7 +95,8 @@ public class DescriptorHandler {
 
     public Resource findResource(DeploymentDescriptor descriptor, String resourceName) {
         for (Resource resource : descriptor.getResources1_0()) {
-            if (resource.getName().equals(resourceName)) {
+            if (resource.getName()
+                .equals(resourceName)) {
                 return resource;
             }
         }
@@ -98,7 +105,8 @@ public class DescriptorHandler {
 
     public ExtensionResource findResource(ExtensionDescriptor descriptor, String resourceName) {
         for (ExtensionResource resource : descriptor.getResources1_0()) {
-            if (resource.getName().equals(resourceName)) {
+            if (resource.getName()
+                .equals(resourceName)) {
                 return resource;
             }
         }
@@ -107,7 +115,8 @@ public class DescriptorHandler {
 
     public Module findModule(DeploymentDescriptor descriptor, String moduleName) {
         for (Module module : descriptor.getModules1_0()) {
-            if (module.getName().equals(moduleName)) {
+            if (module.getName()
+                .equals(moduleName)) {
                 return module;
             }
         }
@@ -116,7 +125,8 @@ public class DescriptorHandler {
 
     public ExtensionModule findModule(ExtensionDescriptor descriptor, String moduleName) {
         for (ExtensionModule module : descriptor.getModules1_0()) {
-            if (module.getName().equals(moduleName)) {
+            if (module.getName()
+                .equals(moduleName)) {
                 return module;
             }
         }
@@ -157,7 +167,8 @@ public class DescriptorHandler {
 
     public ProvidedDependency findProvidedDependency(Module module, String providedDependencyName) {
         for (ProvidedDependency providedDependency : module.getProvidedDependencies1_0()) {
-            if (providedDependency.getName().equals(providedDependencyName)) {
+            if (providedDependency.getName()
+                .equals(providedDependencyName)) {
                 return providedDependency;
             }
         }
@@ -166,7 +177,8 @@ public class DescriptorHandler {
 
     public ExtensionProvidedDependency findProvidedDependency(ExtensionModule module, String providedDependencyName) {
         for (ExtensionProvidedDependency providedDependency : module.getProvidedDependencies1_0()) {
-            if (providedDependency.getName().equals(providedDependencyName)) {
+            if (providedDependency.getName()
+                .equals(providedDependencyName)) {
                 return providedDependency;
             }
         }

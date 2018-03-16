@@ -19,10 +19,10 @@ import com.sap.cloud.lm.sl.common.util.Callable;
 import com.sap.cloud.lm.sl.common.util.TestUtil;
 import com.sap.cloud.lm.sl.mta.model.v1_0.DeploymentDescriptor;
 import com.sap.cloud.lm.sl.mta.model.v1_0.Module;
-import com.sap.cloud.lm.sl.mta.model.v1_0.Target;
-import com.sap.cloud.lm.sl.mta.model.v1_0.Target.TargetBuilder;
 import com.sap.cloud.lm.sl.mta.model.v1_0.Platform;
 import com.sap.cloud.lm.sl.mta.model.v1_0.Platform.PlatformBuilder;
+import com.sap.cloud.lm.sl.mta.model.v1_0.Target;
+import com.sap.cloud.lm.sl.mta.model.v1_0.Target.TargetBuilder;
 
 @RunWith(Enclosed.class)
 public class DescriptorHandlerTest {
@@ -179,8 +179,8 @@ public class DescriptorHandlerTest {
 
         @Test
         public void testGetSortedModules() throws Exception {
-            final DeploymentDescriptor descriptor = getDescriptorParser().parseDeploymentDescriptorYaml(
-                TestUtil.getResourceAsString(descriptorLocation, getClass()));
+            final DeploymentDescriptor descriptor = getDescriptorParser()
+                .parseDeploymentDescriptorYaml(TestUtil.getResourceAsString(descriptorLocation, getClass()));
 
             TestUtil.test(new Callable<String>() {
 

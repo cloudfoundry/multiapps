@@ -13,6 +13,6 @@ public class Constants {
     public static final String ACTION_LOG = "ActionLog";
     public static final String EXECUTED_ACTIONS_TYPE_LOG = "executed_actions_type_log";
 
-	@Deprecated
-	public static final String SKIP_STEP_PREFIX = "Skip_";
+    @Deprecated
+    public static final String SKIP_STEP_PREFIX = "Skip_";
 }

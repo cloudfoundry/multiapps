@@ -14,14 +14,16 @@ public class ActivitiIdentityServiceRule extends ExternalResource {
 
     @Override
     protected void before() throws Throwable {
-        IdentityService identityService = ActivitiTestCfgRuleChain.getActivitiRule().getIdentityService();
+        IdentityService identityService = ActivitiTestCfgRuleChain.getActivitiRule()
+            .getIdentityService();
         prepareUserTable(identityService);
         identityService.setAuthenticatedUserId(TEST_USER);
     }
 
     @Override
     protected void after() {
-        IdentityService identityService = ActivitiTestCfgRuleChain.getActivitiRule().getIdentityService();
+        IdentityService identityService = ActivitiTestCfgRuleChain.getActivitiRule()
+            .getIdentityService();
         identityService.setAuthenticatedUserId(null);
         identityService.deleteUser(TEST_USER);
     }

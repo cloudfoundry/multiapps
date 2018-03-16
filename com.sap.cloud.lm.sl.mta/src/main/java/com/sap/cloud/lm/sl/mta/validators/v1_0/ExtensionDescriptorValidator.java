@@ -8,10 +8,10 @@ import com.sap.cloud.lm.sl.common.ContentException;
 import com.sap.cloud.lm.sl.mta.handlers.v1_0.DescriptorHandler;
 import com.sap.cloud.lm.sl.mta.message.Constants;
 import com.sap.cloud.lm.sl.mta.message.Messages;
-import com.sap.cloud.lm.sl.mta.model.VisitableElement;
 import com.sap.cloud.lm.sl.mta.model.ElementContext;
 import com.sap.cloud.lm.sl.mta.model.NamedElement;
 import com.sap.cloud.lm.sl.mta.model.PropertiesContainer;
+import com.sap.cloud.lm.sl.mta.model.VisitableElement;
 import com.sap.cloud.lm.sl.mta.model.Visitor;
 import com.sap.cloud.lm.sl.mta.model.v1_0.DeploymentDescriptor;
 import com.sap.cloud.lm.sl.mta.model.v1_0.ExtensionDescriptor;
@@ -50,7 +50,8 @@ public class ExtensionDescriptorValidator extends Visitor {
 
     @Override
     public void visit(ElementContext context, ExtensionProvidedDependency extensionProvidedDependency) throws ContentException {
-        VisitableElement container = context.getPreviousElementContext().getVisitableElement();
+        VisitableElement container = context.getPreviousElementContext()
+            .getVisitableElement();
         if (!extendsDeploymentDescriptorElement(extensionProvidedDependency)) {
             String containerName = container instanceof NamedElement ? ((NamedElement) container).getName() : "";
             throw new ContentException(Messages.UNKNOWN_PROVIDED_DEPENDENCY_IN_MTAEXT, extensionProvidedDependency.getName(), containerName,

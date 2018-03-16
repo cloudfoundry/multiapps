@@ -29,12 +29,18 @@ public class LogicalStepNameProvider {
     }
 
     String getActivityId() {
-        return processEngine.getRuntimeService().createExecutionQuery().executionId(job.getExecutionId()).singleResult().getActivityId();
+        return processEngine.getRuntimeService()
+            .createExecutionQuery()
+            .executionId(job.getExecutionId())
+            .singleResult()
+            .getActivityId();
     }
 
     FlowElement getFlowElement(String activityId) {
-        BpmnModel bpmnModel = processEngine.getRepositoryService().getBpmnModel(job.getProcessDefinitionId());
-        return bpmnModel.getMainProcess().getFlowElement(activityId);
+        BpmnModel bpmnModel = processEngine.getRepositoryService()
+            .getBpmnModel(job.getProcessDefinitionId());
+        return bpmnModel.getMainProcess()
+            .getFlowElement(activityId);
     }
 
     public String getLogicalStepName() throws LogicalStepNameProviderException {
@@ -54,8 +60,10 @@ public class LogicalStepNameProvider {
     private String getLogicalStepNameFromClass(final ServiceTask serviceTask) throws LogicalStepNameProviderException {
         String className = serviceTask.getImplementation();
         try {
-            Class<? extends AbstractActivitiStep> stepClass = Class.forName(className).asSubclass(AbstractActivitiStep.class);
-            return stepClass.newInstance().getLogicalStepName();
+            Class<? extends AbstractActivitiStep> stepClass = Class.forName(className)
+                .asSubclass(AbstractActivitiStep.class);
+            return stepClass.newInstance()
+                .getLogicalStepName();
         } catch (ClassNotFoundException e) {
             throw new LogicalStepNameProviderException("Cannot instantiate activity class", e);
         } catch (InstantiationException e) {
@@ -70,20 +78,24 @@ public class LogicalStepNameProvider {
     private String getLogicalStepNameFromDelegateExpression(final ServiceTask serviceTask) throws LogicalStepNameProviderException {
         ProcessEngineConfigurationImpl previousProcessEngineConfiguration = Context.getProcessEngineConfiguration();
         try {
-            return processEngine.getManagementService().executeCommand((new Command<String>() {
+            return processEngine.getManagementService()
+                .executeCommand((new Command<String>() {
 
-                @Override
-                public String execute(CommandContext context) {
-                    ProcessEngineConfigurationImpl processEngineConfiguration = ((ProcessEngineImpl) processEngine).getProcessEngineConfiguration();
-                    Context.setProcessEngineConfiguration(processEngineConfiguration);
-                    Expression expression = processEngineConfiguration.getExpressionManager().createExpression(
-                        serviceTask.getImplementation());
-                    ExecutionEntity executionn = (ExecutionEntity) processEngine.getRuntimeService().createProcessInstanceQuery().processInstanceId(
-                        job.getProcessInstanceId()).singleResult();
-                    return ((AbstractActivitiStep) expression.getValue(executionn)).getLogicalStepName();
-                }
+                    @Override
+                    public String execute(CommandContext context) {
+                        ProcessEngineConfigurationImpl processEngineConfiguration = ((ProcessEngineImpl) processEngine)
+                            .getProcessEngineConfiguration();
+                        Context.setProcessEngineConfiguration(processEngineConfiguration);
+                        Expression expression = processEngineConfiguration.getExpressionManager()
+                            .createExpression(serviceTask.getImplementation());
+                        ExecutionEntity executionn = (ExecutionEntity) processEngine.getRuntimeService()
+                            .createProcessInstanceQuery()
+                            .processInstanceId(job.getProcessInstanceId())
+                            .singleResult();
+                        return ((AbstractActivitiStep) expression.getValue(executionn)).getLogicalStepName();
+                    }
 
-            }));
+                }));
         } catch (ClassCastException e) {
             throw new LogicalStepNameProviderException("Unsupported delegate expression " + serviceTask.getImplementation(), e);
         } finally {

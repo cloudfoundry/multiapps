@@ -18,6 +18,7 @@ public class YamlPropertyComparator implements Comparator<Property> {
         if (fieldOrder.contains(o1.getName()) && fieldOrder.contains(o2.getName())) {
             return fieldOrder.indexOf(o1.getName()) > fieldOrder.indexOf(o2.getName()) ? 1 : -1;
         }
-        return o1.getName().compareTo(o2.getName());
+        return o1.getName()
+            .compareTo(o2.getName());
     }
 }

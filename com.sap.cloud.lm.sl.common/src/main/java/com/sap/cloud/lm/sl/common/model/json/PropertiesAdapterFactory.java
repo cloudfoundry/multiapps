@@ -1,8 +1,8 @@
 package com.sap.cloud.lm.sl.common.model.json;
 
 import java.io.IOException;
-import java.lang.reflect.Type;
 import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;

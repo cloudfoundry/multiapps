@@ -38,18 +38,22 @@ public class ActivitiUpdateVariablesAction extends AbstractTraceableAction {
         if (modifiedVariables.isEmpty()) {
             return;
         }
-        logTracibilityInformation(String.format(LOG_MESSAGE, getUserName(), modifiedVariables.keySet().toString()));
+        logTracibilityInformation(String.format(LOG_MESSAGE, getUserName(), modifiedVariables.keySet()
+            .toString()));
         validateModifiedVariables();
         updateProcessInstanceVariables();
     }
 
     protected void updateProcessInstanceVariables() {
-        getDefaultProcessEngine().getRuntimeService().setVariables(getProcessInstanceId(), modifiedVariables);
+        getDefaultProcessEngine().getRuntimeService()
+            .setVariables(getProcessInstanceId(), modifiedVariables);
     }
 
     private Map<String, HistoricVariableInstance> getProcessVariables(String processInstanceId) {
-        List<HistoricVariableInstance> variablesList = getDefaultProcessEngine().getHistoryService().createHistoricVariableInstanceQuery().processInstanceId(
-            processInstanceId).list();
+        List<HistoricVariableInstance> variablesList = getDefaultProcessEngine().getHistoryService()
+            .createHistoricVariableInstanceQuery()
+            .processInstanceId(processInstanceId)
+            .list();
 
         Map<String, HistoricVariableInstance> variablesMap = new HashMap<String, HistoricVariableInstance>();
         for (HistoricVariableInstance variable : variablesList) {
@@ -77,7 +81,8 @@ public class ActivitiUpdateVariablesAction extends AbstractTraceableAction {
                 continue;
             }
 
-            if (historicVariable.getVariableTypeName().equals(VAR_TYPE_BINARY)) {
+            if (historicVariable.getVariableTypeName()
+                .equals(VAR_TYPE_BINARY)) {
                 entry.setValue(getByteArray((String) entry.getValue()));
             }
         }

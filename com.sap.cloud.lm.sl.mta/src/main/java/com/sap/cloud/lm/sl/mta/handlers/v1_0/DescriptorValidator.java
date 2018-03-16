@@ -6,8 +6,8 @@ import com.sap.cloud.lm.sl.common.ContentException;
 import com.sap.cloud.lm.sl.common.util.Pair;
 import com.sap.cloud.lm.sl.mta.model.v1_0.DeploymentDescriptor;
 import com.sap.cloud.lm.sl.mta.model.v1_0.ExtensionDescriptor;
-import com.sap.cloud.lm.sl.mta.model.v1_0.Target;
 import com.sap.cloud.lm.sl.mta.model.v1_0.Platform;
+import com.sap.cloud.lm.sl.mta.model.v1_0.Target;
 import com.sap.cloud.lm.sl.mta.validators.DescriptorValidationRules;
 import com.sap.cloud.lm.sl.mta.validators.v1_0.DefaultDescriptorValidationRules;
 import com.sap.cloud.lm.sl.mta.validators.v1_0.DeploymentDescriptorValidator;
@@ -26,13 +26,11 @@ public class DescriptorValidator {
         this.handler = handler;
     }
 
-    public void validateDeploymentDescriptor(DeploymentDescriptor deploymentDescriptor, Platform platform)
-        throws ContentException {
+    public void validateDeploymentDescriptor(DeploymentDescriptor deploymentDescriptor, Platform platform) throws ContentException {
         getDeploymentDescriptorValidator(deploymentDescriptor, platform).validate();
     }
 
-    protected DeploymentDescriptorValidator getDeploymentDescriptorValidator(DeploymentDescriptor deploymentDescriptor,
-        Platform platform) {
+    protected DeploymentDescriptorValidator getDeploymentDescriptorValidator(DeploymentDescriptor deploymentDescriptor, Platform platform) {
         return new DeploymentDescriptorValidator(deploymentDescriptor, platform, handler);
     }
 

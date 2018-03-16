@@ -12,7 +12,9 @@ public class GsonHelper {
 
     public static <T> byte[] getAsBinaryJson(Object obj) {
         try {
-            return new GsonBuilder().create().toJson(obj).getBytes(CHARSET_UTF_8);
+            return new GsonBuilder().create()
+                .toJson(obj)
+                .getBytes(CHARSET_UTF_8);
         } catch (UnsupportedEncodingException e) {
             throw new RuntimeException(e);
         }

@@ -1,6 +1,7 @@
 package com.sap.cloud.lm.sl.mta.handlers.v3_1;
 
 import static com.sap.cloud.lm.sl.common.util.CommonUtil.cast;
+
 import com.sap.cloud.lm.sl.mta.model.v2_0.DeploymentDescriptor;
 import com.sap.cloud.lm.sl.mta.model.v2_0.ExtensionDescriptor;
 import com.sap.cloud.lm.sl.mta.model.v3_1.ExtensionRequiredDependency;
@@ -18,7 +19,8 @@ public class DescriptorHandler extends com.sap.cloud.lm.sl.mta.handlers.v2_0.Des
         }
         com.sap.cloud.lm.sl.mta.model.v3_1.DeploymentDescriptor descriptor3_1 = cast(descriptor);
         for (Resource resource : descriptor3_1.getResources3_1()) {
-            if (resource.getName().equals(consumerName)) {
+            if (resource.getName()
+                .equals(consumerName)) {
                 return findRequiredDependency(resource, dependencyName);
             }
         }
@@ -33,7 +35,8 @@ public class DescriptorHandler extends com.sap.cloud.lm.sl.mta.handlers.v2_0.Des
         }
         com.sap.cloud.lm.sl.mta.model.v3_1.ExtensionDescriptor descriptor3_1 = cast(descriptor);
         for (ExtensionResource resource : descriptor3_1.getResources3_1()) {
-            if (resource.getName().equals(consumerName)) {
+            if (resource.getName()
+                .equals(consumerName)) {
                 return findRequiredDependency(resource, dependencyName);
             }
         }
@@ -42,7 +45,8 @@ public class DescriptorHandler extends com.sap.cloud.lm.sl.mta.handlers.v2_0.Des
 
     public RequiredDependency findRequiredDependency(Resource resource, String dependencyName) {
         for (RequiredDependency requiredDependency : resource.getRequiredDependencies3_1()) {
-            if (requiredDependency.getName().equals(dependencyName)) {
+            if (requiredDependency.getName()
+                .equals(dependencyName)) {
                 return requiredDependency;
             }
         }
@@ -51,7 +55,8 @@ public class DescriptorHandler extends com.sap.cloud.lm.sl.mta.handlers.v2_0.Des
 
     public ExtensionRequiredDependency findRequiredDependency(ExtensionResource resource, String dependencyName) {
         for (ExtensionRequiredDependency requiredDependency : resource.getRequiredDependencies3_1()) {
-            if (requiredDependency.getName().equals(dependencyName)) {
+            if (requiredDependency.getName()
+                .equals(dependencyName)) {
                 return requiredDependency;
             }
         }

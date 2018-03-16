@@ -34,7 +34,8 @@ public class CommonUtil {
         StringBuilder sb = new StringBuilder();
         int count = 0;
         for (Object object : objects) {
-            sb.append(prefix).append(object.toString());
+            sb.append(prefix)
+                .append(object.toString());
             if (count++ < objects.size() - 1) {
                 sb.append(delimiter);
             }
@@ -97,10 +98,10 @@ public class CommonUtil {
         String trimmedString = string.substring(0, limit - abbreviationMarker.length());
         return trimmedString + abbreviationMarker;
     }
-    
+
     public static int sumOfInts(int... integers) {
         int sum = 0;
-        for( int i : integers) {
+        for (int i : integers) {
             sum += i;
         }
         return sum;

@@ -42,5 +42,5 @@ public class DescriptorSerializationTest extends com.sap.cloud.lm.sl.mta.seriali
     protected ExtensionDescriptorParser getExtensionDescriptorParser(Map<String, Object> yamlMap) {
         return new ExtensionDescriptorParser(yamlMap);
     }
-    
+
 }

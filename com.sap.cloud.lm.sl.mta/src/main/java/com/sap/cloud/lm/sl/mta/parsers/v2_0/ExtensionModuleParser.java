@@ -50,7 +50,8 @@ public class ExtensionModuleParser extends com.sap.cloud.lm.sl.mta.parsers.v1_0.
         return getListElement(REQUIRES, new ListParser<ExtensionRequiredDependency>() {
             @Override
             protected ExtensionRequiredDependency parseItem(Map<String, Object> map) throws ParsingException {
-                return getRequiredDependencyParser(map).setUsedValues(usedRequiredDependencyNames).parse();
+                return getRequiredDependencyParser(map).setUsedValues(usedRequiredDependencyNames)
+                    .parse();
             }
         });
     }

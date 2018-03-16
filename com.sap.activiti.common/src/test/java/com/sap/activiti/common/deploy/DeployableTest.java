@@ -25,12 +25,14 @@ public class DeployableTest {
     @Test
     public void testKeyIsExtractedCorrectlyWithSpacesInProcessTag() {
         assertEquals("The process definition key was not extracted correctly from the bpmn file.", EXPECTED_KEY,
-            po.getDeployableWithSpaces().getProcessDefinitionKey());
+            po.getDeployableWithSpaces()
+                .getProcessDefinitionKey());
     }
 
     @Test
     public void testKeyIsExtractedCorrectlyWithAlteredParameterOrder() {
         assertEquals("The process definition key was not extracted correctly from the bpmn file.", EXPECTED_KEY,
-            po.getDeployableWithAlteredParameterOrder().getProcessDefinitionKey());
+            po.getDeployableWithAlteredParameterOrder()
+                .getProcessDefinitionKey());
     }
 }

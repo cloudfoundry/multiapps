@@ -12,8 +12,8 @@ import com.sap.cloud.lm.sl.mta.model.ParametersWithMetadataContainer;
 import com.sap.cloud.lm.sl.mta.parsers.v3_1.DeploymentDescriptorParser;
 import com.sap.cloud.lm.sl.mta.util.MetadataConverter;
 import com.sap.cloud.lm.sl.mta.util.YamlAdapter;
-import com.sap.cloud.lm.sl.mta.util.YamlElementOrder;
 import com.sap.cloud.lm.sl.mta.util.YamlElement;
+import com.sap.cloud.lm.sl.mta.util.YamlElementOrder;
 
 @YamlElementOrder({ "id", "description", "version", "provider", "copyright", "schemaVersion", "parameters", "parametersMetadata",
     "modules3_1", "resources3_1" })

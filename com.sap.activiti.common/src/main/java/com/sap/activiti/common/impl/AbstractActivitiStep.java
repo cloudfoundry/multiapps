@@ -17,39 +17,38 @@ public abstract class AbstractActivitiStep implements JavaDelegate, ILogicalStep
 
     private static final Logger LOGGER = Logger.getInstance(AbstractActivitiStep.class);
 
-	/**
-	 * <b>Don't use it!</b> Use the {@link #skipHelper skipHelper( )} method
-	 * instead. But if you really must, use the {@link ISkipHelper.SkipRequest}
-	 * enum.
-	 */
-	@Deprecated
-	public enum SkipOption {
+    /**
+     * <b>Don't use it!</b> Use the {@link #skipHelper skipHelper( )} method instead. But if you really must, use the
+     * {@link ISkipHelper.SkipRequest} enum.
+     */
+    @Deprecated
+    public enum SkipOption {
 
-		SKIP
+        SKIP
 
-	};
+    };
 
     private IStatusSignaller signaller;
 
-	protected abstract ExecutionStatus executeStep(DelegateExecution context) throws Exception;
+    protected abstract ExecutionStatus executeStep(DelegateExecution context) throws Exception;
 
     @Override
     public void execute(DelegateExecution context) throws Exception {
         LOGGER.debug(context, "Starting execution");
         getStatusSignaller();
 
-		if (createSkipHelper(context).hasSkipRequest(getLogicalStepName())) {
+        if (createSkipHelper(context).hasSkipRequest(getLogicalStepName())) {
             getSignaller().signal(context, ExecutionStatus.SKIPPED);
             LOGGER.debug(context, "Skipping step as instructed with a context variable");
 
-			// Remove the skip request after it is processed.
+            // Remove the skip request after it is processed.
             dropSkipRequestWhenDone(context);
             return;
         }
 
         ExecutionStatus status = null;
         HttpLogger log = HttpLogger.getInstance();
-        
+
         try {
             log.enableLogCollection();
             preExecuteStep(context);
@@ -70,7 +69,8 @@ public abstract class AbstractActivitiStep implements JavaDelegate, ILogicalStep
     }
 
     protected Throwable getWithProperMessage(Throwable t) {
-        if (t.getMessage() == null || t.getMessage().isEmpty()) {
+        if (t.getMessage() == null || t.getMessage()
+            .isEmpty()) {
             return new Exception("An unknown error occurred", t);
         }
         return t;
@@ -88,16 +88,16 @@ public abstract class AbstractActivitiStep implements JavaDelegate, ILogicalStep
 
     }
 
-	protected void dropSkipRequestWhenDone(DelegateExecution context) {
-		createSkipHelper(context).removeSkipRequest(getLogicalStepName());
+    protected void dropSkipRequestWhenDone(DelegateExecution context) {
+        createSkipHelper(context).removeSkipRequest(getLogicalStepName());
     }
 
     public IStatusSignaller getSignaller() {
         return this.signaller;
     }
-    
+
     protected ISkipHelper createSkipHelper(DelegateExecution context) {
-    	return new DelegateExecutionSkipHelper(context);
+        return new DelegateExecutionSkipHelper(context);
     }
 
     private void getStatusSignaller() {
@@ -105,7 +105,7 @@ public abstract class AbstractActivitiStep implements JavaDelegate, ILogicalStep
             this.signaller = new StatusSignaller(getLogicalStepName());
         }
     }
-    
+
     private void clearRetryMessage(ExecutionStatus status, DelegateExecution context) {
         if (!ExecutionStatus.LOGICAL_RETRY.equals(status)) {
             context.removeVariable(getLogicalStepName() + LOGICAL_STEP_RETRY_MSG_SUFFIX);
@@ -114,7 +114,8 @@ public abstract class AbstractActivitiStep implements JavaDelegate, ILogicalStep
 
     @Override
     public String getLogicalStepName() {
-        return this.getClass().getSimpleName();
+        return this.getClass()
+            .getSimpleName();
     }
 
     protected String getStatusVariable() {

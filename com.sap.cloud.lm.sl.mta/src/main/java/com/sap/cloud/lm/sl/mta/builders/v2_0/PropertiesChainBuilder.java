@@ -11,11 +11,11 @@ import com.sap.cloud.lm.sl.mta.model.PropertiesContainer;
 import com.sap.cloud.lm.sl.mta.model.v2_0.DeploymentDescriptor;
 import com.sap.cloud.lm.sl.mta.model.v2_0.Module;
 import com.sap.cloud.lm.sl.mta.model.v2_0.ModuleType;
+import com.sap.cloud.lm.sl.mta.model.v2_0.Platform;
 import com.sap.cloud.lm.sl.mta.model.v2_0.PlatformModuleType;
 import com.sap.cloud.lm.sl.mta.model.v2_0.RequiredDependency;
 import com.sap.cloud.lm.sl.mta.model.v2_0.Resource;
 import com.sap.cloud.lm.sl.mta.model.v2_0.Target;
-import com.sap.cloud.lm.sl.mta.model.v2_0.Platform;
 import com.sap.cloud.lm.sl.mta.util.PropertiesUtil;
 
 public class PropertiesChainBuilder extends com.sap.cloud.lm.sl.mta.builders.v1_0.PropertiesChainBuilder {
@@ -28,8 +28,7 @@ public class PropertiesChainBuilder extends com.sap.cloud.lm.sl.mta.builders.v1_
         super(descriptor, null, null, new DescriptorHandler());
     }
 
-    public PropertiesChainBuilder(DeploymentDescriptor descriptor, Target target, Platform platform,
-        DescriptorHandler handler) {
+    public PropertiesChainBuilder(DeploymentDescriptor descriptor, Target target, Platform platform, DescriptorHandler handler) {
         super(descriptor, target, platform, handler);
     }
 

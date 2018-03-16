@@ -30,7 +30,9 @@ public class ActivitiTestCfgRuleChain {
     public static RuleChain getChain() {
         activitiRule = new ActivitiRule(ACTIVITI_CFG_XML);
 
-        return RuleChain.emptyRuleChain().around(activitiRule).around(new ActivitiCleanupRule());
+        return RuleChain.emptyRuleChain()
+            .around(activitiRule)
+            .around(new ActivitiCleanupRule());
     }
 
     public static RuleChain getChain(ProcessEngineConfiguration cfg) {
@@ -38,7 +40,9 @@ public class ActivitiTestCfgRuleChain {
         activitiRule = new ActivitiRule();
         activitiRule.setProcessEngine(processEngine);
 
-        return RuleChain.emptyRuleChain().around(activitiRule).around(new ActivitiCleanupRule());
+        return RuleChain.emptyRuleChain()
+            .around(activitiRule)
+            .around(new ActivitiCleanupRule());
     }
 
     private static final class ActivitiCleanupRule extends ExternalResource {
@@ -51,21 +55,25 @@ public class ActivitiTestCfgRuleChain {
 
         private void eraseHistory() {
             HistoryService historyService = activitiRule.getHistoryService();
-            for (HistoricProcessInstance procInst : historyService.createHistoricProcessInstanceQuery().list()) {
+            for (HistoricProcessInstance procInst : historyService.createHistoricProcessInstanceQuery()
+                .list()) {
                 historyService.deleteHistoricProcessInstance(procInst.getId());
             }
         }
 
         private void undeployAllProcesses() {
             RepositoryService repositoryService = activitiRule.getRepositoryService();
-            for (ProcessDefinition processDef : repositoryService.createProcessDefinitionQuery().list()) {
-                activitiRule.getRepositoryService().deleteDeployment(processDef.getDeploymentId());
+            for (ProcessDefinition processDef : repositoryService.createProcessDefinitionQuery()
+                .list()) {
+                activitiRule.getRepositoryService()
+                    .deleteDeployment(processDef.getDeploymentId());
             }
         }
 
         private void stopAllProcessInstances() {
             RuntimeService runtimeService = activitiRule.getRuntimeService();
-            for (ProcessInstance procInst : runtimeService.createProcessInstanceQuery().list()) {
+            for (ProcessInstance procInst : runtimeService.createProcessInstanceQuery()
+                .list()) {
                 runtimeService.deleteProcessInstance(procInst.getId(), null);
             }
         }
@@ -76,13 +84,19 @@ public class ActivitiTestCfgRuleChain {
     }
 
     public static void deploy(InputStream resource, String resourceName) {
-        activitiRule.getRepositoryService().createDeployment().addInputStream(resourceName, resource).deploy();
+        activitiRule.getRepositoryService()
+            .createDeployment()
+            .addInputStream(resourceName, resource)
+            .deploy();
     }
 
     public static void executeFirstAvailableJob(String procesInstanceId) {
         ManagementService managementService = activitiRule.getManagementService();
 
-        String jobId = managementService.createJobQuery().processInstanceId(procesInstanceId).singleResult().getId();
+        String jobId = managementService.createJobQuery()
+            .processInstanceId(procesInstanceId)
+            .singleResult()
+            .getId();
 
         managementService.executeJob(jobId);
     }
@@ -92,7 +106,9 @@ public class ActivitiTestCfgRuleChain {
     }
 
     public static String startProcess(String procInstKey, String businessKey, Map<String, Object> params) {
-        return getActivitiRule().getRuntimeService().startProcessInstanceByKey(procInstKey, businessKey, params).getId();
+        return getActivitiRule().getRuntimeService()
+            .startProcessInstanceByKey(procInstKey, businessKey, params)
+            .getId();
     }
 
     public static String startProcess(String procInstKey, Map<String, Object> params) {

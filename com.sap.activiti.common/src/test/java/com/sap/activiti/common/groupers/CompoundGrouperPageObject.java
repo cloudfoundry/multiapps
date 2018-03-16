@@ -20,22 +20,22 @@ public class CompoundGrouperPageObject extends BasicGrouperPageObject {
 
     @SuppressWarnings("unchecked")
     public List<List<Entry<String, String>>> getExpectedKeys() {
-        List<Entry<String, String>> firstKey = new ArrayList<Entry<String,String>>();
+        List<Entry<String, String>> firstKey = new ArrayList<Entry<String, String>>();
         firstKey.add(new SimpleEntry<String, String>("Gender", "Male"));
         firstKey.add(new SimpleEntry<String, String>("Age", "17"));
 
-        List<Entry<String, String>> secondKey = new ArrayList<Entry<String,String>>();
+        List<Entry<String, String>> secondKey = new ArrayList<Entry<String, String>>();
         secondKey.add(new SimpleEntry<String, String>("Gender", "Male"));
         secondKey.add(new SimpleEntry<String, String>("Age", "25"));
-        
-        List<Entry<String, String>> thirdKey = new ArrayList<Entry<String,String>>();
+
+        List<Entry<String, String>> thirdKey = new ArrayList<Entry<String, String>>();
         thirdKey.add(new SimpleEntry<String, String>("Gender", "Female"));
         thirdKey.add(new SimpleEntry<String, String>("Age", "17"));
-        
-        List<Entry<String, String>> fourthKey = new ArrayList<Entry<String,String>>();
+
+        List<Entry<String, String>> fourthKey = new ArrayList<Entry<String, String>>();
         fourthKey.add(new SimpleEntry<String, String>("Gender", "Female"));
         fourthKey.add(new SimpleEntry<String, String>("Age", "35"));
-        
+
         return Arrays.asList(firstKey, secondKey, thirdKey, fourthKey);
     }
 
@@ -61,17 +61,14 @@ public class CompoundGrouperPageObject extends BasicGrouperPageObject {
     CompoundGrouper<TestUser> initCompoundGrouper() {
         AbstractFilter<TestUser> rootFilter = new GenderFilter();
         FilterTree<TestUser> filterTree = new FilterTree<TestUser>(rootFilter, "Gender");
-        GeneralFilterGrouper<TestUser> generalFilterGrouper = new GeneralFilterGrouper<TestUser>(
-                filterTree);
+        GeneralFilterGrouper<TestUser> generalFilterGrouper = new GeneralFilterGrouper<TestUser>(filterTree);
 
-        GeneralGrouper<TestUser> generalGrouper = new GeneralGrouper<TestUser>(
-                new TestUserAgeCriteria());
+        GeneralGrouper<TestUser> generalGrouper = new GeneralGrouper<TestUser>(new TestUserAgeCriteria());
 
         return new CompoundGrouper<TestUser>(Arrays.asList(generalFilterGrouper, generalGrouper));
     }
 
-    static <T extends Collection<?>> Matcher<Collection<T>> containsInAnyOrder(
-            final List<T> expectedKeys) {
+    static <T extends Collection<?>> Matcher<Collection<T>> containsInAnyOrder(final List<T> expectedKeys) {
 
         return new BaseMatcher<Collection<T>>() {
 

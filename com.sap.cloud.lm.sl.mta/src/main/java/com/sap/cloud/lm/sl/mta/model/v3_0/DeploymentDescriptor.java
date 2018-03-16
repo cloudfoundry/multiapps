@@ -8,8 +8,8 @@ import java.util.List;
 
 import com.sap.cloud.lm.sl.common.util.ListUtil;
 import com.sap.cloud.lm.sl.mta.parsers.v3_0.DeploymentDescriptorParser;
-import com.sap.cloud.lm.sl.mta.util.YamlElementOrder;
 import com.sap.cloud.lm.sl.mta.util.YamlElement;
+import com.sap.cloud.lm.sl.mta.util.YamlElementOrder;
 
 @YamlElementOrder({ "id", "description", "version", "provider", "copyright", "schemaVersion", "parameters", "modules3_0", "resources3_0" })
 public class DeploymentDescriptor extends com.sap.cloud.lm.sl.mta.model.v2_0.DeploymentDescriptor {

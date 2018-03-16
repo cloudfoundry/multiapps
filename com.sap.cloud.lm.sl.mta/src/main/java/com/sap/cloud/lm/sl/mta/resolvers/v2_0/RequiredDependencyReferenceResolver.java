@@ -9,9 +9,9 @@ import com.sap.cloud.lm.sl.mta.handlers.v2_0.DescriptorHandler;
 import com.sap.cloud.lm.sl.mta.model.NamedElement;
 import com.sap.cloud.lm.sl.mta.model.v2_0.DeploymentDescriptor;
 import com.sap.cloud.lm.sl.mta.model.v2_0.RequiredDependency;
-import com.sap.cloud.lm.sl.mta.resolvers.ResolverBuilder;
 import com.sap.cloud.lm.sl.mta.resolvers.ProvidedValuesResolver;
 import com.sap.cloud.lm.sl.mta.resolvers.ReferenceResolver;
+import com.sap.cloud.lm.sl.mta.resolvers.ResolverBuilder;
 
 public class RequiredDependencyReferenceResolver extends ReferenceResolver<RequiredDependency> {
 
@@ -54,7 +54,8 @@ public class RequiredDependencyReferenceResolver extends ReferenceResolver<Requi
                 return propertyValues;
             }
         };
-        return propertiesResolverBuilder.build(properties, valuesResolver, patternToMatch, prefix, isStrict).resolve();
+        return propertiesResolverBuilder.build(properties, valuesResolver, patternToMatch, prefix, isStrict)
+            .resolve();
     }
 
 }

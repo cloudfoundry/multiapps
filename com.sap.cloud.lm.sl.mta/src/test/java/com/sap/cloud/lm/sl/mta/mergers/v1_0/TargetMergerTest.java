@@ -85,7 +85,6 @@ public class TargetMergerTest {
 
     }
 
-
     protected HandlerFactory getHandlerFactory() {
         return new HandlerFactory(getMajorSchemaVersion());
     }

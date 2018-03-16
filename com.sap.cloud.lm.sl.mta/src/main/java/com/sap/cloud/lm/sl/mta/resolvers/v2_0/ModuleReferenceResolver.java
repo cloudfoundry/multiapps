@@ -10,8 +10,8 @@ import com.sap.cloud.lm.sl.common.ContentException;
 import com.sap.cloud.lm.sl.mta.model.v2_0.DeploymentDescriptor;
 import com.sap.cloud.lm.sl.mta.model.v2_0.Module;
 import com.sap.cloud.lm.sl.mta.model.v2_0.RequiredDependency;
-import com.sap.cloud.lm.sl.mta.resolvers.ResolverBuilder;
 import com.sap.cloud.lm.sl.mta.resolvers.Resolver;
+import com.sap.cloud.lm.sl.mta.resolvers.ResolverBuilder;
 
 public class ModuleReferenceResolver implements Resolver<Module, ContentException> {
 
@@ -21,8 +21,8 @@ public class ModuleReferenceResolver implements Resolver<Module, ContentExceptio
     protected final ResolverBuilder propertiesResolverBuilder;
     protected final ResolverBuilder requiredDepencenciesPropertiesResolverBuilder;
 
-    public ModuleReferenceResolver(DeploymentDescriptor descriptor, Module module, String prefix,
-        ResolverBuilder propertiesResolverBuilder, ResolverBuilder requiredDepencenciesPropertiesResolverBuilder) {
+    public ModuleReferenceResolver(DeploymentDescriptor descriptor, Module module, String prefix, ResolverBuilder propertiesResolverBuilder,
+        ResolverBuilder requiredDepencenciesPropertiesResolverBuilder) {
         this.descriptor = descriptor;
         this.module = module;
         this.requiredDepencenciesPropertiesResolverBuilder = requiredDepencenciesPropertiesResolverBuilder;

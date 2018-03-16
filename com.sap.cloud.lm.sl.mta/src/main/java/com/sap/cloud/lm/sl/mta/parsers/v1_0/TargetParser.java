@@ -70,7 +70,8 @@ public class TargetParser extends ModelParser<Target> {
         return getListElement(MODULE_TYPES, new ListParser<PlatformModuleType>() {
             @Override
             protected PlatformModuleType parseItem(Map<String, Object> map) throws ParsingException {
-                return getModuleTypeParser(map).setUsedValues(usedModuleTypeNames).parse();
+                return getModuleTypeParser(map).setUsedValues(usedModuleTypeNames)
+                    .parse();
             }
         });
     }
@@ -83,7 +84,8 @@ public class TargetParser extends ModelParser<Target> {
         return getListElement(RESOURCE_TYPES, new ListParser<PlatformResourceType>() {
             @Override
             protected PlatformResourceType parseItem(Map<String, Object> map) throws ParsingException {
-                return getResourceTypeParser(map).setUsedValues(usedResourceTypeNames).parse();
+                return getResourceTypeParser(map).setUsedValues(usedResourceTypeNames)
+                    .parse();
             }
         });
     }

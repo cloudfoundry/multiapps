@@ -24,7 +24,8 @@ public class DescriptorHandler extends com.sap.cloud.lm.sl.mta.handlers.v1_0.Des
 
     public RequiredDependency findRequiredDependency(DeploymentDescriptor descriptor, String moduleName, String dependencyName) {
         for (Module module : descriptor.getModules2_0()) {
-            if (module.getName().equals(moduleName)) {
+            if (module.getName()
+                .equals(moduleName)) {
                 return findRequiredDependency(module, dependencyName);
             }
         }
@@ -33,7 +34,8 @@ public class DescriptorHandler extends com.sap.cloud.lm.sl.mta.handlers.v1_0.Des
 
     public ExtensionRequiredDependency findRequiredDependency(ExtensionDescriptor descriptor, String moduleName, String dependencyName) {
         for (ExtensionModule module : descriptor.getModules2_0()) {
-            if (module.getName().equals(moduleName)) {
+            if (module.getName()
+                .equals(moduleName)) {
                 return findRequiredDependency(module, dependencyName);
             }
         }
@@ -42,7 +44,8 @@ public class DescriptorHandler extends com.sap.cloud.lm.sl.mta.handlers.v1_0.Des
 
     public RequiredDependency findRequiredDependency(Module module, String dependencyName) {
         for (RequiredDependency requiredDependency : module.getRequiredDependencies2_0()) {
-            if (requiredDependency.getName().equals(dependencyName)) {
+            if (requiredDependency.getName()
+                .equals(dependencyName)) {
                 return requiredDependency;
             }
         }
@@ -51,7 +54,8 @@ public class DescriptorHandler extends com.sap.cloud.lm.sl.mta.handlers.v1_0.Des
 
     public ExtensionRequiredDependency findRequiredDependency(ExtensionModule module, String dependencyName) {
         for (ExtensionRequiredDependency requiredDependency : module.getRequiredDependencies2_0()) {
-            if (requiredDependency.getName().equals(dependencyName)) {
+            if (requiredDependency.getName()
+                .equals(dependencyName)) {
                 return requiredDependency;
             }
         }

@@ -27,6 +27,7 @@ public class ResourcePropertiesReferenceResolver extends ReferenceResolver<Map<S
 
     @Override
     public Map<String, Object> resolve() {
-        return propertiesResolverBuilder.build(properties, this, patternToMatch, prefix, true).resolve();
+        return propertiesResolverBuilder.build(properties, this, patternToMatch, prefix, true)
+            .resolve();
     }
 }

@@ -4,13 +4,11 @@ import java.util.Arrays;
 
 import org.junit.runners.Parameterized.Parameters;
 
-import com.sap.cloud.lm.sl.mta.builders.v2_0.ParametersChainBuilder;
-import com.sap.cloud.lm.sl.mta.builders.v2_0.PropertiesChainBuilder;
 import com.sap.cloud.lm.sl.mta.handlers.v2_0.ConfigurationParser;
 import com.sap.cloud.lm.sl.mta.handlers.v2_0.DescriptorParser;
 import com.sap.cloud.lm.sl.mta.model.v2_0.DeploymentDescriptor;
-import com.sap.cloud.lm.sl.mta.model.v2_0.Target;
 import com.sap.cloud.lm.sl.mta.model.v2_0.Platform;
+import com.sap.cloud.lm.sl.mta.model.v2_0.Target;
 
 public class ParametersChainBuilderTest extends com.sap.cloud.lm.sl.mta.builders.v1_0.PropertiesChainBuilderTest {
 

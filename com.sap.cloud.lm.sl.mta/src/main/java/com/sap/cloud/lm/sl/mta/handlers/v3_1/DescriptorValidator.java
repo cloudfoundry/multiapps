@@ -8,10 +8,10 @@ import com.sap.cloud.lm.sl.mta.model.v3_1.DeploymentDescriptor;
 import com.sap.cloud.lm.sl.mta.model.v3_1.ExtensionDescriptor;
 import com.sap.cloud.lm.sl.mta.model.v3_1.Platform;
 import com.sap.cloud.lm.sl.mta.validators.DescriptorValidationRules;
+import com.sap.cloud.lm.sl.mta.validators.v2_0.MergedDescriptorValidator;
 import com.sap.cloud.lm.sl.mta.validators.v3_1.DefaultDescriptorValidationRules;
 import com.sap.cloud.lm.sl.mta.validators.v3_1.DeploymentDescriptorValidator;
 import com.sap.cloud.lm.sl.mta.validators.v3_1.ExtensionDescriptorValidator;
-import com.sap.cloud.lm.sl.mta.validators.v2_0.MergedDescriptorValidator;
 
 public class DescriptorValidator extends com.sap.cloud.lm.sl.mta.handlers.v2_0.DescriptorValidator {
 

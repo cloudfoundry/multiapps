@@ -42,21 +42,25 @@ public class AbstractActivitiStepTest {
 
     @Test
     public void testSkipRequest() throws Exception {
-		testStep.createSkipHelper(mockContext).createSkipRequest(testStep.getLogicalStepName());
+        testStep.createSkipHelper(mockContext)
+            .createSkipRequest(testStep.getLogicalStepName());
         testStep.execute(mockContext);
 
         assertEquals(ExecutionStatus.SKIPPED.toString(), mockContext.getVariable(testStep.getStatusVariable()));
-		assertFalse(testStep.createSkipHelper(mockContext).hasSkipRequest(testStep.getLogicalStepName()));
-	}
+        assertFalse(testStep.createSkipHelper(mockContext)
+            .hasSkipRequest(testStep.getLogicalStepName()));
+    }
 
-	@Test
-	public void testSkipRequest_whenTaskIsWithBridge() throws Exception {
-		testStep = createStepWithBridge();
-		testStep.createSkipHelper(mockContext).createSkipRequest(testStep.getLogicalStepName());
-		testStep.execute(mockContext);
+    @Test
+    public void testSkipRequest_whenTaskIsWithBridge() throws Exception {
+        testStep = createStepWithBridge();
+        testStep.createSkipHelper(mockContext)
+            .createSkipRequest(testStep.getLogicalStepName());
+        testStep.execute(mockContext);
 
-		assertEquals(ExecutionStatus.SKIPPED.toString(), mockContext.getVariable(testStep.getStatusVariable()));
-		assertTrue(testStep.createSkipHelper(mockContext).hasSkipRequest(testStep.getLogicalStepName()));
+        assertEquals(ExecutionStatus.SKIPPED.toString(), mockContext.getVariable(testStep.getStatusVariable()));
+        assertTrue(testStep.createSkipHelper(mockContext)
+            .hasSkipRequest(testStep.getLogicalStepName()));
     }
 
     private AbstractActivitiStep createStep() {
@@ -68,12 +72,12 @@ public class AbstractActivitiStepTest {
         };
     }
 
-	private AbstractActivitiStepWithBridge createStepWithBridge() {
-		return new AbstractActivitiStepWithBridge() {
-			@Override
-			protected ExecutionStatus pollStatus(DelegateExecution context) throws Exception {
-				throw new Exception("test exception");
-			}
-		};
-	}
+    private AbstractActivitiStepWithBridge createStepWithBridge() {
+        return new AbstractActivitiStepWithBridge() {
+            @Override
+            protected ExecutionStatus pollStatus(DelegateExecution context) throws Exception {
+                throw new Exception("test exception");
+            }
+        };
+    }
 }

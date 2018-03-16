@@ -12,8 +12,8 @@ import com.sap.cloud.lm.sl.common.util.ListUtil;
 import com.sap.cloud.lm.sl.common.util.MapUtil;
 import com.sap.cloud.lm.sl.mta.model.ParametersContainer;
 import com.sap.cloud.lm.sl.mta.parsers.v2_0.DeploymentDescriptorParser;
-import com.sap.cloud.lm.sl.mta.util.YamlElementOrder;
 import com.sap.cloud.lm.sl.mta.util.YamlElement;
+import com.sap.cloud.lm.sl.mta.util.YamlElementOrder;
 
 @YamlElementOrder({ "id", "description", "version", "provider", "copyright", "schemaVersion", "parameters", "modules2_0", "resources2_0" })
 public class DeploymentDescriptor extends com.sap.cloud.lm.sl.mta.model.v1_0.DeploymentDescriptor implements ParametersContainer {

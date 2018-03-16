@@ -17,8 +17,11 @@ public class ActivitiAbortActionTestPO {
         Deployable deployable = new Deployable(SINGLE_STEP_PROCESS_FILE, BPMN_PACKAGE_PATH);
         String bpmn = IOUtils.toString(deployable.getBpmnStream());
 
-        ActivitiTestCfgRuleChain.getActivitiRule().getRepositoryService().createDeployment().addString(SINGLE_STEP_PROCESS_FILE,
-            bpmn).deploy();
+        ActivitiTestCfgRuleChain.getActivitiRule()
+            .getRepositoryService()
+            .createDeployment()
+            .addString(SINGLE_STEP_PROCESS_FILE, bpmn)
+            .deploy();
 
         return ActivitiTestCfgRuleChain.startProcess("test.provision.hana.singlestep", null);
     }
@@ -28,8 +31,11 @@ public class ActivitiAbortActionTestPO {
     }
 
     public boolean isProcessRunning(String procInstId) {
-        return ActivitiTestCfgRuleChain.getActivitiRule().getRuntimeService().createProcessInstanceQuery().processInstanceId(
-            procInstId).singleResult() != null;
+        return ActivitiTestCfgRuleChain.getActivitiRule()
+            .getRuntimeService()
+            .createProcessInstanceQuery()
+            .processInstanceId(procInstId)
+            .singleResult() != null;
     }
 
     public boolean isUserSetInContext(String procInstId) {
@@ -46,7 +52,8 @@ public class ActivitiAbortActionTestPO {
     public boolean isExecutedActionTypeSetInContext(Enum<? extends Enum<?>> type, String procInstId) {
         byte[] actionsTypeLogBytes = (byte[]) getHistoricVariableValue(procInstId, Constants.EXECUTED_ACTIONS_TYPE_LOG);
         String actionsTypeLog = new String(actionsTypeLogBytes, Charsets.UTF_8);
-        return actionsTypeLog.contains(type.name().toUpperCase() + "\n");
+        return actionsTypeLog.contains(type.name()
+            .toUpperCase() + "\n");
     }
 
     private String getActionLog(String procInstId) {
@@ -55,7 +62,12 @@ public class ActivitiAbortActionTestPO {
     }
 
     private Object getHistoricVariableValue(String procInstId, String variableName) {
-        return ActivitiTestCfgRuleChain.getActivitiRule().getHistoryService().createHistoricVariableInstanceQuery().processInstanceId(
-            procInstId).variableName(variableName).singleResult().getValue();
+        return ActivitiTestCfgRuleChain.getActivitiRule()
+            .getHistoryService()
+            .createHistoricVariableInstanceQuery()
+            .processInstanceId(procInstId)
+            .variableName(variableName)
+            .singleResult()
+            .getValue();
     }
 }

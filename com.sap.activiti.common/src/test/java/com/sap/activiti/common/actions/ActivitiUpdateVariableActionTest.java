@@ -85,16 +85,19 @@ public class ActivitiUpdateVariableActionTest extends AbstractCustomActivitiTrac
                 }
                 return null;
             }
-        }).when(runtimeService).setVariables(anyString(), anyMap());
+        }).when(runtimeService)
+            .setVariables(anyString(), anyMap());
     }
 
     private void mockHistoryService(ProcessEngine engine) {
         HistoricVariableInstanceQuery query = ActivitiQuerySpyBuilder.<HistoricVariableInstanceQuery, HistoricVariableInstance> //
-        createBuilder(new HistoricVariableInstanceQueryImpl()).setElementsList(createProcessVariables()) //
-        .getQuery();
+            createBuilder(new HistoricVariableInstanceQueryImpl())
+            .setElementsList(createProcessVariables()) //
+            .getQuery();
 
         HistoryService historyService = engine.getHistoryService();
-        doReturn(query).when(historyService).createHistoricVariableInstanceQuery();
+        doReturn(query).when(historyService)
+            .createHistoricVariableInstanceQuery();
     }
 
     private List<HistoricVariableInstance> createProcessVariables() {

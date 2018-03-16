@@ -24,8 +24,7 @@ import org.mockito.Mockito;
  * 
  * @author I312695
  * 
- * @param
- *        <Q>The type of the {@link Query} to be mocked (e.g. {@link ProcessInstanceQuery}).
+ * @param <Q>The type of the {@link Query} to be mocked (e.g. {@link ProcessInstanceQuery}).
  * @param <T> The type of the objects that the query returns (e.g. {@link ProcessInstance}).
  */
 public class ActivitiQuerySpyBuilder<Q extends Query<Q, T>, T> {
@@ -50,9 +49,12 @@ public class ActivitiQuerySpyBuilder<Q extends Query<Q, T>, T> {
         Q query = spy(instace);
         List<T> elements = new ArrayList<T>();
 
-        doReturn(0L).when(query).count();
-        doReturn(elements).when(query).list();
-        doReturn(null).when(query).singleResult();
+        doReturn(0L).when(query)
+            .count();
+        doReturn(elements).when(query)
+            .list();
+        doReturn(null).when(query)
+            .singleResult();
 
         return query;
     }
@@ -66,8 +68,10 @@ public class ActivitiQuerySpyBuilder<Q extends Query<Q, T>, T> {
      */
     public ActivitiQuerySpyBuilder<Q, T> setElementsList(List<T> elements) {
         long count = elements.size();
-        doReturn(elements).when(queryInstance).list();
-        doReturn(count).when(queryInstance).count();
+        doReturn(elements).when(queryInstance)
+            .list();
+        doReturn(count).when(queryInstance)
+            .count();
 
         return this;
     }
@@ -79,7 +83,8 @@ public class ActivitiQuerySpyBuilder<Q extends Query<Q, T>, T> {
      * @return The current {@link ActivitiQuerySpyBuilder} instance.
      */
     public ActivitiQuerySpyBuilder<Q, T> setSingleResult(T element) {
-        doReturn(element).when(queryInstance).singleResult();
+        doReturn(element).when(queryInstance)
+            .singleResult();
         return this;
     }
 

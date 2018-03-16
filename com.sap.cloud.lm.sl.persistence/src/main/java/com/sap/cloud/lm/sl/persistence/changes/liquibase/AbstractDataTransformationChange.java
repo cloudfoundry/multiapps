@@ -70,7 +70,7 @@ public abstract class AbstractDataTransformationChange<OriginalDataType, Transfo
     public abstract String getSelectStatement();
 
     public abstract String getUpdateStatement();
-    
+
     public String[] getAlterStatements() {
         return new String[0];
     }

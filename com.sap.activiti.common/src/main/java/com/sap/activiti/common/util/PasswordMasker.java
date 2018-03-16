@@ -37,8 +37,10 @@ public class PasswordMasker {
                 maskPasswordsInJsonStructure(element);
             }
         } else if (jsonElement.isJsonObject()) {
-            for (Entry<String, JsonElement> entry : jsonElement.getAsJsonObject().entrySet()) {
-                if (entry.getValue().isJsonPrimitive()) {
+            for (Entry<String, JsonElement> entry : jsonElement.getAsJsonObject()
+                .entrySet()) {
+                if (entry.getValue()
+                    .isJsonPrimitive()) {
                     handlePrimitive(entry);
                 } else {
                     maskPasswordsInJsonStructure(entry.getValue());
@@ -52,7 +54,8 @@ public class PasswordMasker {
             return;
         }
         for (int i = 0; i < passwordFragments.length; i++) {
-            if (entry.getKey().contains(passwordFragments[i])) {
+            if (entry.getKey()
+                .contains(passwordFragments[i])) {
                 entry.setValue(new JsonPrimitive(MASK));
                 break;
             }

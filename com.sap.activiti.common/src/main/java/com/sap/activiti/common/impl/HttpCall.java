@@ -61,8 +61,8 @@ public class HttpCall {
     @Override
     public String toString() {
         String result = String.format("[%s] - Method: %s, RequestURL: %s%s, Request payload: %s, response payload: %s, status code: %d",
-                dateFormatter.format(new Date()), method, requestDestinationURI, requestResourcePath == null ? "" : requestResourcePath,
-                                requestPayload, responsePayload, statusCode);
+            dateFormatter.format(new Date()), method, requestDestinationURI, requestResourcePath == null ? "" : requestResourcePath,
+            requestPayload, responsePayload, statusCode);
         if (isNotBlank(message)) {
             result += String.format("\nMessage: %s", message);
         }

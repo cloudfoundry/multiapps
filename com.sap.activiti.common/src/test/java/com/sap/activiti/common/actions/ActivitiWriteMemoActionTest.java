@@ -17,7 +17,8 @@ public class ActivitiWriteMemoActionTest {
     private ActivitiWriteMemoAction writeMemoService;
 
     @Rule
-    public RuleChain activitiChain = ActivitiTestCfgRuleChain.getChain().around(new ActivitiIdentityServiceRule());
+    public RuleChain activitiChain = ActivitiTestCfgRuleChain.getChain()
+        .around(new ActivitiIdentityServiceRule());
 
     @Before
     public void setUp() throws Exception {

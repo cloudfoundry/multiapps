@@ -23,8 +23,7 @@ public class ModulePlaceholderResolver extends PlaceholderResolver<Module> {
     protected final ResolverBuilder parametersResolverBuilder;
 
     public ModulePlaceholderResolver(Module module, String prefix, ParametersChainBuilder parametersChainBuilder,
-        SystemParameters systemParameters, ResolverBuilder propertiesResolverBuilder,
-        ResolverBuilder parametersResolverBuilder) {
+        SystemParameters systemParameters, ResolverBuilder propertiesResolverBuilder, ResolverBuilder parametersResolverBuilder) {
         super(module.getName(), prefix, systemParameters);
         this.module = module;
         this.parametersChainBuilder = parametersChainBuilder;
@@ -37,7 +36,8 @@ public class ModulePlaceholderResolver extends PlaceholderResolver<Module> {
         String moduleName = module.getName();
         List<Map<String, Object>> parametersList = parametersChainBuilder.buildModuleChainWithoutDependencies(moduleName);
         addSingularParametersIfNecessary(parametersList);
-        parametersList.add(getFullSystemParameters(systemParameters.getModuleParameters().get(moduleName)));
+        parametersList.add(getFullSystemParameters(systemParameters.getModuleParameters()
+            .get(moduleName)));
         Map<String, Object> mergedParameters = PropertiesUtil.mergeProperties(parametersList);
         module.setProperties(getResolvedProperties(mergedParameters));
         module.setParameters(getResolvedParameters(mergedParameters));

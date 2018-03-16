@@ -23,17 +23,19 @@ public class TestDataSourceProvider {
         Connection connection = createH2InMemory();
 
         // Create the schema for unit testing
-        Database liquibaseDb = DatabaseFactory.getInstance().findCorrectDatabaseImplementation(new JdbcConnection(connection));
+        Database liquibaseDb = DatabaseFactory.getInstance()
+            .findCorrectDatabaseImplementation(new JdbcConnection(connection));
         Liquibase lq = new Liquibase(liquibaseChangelogLocation, new ClassLoaderResourceAccessor(), liquibaseDb);
-        try{
+        try {
             lq.update("");
-        }catch(MigrationFailedException e){
-            //catch the exception because in PopulateConfigurationRegistrySpaceIdColumnChange liquibase change there is rest call
-            if(e.getCause().getClass() != UnexpectedLiquibaseException.class){
+        } catch (MigrationFailedException e) {
+            // catch the exception because in PopulateConfigurationRegistrySpaceIdColumnChange liquibase change there is rest call
+            if (e.getCause()
+                .getClass() != UnexpectedLiquibaseException.class) {
                 throw e;
             }
         }
-        
+
         // Initialize the fileService to use our in-memory connection through a pool emulation (so
         // that close releases rather than close)
         return new SingleConnectionDataSource(connection, true);

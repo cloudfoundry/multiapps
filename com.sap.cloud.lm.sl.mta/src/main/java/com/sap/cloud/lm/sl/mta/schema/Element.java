@@ -30,7 +30,6 @@ public class Element {
         return type;
     }
 
-
     public String getPattern() {
         return pattern;
     }

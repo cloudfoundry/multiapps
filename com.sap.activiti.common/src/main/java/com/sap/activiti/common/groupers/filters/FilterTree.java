@@ -1,6 +1,5 @@
 package com.sap.activiti.common.groupers.filters;
 
-
 public class FilterTree<T> {
 
     private AbstractFilter<T> rootFilter;

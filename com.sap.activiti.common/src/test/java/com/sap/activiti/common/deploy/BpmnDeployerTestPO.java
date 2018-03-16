@@ -25,7 +25,11 @@ public class BpmnDeployerTestPO {
     }
 
     public int getDeployedSingleStepProcDefCount() {
-        return ActivitiTestCfgRuleChain.getActivitiRule().getRepositoryService().createProcessDefinitionQuery().processDefinitionKey(
-            SINGLE_STEP_DEPLOYABLE.getProcessDefinitionKey()).list().size();
+        return ActivitiTestCfgRuleChain.getActivitiRule()
+            .getRepositoryService()
+            .createProcessDefinitionQuery()
+            .processDefinitionKey(SINGLE_STEP_DEPLOYABLE.getProcessDefinitionKey())
+            .list()
+            .size();
     }
 }

@@ -13,7 +13,8 @@ public class RunningProcessFilter extends AbstractFilter<HistoricProcessInstance
     private ManagementService managementService;
 
     public RunningProcessFilter() {
-        managementService = ProcessEngines.getDefaultProcessEngine().getManagementService();
+        managementService = ProcessEngines.getDefaultProcessEngine()
+            .getManagementService();
     }
 
     @Override
@@ -33,10 +34,12 @@ public class RunningProcessFilter extends AbstractFilter<HistoricProcessInstance
 
     private boolean hasJobs(HistoricProcessInstance processInstance) {
         if (allJobs == null) {
-            allJobs = managementService.createJobQuery().list();
+            allJobs = managementService.createJobQuery()
+                .list();
         }
         for (Job job : allJobs) {
-            if (job.getProcessInstanceId().equals(processInstance.getId())) {
+            if (job.getProcessInstanceId()
+                .equals(processInstance.getId())) {
                 return true;
             }
         }

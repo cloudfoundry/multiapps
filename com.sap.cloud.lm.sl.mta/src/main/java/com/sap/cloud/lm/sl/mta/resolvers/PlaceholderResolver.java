@@ -19,14 +19,16 @@ public abstract class PlaceholderResolver<T> extends PatternResolver<T> {
     }
 
     protected void addSingularParametersIfNecessary(List<Map<String, Object>> parametersList) {
-        for (String singular : systemParameters.getSingularPluralMapping().keySet()) {
+        for (String singular : systemParameters.getSingularPluralMapping()
+            .keySet()) {
             addSingularParameterIfNecessary(singular, parametersList);
         }
     }
 
     protected void addSingularParameterIfNecessary(String singular, List<Map<String, Object>> parametersList) {
         if (shouldAddSingularParameter(singular, parametersList)) {
-            Object value = getSingularParameter(systemParameters.getSingularPluralMapping().get(singular), parametersList);
+            Object value = getSingularParameter(systemParameters.getSingularPluralMapping()
+                .get(singular), parametersList);
             if (value != null) {
                 Map<String, Object> parameters = new LinkedHashMap<>(parametersList.remove(0));
                 parameters.put(singular, value);

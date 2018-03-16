@@ -19,8 +19,11 @@ public class ActivitiWriteMemoActionTestPO {
         Deployable deployable = new Deployable(SINGLE_STEP_PROCESS_FILE, BPMN_PACKAGE_PATH);
         String bpmn = IOUtils.toString(deployable.getBpmnStream());
 
-        ActivitiTestCfgRuleChain.getActivitiRule().getRepositoryService().createDeployment().addString(SINGLE_STEP_PROCESS_FILE,
-            bpmn).deploy();
+        ActivitiTestCfgRuleChain.getActivitiRule()
+            .getRepositoryService()
+            .createDeployment()
+            .addString(SINGLE_STEP_PROCESS_FILE, bpmn)
+            .deploy();
 
         return ActivitiTestCfgRuleChain.startProcess("test.provision.hana.singlestep", null);
     }
@@ -56,7 +59,12 @@ public class ActivitiWriteMemoActionTestPO {
     }
 
     private Object getHistoricVariableValue(String procInstId, String variableName) {
-        return ActivitiTestCfgRuleChain.getActivitiRule().getHistoryService().createHistoricVariableInstanceQuery().processInstanceId(
-            procInstId).variableName(variableName).singleResult().getValue();
+        return ActivitiTestCfgRuleChain.getActivitiRule()
+            .getHistoryService()
+            .createHistoricVariableInstanceQuery()
+            .processInstanceId(procInstId)
+            .variableName(variableName)
+            .singleResult()
+            .getValue();
     }
 }

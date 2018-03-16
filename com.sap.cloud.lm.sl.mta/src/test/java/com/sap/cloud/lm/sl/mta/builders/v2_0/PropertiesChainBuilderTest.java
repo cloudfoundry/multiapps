@@ -7,20 +7,18 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import org.junit.runners.Parameterized.Parameters;
 
-import com.sap.cloud.lm.sl.mta.builders.v2_0.PropertiesChainBuilder;
 import com.sap.cloud.lm.sl.mta.handlers.v2_0.ConfigurationParser;
 import com.sap.cloud.lm.sl.mta.handlers.v2_0.DescriptorParser;
 import com.sap.cloud.lm.sl.mta.model.v2_0.DeploymentDescriptor;
-import com.sap.cloud.lm.sl.mta.model.v2_0.Target;
 import com.sap.cloud.lm.sl.mta.model.v2_0.Platform;
+import com.sap.cloud.lm.sl.mta.model.v2_0.Target;
 
 @RunWith(Parameterized.class)
 public class PropertiesChainBuilderTest extends com.sap.cloud.lm.sl.mta.builders.v1_0.PropertiesChainBuilderTest {
 
     @Parameters
     public static Iterable<Object[]> getParameters() {
-        return Arrays.asList(
-            new Object[][] {
+        return Arrays.asList(new Object[][] {
 // @formatter:off
             // (0) All module and resource types are present in target and platform:
             {
@@ -54,10 +52,10 @@ public class PropertiesChainBuilderTest extends com.sap.cloud.lm.sl.mta.builders
     }
 
     @Override
-    protected PropertiesChainBuilder createPropertiesChainBuilder(com.sap.cloud.lm.sl.mta.model.v1_0.DeploymentDescriptor deploymentDescriptor,
-        com.sap.cloud.lm.sl.mta.model.v1_0.Platform platform, com.sap.cloud.lm.sl.mta.model.v1_0.Target target) {
-        return new PropertiesChainBuilder((DeploymentDescriptor) deploymentDescriptor, (Target) target,
-            (Platform) platform);
+    protected PropertiesChainBuilder createPropertiesChainBuilder(
+        com.sap.cloud.lm.sl.mta.model.v1_0.DeploymentDescriptor deploymentDescriptor, com.sap.cloud.lm.sl.mta.model.v1_0.Platform platform,
+        com.sap.cloud.lm.sl.mta.model.v1_0.Target target) {
+        return new PropertiesChainBuilder((DeploymentDescriptor) deploymentDescriptor, (Target) target, (Platform) platform);
     }
 
     @Override

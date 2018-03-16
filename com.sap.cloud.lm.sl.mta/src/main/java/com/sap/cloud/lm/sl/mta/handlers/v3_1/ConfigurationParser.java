@@ -6,10 +6,10 @@ import java.util.Map;
 
 import com.sap.cloud.lm.sl.common.ParsingException;
 import com.sap.cloud.lm.sl.common.util.ListUtil;
-import com.sap.cloud.lm.sl.mta.model.v3_1.Target;
 import com.sap.cloud.lm.sl.mta.model.v3_1.Platform;
-import com.sap.cloud.lm.sl.mta.parsers.v3_1.TargetParser;
+import com.sap.cloud.lm.sl.mta.model.v3_1.Target;
 import com.sap.cloud.lm.sl.mta.parsers.v3_1.PlatformParser;
+import com.sap.cloud.lm.sl.mta.parsers.v3_1.TargetParser;
 import com.sap.cloud.lm.sl.mta.schema.SchemaValidator;
 
 public class ConfigurationParser extends com.sap.cloud.lm.sl.mta.handlers.v3_0.ConfigurationParser {

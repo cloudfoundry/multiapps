@@ -33,13 +33,17 @@ public class BpmnDeployer {
         String newBpmn = readStreamAndCloseIt(deployable.getBpmnStream());
 
         if (!newBpmn.equals(lastBpmn)) {
-            repositoryService.createDeployment().addString(deployable.getBpmnFileName(), newBpmn).deploy();
+            repositoryService.createDeployment()
+                .addString(deployable.getBpmnFileName(), newBpmn)
+                .deploy();
         }
     }
 
     private String getLastBpmn(Deployable deployable, RepositoryService repositoryService) throws IOException {
-        ProcessDefinition lastProcessDefinition = repositoryService.createProcessDefinitionQuery().processDefinitionKey(
-                deployable.getProcessDefinitionKey()).latestVersion().singleResult();
+        ProcessDefinition lastProcessDefinition = repositoryService.createProcessDefinitionQuery()
+            .processDefinitionKey(deployable.getProcessDefinitionKey())
+            .latestVersion()
+            .singleResult();
 
         if (lastProcessDefinition == null) {
             return null;

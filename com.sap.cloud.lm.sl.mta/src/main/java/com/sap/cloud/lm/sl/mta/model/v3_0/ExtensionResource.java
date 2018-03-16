@@ -4,7 +4,6 @@ import static com.sap.cloud.lm.sl.common.util.CommonUtil.getOrDefault;
 
 import java.util.Collections;
 
-
 public class ExtensionResource extends com.sap.cloud.lm.sl.mta.model.v2_0.ExtensionResource {
 
     protected ExtensionResource() {

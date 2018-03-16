@@ -12,8 +12,8 @@ import com.sap.cloud.lm.sl.mta.handlers.v3_1.DescriptorHandler;
 import com.sap.cloud.lm.sl.mta.model.v3_1.DeploymentDescriptor;
 import com.sap.cloud.lm.sl.mta.model.v3_1.RequiredDependency;
 import com.sap.cloud.lm.sl.mta.model.v3_1.Resource;
-import com.sap.cloud.lm.sl.mta.resolvers.ResolverBuilder;
 import com.sap.cloud.lm.sl.mta.resolvers.Resolver;
+import com.sap.cloud.lm.sl.mta.resolvers.ResolverBuilder;
 import com.sap.cloud.lm.sl.mta.resolvers.v2_0.RequiredDependencyReferenceResolver;
 
 public class ResourceReferenceResolver implements Resolver<Resource, ContentException> {
@@ -25,8 +25,7 @@ public class ResourceReferenceResolver implements Resolver<Resource, ContentExce
     protected final ResolverBuilder requiredDepencenciesPropertiesResolverBuilder;
 
     public ResourceReferenceResolver(DeploymentDescriptor descriptor, Resource resource, String prefix,
-        ResolverBuilder resourcesPropertiesResolverBuilder,
-        ResolverBuilder requiredDepencenciesPropertiesResolverBuilder) {
+        ResolverBuilder resourcesPropertiesResolverBuilder, ResolverBuilder requiredDepencenciesPropertiesResolverBuilder) {
         this.descriptor = descriptor;
         this.resource = resource;
         this.resourcesPropertiesResolverBuilder = resourcesPropertiesResolverBuilder;
@@ -56,8 +55,8 @@ public class ResourceReferenceResolver implements Resolver<Resource, ContentExce
     }
 
     protected RequiredDependencyReferenceResolver createRequiredDependencyResolver(RequiredDependency requiredDependency) {
-        return new RequiredDependencyReferenceResolver(descriptor, resource, requiredDependency, prefix,
-            new DescriptorHandler(), requiredDepencenciesPropertiesResolverBuilder);
+        return new RequiredDependencyReferenceResolver(descriptor, resource, requiredDependency, prefix, new DescriptorHandler(),
+            requiredDepencenciesPropertiesResolverBuilder);
     }
 
     private Map<String, Object> getResolvedProperties() throws ContentException {

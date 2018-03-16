@@ -18,11 +18,12 @@ public class PropertiesAdapterFactoryTest {
         Foo foo = new Foo(MapUtil.asMap("test1", createTestProperties()));
 
         String json = JsonUtil.toJson(foo, true);
-         System.out.println(json);
+        System.out.println(json);
 
         foo = JsonUtil.fromJson(json, Foo.class);
 
-        Map<String, Object> actualProperties = ((Map<String, Object>) foo.getProperties().get("test1"));
+        Map<String, Object> actualProperties = ((Map<String, Object>) foo.getProperties()
+            .get("test1"));
 
         assertTestProperties(actualProperties);
     }
@@ -34,13 +35,14 @@ public class PropertiesAdapterFactoryTest {
         Bar bar = new Bar(properties);
 
         String json = JsonUtil.toJson(bar, true);
-         System.out.println(json);
+        System.out.println(json);
 
         bar = JsonUtil.fromJson(json, Bar.class);
 
         @SuppressWarnings("unchecked")
-        Map<String, Object> actualProperties = ((Map<String, Object>) bar.getProperties().get("test1"));
-        
+        Map<String, Object> actualProperties = ((Map<String, Object>) bar.getProperties()
+            .get("test1"));
+
         assertTestProperties(actualProperties);
     }
 
