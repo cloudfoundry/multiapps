@@ -3,17 +3,17 @@ package com.sap.cloud.lm.sl.mta.model;
 import java.util.Map;
 
 import com.google.gson.annotations.JsonAdapter;
-import com.sap.cloud.lm.sl.common.model.json.PropertiesAdapterFactory;
+import com.sap.cloud.lm.sl.common.model.json.MapWithNumbersAdapterFactory;
 
 public class SystemParameters {
 
-    @JsonAdapter(PropertiesAdapterFactory.class)
+    @JsonAdapter(MapWithNumbersAdapterFactory.class)
     private final Map<String, Map<String, Object>> moduleParameters;
-    @JsonAdapter(PropertiesAdapterFactory.class)
+    @JsonAdapter(MapWithNumbersAdapterFactory.class)
     private final Map<String, Object> generalParameters;
-    @JsonAdapter(PropertiesAdapterFactory.class)
+    @JsonAdapter(MapWithNumbersAdapterFactory.class)
     private final Map<String, Map<String, Object>> resourceParameters;
-    @JsonAdapter(PropertiesAdapterFactory.class)
+    @JsonAdapter(MapWithNumbersAdapterFactory.class)
     private final Map<String, String> singularPluralMapping;
 
     public SystemParameters(Map<String, Object> generalParameters, Map<String, Map<String, Object>> moduleParameters,

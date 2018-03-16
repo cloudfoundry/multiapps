@@ -15,6 +15,7 @@ import com.google.gson.JsonSyntaxException;
 import com.google.gson.reflect.TypeToken;
 import com.sap.cloud.lm.sl.common.ParsingException;
 import com.sap.cloud.lm.sl.common.message.Messages;
+import com.sap.cloud.lm.sl.common.model.json.MapWithNumbersAdapterFactory;
 
 public class JsonUtil {
 
@@ -56,23 +57,29 @@ public class JsonUtil {
         return fromJson(json, type, new ArrayList<T>(), Messages.CANNOT_CONVERT_JSON_STRING_TO_LIST);
     }
 
-    private static <T> T fromJson(String json, Type type, T defaultValue, String errorMessage) throws ParsingException {
+    private static <T> T fromJson(String json, Type type, T defaultValue, String errorMessage)
+        throws ParsingException {
         if (json == null || json.isEmpty()) {
             return defaultValue;
         }
         try {
-            return new Gson().fromJson(json, type);
+            Gson gson = new GsonBuilder().registerTypeAdapterFactory(new MapWithNumbersAdapterFactory())
+                .create();
+            return gson.fromJson(json, type);
         } catch (Exception e) {
             throw new ParsingException(e, errorMessage, json.substring(0, Math.min(json.length(), MAX_LENGTH)));
         }
     }
 
-    private static <T> T fromJson(InputStream json, Type type, T defaultValue, String errorMessage) throws ParsingException {
+    private static <T> T fromJson(InputStream json, Type type, T defaultValue, String errorMessage)
+        throws ParsingException {
         if (json == null) {
             return defaultValue;
         }
         try {
-            return new Gson().fromJson(new InputStreamReader(json, StandardCharsets.UTF_8), type);
+            Gson gson = new GsonBuilder().registerTypeAdapterFactory(new MapWithNumbersAdapterFactory())
+                .create();
+            return gson.fromJson(new InputStreamReader(json, StandardCharsets.UTF_8), type);
         } catch (Exception e) {
             throw new ParsingException(e, errorMessage, json);
         }

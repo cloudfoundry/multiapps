@@ -13,9 +13,14 @@ import com.google.gson.TypeAdapter;
 import com.google.gson.TypeAdapterFactory;
 import com.google.gson.reflect.TypeToken;
 import com.google.gson.stream.JsonReader;
+import com.google.gson.stream.JsonToken;
 import com.google.gson.stream.JsonWriter;
 
-public class PropertiesAdapterFactory implements TypeAdapterFactory {
+/** Converts numbers from JSON Map element to Integer not Double <br>
+ * This is needed because GSON converts all numbers to Double by default <br>
+ * Adapter must be applied over Map objects only, not to List or other complex collections
+ */
+public class MapWithNumbersAdapterFactory implements TypeAdapterFactory {
 
     private static final Type PROPERTY_KEY_TYPE = new TypeToken<String>() {
     }.getType();
@@ -35,6 +40,11 @@ public class PropertiesAdapterFactory implements TypeAdapterFactory {
             @Override
             public T read(JsonReader in) throws IOException {
                 Map<String, Object> result = new TreeMap<String, Object>();
+                if (in.peek() == JsonToken.NULL) {
+                    in.nextNull();
+                    return null;
+                }
+
                 in.beginObject();
                 while (in.hasNext()) {
                     parseProperty(in, result);
@@ -71,10 +81,12 @@ public class PropertiesAdapterFactory implements TypeAdapterFactory {
 
             private Number attemptToCastToNumber(Double value) {
                 if (isInteger(value)) {
-                    if (Double.compare(value, (double) Integer.MAX_VALUE) > 0) {
+                    if (Double.compare(value, (double) Integer.MAX_VALUE) < 0) {
+                        return value.intValue();
+                    }
+                    if (Double.compare(value, (double) Long.MAX_VALUE) < 0) {
                         return value.longValue();
                     }
-                    return value.intValue();
                 }
                 return value;
             }

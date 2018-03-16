@@ -11,7 +11,7 @@ import com.google.gson.annotations.JsonAdapter;
 import com.sap.cloud.lm.sl.common.util.JsonUtil;
 import com.sap.cloud.lm.sl.common.util.MapUtil;
 
-public class PropertiesAdapterFactoryTest {
+public class MapWithNumbersAdapterFactoryTest {
 
     @Test
     public void test1() throws Exception {
@@ -45,6 +45,16 @@ public class PropertiesAdapterFactoryTest {
 
         assertTestProperties(actualProperties);
     }
+    
+    @Test
+    public void test3() throws Exception {
+        String json = JsonUtil.toJson(createTestProperties(), true);
+        System.out.println(json);
+
+        Map<String, Object> actualProperties = JsonUtil.convertJsonToMap(json);
+
+        assertTestProperties(actualProperties);
+    }
 
     private Map<String, Object> createTestProperties() {
         Map<String, Object> testProperties1 = new TreeMap<String, Object>();
@@ -73,7 +83,7 @@ public class PropertiesAdapterFactoryTest {
 
     private static class Foo {
 
-        @JsonAdapter(PropertiesAdapterFactory.class)
+        @JsonAdapter(MapWithNumbersAdapterFactory.class)
         private Map<String, Map<String, Object>> properties;
 
         public Foo(Map<String, Map<String, Object>> properties) {
@@ -88,7 +98,7 @@ public class PropertiesAdapterFactoryTest {
 
     private static class Bar {
 
-        @JsonAdapter(PropertiesAdapterFactory.class)
+        @JsonAdapter(MapWithNumbersAdapterFactory.class)
         private Map<String, Object> properties;
 
         public Bar(Map<String, Object> properties) {
