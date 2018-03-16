@@ -12,7 +12,8 @@ public class InProgressProcessFilter extends AbstractFilter<HistoricProcessInsta
     private List<Job> allJobs;
 
     public InProgressProcessFilter() {
-        managementService = ProcessEngines.getDefaultProcessEngine().getManagementService();
+        managementService = ProcessEngines.getDefaultProcessEngine()
+            .getManagementService();
     }
 
     private ManagementService managementService;
@@ -24,11 +25,13 @@ public class InProgressProcessFilter extends AbstractFilter<HistoricProcessInsta
 
     private boolean hasFailedJobs(HistoricProcessInstance processInstance) {
         if (allJobs == null) {
-            allJobs = managementService.createJobQuery().withException()//
-                    .list();
+            allJobs = managementService.createJobQuery()
+                .withException()//
+                .list();
         }
         for (Job job : allJobs) {
-            if (job.getProcessInstanceId().equals(processInstance.getId())) {
+            if (job.getProcessInstanceId()
+                .equals(processInstance.getId())) {
                 return true;
             }
         }

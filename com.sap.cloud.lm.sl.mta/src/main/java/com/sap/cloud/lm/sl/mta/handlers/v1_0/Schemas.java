@@ -12,16 +12,27 @@ public class Schemas {
     public static final String MTA_IDENTIFIER_PATTERN = "^[A-Za-z0-9_\\-\\.]+$";
     public static final int MTA_IDENTIFIER_MAX_LENGTH = 128;
 
-    public static final Element UNIQUE_MTA_IDENTIFIER = new ElementBuilder().required(true).unique(true).pattern(
-        MTA_IDENTIFIER_PATTERN).maxLength(MTA_IDENTIFIER_MAX_LENGTH).buildSimple();
-    public static final Element NON_UNIQUE_MTA_IDENTIFIER = new ElementBuilder().required(true).pattern(MTA_IDENTIFIER_PATTERN).maxLength(
-        MTA_IDENTIFIER_MAX_LENGTH).buildSimple();
+    public static final Element UNIQUE_MTA_IDENTIFIER = new ElementBuilder().required(true)
+        .unique(true)
+        .pattern(MTA_IDENTIFIER_PATTERN)
+        .maxLength(MTA_IDENTIFIER_MAX_LENGTH)
+        .buildSimple();
+    public static final Element NON_UNIQUE_MTA_IDENTIFIER = new ElementBuilder().required(true)
+        .pattern(MTA_IDENTIFIER_PATTERN)
+        .maxLength(MTA_IDENTIFIER_MAX_LENGTH)
+        .buildSimple();
     public static final Element STRING = new ElementBuilder().buildSimple();
-    public static final Element OBJECT = new ElementBuilder().type(Object.class).buildSimple();
-    public static final Element STRING_REQUIRED = new ElementBuilder().required(true).buildSimple();
-    public static final Element STRING_REQUIRED_UNIQUE = new ElementBuilder().required(true).unique(true).buildSimple();
-    public static final Element PROPERTIES = new ElementBuilder().type(Map.class).buildSimple();
-    public static final Element BOOLEAN = new ElementBuilder().type(Boolean.class).buildSimple();
+    public static final Element OBJECT = new ElementBuilder().type(Object.class)
+        .buildSimple();
+    public static final Element STRING_REQUIRED = new ElementBuilder().required(true)
+        .buildSimple();
+    public static final Element STRING_REQUIRED_UNIQUE = new ElementBuilder().required(true)
+        .unique(true)
+        .buildSimple();
+    public static final Element PROPERTIES = new ElementBuilder().type(Map.class)
+        .buildSimple();
+    public static final Element BOOLEAN = new ElementBuilder().type(Boolean.class)
+        .buildSimple();
     public static final ListElement LIST = new ListElement(STRING);
 
     public static final MapElement MTAD = new MapElement();

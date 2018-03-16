@@ -17,14 +17,15 @@ import com.sap.activiti.common.EmptyActivitiStep;
 import com.sap.activiti.common.ExecutionStatus;
 
 public class ActivitiRetryActionTest {
-	
-	private static final String TASK_NAME = "EmptyActivitiStep";
+
+    private static final String TASK_NAME = "EmptyActivitiStep";
     private static final String STATUS_VARIABLE = Constants.STEP_NAME_PREFIX + TASK_NAME;
 
     private ActivitiRetryAction service;
 
     @Rule
-    public RuleChain activitiChain = ActivitiTestCfgRuleChain.getChain().around(new ActivitiIdentityServiceRule());
+    public RuleChain activitiChain = ActivitiTestCfgRuleChain.getChain()
+        .around(new ActivitiIdentityServiceRule());
 
     private ActivitiRetryActionTestPO pageObject;
 
@@ -41,23 +42,25 @@ public class ActivitiRetryActionTest {
         try {
             service.execute();
         } catch (ActivitiException e) {
-            assertEquals(EmptyActivitiStep.TEST_EXCEPTION_MESSAGE, e.getCause().getMessage());
+            assertEquals(EmptyActivitiStep.TEST_EXCEPTION_MESSAGE, e.getCause()
+                .getMessage());
 
             throw e;
         }
     }
-    
+
     @Test
     public void testResetTryCountOnRetry() throws Exception {
-    	pageObject.initWithTryCount(TASK_NAME);
-    	assertEquals(ActivitiRetryActionTestPO.DEFAULT_TRYCOUNT, pageObject.getVariable(ActivitiRetryAction.TRYCOUNT_CONTEXT_PREFIX + TASK_NAME));
+        pageObject.initWithTryCount(TASK_NAME);
+        assertEquals(ActivitiRetryActionTestPO.DEFAULT_TRYCOUNT,
+            pageObject.getVariable(ActivitiRetryAction.TRYCOUNT_CONTEXT_PREFIX + TASK_NAME));
         pageObject.retryFailingJobSafely();
         assertEquals(0, pageObject.getVariable(ActivitiRetryAction.TRYCOUNT_CONTEXT_PREFIX + TASK_NAME));
     }
-    
+
     @Test
-    public void testResetTryCountForNonRetyTaskOnRetry() throws Exception {    	
-    	assertNull(pageObject.getVariable(ActivitiRetryAction.TRYCOUNT_CONTEXT_PREFIX + TASK_NAME));
+    public void testResetTryCountForNonRetyTaskOnRetry() throws Exception {
+        assertNull(pageObject.getVariable(ActivitiRetryAction.TRYCOUNT_CONTEXT_PREFIX + TASK_NAME));
         pageObject.retryFailingJobSafely();
         assertNull(pageObject.getVariable(ActivitiRetryAction.TRYCOUNT_CONTEXT_PREFIX + TASK_NAME));
     }

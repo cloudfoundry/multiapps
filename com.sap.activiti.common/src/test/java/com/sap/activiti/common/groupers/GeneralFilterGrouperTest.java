@@ -38,26 +38,25 @@ public class GeneralFilterGrouperTest {
 
     @Test
     public void testGroupingSetIsEmpty() {
-        Map<String, List<TestUser>> groupedInstances = generalGrouper.doGroup(Collections
-                .<TestUser> emptyList());
+        Map<String, List<TestUser>> groupedInstances = generalGrouper.doGroup(Collections.<TestUser> emptyList());
 
         assertTrue("There shouldn't be grouped instances", groupedInstances.isEmpty());
     }
 
     @Test
     public void testGroupingByFilter() {
-        Map<String, List<TestUser>> groupedInstances = generalGrouper
-                .doGroup(pageObject.getUsers());
+        Map<String, List<TestUser>> groupedInstances = generalGrouper.doGroup(pageObject.getUsers());
 
-        assertThat(groupedInstances.entrySet().size(), is(2));
+        assertThat(groupedInstances.entrySet()
+            .size(), is(2));
         assertThat(groupedInstances.keySet(), containsInAnyOrder("Male", "Female"));
 
-        assertThat(groupedInstances.get("Male").size(), is(3));
-        assertThat(pageObject.getGroupNames(groupedInstances.get("Male")),
-                containsInAnyOrder("Ivan", "Andrey", "John"));
+        assertThat(groupedInstances.get("Male")
+            .size(), is(3));
+        assertThat(pageObject.getGroupNames(groupedInstances.get("Male")), containsInAnyOrder("Ivan", "Andrey", "John"));
 
-        assertThat(groupedInstances.get("Female").size(), is(2));
-        assertThat(pageObject.getGroupNames(groupedInstances.get("Female")),
-                containsInAnyOrder("Elena", "Lora"));
+        assertThat(groupedInstances.get("Female")
+            .size(), is(2));
+        assertThat(pageObject.getGroupNames(groupedInstances.get("Female")), containsInAnyOrder("Elena", "Lora"));
     }
 }

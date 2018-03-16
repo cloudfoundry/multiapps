@@ -26,7 +26,8 @@ public class RangeCollection<KeyType extends Comparable<KeyType>, DataType> {
             return Collections.emptyList();
 
         List<DataType> result = new LinkedList<DataType>();
-        while (currentEntry != null && currentEntry.getKey().compareTo(finalKey) <= 0) {
+        while (currentEntry != null && currentEntry.getKey()
+            .compareTo(finalKey) <= 0) {
             result.add(currentEntry.getValue());
             currentEntry = itemsMap.higherEntry(currentEntry.getKey());
         }

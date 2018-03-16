@@ -23,8 +23,10 @@ public class LogicalStepNameProviderTest {
 
     @Test
     public void testModelWithLogicalStepName() throws Exception {
-        serviceTask.getFieldExtensions().add(createFieldExtension("logicalStepName", "TestStep"));
-        serviceTask.getFieldExtensions().add(createFieldExtension("testField", "something"));
+        serviceTask.getFieldExtensions()
+            .add(createFieldExtension("logicalStepName", "TestStep"));
+        serviceTask.getFieldExtensions()
+            .add(createFieldExtension("testField", "something"));
         LogicalStepNameProvider provider = new TestableLogicalStepNameProvider(serviceTask);
         Assert.assertEquals("TestStep", provider.getLogicalStepName());
     }

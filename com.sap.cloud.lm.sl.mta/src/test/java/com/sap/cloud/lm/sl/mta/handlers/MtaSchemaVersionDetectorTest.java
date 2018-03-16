@@ -87,7 +87,8 @@ public class MtaSchemaVersionDetectorTest {
             public String call() throws Exception {
                 MtaSchemaVersionDetector detector = new MtaSchemaVersionDetector();
 
-                return detector.detect(deploymentDescriptorString, extensionDescriptorStrings).toString();
+                return detector.detect(deploymentDescriptorString, extensionDescriptorStrings)
+                    .toString();
             }
 
         }, expected, getClass(), false);

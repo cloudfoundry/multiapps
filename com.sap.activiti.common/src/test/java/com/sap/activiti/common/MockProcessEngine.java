@@ -17,13 +17,20 @@ public class MockProcessEngine {
     public static ProcessEngine createMockInstance() {
         ProcessEngine engine = mock(ProcessEngine.class);
 
-        doReturn(mock(TaskService.class)).when(engine).getTaskService();
-        doReturn(mock(RuntimeService.class)).when(engine).getRuntimeService();
-        doReturn(mock(FormService.class)).when(engine).getFormService();
-        doReturn(mock(HistoryService.class)).when(engine).getHistoryService();
-        doReturn(mock(IdentityService.class)).when(engine).getIdentityService();
-        doReturn(mock(ManagementService.class)).when(engine).getManagementService();
-        doReturn(mock(RepositoryService.class)).when(engine).getRepositoryService();
+        doReturn(mock(TaskService.class)).when(engine)
+            .getTaskService();
+        doReturn(mock(RuntimeService.class)).when(engine)
+            .getRuntimeService();
+        doReturn(mock(FormService.class)).when(engine)
+            .getFormService();
+        doReturn(mock(HistoryService.class)).when(engine)
+            .getHistoryService();
+        doReturn(mock(IdentityService.class)).when(engine)
+            .getIdentityService();
+        doReturn(mock(ManagementService.class)).when(engine)
+            .getManagementService();
+        doReturn(mock(RepositoryService.class)).when(engine)
+            .getRepositoryService();
 
         return engine;
     }

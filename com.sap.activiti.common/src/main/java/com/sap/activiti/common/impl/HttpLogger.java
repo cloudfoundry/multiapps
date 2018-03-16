@@ -96,7 +96,8 @@ public class HttpLogger {
             HttpEntity repetableEntity = createRepeatebleEntity(response.getEntity());
             response.setEntity(repetableEntity);
             call.setResponsePayload(extractPayloadContent(repetableEntity));
-            call.setResponseStatus(response.getStatusLine().getStatusCode());
+            call.setResponseStatus(response.getStatusLine()
+                .getStatusCode());
         }
         return call;
     }

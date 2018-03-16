@@ -18,8 +18,8 @@ public class ModulePropertiesReferenceResolver extends ReferenceResolver<Map<Str
     protected final Map<String, Object> properties;
     protected final ResolverBuilder propertiesResolverBuilder;
 
-    public ModulePropertiesReferenceResolver(DeploymentDescriptor descriptor, Module module, Map<String, Object> properties,
-        String prefix, ResolverBuilder propertiesResolverBuilder) {
+    public ModulePropertiesReferenceResolver(DeploymentDescriptor descriptor, Module module, Map<String, Object> properties, String prefix,
+        ResolverBuilder propertiesResolverBuilder) {
         super("", prefix, new DescriptorHandler(), descriptor, module.getName(), FULLY_QUALIFIED);
         this.properties = properties;
         this.propertiesResolverBuilder = propertiesResolverBuilder;
@@ -31,7 +31,8 @@ public class ModulePropertiesReferenceResolver extends ReferenceResolver<Map<Str
     }
 
     protected Map<String, Object> resolve(Map<String, Object> parameters) throws ContentException {
-        return propertiesResolverBuilder.build(parameters, this, patternToMatch, prefix, true).resolve();
+        return propertiesResolverBuilder.build(parameters, this, patternToMatch, prefix, true)
+            .resolve();
     }
 
 }

@@ -9,6 +9,7 @@ public abstract class AbstractFilter<T> {
     private AbstractFilter<T> negativeGroupFilter;
 
     public abstract String getPositiveGroupName();
+
     public abstract String getNegativeGroupName();
 
     public abstract boolean isAccepted(T instance);
@@ -24,15 +25,15 @@ public abstract class AbstractFilter<T> {
         }
         return filteredInstances;
     }
-    
+
     public AbstractFilter<T> getPositiveGroupFilter() {
         return positiveGroupFilter;
     }
-    
+
     public void setPositiveGroupFilter(AbstractFilter<T> positiveGroupFilter) {
         this.positiveGroupFilter = positiveGroupFilter;
     }
-    
+
     public AbstractFilter<T> getNegativeGroupFilter() {
         return negativeGroupFilter;
     }

@@ -33,7 +33,8 @@ public class AbstractCustomActivitiTraceableActionTestHelper {
 
     private void mockIdentitytService(ProcessEngine engine, User user) {
         UserQuery query = ActivitiQuerySpyBuilder.<UserQuery, User> createBuilder(new UserQueryImpl()) //
-        .setSingleResult(user).getQuery();
+            .setSingleResult(user)
+            .getQuery();
 
         IdentityService identityService = engine.getIdentityService();
         when(identityService.createUserQuery()).thenReturn(query);

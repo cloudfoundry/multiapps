@@ -59,7 +59,8 @@ public class ExtensionModuleParser extends ModelParser<ExtensionModule> {
         return getListElement(PROVIDES, new ListParser<ExtensionProvidedDependency>() {
             @Override
             protected ExtensionProvidedDependency parseItem(Map<String, Object> map) throws ParsingException {
-                return getProvidedDependencyParser(map).setUsedValues(usedProvidedDependencyNames).parse();
+                return getProvidedDependencyParser(map).setUsedValues(usedProvidedDependencyNames)
+                    .parse();
             }
         });
     }

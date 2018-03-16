@@ -20,7 +20,8 @@ public class ActivitiAbortActionTest {
     private ActivitiAbortAction abortService;
 
     @Rule
-    public RuleChain activitiChain = ActivitiTestCfgRuleChain.getChain().around(new ActivitiIdentityServiceRule());
+    public RuleChain activitiChain = ActivitiTestCfgRuleChain.getChain()
+        .around(new ActivitiIdentityServiceRule());
 
     @Before
     public void setUp() throws Exception {

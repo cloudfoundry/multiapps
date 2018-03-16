@@ -14,7 +14,6 @@ import com.sap.cloud.lm.sl.mta.model.v1_0.Platform;
 @RunWith(Parameterized.class)
 public class PlatformMegerTest extends com.sap.cloud.lm.sl.mta.mergers.v1_0.PlatformMergerTest {
 
-
     @Parameters
     public static Collection<Object[]> getParameters() {
         return Arrays.asList(new Object[][] {
@@ -45,8 +44,7 @@ public class PlatformMegerTest extends com.sap.cloud.lm.sl.mta.mergers.v1_0.Plat
 
     @Override
     protected PlatformMerger getPlatformMerger(Platform platform, DescriptorHandler handler) {
-        return new com.sap.cloud.lm.sl.mta.mergers.v2_0.PlatformMerger(
-            (com.sap.cloud.lm.sl.mta.model.v2_0.Platform) platform,
+        return new com.sap.cloud.lm.sl.mta.mergers.v2_0.PlatformMerger((com.sap.cloud.lm.sl.mta.model.v2_0.Platform) platform,
             (com.sap.cloud.lm.sl.mta.handlers.v2_0.DescriptorHandler) handler);
     }
 }

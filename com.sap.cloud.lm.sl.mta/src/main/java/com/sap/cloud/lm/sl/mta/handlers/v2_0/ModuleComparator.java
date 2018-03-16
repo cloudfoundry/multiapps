@@ -10,7 +10,8 @@ public class ModuleComparator extends com.sap.cloud.lm.sl.mta.handlers.v1_0.Modu
 
     @Override
     protected Object getPropertyValue(Module module, String key) {
-        return ((com.sap.cloud.lm.sl.mta.model.v2_0.Module) module).getParameters().get(key);
+        return ((com.sap.cloud.lm.sl.mta.model.v2_0.Module) module).getParameters()
+            .get(key);
     }
 
 }

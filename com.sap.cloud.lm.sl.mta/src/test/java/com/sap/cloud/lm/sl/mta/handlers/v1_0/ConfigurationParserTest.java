@@ -12,9 +12,8 @@ import org.junit.runners.Parameterized.Parameters;
 
 import com.sap.cloud.lm.sl.common.util.Callable;
 import com.sap.cloud.lm.sl.common.util.TestUtil;
-import com.sap.cloud.lm.sl.mta.handlers.v1_0.ConfigurationParser;
-import com.sap.cloud.lm.sl.mta.model.v1_0.Target;
 import com.sap.cloud.lm.sl.mta.model.v1_0.Platform;
+import com.sap.cloud.lm.sl.mta.model.v1_0.Target;
 
 @RunWith(Parameterized.class)
 public class ConfigurationParserTest {

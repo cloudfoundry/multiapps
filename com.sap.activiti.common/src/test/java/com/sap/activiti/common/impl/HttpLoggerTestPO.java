@@ -31,7 +31,8 @@ public class HttpLoggerTestPO {
 
         StatusLine testStatusLine = new BasicStatusLine(new ProtocolVersion("", 0, 0), responseCode, null);
         when(mockedResponse.getStatusLine()).thenReturn(testStatusLine);
-        mockedResponse.getStatusLine().getStatusCode();
+        mockedResponse.getStatusLine()
+            .getStatusCode();
 
         return mockedResponse;
     }
@@ -51,8 +52,10 @@ public class HttpLoggerTestPO {
     }
 
     public String getPersistedLog(DelegateExecution testContext) throws UnsupportedEncodingException {
-        Set<Entry<String, Object>> allEntries = testContext.getVariables().entrySet();
-        Entry<String, Object> firstEntry = allEntries.iterator().next();
+        Set<Entry<String, Object>> allEntries = testContext.getVariables()
+            .entrySet();
+        Entry<String, Object> firstEntry = allEntries.iterator()
+            .next();
 
         return new String((byte[]) firstEntry.getValue(), Constants.CHARSET_UTF_8);
     }

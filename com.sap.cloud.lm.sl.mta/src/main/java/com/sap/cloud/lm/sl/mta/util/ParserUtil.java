@@ -24,7 +24,8 @@ public class ParserUtil {
     }
 
     @SuppressWarnings("unchecked")
-    public static <T extends Object> void checkUniqueValue(Object value, String key, Set<T> usedValues, String object) throws ParsingException {
+    public static <T extends Object> void checkUniqueValue(Object value, String key, Set<T> usedValues, String object)
+        throws ParsingException {
         if (usedValues.contains(value)) {
             throw new ParsingException(Messages.VALUE_NOT_UNIQUE, value, key, object);
         }

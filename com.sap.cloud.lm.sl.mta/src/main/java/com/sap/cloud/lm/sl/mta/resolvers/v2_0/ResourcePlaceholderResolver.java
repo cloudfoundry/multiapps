@@ -20,8 +20,7 @@ public class ResourcePlaceholderResolver extends PlaceholderResolver<Resource> {
     protected final ResolverBuilder parametersResolverBuilder;
 
     public ResourcePlaceholderResolver(Resource resource, String prefix, ParametersChainBuilder parametersChainBuilder,
-        SystemParameters systemParameters, ResolverBuilder propertiesResolverBuilder,
-        ResolverBuilder parametersResolverBuilder) {
+        SystemParameters systemParameters, ResolverBuilder propertiesResolverBuilder, ResolverBuilder parametersResolverBuilder) {
         super(resource.getName(), prefix, systemParameters);
         this.resource = resource;
         this.parametersChainBuilder = parametersChainBuilder;
@@ -34,7 +33,8 @@ public class ResourcePlaceholderResolver extends PlaceholderResolver<Resource> {
         String resourceName = resource.getName();
         List<Map<String, Object>> parametersChain = parametersChainBuilder.buildResourceChain(resourceName);
         addSingularParametersIfNecessary(parametersChain);
-        parametersChain.add(getFullSystemParameters(systemParameters.getResourceParameters().get(resourceName)));
+        parametersChain.add(getFullSystemParameters(systemParameters.getResourceParameters()
+            .get(resourceName)));
         Map<String, Object> mergedParameters = PropertiesUtil.mergeProperties(parametersChain);
         resource.setProperties(getResolvedProperties(mergedParameters));
         resource.setParameters(getResolvedParameters(mergedParameters));

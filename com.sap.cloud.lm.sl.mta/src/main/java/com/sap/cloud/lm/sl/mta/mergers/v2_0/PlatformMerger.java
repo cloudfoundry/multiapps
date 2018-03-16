@@ -4,8 +4,8 @@ import com.sap.cloud.lm.sl.common.util.MapUtil;
 import com.sap.cloud.lm.sl.mta.handlers.v2_0.DescriptorHandler;
 import com.sap.cloud.lm.sl.mta.model.ElementContext;
 import com.sap.cloud.lm.sl.mta.model.v2_0.ModuleType;
-import com.sap.cloud.lm.sl.mta.model.v2_0.ResourceType;
 import com.sap.cloud.lm.sl.mta.model.v2_0.Platform;
+import com.sap.cloud.lm.sl.mta.model.v2_0.ResourceType;
 
 public class PlatformMerger extends com.sap.cloud.lm.sl.mta.mergers.v1_0.PlatformMerger {
 

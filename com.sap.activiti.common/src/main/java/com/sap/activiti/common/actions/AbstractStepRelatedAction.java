@@ -11,7 +11,9 @@ abstract class AbstractStepRelatedAction extends AbstractTraceableAction {
     }
 
     protected LogicalStepNameProvider getLogicalStepNameProvider() {
-        Job job = getManagementService().createJobQuery().jobId(getJobId()).singleResult();
+        Job job = getManagementService().createJobQuery()
+            .jobId(getJobId())
+            .singleResult();
         try {
             return new LogicalStepNameProvider(getDefaultProcessEngine(), job);
         } catch (LogicalStepNameProviderException e) {

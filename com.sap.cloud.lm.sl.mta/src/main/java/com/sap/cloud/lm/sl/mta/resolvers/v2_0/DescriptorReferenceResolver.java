@@ -6,8 +6,8 @@ import java.util.List;
 import com.sap.cloud.lm.sl.common.ContentException;
 import com.sap.cloud.lm.sl.mta.model.v2_0.DeploymentDescriptor;
 import com.sap.cloud.lm.sl.mta.model.v2_0.Module;
-import com.sap.cloud.lm.sl.mta.resolvers.ResolverBuilder;
 import com.sap.cloud.lm.sl.mta.resolvers.Resolver;
+import com.sap.cloud.lm.sl.mta.resolvers.ResolverBuilder;
 
 public class DescriptorReferenceResolver implements Resolver<DeploymentDescriptor, ContentException> {
 

@@ -6,8 +6,6 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import org.junit.runners.Parameterized.Parameters;
 
-import com.sap.cloud.lm.sl.mta.handlers.v2_0.DescriptorParser;
-
 @RunWith(value = Parameterized.class)
 public class DescriptorParserTest extends com.sap.cloud.lm.sl.mta.handlers.v1_0.DescriptorParserTest {
 

@@ -28,7 +28,8 @@ public class AbstractCustomActivitiTraceableActionTest {
     private static final String ANONYMOUS_USER_NAME = "ANONYMOUS";
 
     @Rule
-    public RuleChain activitiChain = ActivitiTestCfgRuleChain.getChain().around(new ActivitiIdentityServiceRule());
+    public RuleChain activitiChain = ActivitiTestCfgRuleChain.getChain()
+        .around(new ActivitiIdentityServiceRule());
 
     @Test
     public void whenNullUserIsPassed_thenAnnonymousIsReturned() {
@@ -46,13 +47,14 @@ public class AbstractCustomActivitiTraceableActionTest {
 
     @Test
     public void whenBothUserNamesAreMissing_thenUserIdIsReturned() {
-		IdentityService identityService = ActivitiTestCfgRuleChain.getActivitiRule().getIdentityService();
-		User newUser = identityService.newUser("i123456");
-		identityService.saveUser(newUser);
+        IdentityService identityService = ActivitiTestCfgRuleChain.getActivitiRule()
+            .getIdentityService();
+        User newUser = identityService.newUser("i123456");
+        identityService.saveUser(newUser);
 
-		AbstractTraceableAction action = createActionWithUser("i123456");
-		assertEquals("i123456", action.getUserName());
-		identityService.deleteUser("i123456");
+        AbstractTraceableAction action = createActionWithUser("i123456");
+        assertEquals("i123456", action.getUserName());
+        identityService.deleteUser("i123456");
     }
 
     @Test
@@ -66,8 +68,10 @@ public class AbstractCustomActivitiTraceableActionTest {
     @Test
     public void whenUserInfoFound_thenUserNameIsReturned() {
         AbstractTraceableAction action = createActionWithUser(ActivitiIdentityServiceRule.TEST_USER);
-        assertTrue(action.getUserName().contains(ActivitiIdentityServiceRule.TEST_FIRST_NAME)
-            && action.getUserName().contains(ActivitiIdentityServiceRule.TEST_LAST_NAME));
+        assertTrue(action.getUserName()
+            .contains(ActivitiIdentityServiceRule.TEST_FIRST_NAME)
+            && action.getUserName()
+                .contains(ActivitiIdentityServiceRule.TEST_LAST_NAME));
     }
 
     @SuppressWarnings({ "unchecked", "rawtypes" })
@@ -85,23 +89,36 @@ public class AbstractCustomActivitiTraceableActionTest {
         when(action.getType()).thenReturn((Enum) TestType.TEST1);
         action.logTracibilityInformation(msg1);
 
-        verify(processEngine.getRuntimeService()).setVariable("", Constants.ACTION_LOG,
-            String.format("[%s] %s\n", timestamp, msg1).getBytes(Charsets.UTF_8));
+        verify(processEngine.getRuntimeService()).setVariable("", Constants.ACTION_LOG, String.format("[%s] %s\n", timestamp, msg1)
+            .getBytes(Charsets.UTF_8));
         verify(processEngine.getRuntimeService()).setVariable("", Constants.EXECUTED_ACTIONS_TYPE_LOG,
-            String.format("%s\n", TestType.TEST1.name().toUpperCase()).getBytes(Charsets.UTF_8));
+            String.format("%s\n", TestType.TEST1.name()
+                .toUpperCase())
+                .getBytes(Charsets.UTF_8));
 
         when(action.getType()).thenReturn((Enum) TestType.TEST2);
-        when(action.getDefaultProcessEngine().getRuntimeService().getVariable("", Constants.ACTION_LOG)).thenReturn(
-            String.format("[%s] %s\n", timestamp, msg1).getBytes(Charsets.UTF_8));
-        when(action.getDefaultProcessEngine().getRuntimeService().getVariable("", Constants.EXECUTED_ACTIONS_TYPE_LOG)).thenReturn(
-            String.format("%s\n", TestType.TEST1.name().toUpperCase()).getBytes(Charsets.UTF_8));
+        when(action.getDefaultProcessEngine()
+            .getRuntimeService()
+            .getVariable("", Constants.ACTION_LOG)).thenReturn(String.format("[%s] %s\n", timestamp, msg1)
+                .getBytes(Charsets.UTF_8));
+        when(action.getDefaultProcessEngine()
+            .getRuntimeService()
+            .getVariable("", Constants.EXECUTED_ACTIONS_TYPE_LOG)).thenReturn(String
+                .format("%s\n", TestType.TEST1.name()
+                    .toUpperCase())
+                .getBytes(Charsets.UTF_8));
 
         action.logTracibilityInformation(msg2);
 
         verify(processEngine.getRuntimeService()).setVariable("", Constants.ACTION_LOG,
-            String.format("[%s] %s\n[%s] %s\n", timestamp, msg1, timestamp, msg2).getBytes(Charsets.UTF_8));
+            String.format("[%s] %s\n[%s] %s\n", timestamp, msg1, timestamp, msg2)
+                .getBytes(Charsets.UTF_8));
         verify(processEngine.getRuntimeService()).setVariable("", Constants.EXECUTED_ACTIONS_TYPE_LOG,
-            String.format("%s\n%s\n", TestType.TEST1.name().toUpperCase(), TestType.TEST2.name().toUpperCase()).getBytes(Charsets.UTF_8));
+            String.format("%s\n%s\n", TestType.TEST1.name()
+                .toUpperCase(),
+                TestType.TEST2.name()
+                    .toUpperCase())
+                .getBytes(Charsets.UTF_8));
     }
 
     private AbstractTraceableAction createActionWithUser(String userName) {

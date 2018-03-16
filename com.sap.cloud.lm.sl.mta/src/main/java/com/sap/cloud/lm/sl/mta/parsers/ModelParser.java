@@ -43,7 +43,8 @@ public abstract class ModelParser<T> implements Parser<T> {
     }
 
     private String toFullSchemaVersion(String possiblyPartialSchemaVersion) {
-        return Version.parseVersion(possiblyPartialSchemaVersion).toString();
+        return Version.parseVersion(possiblyPartialSchemaVersion)
+            .toString();
     }
 
     protected String getStringElement(String key) throws ParsingException {
@@ -55,7 +56,8 @@ public abstract class ModelParser<T> implements Parser<T> {
     }
 
     protected Object getElement(String key) throws ParsingException {
-        Element element = schema.getMap().get(key);
+        Element element = schema.getMap()
+            .get(key);
         if (element == null) {
             throw new ParsingException(Messages.COULD_NOT_FIND_ELEMENT_IN_SCHEMA, key, processedObjectName);
         }
@@ -81,7 +83,8 @@ public abstract class ModelParser<T> implements Parser<T> {
         if (uniqueElementsCache.get(key) == null) {
             uniqueElementsCache.put(key, ParserUtil.getRequiredUniqueValue(source, usedValues, key, processedObjectName));
         }
-        return uniqueElementsCache.get(key).toString();
+        return uniqueElementsCache.get(key)
+            .toString();
     }
 
     @SuppressWarnings("unchecked")
@@ -93,7 +96,8 @@ public abstract class ModelParser<T> implements Parser<T> {
     protected <E> List<E> getListElement(String key, ListParser<E> builder) throws ParsingException {
         Object list = source.get(key);
         if (list != null) {
-            return builder.setSource(((List<Object>) list)).parse();
+            return builder.setSource(((List<Object>) list))
+                .parse();
         }
         return Collections.emptyList();
     }

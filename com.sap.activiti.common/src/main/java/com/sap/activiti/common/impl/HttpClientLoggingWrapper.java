@@ -88,7 +88,8 @@ public class HttpClientLoggingWrapper implements HttpClient {
     }
 
     private void log(HttpUriRequest request, HttpResponse response) throws IOException {
-        int statusCode = response.getStatusLine().getStatusCode();
+        int statusCode = response.getStatusLine()
+            .getStatusCode();
 
         if (isSuccessfulCode(statusCode)) {
             getLogger().log(request, response, targetURL, verboseMode);
@@ -98,7 +99,7 @@ public class HttpClientLoggingWrapper implements HttpClient {
     }
 
     private static boolean isSuccessfulCode(int statusCode) {
-    	return statusCode < HttpStatus.SC_MULTIPLE_CHOICES;
+        return statusCode < HttpStatus.SC_MULTIPLE_CHOICES;
     }
 
     @Override
@@ -133,8 +134,8 @@ public class HttpClientLoggingWrapper implements HttpClient {
         throws IOException, ClientProtocolException {
         return httpClient.execute(target, request, responseHandler, context);
     }
-    
+
     protected HttpLogger getLogger() {
-    	return HttpLogger.getInstance();
+        return HttpLogger.getInstance();
     }
 }

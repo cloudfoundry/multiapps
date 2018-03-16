@@ -26,9 +26,10 @@ public class GeneralGrouper<T> implements IGrouper<T> {
 
         for (T instance : instances) {
             String groupKey = criteria.getCriteria(instance);
-            
-            if(groupMap.containsKey(groupKey)) {
-                groupMap.get(groupKey).add(instance);
+
+            if (groupMap.containsKey(groupKey)) {
+                groupMap.get(groupKey)
+                    .add(instance);
             } else {
                 ArrayList<T> newGroupList = new ArrayList<T>();
                 newGroupList.add(instance);

@@ -11,8 +11,8 @@ import com.sap.cloud.lm.sl.mta.handlers.v1_0.ConfigurationParser;
 import com.sap.cloud.lm.sl.mta.handlers.v1_0.DescriptorParser;
 import com.sap.cloud.lm.sl.mta.model.v1_0.DeploymentDescriptor;
 import com.sap.cloud.lm.sl.mta.model.v1_0.ExtensionDescriptor;
-import com.sap.cloud.lm.sl.mta.model.v1_0.Target;
 import com.sap.cloud.lm.sl.mta.model.v1_0.Platform;
+import com.sap.cloud.lm.sl.mta.model.v1_0.Target;
 import com.sap.cloud.lm.sl.mta.util.YamlUtil;
 
 public class MtaTestUtil {
@@ -62,8 +62,7 @@ public class MtaTestUtil {
         return descriptorParser.parseExtensionDescriptorYaml(extensionDescriptorYaml);
     }
 
-    public static List<Platform> loadPlatforms(String location, ConfigurationParser parser, Class<?> clazz)
-        throws ParsingException {
+    public static List<Platform> loadPlatforms(String location, ConfigurationParser parser, Class<?> clazz) throws ParsingException {
         InputStream platformTypesJson = clazz.getResourceAsStream(location);
         return parser.parsePlatformsJson(platformTypesJson);
     }

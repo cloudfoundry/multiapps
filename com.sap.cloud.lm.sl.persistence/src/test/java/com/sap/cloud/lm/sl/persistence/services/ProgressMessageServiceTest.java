@@ -70,7 +70,8 @@ public class ProgressMessageServiceTest {
         service.removeByProcessId(PROCESS_INSTANCE_ID_1);
         service.removeByProcessId(PROCESS_INSTANCE_ID_2);
         service.removeByProcessId("test-processId");
-        JdbcUtil.closeQuietly(testDataSource.getDataSource().getConnection());
+        JdbcUtil.closeQuietly(testDataSource.getDataSource()
+            .getConnection());
     }
 
     @Test

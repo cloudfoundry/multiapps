@@ -22,22 +22,26 @@ public class ExtensionDescriptorMerger extends com.sap.cloud.lm.sl.mta.mergers.v
     public void visit(ElementContext context, DeploymentDescriptor descriptor) {
         com.sap.cloud.lm.sl.mta.model.v2_0.DeploymentDescriptor descriptorV2 = (com.sap.cloud.lm.sl.mta.model.v2_0.DeploymentDescriptor) descriptor;
         ExtensionDescriptor extensionDescriptorV2 = (ExtensionDescriptor) extensionDescriptor;
-        descriptorV2.setParameters(PropertiesUtil.mergeExtensionProperties(descriptorV2.getParameters(), extensionDescriptorV2.getParameters()));
+        descriptorV2
+            .setParameters(PropertiesUtil.mergeExtensionProperties(descriptorV2.getParameters(), extensionDescriptorV2.getParameters()));
     }
 
     @Override
     public void visit(ElementContext context, RequiredDependency requiredDependency) {
-        String containerName = context.getPreviousElementContext().getVisitableElementName();
-        ExtensionRequiredDependency extension = ((DescriptorHandler) handler).findRequiredDependency(
-            (ExtensionDescriptor) extensionDescriptor, containerName, requiredDependency.getName());
+        String containerName = context.getPreviousElementContext()
+            .getVisitableElementName();
+        ExtensionRequiredDependency extension = ((DescriptorHandler) handler)
+            .findRequiredDependency((ExtensionDescriptor) extensionDescriptor, containerName, requiredDependency.getName());
         if (extension != null) {
             merge(requiredDependency, extension);
         }
     }
 
     protected void merge(RequiredDependency requiredDependency, ExtensionRequiredDependency extension) {
-        requiredDependency.setParameters(PropertiesUtil.mergeExtensionProperties(requiredDependency.getParameters(), extension.getParameters()));
-        requiredDependency.setProperties(PropertiesUtil.mergeExtensionProperties(requiredDependency.getProperties(), extension.getProperties()));
+        requiredDependency
+            .setParameters(PropertiesUtil.mergeExtensionProperties(requiredDependency.getParameters(), extension.getParameters()));
+        requiredDependency
+            .setProperties(PropertiesUtil.mergeExtensionProperties(requiredDependency.getProperties(), extension.getProperties()));
     }
 
     @Override

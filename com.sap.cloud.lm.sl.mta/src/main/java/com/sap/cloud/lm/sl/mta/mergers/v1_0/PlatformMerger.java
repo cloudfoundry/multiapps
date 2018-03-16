@@ -8,9 +8,9 @@ import com.sap.cloud.lm.sl.mta.model.Visitor;
 import com.sap.cloud.lm.sl.mta.model.v1_0.DeploymentDescriptor;
 import com.sap.cloud.lm.sl.mta.model.v1_0.Module;
 import com.sap.cloud.lm.sl.mta.model.v1_0.ModuleType;
+import com.sap.cloud.lm.sl.mta.model.v1_0.Platform;
 import com.sap.cloud.lm.sl.mta.model.v1_0.Resource;
 import com.sap.cloud.lm.sl.mta.model.v1_0.ResourceType;
-import com.sap.cloud.lm.sl.mta.model.v1_0.Platform;
 
 public class PlatformMerger extends Visitor {
 

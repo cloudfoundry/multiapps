@@ -41,142 +41,147 @@ import com.sap.cloud.lm.sl.persistence.services.ProcessLoggerProviderFactory.Thr
 
 public class ProcessLoggerProviderFactoryTest {
 
-	private String logDir;
+    private String logDir;
 
-	@Mock
-	private ProcessLogsPersistenceService processLogsPersistenceServiceMock;
+    @Mock
+    private ProcessLogsPersistenceService processLogsPersistenceServiceMock;
 
-	@InjectMocks
-	private ProcessLoggerProviderFactory processLoggerProviderFactory = ProcessLoggerProviderFactory.getInstance();
-	private ThreadLocalLogProvider threadLocalProvider;
+    @InjectMocks
+    private ProcessLoggerProviderFactory processLoggerProviderFactory = ProcessLoggerProviderFactory.getInstance();
+    private ThreadLocalLogProvider threadLocalProvider;
 
-	@Before
-	public void setUp() throws IOException {
-		MockitoAnnotations.initMocks(this);
-		threadLocalProvider = processLoggerProviderFactory.getLoggerProvider("test");
-		logDir = Files.createTempDirectory("testLogDir").toString();
-		ProcessLoggerProviderFactory.LOG_DIR = logDir;
-	}
+    @Before
+    public void setUp() throws IOException {
+        MockitoAnnotations.initMocks(this);
+        threadLocalProvider = processLoggerProviderFactory.getLoggerProvider("test");
+        logDir = Files.createTempDirectory("testLogDir")
+            .toString();
+        ProcessLoggerProviderFactory.LOG_DIR = logDir;
+    }
 
-	@After
-	public void tearDown() throws IOException {
-		processLoggerProviderFactory.removeAll();
-		LogManager.shutdown();
-		if (Files.isDirectory(Paths.get(logDir))) {
-			deleteRecursivelyDirectory();
-		}
-	}
+    @After
+    public void tearDown() throws IOException {
+        processLoggerProviderFactory.removeAll();
+        LogManager.shutdown();
+        if (Files.isDirectory(Paths.get(logDir))) {
+            deleteRecursivelyDirectory();
+        }
+    }
 
-	private void deleteRecursivelyDirectory() throws IOException {
-		Files.walkFileTree(Paths.get(logDir), new SimpleFileVisitor<Path>() {
-			@Override
-			public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException {
-				Files.delete(file);
-				return FileVisitResult.CONTINUE;
-			}
+    private void deleteRecursivelyDirectory() throws IOException {
+        Files.walkFileTree(Paths.get(logDir), new SimpleFileVisitor<Path>() {
+            @Override
+            public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException {
+                Files.delete(file);
+                return FileVisitResult.CONTINUE;
+            }
 
-			@Override
-			public FileVisitResult postVisitDirectory(Path dir, IOException exc) throws IOException {
-				Files.delete(dir);
-				return FileVisitResult.CONTINUE;
-			}
-		});
-	}
+            @Override
+            public FileVisitResult postVisitDirectory(Path dir, IOException exc) throws IOException {
+                Files.delete(dir);
+                return FileVisitResult.CONTINUE;
+            }
+        });
+    }
 
-	@Test
-	public void testGetLogger() {
-		String processId = "1";
-		String prefix = "-";
+    @Test
+    public void testGetLogger() {
+        String processId = "1";
+        String prefix = "-";
 
-		Logger logger1 = threadLocalProvider.getLogger(processId, prefix);
+        Logger logger1 = threadLocalProvider.getLogger(processId, prefix);
 
-		assertTrue(logger1.getName().contains(processId));
-		assertTrue(logger1.getName().contains(prefix));
-	}
+        assertTrue(logger1.getName()
+            .contains(processId));
+        assertTrue(logger1.getName()
+            .contains(prefix));
+    }
 
-	@Test
-	public void testGetLoggerWithCustomeName() {
-		String processId = "1";
-		String prefix = "-";
-		String name = "blabla";
+    @Test
+    public void testGetLoggerWithCustomeName() {
+        String processId = "1";
+        String prefix = "-";
+        String name = "blabla";
 
-		Logger logger2 = threadLocalProvider.getLogger(processId, prefix, name);
-		assertTrue(logger2.getName().contains(name));
-	}
+        Logger logger2 = threadLocalProvider.getLogger(processId, prefix, name);
+        assertTrue(logger2.getName()
+            .contains(name));
+    }
 
-	@Test
-	public void testGetLoggerWithCustomLoggingLevel() throws IOException {
-		String processId = "1";
-		String prefix = "-";
-		Level customLoggingLevel = Level.INFO;
-		PatternLayout customLayout = mock(PatternLayout.class);
+    @Test
+    public void testGetLoggerWithCustomLoggingLevel() throws IOException {
+        String processId = "1";
+        String prefix = "-";
+        Level customLoggingLevel = Level.INFO;
+        PatternLayout customLayout = mock(PatternLayout.class);
 
-		Logger logger4 = threadLocalProvider.getLogger(processId, prefix, customLoggingLevel, customLayout, logDir);
-		assertEquals(logger4.getLevel(), customLoggingLevel);
-	}
+        Logger logger4 = threadLocalProvider.getLogger(processId, prefix, customLoggingLevel, customLayout, logDir);
+        assertEquals(logger4.getLevel(), customLoggingLevel);
+    }
 
-	@SuppressWarnings("unchecked")
-	@Test
-	public void testFileLogStorageThreadInterruption()
-			throws InterruptedException, ExecutionException, TimeoutException {
-		ExecutorService executorMock = mock(ExecutorService.class);
-		Future<Logger> futureTaskMock = mock(Future.class);
-		org.slf4j.Logger loggerMock = mock(org.slf4j.Logger.class);
+    @SuppressWarnings("unchecked")
+    @Test
+    public void testFileLogStorageThreadInterruption() throws InterruptedException, ExecutionException, TimeoutException {
+        ExecutorService executorMock = mock(ExecutorService.class);
+        Future<Logger> futureTaskMock = mock(Future.class);
+        org.slf4j.Logger loggerMock = mock(org.slf4j.Logger.class);
 
-		when(executorMock.submit((java.util.concurrent.Callable<Logger>) any())).thenReturn(futureTaskMock);
-		doThrow(InterruptedException.class).when(futureTaskMock).get(anyLong(), any(TimeUnit.class));
+        when(executorMock.submit((java.util.concurrent.Callable<Logger>) any())).thenReturn(futureTaskMock);
+        doThrow(InterruptedException.class).when(futureTaskMock)
+            .get(anyLong(), any(TimeUnit.class));
 
-		ProcessLoggerProviderFactory.LOGGER = loggerMock;
-		threadLocalProvider.tryToGetLogger(executorMock);
+        ProcessLoggerProviderFactory.LOGGER = loggerMock;
+        threadLocalProvider.tryToGetLogger(executorMock);
 
-		verify(loggerMock).warn(anyString());
-	}
+        verify(loggerMock).warn(anyString());
+    }
 
-	@SuppressWarnings("unchecked")
-	@Test
-	public void testFileLogStorageThreadTimeout() throws InterruptedException, ExecutionException, TimeoutException {
-		ExecutorService executorMock = mock(ExecutorService.class);
-		Future<Logger> futureTaskMock = mock(Future.class);
-		org.slf4j.Logger loggerMock = mock(org.slf4j.Logger.class);
+    @SuppressWarnings("unchecked")
+    @Test
+    public void testFileLogStorageThreadTimeout() throws InterruptedException, ExecutionException, TimeoutException {
+        ExecutorService executorMock = mock(ExecutorService.class);
+        Future<Logger> futureTaskMock = mock(Future.class);
+        org.slf4j.Logger loggerMock = mock(org.slf4j.Logger.class);
 
-		when(executorMock.submit((java.util.concurrent.Callable<Logger>) any())).thenReturn(futureTaskMock);
-		doThrow(TimeoutException.class).when(futureTaskMock).get(anyLong(), any(TimeUnit.class));
+        when(executorMock.submit((java.util.concurrent.Callable<Logger>) any())).thenReturn(futureTaskMock);
+        doThrow(TimeoutException.class).when(futureTaskMock)
+            .get(anyLong(), any(TimeUnit.class));
 
-		ProcessLoggerProviderFactory.LOGGER = loggerMock;
-		threadLocalProvider.tryToGetLogger(executorMock);
+        ProcessLoggerProviderFactory.LOGGER = loggerMock;
+        threadLocalProvider.tryToGetLogger(executorMock);
 
-		verify(loggerMock).warn(anyString());
-	}
+        verify(loggerMock).warn(anyString());
+    }
 
-	@Test
-	public void testFlush() throws IOException, FileStorageException {
-		org.slf4j.Logger loggerMock = mock(org.slf4j.Logger.class);
-		DelegateExecution contextMock = mock(DelegateExecution.class);
-		String processId = "11";
+    @Test
+    public void testFlush() throws IOException, FileStorageException {
+        org.slf4j.Logger loggerMock = mock(org.slf4j.Logger.class);
+        DelegateExecution contextMock = mock(DelegateExecution.class);
+        String processId = "11";
 
-		ProcessLoggerProviderFactory.LOGGER = loggerMock;
-		when(contextMock.getProcessInstanceId()).thenReturn(processId);
-		when(contextMock.getVariable(Constants.VARIABLE_NAME_SPACE_ID)).thenReturn(null);
+        ProcessLoggerProviderFactory.LOGGER = loggerMock;
+        when(contextMock.getProcessInstanceId()).thenReturn(processId);
+        when(contextMock.getVariable(Constants.VARIABLE_NAME_SPACE_ID)).thenReturn(null);
 
-		threadLocalProvider.getLogger(processId, "-");
-		processLoggerProviderFactory.flush(contextMock, processId);
-		verify(loggerMock, atLeastOnce()).debug(anyString());
-		verify(processLogsPersistenceServiceMock).saveLog(anyString(), anyString(), anyString());
-	}
+        threadLocalProvider.getLogger(processId, "-");
+        processLoggerProviderFactory.flush(contextMock, processId);
+        verify(loggerMock, atLeastOnce()).debug(anyString());
+        verify(processLogsPersistenceServiceMock).saveLog(anyString(), anyString(), anyString());
+    }
 
-	@Test
-	public void testAppend() throws IOException, FileStorageException {
-		org.slf4j.Logger loggerMock = mock(org.slf4j.Logger.class);
-		DelegateExecution contextMock = mock(DelegateExecution.class);
-		String processId = "11";
+    @Test
+    public void testAppend() throws IOException, FileStorageException {
+        org.slf4j.Logger loggerMock = mock(org.slf4j.Logger.class);
+        DelegateExecution contextMock = mock(DelegateExecution.class);
+        String processId = "11";
 
-		ProcessLoggerProviderFactory.LOGGER = loggerMock;
-		when(contextMock.getProcessInstanceId()).thenReturn(processId);
-		when(contextMock.getVariable(Constants.VARIABLE_NAME_SPACE_ID)).thenReturn(null);
+        ProcessLoggerProviderFactory.LOGGER = loggerMock;
+        when(contextMock.getProcessInstanceId()).thenReturn(processId);
+        when(contextMock.getVariable(Constants.VARIABLE_NAME_SPACE_ID)).thenReturn(null);
 
-		threadLocalProvider.getLogger(processId, "-");
-		processLoggerProviderFactory.append(contextMock, processId);
-		verify(loggerMock, atLeastOnce()).debug(anyString());
-		verify(processLogsPersistenceServiceMock).appendLog(anyString(), anyString(), anyString());
-	}
+        threadLocalProvider.getLogger(processId, "-");
+        processLoggerProviderFactory.append(contextMock, processId);
+        verify(loggerMock, atLeastOnce()).debug(anyString());
+        verify(processLogsPersistenceServiceMock).appendLog(anyString(), anyString(), anyString());
+    }
 }

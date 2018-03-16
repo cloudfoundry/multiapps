@@ -22,7 +22,8 @@ public class PropertiesPlaceholderResolver {
                 return replacementValues;
             }
         };
-        return propertiesResolverBuilder.build(properties, valuesresolver, PLACEHOLDER, prefix, true).resolve();
+        return propertiesResolverBuilder.build(properties, valuesresolver, PLACEHOLDER, prefix, true)
+            .resolve();
     }
 
 }

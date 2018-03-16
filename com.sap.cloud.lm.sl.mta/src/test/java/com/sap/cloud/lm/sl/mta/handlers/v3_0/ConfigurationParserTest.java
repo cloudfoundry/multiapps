@@ -28,5 +28,5 @@ public class ConfigurationParserTest extends com.sap.cloud.lm.sl.mta.handlers.v2
     protected ConfigurationParser createConfigurationParser() {
         return new ConfigurationParser();
     }
-    
+
 }

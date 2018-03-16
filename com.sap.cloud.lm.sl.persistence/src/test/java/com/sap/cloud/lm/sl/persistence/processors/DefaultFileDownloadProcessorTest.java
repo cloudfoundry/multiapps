@@ -20,7 +20,7 @@ public class DefaultFileDownloadProcessorTest {
         String fileId = "testFileId";
 
         final byte[] data = "test".getBytes();
-        
+
         FileContentProcessor fileContentProcessor = new FileContentProcessor() {
 
             @Override
@@ -30,7 +30,7 @@ public class DefaultFileDownloadProcessorTest {
                 assertEquals(new String(data), new String(result));
             }
         };
-        
+
         classUnderTest = new DefaultFileDownloadProcessor(space, fileId, fileContentProcessor);
         ByteArrayInputStream is = null;
         try {

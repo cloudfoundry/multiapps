@@ -33,8 +33,8 @@ public class ActivitiService implements IActivitiService {
     }
 
     private ProcessEngine createProcessEngine(String activitiCfgXml) {
-        ProcessEngine processEngine = ProcessEngineConfiguration.createProcessEngineConfigurationFromResource(
-            activitiCfgXml).buildProcessEngine();
+        ProcessEngine processEngine = ProcessEngineConfiguration.createProcessEngineConfigurationFromResource(activitiCfgXml)
+            .buildProcessEngine();
         ProcessEngines.registerProcessEngine(processEngine);
         return processEngine;
     }

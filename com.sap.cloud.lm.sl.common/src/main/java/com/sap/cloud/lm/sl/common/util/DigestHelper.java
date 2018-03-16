@@ -37,7 +37,8 @@ public class DigestHelper {
 
     private static byte[] computeDirectoryCheckSumBytes(Path directoryPath, String algorithm) throws NoSuchAlgorithmException, IOException {
         MessageDigest md = MessageDigest.getInstance(algorithm);
-        for (File fileInDir : directoryPath.toFile().listFiles()) {
+        for (File fileInDir : directoryPath.toFile()
+            .listFiles()) {
             Path filePathInDir = fileInDir.toPath();
             if (Files.isSymbolicLink(filePathInDir)) {
                 continue;

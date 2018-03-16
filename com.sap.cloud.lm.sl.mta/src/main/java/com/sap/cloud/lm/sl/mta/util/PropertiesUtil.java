@@ -6,8 +6,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
-import java.util.TreeMap;
 import java.util.Map.Entry;
+import java.util.TreeMap;
 
 import com.sap.cloud.lm.sl.common.ContentException;
 import com.sap.cloud.lm.sl.common.util.CommonUtil;
@@ -183,7 +183,10 @@ public class PropertiesUtil {
 
     private static void validateTypes(Object override, Object original) {
         if (isMap(original) ^ isMap(override)) {
-            throw new ContentException(Messages.INCOMPATIBLE_TYPES, override.getClass().getName(), original.getClass().getName());
+            throw new ContentException(Messages.INCOMPATIBLE_TYPES, override.getClass()
+                .getName(),
+                original.getClass()
+                    .getName());
         }
     }
 

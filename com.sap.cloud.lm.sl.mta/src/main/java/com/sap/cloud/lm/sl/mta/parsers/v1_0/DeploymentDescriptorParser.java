@@ -84,7 +84,9 @@ public class DeploymentDescriptorParser extends ModelParser<DeploymentDescriptor
         return getListElement(MODULES, new ListParser<Module>() {
             @Override
             protected Module parseItem(Map<String, Object> map) throws ParsingException {
-                return getModuleParser(map).setUsedProvidedDependencyNames(usedDependencyNames).setUsedValues(usedModuleNames).parse();
+                return getModuleParser(map).setUsedProvidedDependencyNames(usedDependencyNames)
+                    .setUsedValues(usedModuleNames)
+                    .parse();
             }
         });
     }
@@ -97,7 +99,8 @@ public class DeploymentDescriptorParser extends ModelParser<DeploymentDescriptor
         return getListElement(RESOURCES, new ListParser<Resource>() {
             @Override
             protected Resource parseItem(Map<String, Object> map) throws ParsingException {
-                return getResourceParser(map).setUsedValues(usedDependencyNames).parse();
+                return getResourceParser(map).setUsedValues(usedDependencyNames)
+                    .parse();
             }
         });
     }

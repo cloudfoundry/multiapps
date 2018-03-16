@@ -21,15 +21,18 @@ public class ActivitiAbortAction extends AbstractTraceableAction {
     }
 
     private void ensureProcessExists(String processInstanceId) {
-        ProcessInstance processInstance = getDefaultProcessEngine().getRuntimeService().createProcessInstanceQuery().processInstanceId(
-            processInstanceId).singleResult();
+        ProcessInstance processInstance = getDefaultProcessEngine().getRuntimeService()
+            .createProcessInstanceQuery()
+            .processInstanceId(processInstanceId)
+            .singleResult();
         if (processInstance == null) {
             throw new ActivitiObjectNotFoundException("Couldn't find process instance " + processInstanceId, ProcessInstance.class);
         }
     }
 
     private void deleteProcess(String processInstanceId) {
-        getDefaultProcessEngine().getRuntimeService().deleteProcessInstance(processInstanceId, super.getReasonMessage());
+        getDefaultProcessEngine().getRuntimeService()
+            .deleteProcessInstance(processInstanceId, super.getReasonMessage());
     }
 
     @Override

@@ -26,30 +26,27 @@ public abstract class AbstractActivitiStepWithBridge extends AbstractActivitiSte
         return bridge;
     }
 
-	@Override
-	protected void dropSkipRequestWhenDone(DelegateExecution context) {
-		if (shouldDropSkipRequest()) {
-			super.dropSkipRequestWhenDone(context);
-		}
-	}
+    @Override
+    protected void dropSkipRequestWhenDone(DelegateExecution context) {
+        if (shouldDropSkipRequest()) {
+            super.dropSkipRequestWhenDone(context);
+        }
+    }
 
-	/**
-	 * The skip request of bridged steps cannot be dropped automatically. Only
-	 * the polling step should drop the request and there is no simple way to
-	 * check if this is the polling step. <br>
-	 * <br>
-	 * You can override this method in your custom polling step implementation
-	 * and use it to tell the step that this is the polling step of the two and
-	 * that the skip request can be dropped.<br>
-	 * <br>
-	 * You can also do it outside of the bridged steps by using the
-	 * {@link ISkipHelper} interface manually.
-	 */
-	protected boolean shouldDropSkipRequest() {
-		return false;
-	}
+    /**
+     * The skip request of bridged steps cannot be dropped automatically. Only the polling step should drop the request and there is no
+     * simple way to check if this is the polling step. <br>
+     * <br>
+     * You can override this method in your custom polling step implementation and use it to tell the step that this is the polling step of
+     * the two and that the skip request can be dropped.<br>
+     * <br>
+     * You can also do it outside of the bridged steps by using the {@link ISkipHelper} interface manually.
+     */
+    protected boolean shouldDropSkipRequest() {
+        return false;
+    }
 
-	@Override
+    @Override
     protected ExecutionStatus executeStep(DelegateExecution context) throws Exception {
         failTaskIfRetryIsNeeded(context);
         ExecutionStatus status;
@@ -86,7 +83,8 @@ public abstract class AbstractActivitiStepWithBridge extends AbstractActivitiSte
 
     private boolean isInLogicalRetry(DelegateExecution context) {
         String status = (String) context.getVariable(getStatusVariable());
-        return ExecutionStatus.LOGICAL_RETRY.name().equalsIgnoreCase(status);
+        return ExecutionStatus.LOGICAL_RETRY.name()
+            .equalsIgnoreCase(status);
     }
 
     private String getRetryMessage(DelegateExecution context) {

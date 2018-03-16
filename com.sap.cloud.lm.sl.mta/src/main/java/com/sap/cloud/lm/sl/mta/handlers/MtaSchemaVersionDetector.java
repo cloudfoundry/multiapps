@@ -61,7 +61,8 @@ public class MtaSchemaVersionDetector {
     }
 
     private Version getSchemaVersion(RawDescriptor rawDescriptor) {
-        Object schemaVersionElement = rawDescriptor.getAsMap().get(SCHEMA_VERSION_KEY);
+        Object schemaVersionElement = rawDescriptor.getAsMap()
+            .get(SCHEMA_VERSION_KEY);
         String schemaVersion = (schemaVersionElement != null) ? schemaVersionElement.toString() : DEFAULT_SCHEMA_VERSION;
         return Version.parseVersion(schemaVersion);
     }

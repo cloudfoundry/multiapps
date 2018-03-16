@@ -359,7 +359,8 @@ public abstract class AbstractFileService {
                 }
             });
         } catch (SQLException e) {
-            throw new FileStorageException(MessageFormat.format(Messages.ERROR_GETTING_FILES_WITH_SPACE_AND_NAMESPACE, space, namespace), e);
+            throw new FileStorageException(MessageFormat.format(Messages.ERROR_GETTING_FILES_WITH_SPACE_AND_NAMESPACE, space, namespace),
+                e);
         }
     }
 
@@ -390,7 +391,8 @@ public abstract class AbstractFileService {
                 }
             });
         } catch (SQLException e) {
-            throw new FileStorageException(MessageFormat.format(Messages.ERROR_GETTING_FILES_MODIFIED_BEFORE, new SimpleDateFormat("yyyyMMddHHmmss").format(modificationTime)), e);
+            throw new FileStorageException(MessageFormat.format(Messages.ERROR_GETTING_FILES_MODIFIED_BEFORE,
+                new SimpleDateFormat("yyyyMMddHHmmss").format(modificationTime)), e);
         }
     }
 

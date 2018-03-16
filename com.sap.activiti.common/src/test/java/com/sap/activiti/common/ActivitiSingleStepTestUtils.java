@@ -19,7 +19,7 @@ public class ActivitiSingleStepTestUtils {
     public static final String EXPRESSION_TEMPLATE = "<activiti:field name=\"%s\"><activiti:expression><![CDATA[%s]]></activiti:expression></activiti:field>";
     public static final String EXTENSIONS_OPEN_TAG = "<extensionElements>";
     public static final String EXTENSIONS_CLOSE_TAG = "</extensionElements>";
-    
+
     public static void deploySingleStepProcess(String stepName) throws Exception {
         deploySingleStepProcess(stepName, null);
     }
@@ -37,7 +37,11 @@ public class ActivitiSingleStepTestUtils {
         if (!DEFAULT_TASK_VALUE.equals(stepName)) {
             bpmn = bpmn.replace(DEFAULT_TASK_VALUE, stepName);
         }
-        ActivitiTestCfgRuleChain.getActivitiRule().getRepositoryService().createDeployment().addString(FULL_PATH, bpmn).deploy();
+        ActivitiTestCfgRuleChain.getActivitiRule()
+            .getRepositoryService()
+            .createDeployment()
+            .addString(FULL_PATH, bpmn)
+            .deploy();
     }
 
     private static String appendExpressions(Map<String, String> expressions, String bpmn) {

@@ -34,7 +34,8 @@ public class ExtensionDescriptorValidator extends com.sap.cloud.lm.sl.mta.valida
 
     @Override
     public void visit(ElementContext context, ExtensionRequiredDependency extensionRequiredDependency) throws ContentException {
-        String containerName = context.getPreviousElementContext().getVisitableElementName();
+        String containerName = context.getPreviousElementContext()
+            .getVisitableElementName();
         if (!extendsDeploymentDescriptorElement(containerName, extensionRequiredDependency)) {
             throw new ContentException(Messages.UNKNOWN_REQUIRED_DEPENDENCY_IN_MTAEXT, extensionRequiredDependency.getName(), containerName,
                 extensionDescriptor.getId());

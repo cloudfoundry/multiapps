@@ -10,11 +10,11 @@ import org.apache.commons.io.IOUtils;
 
 import com.sap.cloud.lm.sl.common.ParsingException;
 import com.sap.cloud.lm.sl.common.util.JsonUtil;
-import com.sap.cloud.lm.sl.mta.model.v1_0.Target;
 import com.sap.cloud.lm.sl.mta.model.v1_0.Platform;
+import com.sap.cloud.lm.sl.mta.model.v1_0.Target;
 import com.sap.cloud.lm.sl.mta.parsers.ListParser;
-import com.sap.cloud.lm.sl.mta.parsers.v1_0.TargetParser;
 import com.sap.cloud.lm.sl.mta.parsers.v1_0.PlatformParser;
+import com.sap.cloud.lm.sl.mta.parsers.v1_0.TargetParser;
 import com.sap.cloud.lm.sl.mta.schema.SchemaValidator;
 
 public class ConfigurationParser {
@@ -46,9 +46,11 @@ public class ConfigurationParser {
         return new ListParser<Platform>() {
             @Override
             protected Platform parseItem(Map<String, Object> map) throws ParsingException {
-                return getPlatformParser(map).setUsedValues(usedPlatformTypeNames).parse();
+                return getPlatformParser(map).setUsedValues(usedPlatformTypeNames)
+                    .parse();
             }
-        }.setSource(list).parse();
+        }.setSource(list)
+            .parse();
     }
 
     protected PlatformParser getPlatformParser(Map<String, Object> source) {
@@ -84,9 +86,11 @@ public class ConfigurationParser {
         return new ListParser<Target>() {
             @Override
             protected Target parseItem(Map<String, Object> map) throws ParsingException {
-                return getDeployTargetParser(map).setUsedValues(usedPlatformNames).parse();
+                return getDeployTargetParser(map).setUsedValues(usedPlatformNames)
+                    .parse();
             }
-        }.setSource(list).parse();
+        }.setSource(list)
+            .parse();
     }
 
     protected TargetParser getDeployTargetParser(Map<String, Object> source) {

@@ -150,7 +150,8 @@ public class FileSystemFileService extends AbstractFileService {
 
                 @Override
                 public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException {
-                    if (attrs.lastModifiedTime().compareTo(modificationTimeUpperBound) < 0) {
+                    if (attrs.lastModifiedTime()
+                        .compareTo(modificationTimeUpperBound) < 0) {
                         oldEntries.add(getFileEntry(file, attrs));
                     }
                     return super.visitFile(file, attrs);
@@ -197,9 +198,12 @@ public class FileSystemFileService extends AbstractFileService {
 
     private FileEntry getFileEntry(Path file, BasicFileAttributes attrs) {
         FileEntry fileEntry = new FileEntry();
-        fileEntry.setId(file.getFileName().toString());
-        fileEntry.setSpace(file.getParent().toString());
-        fileEntry.setModified(new Date(attrs.lastModifiedTime().toMillis()));
+        fileEntry.setId(file.getFileName()
+            .toString());
+        fileEntry.setSpace(file.getParent()
+            .toString());
+        fileEntry.setModified(new Date(attrs.lastModifiedTime()
+            .toMillis()));
         return fileEntry;
     }
 

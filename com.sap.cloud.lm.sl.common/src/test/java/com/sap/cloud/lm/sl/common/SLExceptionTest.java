@@ -4,8 +4,6 @@ import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
 
-import com.sap.cloud.lm.sl.common.SLException;
-
 public class SLExceptionTest {
 
     @Test

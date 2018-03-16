@@ -124,13 +124,15 @@ public class DescriptorPlaceholderResolverTest {
     public void initialize() throws Exception {
         DescriptorParser descriptorParser = new DescriptorParser();
 
-        DeploymentDescriptor deploymentDescriptor = (DeploymentDescriptor) MtaTestUtil.loadDeploymentDescriptor(
-            deploymentDescriptorLocation, descriptorParser, getClass());
+        DeploymentDescriptor deploymentDescriptor = (DeploymentDescriptor) MtaTestUtil
+            .loadDeploymentDescriptor(deploymentDescriptorLocation, descriptorParser, getClass());
 
         ConfigurationParser configurationParser = new ConfigurationParser();
 
-        Target target = (Target) MtaTestUtil.loadTargets(targetLocation, configurationParser, getClass()).get(0);
-        Platform platform = (Platform) MtaTestUtil.loadPlatforms(platformLocation, configurationParser, getClass()).get(0);
+        Target target = (Target) MtaTestUtil.loadTargets(targetLocation, configurationParser, getClass())
+            .get(0);
+        Platform platform = (Platform) MtaTestUtil.loadPlatforms(platformLocation, configurationParser, getClass())
+            .get(0);
 
         SystemParameters systemParameters = JsonUtil.fromJson(TestUtil.getResourceAsString(systemParametersLocation, getClass()),
             SystemParameters.class);

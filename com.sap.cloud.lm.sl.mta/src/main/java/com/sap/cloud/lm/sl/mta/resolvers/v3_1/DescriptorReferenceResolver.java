@@ -15,8 +15,7 @@ public class DescriptorReferenceResolver extends com.sap.cloud.lm.sl.mta.resolve
     protected final ResolverBuilder resourcePropertiesResolverBuilder;
 
     public DescriptorReferenceResolver(DeploymentDescriptor descriptor, ResolverBuilder modulesPropertiesResolverBuilder,
-        ResolverBuilder resourcePropertiesResolverBuilder,
-        ResolverBuilder requiredDepencenciesPropertiesResolverBuilder) {
+        ResolverBuilder resourcePropertiesResolverBuilder, ResolverBuilder requiredDepencenciesPropertiesResolverBuilder) {
         super(descriptor, modulesPropertiesResolverBuilder, requiredDepencenciesPropertiesResolverBuilder);
         this.resourcePropertiesResolverBuilder = resourcePropertiesResolverBuilder;
     }

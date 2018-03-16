@@ -39,7 +39,8 @@ public class HttpLoggerPasswordsMaskingTest {
 
     @After
     public void after() {
-        HttpLogger.getInstance().disableLogCollection();
+        HttpLogger.getInstance()
+            .disableLogCollection();
     }
 
     @Test

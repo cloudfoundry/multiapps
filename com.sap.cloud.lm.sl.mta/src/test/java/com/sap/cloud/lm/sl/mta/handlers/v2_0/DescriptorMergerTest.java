@@ -25,7 +25,7 @@ public class DescriptorMergerTest extends com.sap.cloud.lm.sl.mta.handlers.v1_0.
     public DescriptorMergerTest(String deploymentDescriptorLocation, String[] extensionDescriptorLocations, String expected) {
         super(deploymentDescriptorLocation, extensionDescriptorLocations, expected);
     }
-    
+
     @Override
     protected DescriptorMerger createDescriptorMerger() {
         return new DescriptorMerger();

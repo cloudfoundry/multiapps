@@ -28,20 +28,23 @@ public abstract class AbstractTraceableAction implements IActivitiAction {
     }
 
     private String resolveUserName(String userId) {
-		if (userId == null || userId.isEmpty()) {
-			return ANONYMOUS_USER;
-		}
+        if (userId == null || userId.isEmpty()) {
+            return ANONYMOUS_USER;
+        }
 
-		User user = getUserById(userId);
-		if (user == null || user.getFirstName() == null || user.getLastName() == null) {
-			return userId;
-		}
+        User user = getUserById(userId);
+        if (user == null || user.getFirstName() == null || user.getLastName() == null) {
+            return userId;
+        }
 
-		return String.format("%s %s", user.getFirstName(), user.getLastName());
-	}
+        return String.format("%s %s", user.getFirstName(), user.getLastName());
+    }
 
     protected User getUserById(String userId) {
-        return getDefaultProcessEngine().getIdentityService().createUserQuery().userId(userId).singleResult();
+        return getDefaultProcessEngine().getIdentityService()
+            .createUserQuery()
+            .userId(userId)
+            .singleResult();
     }
 
     protected String getProcessInstanceId() {
@@ -59,10 +62,10 @@ public abstract class AbstractTraceableAction implements IActivitiAction {
     protected ProcessEngine getDefaultProcessEngine() {
         return ProcessEngines.getDefaultProcessEngine();
     }
-    
+
     protected ManagementService getManagementService() {
         return getDefaultProcessEngine().getManagementService();
-     }
+    }
 
     public void logTracibilityInformation(String message) {
         RuntimeService runtimeService = getDefaultProcessEngine().getRuntimeService();
@@ -70,7 +73,8 @@ public abstract class AbstractTraceableAction implements IActivitiAction {
         String actionLog = String.format("[%s] %s\n", getCurrentTimestamp(), message);
         appendTracibilityInformationToContext(runtimeService, this.processInstanceId, Constants.ACTION_LOG, actionLog);
 
-        String actionType = String.format("%s\n", getType().name().toUpperCase());
+        String actionType = String.format("%s\n", getType().name()
+            .toUpperCase());
         appendTracibilityInformationToContext(runtimeService, this.processInstanceId, Constants.EXECUTED_ACTIONS_TYPE_LOG, actionType);
     }
 

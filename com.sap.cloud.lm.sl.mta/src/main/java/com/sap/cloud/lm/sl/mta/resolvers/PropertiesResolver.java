@@ -102,7 +102,9 @@ public class PropertiesResolver implements SimplePropertyVisitor, Resolver<Map<S
     }
 
     private boolean isSimpleReference(String value, List<Reference> references) {
-        return references.size() == 1 && value.length() == references.get(0).getMatchedPattern().length();
+        return references.size() == 1 && value.length() == references.get(0)
+            .getMatchedPattern()
+            .length();
     }
 
     protected Object resolveReference(Reference reference) throws ContentException {

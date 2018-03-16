@@ -93,7 +93,9 @@ public class DatabaseFileServiceTest {
 
     protected void tearDownConnection() throws Exception {
         // actually close the connection
-        testDataSource.getDataSource().getConnection().close();
+        testDataSource.getDataSource()
+            .getConnection()
+            .close();
     }
 
     protected void insertInitialData() throws Exception {
@@ -107,7 +109,9 @@ public class DatabaseFileServiceTest {
     }
 
     private InputStream getResource(String name) {
-        return Thread.currentThread().getContextClassLoader().getResourceAsStream(name);
+        return Thread.currentThread()
+            .getContextClassLoader()
+            .getResourceAsStream(name);
     }
 
     private void verifyInitialEntry(FileEntry entry) {
@@ -118,7 +122,8 @@ public class DatabaseFileServiceTest {
         assertEquals(BigInteger.valueOf(PIC1_SIZE), entry.getSize());
 
         // verify the MD5 digest, compare with one taken with md5sum
-        assertEquals(PIC1_MD5_DIGEST.toLowerCase(), entry.getDigest().toLowerCase());
+        assertEquals(PIC1_MD5_DIGEST.toLowerCase(), entry.getDigest()
+            .toLowerCase());
         assertEquals(DIGEST_METHOD, entry.getDigestAlgorithm());
     }
 
@@ -148,7 +153,8 @@ public class DatabaseFileServiceTest {
     @Test
     public void testFileContent() throws Exception {
         Path expectedFile = Paths.get("src/test/resources/", PIC1_RESOURCE_NAME);
-        String expectedFileDigest = DigestHelper.computeFileChecksum(expectedFile, DIGEST_METHOD).toLowerCase();
+        String expectedFileDigest = DigestHelper.computeFileChecksum(expectedFile, DIGEST_METHOD)
+            .toLowerCase();
         validateFileContent(storedFile, expectedFileDigest);
     }
 
@@ -159,7 +165,8 @@ public class DatabaseFileServiceTest {
                 public void processFileContent(InputStream contentStream) throws Exception {
                     // make a digest out of the content and compare it to the original
                     final byte[] digest = calculateFileDigest(contentStream);
-                    assertEquals(expectedFileChecksum, DatatypeConverter.printHexBinary(digest).toLowerCase());
+                    assertEquals(expectedFileChecksum, DatatypeConverter.printHexBinary(digest)
+                        .toLowerCase());
                 }
 
             }));
@@ -193,7 +200,8 @@ public class DatabaseFileServiceTest {
         systemFiles = fileService.listFiles(MY_SPACE_ID, SYSTEM_NAMESPACE);
         assertEquals(1, systemFiles.size());
 
-        fileService.deleteFile(MY_SPACE_ID, systemFiles.get(0).getId());
+        fileService.deleteFile(MY_SPACE_ID, systemFiles.get(0)
+            .getId());
 
         personalFiles = fileService.listFiles(MY_SPACE_ID, PERSONAL_NAMESPACE);
         assertEquals(1, personalFiles.size());
@@ -262,15 +270,20 @@ public class DatabaseFileServiceTest {
         List<FileEntry> oldEntries = fileService.listByModificationTime(expirationModificationDate);
         assertEquals(2, oldEntries.size());
 
-        assertTrue(oldEntries.get(0).getId().equals(fileEntry2.getId()));
-        assertTrue(oldEntries.get(1).getId().equals(fileEntry4.getId()));
+        assertTrue(oldEntries.get(0)
+            .getId()
+            .equals(fileEntry2.getId()));
+        assertTrue(oldEntries.get(1)
+            .getId()
+            .equals(fileEntry4.getId()));
     }
 
     private void setMofidicationDate(FileEntry fileEntry, Date modificationDate) throws SQLException {
         PreparedStatement statement = null;
         try {
-            statement = testDataSource.getDataSource().getConnection().prepareStatement(
-                MessageFormat.format(UPDATE_MODIFICATION_TIME, DEFAULT_TABLE_NAME));
+            statement = testDataSource.getDataSource()
+                .getConnection()
+                .prepareStatement(MessageFormat.format(UPDATE_MODIFICATION_TIME, DEFAULT_TABLE_NAME));
             statement.setTimestamp(1, new java.sql.Timestamp(modificationDate.getTime()));
             statement.setString(2, fileEntry.getId());
             statement.executeUpdate();

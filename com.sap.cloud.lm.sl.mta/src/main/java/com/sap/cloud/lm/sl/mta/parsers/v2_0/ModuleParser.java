@@ -76,7 +76,8 @@ public class ModuleParser extends com.sap.cloud.lm.sl.mta.parsers.v1_0.ModulePar
     protected boolean currentModuleIsProvided(List<ProvidedDependency> providedDependencies) throws ParsingException {
         String currentModuleName = getName();
         for (ProvidedDependency providedDependency : providedDependencies) {
-            if (providedDependency.getName().equals(currentModuleName)) {
+            if (providedDependency.getName()
+                .equals(currentModuleName)) {
                 return true;
             }
         }
@@ -86,14 +87,16 @@ public class ModuleParser extends com.sap.cloud.lm.sl.mta.parsers.v1_0.ModulePar
     protected ProvidedDependency getCurrentModuleAsProvidedDependency() throws ParsingException {
         Map<String, Object> currentModule = new TreeMap<String, Object>();
         currentModule.put(NAME, getName());
-        return (ProvidedDependency) getProvidedDependencyParser(currentModule).setUsedValues(usedProvidedDependencyNames).parse();
+        return (ProvidedDependency) getProvidedDependencyParser(currentModule).setUsedValues(usedProvidedDependencyNames)
+            .parse();
     }
 
     protected List<RequiredDependency> getRequiredDependencies2_0() throws ParsingException {
         return getListElement(REQUIRES, new ListParser<RequiredDependency>() {
             @Override
             protected RequiredDependency parseItem(Map<String, Object> map) throws ParsingException {
-                return getRequiredDependencyParser(map).setUsedValues(usedRequiredDependencyNames).parse();
+                return getRequiredDependencyParser(map).setUsedValues(usedRequiredDependencyNames)
+                    .parse();
             }
         });
     }

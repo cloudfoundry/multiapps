@@ -120,5 +120,5 @@ public class Schemas extends com.sap.cloud.lm.sl.mta.handlers.v2_0.Schemas {
         PTF_RESOURCE_TYPE.add("name", UNIQUE_MTA_IDENTIFIER);
         PTF_RESOURCE_TYPE.add("parameters", PROPERTIES);
     }
-    
+
 }

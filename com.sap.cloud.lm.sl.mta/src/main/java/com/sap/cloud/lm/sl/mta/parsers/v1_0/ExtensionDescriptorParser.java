@@ -85,8 +85,9 @@ public class ExtensionDescriptorParser extends ModelParser<ExtensionDescriptor> 
         return getListElement(MODULES, new ListParser<ExtensionModule>() {
             @Override
             protected ExtensionModule parseItem(Map<String, Object> map) throws ParsingException {
-                return getModuleParser(map).setUsedProvidedDependencyNames(usedProvidedDependencyNames).setUsedValues(
-                    usedModuleNames).parse();
+                return getModuleParser(map).setUsedProvidedDependencyNames(usedProvidedDependencyNames)
+                    .setUsedValues(usedModuleNames)
+                    .parse();
             }
         });
     }
@@ -99,7 +100,8 @@ public class ExtensionDescriptorParser extends ModelParser<ExtensionDescriptor> 
         return getListElement(RESOURCES, new ListParser<ExtensionResource>() {
             @Override
             protected ExtensionResource parseItem(Map<String, Object> map) throws ParsingException {
-                return getResourceParser(map).setUsedValues(usedResourceNames).parse();
+                return getResourceParser(map).setUsedValues(usedResourceNames)
+                    .parse();
             }
         });
     }

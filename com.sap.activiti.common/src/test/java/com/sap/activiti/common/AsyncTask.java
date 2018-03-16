@@ -22,7 +22,8 @@ public class AsyncTask extends TaskActivityBehavior {
         new Thread(new Runnable() {
             @Override
             public void run() {
-                processEngine.getRuntimeService().signal(callbackId);
+                processEngine.getRuntimeService()
+                    .signal(callbackId);
             }
             // Retrieve the execution using the callBack Id saved previously
         }).start();

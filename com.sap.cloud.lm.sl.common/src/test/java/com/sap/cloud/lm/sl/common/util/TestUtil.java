@@ -92,17 +92,23 @@ public class TestUtil {
     }
 
     private static void validateException(String expected, Exception exception) {
-        String stackTrace = Arrays.asList(exception.getStackTrace()).subList(0, 5).toString();
+        String stackTrace = Arrays.asList(exception.getStackTrace())
+            .subList(0, 5)
+            .toString();
         assertEquals(exception.getMessage() + stackTrace, getPrefix(expected), EXCEPTION_PREFIX);
         assertThat("exception's message doesn't match up", exception.getMessage(), containsString(getContent(expected)));
     }
 
     private static void validateException(String expectedMessage, String expectedCause, Exception exception) {
-        String stackTrace = Arrays.asList(exception.getStackTrace()).subList(0, 5).toString();
+        String stackTrace = Arrays.asList(exception.getStackTrace())
+            .subList(0, 5)
+            .toString();
         assertEquals(exception.getMessage() + stackTrace, getPrefix(expectedMessage), EXCEPTION_PREFIX);
-        assertEquals(exception.getCause().toString(), getPrefix(expectedCause), EXCEPTION_PREFIX);
+        assertEquals(exception.getCause()
+            .toString(), getPrefix(expectedCause), EXCEPTION_PREFIX);
         assertThat("exception's message match up", exception.getMessage(), containsString(getContent(expectedMessage)));
-        assertThat("exception's cause match up", exception.getCause().toString(), containsString(getContent(expectedCause)));
+        assertThat("exception's cause match up", exception.getCause()
+            .toString(), containsString(getContent(expectedCause)));
     }
 
     private static String getContent(String expected) {
@@ -134,7 +140,8 @@ public class TestUtil {
     }
 
     public static String getResourceAsString(String name, Class<?> resourceClass) throws IOException {
-        return IOUtils.toString(resourceClass.getResourceAsStream(name)).replace("\r", "");
+        return IOUtils.toString(resourceClass.getResourceAsStream(name))
+            .replace("\r", "");
     }
 
     public static class JsonSerializationOptions {

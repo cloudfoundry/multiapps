@@ -46,7 +46,8 @@ public class SchemaValidator {
         throws ParsingException {
         // Validate existing keys:
         for (String key : map.keySet()) {
-            Element element = schema.getMap().get(key);
+            Element element = schema.getMap()
+                .get(key);
             String elementPrefix = getPrefixedName(prefix, key);
             if (element == null) {
                 throw new ParsingException(Messages.INVALID_KEY, elementPrefix);
@@ -56,8 +57,10 @@ public class SchemaValidator {
         }
 
         // Check for non-existing required keys:
-        for (String key : schema.getMap().keySet()) {
-            Element element = schema.getMap().get(key);
+        for (String key : schema.getMap()
+            .keySet()) {
+            Element element = schema.getMap()
+                .get(key);
             if (element.isRequired() && !map.containsKey(key)) {
                 throw new ParsingException(Messages.MISSING_REQUIRED_KEY, getPrefixedName(prefix, key));
             }
@@ -106,12 +109,18 @@ public class SchemaValidator {
     }
 
     private static void checkType(Object object, Element element, String prefix) throws ParsingException {
-        if (!element.getType().isInstance(object)) {
+        if (!element.getType()
+            .isInstance(object)) {
             if (!isRootElement(prefix)) {
-                throw new ParsingException(Messages.INVALID_TYPE_FOR_KEY, prefix, element.getType().getSimpleName(),
-                    object.getClass().getSimpleName());
+                throw new ParsingException(Messages.INVALID_TYPE_FOR_KEY, prefix, element.getType()
+                    .getSimpleName(),
+                    object.getClass()
+                        .getSimpleName());
             }
-            throw new ParsingException(Messages.INVALID_CONTENT_TYPE, element.getType().getSimpleName(), object.getClass().getSimpleName());
+            throw new ParsingException(Messages.INVALID_CONTENT_TYPE, element.getType()
+                .getSimpleName(),
+                object.getClass()
+                    .getSimpleName());
         }
     }
 

@@ -12,15 +12,15 @@ public class ActivitiSkipAction extends AbstractStepRelatedAction {
 
     @Override
     public void execute() {
-		try {
+        try {
 
-			logActionInContext();
-			prepareContext();
-			executeJob();
+            logActionInContext();
+            prepareContext();
+            executeJob();
 
-		} catch (LogicalStepNameProviderException e) {
-			throw new IllegalStateException(e);
-		}
+        } catch (LogicalStepNameProviderException e) {
+            throw new IllegalStateException(e);
+        }
     }
 
     private void logActionInContext() {
@@ -28,18 +28,19 @@ public class ActivitiSkipAction extends AbstractStepRelatedAction {
     }
 
     private void executeJob() {
-        getDefaultProcessEngine().getManagementService().executeJob(getJobId());
+        getDefaultProcessEngine().getManagementService()
+            .executeJob(getJobId());
     }
 
-	private void prepareContext() throws LogicalStepNameProviderException {
-		createSkipHelper().createSkipRequest(getLogicalStepNameProvider().getLogicalStepName());
-	}
+    private void prepareContext() throws LogicalStepNameProviderException {
+        createSkipHelper().createSkipRequest(getLogicalStepNameProvider().getLogicalStepName());
+    }
 
-	private ISkipHelper createSkipHelper() {
-		return new EngineServicesSkipHelper(getDefaultProcessEngine(), getProcessInstanceId());
-	}
+    private ISkipHelper createSkipHelper() {
+        return new EngineServicesSkipHelper(getDefaultProcessEngine(), getProcessInstanceId());
+    }
 
-	@Override
+    @Override
     public ActionType getType() {
         return IActivitiAction.ActionType.SKIP;
     }
