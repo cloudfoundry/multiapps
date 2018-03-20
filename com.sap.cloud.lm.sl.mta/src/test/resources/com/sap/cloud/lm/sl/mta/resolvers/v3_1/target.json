@@ -1,0 +1,27 @@
+[
+    {
+        "name": "CF-QUAL",
+        "parameters": {
+            "user": "deployer",
+            "password": "password",
+            "org": "SAP-STANDARD",
+            "space": "STAGING"
+        },
+        "module-types": [
+            {
+                "name": "org.nodejs",
+                "parameters": {
+                    "buildpack": "nodejs-test"
+                }
+            }
+        ],
+        "resource-types": [
+            {
+                "name": "com.sap.hana.hdi-container",
+                "parameters": {
+                    "service": "hdi-hana2"
+                }
+            }
+        ]
+    }
+]
