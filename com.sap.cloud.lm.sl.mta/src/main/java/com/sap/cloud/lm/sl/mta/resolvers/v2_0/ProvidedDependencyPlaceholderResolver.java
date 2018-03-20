@@ -36,12 +36,17 @@ public class ProvidedDependencyPlaceholderResolver extends PlaceholderResolver<P
     }
 
     protected Map<String, Object> getResolvedProperties() throws ContentException {
+        List<Map<String, Object>> parametersChain = getParametersChain();
+        return resolve(providedDependency.getProperties(), PropertiesUtil.mergeProperties(parametersChain));
+    }
+
+    protected List<Map<String, Object>> getParametersChain() {
         String moduleName = module.getName();
         List<Map<String, Object>> parametersChain = parametersChainBuilder.buildModuleChain(moduleName);
         addSingularParametersIfNecessary(parametersChain);
         parametersChain.add(getFullSystemParameters(systemParameters.getModuleParameters()
             .get(moduleName)));
-        return resolve(providedDependency.getProperties(), PropertiesUtil.mergeProperties(parametersChain));
+        return parametersChain;
     }
 
     @Override

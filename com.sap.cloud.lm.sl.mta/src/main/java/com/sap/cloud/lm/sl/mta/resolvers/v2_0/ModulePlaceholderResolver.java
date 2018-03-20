@@ -33,17 +33,22 @@ public class ModulePlaceholderResolver extends PlaceholderResolver<Module> {
 
     @Override
     public Module resolve() throws ContentException {
+        Map<String, Object> mergedParameters = getMergedParameters();
+        module.setProperties(getResolvedProperties(mergedParameters));
+        module.setParameters(getResolvedParameters(mergedParameters));
+        module.setRequiredDependencies2_0(getResolvedRequiredDependencies());
+        module.setProvidedDependencies2_0(getResolvedProvidedDependencies());
+        return module;
+    }
+
+    protected Map<String, Object> getMergedParameters() {
         String moduleName = module.getName();
         List<Map<String, Object>> parametersList = parametersChainBuilder.buildModuleChainWithoutDependencies(moduleName);
         addSingularParametersIfNecessary(parametersList);
         parametersList.add(getFullSystemParameters(systemParameters.getModuleParameters()
             .get(moduleName)));
         Map<String, Object> mergedParameters = PropertiesUtil.mergeProperties(parametersList);
-        module.setProperties(getResolvedProperties(mergedParameters));
-        module.setParameters(getResolvedParameters(mergedParameters));
-        module.setRequiredDependencies2_0(getResolvedRequiredDependencies());
-        module.setProvidedDependencies2_0(getResolvedProvidedDependencies());
-        return module;
+        return mergedParameters;
     }
 
     protected Map<String, Object> getResolvedProperties(Map<String, Object> mergedParameters) throws ContentException {
