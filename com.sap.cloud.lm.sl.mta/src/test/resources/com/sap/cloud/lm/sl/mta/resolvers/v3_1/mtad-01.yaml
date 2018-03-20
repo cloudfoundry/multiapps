@@ -1,0 +1,31 @@
+ID: com.sap.mta.sample.v3
+version: 1.2.1-beta+20150403144937853
+
+modules:
+  - name: web-server
+    type: com.sap.static-content
+    provides:
+      - name: web-server
+        public: true
+        properties:
+          bar: ${app-name}
+          baz: ${org}
+        parameters:
+          visibility:
+            - org: ${org}
+              space: "${space}"
+
+  - name: pricing
+    type: org.nodejs
+    provides:
+      - name: pricing
+        public: true
+        properties: 
+          url: ${default-url}
+        parameters:
+          visibility:
+            - org: ${org}
+              space: "*"
+  
+parameters:
+  default-url: "cf.com"
