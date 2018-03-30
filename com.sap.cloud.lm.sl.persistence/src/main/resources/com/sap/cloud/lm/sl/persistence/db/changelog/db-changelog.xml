@@ -28,5 +28,6 @@
     <include
         file="com/sap/cloud/lm/sl/persistence/db/changelog/db-changelog-alter_task_extension_add_task_execution_id_column.xml" />
     <include file="com/sap/cloud/lm/sl/persistence/db/changelog/db-changelog-index_process_ids_of_progress_messages.xml" />
+    <include file="com/sap/cloud/lm/sl/persistence/db/changelog/db-changelog-index_space_lm_sl_persistence_file.xml"/>
 
 </databaseChangeLog>
