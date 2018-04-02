@@ -46,8 +46,8 @@ public final class Messages {
     public static final String SCANNING_FILE_SUCCESS = "File \"{0}\" is not infected";
     public static final String FAILED_TO_DELETE_FILE = "Failed to delete file {0}";
     public static final String DELETING_FILE_IN_TABLE = "File \"{0}\" in space \"{1}\" will be deleted from \"{2}\".";
-    public static final String INDEXING_PROCESS_IDS_OF_PROGRESS_MESSAGES = "Indexing process IDs of progress messages...";
-    public static final String PROCESS_IDS_INDEXED = "Process IDs of progress messages indexed successfully!";
+    public static final String CREATING_INDEX_CONCURRENTLY = "Creating index {0} concurrently";
+    public static final String INDEX_CREATED = "Index created.";
 
     // DEBUG log messages:
     public static final String DELETING_FILE_WITH_PATH = "Deleting file with path {0}...";
