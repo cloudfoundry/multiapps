@@ -9,6 +9,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.attribute.FileTime;
 import java.security.NoSuchAlgorithmException;
+import java.text.MessageFormat;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
@@ -27,6 +28,7 @@ import org.junit.rules.ExpectedException;
 
 import com.sap.cloud.lm.sl.common.util.DigestHelper;
 import com.sap.cloud.lm.sl.persistence.DataSourceWithDialect;
+import com.sap.cloud.lm.sl.persistence.message.Messages;
 import com.sap.cloud.lm.sl.persistence.model.FileEntry;
 import com.sap.cloud.lm.sl.persistence.processors.DefaultFileUploadProcessor;
 
@@ -147,14 +149,16 @@ public class FileSystemFileServiceTest extends DatabaseFileServiceTest {
 
     @Test
     public void testFileContentNotExisting() throws Exception {
-        String testFileDigest = DigestHelper.computeFileChecksum(Paths.get(TEST_FILE_LOCATION), DIGEST_METHOD)
+        String fileId = "not-existing-file-id";
+        String fileSpace = "not-existing-space-id";
+        String fileDigest = DigestHelper.computeFileChecksum(Paths.get(TEST_FILE_LOCATION), DIGEST_METHOD)
             .toLowerCase();
         FileEntry dummyFileEntry = new FileEntry();
-        dummyFileEntry.setId("not-existing-file-id");
-        dummyFileEntry.setSpace("not-existing-space-id");
+        dummyFileEntry.setId(fileId);
+        dummyFileEntry.setSpace(fileSpace);
         expectedException.expect(FileStorageException.class);
-        expectedException.expectMessage("File with id not-existing-file-id and space not-existing-space-id does not exist.");
-        validateFileContent(dummyFileEntry, testFileDigest);
+        expectedException.expectMessage(MessageFormat.format(Messages.FILE_WITH_ID_AND_SPACE_DOES_NOT_EXIST, fileId, fileSpace));
+        validateFileContent(dummyFileEntry, fileDigest);
     }
 
     @Override
