@@ -72,7 +72,7 @@ public class DatabaseFileService extends AbstractFileService {
 
     @Override
     public void processFileContent(final FileDownloadProcessor fileDownloadProcessor) throws FileStorageException {
-        deleteEntriesWithoutContent();
+        deleteFilesWithoutContent();
         try {
             getSqlExecutor().executeInSingleTransaction(new StatementExecutor<Void>() {
                 @Override
@@ -132,17 +132,17 @@ public class DatabaseFileService extends AbstractFileService {
 
     @Override
     public List<FileEntry> listFiles(String space, String namespace) throws FileStorageException {
-        deleteEntriesWithoutContent();
+        deleteFilesWithoutContent();
         return super.listFiles(space, namespace);
     }
 
     @Override
     public FileEntry getFile(String space, String id) throws FileStorageException {
-        deleteEntriesWithoutContent();
+        deleteFilesWithoutContent();
         return super.getFile(space, id);
     }
 
-    private int deleteEntriesWithoutContent() throws FileStorageException {
+    protected int deleteFilesWithoutContent() throws FileStorageException {
         try {
             return getSqlExecutor().execute(new StatementExecutor<Integer>() {
                 @Override
