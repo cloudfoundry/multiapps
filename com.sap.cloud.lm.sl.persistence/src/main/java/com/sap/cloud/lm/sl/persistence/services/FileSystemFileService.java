@@ -79,7 +79,7 @@ public class FileSystemFileService extends AbstractFileService {
         FileEntry fileEntry = fileDownloadProcessor.getFileEntry();
         if (deleteOrphanedFileAttributes(fileEntry)) {
             throw new FileStorageException(
-                MessageFormat.format(Messages.FILE_WITH_ID_DOES_NOT_EXIST, fileEntry.getId(), fileEntry.getSpace()));
+                MessageFormat.format(Messages.FILE_WITH_ID_AND_SPACE_DOES_NOT_EXIST, fileEntry.getId(), fileEntry.getSpace()));
         }
         InputStream fileContentStream = null;
         try {
