@@ -77,7 +77,7 @@ public class FileSystemFileService extends AbstractFileService {
     @Override
     public void processFileContent(FileDownloadProcessor fileDownloadProcessor) throws FileStorageException {
         FileEntry fileEntry = fileDownloadProcessor.getFileEntry();
-        if (removeOrphanedFileAttributes(fileEntry)) {
+        if (deleteOrphanedFileAttributes(fileEntry)) {
             throw new FileStorageException(
                 MessageFormat.format(Messages.FILE_WITH_ID_DOES_NOT_EXIST, fileEntry.getId(), fileEntry.getSpace()));
         }
@@ -135,13 +135,13 @@ public class FileSystemFileService extends AbstractFileService {
     @Override
     public List<FileEntry> listFiles(String space, String namespace) throws FileStorageException {
         List<FileEntry> allEntries = super.listFiles(space, namespace);
-        return removeOrhpanedFilesAttributes(allEntries);
+        return deleteOrhpanedFileAttributes(allEntries);
     }
 
     @Override
     public List<FileEntry> listByModificationTime(final Date modificationTime) throws FileStorageException {
         List<FileEntry> fileEntriesAttributes = super.listByModificationTime(modificationTime);
-        removeOrhpanedFilesAttributes(fileEntriesAttributes);
+        deleteOrhpanedFileAttributes(fileEntriesAttributes);
 
         final List<FileEntry> oldEntries = new ArrayList<FileEntry>();
         final FileTime modificationTimeUpperBound = FileTime.fromMillis(modificationTime.getTime());
@@ -166,20 +166,20 @@ public class FileSystemFileService extends AbstractFileService {
     @Override
     public FileEntry getFile(String space, String id) throws FileStorageException {
         FileEntry entry = super.getFile(space, id);
-        return removeOrphanedFileAttributes(entry) ? null : entry;
+        return deleteOrphanedFileAttributes(entry) ? null : entry;
     }
 
-    private List<FileEntry> removeOrhpanedFilesAttributes(List<FileEntry> entries) throws FileStorageException {
+    private List<FileEntry> deleteOrhpanedFileAttributes(List<FileEntry> entries) throws FileStorageException {
         List<FileEntry> entriesWithContent = new ArrayList<>();
         for (FileEntry entry : entries) {
-            if (!removeOrphanedFileAttributes(entry)) {
+            if (!deleteOrphanedFileAttributes(entry)) {
                 entriesWithContent.add(entry);
             }
         }
         return entriesWithContent;
     }
 
-    private boolean removeOrphanedFileAttributes(FileEntry entry) throws FileStorageException {
+    private boolean deleteOrphanedFileAttributes(FileEntry entry) throws FileStorageException {
         boolean shouldDelete = !hasContent(entry);
         if (shouldDelete) {
             deleteFileAttributes(entry.getSpace(), entry.getId());

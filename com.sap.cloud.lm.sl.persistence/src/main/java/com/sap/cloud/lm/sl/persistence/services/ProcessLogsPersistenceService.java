@@ -186,4 +186,12 @@ public class ProcessLogsPersistenceService extends DatabaseFileService {
         }
     }
 
+    @Override
+    protected int deleteFilesWithoutContent() throws FileStorageException {
+        // Files without content should only exist when switching from one implementation to another (FileSystemFileService ->
+        // DatabaseFileService, for example). There is no alternative implementation of ProcessLogsPersistenceService, so there shouldn't be
+        // any files without content.
+        return 0;
+    }
+
 }
