@@ -22,9 +22,8 @@ public final class Messages {
     public static final String ERROR_CALCULATING_FILE_DIGEST = "Error calculating digest for file {0}: {1}";
     public static final String ERROR_FINDING_FILE_TO_UPLOAD = "Error finding file to upload with name {0}: {1}";
     public static final String ERROR_READING_FILE_CONTENT = "Error reading content of file {0}: {1}";
-    public static final String ERROR_PROCESSING_CONTENT_OF_NON_EXISTING_FILE = "Could not process content of non existing file with name {0}";
-    public static final String FILE_WITH_ID_DOES_NOT_EXIST = "File with id {0} and space {1} does not exist.";
-    public static final String ERROR_DELETING_FILE_WITH_ID = "Error deleting file with id {0}";
+    public static final String FILE_WITH_ID_AND_SPACE_DOES_NOT_EXIST = "File with ID \"{0}\" and space \"{1}\" does not exist.";
+    public static final String ERROR_DELETING_FILE_WITH_ID = "Error deleting file with ID \"{0}\"";
     public static final String ERROR_DELETING_FILES_ATTRIBUTES = "Error deleting files attributes";
     public static final String ERROR_GETTING_FILES_WITH_SPACE_AND_NAMESPACE = "Error getting files with space {0} and namespace {1}";
     public static final String ERROR_GETTING_FILES_MODIFIED_BEFORE = "Error getting files modified before {0}";
@@ -46,7 +45,7 @@ public final class Messages {
     public static final String SCANNING_FILE = "Scanning file \"{0}\"...";
     public static final String SCANNING_FILE_SUCCESS = "File \"{0}\" is not infected";
     public static final String FAILED_TO_DELETE_FILE = "Failed to delete file {0}";
-    public static final String DELETING_FILE_IN_TABLE = "File id:{0} in space: {1} will be deleted from {2}.";
+    public static final String DELETING_FILE_IN_TABLE = "File \"{0}\" in space \"{1}\" will be deleted from \"{2}\".";
     public static final String INDEXING_PROCESS_IDS_OF_PROGRESS_MESSAGES = "Indexing process IDs of progress messages...";
     public static final String PROCESS_IDS_INDEXED = "Process IDs of progress messages indexed successfully!";
 
