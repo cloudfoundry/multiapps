@@ -135,13 +135,13 @@ public class FileSystemFileService extends AbstractFileService {
     @Override
     public List<FileEntry> listFiles(String space, String namespace) throws FileStorageException {
         List<FileEntry> allEntries = super.listFiles(space, namespace);
-        return deleteOrhpanedFileAttributes(allEntries);
+        return deleteOrphanedFileAttributes(allEntries);
     }
 
     @Override
     public List<FileEntry> listByModificationTime(final Date modificationTime) throws FileStorageException {
         List<FileEntry> fileEntriesAttributes = super.listByModificationTime(modificationTime);
-        deleteOrhpanedFileAttributes(fileEntriesAttributes);
+        deleteOrphanedFileAttributes(fileEntriesAttributes);
 
         final List<FileEntry> oldEntries = new ArrayList<FileEntry>();
         final FileTime modificationTimeUpperBound = FileTime.fromMillis(modificationTime.getTime());
@@ -169,7 +169,7 @@ public class FileSystemFileService extends AbstractFileService {
         return deleteOrphanedFileAttributes(entry) ? null : entry;
     }
 
-    private List<FileEntry> deleteOrhpanedFileAttributes(List<FileEntry> entries) throws FileStorageException {
+    private List<FileEntry> deleteOrphanedFileAttributes(List<FileEntry> entries) throws FileStorageException {
         List<FileEntry> entriesWithContent = new ArrayList<>();
         for (FileEntry entry : entries) {
             if (!deleteOrphanedFileAttributes(entry)) {
