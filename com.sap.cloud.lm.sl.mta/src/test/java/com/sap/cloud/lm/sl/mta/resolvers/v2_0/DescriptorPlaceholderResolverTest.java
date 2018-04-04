@@ -23,13 +23,13 @@ import com.sap.cloud.lm.sl.mta.resolvers.ResolverBuilder;
 @RunWith(value = Parameterized.class)
 public class DescriptorPlaceholderResolverTest {
 
-    private final String deploymentDescriptorLocation;
-    private final String platformLocation;
-    private final String targetLocation;
+    protected final String deploymentDescriptorLocation;
+    protected final String platformLocation;
+    protected final String targetLocation;
     private final String systemParametersLocation;
-    private final String expected;
+    protected final String expected;
 
-    private DescriptorPlaceholderResolver resolver;
+    protected DescriptorPlaceholderResolver resolver;
 
     @Parameters
     public static Iterable<Object[]> getParameters() {
@@ -122,23 +122,48 @@ public class DescriptorPlaceholderResolverTest {
 
     @Before
     public void initialize() throws Exception {
-        DescriptorParser descriptorParser = new DescriptorParser();
+        DescriptorParser descriptorParser = getDescriptorParser();
 
-        DeploymentDescriptor deploymentDescriptor = (DeploymentDescriptor) MtaTestUtil
-            .loadDeploymentDescriptor(deploymentDescriptorLocation, descriptorParser, getClass());
+        DeploymentDescriptor deploymentDescriptor = getDeploymentDescriptor(descriptorParser);
 
-        ConfigurationParser configurationParser = new ConfigurationParser();
+        ConfigurationParser configurationParser = getConfigurationParser();
 
-        Target target = (Target) MtaTestUtil.loadTargets(targetLocation, configurationParser, getClass())
-            .get(0);
-        Platform platform = (Platform) MtaTestUtil.loadPlatforms(platformLocation, configurationParser, getClass())
-            .get(0);
+        Target target = getTarget(configurationParser);
+        Platform platform = getPlatform(configurationParser);
 
         SystemParameters systemParameters = JsonUtil.fromJson(TestUtil.getResourceAsString(systemParametersLocation, getClass()),
             SystemParameters.class);
 
-        resolver = new DescriptorPlaceholderResolver(deploymentDescriptor, platform, target, systemParameters, new ResolverBuilder(),
+        resolver = getDescriptorPlaceholderResolver(deploymentDescriptor, target, platform, systemParameters);
+    }
+
+    protected DescriptorPlaceholderResolver getDescriptorPlaceholderResolver(DeploymentDescriptor deploymentDescriptor, Target target,
+        Platform platform, SystemParameters systemParameters) {
+        return new DescriptorPlaceholderResolver(deploymentDescriptor, platform, target, systemParameters, new ResolverBuilder(),
             new ResolverBuilder());
+    }
+
+    protected Platform getPlatform(ConfigurationParser configurationParser) {
+        return (Platform) MtaTestUtil.loadPlatforms(platformLocation, configurationParser, getClass())
+            .get(0);
+    }
+
+    protected Target getTarget(ConfigurationParser configurationParser) {
+        return (Target) MtaTestUtil.loadTargets(targetLocation, configurationParser, getClass())
+            .get(0);
+    }
+
+    protected ConfigurationParser getConfigurationParser() {
+        return new ConfigurationParser();
+    }
+
+    protected DeploymentDescriptor getDeploymentDescriptor(DescriptorParser descriptorParser) {
+        return (DeploymentDescriptor) MtaTestUtil
+            .loadDeploymentDescriptor(deploymentDescriptorLocation, descriptorParser, getClass());
+    }
+
+    protected DescriptorParser getDescriptorParser() {
+        return new DescriptorParser();
     }
 
     @Test
