@@ -21,15 +21,14 @@ public class DescriptorPlaceholderResolverTest extends com.sap.cloud.lm.sl.mta.r
 // @formatter:off
             // (00) Placeholder in parameters in provided dependencies:
             {
-                "mtad-01.yaml", "target.json", "platform-1.json", "system-parameters.json", "R:result-01.json",
+                "mtad-01.yaml", "platform-1.json", "R:result-01.json",
             },
 // @formatter:on
         });
     }
 
-    public DescriptorPlaceholderResolverTest(String deploymentDescriptorLocation, String targetLocation, String platformLocation,
-        String systemParametersLocation, String expected) {
-        super(deploymentDescriptorLocation, targetLocation, platformLocation, systemParametersLocation, expected);
+    public DescriptorPlaceholderResolverTest(String deploymentDescriptorLocation, String platformLocation, String expected) {
+        super(deploymentDescriptorLocation, platformLocation, expected);
     }
 
     @Override
