@@ -23,10 +23,11 @@ import com.sap.cloud.lm.sl.mta.resolvers.ResolverBuilder;
 @RunWith(value = Parameterized.class)
 public class DescriptorPlaceholderResolverTest {
 
+    protected static final String TARGET_LOCATION = "target.json";
+    protected static final String SYSTEM_PARAMETERS_LOCATION = "system-parameters.json";
+
     protected final String deploymentDescriptorLocation;
     protected final String platformLocation;
-    protected final String targetLocation;
-    private final String systemParametersLocation;
     protected final String expected;
 
     protected DescriptorPlaceholderResolver resolver;
@@ -37,86 +38,83 @@ public class DescriptorPlaceholderResolverTest {
 // @formatter:off
             // (00) Placeholder in requires dependency:
             {
-                "mtad-01.yaml", "target.json", "platform-1.json", "system-parameters.json", "R:result-01.json",
+                "mtad-01.yaml", "platform-1.json", "R:result-01.json",
             },
             // (01) Concatenation of placeholders:
             {
-                "mtad-02.yaml", "target.json", "platform-1.json", "system-parameters.json", "R:result-02.json",
+                "mtad-02.yaml", "platform-1.json",  "R:result-02.json",
             },
             // (02) Placeholder in extension descriptor properties:
             {
-                "mtad-03.yaml", "target.json", "platform-1.json", "system-parameters.json", "R:result-03.json",
+                "mtad-03.yaml",  "platform-1.json", "R:result-03.json",
             },
             // (03) Placeholder in module:
             {
-                "mtad-04.yaml", "target.json", "platform-1.json", "system-parameters.json", "R:result-04.json",
+                "mtad-04.yaml",  "platform-1.json", "R:result-04.json",
             },
             // (04) Placeholder in resource:
             {
-                "mtad-05.yaml", "target.json", "platform-1.json", "system-parameters.json", "R:result-05.json",
+                "mtad-05.yaml",  "platform-1.json",  "R:result-05.json",
             },
             // (05) Placeholder in provided dependency:
             {
-                "mtad-06.yaml", "target.json", "platform-1.json", "system-parameters.json", "R:result-06.json",
+                "mtad-06.yaml",  "platform-1.json",  "R:result-06.json",
             },
             // (06) Unable to resolve placeholder in requires dependency:
             {
-                "mtad-07.yaml", "target.json", "platform-1.json", "system-parameters.json", "E:Unable to resolve \"pricing#pricing-db#non-existing\"",
+                "mtad-07.yaml",  "platform-1.json",  "E:Unable to resolve \"pricing#pricing-db#non-existing\"",
             },
             // (07) Unable to resolve placeholder in extension descriptor properties:
             {
-                "mtad-08.yaml", "target.json", "platform-1.json", "system-parameters.json", "E:Unable to resolve \"non-existing\"",
+                "mtad-08.yaml",  "platform-1.json",  "E:Unable to resolve \"non-existing\"",
             },
             // (08) Unable to resolve placeholder in module:
             {
-                "mtad-09.yaml", "target.json", "platform-1.json", "system-parameters.json", "E:Unable to resolve \"pricing#non-existing\"",
+                "mtad-09.yaml",  "platform-1.json",  "E:Unable to resolve \"pricing#non-existing\"",
             },
             // (09) Placeholder in untyped resource:
             {
-                "mtad-10.yaml", "target.json", "platform-1.json", "system-parameters.json", "R:result-10.json",
+                "mtad-10.yaml",  "platform-1.json",  "R:result-10.json",
             },
             // (10) Placeholder in module type:
             {
-                "mtad-11.yaml", "target.json", "platform-2.json", "system-parameters.json", "R:result-11.json",
+                "mtad-11.yaml",  "platform-2.json", "R:result-11.json",
             },
             // (11) Circular reference in module type:
             {
-                "mtad-11.yaml", "target.json", "platform-3.json", "system-parameters.json", "E:Circular reference detected in \"pricing#pricing-db#baz\"",
+                "mtad-11.yaml",  "platform-3.json", "E:Circular reference detected in \"pricing#pricing-db#baz\"",
             },
             // (12) Placeholder in requires dependency (default-uri):
             {
-                "mtad-13.yaml", "target.json", "platform-1.json", "system-parameters.json", "R:result-13.json",
+                "mtad-13.yaml",  "platform-1.json", "R:result-13.json",
             },
             // (13) Placeholders in a map in resource parameters:
             {
-                "mtad-14.yaml", "target.json", "platform-1.json", "system-parameters.json", "R:result-14.json",
+                "mtad-14.yaml",  "platform-1.json",  "R:result-14.json",
             },
             // (14) Placeholders in a list in a map in resource parameters:
             {
-                "mtad-15.yaml", "target.json", "platform-1.json", "system-parameters.json", "R:result-15.json",
+                "mtad-15.yaml",  "platform-1.json",  "R:result-15.json",
             },
             // (15) Circular reference in a module parameter:
             {
-                "mtad-16.yaml", "target.json", "platform-1.json", "system-parameters.json", "E:Circular reference detected in \"foo#bar#test_1\"",
+                "mtad-16.yaml",  "platform-1.json",  "E:Circular reference detected in \"foo#bar#test_1\"",
             },
             // (16) Circular reference in a module parameter:
             {
-                "mtad-17.yaml", "target.json", "platform-1.json", "system-parameters.json", "E:Circular reference detected in \"foo#test_1\"",
+                "mtad-17.yaml",  "platform-1.json",  "E:Circular reference detected in \"foo#test_1\"",
             },
             // (17) Global mta parameters to be resolved in lower scopes
             {
-                "mtad-18.yaml", "target.json", "platform-1.json", "system-parameters.json", "R:result-16.json",  
+                "mtad-18.yaml",  "platform-1.json", "R:result-16.json",  
             },
 // @formatter:on
         });
     }
 
-    public DescriptorPlaceholderResolverTest(String deploymentDescriptorLocation, String targetLocation, String platformLocation,
-        String systemParametersLocation, String expected) {
+    public DescriptorPlaceholderResolverTest(String deploymentDescriptorLocation, String platformLocation, String expected) {
         this.deploymentDescriptorLocation = deploymentDescriptorLocation;
         this.platformLocation = platformLocation;
-        this.targetLocation = targetLocation;
-        this.systemParametersLocation = systemParametersLocation;
         this.expected = expected;
     }
 
@@ -131,7 +129,7 @@ public class DescriptorPlaceholderResolverTest {
         Target target = getTarget(configurationParser);
         Platform platform = getPlatform(configurationParser);
 
-        SystemParameters systemParameters = JsonUtil.fromJson(TestUtil.getResourceAsString(systemParametersLocation, getClass()),
+        SystemParameters systemParameters = JsonUtil.fromJson(TestUtil.getResourceAsString(SYSTEM_PARAMETERS_LOCATION, getClass()),
             SystemParameters.class);
 
         resolver = getDescriptorPlaceholderResolver(deploymentDescriptor, target, platform, systemParameters);
@@ -149,7 +147,7 @@ public class DescriptorPlaceholderResolverTest {
     }
 
     protected Target getTarget(ConfigurationParser configurationParser) {
-        return (Target) MtaTestUtil.loadTargets(targetLocation, configurationParser, getClass())
+        return (Target) MtaTestUtil.loadTargets(TARGET_LOCATION, configurationParser, getClass())
             .get(0);
     }
 
@@ -158,8 +156,7 @@ public class DescriptorPlaceholderResolverTest {
     }
 
     protected DeploymentDescriptor getDeploymentDescriptor(DescriptorParser descriptorParser) {
-        return (DeploymentDescriptor) MtaTestUtil
-            .loadDeploymentDescriptor(deploymentDescriptorLocation, descriptorParser, getClass());
+        return (DeploymentDescriptor) MtaTestUtil.loadDeploymentDescriptor(deploymentDescriptorLocation, descriptorParser, getClass());
     }
 
     protected DescriptorParser getDescriptorParser() {
