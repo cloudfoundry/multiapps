@@ -87,6 +87,34 @@ public class ProgressMessageServiceTest {
     }
 
     @Test
+    public void testUpdate() {
+        final String PROCESS_ID = "test-update-processId";
+        final String TASK_ID = "test-update-taskId";
+        final String TASK_EXECUTION_ID = "test-update-executionId";
+
+        ProgressMessage progressMessage = new ProgressMessage(PROCESS_ID, TASK_ID, TASK_EXECUTION_ID,
+            ProgressMessageType.INFO, "test-update-info-message", new Timestamp(System.currentTimeMillis()));
+        boolean insertSuccess = service.add(progressMessage);
+        assertTrue(insertSuccess);
+
+        List<ProgressMessage> allMessages = service.findAll();
+        assertEquals(5, allMessages.size());
+
+        List<ProgressMessage> messagesByProcessId = service.findByProcessId(PROCESS_ID);
+        assertEquals(1, messagesByProcessId.size());
+        ProgressMessage messageToUpdate = messagesByProcessId.get(0);
+
+        ProgressMessage updatedProgressMessage = new ProgressMessage(PROCESS_ID, TASK_ID, TASK_EXECUTION_ID, ProgressMessageType.INFO,
+            "test-update-new-info-message", new Timestamp(System.currentTimeMillis()));
+        boolean updateSuccess = service.update(messageToUpdate.getId(), updatedProgressMessage);
+        assertTrue(updateSuccess);
+
+        allMessages = service.findAll();
+        assertEquals(5, allMessages.size());
+        assertSameProgressMessage(updatedProgressMessage, allMessages.get(allMessages.size() - 1));
+    }
+
+    @Test
     public void testFindByProcessId() {
         List<ProgressMessage> messages = service.findByProcessId(PROCESS_INSTANCE_ID_1);
         assertEquals(2, messages.size());
