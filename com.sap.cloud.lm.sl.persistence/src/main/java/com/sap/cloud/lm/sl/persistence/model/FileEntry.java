@@ -89,4 +89,10 @@ public class FileEntry {
         this.modified = modified;
     }
 
+    @Override
+    public String toString() {
+        return "FileEntry [id=" + id + ", name=" + name + ", namespace=" + namespace + ", space=" + space + ", digest="
+            + digest + ", modified=" + modified + "]";
+    }
+
 }

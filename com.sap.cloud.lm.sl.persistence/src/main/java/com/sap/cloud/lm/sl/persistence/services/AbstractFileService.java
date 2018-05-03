@@ -163,6 +163,7 @@ public abstract class AbstractFileService {
             scanUpload(fileUpload);
         }
         FileEntry fileEntry = createFileEntry(space, namespace, name, fileUpload);
+        LOGGER.info("{} : created", fileEntry);
         storeFile(fileEntry, fileUpload);
         return fileEntry;
     }
@@ -349,7 +350,9 @@ public abstract class AbstractFileService {
                         }
                         resultSet = statement.executeQuery();
                         while (resultSet.next()) {
-                            files.add(getFileEntry(resultSet));
+                            FileEntry fileEntry = getFileEntry(resultSet);
+                            LOGGER.info("{} : founded", fileEntry);
+                            files.add(fileEntry);
                         }
                         return files;
                     } finally {
@@ -409,7 +412,9 @@ public abstract class AbstractFileService {
                         statement.setString(2, space);
                         resultSet = statement.executeQuery();
                         if (resultSet.next()) {
-                            return getFileEntry(resultSet);
+                            FileEntry fileEntry = getFileEntry(resultSet);
+                            LOGGER.info("{} : founded", fileEntry);
+                            return fileEntry;
                         }
                         return null;
                     } finally {
