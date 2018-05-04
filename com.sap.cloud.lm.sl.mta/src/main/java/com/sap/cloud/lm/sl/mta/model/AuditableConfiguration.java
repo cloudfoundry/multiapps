@@ -6,7 +6,7 @@ public interface AuditableConfiguration {
 
     public String getConfigurationType();
 
-    public String getConfiguratioName();
+    public String getConfigurationName();
 
     public List<ConfigurationIdentifier> getConfigurationIdentifiers();
 
