@@ -177,7 +177,7 @@ public class Target implements VisitableElement, NamedElement, PropertiesContain
     }
 
     @Override
-    public String getConfiguratioName() {
+    public String getConfigurationName() {
         return name;
     }
 
