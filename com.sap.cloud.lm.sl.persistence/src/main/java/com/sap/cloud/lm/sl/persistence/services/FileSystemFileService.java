@@ -84,6 +84,7 @@ public class FileSystemFileService extends AbstractFileService {
         InputStream fileContentStream = null;
         try {
             Path filePathLocation = getFilePath(fileDownloadProcessor.getFileEntry());
+            LOGGER.info("FilePath of processed FileContent:{}", filePathLocation);
             fileContentStream = Files.newInputStream(filePathLocation);
             fileDownloadProcessor.processContent(fileContentStream);
         } catch (Exception e) {
@@ -166,6 +167,9 @@ public class FileSystemFileService extends AbstractFileService {
     @Override
     public FileEntry getFile(String space, String id) throws FileStorageException {
         FileEntry entry = super.getFile(space, id);
+        if (entry == null) {
+            return null;
+        }
         return deleteOrphanedFileAttributes(entry) ? null : entry;
     }
 
