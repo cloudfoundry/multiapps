@@ -14,11 +14,6 @@
 
     <dependencies>
         <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
             <groupId>com.vdurmont</groupId>
             <artifactId>semver4j</artifactId>
         </dependency>
