@@ -71,7 +71,7 @@ public class Module extends com.sap.cloud.lm.sl.mta.model.v1_0.Module implements
         setRequiredDependencies(requiredDependencies);
     }
 
-    protected void setRequiredDependencies(List<? extends com.sap.cloud.lm.sl.mta.model.v2_0.RequiredDependency> requiredDependencies) {
+    public void setRequiredDependencies(List<? extends com.sap.cloud.lm.sl.mta.model.v2_0.RequiredDependency> requiredDependencies) {
         this.requiredDependencies2_0 = ListUtil.cast(requiredDependencies);
     }
 

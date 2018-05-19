@@ -44,7 +44,7 @@ public class Module extends com.sap.cloud.lm.sl.mta.model.v2_0.Module {
     }
 
     @Override
-    protected void setRequiredDependencies(List<? extends com.sap.cloud.lm.sl.mta.model.v2_0.RequiredDependency> requiredDependencies) {
+    public void setRequiredDependencies(List<? extends com.sap.cloud.lm.sl.mta.model.v2_0.RequiredDependency> requiredDependencies) {
         this.requiredDependencies3_0 = ListUtil.cast(requiredDependencies);
     }
 
