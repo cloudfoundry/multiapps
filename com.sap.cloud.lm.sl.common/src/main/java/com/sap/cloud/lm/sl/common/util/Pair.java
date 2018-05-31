@@ -1,5 +1,12 @@
 package com.sap.cloud.lm.sl.common.util;
 
+/**
+ * @deprecated, Use objects with proper names and purpose instead
+ * 
+ * @param T1 something's type
+ * @param T2 probably something else's
+ */
+@Deprecated
 public class Pair<T1, T2> {
     public final T1 _1;
     public final T2 _2;
