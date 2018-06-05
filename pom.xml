@@ -19,7 +19,7 @@
         <sonar.dynamicAnalysis>reuseReports</sonar.dynamicAnalysis>
         <sonar.jacoco.reportPath>target/jacoco.exec</sonar.jacoco.reportPath>
         <h2database.version>1.4.190</h2database.version>
-        <liquibase.version>3.4.1</liquibase.version>
+        <liquibase.version>3.6.1</liquibase.version>
         <spring.version>4.3.15.RELEASE</spring.version>
         <servlet.api.version>4.0.0</servlet.api.version>
         <jax-rs.version>2.0.1</jax-rs.version>
