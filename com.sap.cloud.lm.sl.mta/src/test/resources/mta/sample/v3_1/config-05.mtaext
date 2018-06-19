@@ -1,6 +1,6 @@
-_schema-version: "3"
-ID: com.sap.mta.sample.v2.config-05
-extends: com.sap.mta.sample.v2
+_schema-version: "3.1"
+ID: com.sap.mta.sample.v3.config-05
+extends: com.sap.mta.sample.v3
 
 targets: [CF-PROD]
 
@@ -8,3 +8,9 @@ modules:
   - name: web-server
     parameters:
       test: bug
+
+resources:
+  - name: competitor-data
+
+  - name: plugin-provider
+    active: false

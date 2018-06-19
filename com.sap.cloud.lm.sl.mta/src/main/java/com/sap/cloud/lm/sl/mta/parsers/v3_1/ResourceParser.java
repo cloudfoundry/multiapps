@@ -17,6 +17,7 @@ import com.sap.cloud.lm.sl.mta.schema.MapElement;
 
 public class ResourceParser extends com.sap.cloud.lm.sl.mta.parsers.v3_0.ResourceParser {
 
+    public static final String ACTIVE = "active";
     public static final String PROPERTIES_METADATA = "properties-metadata";
     public static final String PARAMETERS_METADATA = "parameters-metadata";
     public static final String REQUIRES = "requires";
@@ -38,6 +39,7 @@ public class ResourceParser extends com.sap.cloud.lm.sl.mta.parsers.v3_0.Resourc
         builder.setName(getName());
         builder.setDescription(getDescription());
         builder.setType(getType());
+        builder.setActive(getActive());
         builder.setProperties(getProperties());
         builder.setParameters(getParameters());
         builder.setParametersMetadata(getParametersMetadata());
@@ -45,6 +47,10 @@ public class ResourceParser extends com.sap.cloud.lm.sl.mta.parsers.v3_0.Resourc
         builder.setRequiredDependencies(getRequiredDependencies());
         builder.setOptional(getOptional());
         return builder.build();
+    }
+
+    protected Boolean getActive() {
+        return getBooleanElement(ACTIVE);
     }
 
     protected Metadata getPropertiesMetadata() {

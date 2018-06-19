@@ -63,15 +63,15 @@ modules:
 
 resources:
   - name: pricing-db-service
-    type: com.sap.hana.hdi-container
     active: true
+    type: com.sap.hana.hdi-container
 
   - name: internal-odata-service
-    type: com.sap.user-provided
     active: true
+    type: com.sap.user-provided
 
   - name: competitor-data
-    active: false
+    active: true
     properties:
       url: "https://marketwatch.il/v2/"
       application-key:
