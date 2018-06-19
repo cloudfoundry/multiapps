@@ -75,6 +75,7 @@ public class Schemas extends com.sap.cloud.lm.sl.mta.handlers.v3_0.Schemas {
 
         RESOURCE.add("name", UNIQUE_MTA_IDENTIFIER);
         RESOURCE.add("type", STRING);
+        RESOURCE.add("active", BOOLEAN);
         RESOURCE.add("description", STRING);
         RESOURCE.add("optional", BOOLEAN);
         RESOURCE.add("properties", PROPERTIES);
@@ -107,6 +108,7 @@ public class Schemas extends com.sap.cloud.lm.sl.mta.handlers.v3_0.Schemas {
         EXT_REQUIRED_DEPENDENCY.add("parameters", PROPERTIES);
 
         EXT_RESOURCE.add("name", UNIQUE_MTA_IDENTIFIER);
+        EXT_RESOURCE.add("active", BOOLEAN);
         EXT_RESOURCE.add("properties", PROPERTIES);
         EXT_RESOURCE.add("parameters", PROPERTIES);
         EXT_RESOURCE.add("requires", new ListElement(EXT_REQUIRED_DEPENDENCY));

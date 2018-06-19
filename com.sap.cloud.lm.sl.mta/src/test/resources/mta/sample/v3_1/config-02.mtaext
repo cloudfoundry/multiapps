@@ -1,6 +1,6 @@
 _schema-version: "3"
-ID: com.sap.mta.sample.v2.config-02 
-extends: com.sap.mta.sample.v2
+ID: com.sap.mta.sample.v3.config-02 
+extends: com.sap.mta.sample.v3
 
 modules:
   - name: web-serverx

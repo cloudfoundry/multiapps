@@ -1,4 +1,4 @@
-_schema-version: "3.1.0"
+_schema-version: "3"
 ID: com.sap.mta.sample.v3
 version: 1.2.1-beta+20150403144937853
 
@@ -13,17 +13,19 @@ modules:
           odata.svc_root: ~{odata.svc_root}
       - name: internal-odata-service
         group: configuration
+      - name: plugin-provider
+        list: plugins
+        properties:
+          plugin-name: ~{plugin-name}
+          plugin-url: ~{plugin-url}
     properties:
       docu-url: &docu-url "http://help.sap.com/saphelp_nw74/en/5c"
       default-locale: &default-locale ""
-      test:
     parameters:
       host: www
       domain: bestprice.sap.com
-    properties-metadata:
-      test:
-        overwritable: false
-        optional: false
+      version-number: '7.20'    # because this is a floating-point number it would resolve into 7.2 which is mathematically the same; to avoid this unwanted behavior explicitly declare it as string with surrounding single quotes
+      version-tag: v7.20        # because of the letter 'v' the value type is identified as string 
 
   - name: pricing
     type: org.nodejs
@@ -61,16 +63,27 @@ modules:
 
 resources:
   - name: pricing-db-service
-    type: com.sap.hana.hdi-containerx
+    active: true
+    type: com.sap.hana.hdi-container
 
   - name: internal-odata-service
+    active: true
     type: com.sap.user-provided
 
   - name: competitor-data
+    active: true
     properties:
       url: "https://marketwatch.il/v2/"
       application-key:
       secret-key:
+  - name: plugin-provider
+    type: configuration
+    parameters:
+      filter:
+         type: com.acme.plugin
+    properties:
+      plugin-name: ${name}
+      plugin-url: ${url}/sources
 
 parameters:
   com.sap.releaseMetadataRefGuid: c6bc22d0-48b4-47d1-9fd4

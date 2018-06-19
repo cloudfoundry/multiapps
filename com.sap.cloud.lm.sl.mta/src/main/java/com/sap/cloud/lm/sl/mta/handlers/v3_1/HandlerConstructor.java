@@ -3,6 +3,7 @@ package com.sap.cloud.lm.sl.mta.handlers.v3_1;
 import static com.sap.cloud.lm.sl.common.util.CommonUtil.cast;
 
 import com.sap.cloud.lm.sl.common.ContentException;
+import com.sap.cloud.lm.sl.mta.handlers.v3_1.DescriptorMerger;
 import com.sap.cloud.lm.sl.mta.model.SystemParameters;
 import com.sap.cloud.lm.sl.mta.model.v1_0.DeploymentDescriptor;
 import com.sap.cloud.lm.sl.mta.model.v1_0.Platform;
@@ -25,6 +26,11 @@ public class HandlerConstructor extends com.sap.cloud.lm.sl.mta.handlers.v3_0.Ha
         return new ConfigurationParser();
     }
 
+    @Override
+    public DescriptorMerger getDescriptorMerger() {
+        return new DescriptorMerger(getDescriptorHandler());
+    }
+    
     @Override
     public DescriptorValidator getDescriptorValidator() {
         return new DescriptorValidator();

@@ -35,11 +35,11 @@ public class DescriptorValidatorTest extends com.sap.cloud.lm.sl.mta.handlers.v2
             },
             // (03) With unknown module in ext descriptor:
             {
-                "/mta/sample/v3_1/mtad-02.yaml", new String[] { "/mta/sample/v3_1/config-02.mtaext" }, null, null, new String[] { "S", "E:Unknown module \"web-serverx\" in extension descriptor \"com.sap.mta.sample.v2.config-02\"", "S", },
+                "/mta/sample/v3_1/mtad-02.yaml", new String[] { "/mta/sample/v3_1/config-02.mtaext" }, null, null, new String[] { "S", "E:Unknown module \"web-serverx\" in extension descriptor \"com.sap.mta.sample.v3.config-02\"", "S", },
             },
             // (04) With non-modifiable property in the descriptor:
             {
-                "/mta/sample/v3_1/mtad-02.yaml", new String[] { "/mta/sample/v3_1/config-03.mtaext" }, null, null, new String[] { "S", "E:Cannot modify property \"web-server#test\" in extension descriptor \"com.sap.mta.sample.v2.config-03\"", "S", },
+                "/mta/sample/v3_1/mtad-02.yaml", new String[] { "/mta/sample/v3_1/config-03.mtaext" }, null, null, new String[] { "S", "E:Cannot modify property \"web-server#test\" in extension descriptor \"com.sap.mta.sample.v3.config-03\"", "S", },
             },
             // (05) With empty parameter in the deployment descriptor which cannot be overwritten:
             {
@@ -47,7 +47,7 @@ public class DescriptorValidatorTest extends com.sap.cloud.lm.sl.mta.handlers.v2
             },
             // (06) With overwriteable parameter in the deployment descriptor:
             {
-                "/mta/sample/v3_1/mtad-03.yaml", new String[] { "/mta/sample/v3_1/config-05.mtaext" }, null, null, new String[] { "", "E:Cannot modify parameter \"web-server#test\" in extension descriptor \"com.sap.mta.sample.v2.config-05\"", "S", },
+                "/mta/sample/v3_1/mtad-03.yaml", new String[] { "/mta/sample/v3_1/config-05.mtaext" }, null, null, new String[] { "", "E:Cannot modify parameter \"web-server#test\" in extension descriptor \"com.sap.mta.sample.v3.config-05\"", "S", },
             },
             // (07) With non-overwritable parameter in the merged descriptor:
             {
@@ -55,7 +55,7 @@ public class DescriptorValidatorTest extends com.sap.cloud.lm.sl.mta.handlers.v2
             },
             // (08) With overwriteable parameter in the descriptor:
             {
-                "/mta/sample/v3_1/mtad-04.yaml", new String[] { "/mta/sample/v3_1/config-06.mtaext" }, null, null, new String[] { "", "E:Cannot modify parameter \"web-server#test\" in extension descriptor \"com.sap.mta.sample.v2.config-05\"", "S", },
+                "/mta/sample/v3_1/mtad-04.yaml", new String[] { "/mta/sample/v3_1/config-06.mtaext" }, null, null, new String[] { "", "E:Cannot modify parameter \"web-server#test\" in extension descriptor \"com.sap.mta.sample.v3.config-05\"", "S", },
             },
             // (09) Merged descriptor contains properties and parameters with empty values (but not null):
             {
