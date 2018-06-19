@@ -73,6 +73,7 @@
   ],
   "resources3_1": [
     {
+      "active": true,
       "propertiesMetadata": {
         "metadata": {
           "test-property": {

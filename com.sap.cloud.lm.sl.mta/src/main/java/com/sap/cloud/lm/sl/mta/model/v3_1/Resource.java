@@ -19,6 +19,8 @@ import com.sap.cloud.lm.sl.mta.util.YamlElement;
 public class Resource extends com.sap.cloud.lm.sl.mta.model.v3_0.Resource
     implements ParametersWithMetadataContainer, PropertiesWithMetadataContainer {
 
+    @YamlElement(ResourceParser.ACTIVE)
+    private Boolean active = true;
     @YamlElement(ResourceParser.PROPERTIES_METADATA)
     @YamlAdapter(MetadataConverter.class)
     private Metadata propertiesMetadata;
@@ -30,6 +32,14 @@ public class Resource extends com.sap.cloud.lm.sl.mta.model.v3_0.Resource
     private boolean isOptional;
 
     protected Resource() {
+    }
+
+    public void setActive(Boolean active) {
+        this.active = active;
+    }
+
+    public Boolean getActive() {
+        return active;
     }
 
     @Override
@@ -80,6 +90,7 @@ public class Resource extends com.sap.cloud.lm.sl.mta.model.v3_0.Resource
     public Resource copyOf() {
         Builder result = new Builder();
         result.setName(getName());
+        result.setActive(getActive());
         result.setType(getType());
         result.setDescription(getDescription());
         result.setProperties(getProperties());
@@ -101,6 +112,7 @@ public class Resource extends com.sap.cloud.lm.sl.mta.model.v3_0.Resource
 
     public static class Builder extends com.sap.cloud.lm.sl.mta.model.v3_0.Resource.Builder {
 
+        protected Boolean active = true;
         protected Metadata propertiesMetadata;
         protected Metadata parametersMetadata;
         private List<RequiredDependency> requiredDependencies;
@@ -111,6 +123,7 @@ public class Resource extends com.sap.cloud.lm.sl.mta.model.v3_0.Resource
             Resource result = new Resource();
             result.setName(name);
             result.setType(type);
+            result.setActive(getOrDefault(active, true));
             result.setDescription(description);
             result.setProperties(getOrDefault(properties, Collections.<String, Object> emptyMap()));
             result.setParameters(getOrDefault(parameters, Collections.<String, Object> emptyMap()));
@@ -119,6 +132,10 @@ public class Resource extends com.sap.cloud.lm.sl.mta.model.v3_0.Resource
             result.setRequiredDependencies3_1(requiredDependencies);
             result.setOptional(getOrDefault(isOptional, false));
             return result;
+        }
+
+        public void setActive(Boolean active) {
+            this.active = active;
         }
 
         public void setPropertiesMetadata(Metadata propertiesMetadata) {

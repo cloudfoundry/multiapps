@@ -111,6 +111,7 @@
   ],
   "resources3_1": [
     {
+      "active": true,
       "propertiesMetadata": {
         "metadata": {
           "resourceSensitiveProperty": {
@@ -145,6 +146,7 @@
       }
     },
     {
+      "active": true,
       "propertiesMetadata": {
         "metadata": {}
       },

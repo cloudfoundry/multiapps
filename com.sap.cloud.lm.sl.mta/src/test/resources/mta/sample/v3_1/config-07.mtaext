@@ -29,6 +29,7 @@ resources:
       password: "shfzj86g"
 
   - name: competitor-data
+    active: false
     properties:
       application-key: "25892e17-80f6-415f-9c65-7395632f0223"
       secret-key: "cd171f7c-560d-4a62-8d65-16b87419a58c"
