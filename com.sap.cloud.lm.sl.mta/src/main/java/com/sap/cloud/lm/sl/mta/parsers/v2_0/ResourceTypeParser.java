@@ -6,7 +6,7 @@ import java.util.Map;
 
 import com.sap.cloud.lm.sl.common.ParsingException;
 import com.sap.cloud.lm.sl.mta.model.v2_0.PlatformResourceType;
-import com.sap.cloud.lm.sl.mta.model.v2_0.PlatformResourceType.PlatformResourceTypeBuilder;
+import com.sap.cloud.lm.sl.mta.model.v2_0.PlatformResourceType.Builder;
 import com.sap.cloud.lm.sl.mta.schema.MapElement;
 
 public class ResourceTypeParser extends com.sap.cloud.lm.sl.mta.parsers.v1_0.ResourceTypeParser {
@@ -23,7 +23,7 @@ public class ResourceTypeParser extends com.sap.cloud.lm.sl.mta.parsers.v1_0.Res
 
     @Override
     public PlatformResourceType parse() throws ParsingException {
-        PlatformResourceTypeBuilder builder = new PlatformResourceTypeBuilder();
+        Builder builder = new Builder();
         builder.setName(getName());
         builder.setResourceManager(getResourceManager());
         builder.setParameters(getParameters());

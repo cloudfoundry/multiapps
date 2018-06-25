@@ -10,7 +10,7 @@ import com.sap.cloud.lm.sl.common.SLException;
 import com.sap.cloud.lm.sl.common.util.ListUtil;
 import com.sap.cloud.lm.sl.mta.model.Metadata;
 import com.sap.cloud.lm.sl.mta.model.v3_1.DeploymentDescriptor;
-import com.sap.cloud.lm.sl.mta.model.v3_1.DeploymentDescriptor.DeploymentDescriptorBuilder;
+import com.sap.cloud.lm.sl.mta.model.v3_1.DeploymentDescriptor.Builder;
 import com.sap.cloud.lm.sl.mta.model.v3_1.Module;
 import com.sap.cloud.lm.sl.mta.model.v3_1.Resource;
 import com.sap.cloud.lm.sl.mta.schema.MapElement;
@@ -29,7 +29,7 @@ public class DeploymentDescriptorParser extends com.sap.cloud.lm.sl.mta.parsers.
 
     @Override
     public DeploymentDescriptor parse() throws ParsingException {
-        DeploymentDescriptorBuilder builder = new DeploymentDescriptorBuilder();
+        Builder builder = new Builder();
         builder.setId(getId());
         builder.setDescription(getDescription());
         builder.setVersion(getVersion());

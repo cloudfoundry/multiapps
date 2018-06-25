@@ -35,15 +35,16 @@ public class ProvidedDependency extends com.sap.cloud.lm.sl.mta.model.v1_0.Provi
         throw new UnsupportedOperationException();
     }
 
+    @Override
     public ProvidedDependency copyOf() {
-        ProvidedDependencyBuilder result = new ProvidedDependencyBuilder();
+        Builder result = new Builder();
         result.setName(getName());
         result.setPublic(isPublic());
         result.setProperties(getProperties());
         return result.build();
     }
 
-    public static class ProvidedDependencyBuilder extends com.sap.cloud.lm.sl.mta.model.v1_0.ProvidedDependency.ProvidedDependencyBuilder {
+    public static class Builder extends com.sap.cloud.lm.sl.mta.model.v1_0.ProvidedDependency.Builder {
 
         protected Boolean isPublic;
 

@@ -50,6 +50,7 @@ public class ExtensionModule extends com.sap.cloud.lm.sl.mta.model.v1_0.Extensio
         return providedDependencies2_0;
     }
 
+    @Override
     public void setParameters(Map<String, Object> parameters) {
         this.parameters = new LinkedHashMap<>(parameters);
     }
@@ -81,7 +82,7 @@ public class ExtensionModule extends com.sap.cloud.lm.sl.mta.model.v1_0.Extensio
         }
     }
 
-    public static class ExtensionModuleBuilder extends com.sap.cloud.lm.sl.mta.model.v1_0.ExtensionModule.ExtensionModuleBuilder {
+    public static class Builder extends com.sap.cloud.lm.sl.mta.model.v1_0.ExtensionModule.Builder {
 
         protected Map<String, Object> parameters;
         protected List<ExtensionRequiredDependency> requiredDependencies2_0;

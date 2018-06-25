@@ -34,7 +34,7 @@ public class ExtensionResource extends com.sap.cloud.lm.sl.mta.model.v3_0.Extens
         this.setRequiredDependencies(requiredDependencies3_1);
     }
 
-    public static class ExtensionResourceBuilder extends com.sap.cloud.lm.sl.mta.model.v3_0.ExtensionResource.ExtensionResourceBuilder {
+    public static class ExtensionResourceBuilder extends com.sap.cloud.lm.sl.mta.model.v3_0.ExtensionResource.Builder {
 
         private List<ExtensionRequiredDependency> requiredDependencies;
 

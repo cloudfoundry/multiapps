@@ -9,7 +9,6 @@ import java.util.Map;
 
 import com.sap.cloud.lm.sl.common.util.ListUtil;
 import com.sap.cloud.lm.sl.common.util.MapUtil;
-import com.sap.cloud.lm.sl.mta.builders.Builder;
 import com.sap.cloud.lm.sl.mta.model.ElementContext;
 import com.sap.cloud.lm.sl.mta.model.NamedElement;
 import com.sap.cloud.lm.sl.mta.model.PropertiesContainer;
@@ -112,7 +111,7 @@ public class Platform implements VisitableElement, NamedElement, PropertiesConta
         }
     }
 
-    public static class PlatformBuilder implements Builder<Platform> {
+    public static class Builder {
 
         protected String name;
         protected String version;
@@ -121,7 +120,6 @@ public class Platform implements VisitableElement, NamedElement, PropertiesConta
         protected List<PlatformModuleType> moduleTypes1_0;
         protected List<PlatformResourceType> resourceTypes1_0;
 
-        @Override
         public Platform build() {
             Platform result = new Platform();
             result.setName(name);

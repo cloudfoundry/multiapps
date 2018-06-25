@@ -11,7 +11,7 @@ import com.sap.cloud.lm.sl.common.ParsingException;
 import com.sap.cloud.lm.sl.mta.model.Metadata;
 import com.sap.cloud.lm.sl.mta.model.v3_1.RequiredDependency;
 import com.sap.cloud.lm.sl.mta.model.v3_1.Resource;
-import com.sap.cloud.lm.sl.mta.model.v3_1.Resource.ResourceBuilder;
+import com.sap.cloud.lm.sl.mta.model.v3_1.Resource.Builder;
 import com.sap.cloud.lm.sl.mta.parsers.ListParser;
 import com.sap.cloud.lm.sl.mta.schema.MapElement;
 
@@ -34,7 +34,7 @@ public class ResourceParser extends com.sap.cloud.lm.sl.mta.parsers.v3_0.Resourc
 
     @Override
     public Resource parse() throws ParsingException {
-        ResourceBuilder builder = new ResourceBuilder();
+        Builder builder = new Builder();
         builder.setName(getName());
         builder.setDescription(getDescription());
         builder.setType(getType());

@@ -80,12 +80,14 @@ public class DeploymentDescriptor extends com.sap.cloud.lm.sl.mta.model.v1_0.Dep
         throw new UnsupportedOperationException();
     }
 
+    @Override
     public void setParameters(Map<String, Object> parameters) {
         this.parameters = new LinkedHashMap<>(parameters);
     }
 
+    @Override
     public DeploymentDescriptor copyOf() {
-        DeploymentDescriptorBuilder result = new DeploymentDescriptorBuilder();
+        Builder result = new Builder();
         result.setId(getId());
         result.setProvider(getProvider());
         result.setDescription(getDescription());
@@ -106,8 +108,7 @@ public class DeploymentDescriptor extends com.sap.cloud.lm.sl.mta.model.v1_0.Dep
         return result.build();
     }
 
-    public static class DeploymentDescriptorBuilder
-        extends com.sap.cloud.lm.sl.mta.model.v1_0.DeploymentDescriptor.DeploymentDescriptorBuilder {
+    public static class Builder extends com.sap.cloud.lm.sl.mta.model.v1_0.DeploymentDescriptor.Builder {
 
         protected List<Module> modules2_0;
         protected List<Resource> resources2_0;

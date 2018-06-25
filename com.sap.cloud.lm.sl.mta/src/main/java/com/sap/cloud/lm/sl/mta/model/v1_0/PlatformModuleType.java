@@ -7,7 +7,6 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 import com.sap.cloud.lm.sl.common.util.MapUtil;
-import com.sap.cloud.lm.sl.mta.builders.Builder;
 import com.sap.cloud.lm.sl.mta.model.ElementContext;
 import com.sap.cloud.lm.sl.mta.model.NamedElement;
 import com.sap.cloud.lm.sl.mta.model.PropertiesContainer;
@@ -54,13 +53,12 @@ public class PlatformModuleType implements VisitableElement, NamedElement, Prope
         visitor.visit(context, this);
     }
 
-    public static class PlatformModuleTypeBuilder implements Builder<PlatformModuleType> {
+    public static class Builder {
 
         protected String name;
         protected String deployer;
         protected Map<String, Object> properties;
 
-        @Override
         public PlatformModuleType build() {
             PlatformModuleType result = new PlatformModuleType();
             result.setName(name);

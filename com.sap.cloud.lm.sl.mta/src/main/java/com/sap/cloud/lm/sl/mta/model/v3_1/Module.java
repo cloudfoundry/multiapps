@@ -69,24 +69,29 @@ public class Module extends com.sap.cloud.lm.sl.mta.model.v3_0.Module
         this.providedDependencies3_1 = ListUtil.cast(providedDependencies);
     }
 
+    @Override
     public Metadata getPropertiesMetadata() {
         return propertiesMetadata;
     }
 
+    @Override
     public Metadata getParametersMetadata() {
         return parametersMetadata;
     }
 
+    @Override
     public void setPropertiesMetadata(Metadata propertiesMetadata) {
         this.propertiesMetadata = propertiesMetadata;
     }
 
+    @Override
     public void setParametersMetadata(Metadata parametersMetadata) {
         this.parametersMetadata = parametersMetadata;
     }
 
+    @Override
     public Module copyOf() {
-        ModuleBuilder result = new ModuleBuilder();
+        Builder result = new Builder();
         result.setName(getName());
         result.setType(getType());
         result.setPath(getPath());
@@ -108,7 +113,7 @@ public class Module extends com.sap.cloud.lm.sl.mta.model.v3_0.Module
         return result.build();
     }
 
-    public static class ModuleBuilder extends com.sap.cloud.lm.sl.mta.model.v3_0.Module.ModuleBuilder {
+    public static class Builder extends com.sap.cloud.lm.sl.mta.model.v3_0.Module.Builder {
 
         protected List<RequiredDependency> requiredDependencies3_1;
         protected List<ProvidedDependency> providedDependencies3_1;

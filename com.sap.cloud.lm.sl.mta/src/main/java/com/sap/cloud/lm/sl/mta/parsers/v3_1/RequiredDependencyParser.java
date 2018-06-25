@@ -7,7 +7,7 @@ import java.util.Map;
 import com.sap.cloud.lm.sl.common.ParsingException;
 import com.sap.cloud.lm.sl.mta.model.Metadata;
 import com.sap.cloud.lm.sl.mta.model.v3_1.RequiredDependency;
-import com.sap.cloud.lm.sl.mta.model.v3_1.RequiredDependency.RequiredDependencyBuilder;
+import com.sap.cloud.lm.sl.mta.model.v3_1.RequiredDependency.Builder;
 import com.sap.cloud.lm.sl.mta.schema.MapElement;
 
 public class RequiredDependencyParser extends com.sap.cloud.lm.sl.mta.parsers.v3_0.RequiredDependencyParser {
@@ -25,7 +25,7 @@ public class RequiredDependencyParser extends com.sap.cloud.lm.sl.mta.parsers.v3
 
     @Override
     public RequiredDependency parse() throws ParsingException {
-        RequiredDependencyBuilder builder = new RequiredDependencyBuilder();
+        Builder builder = new Builder();
         builder.setName(getName());
         builder.setGroup(getGroup());
         builder.setList(getList());

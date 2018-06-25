@@ -10,7 +10,7 @@ public class PlatformModuleType extends com.sap.cloud.lm.sl.mta.model.v2_0.Platf
 
     }
 
-    public static class PlatformModuleTypeBuilder extends com.sap.cloud.lm.sl.mta.model.v2_0.PlatformModuleType.PlatformModuleTypeBuilder {
+    public static class Builder extends com.sap.cloud.lm.sl.mta.model.v2_0.PlatformModuleType.Builder {
 
         @Override
         public PlatformModuleType build() {

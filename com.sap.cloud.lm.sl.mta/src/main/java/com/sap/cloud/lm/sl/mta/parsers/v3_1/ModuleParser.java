@@ -9,7 +9,7 @@ import com.sap.cloud.lm.sl.common.ParsingException;
 import com.sap.cloud.lm.sl.common.util.ListUtil;
 import com.sap.cloud.lm.sl.mta.model.Metadata;
 import com.sap.cloud.lm.sl.mta.model.v3_1.Module;
-import com.sap.cloud.lm.sl.mta.model.v3_1.Module.ModuleBuilder;
+import com.sap.cloud.lm.sl.mta.model.v3_1.Module.Builder;
 import com.sap.cloud.lm.sl.mta.model.v3_1.ProvidedDependency;
 import com.sap.cloud.lm.sl.mta.model.v3_1.RequiredDependency;
 import com.sap.cloud.lm.sl.mta.schema.MapElement;
@@ -29,7 +29,7 @@ public class ModuleParser extends com.sap.cloud.lm.sl.mta.parsers.v3_0.ModulePar
 
     @Override
     public Module parse() throws ParsingException {
-        ModuleBuilder builder = new ModuleBuilder();
+        Builder builder = new Builder();
         builder.setName(getName());
         builder.setType(getType());
         builder.setDescription(getDescription());

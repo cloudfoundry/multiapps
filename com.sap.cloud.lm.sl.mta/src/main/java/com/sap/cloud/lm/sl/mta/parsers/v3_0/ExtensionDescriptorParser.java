@@ -8,7 +8,7 @@ import java.util.Map;
 import com.sap.cloud.lm.sl.common.ParsingException;
 import com.sap.cloud.lm.sl.common.util.ListUtil;
 import com.sap.cloud.lm.sl.mta.model.v3_0.ExtensionDescriptor;
-import com.sap.cloud.lm.sl.mta.model.v3_0.ExtensionDescriptor.ExtensionDescriptorBuilder;
+import com.sap.cloud.lm.sl.mta.model.v3_0.ExtensionDescriptor.Builder;
 import com.sap.cloud.lm.sl.mta.model.v3_0.ExtensionModule;
 import com.sap.cloud.lm.sl.mta.model.v3_0.ExtensionResource;
 import com.sap.cloud.lm.sl.mta.schema.MapElement;
@@ -27,7 +27,7 @@ public class ExtensionDescriptorParser extends com.sap.cloud.lm.sl.mta.parsers.v
 
     @Override
     public ExtensionDescriptor parse() throws ParsingException {
-        ExtensionDescriptorBuilder builder = new ExtensionDescriptorBuilder();
+        Builder builder = new Builder();
         builder.setId(getId());
         builder.setDescription(getDescription());
         builder.setParentId(getParentId());

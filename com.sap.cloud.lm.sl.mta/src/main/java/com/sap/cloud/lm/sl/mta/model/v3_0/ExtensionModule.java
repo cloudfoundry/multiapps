@@ -57,7 +57,7 @@ public class ExtensionModule extends com.sap.cloud.lm.sl.mta.model.v2_0.Extensio
         this.providedDependencies3_0 = ListUtil.cast(providedDependencies);
     }
 
-    public static class ExtensionModuleBuilder extends com.sap.cloud.lm.sl.mta.model.v2_0.ExtensionModule.ExtensionModuleBuilder {
+    public static class Builder extends com.sap.cloud.lm.sl.mta.model.v2_0.ExtensionModule.Builder {
 
         protected List<ExtensionRequiredDependency> requiredDependencies3_0;
         protected List<ExtensionProvidedDependency> providedDependencies3_0;

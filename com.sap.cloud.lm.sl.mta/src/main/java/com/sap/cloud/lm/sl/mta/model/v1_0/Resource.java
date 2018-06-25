@@ -10,7 +10,6 @@ import java.util.Map;
 
 import com.sap.cloud.lm.sl.common.util.ListUtil;
 import com.sap.cloud.lm.sl.common.util.MapUtil;
-import com.sap.cloud.lm.sl.mta.builders.Builder;
 import com.sap.cloud.lm.sl.mta.model.ElementContext;
 import com.sap.cloud.lm.sl.mta.model.NamedElement;
 import com.sap.cloud.lm.sl.mta.model.PropertiesContainer;
@@ -83,7 +82,7 @@ public class Resource implements VisitableElement, NamedElement, PropertiesConta
     }
 
     public Resource copyOf() {
-        ResourceBuilder result = new ResourceBuilder();
+        Builder result = new Builder();
         result.setName(getName());
         result.setType(getType());
         result.setDescription(getDescription());
@@ -92,7 +91,7 @@ public class Resource implements VisitableElement, NamedElement, PropertiesConta
         return result.build();
     }
 
-    public static class ResourceBuilder implements Builder<Resource> {
+    public static class Builder {
 
         protected String name;
         protected String type;
@@ -100,7 +99,6 @@ public class Resource implements VisitableElement, NamedElement, PropertiesConta
         protected List<String> groups;
         protected Map<String, Object> properties;
 
-        @Override
         public Resource build() {
             Resource result = new Resource();
             result.setName(name);

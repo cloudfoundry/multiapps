@@ -8,7 +8,7 @@ import java.util.Map;
 import com.sap.cloud.lm.sl.common.ParsingException;
 import com.sap.cloud.lm.sl.common.util.ListUtil;
 import com.sap.cloud.lm.sl.mta.model.v3_1.ExtensionModule;
-import com.sap.cloud.lm.sl.mta.model.v3_1.ExtensionModule.ExtensionModuleBuilder;
+import com.sap.cloud.lm.sl.mta.model.v3_1.ExtensionModule.Builder;
 import com.sap.cloud.lm.sl.mta.model.v3_1.ExtensionProvidedDependency;
 import com.sap.cloud.lm.sl.mta.model.v3_1.ExtensionRequiredDependency;
 import com.sap.cloud.lm.sl.mta.schema.MapElement;
@@ -25,7 +25,7 @@ public class ExtensionModuleParser extends com.sap.cloud.lm.sl.mta.parsers.v3_0.
 
     @Override
     public ExtensionModule parse() throws ParsingException {
-        ExtensionModuleBuilder builder = new ExtensionModuleBuilder();
+        Builder builder = new Builder();
         builder.setName(getName());
         builder.setProperties(getProperties());
         builder.setParameters(getParameters());

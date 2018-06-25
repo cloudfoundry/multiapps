@@ -10,7 +10,7 @@ import java.util.Set;
 import com.sap.cloud.lm.sl.common.ParsingException;
 import com.sap.cloud.lm.sl.mta.model.v1_0.PlatformModuleType;
 import com.sap.cloud.lm.sl.mta.model.v1_0.Platform;
-import com.sap.cloud.lm.sl.mta.model.v1_0.Platform.PlatformBuilder;
+import com.sap.cloud.lm.sl.mta.model.v1_0.Platform.Builder;
 import com.sap.cloud.lm.sl.mta.model.v1_0.PlatformResourceType;
 import com.sap.cloud.lm.sl.mta.parsers.ListParser;
 import com.sap.cloud.lm.sl.mta.parsers.ModelParser;
@@ -40,7 +40,7 @@ public class PlatformParser extends ModelParser<Platform> {
 
     @Override
     public Platform parse() throws ParsingException {
-        PlatformBuilder builder = new PlatformBuilder();
+        Builder builder = new Builder();
         builder.setName(getName());
         builder.setDescription(getDescription());
         builder.setVersion(getVersion());

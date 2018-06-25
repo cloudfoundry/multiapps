@@ -52,7 +52,7 @@ public class Target extends com.sap.cloud.lm.sl.mta.model.v3_0.Target {
         return platformModuleTypes3_1;
     }
 
-    public static class TargetBuilder extends com.sap.cloud.lm.sl.mta.model.v3_0.Target.TargetBuilder {
+    public static class Builder extends com.sap.cloud.lm.sl.mta.model.v3_0.Target.Builder {
 
         protected List<TargetModuleType> platformModuleTypes3_1;
         protected List<TargetResourceType> platformResourceTypes3_1;

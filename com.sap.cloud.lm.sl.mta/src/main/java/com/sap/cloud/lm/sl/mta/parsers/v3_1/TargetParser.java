@@ -10,7 +10,7 @@ import com.sap.cloud.lm.sl.common.util.ListUtil;
 import com.sap.cloud.lm.sl.mta.model.v3_1.TargetModuleType;
 import com.sap.cloud.lm.sl.mta.model.v3_1.TargetResourceType;
 import com.sap.cloud.lm.sl.mta.model.v3_1.Target;
-import com.sap.cloud.lm.sl.mta.model.v3_1.Target.TargetBuilder;
+import com.sap.cloud.lm.sl.mta.model.v3_1.Target.Builder;
 import com.sap.cloud.lm.sl.mta.schema.MapElement;
 
 public class TargetParser extends com.sap.cloud.lm.sl.mta.parsers.v3_0.TargetParser {
@@ -25,7 +25,7 @@ public class TargetParser extends com.sap.cloud.lm.sl.mta.parsers.v3_0.TargetPar
 
     @Override
     public Target parse() throws ParsingException {
-        TargetBuilder builder = new TargetBuilder();
+        Builder builder = new Builder();
         builder.setName(getName());
         builder.setDescription(getDescription());
         builder.setType(getType());

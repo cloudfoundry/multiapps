@@ -76,8 +76,9 @@ public class Resource extends com.sap.cloud.lm.sl.mta.model.v3_0.Resource
         this.isOptional = isOptional;
     }
 
+    @Override
     public Resource copyOf() {
-        ResourceBuilder result = new ResourceBuilder();
+        Builder result = new Builder();
         result.setName(getName());
         result.setType(getType());
         result.setDescription(getDescription());
@@ -98,7 +99,7 @@ public class Resource extends com.sap.cloud.lm.sl.mta.model.v3_0.Resource
         }
     }
 
-    public static class ResourceBuilder extends com.sap.cloud.lm.sl.mta.model.v3_0.Resource.ResourceBuilder {
+    public static class Builder extends com.sap.cloud.lm.sl.mta.model.v3_0.Resource.Builder {
 
         protected Metadata propertiesMetadata;
         protected Metadata parametersMetadata;

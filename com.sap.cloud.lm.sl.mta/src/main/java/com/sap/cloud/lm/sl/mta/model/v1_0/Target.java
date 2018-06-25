@@ -10,7 +10,6 @@ import java.util.Map;
 
 import com.sap.cloud.lm.sl.common.util.ListUtil;
 import com.sap.cloud.lm.sl.common.util.MapUtil;
-import com.sap.cloud.lm.sl.mta.builders.Builder;
 import com.sap.cloud.lm.sl.mta.model.AuditableConfiguration;
 import com.sap.cloud.lm.sl.mta.model.ConfigurationIdentifier;
 import com.sap.cloud.lm.sl.mta.model.ElementContext;
@@ -116,7 +115,7 @@ public class Target implements VisitableElement, NamedElement, PropertiesContain
         }
     }
 
-    public static class TargetBuilder implements Builder<Target> {
+    public static class Builder {
 
         protected String name;
         protected String type;
@@ -125,7 +124,6 @@ public class Target implements VisitableElement, NamedElement, PropertiesContain
         protected List<TargetModuleType> platformModuleTypes1_0;
         protected List<TargetResourceType> platformResourceTypes1_0;
 
-        @Override
         public Target build() {
             Target result = new Target();
             result.setName(name);

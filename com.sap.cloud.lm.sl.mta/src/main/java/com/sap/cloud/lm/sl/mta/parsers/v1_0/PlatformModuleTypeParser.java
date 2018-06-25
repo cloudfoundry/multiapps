@@ -6,7 +6,7 @@ import java.util.Map;
 
 import com.sap.cloud.lm.sl.common.ParsingException;
 import com.sap.cloud.lm.sl.mta.model.v1_0.TargetModuleType;
-import com.sap.cloud.lm.sl.mta.model.v1_0.TargetModuleType.TargetModuleTypeBuilder;
+import com.sap.cloud.lm.sl.mta.model.v1_0.TargetModuleType.Builder;
 import com.sap.cloud.lm.sl.mta.parsers.ModelParser;
 import com.sap.cloud.lm.sl.mta.schema.MapElement;
 
@@ -27,7 +27,7 @@ public class PlatformModuleTypeParser extends ModelParser<TargetModuleType> {
 
     @Override
     public TargetModuleType parse() throws ParsingException {
-        TargetModuleTypeBuilder builder = new TargetModuleTypeBuilder();
+        Builder builder = new Builder();
         builder.setName(getName());
         builder.setProperties(getProperties());
         return builder.build();

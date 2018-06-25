@@ -10,7 +10,6 @@ import java.util.Map;
 
 import com.sap.cloud.lm.sl.common.util.ListUtil;
 import com.sap.cloud.lm.sl.common.util.MapUtil;
-import com.sap.cloud.lm.sl.mta.builders.Builder;
 import com.sap.cloud.lm.sl.mta.model.ElementContext;
 import com.sap.cloud.lm.sl.mta.model.ExtensionElement;
 import com.sap.cloud.lm.sl.mta.model.PropertiesContainer;
@@ -155,7 +154,7 @@ public class ExtensionDescriptor implements VisitableElement, ExtensionElement, 
         }
     }
 
-    public static class ExtensionDescriptorBuilder implements Builder<ExtensionDescriptor> {
+    public static class Builder {
 
         protected String id;
         protected String description;
@@ -167,7 +166,6 @@ public class ExtensionDescriptor implements VisitableElement, ExtensionElement, 
         protected List<ExtensionResource> resources1_0;
         protected Map<String, Object> properties;
 
-        @Override
         public ExtensionDescriptor build() {
             ExtensionDescriptor result = new ExtensionDescriptor();
             result.setId(id);

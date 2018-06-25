@@ -9,7 +9,6 @@ import java.util.Map;
 
 import com.sap.cloud.lm.sl.common.util.ListUtil;
 import com.sap.cloud.lm.sl.common.util.MapUtil;
-import com.sap.cloud.lm.sl.mta.builders.Builder;
 import com.sap.cloud.lm.sl.mta.model.ElementContext;
 import com.sap.cloud.lm.sl.mta.model.NamedElement;
 import com.sap.cloud.lm.sl.mta.model.PropertiesContainer;
@@ -71,13 +70,12 @@ public class ExtensionModule implements VisitableElement, NamedElement, Properti
         }
     }
 
-    public static class ExtensionModuleBuilder implements Builder<ExtensionModule> {
+    public static class Builder {
 
         protected String name;
         protected Map<String, Object> properties;
         protected List<ExtensionProvidedDependency> providedDependencies1_0;
 
-        @Override
         public ExtensionModule build() {
             ExtensionModule result = new ExtensionModule();
             result.setName(name);

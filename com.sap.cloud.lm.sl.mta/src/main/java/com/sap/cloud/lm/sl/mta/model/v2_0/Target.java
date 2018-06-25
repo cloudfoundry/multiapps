@@ -72,11 +72,12 @@ public class Target extends com.sap.cloud.lm.sl.mta.model.v1_0.Target implements
         throw new UnsupportedOperationException();
     }
 
+    @Override
     public void setParameters(Map<String, Object> parameters) {
         this.parameters = new LinkedHashMap<>(parameters);
     }
 
-    public static class TargetBuilder extends com.sap.cloud.lm.sl.mta.model.v1_0.Target.TargetBuilder {
+    public static class Builder extends com.sap.cloud.lm.sl.mta.model.v1_0.Target.Builder {
 
         protected Map<String, Object> parameters;
         protected List<TargetModuleType> platformModuleTypes2_0;

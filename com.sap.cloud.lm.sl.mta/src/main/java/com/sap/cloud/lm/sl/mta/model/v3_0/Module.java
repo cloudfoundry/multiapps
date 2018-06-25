@@ -57,8 +57,9 @@ public class Module extends com.sap.cloud.lm.sl.mta.model.v2_0.Module {
         this.providedDependencies3_0 = ListUtil.cast(providedDependencies);
     }
 
+    @Override
     public Module copyOf() {
-        ModuleBuilder result = new ModuleBuilder();
+        Builder result = new Builder();
         result.setName(getName());
         result.setType(getType());
         result.setPath(getPath());
@@ -78,7 +79,7 @@ public class Module extends com.sap.cloud.lm.sl.mta.model.v2_0.Module {
         return result.build();
     }
 
-    public static class ModuleBuilder extends com.sap.cloud.lm.sl.mta.model.v2_0.Module.ModuleBuilder {
+    public static class Builder extends com.sap.cloud.lm.sl.mta.model.v2_0.Module.Builder {
 
         protected List<RequiredDependency> requiredDependencies3_0;
         protected List<ProvidedDependency> providedDependencies3_0;

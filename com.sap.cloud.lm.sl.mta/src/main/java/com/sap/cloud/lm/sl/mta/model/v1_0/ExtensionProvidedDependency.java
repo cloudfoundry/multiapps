@@ -7,7 +7,6 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 import com.sap.cloud.lm.sl.common.util.MapUtil;
-import com.sap.cloud.lm.sl.mta.builders.Builder;
 import com.sap.cloud.lm.sl.mta.model.ElementContext;
 import com.sap.cloud.lm.sl.mta.model.NamedElement;
 import com.sap.cloud.lm.sl.mta.model.PropertiesContainer;
@@ -45,12 +44,11 @@ public class ExtensionProvidedDependency implements VisitableElement, NamedEleme
         visitor.visit(context, this);
     }
 
-    public static class ExtensionProvidedDependencyBuilder implements Builder<ExtensionProvidedDependency> {
+    public static class Builder {
 
         protected String name;
         protected Map<String, Object> properties;
 
-        @Override
         public ExtensionProvidedDependency build() {
             ExtensionProvidedDependency result = new ExtensionProvidedDependency();
             result.setName(name);

@@ -10,7 +10,6 @@ import java.util.Map;
 
 import com.sap.cloud.lm.sl.common.util.ListUtil;
 import com.sap.cloud.lm.sl.common.util.MapUtil;
-import com.sap.cloud.lm.sl.mta.builders.Builder;
 import com.sap.cloud.lm.sl.mta.model.ElementContext;
 import com.sap.cloud.lm.sl.mta.model.IdentifiableElement;
 import com.sap.cloud.lm.sl.mta.model.PropertiesContainer;
@@ -155,7 +154,7 @@ public class DeploymentDescriptor implements VisitableElement, IdentifiableEleme
     }
 
     public DeploymentDescriptor copyOf() {
-        DeploymentDescriptorBuilder result = new DeploymentDescriptorBuilder();
+        Builder result = new Builder();
         result.setId(getId());
         result.setProvider(getProvider());
         result.setDescription(getDescription());
@@ -176,7 +175,7 @@ public class DeploymentDescriptor implements VisitableElement, IdentifiableEleme
         return result.build();
     }
 
-    public static class DeploymentDescriptorBuilder implements Builder<DeploymentDescriptor> {
+    public static class Builder {
 
         protected String id;
         protected String description;
@@ -188,7 +187,6 @@ public class DeploymentDescriptor implements VisitableElement, IdentifiableEleme
         protected List<Resource> resources1_0;
         protected Map<String, Object> properties;
 
-        @Override
         public DeploymentDescriptor build() {
             DeploymentDescriptor result = new DeploymentDescriptor();
             result.setId(id);

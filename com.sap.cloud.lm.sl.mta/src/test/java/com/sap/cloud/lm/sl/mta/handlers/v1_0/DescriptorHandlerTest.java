@@ -20,79 +20,77 @@ import com.sap.cloud.lm.sl.common.util.TestUtil;
 import com.sap.cloud.lm.sl.mta.model.v1_0.DeploymentDescriptor;
 import com.sap.cloud.lm.sl.mta.model.v1_0.Module;
 import com.sap.cloud.lm.sl.mta.model.v1_0.Platform;
-import com.sap.cloud.lm.sl.mta.model.v1_0.Platform.PlatformBuilder;
 import com.sap.cloud.lm.sl.mta.model.v1_0.Target;
-import com.sap.cloud.lm.sl.mta.model.v1_0.Target.TargetBuilder;
 
 @RunWith(Enclosed.class)
 public class DescriptorHandlerTest {
 
     public static class DescriptorHandlerTest1 {
 
-        public static final String PLATFORM_1 = "XS-TEST";
-        public static final String PLATFORM_2 = "CF-QUAL";
-        public static final String PLATFORM_3 = "CF-PROD";
-        public static final String PLATFORM_4 = "XS-QUAL";
+        public static final String TARGET_1 = "XS-TEST";
+        public static final String TARGET_2 = "CF-QUAL";
+        public static final String TARGET_3 = "CF-PROD";
+        public static final String TARGET_4 = "XS-QUAL";
 
-        public static final String PLATFORM_TYPE_1 = "CF";
-        public static final String PLATFORM_TYPE_2 = "XS";
+        public static final String PLATFORM_1 = "CF";
+        public static final String PLATFORM_2 = "XS";
 
         private final DescriptorHandler handler = new DescriptorHandler();
 
         @Test
-        public void testFindPlatformWhenPlatformDoesNotExist() throws Exception {
-            assertNull(handler.findTarget(Collections.<Target> emptyList(), PLATFORM_1));
+        public void testFindTargetWhenItDoesNotExist() {
+            assertNull(handler.findTarget(Collections.<Target> emptyList(), TARGET_1));
         }
 
         @Test
-        public void testFindPlatformWhenPlatformExists() throws Exception {
-            List<Target> platforms = new ArrayList<Target>();
+        public void testFindTargetWhenItExists() {
+            List<Target> targets = new ArrayList<>();
 
-            TargetBuilder platformBuilder1 = new TargetBuilder();
-            TargetBuilder platformBuilder2 = new TargetBuilder();
-            TargetBuilder defaultPlatformBuilder = new TargetBuilder();
+            Target.Builder targetBuilder1 = new Target.Builder();
+            Target.Builder targetBuilder2 = new Target.Builder();
+            Target.Builder defaultTargetBuilder = new Target.Builder();
+
+            targetBuilder1.setName(TARGET_1);
+            targetBuilder2.setName(TARGET_2);
+            defaultTargetBuilder.setName(TARGET_3);
+            targetBuilder1.setType(PLATFORM_2);
+            targetBuilder2.setType(PLATFORM_1);
+            defaultTargetBuilder.setType(PLATFORM_1);
+
+            Target defaultTarget = defaultTargetBuilder.build();
+
+            targets.add(targetBuilder1.build());
+            targets.add(targetBuilder2.build());
+            targets.add(defaultTarget);
+
+            assertEquals(handler.findTarget(targets, TARGET_1), targets.get(0));
+            assertEquals(handler.findTarget(targets, TARGET_2), targets.get(1));
+            assertEquals(handler.findTarget(targets, TARGET_3, defaultTarget), defaultTarget);
+            assertEquals(handler.findTarget(targets, TARGET_4, defaultTarget), defaultTarget);
+        }
+
+        @Test
+        public void testFindPlatformWhenItDoesNotExist() {
+            assertNull(handler.findPlatform(Collections.<Platform> emptyList(), null));
+            assertNull(handler.findPlatform(Collections.<Platform> emptyList(), PLATFORM_1));
+        }
+
+        @Test
+        public void testFindPlatformWhenItExists() {
+            List<Platform> platforms = new ArrayList<>();
+
+            Platform.Builder platformBuilder1 = new Platform.Builder();
+            Platform.Builder platformBuilder2 = new Platform.Builder();
 
             platformBuilder1.setName(PLATFORM_1);
             platformBuilder2.setName(PLATFORM_2);
-            defaultPlatformBuilder.setName(PLATFORM_3);
-            platformBuilder1.setType(PLATFORM_TYPE_2);
-            platformBuilder2.setType(PLATFORM_TYPE_1);
-            defaultPlatformBuilder.setType(PLATFORM_TYPE_1);
-
-            Target defaultPlatform = defaultPlatformBuilder.build();
 
             platforms.add(platformBuilder1.build());
             platforms.add(platformBuilder2.build());
-            platforms.add(defaultPlatform);
 
-            assertEquals(handler.findTarget(platforms, PLATFORM_1), platforms.get(0));
-            assertEquals(handler.findTarget(platforms, PLATFORM_2), platforms.get(1));
-            assertEquals(handler.findTarget(platforms, PLATFORM_3, defaultPlatform), defaultPlatform);
-            assertEquals(handler.findTarget(platforms, PLATFORM_4, defaultPlatform), defaultPlatform);
-        }
-
-        @Test
-        public void testFindPlatformTypeWhenPlatformTypeDoesNotExist() throws Exception {
-            assertNull(handler.findPlatform(Collections.<Platform> emptyList(), null));
-            assertNull(handler.findPlatform(Collections.<Platform> emptyList(), PLATFORM_TYPE_1));
-        }
-
-        @Test
-        public void testFindPlatformTypeWhenPlatformTypeExists() throws Exception {
-            List<Platform> platformTypes = new ArrayList<Platform>();
-
-            PlatformBuilder platformTypeBuilder1 = new PlatformBuilder();
-            PlatformBuilder platformTypeBuilder2 = new PlatformBuilder();
-
-            platformTypeBuilder1.setName(PLATFORM_TYPE_1);
-            platformTypeBuilder2.setName(PLATFORM_TYPE_2);
-
-            platformTypes.add(platformTypeBuilder1.build());
-            platformTypes.add(platformTypeBuilder2.build());
-
-            assertEquals(handler.findPlatform(platformTypes, PLATFORM_TYPE_1), platformTypes.get(0));
-            assertEquals(handler.findPlatform(platformTypes, null), platformTypes.get(0));
-            assertEquals(handler.findPlatform(platformTypes, PLATFORM_TYPE_2), platformTypes.get(1));
+            assertEquals(handler.findPlatform(platforms, PLATFORM_1), platforms.get(0));
+            assertEquals(handler.findPlatform(platforms, null), platforms.get(0));
+            assertEquals(handler.findPlatform(platforms, PLATFORM_2), platforms.get(1));
         }
 
     }

@@ -10,7 +10,7 @@ import java.util.Set;
 import com.sap.cloud.lm.sl.common.ParsingException;
 import com.sap.cloud.lm.sl.common.util.ListUtil;
 import com.sap.cloud.lm.sl.mta.model.v2_0.ExtensionModule;
-import com.sap.cloud.lm.sl.mta.model.v2_0.ExtensionModule.ExtensionModuleBuilder;
+import com.sap.cloud.lm.sl.mta.model.v2_0.ExtensionModule.Builder;
 import com.sap.cloud.lm.sl.mta.model.v2_0.ExtensionProvidedDependency;
 import com.sap.cloud.lm.sl.mta.model.v2_0.ExtensionRequiredDependency;
 import com.sap.cloud.lm.sl.mta.parsers.ListParser;
@@ -33,7 +33,7 @@ public class ExtensionModuleParser extends com.sap.cloud.lm.sl.mta.parsers.v1_0.
 
     @Override
     public ExtensionModule parse() throws ParsingException {
-        ExtensionModuleBuilder builder = new ExtensionModuleBuilder();
+        Builder builder = new Builder();
         builder.setName(getName());
         builder.setProperties(getProperties());
         builder.setParameters(getParameters());

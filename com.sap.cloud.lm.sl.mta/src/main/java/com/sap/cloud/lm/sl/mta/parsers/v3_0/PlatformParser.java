@@ -9,7 +9,7 @@ import com.sap.cloud.lm.sl.common.ParsingException;
 import com.sap.cloud.lm.sl.common.util.ListUtil;
 import com.sap.cloud.lm.sl.mta.model.v3_0.PlatformModuleType;
 import com.sap.cloud.lm.sl.mta.model.v3_0.Platform;
-import com.sap.cloud.lm.sl.mta.model.v3_0.Platform.PlatformBuilder;
+import com.sap.cloud.lm.sl.mta.model.v3_0.Platform.Builder;
 import com.sap.cloud.lm.sl.mta.model.v3_0.PlatformResourceType;
 import com.sap.cloud.lm.sl.mta.schema.MapElement;
 
@@ -25,7 +25,7 @@ public class PlatformParser extends com.sap.cloud.lm.sl.mta.parsers.v2_0.Platfor
 
     @Override
     public Platform parse() throws ParsingException {
-        PlatformBuilder builder = new PlatformBuilder();
+        Builder builder = new Builder();
         builder.setName(getName());
         builder.setDescription(getDescription());
         builder.setParameters(getParameters());

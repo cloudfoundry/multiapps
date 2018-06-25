@@ -10,8 +10,7 @@ public class TargetResourceType extends com.sap.cloud.lm.sl.mta.model.v3_0.Targe
 
     }
 
-    public static class TargetResourceTypeBuilder
-        extends com.sap.cloud.lm.sl.mta.model.v3_0.TargetResourceType.TargetResourceTypeBuilder {
+    public static class Builder extends com.sap.cloud.lm.sl.mta.model.v3_0.TargetResourceType.Builder {
 
         @Override
         public TargetResourceType build() {

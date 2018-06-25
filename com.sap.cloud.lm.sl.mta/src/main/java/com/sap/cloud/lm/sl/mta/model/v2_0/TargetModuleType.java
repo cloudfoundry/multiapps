@@ -22,11 +22,12 @@ public class TargetModuleType extends com.sap.cloud.lm.sl.mta.model.v1_0.TargetM
         return MapUtil.unmodifiable(parameters);
     }
 
+    @Override
     public void setParameters(Map<String, Object> parameters) {
         this.parameters = new LinkedHashMap<>(parameters);
     }
 
-    public static class TargetModuleTypeBuilder extends com.sap.cloud.lm.sl.mta.model.v1_0.TargetModuleType.TargetModuleTypeBuilder {
+    public static class Builder extends com.sap.cloud.lm.sl.mta.model.v1_0.TargetModuleType.Builder {
 
         protected Map<String, Object> parameters;
 

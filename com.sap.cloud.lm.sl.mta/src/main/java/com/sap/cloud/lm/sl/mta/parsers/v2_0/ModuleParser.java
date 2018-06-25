@@ -11,7 +11,7 @@ import java.util.TreeMap;
 import com.sap.cloud.lm.sl.common.ParsingException;
 import com.sap.cloud.lm.sl.common.util.ListUtil;
 import com.sap.cloud.lm.sl.mta.model.v2_0.Module;
-import com.sap.cloud.lm.sl.mta.model.v2_0.Module.ModuleBuilder;
+import com.sap.cloud.lm.sl.mta.model.v2_0.Module.Builder;
 import com.sap.cloud.lm.sl.mta.model.v2_0.ProvidedDependency;
 import com.sap.cloud.lm.sl.mta.model.v2_0.RequiredDependency;
 import com.sap.cloud.lm.sl.mta.parsers.ListParser;
@@ -34,7 +34,7 @@ public class ModuleParser extends com.sap.cloud.lm.sl.mta.parsers.v1_0.ModulePar
 
     @Override
     public Module parse() throws ParsingException {
-        ModuleBuilder builder = new ModuleBuilder();
+        Builder builder = new Builder();
         builder.setName(getName());
         builder.setType(getType());
         builder.setDescription(getDescription());

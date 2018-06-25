@@ -36,12 +36,14 @@ public class Resource extends com.sap.cloud.lm.sl.mta.model.v1_0.Resource implem
         throw new UnsupportedOperationException();
     }
 
+    @Override
     public void setParameters(Map<String, Object> parameters) {
         this.parameters = new LinkedHashMap<>(parameters);
     }
 
+    @Override
     public Resource copyOf() {
-        ResourceBuilder result = new ResourceBuilder();
+        Builder result = new Builder();
         result.setName(getName());
         result.setType(getType());
         result.setDescription(getDescription());
@@ -50,7 +52,7 @@ public class Resource extends com.sap.cloud.lm.sl.mta.model.v1_0.Resource implem
         return result.build();
     }
 
-    public static class ResourceBuilder extends com.sap.cloud.lm.sl.mta.model.v1_0.Resource.ResourceBuilder {
+    public static class Builder extends com.sap.cloud.lm.sl.mta.model.v1_0.Resource.Builder {
 
         protected Map<String, Object> parameters;
 

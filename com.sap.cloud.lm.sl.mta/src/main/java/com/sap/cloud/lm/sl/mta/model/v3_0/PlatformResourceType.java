@@ -10,7 +10,7 @@ public class PlatformResourceType extends com.sap.cloud.lm.sl.mta.model.v2_0.Pla
 
     }
 
-    public static class PlatformResourceTypeBuilder extends com.sap.cloud.lm.sl.mta.model.v2_0.PlatformResourceType.PlatformResourceTypeBuilder {
+    public static class Builder extends com.sap.cloud.lm.sl.mta.model.v2_0.PlatformResourceType.Builder {
 
         @Override
         public PlatformResourceType build() {

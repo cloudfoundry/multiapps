@@ -10,7 +10,7 @@ public class ProvidedDependency extends com.sap.cloud.lm.sl.mta.model.v2_0.Provi
 
     }
 
-    public static class ProvidedDependencyBuilder extends com.sap.cloud.lm.sl.mta.model.v2_0.ProvidedDependency.ProvidedDependencyBuilder {
+    public static class Builder extends com.sap.cloud.lm.sl.mta.model.v2_0.ProvidedDependency.Builder {
 
         @Override
         public ProvidedDependency build() {
@@ -23,8 +23,9 @@ public class ProvidedDependency extends com.sap.cloud.lm.sl.mta.model.v2_0.Provi
 
     }
 
+    @Override
     public ProvidedDependency copyOf() {
-        ProvidedDependencyBuilder result = new ProvidedDependencyBuilder();
+        Builder result = new Builder();
         result.setName(getName());
         result.setPublic(isPublic());
         result.setProperties(getProperties());

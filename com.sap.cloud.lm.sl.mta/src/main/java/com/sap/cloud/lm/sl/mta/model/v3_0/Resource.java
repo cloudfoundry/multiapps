@@ -10,7 +10,7 @@ public class Resource extends com.sap.cloud.lm.sl.mta.model.v2_0.Resource {
 
     }
 
-    public static class ResourceBuilder extends com.sap.cloud.lm.sl.mta.model.v2_0.Resource.ResourceBuilder {
+    public static class Builder extends com.sap.cloud.lm.sl.mta.model.v2_0.Resource.Builder {
 
         @Override
         public Resource build() {
@@ -25,8 +25,9 @@ public class Resource extends com.sap.cloud.lm.sl.mta.model.v2_0.Resource {
 
     }
 
+    @Override
     public Resource copyOf() {
-        ResourceBuilder result = new ResourceBuilder();
+        Builder result = new Builder();
         result.setName(getName());
         result.setType(getType());
         result.setDescription(getDescription());

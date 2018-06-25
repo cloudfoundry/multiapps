@@ -82,11 +82,12 @@ public class Platform extends com.sap.cloud.lm.sl.mta.model.v1_0.Platform implem
         throw new UnsupportedOperationException();
     }
 
+    @Override
     public void setParameters(Map<String, Object> parameters) {
         this.parameters = new LinkedHashMap<>(parameters);
     }
 
-    public static class PlatformBuilder extends com.sap.cloud.lm.sl.mta.model.v1_0.Platform.PlatformBuilder {
+    public static class Builder extends com.sap.cloud.lm.sl.mta.model.v1_0.Platform.Builder {
 
         protected Map<String, Object> parameters;
         protected List<PlatformModuleType> moduleTypes2_0;

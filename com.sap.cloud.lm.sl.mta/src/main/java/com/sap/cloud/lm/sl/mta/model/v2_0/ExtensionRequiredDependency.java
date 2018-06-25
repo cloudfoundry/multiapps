@@ -7,7 +7,6 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 import com.sap.cloud.lm.sl.common.util.MapUtil;
-import com.sap.cloud.lm.sl.mta.builders.Builder;
 import com.sap.cloud.lm.sl.mta.model.ElementContext;
 import com.sap.cloud.lm.sl.mta.model.ParametersContainer;
 import com.sap.cloud.lm.sl.mta.model.PropertiesContainer;
@@ -47,10 +46,12 @@ public class ExtensionRequiredDependency implements VisitableElement, Properties
         this.name = name;
     }
 
+    @Override
     public void setProperties(Map<String, Object> properties) {
         this.properties = new LinkedHashMap<>(properties);
     }
 
+    @Override
     public void setParameters(Map<String, Object> parameters) {
         this.parameters = new LinkedHashMap<>(parameters);
     }
@@ -60,13 +61,12 @@ public class ExtensionRequiredDependency implements VisitableElement, Properties
         visitor.visit(context, this);
     }
 
-    public static class ExtensionRequiredDependencyBuilder implements Builder<ExtensionRequiredDependency> {
+    public static class Builder {
 
         protected String name;
         protected Map<String, Object> properties;
         protected Map<String, Object> parameters;
 
-        @Override
         public ExtensionRequiredDependency build() {
             ExtensionRequiredDependency result = new ExtensionRequiredDependency();
             result.setName(name);

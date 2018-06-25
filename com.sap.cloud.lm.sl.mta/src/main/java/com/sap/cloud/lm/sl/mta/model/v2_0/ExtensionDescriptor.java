@@ -79,12 +79,12 @@ public class ExtensionDescriptor extends com.sap.cloud.lm.sl.mta.model.v1_0.Exte
         throw new UnsupportedOperationException();
     }
 
+    @Override
     public void setParameters(Map<String, Object> parameters) {
         this.parameters = new LinkedHashMap<>(parameters);
     }
 
-    public static class ExtensionDescriptorBuilder
-        extends com.sap.cloud.lm.sl.mta.model.v1_0.ExtensionDescriptor.ExtensionDescriptorBuilder {
+    public static class Builder extends com.sap.cloud.lm.sl.mta.model.v1_0.ExtensionDescriptor.Builder {
 
         protected List<ExtensionModule> modules2_0;
         protected List<ExtensionResource> resources2_0;

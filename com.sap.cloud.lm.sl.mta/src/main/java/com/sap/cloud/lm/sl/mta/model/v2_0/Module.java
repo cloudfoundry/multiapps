@@ -88,6 +88,7 @@ public class Module extends com.sap.cloud.lm.sl.mta.model.v1_0.Module implements
         this.path = path;
     }
 
+    @Override
     public void setParameters(Map<String, Object> parameters) {
         this.parameters = new LinkedHashMap<>(parameters);
     }
@@ -100,8 +101,9 @@ public class Module extends com.sap.cloud.lm.sl.mta.model.v1_0.Module implements
         }
     }
 
+    @Override
     public Module copyOf() {
-        ModuleBuilder result = new ModuleBuilder();
+        Builder result = new Builder();
         result.setName(getName());
         result.setType(getType());
         result.setPath(getPath());
@@ -121,7 +123,7 @@ public class Module extends com.sap.cloud.lm.sl.mta.model.v1_0.Module implements
         return result.build();
     }
 
-    public static class ModuleBuilder extends com.sap.cloud.lm.sl.mta.model.v1_0.Module.ModuleBuilder {
+    public static class Builder extends com.sap.cloud.lm.sl.mta.model.v1_0.Module.Builder {
 
         protected String path;
         protected Map<String, Object> parameters;

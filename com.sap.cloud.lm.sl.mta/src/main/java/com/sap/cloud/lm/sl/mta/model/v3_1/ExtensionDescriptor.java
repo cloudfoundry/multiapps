@@ -58,8 +58,7 @@ public class ExtensionDescriptor extends com.sap.cloud.lm.sl.mta.model.v3_0.Exte
         this.resources3_1 = ListUtil.cast(resources);
     }
 
-    public static class ExtensionDescriptorBuilder
-        extends com.sap.cloud.lm.sl.mta.model.v3_0.ExtensionDescriptor.ExtensionDescriptorBuilder {
+    public static class Builder extends com.sap.cloud.lm.sl.mta.model.v3_0.ExtensionDescriptor.Builder {
 
         protected List<ExtensionModule> modules3_1;
         protected List<ExtensionResource> resources3_1;

@@ -39,8 +39,9 @@ public class ProvidedDependency extends com.sap.cloud.lm.sl.mta.model.v3_0.Provi
         return propertiesMetadata;
     }
 
+    @Override
     public ProvidedDependency copyOf() {
-        ProvidedDependencyBuilder result = new ProvidedDependencyBuilder();
+        Builder result = new Builder();
         result.setName(getName());
         result.setPublic(isPublic());
         result.setProperties(getProperties());
@@ -50,7 +51,7 @@ public class ProvidedDependency extends com.sap.cloud.lm.sl.mta.model.v3_0.Provi
         return result.build();
     }
 
-    public static class ProvidedDependencyBuilder extends com.sap.cloud.lm.sl.mta.model.v3_0.ProvidedDependency.ProvidedDependencyBuilder {
+    public static class Builder extends com.sap.cloud.lm.sl.mta.model.v3_0.ProvidedDependency.Builder {
 
         private Metadata propertiesMetadata;
         private Map<String, Object> parameters;

@@ -59,8 +59,9 @@ public class DeploymentDescriptor extends com.sap.cloud.lm.sl.mta.model.v2_0.Dep
         this.resources3_0 = ListUtil.cast(resources);
     }
 
+    @Override
     public DeploymentDescriptor copyOf() {
-        DeploymentDescriptorBuilder result = new DeploymentDescriptorBuilder();
+        Builder result = new Builder();
         result.setId(getId());
         result.setProvider(getProvider());
         result.setDescription(getDescription());
@@ -81,8 +82,7 @@ public class DeploymentDescriptor extends com.sap.cloud.lm.sl.mta.model.v2_0.Dep
         return result.build();
     }
 
-    public static class DeploymentDescriptorBuilder
-        extends com.sap.cloud.lm.sl.mta.model.v2_0.DeploymentDescriptor.DeploymentDescriptorBuilder {
+    public static class Builder extends com.sap.cloud.lm.sl.mta.model.v2_0.DeploymentDescriptor.Builder {
 
         protected List<Module> modules3_0;
         protected List<Resource> resources3_0;

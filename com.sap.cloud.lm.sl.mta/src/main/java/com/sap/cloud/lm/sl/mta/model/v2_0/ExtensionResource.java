@@ -25,11 +25,12 @@ public class ExtensionResource extends com.sap.cloud.lm.sl.mta.model.v1_0.Extens
         return MapUtil.unmodifiable(parameters);
     }
 
+    @Override
     public void setParameters(Map<String, Object> parameters) {
         this.parameters = new LinkedHashMap<>(parameters);
     }
 
-    public static class ExtensionResourceBuilder extends com.sap.cloud.lm.sl.mta.model.v1_0.ExtensionResource.ExtensionResourceBuilder {
+    public static class Builder extends com.sap.cloud.lm.sl.mta.model.v1_0.ExtensionResource.Builder {
 
         protected Map<String, Object> parameters;
 

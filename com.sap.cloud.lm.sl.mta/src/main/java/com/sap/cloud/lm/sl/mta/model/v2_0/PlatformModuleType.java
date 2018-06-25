@@ -22,11 +22,12 @@ public class PlatformModuleType extends com.sap.cloud.lm.sl.mta.model.v1_0.Platf
         return MapUtil.unmodifiable(parameters);
     }
 
+    @Override
     public void setParameters(Map<String, Object> parameters) {
         this.parameters = new LinkedHashMap<>(parameters);
     }
 
-    public static class PlatformModuleTypeBuilder extends com.sap.cloud.lm.sl.mta.model.v1_0.PlatformModuleType.PlatformModuleTypeBuilder {
+    public static class Builder extends com.sap.cloud.lm.sl.mta.model.v1_0.PlatformModuleType.Builder {
 
         protected Map<String, Object> parameters;
 

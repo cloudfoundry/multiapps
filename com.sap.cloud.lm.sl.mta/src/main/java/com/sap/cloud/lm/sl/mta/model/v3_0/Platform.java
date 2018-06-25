@@ -52,7 +52,7 @@ public class Platform extends com.sap.cloud.lm.sl.mta.model.v2_0.Platform {
         return moduleTypes3_0;
     }
 
-    public static class PlatformBuilder extends com.sap.cloud.lm.sl.mta.model.v2_0.Platform.PlatformBuilder {
+    public static class Builder extends com.sap.cloud.lm.sl.mta.model.v2_0.Platform.Builder {
 
         protected List<PlatformModuleType> moduleTypes3_0;
         protected List<PlatformResourceType> resourceTypes3_0;

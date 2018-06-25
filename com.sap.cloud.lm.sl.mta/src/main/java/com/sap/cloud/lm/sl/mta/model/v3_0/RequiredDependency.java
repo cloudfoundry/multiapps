@@ -10,7 +10,7 @@ public class RequiredDependency extends com.sap.cloud.lm.sl.mta.model.v2_0.Requi
 
     }
 
-    public static class RequiredDependencyBuilder extends com.sap.cloud.lm.sl.mta.model.v2_0.RequiredDependency.RequiredDependencyBuilder {
+    public static class Builder extends com.sap.cloud.lm.sl.mta.model.v2_0.RequiredDependency.Builder {
 
         @Override
         public RequiredDependency build() {
@@ -25,8 +25,9 @@ public class RequiredDependency extends com.sap.cloud.lm.sl.mta.model.v2_0.Requi
 
     }
 
+    @Override
     public RequiredDependency copyOf() {
-        RequiredDependencyBuilder result = new RequiredDependencyBuilder();
+        Builder result = new Builder();
         result.setName(getName());
         result.setGroup(getGroup());
         result.setList(getList());

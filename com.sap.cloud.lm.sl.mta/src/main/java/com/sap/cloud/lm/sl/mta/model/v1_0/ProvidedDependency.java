@@ -10,7 +10,6 @@ import java.util.Map;
 
 import com.sap.cloud.lm.sl.common.util.ListUtil;
 import com.sap.cloud.lm.sl.common.util.MapUtil;
-import com.sap.cloud.lm.sl.mta.builders.Builder;
 import com.sap.cloud.lm.sl.mta.model.ElementContext;
 import com.sap.cloud.lm.sl.mta.model.NamedElement;
 import com.sap.cloud.lm.sl.mta.model.PropertiesContainer;
@@ -53,6 +52,7 @@ public class ProvidedDependency implements VisitableElement, NamedElement, Prope
         this.groups = new ArrayList<>(groups);
     }
 
+    @Override
     public void setProperties(Map<String, Object> properties) {
         this.properties = new LinkedHashMap<>(properties);
     }
@@ -63,20 +63,19 @@ public class ProvidedDependency implements VisitableElement, NamedElement, Prope
     }
 
     public ProvidedDependency copyOf() {
-        ProvidedDependencyBuilder result = new ProvidedDependencyBuilder();
+        Builder result = new Builder();
         result.setName(getName());
         result.setGroups(getGroups());
         result.setProperties(getProperties());
         return result.build();
     }
 
-    public static class ProvidedDependencyBuilder implements Builder<ProvidedDependency> {
+    public static class Builder {
 
         protected String name;
         protected List<String> groups;
         protected Map<String, Object> properties;
 
-        @Override
         public ProvidedDependency build() {
             ProvidedDependency result = new ProvidedDependency();
             result.setName(name);

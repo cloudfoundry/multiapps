@@ -6,7 +6,7 @@ import java.util.Map;
 
 import com.sap.cloud.lm.sl.common.ParsingException;
 import com.sap.cloud.lm.sl.mta.model.v3_0.ExtensionProvidedDependency;
-import com.sap.cloud.lm.sl.mta.model.v3_0.ExtensionProvidedDependency.ExtensionProvidedDependencyBuilder;
+import com.sap.cloud.lm.sl.mta.model.v3_0.ExtensionProvidedDependency.Builder;
 import com.sap.cloud.lm.sl.mta.schema.MapElement;
 
 public class ExtensionProvidedDependencyParser extends com.sap.cloud.lm.sl.mta.parsers.v2_0.ExtensionProvidedDependencyParser {
@@ -21,7 +21,7 @@ public class ExtensionProvidedDependencyParser extends com.sap.cloud.lm.sl.mta.p
 
     @Override
     public ExtensionProvidedDependency parse() throws ParsingException {
-        ExtensionProvidedDependencyBuilder builder = new ExtensionProvidedDependencyBuilder();
+        Builder builder = new Builder();
         builder.setName(getName());
         builder.setProperties(getProperties());
         return builder.build();

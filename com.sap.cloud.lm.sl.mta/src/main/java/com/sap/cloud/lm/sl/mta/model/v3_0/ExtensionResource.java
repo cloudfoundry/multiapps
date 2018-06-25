@@ -10,7 +10,7 @@ public class ExtensionResource extends com.sap.cloud.lm.sl.mta.model.v2_0.Extens
 
     }
 
-    public static class ExtensionResourceBuilder extends com.sap.cloud.lm.sl.mta.model.v2_0.ExtensionResource.ExtensionResourceBuilder {
+    public static class Builder extends com.sap.cloud.lm.sl.mta.model.v2_0.ExtensionResource.Builder {
 
         @Override
         public ExtensionResource build() {

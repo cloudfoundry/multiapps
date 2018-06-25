@@ -32,12 +32,12 @@ public class TargetResourceType extends com.sap.cloud.lm.sl.mta.model.v1_0.Targe
         throw new UnsupportedOperationException();
     }
 
+    @Override
     public void setParameters(Map<String, Object> parameters) {
         this.parameters = new LinkedHashMap<>(parameters);
     }
 
-    public static class TargetResourceTypeBuilder
-        extends com.sap.cloud.lm.sl.mta.model.v1_0.TargetResourceType.TargetResourceTypeBuilder {
+    public static class Builder extends com.sap.cloud.lm.sl.mta.model.v1_0.TargetResourceType.Builder {
 
         protected Map<String, Object> parameters;
 

@@ -32,11 +32,12 @@ public class PlatformResourceType extends com.sap.cloud.lm.sl.mta.model.v1_0.Pla
         throw new UnsupportedOperationException();
     }
 
+    @Override
     public void setParameters(Map<String, Object> parameters) {
         this.parameters = new LinkedHashMap<>(parameters);
     }
 
-    public static class PlatformResourceTypeBuilder extends com.sap.cloud.lm.sl.mta.model.v1_0.PlatformResourceType.PlatformResourceTypeBuilder {
+    public static class Builder extends com.sap.cloud.lm.sl.mta.model.v1_0.PlatformResourceType.Builder {
 
         protected Map<String, Object> parameters;
 

@@ -10,7 +10,6 @@ import java.util.Map;
 
 import com.sap.cloud.lm.sl.common.util.ListUtil;
 import com.sap.cloud.lm.sl.common.util.MapUtil;
-import com.sap.cloud.lm.sl.mta.builders.Builder;
 import com.sap.cloud.lm.sl.mta.model.ElementContext;
 import com.sap.cloud.lm.sl.mta.model.NamedElement;
 import com.sap.cloud.lm.sl.mta.model.PropertiesContainer;
@@ -104,7 +103,7 @@ public class Module implements VisitableElement, NamedElement, PropertiesContain
     }
 
     public Module copyOf() {
-        ModuleBuilder result = new ModuleBuilder();
+        Builder result = new Builder();
         result.setName(getName());
         result.setType(getType());
         result.setDescription(getDescription());
@@ -119,7 +118,7 @@ public class Module implements VisitableElement, NamedElement, PropertiesContain
         return result.build();
     }
 
-    public static class ModuleBuilder implements Builder<Module> {
+    public static class Builder {
 
         protected String name;
         protected String type;
@@ -128,7 +127,6 @@ public class Module implements VisitableElement, NamedElement, PropertiesContain
         protected List<String> requiredDependencies1_0;
         protected List<ProvidedDependency> providedDependencies1_0;
 
-        @Override
         public Module build() {
             Module result = new Module();
             result.setName(name);

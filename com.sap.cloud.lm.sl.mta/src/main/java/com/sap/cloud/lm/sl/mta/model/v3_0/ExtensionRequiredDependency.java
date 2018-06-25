@@ -10,8 +10,7 @@ public class ExtensionRequiredDependency extends com.sap.cloud.lm.sl.mta.model.v
 
     }
 
-    public static class ExtensionRequiredDependencyBuilder
-        extends com.sap.cloud.lm.sl.mta.model.v2_0.ExtensionRequiredDependency.ExtensionRequiredDependencyBuilder {
+    public static class Builder extends com.sap.cloud.lm.sl.mta.model.v2_0.ExtensionRequiredDependency.Builder {
 
         @Override
         public ExtensionRequiredDependency build() {
