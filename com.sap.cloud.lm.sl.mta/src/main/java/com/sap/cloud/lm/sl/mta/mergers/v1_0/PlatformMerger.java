@@ -7,18 +7,16 @@ import com.sap.cloud.lm.sl.mta.model.PropertiesContainer;
 import com.sap.cloud.lm.sl.mta.model.Visitor;
 import com.sap.cloud.lm.sl.mta.model.v1_0.DeploymentDescriptor;
 import com.sap.cloud.lm.sl.mta.model.v1_0.Module;
-import com.sap.cloud.lm.sl.mta.model.v1_0.ModuleType;
 import com.sap.cloud.lm.sl.mta.model.v1_0.Platform;
 import com.sap.cloud.lm.sl.mta.model.v1_0.Resource;
-import com.sap.cloud.lm.sl.mta.model.v1_0.ResourceType;
 
 public class PlatformMerger extends Visitor {
 
-    protected final Platform platformType;
+    protected final Platform platform;
     protected final DescriptorHandler handler;
 
-    public PlatformMerger(Platform platformType, DescriptorHandler handler) {
-        this.platformType = platformType;
+    public PlatformMerger(Platform platform, DescriptorHandler handler) {
+        this.platform = platform;
         this.handler = handler;
     }
 
@@ -27,29 +25,28 @@ public class PlatformMerger extends Visitor {
     }
 
     @Override
-    public void visit(ElementContext context, Module element) {
-        ModuleType platformTypeElement = handler.findModuleType(platformType, element.getType());
-        if (platformTypeElement == null) {
+    public void visit(ElementContext context, Module module) {
+        PropertiesContainer moduleType = handler.findPlatformModuleType(platform, module.getType());
+        if (moduleType == null) {
             return;
         }
-        element.setProperties(MapUtil.merge(platformTypeElement.getProperties(), element.getProperties()));
+        module.setProperties(MapUtil.merge(moduleType.getProperties(), module.getProperties()));
     }
 
     @Override
-    public void visit(ElementContext context, DeploymentDescriptor element) {
-        PropertiesContainer platformTypeElement = platformType;
-        element.setProperties(MapUtil.merge(platformTypeElement.getProperties(), element.getProperties()));
+    public void visit(ElementContext context, DeploymentDescriptor descriptor) {
+        descriptor.setProperties(MapUtil.merge(platform.getProperties(), descriptor.getProperties()));
     }
 
     @Override
-    public void visit(ElementContext context, Resource element) {
-        if (element.getType() == null) {
+    public void visit(ElementContext context, Resource resource) {
+        if (resource.getType() == null) {
             return;
         }
-        ResourceType platformTypeElement = handler.findResourceType(platformType, element.getType());
-        if (platformTypeElement == null) {
+        PropertiesContainer resourceType = handler.findPlatformResourceType(platform, resource.getType());
+        if (resourceType == null) {
             return;
         }
-        element.setProperties(MapUtil.merge(platformTypeElement.getProperties(), element.getProperties()));
+        resource.setProperties(MapUtil.merge(resourceType.getProperties(), resource.getProperties()));
     }
 }

@@ -10,9 +10,9 @@ import com.sap.cloud.lm.sl.mta.handlers.v2_0.DescriptorHandler;
 import com.sap.cloud.lm.sl.mta.model.PropertiesContainer;
 import com.sap.cloud.lm.sl.mta.model.v2_0.DeploymentDescriptor;
 import com.sap.cloud.lm.sl.mta.model.v2_0.Module;
-import com.sap.cloud.lm.sl.mta.model.v2_0.ModuleType;
-import com.sap.cloud.lm.sl.mta.model.v2_0.Platform;
 import com.sap.cloud.lm.sl.mta.model.v2_0.PlatformModuleType;
+import com.sap.cloud.lm.sl.mta.model.v2_0.Platform;
+import com.sap.cloud.lm.sl.mta.model.v2_0.TargetModuleType;
 import com.sap.cloud.lm.sl.mta.model.v2_0.RequiredDependency;
 import com.sap.cloud.lm.sl.mta.model.v2_0.Resource;
 import com.sap.cloud.lm.sl.mta.model.v2_0.Target;
@@ -38,10 +38,10 @@ public class PropertiesChainBuilder extends com.sap.cloud.lm.sl.mta.builders.v1_
         if (module == null) {
             return Collections.emptyList();
         }
-        ModuleType moduleType = (ModuleType) getModuleType(module);
         List<RequiredDependency> dependencies = module.getRequiredDependencies2_0();
+        TargetModuleType targetModuleType = (TargetModuleType) getTargetModuleType(module);
         PlatformModuleType platformModuleType = (PlatformModuleType) getPlatformModuleType(module);
-        return getPropertiesList(module, moduleType, platformModuleType, dependencies);
+        return getPropertiesList(dependencies, module, targetModuleType, platformModuleType);
     }
 
     @Override
@@ -50,9 +50,9 @@ public class PropertiesChainBuilder extends com.sap.cloud.lm.sl.mta.builders.v1_
         if (module == null) {
             return Collections.emptyList();
         }
-        ModuleType moduleType = (ModuleType) getModuleType(module);
+        TargetModuleType targetModuleType = (TargetModuleType) getTargetModuleType(module);
         PlatformModuleType platformModuleType = (PlatformModuleType) getPlatformModuleType(module);
-        return PropertiesUtil.getPropertiesList(module, platformModuleType, moduleType);
+        return PropertiesUtil.getPropertiesList(module, targetModuleType, platformModuleType);
     }
 
     @Override
@@ -69,13 +69,13 @@ public class PropertiesChainBuilder extends com.sap.cloud.lm.sl.mta.builders.v1_
         throw new UnsupportedOperationException();
     }
 
-    protected static List<Map<String, Object>> getPropertiesList(Module module, ModuleType moduleType,
-        PlatformModuleType platformModuleType, List<RequiredDependency> dependencies) {
+    protected static List<Map<String, Object>> getPropertiesList(List<RequiredDependency> dependencies, Module module,
+        TargetModuleType targetModuleType, PlatformModuleType platformModuleType) {
         List<PropertiesContainer> containers = new ArrayList<PropertiesContainer>();
         containers.addAll(dependencies);
         ListUtil.addNonNull(containers, module);
+        ListUtil.addNonNull(containers, targetModuleType);
         ListUtil.addNonNull(containers, platformModuleType);
-        ListUtil.addNonNull(containers, moduleType);
         return PropertiesUtil.getPropertiesList(containers);
     }
 

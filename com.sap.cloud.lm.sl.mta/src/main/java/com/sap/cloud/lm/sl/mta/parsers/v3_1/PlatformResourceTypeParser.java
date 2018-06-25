@@ -5,8 +5,8 @@ import static com.sap.cloud.lm.sl.mta.handlers.v3_1.Schemas.PTF_RESOURCE_TYPE;
 import java.util.Map;
 
 import com.sap.cloud.lm.sl.common.ParsingException;
-import com.sap.cloud.lm.sl.mta.model.v3_1.PlatformResourceType;
-import com.sap.cloud.lm.sl.mta.model.v3_1.PlatformResourceType.PlatformResourceTypeBuilder;
+import com.sap.cloud.lm.sl.mta.model.v3_1.TargetResourceType;
+import com.sap.cloud.lm.sl.mta.model.v3_1.TargetResourceType.TargetResourceTypeBuilder;
 import com.sap.cloud.lm.sl.mta.schema.MapElement;
 
 public class PlatformResourceTypeParser extends com.sap.cloud.lm.sl.mta.parsers.v3_0.PlatformResourceTypeParser {
@@ -20,8 +20,8 @@ public class PlatformResourceTypeParser extends com.sap.cloud.lm.sl.mta.parsers.
     }
 
     @Override
-    public PlatformResourceType parse() throws ParsingException {
-        PlatformResourceTypeBuilder builder = new PlatformResourceTypeBuilder();
+    public TargetResourceType parse() throws ParsingException {
+        TargetResourceTypeBuilder builder = new TargetResourceTypeBuilder();
         builder.setName(getName());
         builder.setParameters(getParameters());
         return builder.build();

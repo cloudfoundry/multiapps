@@ -17,6 +17,7 @@ import com.sap.cloud.lm.sl.mta.model.Visitor;
 public class PlatformModuleType implements VisitableElement, NamedElement, PropertiesContainer {
 
     private String name;
+    private String deployer;
     private Map<String, Object> properties;
 
     protected PlatformModuleType() {
@@ -27,6 +28,10 @@ public class PlatformModuleType implements VisitableElement, NamedElement, Prope
         return name;
     }
 
+    public String getDeployer() {
+        return deployer;
+    }
+
     @Override
     public Map<String, Object> getProperties() {
         return MapUtil.unmodifiable(properties);
@@ -34,6 +39,10 @@ public class PlatformModuleType implements VisitableElement, NamedElement, Prope
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public void setDeployer(String deployer) {
+        this.deployer = deployer;
     }
 
     public void setProperties(Map<String, Object> properties) {
@@ -48,18 +57,24 @@ public class PlatformModuleType implements VisitableElement, NamedElement, Prope
     public static class PlatformModuleTypeBuilder implements Builder<PlatformModuleType> {
 
         protected String name;
+        protected String deployer;
         protected Map<String, Object> properties;
 
         @Override
         public PlatformModuleType build() {
             PlatformModuleType result = new PlatformModuleType();
             result.setName(name);
+            result.setDeployer(deployer);
             result.setProperties(getOrDefault(properties, Collections.<String, Object> emptyMap()));
             return result;
         }
 
         public void setName(String name) {
             this.name = name;
+        }
+
+        public void setDeployer(String deployer) {
+            this.deployer = deployer;
         }
 
         public void setProperties(Map<String, Object> properties) {

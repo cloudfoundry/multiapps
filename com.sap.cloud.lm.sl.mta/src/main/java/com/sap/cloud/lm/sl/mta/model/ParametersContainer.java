@@ -7,4 +7,5 @@ public interface ParametersContainer {
     Map<String, Object> getParameters();
 
     void setParameters(Map<String, Object> parameters);
+
 }

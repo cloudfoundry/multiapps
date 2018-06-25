@@ -6,8 +6,8 @@ import com.sap.cloud.lm.sl.mta.model.ElementContext;
 import com.sap.cloud.lm.sl.mta.model.Visitor;
 import com.sap.cloud.lm.sl.mta.model.v1_0.DeploymentDescriptor;
 import com.sap.cloud.lm.sl.mta.model.v1_0.Module;
-import com.sap.cloud.lm.sl.mta.model.v1_0.PlatformModuleType;
-import com.sap.cloud.lm.sl.mta.model.v1_0.PlatformResourceType;
+import com.sap.cloud.lm.sl.mta.model.v1_0.TargetModuleType;
+import com.sap.cloud.lm.sl.mta.model.v1_0.TargetResourceType;
 import com.sap.cloud.lm.sl.mta.model.v1_0.Resource;
 import com.sap.cloud.lm.sl.mta.model.v1_0.Target;
 
@@ -26,30 +26,29 @@ public class TargetMerger extends Visitor {
     }
 
     @Override
-    public void visit(ElementContext context, Module element) {
-        PlatformModuleType platformElement = handler.findPlatformModuleType(target, element.getType());
-        if (platformElement == null) {
+    public void visit(ElementContext context, Module module) {
+        TargetModuleType moduleType = handler.findTargetModuleType(target, module.getType());
+        if (moduleType == null) {
             return;
         }
-        element.setProperties(MapUtil.merge(platformElement.getProperties(), element.getProperties()));
+        module.setProperties(MapUtil.merge(moduleType.getProperties(), module.getProperties()));
     }
 
     @Override
-    public void visit(ElementContext context, DeploymentDescriptor element) {
-        Target targetElement = target;
-        element.setProperties(MapUtil.merge(targetElement.getProperties(), element.getProperties()));
+    public void visit(ElementContext context, DeploymentDescriptor descriptor) {
+        descriptor.setProperties(MapUtil.merge(target.getProperties(), descriptor.getProperties()));
     }
 
     @Override
-    public void visit(ElementContext context, Resource element) {
-        if (element.getType() == null) {
+    public void visit(ElementContext context, Resource resource) {
+        if (resource.getType() == null) {
             return;
         }
-        PlatformResourceType platformElement = handler.findTargetResourceType(target, element.getType());
-        if (platformElement == null) {
+        TargetResourceType resourceType = handler.findTargetResourceType(target, resource.getType());
+        if (resourceType == null) {
             return;
         }
-        element.setProperties(MapUtil.merge(platformElement.getProperties(), element.getProperties()));
+        resource.setProperties(MapUtil.merge(resourceType.getProperties(), resource.getProperties()));
     }
 
 }

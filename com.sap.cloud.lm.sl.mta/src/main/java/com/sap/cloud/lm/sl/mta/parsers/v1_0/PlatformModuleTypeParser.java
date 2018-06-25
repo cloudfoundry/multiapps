@@ -5,12 +5,12 @@ import static com.sap.cloud.lm.sl.mta.handlers.v1_0.Schemas.PTF_MODULE_TYPE;
 import java.util.Map;
 
 import com.sap.cloud.lm.sl.common.ParsingException;
-import com.sap.cloud.lm.sl.mta.model.v1_0.PlatformModuleType;
-import com.sap.cloud.lm.sl.mta.model.v1_0.PlatformModuleType.PlatformModuleTypeBuilder;
+import com.sap.cloud.lm.sl.mta.model.v1_0.TargetModuleType;
+import com.sap.cloud.lm.sl.mta.model.v1_0.TargetModuleType.TargetModuleTypeBuilder;
 import com.sap.cloud.lm.sl.mta.parsers.ModelParser;
 import com.sap.cloud.lm.sl.mta.schema.MapElement;
 
-public class PlatformModuleTypeParser extends ModelParser<PlatformModuleType> {
+public class PlatformModuleTypeParser extends ModelParser<TargetModuleType> {
 
     protected static final String PROCESSED_OBJECT_NAME = "MTA platform module type";
 
@@ -26,8 +26,8 @@ public class PlatformModuleTypeParser extends ModelParser<PlatformModuleType> {
     }
 
     @Override
-    public PlatformModuleType parse() throws ParsingException {
-        PlatformModuleTypeBuilder builder = new PlatformModuleTypeBuilder();
+    public TargetModuleType parse() throws ParsingException {
+        TargetModuleTypeBuilder builder = new TargetModuleTypeBuilder();
         builder.setName(getName());
         builder.setProperties(getProperties());
         return builder.build();

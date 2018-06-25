@@ -14,22 +14,17 @@ import com.sap.cloud.lm.sl.mta.model.PropertiesContainer;
 import com.sap.cloud.lm.sl.mta.model.VisitableElement;
 import com.sap.cloud.lm.sl.mta.model.Visitor;
 
-public class ResourceType implements VisitableElement, NamedElement, PropertiesContainer {
+public class TargetResourceType implements VisitableElement, NamedElement, PropertiesContainer {
 
     private String name;
-    private String resourceManager;
     private Map<String, Object> properties;
 
-    protected ResourceType() {
+    protected TargetResourceType() {
 
     }
 
     public String getName() {
         return name;
-    }
-
-    public String getResourceManager() {
-        return resourceManager;
     }
 
     public Map<String, Object> getProperties() {
@@ -38,10 +33,6 @@ public class ResourceType implements VisitableElement, NamedElement, PropertiesC
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public void setResourceManager(String resourceManager) {
-        this.resourceManager = resourceManager;
     }
 
     public void setProperties(Map<String, Object> properties) {
@@ -53,27 +44,21 @@ public class ResourceType implements VisitableElement, NamedElement, PropertiesC
         visitor.visit(context, this);
     }
 
-    public static class ResourceTypeBuilder implements Builder<ResourceType> {
+    public static class TargetResourceTypeBuilder implements Builder<TargetResourceType> {
 
         protected String name;
-        protected String resourceManager;
         protected Map<String, Object> properties;
 
         @Override
-        public ResourceType build() {
-            ResourceType result = new ResourceType();
+        public TargetResourceType build() {
+            TargetResourceType result = new TargetResourceType();
             result.setName(name);
-            result.setResourceManager(resourceManager);
             result.setProperties(getOrDefault(properties, Collections.<String, Object> emptyMap()));
             return result;
         }
 
         public void setName(String name) {
             this.name = name;
-        }
-
-        public void setResourceManager(String resourceManager) {
-            this.resourceManager = resourceManager;
         }
 
         public void setProperties(Map<String, Object> properties) {

@@ -7,10 +7,10 @@ import java.util.Map;
 
 import com.sap.cloud.lm.sl.common.ParsingException;
 import com.sap.cloud.lm.sl.common.util.ListUtil;
-import com.sap.cloud.lm.sl.mta.model.v3_1.ModuleType;
+import com.sap.cloud.lm.sl.mta.model.v3_1.PlatformModuleType;
 import com.sap.cloud.lm.sl.mta.model.v3_1.Platform;
 import com.sap.cloud.lm.sl.mta.model.v3_1.Platform.PlatformBuilder;
-import com.sap.cloud.lm.sl.mta.model.v3_1.ResourceType;
+import com.sap.cloud.lm.sl.mta.model.v3_1.PlatformResourceType;
 import com.sap.cloud.lm.sl.mta.schema.MapElement;
 
 public class PlatformParser extends com.sap.cloud.lm.sl.mta.parsers.v3_0.PlatformParser {
@@ -34,7 +34,7 @@ public class PlatformParser extends com.sap.cloud.lm.sl.mta.parsers.v3_0.Platfor
         return builder.build();
     }
 
-    protected List<ModuleType> getModuleTypes3_1() throws ParsingException {
+    protected List<PlatformModuleType> getModuleTypes3_1() throws ParsingException {
         return ListUtil.cast(getModuleTypes3_0());
     }
 
@@ -43,7 +43,7 @@ public class PlatformParser extends com.sap.cloud.lm.sl.mta.parsers.v3_0.Platfor
         return new ModuleTypeParser(source);
     }
 
-    protected List<ResourceType> getResourceTypes3_1() throws ParsingException {
+    protected List<PlatformResourceType> getResourceTypes3_1() throws ParsingException {
         return ListUtil.cast(getResourceTypes3_0());
     }
 

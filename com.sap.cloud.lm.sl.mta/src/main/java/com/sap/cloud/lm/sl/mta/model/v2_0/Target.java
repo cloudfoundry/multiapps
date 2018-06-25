@@ -14,46 +14,46 @@ import com.sap.cloud.lm.sl.mta.model.ParametersContainer;
 public class Target extends com.sap.cloud.lm.sl.mta.model.v1_0.Target implements ParametersContainer {
 
     private Map<String, Object> parameters;
-    private List<PlatformModuleType> platformModuleTypes2_0;
-    private List<PlatformResourceType> platformResourceTypes2_0;
+    private List<TargetModuleType> platformModuleTypes2_0;
+    private List<TargetResourceType> platformResourceTypes2_0;
 
     protected Target() {
 
     }
 
-    public void setResourceTypes2_0(List<PlatformResourceType> resourceTypes) {
+    public void setResourceTypes2_0(List<TargetResourceType> resourceTypes) {
         setResourceTypes(resourceTypes);
     }
 
     @Override
-    protected void setResourceTypes(List<? extends com.sap.cloud.lm.sl.mta.model.v1_0.PlatformResourceType> resourceTypes) {
+    protected void setResourceTypes(List<? extends com.sap.cloud.lm.sl.mta.model.v1_0.TargetResourceType> resourceTypes) {
         this.platformResourceTypes2_0 = ListUtil.cast(resourceTypes);
     }
 
-    public List<PlatformResourceType> getResourceTypes2_0() {
+    public List<TargetResourceType> getResourceTypes2_0() {
         return ListUtil.upcastUnmodifiable(getResourceTypes());
     }
 
     @Override
-    protected List<? extends PlatformResourceType> getResourceTypes() {
+    protected List<? extends TargetResourceType> getResourceTypes() {
         return platformResourceTypes2_0;
     }
 
-    public void setModuleTypes2_0(List<PlatformModuleType> moduleTypes) {
+    public void setModuleTypes2_0(List<TargetModuleType> moduleTypes) {
         setModuleTypes(moduleTypes);
     }
 
     @Override
-    protected void setModuleTypes(List<? extends com.sap.cloud.lm.sl.mta.model.v1_0.PlatformModuleType> moduleTypes) {
+    protected void setModuleTypes(List<? extends com.sap.cloud.lm.sl.mta.model.v1_0.TargetModuleType> moduleTypes) {
         this.platformModuleTypes2_0 = ListUtil.cast(moduleTypes);
     }
 
-    public List<PlatformModuleType> getModuleTypes2_0() {
+    public List<TargetModuleType> getModuleTypes2_0() {
         return ListUtil.upcastUnmodifiable(getModuleTypes());
     }
 
     @Override
-    protected List<? extends PlatformModuleType> getModuleTypes() {
+    protected List<? extends TargetModuleType> getModuleTypes() {
         return platformModuleTypes2_0;
     }
 
@@ -79,8 +79,8 @@ public class Target extends com.sap.cloud.lm.sl.mta.model.v1_0.Target implements
     public static class TargetBuilder extends com.sap.cloud.lm.sl.mta.model.v1_0.Target.TargetBuilder {
 
         protected Map<String, Object> parameters;
-        protected List<PlatformModuleType> platformModuleTypes2_0;
-        protected List<PlatformResourceType> platformResourceTypes2_0;
+        protected List<TargetModuleType> platformModuleTypes2_0;
+        protected List<TargetResourceType> platformResourceTypes2_0;
 
         @Override
         public Target build() {
@@ -88,27 +88,27 @@ public class Target extends com.sap.cloud.lm.sl.mta.model.v1_0.Target implements
             result.setName(name);
             result.setType(type);
             result.setDescription(description);
-            result.setModuleTypes2_0(getOrDefault(platformModuleTypes2_0, Collections.<PlatformModuleType> emptyList()));
+            result.setModuleTypes2_0(getOrDefault(platformModuleTypes2_0, Collections.<TargetModuleType> emptyList()));
             result.setParameters(getOrDefault(parameters, Collections.<String, Object> emptyMap()));
-            result.setResourceTypes2_0(getOrDefault(platformResourceTypes2_0, Collections.<PlatformResourceType> emptyList()));
+            result.setResourceTypes2_0(getOrDefault(platformResourceTypes2_0, Collections.<TargetResourceType> emptyList()));
             return result;
         }
 
-        public void setModuleTypes2_0(List<PlatformModuleType> moduleTypes) {
+        public void setModuleTypes2_0(List<TargetModuleType> moduleTypes) {
             setModuleTypes(moduleTypes);
         }
 
         @Override
-        protected void setModuleTypes(List<? extends com.sap.cloud.lm.sl.mta.model.v1_0.PlatformModuleType> moduleTypes) {
+        protected void setModuleTypes(List<? extends com.sap.cloud.lm.sl.mta.model.v1_0.TargetModuleType> moduleTypes) {
             this.platformModuleTypes2_0 = ListUtil.cast(moduleTypes);
         }
 
-        public void setResourceTypes2_0(List<PlatformResourceType> resourceTypes) {
+        public void setResourceTypes2_0(List<TargetResourceType> resourceTypes) {
             setResourceTypes(resourceTypes);
         }
 
         @Override
-        protected void setResourceTypes(List<? extends com.sap.cloud.lm.sl.mta.model.v1_0.PlatformResourceType> resourceTypes) {
+        protected void setResourceTypes(List<? extends com.sap.cloud.lm.sl.mta.model.v1_0.TargetResourceType> resourceTypes) {
             this.platformResourceTypes2_0 = ListUtil.cast(resourceTypes);
         }
 

@@ -14,22 +14,17 @@ import com.sap.cloud.lm.sl.mta.model.PropertiesContainer;
 import com.sap.cloud.lm.sl.mta.model.VisitableElement;
 import com.sap.cloud.lm.sl.mta.model.Visitor;
 
-public class ModuleType implements VisitableElement, NamedElement, PropertiesContainer {
+public class TargetModuleType implements VisitableElement, NamedElement, PropertiesContainer {
 
     private String name;
-    private String deployer;
     private Map<String, Object> properties;
 
-    protected ModuleType() {
+    protected TargetModuleType() {
 
     }
 
     public String getName() {
         return name;
-    }
-
-    public String getDeployer() {
-        return deployer;
     }
 
     @Override
@@ -41,10 +36,6 @@ public class ModuleType implements VisitableElement, NamedElement, PropertiesCon
         this.name = name;
     }
 
-    public void setDeployer(String deployer) {
-        this.deployer = deployer;
-    }
-
     public void setProperties(Map<String, Object> properties) {
         this.properties = new LinkedHashMap<>(properties);
     }
@@ -54,27 +45,21 @@ public class ModuleType implements VisitableElement, NamedElement, PropertiesCon
         visitor.visit(context, this);
     }
 
-    public static class ModuleTypeBuilder implements Builder<ModuleType> {
+    public static class TargetModuleTypeBuilder implements Builder<TargetModuleType> {
 
         protected String name;
-        protected String deployer;
         protected Map<String, Object> properties;
 
         @Override
-        public ModuleType build() {
-            ModuleType result = new ModuleType();
+        public TargetModuleType build() {
+            TargetModuleType result = new TargetModuleType();
             result.setName(name);
-            result.setDeployer(deployer);
             result.setProperties(getOrDefault(properties, Collections.<String, Object> emptyMap()));
             return result;
         }
 
         public void setName(String name) {
             this.name = name;
-        }
-
-        public void setDeployer(String deployer) {
-            this.deployer = deployer;
         }
 
         public void setProperties(Map<String, Object> properties) {

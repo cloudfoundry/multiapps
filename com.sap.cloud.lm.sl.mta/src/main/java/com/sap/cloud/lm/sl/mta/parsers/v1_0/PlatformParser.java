@@ -8,10 +8,10 @@ import java.util.Map;
 import java.util.Set;
 
 import com.sap.cloud.lm.sl.common.ParsingException;
-import com.sap.cloud.lm.sl.mta.model.v1_0.ModuleType;
+import com.sap.cloud.lm.sl.mta.model.v1_0.PlatformModuleType;
 import com.sap.cloud.lm.sl.mta.model.v1_0.Platform;
 import com.sap.cloud.lm.sl.mta.model.v1_0.Platform.PlatformBuilder;
-import com.sap.cloud.lm.sl.mta.model.v1_0.ResourceType;
+import com.sap.cloud.lm.sl.mta.model.v1_0.PlatformResourceType;
 import com.sap.cloud.lm.sl.mta.parsers.ListParser;
 import com.sap.cloud.lm.sl.mta.parsers.ModelParser;
 import com.sap.cloud.lm.sl.mta.schema.MapElement;
@@ -66,10 +66,10 @@ public class PlatformParser extends ModelParser<Platform> {
         return getMapElement(PROPERTIES);
     }
 
-    protected List<ModuleType> getModuleTypes1_0() throws ParsingException {
-        return getListElement(MODULE_TYPES, new ListParser<ModuleType>() {
+    protected List<PlatformModuleType> getModuleTypes1_0() throws ParsingException {
+        return getListElement(MODULE_TYPES, new ListParser<PlatformModuleType>() {
             @Override
-            protected ModuleType parseItem(Map<String, Object> map) throws ParsingException {
+            protected PlatformModuleType parseItem(Map<String, Object> map) throws ParsingException {
                 return getModuleTypeParser(map).setUsedValues(usedModuleTypeNames)
                     .parse();
             }
@@ -80,10 +80,10 @@ public class PlatformParser extends ModelParser<Platform> {
         return new ModuleTypeParser(source);
     }
 
-    protected List<ResourceType> getResourceTypes1_0() throws ParsingException {
-        return getListElement(RESOURCE_TYPES, new ListParser<ResourceType>() {
+    protected List<PlatformResourceType> getResourceTypes1_0() throws ParsingException {
+        return getListElement(RESOURCE_TYPES, new ListParser<PlatformResourceType>() {
             @Override
-            protected ResourceType parseItem(Map<String, Object> map) throws ParsingException {
+            protected PlatformResourceType parseItem(Map<String, Object> map) throws ParsingException {
                 return getResourceTypeParser(map).setUsedValues(usedResourceTypeNames)
                     .parse();
             }

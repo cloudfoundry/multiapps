@@ -17,6 +17,7 @@ import com.sap.cloud.lm.sl.mta.model.Visitor;
 public class PlatformResourceType implements VisitableElement, NamedElement, PropertiesContainer {
 
     private String name;
+    private String resourceManager;
     private Map<String, Object> properties;
 
     protected PlatformResourceType() {
@@ -27,12 +28,20 @@ public class PlatformResourceType implements VisitableElement, NamedElement, Pro
         return name;
     }
 
+    public String getResourceManager() {
+        return resourceManager;
+    }
+
     public Map<String, Object> getProperties() {
         return MapUtil.unmodifiable(properties);
     }
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public void setResourceManager(String resourceManager) {
+        this.resourceManager = resourceManager;
     }
 
     public void setProperties(Map<String, Object> properties) {
@@ -47,18 +56,24 @@ public class PlatformResourceType implements VisitableElement, NamedElement, Pro
     public static class PlatformResourceTypeBuilder implements Builder<PlatformResourceType> {
 
         protected String name;
+        protected String resourceManager;
         protected Map<String, Object> properties;
 
         @Override
         public PlatformResourceType build() {
             PlatformResourceType result = new PlatformResourceType();
             result.setName(name);
+            result.setResourceManager(resourceManager);
             result.setProperties(getOrDefault(properties, Collections.<String, Object> emptyMap()));
             return result;
         }
 
         public void setName(String name) {
             this.name = name;
+        }
+
+        public void setResourceManager(String resourceManager) {
+            this.resourceManager = resourceManager;
         }
 
         public void setProperties(Map<String, Object> properties) {

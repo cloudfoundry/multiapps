@@ -16,6 +16,7 @@ public class PlatformModuleType extends com.sap.cloud.lm.sl.mta.model.v2_0.Platf
         public PlatformModuleType build() {
             PlatformModuleType result = new PlatformModuleType();
             result.setName(name);
+            result.setDeployer(deployer);
             result.setProperties(getOrDefault(properties, Collections.<String, Object> emptyMap()));
             result.setParameters(getOrDefault(parameters, Collections.<String, Object> emptyMap()));
             return result;

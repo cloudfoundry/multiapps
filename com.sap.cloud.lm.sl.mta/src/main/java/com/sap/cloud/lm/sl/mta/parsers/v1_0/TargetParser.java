@@ -8,8 +8,8 @@ import java.util.Map;
 import java.util.Set;
 
 import com.sap.cloud.lm.sl.common.ParsingException;
-import com.sap.cloud.lm.sl.mta.model.v1_0.PlatformModuleType;
-import com.sap.cloud.lm.sl.mta.model.v1_0.PlatformResourceType;
+import com.sap.cloud.lm.sl.mta.model.v1_0.TargetModuleType;
+import com.sap.cloud.lm.sl.mta.model.v1_0.TargetResourceType;
 import com.sap.cloud.lm.sl.mta.model.v1_0.Target;
 import com.sap.cloud.lm.sl.mta.model.v1_0.Target.TargetBuilder;
 import com.sap.cloud.lm.sl.mta.parsers.ListParser;
@@ -66,10 +66,10 @@ public class TargetParser extends ModelParser<Target> {
         return getMapElement(PROPERTIES);
     }
 
-    protected List<PlatformModuleType> getModuleTypes1_0() throws ParsingException {
-        return getListElement(MODULE_TYPES, new ListParser<PlatformModuleType>() {
+    protected List<TargetModuleType> getModuleTypes1_0() throws ParsingException {
+        return getListElement(MODULE_TYPES, new ListParser<TargetModuleType>() {
             @Override
-            protected PlatformModuleType parseItem(Map<String, Object> map) throws ParsingException {
+            protected TargetModuleType parseItem(Map<String, Object> map) throws ParsingException {
                 return getModuleTypeParser(map).setUsedValues(usedModuleTypeNames)
                     .parse();
             }
@@ -80,10 +80,10 @@ public class TargetParser extends ModelParser<Target> {
         return new PlatformModuleTypeParser(source);
     }
 
-    protected List<PlatformResourceType> getResourceTypes1_0() throws ParsingException {
-        return getListElement(RESOURCE_TYPES, new ListParser<PlatformResourceType>() {
+    protected List<TargetResourceType> getResourceTypes1_0() throws ParsingException {
+        return getListElement(RESOURCE_TYPES, new ListParser<TargetResourceType>() {
             @Override
-            protected PlatformResourceType parseItem(Map<String, Object> map) throws ParsingException {
+            protected TargetResourceType parseItem(Map<String, Object> map) throws ParsingException {
                 return getResourceTypeParser(map).setUsedValues(usedResourceTypeNames)
                     .parse();
             }

@@ -1,22 +1,21 @@
-package com.sap.cloud.lm.sl.mta.model.v3_1;
+package com.sap.cloud.lm.sl.mta.model.v3_0;
 
 import static com.sap.cloud.lm.sl.common.util.CommonUtil.getOrDefault;
 
 import java.util.Collections;
 
-public class ModuleType extends com.sap.cloud.lm.sl.mta.model.v3_0.ModuleType {
+public class TargetModuleType extends com.sap.cloud.lm.sl.mta.model.v2_0.TargetModuleType {
 
-    protected ModuleType() {
+    protected TargetModuleType() {
 
     }
 
-    public static class ModuleTypeBuilder extends com.sap.cloud.lm.sl.mta.model.v3_0.ModuleType.ModuleTypeBuilder {
+    public static class TargetModuleTypeBuilder extends com.sap.cloud.lm.sl.mta.model.v2_0.TargetModuleType.TargetModuleTypeBuilder {
 
         @Override
-        public ModuleType build() {
-            ModuleType result = new ModuleType();
+        public TargetModuleType build() {
+            TargetModuleType result = new TargetModuleType();
             result.setName(name);
-            result.setDeployer(deployer);
             result.setProperties(getOrDefault(properties, Collections.<String, Object> emptyMap()));
             result.setParameters(getOrDefault(parameters, Collections.<String, Object> emptyMap()));
             return result;

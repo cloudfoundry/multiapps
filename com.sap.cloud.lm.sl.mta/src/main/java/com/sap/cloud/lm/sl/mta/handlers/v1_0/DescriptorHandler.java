@@ -15,13 +15,13 @@ import com.sap.cloud.lm.sl.mta.model.v1_0.ExtensionModule;
 import com.sap.cloud.lm.sl.mta.model.v1_0.ExtensionProvidedDependency;
 import com.sap.cloud.lm.sl.mta.model.v1_0.ExtensionResource;
 import com.sap.cloud.lm.sl.mta.model.v1_0.Module;
-import com.sap.cloud.lm.sl.mta.model.v1_0.ModuleType;
-import com.sap.cloud.lm.sl.mta.model.v1_0.Platform;
 import com.sap.cloud.lm.sl.mta.model.v1_0.PlatformModuleType;
-import com.sap.cloud.lm.sl.mta.model.v1_0.PlatformResourceType;
+import com.sap.cloud.lm.sl.mta.model.v1_0.Platform;
+import com.sap.cloud.lm.sl.mta.model.v1_0.TargetModuleType;
+import com.sap.cloud.lm.sl.mta.model.v1_0.TargetResourceType;
 import com.sap.cloud.lm.sl.mta.model.v1_0.ProvidedDependency;
 import com.sap.cloud.lm.sl.mta.model.v1_0.Resource;
-import com.sap.cloud.lm.sl.mta.model.v1_0.ResourceType;
+import com.sap.cloud.lm.sl.mta.model.v1_0.PlatformResourceType;
 import com.sap.cloud.lm.sl.mta.model.v1_0.Target;
 
 public class DescriptorHandler {
@@ -53,8 +53,8 @@ public class DescriptorHandler {
         return null;
     }
 
-    public ResourceType findResourceType(Platform platform, String resourceTypeName) {
-        for (ResourceType resourceType : platform.getResourceTypes1_0()) {
+    public PlatformResourceType findPlatformResourceType(Platform platform, String resourceTypeName) {
+        for (PlatformResourceType resourceType : platform.getResourceTypes1_0()) {
             if (resourceType.getName()
                 .equals(resourceTypeName)) {
                 return resourceType;
@@ -63,8 +63,8 @@ public class DescriptorHandler {
         return null;
     }
 
-    public PlatformResourceType findTargetResourceType(Target target, String resourceTypeName) {
-        for (PlatformResourceType resourceType : target.getResourceTypes1_0()) {
+    public TargetResourceType findTargetResourceType(Target target, String resourceTypeName) {
+        for (TargetResourceType resourceType : target.getResourceTypes1_0()) {
             if (resourceType.getName()
                 .equals(resourceTypeName)) {
                 return resourceType;
@@ -73,8 +73,8 @@ public class DescriptorHandler {
         return null;
     }
 
-    public ModuleType findModuleType(Platform platform, String moduleTypeName) {
-        for (ModuleType moduleType : platform.getModuleTypes1_0()) {
+    public PlatformModuleType findPlatformModuleType(Platform platform, String moduleTypeName) {
+        for (PlatformModuleType moduleType : platform.getModuleTypes1_0()) {
             if (moduleType.getName()
                 .equals(moduleTypeName)) {
                 return moduleType;
@@ -83,8 +83,8 @@ public class DescriptorHandler {
         return null;
     }
 
-    public PlatformModuleType findPlatformModuleType(Target target, String moduleTypeName) {
-        for (PlatformModuleType moduleType : target.getModuleTypes1_0()) {
+    public TargetModuleType findTargetModuleType(Target target, String moduleTypeName) {
+        for (TargetModuleType moduleType : target.getModuleTypes1_0()) {
             if (moduleType.getName()
                 .equals(moduleTypeName)) {
                 return moduleType;

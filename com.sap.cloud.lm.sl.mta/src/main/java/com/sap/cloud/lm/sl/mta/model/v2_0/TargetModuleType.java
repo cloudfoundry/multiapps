@@ -9,17 +9,12 @@ import java.util.Map;
 import com.sap.cloud.lm.sl.common.util.MapUtil;
 import com.sap.cloud.lm.sl.mta.model.ParametersContainer;
 
-public class ResourceType extends com.sap.cloud.lm.sl.mta.model.v1_0.ResourceType implements ParametersContainer {
+public class TargetModuleType extends com.sap.cloud.lm.sl.mta.model.v1_0.TargetModuleType implements ParametersContainer {
 
     private Map<String, Object> parameters;
 
-    protected ResourceType() {
+    protected TargetModuleType() {
 
-    }
-
-    @Override
-    public Map<String, Object> getProperties() {
-        throw new UnsupportedOperationException();
     }
 
     @Override
@@ -27,35 +22,25 @@ public class ResourceType extends com.sap.cloud.lm.sl.mta.model.v1_0.ResourceTyp
         return MapUtil.unmodifiable(parameters);
     }
 
-    @Override
-    public void setProperties(Map<String, Object> properties) {
-        throw new UnsupportedOperationException();
-    }
-
     public void setParameters(Map<String, Object> parameters) {
         this.parameters = new LinkedHashMap<>(parameters);
     }
 
-    public static class ResourceTypeBuilder extends com.sap.cloud.lm.sl.mta.model.v1_0.ResourceType.ResourceTypeBuilder {
+    public static class TargetModuleTypeBuilder extends com.sap.cloud.lm.sl.mta.model.v1_0.TargetModuleType.TargetModuleTypeBuilder {
 
         protected Map<String, Object> parameters;
 
         @Override
-        public ResourceType build() {
-            ResourceType result = new ResourceType();
+        public TargetModuleType build() {
+            TargetModuleType result = new TargetModuleType();
             result.setName(name);
-            result.setResourceManager(resourceManager);
+            result.setProperties(getOrDefault(properties, Collections.<String, Object> emptyMap()));
             result.setParameters(getOrDefault(parameters, Collections.<String, Object> emptyMap()));
             return result;
         }
 
         public void setParameters(Map<String, Object> parameters) {
             this.parameters = parameters;
-        }
-
-        @Override
-        public void setProperties(Map<String, Object> properties) {
-            throw new UnsupportedOperationException();
         }
 
     }

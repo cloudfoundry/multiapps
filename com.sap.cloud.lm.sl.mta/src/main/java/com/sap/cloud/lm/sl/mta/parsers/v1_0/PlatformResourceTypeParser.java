@@ -5,12 +5,12 @@ import static com.sap.cloud.lm.sl.mta.handlers.v1_0.Schemas.PTF_RESOURCE_TYPE;
 import java.util.Map;
 
 import com.sap.cloud.lm.sl.common.ParsingException;
-import com.sap.cloud.lm.sl.mta.model.v1_0.PlatformResourceType;
-import com.sap.cloud.lm.sl.mta.model.v1_0.PlatformResourceType.PlatformResourceTypeBuilder;
+import com.sap.cloud.lm.sl.mta.model.v1_0.TargetResourceType;
+import com.sap.cloud.lm.sl.mta.model.v1_0.TargetResourceType.TargetResourceTypeBuilder;
 import com.sap.cloud.lm.sl.mta.parsers.ModelParser;
 import com.sap.cloud.lm.sl.mta.schema.MapElement;
 
-public class PlatformResourceTypeParser extends ModelParser<PlatformResourceType> {
+public class PlatformResourceTypeParser extends ModelParser<TargetResourceType> {
 
     protected static final String PROCESSED_OBJECT_NAME = "MTA platform resource type";
 
@@ -26,8 +26,8 @@ public class PlatformResourceTypeParser extends ModelParser<PlatformResourceType
     }
 
     @Override
-    public PlatformResourceType parse() throws ParsingException {
-        PlatformResourceTypeBuilder builder = new PlatformResourceTypeBuilder();
+    public TargetResourceType parse() throws ParsingException {
+        TargetResourceTypeBuilder builder = new TargetResourceTypeBuilder();
         builder.setName(getName());
         builder.setProperties(getProperties());
         return builder.build();

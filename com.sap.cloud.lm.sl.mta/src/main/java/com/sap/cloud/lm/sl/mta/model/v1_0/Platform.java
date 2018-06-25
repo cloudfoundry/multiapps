@@ -25,8 +25,8 @@ public class Platform implements VisitableElement, NamedElement, PropertiesConta
     private String version;
     private String description;
     private Map<String, Object> properties;
-    private List<ModuleType> moduleTypes1_0;
-    private List<ResourceType> resourceTypes1_0;
+    private List<PlatformModuleType> moduleTypes1_0;
+    private List<PlatformResourceType> resourceTypes1_0;
 
     protected Platform() {
 
@@ -49,19 +49,19 @@ public class Platform implements VisitableElement, NamedElement, PropertiesConta
         return MapUtil.unmodifiable(properties);
     }
 
-    public List<ModuleType> getModuleTypes1_0() {
+    public List<PlatformModuleType> getModuleTypes1_0() {
         return ListUtil.upcastUnmodifiable(getModuleTypes());
     }
 
-    protected List<? extends ModuleType> getModuleTypes() {
+    protected List<? extends PlatformModuleType> getModuleTypes() {
         return moduleTypes1_0;
     }
 
-    public List<ResourceType> getResourceTypes1_0() {
+    public List<PlatformResourceType> getResourceTypes1_0() {
         return ListUtil.upcastUnmodifiable(getResourceTypes());
     }
 
-    protected List<? extends ResourceType> getResourceTypes() {
+    protected List<? extends PlatformResourceType> getResourceTypes() {
         return resourceTypes1_0;
     }
 
@@ -81,19 +81,19 @@ public class Platform implements VisitableElement, NamedElement, PropertiesConta
         this.properties = new LinkedHashMap<>(properties);
     }
 
-    public void setModuleTypes1_0(List<ModuleType> moduleTypes) {
+    public void setModuleTypes1_0(List<PlatformModuleType> moduleTypes) {
         setModuleTypes(moduleTypes);
     }
 
-    protected void setModuleTypes(List<? extends ModuleType> moduleTypes) {
+    protected void setModuleTypes(List<? extends PlatformModuleType> moduleTypes) {
         this.moduleTypes1_0 = ListUtil.cast(moduleTypes);
     }
 
-    public void setResourceTypes1_0(List<ResourceType> resourceTypes) {
+    public void setResourceTypes1_0(List<PlatformResourceType> resourceTypes) {
         setResourceTypes(resourceTypes);
     }
 
-    protected void setResourceTypes(List<? extends ResourceType> resourceTypes) {
+    protected void setResourceTypes(List<? extends PlatformResourceType> resourceTypes) {
         this.resourceTypes1_0 = ListUtil.cast(resourceTypes);
     }
 
@@ -104,10 +104,10 @@ public class Platform implements VisitableElement, NamedElement, PropertiesConta
     @Override
     public void accept(ElementContext context, Visitor visitor) {
         visitor.visit(context, this);
-        for (ModuleType moduleType : getModuleTypes()) {
+        for (PlatformModuleType moduleType : getModuleTypes()) {
             moduleType.accept(new ElementContext(moduleType, context), visitor);
         }
-        for (ResourceType resourceType : getResourceTypes()) {
+        for (PlatformResourceType resourceType : getResourceTypes()) {
             resourceType.accept(new ElementContext(resourceType, context), visitor);
         }
     }
@@ -118,8 +118,8 @@ public class Platform implements VisitableElement, NamedElement, PropertiesConta
         protected String version;
         protected String description;
         protected Map<String, Object> properties;
-        protected List<ModuleType> moduleTypes1_0;
-        protected List<ResourceType> resourceTypes1_0;
+        protected List<PlatformModuleType> moduleTypes1_0;
+        protected List<PlatformResourceType> resourceTypes1_0;
 
         @Override
         public Platform build() {
@@ -128,8 +128,8 @@ public class Platform implements VisitableElement, NamedElement, PropertiesConta
             result.setVersion(version);
             result.setDescription(description);
             result.setProperties(getOrDefault(properties, Collections.<String, Object> emptyMap()));
-            result.setModuleTypes1_0(getOrDefault(moduleTypes1_0, Collections.<ModuleType> emptyList()));
-            result.setResourceTypes1_0(getOrDefault(resourceTypes1_0, Collections.<ResourceType> emptyList()));
+            result.setModuleTypes1_0(getOrDefault(moduleTypes1_0, Collections.<PlatformModuleType> emptyList()));
+            result.setResourceTypes1_0(getOrDefault(resourceTypes1_0, Collections.<PlatformResourceType> emptyList()));
             return result;
         }
 
@@ -149,19 +149,19 @@ public class Platform implements VisitableElement, NamedElement, PropertiesConta
             this.properties = properties;
         }
 
-        public void setModuleTypes1_0(List<ModuleType> moduleTypes) {
+        public void setModuleTypes1_0(List<PlatformModuleType> moduleTypes) {
             setModuleTypes(moduleTypes);
         }
 
-        protected void setModuleTypes(List<? extends ModuleType> moduleTypes) {
+        protected void setModuleTypes(List<? extends PlatformModuleType> moduleTypes) {
             this.moduleTypes1_0 = ListUtil.cast(moduleTypes);
         }
 
-        public void setResourceTypes1_0(List<ResourceType> resourceTypes) {
+        public void setResourceTypes1_0(List<PlatformResourceType> resourceTypes) {
             setResourceTypes(resourceTypes);
         }
 
-        protected void setResourceTypes(List<? extends ResourceType> resourceTypes) {
+        protected void setResourceTypes(List<? extends PlatformResourceType> resourceTypes) {
             this.resourceTypes1_0 = ListUtil.cast(resourceTypes);
         }
 

@@ -36,8 +36,7 @@ public class PlatformResourceType extends com.sap.cloud.lm.sl.mta.model.v1_0.Pla
         this.parameters = new LinkedHashMap<>(parameters);
     }
 
-    public static class PlatformResourceTypeBuilder
-        extends com.sap.cloud.lm.sl.mta.model.v1_0.PlatformResourceType.PlatformResourceTypeBuilder {
+    public static class PlatformResourceTypeBuilder extends com.sap.cloud.lm.sl.mta.model.v1_0.PlatformResourceType.PlatformResourceTypeBuilder {
 
         protected Map<String, Object> parameters;
 
@@ -45,6 +44,7 @@ public class PlatformResourceType extends com.sap.cloud.lm.sl.mta.model.v1_0.Pla
         public PlatformResourceType build() {
             PlatformResourceType result = new PlatformResourceType();
             result.setName(name);
+            result.setResourceManager(resourceManager);
             result.setParameters(getOrDefault(parameters, Collections.<String, Object> emptyMap()));
             return result;
         }

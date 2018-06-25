@@ -3,8 +3,8 @@ package com.sap.cloud.lm.sl.mta.mergers.v2_0;
 import com.sap.cloud.lm.sl.common.util.MapUtil;
 import com.sap.cloud.lm.sl.mta.handlers.v2_0.DescriptorHandler;
 import com.sap.cloud.lm.sl.mta.model.ElementContext;
-import com.sap.cloud.lm.sl.mta.model.v2_0.PlatformModuleType;
-import com.sap.cloud.lm.sl.mta.model.v2_0.PlatformResourceType;
+import com.sap.cloud.lm.sl.mta.model.v2_0.TargetModuleType;
+import com.sap.cloud.lm.sl.mta.model.v2_0.TargetResourceType;
 import com.sap.cloud.lm.sl.mta.model.v2_0.Target;
 
 public class TargetMerger extends com.sap.cloud.lm.sl.mta.mergers.v1_0.TargetMerger {
@@ -14,43 +14,43 @@ public class TargetMerger extends com.sap.cloud.lm.sl.mta.mergers.v1_0.TargetMer
     }
 
     @Override
-    public void visit(ElementContext context, com.sap.cloud.lm.sl.mta.model.v1_0.Module element) {
-        visit(context, (com.sap.cloud.lm.sl.mta.model.v2_0.Module) element);
+    public void visit(ElementContext context, com.sap.cloud.lm.sl.mta.model.v1_0.Module module) {
+        visit(context, (com.sap.cloud.lm.sl.mta.model.v2_0.Module) module);
     }
 
-    public void visit(ElementContext context, com.sap.cloud.lm.sl.mta.model.v2_0.Module element) {
-        PlatformModuleType platformElement = (PlatformModuleType) handler.findPlatformModuleType(target, element.getType());
-        if (platformElement == null) {
+    public void visit(ElementContext context, com.sap.cloud.lm.sl.mta.model.v2_0.Module module) {
+        TargetModuleType moduleType = (TargetModuleType) handler.findTargetModuleType(target, module.getType());
+        if (moduleType == null) {
             return;
         }
-        element.setProperties(MapUtil.merge(platformElement.getProperties(), element.getProperties()));
-        element.setParameters(MapUtil.merge(platformElement.getParameters(), element.getParameters()));
+        module.setProperties(MapUtil.merge(moduleType.getProperties(), module.getProperties()));
+        module.setParameters(MapUtil.merge(moduleType.getParameters(), module.getParameters()));
     }
 
     @Override
-    public void visit(ElementContext context, com.sap.cloud.lm.sl.mta.model.v1_0.DeploymentDescriptor element) {
-        visit(context, (com.sap.cloud.lm.sl.mta.model.v2_0.DeploymentDescriptor) element);
+    public void visit(ElementContext context, com.sap.cloud.lm.sl.mta.model.v1_0.DeploymentDescriptor descriptor) {
+        visit(context, (com.sap.cloud.lm.sl.mta.model.v2_0.DeploymentDescriptor) descriptor);
     }
 
-    public void visit(ElementContext context, com.sap.cloud.lm.sl.mta.model.v2_0.DeploymentDescriptor element) {
-        Target targetElement = (Target) target;
-        element.setParameters(MapUtil.merge(targetElement.getParameters(), element.getParameters()));
+    public void visit(ElementContext context, com.sap.cloud.lm.sl.mta.model.v2_0.DeploymentDescriptor descriptor) {
+        Target v2Target = (Target) target;
+        descriptor.setParameters(MapUtil.merge(v2Target.getParameters(), descriptor.getParameters()));
     }
 
     @Override
-    public void visit(ElementContext context, com.sap.cloud.lm.sl.mta.model.v1_0.Resource element) {
-        visit(context, (com.sap.cloud.lm.sl.mta.model.v2_0.Resource) element);
+    public void visit(ElementContext context, com.sap.cloud.lm.sl.mta.model.v1_0.Resource resource) {
+        visit(context, (com.sap.cloud.lm.sl.mta.model.v2_0.Resource) resource);
     }
 
-    public void visit(ElementContext context, com.sap.cloud.lm.sl.mta.model.v2_0.Resource element) {
-        if (element.getType() == null) {
+    public void visit(ElementContext context, com.sap.cloud.lm.sl.mta.model.v2_0.Resource resource) {
+        if (resource.getType() == null) {
             return;
         }
-        PlatformResourceType platformElement = (PlatformResourceType) handler.findTargetResourceType(target, element.getType());
-        if (platformElement == null) {
+        TargetResourceType resourceType = (TargetResourceType) handler.findTargetResourceType(target, resource.getType());
+        if (resourceType == null) {
             return;
         }
-        element.setParameters(MapUtil.merge(platformElement.getParameters(), element.getParameters()));
+        resource.setParameters(MapUtil.merge(resourceType.getParameters(), resource.getParameters()));
     }
 
 }
