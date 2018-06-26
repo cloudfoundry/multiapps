@@ -11,11 +11,21 @@ import com.sap.cloud.lm.sl.mta.util.YamlElement;
 
 public class ExtensionResource extends com.sap.cloud.lm.sl.mta.model.v3_0.ExtensionResource {
 
+    @YamlElement(ExtensionResourceParser.ACTIVE)
+    private Boolean active = true;
     @YamlElement(ExtensionResourceParser.REQUIRES)
     private List<ExtensionRequiredDependency> requiredDependencies3_1;
 
     protected ExtensionResource() {
 
+    }
+
+    public void setActive(Boolean active) {
+        this.active = active;
+    }
+
+    public Boolean getActive() {
+        return active;
     }
 
     protected List<? extends ExtensionRequiredDependency> getRequiredDependencies() {
@@ -36,16 +46,24 @@ public class ExtensionResource extends com.sap.cloud.lm.sl.mta.model.v3_0.Extens
 
     public static class ExtensionResourceBuilder extends com.sap.cloud.lm.sl.mta.model.v3_0.ExtensionResource.Builder {
 
+        protected Boolean active;
         private List<ExtensionRequiredDependency> requiredDependencies;
 
         @Override
         public ExtensionResource build() {
             ExtensionResource result = new ExtensionResource();
             result.setName(name);
+            result.setActive(active);
             result.setProperties(getOrDefault(properties, Collections.<String, Object> emptyMap()));
             result.setParameters(getOrDefault(parameters, Collections.<String, Object> emptyMap()));
             result.setRequiredDependencies3_1(requiredDependencies);
             return result;
+        }
+
+        public void setActive(Boolean active) {
+            if (active != null) {
+                this.active = active;
+            }
         }
 
         public void setRequiredDependencies(List<ExtensionRequiredDependency> requiredDependencies) {

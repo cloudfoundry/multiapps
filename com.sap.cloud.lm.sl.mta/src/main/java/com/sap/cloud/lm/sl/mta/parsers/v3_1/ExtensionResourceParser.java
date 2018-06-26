@@ -17,6 +17,7 @@ import com.sap.cloud.lm.sl.mta.schema.MapElement;
 
 public class ExtensionResourceParser extends com.sap.cloud.lm.sl.mta.parsers.v3_0.ExtensionResourceParser {
 
+    public static final String ACTIVE = "active";
     public static final String REQUIRES = "requires";
     protected final Set<String> usedRequiredDependencyNames = new HashSet<String>();
 
@@ -32,10 +33,15 @@ public class ExtensionResourceParser extends com.sap.cloud.lm.sl.mta.parsers.v3_
     public ExtensionResource parse() throws ParsingException {
         ExtensionResourceBuilder builder = new ExtensionResourceBuilder();
         builder.setName(getName());
+        builder.setActive(getActive());
         builder.setParameters(getParameters());
         builder.setProperties(getProperties());
         builder.setRequiredDependencies(geExtensionRequiredDependencies());
         return builder.build();
+    }
+    
+    protected Boolean getActive() {
+        return getBooleanElement(ACTIVE);
     }
 
     protected List<ExtensionRequiredDependency> geExtensionRequiredDependencies() {

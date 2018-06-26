@@ -245,6 +245,7 @@
   ],
   "resources3_1": [
     {
+      "active": true,
       "propertiesMetadata": {
         "metadata": {}
       },
@@ -259,6 +260,7 @@
       "properties": {}
     },
     {
+      "active": true,
       "propertiesMetadata": {
         "metadata": {
           "odata.svc_root": {
@@ -280,6 +282,7 @@
       }
     },
     {
+      "active": true,
       "propertiesMetadata": {
         "metadata": {
           "url": {
@@ -306,6 +309,7 @@
       }
     },
     {
+      "active": true,
       "propertiesMetadata": {
         "metadata": {}
       },

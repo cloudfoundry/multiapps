@@ -118,6 +118,7 @@
   ],
   "resources3_1": [
     {
+      "active": true,
       "propertiesMetadata": {
         "metadata": {}
       },
@@ -135,6 +136,7 @@
       }
     },
     {
+      "active": true,
       "propertiesMetadata": {
         "metadata": {}
       },

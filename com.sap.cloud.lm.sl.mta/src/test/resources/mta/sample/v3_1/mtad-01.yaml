@@ -1,5 +1,5 @@
 _schema-version: "3"
-ID: com.sap.mta.sample.v2
+ID: com.sap.mta.sample.v3
 version: 1.2.1-beta+20150403144937853
 
 modules:
@@ -64,11 +64,14 @@ modules:
 resources:
   - name: pricing-db-service
     type: com.sap.hana.hdi-container
+    active: true
 
   - name: internal-odata-service
     type: com.sap.user-provided
+    active: true
 
   - name: competitor-data
+    active: true
     properties:
       url: "https://marketwatch.il/v2/"
       application-key:

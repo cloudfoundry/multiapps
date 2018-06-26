@@ -20,7 +20,8 @@ import com.sap.cloud.lm.sl.mta.handlers.v1_0.DescriptorValidator;
 public class HandlerFactoryTest {
 
     private int majorVersion;
-
+    private int minorVersion;
+    
     @Rule
     public ExpectedException expectedException = ExpectedException.none();
 
@@ -30,30 +31,35 @@ public class HandlerFactoryTest {
 // @formatter:off
             // (0) Version 1.0:
             {
-                1, null,
+                1, 0, null,
             },
             // (1) Version 2.0:
             {
-                2, null,
+                2, 0, null,
             },
-            // (2) Unsupported version 0:
+            // (2) Version 3.1:
             {
-                0, "Version \"0\" is not supported",
+                3, 1, null,
+            },
+            // (3) Unsupported version 0:
+            {
+                0, 0, "Version \"0\" is not supported",
             },
 // @formatter:on
         });
     }
 
-    public HandlerFactoryTest(int majorVersion, String expectedExceptionMessage) {
+    public HandlerFactoryTest(int majorVersion, int minorVersion, String expectedExceptionMessage) {
         if (expectedExceptionMessage != null) {
             expectedException.expectMessage(expectedExceptionMessage);
         }
         this.majorVersion = majorVersion;
+        this.minorVersion = minorVersion;
     }
 
     @Test
     public void testGetDescriptorHandler() {
-        DescriptorHandler handler = new HandlerFactory(majorVersion).getDescriptorHandler();
+        DescriptorHandler handler = new HandlerFactory(majorVersion, minorVersion).getDescriptorHandler();
         switch (majorVersion) {
             case 1:
                 assertTrue(handler instanceof DescriptorHandler);
@@ -61,12 +67,17 @@ public class HandlerFactoryTest {
             case 2:
                 assertTrue(handler instanceof com.sap.cloud.lm.sl.mta.handlers.v2_0.DescriptorHandler);
                 break;
+            case 3:
+                if(minorVersion == 1) {
+                    assertTrue(handler instanceof com.sap.cloud.lm.sl.mta.handlers.v3_1.DescriptorHandler);
+                }
+                break;
         }
     }
 
     @Test
     public void testGetDescriptorValidator() {
-        DescriptorValidator handler = new HandlerFactory(majorVersion).getDescriptorValidator();
+        DescriptorValidator handler = new HandlerFactory(majorVersion, minorVersion).getDescriptorValidator();
         switch (majorVersion) {
             case 1:
                 assertTrue(handler instanceof DescriptorValidator);
@@ -74,12 +85,17 @@ public class HandlerFactoryTest {
             case 2:
                 assertTrue(handler instanceof com.sap.cloud.lm.sl.mta.handlers.v2_0.DescriptorValidator);
                 break;
+            case 3:
+                if(minorVersion == 1) {
+                    assertTrue(handler instanceof com.sap.cloud.lm.sl.mta.handlers.v3_1.DescriptorValidator);
+                }
+                break;
         }
     }
 
     @Test
     public void testGetDescriptorParser() {
-        DescriptorParser handler = new HandlerFactory(majorVersion).getDescriptorParser();
+        DescriptorParser handler = new HandlerFactory(majorVersion, minorVersion).getDescriptorParser();
         switch (majorVersion) {
             case 1:
                 assertTrue(handler instanceof DescriptorParser);
@@ -87,18 +103,28 @@ public class HandlerFactoryTest {
             case 2:
                 assertTrue(handler instanceof com.sap.cloud.lm.sl.mta.handlers.v2_0.DescriptorParser);
                 break;
+            case 3:
+                if(minorVersion == 1) {
+                    assertTrue(handler instanceof com.sap.cloud.lm.sl.mta.handlers.v3_1.DescriptorParser);
+                }
+                break;
         }
     }
 
     @Test
     public void testGetConfigurationParser() {
-        ConfigurationParser handler = new HandlerFactory(majorVersion).getConfigurationParser();
+        ConfigurationParser handler = new HandlerFactory(majorVersion, minorVersion).getConfigurationParser();
         switch (majorVersion) {
             case 1:
                 assertTrue(handler instanceof ConfigurationParser);
                 break;
             case 2:
                 assertTrue(handler instanceof com.sap.cloud.lm.sl.mta.handlers.v2_0.ConfigurationParser);
+                break;
+            case 3:
+                if(minorVersion == 1) {
+                    assertTrue(handler instanceof com.sap.cloud.lm.sl.mta.handlers.v3_1.ConfigurationParser);
+                }
                 break;
         }
     }
