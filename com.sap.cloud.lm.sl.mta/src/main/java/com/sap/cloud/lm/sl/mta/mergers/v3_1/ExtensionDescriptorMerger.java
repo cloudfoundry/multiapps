@@ -22,7 +22,6 @@ public class ExtensionDescriptorMerger extends com.sap.cloud.lm.sl.mta.mergers.v
 
     private void merge(Resource resource, ExtensionResource extension) {
         resource.setActive(getOrDefault(extension.getActive(), resource.getActive()));
-        resource.setParameters(PropertiesUtil.mergeExtensionProperties(resource.getParameters(), extension.getParameters()));
         super.merge(resource, extension);
     }
 }
