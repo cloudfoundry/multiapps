@@ -163,7 +163,7 @@ public abstract class AbstractFileService {
             scanUpload(fileUpload);
         }
         FileEntry fileEntry = createFileEntry(space, namespace, name, fileUpload);
-        LOGGER.info("{} : created", fileEntry);
+        logFileEntry(fileEntry);
         storeFile(fileEntry, fileUpload);
         return fileEntry;
     }
@@ -350,9 +350,7 @@ public abstract class AbstractFileService {
                         }
                         resultSet = statement.executeQuery();
                         while (resultSet.next()) {
-                            FileEntry fileEntry = getFileEntry(resultSet);
-                            LOGGER.info("{} : founded", fileEntry);
-                            files.add(fileEntry);
+                            files.add(getFileEntry(resultSet));
                         }
                         return files;
                     } finally {
@@ -413,7 +411,7 @@ public abstract class AbstractFileService {
                         resultSet = statement.executeQuery();
                         if (resultSet.next()) {
                             FileEntry fileEntry = getFileEntry(resultSet);
-                            LOGGER.info("{} : founded", fileEntry);
+                            logFileEntry(fileEntry);
                             return fileEntry;
                         }
                         return null;
@@ -422,10 +420,16 @@ public abstract class AbstractFileService {
                         JdbcUtil.closeQuietly(statement);
                     }
                 }
+
+
             });
         } catch (SQLException e) {
             throw new FileStorageException(e.getMessage(), e);
         }
+    }
+
+    protected void logFileEntry(FileEntry fileEntry) {
+        LOGGER.info("{} : founded", fileEntry);
     }
 
     private FileEntry getFileEntry(ResultSet resultSet) throws SQLException {

@@ -194,4 +194,9 @@ public class ProcessLogsPersistenceService extends DatabaseFileService {
         return 0;
     }
 
+    @Override
+    protected void logFileEntry(FileEntry fileEntry) {
+        // Do not log MAIN_LOG file entry
+    }
+
 }
