@@ -2,7 +2,6 @@ package com.sap.cloud.lm.sl.persistence.services;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -109,7 +108,7 @@ public class FileSystemFileServiceTest extends DatabaseFileServiceTest {
         String actualFileFileDigest = actualFile.getDigest();
         Assert.assertEquals(expectedFileFileDigest, actualFileFileDigest);
     }
-    
+
     @Test
     public void testGetFileWithNull() throws FileStorageException {
         FileEntry actualFile = fileService.getFile(null, null);
@@ -240,9 +239,10 @@ public class FileSystemFileServiceTest extends DatabaseFileServiceTest {
         assertEquals(2, allEntries.size());
 
         assertEquals(1, oldEntries.size());
-        assertTrue(oldEntries.get(0)
-            .getId()
-            .equals(fileEntry1.getId()));
+        assertEquals(fileEntry1.getId(), oldEntries.get(0)
+            .getId());
+        assertEquals(MY_SPACE_ID, oldEntries.get(0)
+            .getSpace());
     }
 
     private void validateFilesEquality(List<FileEntry> actualFileEntries, FileEntry... expected) {

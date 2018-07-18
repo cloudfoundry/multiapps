@@ -133,6 +133,17 @@ public class FileSystemFileService extends AbstractFileService {
         return filesPerSpaceDirectory;
     }
 
+    private String getSpacePerFilesDirectory(Path filesDirectory) throws FileStorageException {
+        if (filesDirectory.endsWith(DEFAULT_FILES_STORAGE_PATH) && filesDirectory.startsWith(storagePath)) {
+            return filesDirectory.getParent()
+                .getFileName()
+                .toString();
+
+        }
+        throw new FileStorageException(
+            MessageFormat.format(Messages.ERROR_EXTRACTING_SPACE_FROM_FILES_DIRECTORY, filesDirectory.toString()));
+    }
+
     @Override
     public List<FileEntry> listFiles(String space, String namespace) throws FileStorageException {
         List<FileEntry> allEntries = super.listFiles(space, namespace);
@@ -153,7 +164,11 @@ public class FileSystemFileService extends AbstractFileService {
                 public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException {
                     if (attrs.lastModifiedTime()
                         .compareTo(modificationTimeUpperBound) < 0) {
-                        oldEntries.add(getFileEntry(file, attrs));
+                        try {
+                            oldEntries.add(getFileEntry(file, attrs));
+                        } catch (FileStorageException e) {
+                            throw new IOException(e);
+                        }
                     }
                     return super.visitFile(file, attrs);
                 }
@@ -200,12 +215,11 @@ public class FileSystemFileService extends AbstractFileService {
         }
     }
 
-    private FileEntry getFileEntry(Path file, BasicFileAttributes attrs) {
+    private FileEntry getFileEntry(Path file, BasicFileAttributes attrs) throws FileStorageException {
         FileEntry fileEntry = new FileEntry();
         fileEntry.setId(file.getFileName()
             .toString());
-        fileEntry.setSpace(file.getParent()
-            .toString());
+        fileEntry.setSpace(getSpacePerFilesDirectory(file.getParent()));
         fileEntry.setModified(new Date(attrs.lastModifiedTime()
             .toMillis()));
         return fileEntry;

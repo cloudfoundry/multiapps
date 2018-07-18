@@ -23,6 +23,7 @@ public final class Messages {
     public static final String ERROR_FINDING_FILE_TO_UPLOAD = "Error finding file to upload with name {0}: {1}";
     public static final String ERROR_READING_FILE_CONTENT = "Error reading content of file {0}: {1}";
     public static final String FILE_WITH_ID_AND_SPACE_DOES_NOT_EXIST = "File with ID \"{0}\" and space \"{1}\" does not exist.";
+    public static final String ERROR_EXTRACTING_SPACE_FROM_FILES_DIRECTORY = "The space cannot be extracted from files directory \"{0}\".";
     public static final String ERROR_DELETING_FILE_WITH_ID = "Error deleting file with ID \"{0}\"";
     public static final String ERROR_DELETING_FILES_ATTRIBUTES = "Error deleting files attributes";
     public static final String ERROR_GETTING_FILES_WITH_SPACE_AND_NAMESPACE = "Error getting files with space {0} and namespace {1}";
