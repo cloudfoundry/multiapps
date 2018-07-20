@@ -14,7 +14,7 @@ import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
@@ -115,17 +115,35 @@ public class FileSystemFileService extends AbstractFileService {
     }
 
     @Override
-    public int deleteAllByFileIds(Map<String, List<String>> spaceToFileIds) throws FileStorageException {
-        int deletedFileAttributes = super.deleteAllByFileIds(spaceToFileIds);
+    public int deleteByModificationTime(Date modificationTime) throws FileStorageException {
+        int deletedFileAttributes = super.deleteByModificationTime(modificationTime);
         LOGGER.debug(MessageFormat.format(Messages.DELETED_FILE_ATTRIBUTES_COUNT, deletedFileAttributes));
-        int deletedFiles = 0;
-        for (String space : spaceToFileIds.keySet()) {
-            for (String fileId : spaceToFileIds.get(space)) {
-                deleteFileContent(space, fileId);
-                deletedFiles++;
-            }
+
+        AtomicInteger deletedFiles = new AtomicInteger();
+        final FileTime modificationTimeUpperBound = FileTime.fromMillis(modificationTime.getTime());
+        try {
+
+            Files.walkFileTree(Paths.get(storagePath), new SimpleFileVisitor<Path>() {
+
+                @Override
+                public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException {
+                    if (attrs.lastModifiedTime()
+                        .compareTo(modificationTimeUpperBound) < 0) {
+                        LOGGER.info(MessageFormat.format(Messages.DELETING_FILE_WITH_PATH, file.toString()));
+                        boolean deleted = Files.deleteIfExists(file);
+                        LOGGER.info(MessageFormat.format(Messages.DELETED_FILE_WITH_PATH, file.toString(), deleted));
+                        if (deleted) {
+                            deletedFiles.incrementAndGet();
+                        }
+                        return FileVisitResult.CONTINUE;
+                    }
+                    return super.visitFile(file, attrs);
+                }
+            });
+        } catch (IOException e) {
+            throw new FileStorageException(e.getMessage(), e);
         }
-        return deletedFiles;
+        return deletedFiles.intValue();
     }
 
     private Path getFilesPerSpaceDirectory(String space) {
@@ -137,31 +155,6 @@ public class FileSystemFileService extends AbstractFileService {
     public List<FileEntry> listFiles(String space, String namespace) throws FileStorageException {
         List<FileEntry> allEntries = super.listFiles(space, namespace);
         return deleteOrphanedFileAttributes(allEntries);
-    }
-
-    @Override
-    public List<FileEntry> listByModificationTime(final Date modificationTime) throws FileStorageException {
-        List<FileEntry> fileEntriesAttributes = super.listByModificationTime(modificationTime);
-        deleteOrphanedFileAttributes(fileEntriesAttributes);
-
-        final List<FileEntry> oldEntries = new ArrayList<FileEntry>();
-        final FileTime modificationTimeUpperBound = FileTime.fromMillis(modificationTime.getTime());
-        try {
-            Files.walkFileTree(Paths.get(storagePath), new SimpleFileVisitor<Path>() {
-
-                @Override
-                public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException {
-                    if (attrs.lastModifiedTime()
-                        .compareTo(modificationTimeUpperBound) < 0) {
-                        oldEntries.add(getFileEntry(file, attrs));
-                    }
-                    return super.visitFile(file, attrs);
-                }
-            });
-        } catch (IOException e) {
-            throw new FileStorageException(e.getMessage(), e);
-        }
-        return oldEntries;
     }
 
     @Override
@@ -198,17 +191,6 @@ public class FileSystemFileService extends AbstractFileService {
         } catch (IOException e) {
             throw new FileStorageException(e.getMessage(), e);
         }
-    }
-
-    private FileEntry getFileEntry(Path file, BasicFileAttributes attrs) {
-        FileEntry fileEntry = new FileEntry();
-        fileEntry.setId(file.getFileName()
-            .toString());
-        fileEntry.setSpace(file.getParent()
-            .toString());
-        fileEntry.setModified(new Date(attrs.lastModifiedTime()
-            .toMillis()));
-        return fileEntry;
     }
 
 }

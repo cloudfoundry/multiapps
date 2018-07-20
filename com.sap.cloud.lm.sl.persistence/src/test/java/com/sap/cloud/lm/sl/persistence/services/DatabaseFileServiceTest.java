@@ -3,7 +3,6 @@ package com.sap.cloud.lm.sl.persistence.services;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -15,12 +14,8 @@ import java.security.NoSuchAlgorithmException;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.text.MessageFormat;
-import java.util.Arrays;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.concurrent.TimeUnit;
 
 import javax.xml.bind.DatatypeConverter;
 
@@ -222,60 +217,27 @@ public class DatabaseFileServiceTest {
     }
 
     @Test
-    public void testDeleteAllByFileIds() throws Exception {
-        FileEntry fileEntry1 = addFileEntry(MY_SPACE_ID);
-        FileEntry fileEntry2 = addFileEntry(MY_SPACE_ID);
-        FileEntry fileEntry3 = addFileEntry(MY_SPACE_2_ID);
-        FileEntry fileEntry4 = addFileEntry(MY_SPACE_2_ID);
+    public void testDeleteByModificationTime() throws Exception {
+        long currentMillis = System.currentTimeMillis();
+        final long oldFilesTtl = 1000 * 60 * 10; // 10min
+        Date pastMoment = new Date(currentMillis - 1000 * 60 * 15); // before 15min
 
-        Map<String, List<String>> fileIdsToSpace = new HashMap<>();
-        fileIdsToSpace.put(MY_SPACE_ID, Arrays.asList(fileEntry1.getId()));
-        fileIdsToSpace.put(MY_SPACE_2_ID, Arrays.asList(fileEntry3.getId()));
-        int deletedFiles = fileService.deleteAllByFileIds(fileIdsToSpace);
+        FileEntry fileEntryToRemain1 = addFileEntry(MY_SPACE_ID);
+        FileEntry fileEntryToRemain2 = addFileEntry(MY_SPACE_2_ID);
+        FileEntry fileEntryToDelete1 = addFileEntry(MY_SPACE_ID);
+        FileEntry fileEntryToDelete2 = addFileEntry(MY_SPACE_2_ID);
+
+        setMofidicationDate(fileEntryToDelete1, pastMoment);
+        setMofidicationDate(fileEntryToDelete2, pastMoment);
+
+        int deletedFiles = fileService.deleteByModificationTime(new Date(currentMillis - oldFilesTtl));
+
+        assertNotNull(fileService.getFile(MY_SPACE_ID, fileEntryToRemain1.getId()));
+        assertNotNull(fileService.getFile(MY_SPACE_2_ID, fileEntryToRemain2.getId()));
 
         assertEquals(2, deletedFiles);
-
-        FileEntry missingEntry = fileService.getFile(MY_SPACE_ID, fileEntry1.getId());
-        assertNull(missingEntry);
-
-        FileEntry existingEntry = fileService.getFile(MY_SPACE_ID, fileEntry2.getId());
-        assertNotNull(existingEntry);
-
-        FileEntry missingEntry2 = fileService.getFile(MY_SPACE_ID, fileEntry3.getId());
-        assertNull(missingEntry2);
-
-        FileEntry existingEntry2 = fileService.getFile(MY_SPACE_ID, fileEntry4.getId());
-        assertNull(existingEntry2);
-    }
-
-    @Test
-    public void testListByModificationTime() throws Exception {
-        Date now = new Date();
-        long modificationTime = TimeUnit.DAYS.toMillis(5);
-
-        FileEntry fileEntry1 = addFileEntry(MY_SPACE_ID);
-        FileEntry fileEntry2 = addFileEntry(MY_SPACE_ID);
-        FileEntry fileEntry3 = addFileEntry(MY_SPACE_2_ID);
-        FileEntry fileEntry4 = addFileEntry(MY_SPACE_2_ID);
-
-        Date pastModificationDate = new Date(now.getTime() - (2 * modificationTime));
-        setMofidicationDate(fileEntry2, pastModificationDate);
-        setMofidicationDate(fileEntry4, pastModificationDate);
-
-        Map<String, List<String>> fileIdsToSpace = new HashMap<>();
-        fileIdsToSpace.put(MY_SPACE_ID, Arrays.asList(fileEntry1.getId()));
-        fileIdsToSpace.put(MY_SPACE_2_ID, Arrays.asList(fileEntry3.getId()));
-
-        Date expirationModificationDate = new Date(now.getTime() - modificationTime);
-        List<FileEntry> oldEntries = fileService.listByModificationTime(expirationModificationDate);
-        assertEquals(2, oldEntries.size());
-
-        assertTrue(oldEntries.get(0)
-            .getId()
-            .equals(fileEntry2.getId()));
-        assertTrue(oldEntries.get(1)
-            .getId()
-            .equals(fileEntry4.getId()));
+        assertNull(fileService.getFile(MY_SPACE_ID, fileEntryToDelete1.getId()));
+        assertNull(fileService.getFile(MY_SPACE_2_ID, fileEntryToDelete2.getId()));
     }
 
     private void setMofidicationDate(FileEntry fileEntry, Date modificationDate) throws SQLException {

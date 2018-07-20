@@ -2,7 +2,6 @@ package com.sap.cloud.lm.sl.persistence.services;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -11,13 +10,9 @@ import java.nio.file.Paths;
 import java.nio.file.attribute.FileTime;
 import java.security.NoSuchAlgorithmException;
 import java.text.MessageFormat;
-import java.util.Arrays;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.UUID;
-import java.util.concurrent.TimeUnit;
 
 import org.apache.commons.io.FileUtils;
 import org.junit.After;
@@ -109,7 +104,7 @@ public class FileSystemFileServiceTest extends DatabaseFileServiceTest {
         String actualFileFileDigest = actualFile.getDigest();
         Assert.assertEquals(expectedFileFileDigest, actualFileFileDigest);
     }
-    
+
     @Test
     public void testGetFileWithNull() throws FileStorageException {
         FileEntry actualFile = fileService.getFile(null, null);
@@ -187,62 +182,39 @@ public class FileSystemFileServiceTest extends DatabaseFileServiceTest {
     }
 
     @Override
-    public void testDeleteAllByFileIds() throws Exception {
-        Path testFilePath = Paths.get(TEST_FILE_LOCATION)
-            .toAbsolutePath();
-        Path secondTestFilePath = Paths.get(SECOND_FILE_TEST_LOCATION)
-            .toAbsolutePath();
-
-        FileEntry fileEntry1 = fileService.addFile(MY_SPACE_ID, namespace, testFilePath.toFile()
-            .getName(), new DefaultFileUploadProcessor(false), Files.newInputStream(testFilePath));
-        FileEntry fileEntry2 = fileService.addFile(MY_SPACE_ID, namespace, secondTestFilePath.toFile()
-            .getName(), new DefaultFileUploadProcessor(false), Files.newInputStream(secondTestFilePath));
-
-        FileEntry fileEntry3 = fileService.addFile(MY_SPACE_2_ID, namespace, testFilePath.toFile()
-            .getName(), new DefaultFileUploadProcessor(false), Files.newInputStream(testFilePath));
-        FileEntry fileEntry4 = fileService.addFile(MY_SPACE_2_ID, namespace, secondTestFilePath.toFile()
-            .getName(), new DefaultFileUploadProcessor(false), Files.newInputStream(secondTestFilePath));
-
-        Map<String, List<String>> fileIdsToSpace = new HashMap<>();
-        fileIdsToSpace.put(MY_SPACE_ID, Arrays.asList(fileEntry1.getId()));
-        fileIdsToSpace.put(MY_SPACE_2_ID, Arrays.asList(fileEntry3.getId()));
-        int deletedFiles = fileService.deleteAllByFileIds(fileIdsToSpace);
-
-        assertEquals(2, deletedFiles);
-        assertFileExists(false, fileEntry1);
-        assertFileExists(true, fileEntry2);
-        assertFileExists(false, fileEntry3);
-        assertFileExists(true, fileEntry4);
-    }
-
-    @Test
-    public void testListByModificationTime() throws Exception {
-        Date now = new Date();
-        long modificationTime = TimeUnit.DAYS.toMillis(5);
+    public void testDeleteByModificationTime() throws Exception {
+        long currentMillis = System.currentTimeMillis();
+        final long oldFilesTtl = 1000 * 60 * 10; // 10min
+        final long pastMoment = currentMillis - 1000 * 60 * 15; // before 15min
 
         Path testFilePath = Paths.get(TEST_FILE_LOCATION)
             .toAbsolutePath();
         Path secondTestFilePath = Paths.get(SECOND_FILE_TEST_LOCATION)
             .toAbsolutePath();
-        FileEntry fileEntry1 = fileService.addFile(MY_SPACE_ID, namespace, testFilePath.toFile()
+        FileEntry fileEntryToRemain1 = fileService.addFile(MY_SPACE_ID, namespace, testFilePath.toFile()
             .getName(), new DefaultFileUploadProcessor(false), Files.newInputStream(testFilePath));
-        fileService.addFile(MY_SPACE_ID, namespace, secondTestFilePath.toFile()
+        FileEntry fileEntryToRemain2 = fileService.addFile(MY_SPACE_2_ID, namespace, secondTestFilePath.toFile()
             .getName(), new DefaultFileUploadProcessor(false), Files.newInputStream(secondTestFilePath));
+        FileEntry fileEntryToDelete1 = fileService.addFile(MY_SPACE_ID, namespace, testFilePath.toFile()
+            .getName(), new DefaultFileUploadProcessor(false), Files.newInputStream(testFilePath));
+        FileEntry fileEntryToDelete2 = fileService.addFile(MY_SPACE_2_ID, namespace, testFilePath.toFile()
+            .getName(), new DefaultFileUploadProcessor(false), Files.newInputStream(testFilePath));
 
-        Files.setLastModifiedTime(getFileLocation(fileEntry1), FileTime.fromMillis(now.getTime() - (2 * modificationTime)));
+        Files.setLastModifiedTime(getFileLocation(fileEntryToDelete1), FileTime.fromMillis(pastMoment));
+        Files.setLastModifiedTime(getFileLocation(fileEntryToDelete2), FileTime.fromMillis(pastMoment));
 
-        List<FileEntry> allEntries = fileService.listFiles(namespace);
-        assertEquals(2, allEntries.size());
+        Path oldNonDeployerFile = Files.createFile(Paths.get(temporaryStorageLocation.toString(), "random"));
+        Files.setLastModifiedTime(oldNonDeployerFile, FileTime.fromMillis(pastMoment));
 
-        List<FileEntry> oldEntries = fileService.listByModificationTime(new Date(now.getTime() - modificationTime));
+        int deletedFiles = fileService.deleteByModificationTime(new Date(currentMillis - oldFilesTtl));
 
-        allEntries = fileService.listFiles(namespace);
-        assertEquals(2, allEntries.size());
+        assertFileExists(true, fileEntryToRemain1);
+        assertFileExists(true, fileEntryToRemain2);
 
-        assertEquals(1, oldEntries.size());
-        assertTrue(oldEntries.get(0)
-            .getId()
-            .equals(fileEntry1.getId()));
+        assertEquals(3, deletedFiles);
+        assertFileExists(false, fileEntryToDelete1);
+        assertFileExists(false, fileEntryToDelete2);
+        Assert.assertFalse(Files.exists(oldNonDeployerFile));
     }
 
     private void validateFilesEquality(List<FileEntry> actualFileEntries, FileEntry... expected) {
