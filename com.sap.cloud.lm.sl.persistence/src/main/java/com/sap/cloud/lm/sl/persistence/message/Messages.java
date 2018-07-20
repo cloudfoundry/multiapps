@@ -51,11 +51,12 @@ public final class Messages {
 
     // DEBUG log messages:
     public static final String DELETING_FILE_WITH_PATH = "Deleting file with path {0}...";
+    public static final String DELETED_FILE_WITH_PATH = "Deleted file with path {0}: {1}";
     public static final String CREATING_LOGGER = "Creating logger \"{0}\"...";
     public static final String CREATING_APPENDER = "Creating appender for logger \"{0}\"...";
     public static final String REMOVING_ALL_LOGGERS_FOR_PROCESS = "Removing loggers {1} for process \"{0}\"...";
     public static final String REMOVING_ALL_APPENDERS_FROM_LOGGER = "Removing all appenders from logger \"{0}\"...";
-    public static final String DELETED_FILE_ATTRIBUTES_COUNT = "Deleted file attributes: {0}";
+    public static final String DELETED_FILE_ATTRIBUTES_COUNT = "Count of deleted files attributes: {0}";
 
     // TRACE log messages:
 

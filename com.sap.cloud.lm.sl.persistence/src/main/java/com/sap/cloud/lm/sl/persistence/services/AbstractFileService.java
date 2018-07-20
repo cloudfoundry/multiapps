@@ -14,11 +14,9 @@ import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.sql.Types;
 import java.text.MessageFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
 import java.util.UUID;
 
 import org.apache.commons.io.IOUtils;
@@ -26,7 +24,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.sap.cloud.lm.sl.common.SLException;
-import com.sap.cloud.lm.sl.common.util.CommonUtil;
 import com.sap.cloud.lm.sl.common.util.DigestHelper;
 import com.sap.cloud.lm.sl.persistence.DataSourceWithDialect;
 import com.sap.cloud.lm.sl.persistence.dialects.DataSourceDialect;
@@ -49,11 +46,10 @@ public abstract class AbstractFileService {
     private static final String SELECT_FILES_BY_NAMESPACE = "SELECT FILE_ID, SPACE, DIGEST, DIGEST_ALGORITHM, MODIFIED, FILE_NAME, NAMESPACE, FILE_SIZE FROM %s WHERE NAMESPACE=?";
     private static final String SELECT_FILES_BY_SPACE = "SELECT FILE_ID, SPACE, DIGEST, DIGEST_ALGORITHM, MODIFIED, FILE_NAME, NAMESPACE, FILE_SIZE FROM %s WHERE SPACE=?";
     private static final String SELECT_FILE_BY_ID = "SELECT FILE_ID, SPACE, DIGEST, DIGEST_ALGORITHM, MODIFIED, FILE_NAME, NAMESPACE, FILE_SIZE FROM %s WHERE FILE_ID=? AND SPACE=?";
-    private static final String SELECT_FILES_BY_MODIFICATION_TIME = "SELECT FILE_ID, SPACE, DIGEST, DIGEST_ALGORITHM, MODIFIED, FILE_NAME, NAMESPACE, FILE_SIZE FROM %s WHERE MODIFIED<?";
     private static final String DELETE_FILE_BY_ID = "DELETE FROM %s WHERE FILE_ID=? AND SPACE=?";
     private static final String DELETE_FILES_BY_NAMESPACE = "DELETE FROM %s WHERE NAMESPACE=? AND SPACE=?";
     private static final String INSERT_FILE_ATTRIBUTES = "INSERT INTO %s (FILE_ID, SPACE, FILE_NAME, NAMESPACE, FILE_SIZE, DIGEST, DIGEST_ALGORITHM, MODIFIED) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
-    private static final String DELETE_FILE_BY_FILE_ID = "DELETE FROM %s WHERE FILE_ID=? AND SPACE=?";
+    private static final String DELETE_FILES_BY_MODIFICATION_TIME = "DELETE FROM %s WHERE MODIFIED<?";
 
     private static final Logger LOGGER = LoggerFactory.getLogger(AbstractFileService.class);
 
@@ -271,31 +267,24 @@ public abstract class AbstractFileService {
         }
     }
 
-    public int deleteAllByFileIds(final Map<String, List<String>> spaceToFileIds) throws FileStorageException {
+    public int deleteByModificationTime(Date modificationTime) throws FileStorageException {
         try {
             return getSqlExecutor().execute(new StatementExecutor<Integer>() {
                 @Override
                 public Integer execute(Connection connection) throws SQLException {
                     PreparedStatement statement = null;
                     try {
-                        statement = connection.prepareStatement(getQuery(DELETE_FILE_BY_FILE_ID));
-                        for (String space : spaceToFileIds.keySet()) {
-                            for (String fileId : spaceToFileIds.get(space)) {
-                                LOGGER.info(MessageFormat.format(Messages.DELETING_FILE_IN_TABLE, fileId, space, tableName));
-                                statement.setString(1, fileId);
-                                statement.setString(2, space);
-                                statement.addBatch();
-                            }
-                        }
-                        int[] rowsRemovedArray = statement.executeBatch();
-                        return CommonUtil.sumOfInts(rowsRemovedArray);
+                        statement = connection.prepareStatement(getQuery(DELETE_FILES_BY_MODIFICATION_TIME));
+                        statement.setTimestamp(1, new java.sql.Timestamp(modificationTime.getTime()));
+                        int rowsDeleted = statement.executeUpdate();
+                        return rowsDeleted;
                     } finally {
                         JdbcUtil.closeQuietly(statement);
                     }
                 }
             });
         } catch (SQLException e) {
-            throw new FileStorageException(Messages.ERROR_DELETING_FILES_ATTRIBUTES, e);
+            throw new FileStorageException(e.getMessage(), e);
         }
     }
 
@@ -369,34 +358,6 @@ public abstract class AbstractFileService {
         return listFiles(null, namespace);
     }
 
-    public List<FileEntry> listByModificationTime(final Date modificationTime) throws FileStorageException {
-        try {
-            return getSqlExecutor().execute(new StatementExecutor<List<FileEntry>>() {
-                @Override
-                public List<FileEntry> execute(Connection connection) throws SQLException {
-                    List<FileEntry> files = new ArrayList<FileEntry>();
-                    PreparedStatement statement = null;
-                    ResultSet resultSet = null;
-                    try {
-                        statement = connection.prepareStatement(getQuery(SELECT_FILES_BY_MODIFICATION_TIME));
-                        statement.setTimestamp(1, new java.sql.Timestamp(modificationTime.getTime()));
-                        resultSet = statement.executeQuery();
-                        while (resultSet.next()) {
-                            files.add(getFileEntry(resultSet));
-                        }
-                    } finally {
-                        JdbcUtil.closeQuietly(resultSet);
-                        JdbcUtil.closeQuietly(statement);
-                    }
-                    return files;
-                }
-            });
-        } catch (SQLException e) {
-            throw new FileStorageException(MessageFormat.format(Messages.ERROR_GETTING_FILES_MODIFIED_BEFORE,
-                new SimpleDateFormat("yyyyMMddHHmmss").format(modificationTime)), e);
-        }
-    }
-
     public FileEntry getFile(final String space, final String id) throws FileStorageException {
         try {
             return getSqlExecutor().execute(new StatementExecutor<FileEntry>() {
@@ -420,7 +381,6 @@ public abstract class AbstractFileService {
                         JdbcUtil.closeQuietly(statement);
                     }
                 }
-
 
             });
         } catch (SQLException e) {
@@ -491,4 +451,5 @@ public abstract class AbstractFileService {
         public static final String DIGEST = "DIGEST";
         public static final String FILE_ID = "FILE_ID";
     }
+
 }
