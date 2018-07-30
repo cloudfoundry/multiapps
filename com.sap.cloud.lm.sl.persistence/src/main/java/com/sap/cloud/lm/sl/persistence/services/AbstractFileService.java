@@ -255,8 +255,7 @@ public abstract class AbstractFileService {
                         statement = connection.prepareStatement(getQuery(DELETE_FILES_BY_NAMESPACE));
                         statement.setString(1, namespace);
                         statement.setString(2, space);
-                        int rowsDeleted = statement.executeUpdate();
-                        return rowsDeleted;
+                        return statement.executeUpdate();
                     } finally {
                         JdbcUtil.closeQuietly(statement);
                     }
@@ -276,8 +275,7 @@ public abstract class AbstractFileService {
                     try {
                         statement = connection.prepareStatement(getQuery(DELETE_FILES_BY_MODIFICATION_TIME));
                         statement.setTimestamp(1, new java.sql.Timestamp(modificationTime.getTime()));
-                        int rowsDeleted = statement.executeUpdate();
-                        return rowsDeleted;
+                        return statement.executeUpdate();
                     } finally {
                         JdbcUtil.closeQuietly(statement);
                     }
@@ -305,8 +303,7 @@ public abstract class AbstractFileService {
                         statement = connection.prepareStatement(getQuery(DELETE_FILE_BY_ID));
                         statement.setString(1, id);
                         statement.setString(2, space);
-                        int rowsDeleted = statement.executeUpdate();
-                        return rowsDeleted;
+                        return statement.executeUpdate();
                     } finally {
                         JdbcUtil.closeQuietly(statement);
                     }
