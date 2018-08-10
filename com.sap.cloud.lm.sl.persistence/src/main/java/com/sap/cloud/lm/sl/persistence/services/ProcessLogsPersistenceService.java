@@ -14,7 +14,6 @@ import java.util.List;
 import org.apache.commons.io.IOUtils;
 
 import com.sap.cloud.lm.sl.common.SLException;
-import com.sap.cloud.lm.sl.common.util.CommonUtil;
 import com.sap.cloud.lm.sl.persistence.DataSourceWithDialect;
 import com.sap.cloud.lm.sl.persistence.message.Messages;
 import com.sap.cloud.lm.sl.persistence.model.FileEntry;
@@ -162,7 +161,7 @@ public class ProcessLogsPersistenceService extends DatabaseFileService {
         processFileContent(new DefaultFileDownloadProcessor(space, fileId, fileProcessor));
     }
 
-    public int deleteAllByNamespaces(final List<String> namespaces) throws SLException {
+    public int deleteByNamespace(final String namespace) throws SLException {
         try {
             return getSqlExecutor().executeInSingleTransaction(new StatementExecutor<Integer>() {
                 @Override
@@ -170,19 +169,16 @@ public class ProcessLogsPersistenceService extends DatabaseFileService {
                     PreparedStatement statement = null;
                     try {
                         statement = connection.prepareStatement(getQuery(DELETE_CONTENT_BY_NAMESPACE));
-                        for (String namespace : namespaces) {
-                            statement.setString(1, namespace);
-                            statement.addBatch();
-                        }
-                        int[] rowsRemovedArray = statement.executeBatch();
-                        return CommonUtil.sumOfInts(rowsRemovedArray);
+                        statement.setString(1, namespace);
+                        int rowsRemovedArray = statement.executeUpdate();
+                        return rowsRemovedArray;
                     } finally {
                         JdbcUtil.closeQuietly(statement);
                     }
                 }
             });
         } catch (SQLException e) {
-            throw new SLException(e, Messages.ERROR_DELETING_PROCESS_LOGS_WITH_NAMESPACES, namespaces);
+            throw new SLException(e, Messages.ERROR_DELETING_PROCESS_LOGS_WITH_NAMESPACE, namespace);
         }
     }
 

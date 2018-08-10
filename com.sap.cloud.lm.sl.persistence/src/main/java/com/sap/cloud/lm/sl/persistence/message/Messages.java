@@ -27,7 +27,7 @@ public final class Messages {
     public static final String ERROR_DELETING_FILES_ATTRIBUTES = "Error deleting files attributes";
     public static final String ERROR_GETTING_FILES_WITH_SPACE_AND_NAMESPACE = "Error getting files with space {0} and namespace {1}";
     public static final String ERROR_GETTING_FILES_MODIFIED_BEFORE = "Error getting files modified before {0}";
-    public static final String ERROR_DELETING_PROCESS_LOGS_WITH_NAMESPACES = "Error deleting process logs with namespaces \"{0}\"";
+    public static final String ERROR_DELETING_PROCESS_LOGS_WITH_NAMESPACE = "Error deleting process logs with namespace \"{0}\"";
 
     // Audit log messages:
 
