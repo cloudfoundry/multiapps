@@ -139,6 +139,15 @@ public class FileSystemFileService extends AbstractFileService {
                     }
                     return super.visitFile(file, attrs);
                 }
+                
+                @Override
+                public FileVisitResult postVisitDirectory(Path dir, IOException exc)
+                        throws IOException {
+                    if(!Files.list(dir).findAny().isPresent()){
+                        Files.delete(dir);
+                    }
+                    return FileVisitResult.CONTINUE;
+                }
             });
         } catch (IOException e) {
             throw new FileStorageException(e.getMessage(), e);
