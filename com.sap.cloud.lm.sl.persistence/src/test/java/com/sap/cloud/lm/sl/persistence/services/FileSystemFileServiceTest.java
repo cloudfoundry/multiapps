@@ -193,9 +193,9 @@ public class FileSystemFileServiceTest extends DatabaseFileServiceTest {
             .toAbsolutePath();
         FileEntry fileEntryToRemain1 = fileService.addFile(MY_SPACE_ID, namespace, testFilePath.toFile()
             .getName(), new DefaultFileUploadProcessor(false), Files.newInputStream(testFilePath));
-        FileEntry fileEntryToRemain2 = fileService.addFile(MY_SPACE_2_ID, namespace, secondTestFilePath.toFile()
+        FileEntry fileEntryToRemain2 = fileService.addFile(MY_SPACE_ID, namespace, secondTestFilePath.toFile()
             .getName(), new DefaultFileUploadProcessor(false), Files.newInputStream(secondTestFilePath));
-        FileEntry fileEntryToDelete1 = fileService.addFile(MY_SPACE_ID, namespace, testFilePath.toFile()
+        FileEntry fileEntryToDelete1 = fileService.addFile(MY_SPACE_2_ID, namespace, testFilePath.toFile()
             .getName(), new DefaultFileUploadProcessor(false), Files.newInputStream(testFilePath));
         FileEntry fileEntryToDelete2 = fileService.addFile(MY_SPACE_2_ID, namespace, testFilePath.toFile()
             .getName(), new DefaultFileUploadProcessor(false), Files.newInputStream(testFilePath));
@@ -205,16 +205,21 @@ public class FileSystemFileServiceTest extends DatabaseFileServiceTest {
 
         Path oldNonDeployerFile = Files.createFile(Paths.get(temporaryStorageLocation.toString(), "random"));
         Files.setLastModifiedTime(oldNonDeployerFile, FileTime.fromMillis(pastMoment));
+        
+        Path emptyEmptyDirectory =Files.createDirectory(Paths.get(temporaryStorageLocation.toString(), "emptyDir"));
 
         int deletedFiles = fileService.deleteByModificationTime(new Date(currentMillis - oldFilesTtl));
 
         assertFileExists(true, fileEntryToRemain1);
         assertFileExists(true, fileEntryToRemain2);
+        assertFileDirectoryExists(true, fileEntryToRemain1);
 
         assertEquals(3, deletedFiles);
         assertFileExists(false, fileEntryToDelete1);
         assertFileExists(false, fileEntryToDelete2);
+        assertFileDirectoryExists(false, fileEntryToDelete1);
         Assert.assertFalse(Files.exists(oldNonDeployerFile));
+        Assert.assertFalse(Files.exists(emptyEmptyDirectory));
     }
 
     private void validateFilesEquality(List<FileEntry> actualFileEntries, FileEntry... expected) {
@@ -247,6 +252,10 @@ public class FileSystemFileServiceTest extends DatabaseFileServiceTest {
 
     private void assertFileExists(boolean exceptedFileExist, FileEntry actualFile) {
         Assert.assertEquals(exceptedFileExist, Files.exists(getFileLocation(actualFile)));
+    }
+    
+    private void assertFileDirectoryExists(boolean exceptedDirectoryExist, FileEntry actualFile) {
+        Assert.assertEquals(exceptedDirectoryExist, Files.exists(getFileLocation(actualFile).getParent()));
     }
 
     private Path getFileLocation(FileEntry actualFile) {
