@@ -40,7 +40,6 @@
     </properties>
     <modules>
         <module>com.sap.cloud.lm.sl.common</module>
-        <module>com.sap.cloud.lm.sl.persistence</module>
         <module>com.sap.cloud.lm.sl.mta</module>
     </modules>
 
