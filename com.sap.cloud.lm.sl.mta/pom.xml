@@ -17,10 +17,6 @@
             <artifactId>semver4j</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.apache.commons</groupId>
-            <artifactId>commons-lang3</artifactId>
-        </dependency>
-        <dependency>
             <groupId>com.sap.cloud.lm.sl</groupId>
             <artifactId>com.sap.cloud.lm.sl.common</artifactId>
         </dependency>
