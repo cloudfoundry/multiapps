@@ -7,8 +7,6 @@ import static org.junit.Assert.assertEquals;
 import java.io.IOException;
 import java.util.Arrays;
 
-import javax.sql.DataSource;
-
 import org.apache.commons.io.IOUtils;
 
 public class TestUtil {
@@ -124,10 +122,6 @@ public class TestUtil {
             return expected.substring(0, expected.indexOf(PREFIX_SEPARATOR));
         }
         return NO_CONTENT;
-    }
-
-    public static DataSource getTestDataSource() throws Exception {
-        return TestDataSourceProvider.getDataSource("com/sap/cloud/lm/sl/persistence/db/changelog/db-changelog.xml");
     }
 
     private static <T> String getResultAsString(T result, boolean shouldConvertToJson, String expected,
