@@ -1,9 +1,9 @@
 package com.sap.cloud.lm.sl.mta.model.v3_0;
 
-import static com.sap.cloud.lm.sl.common.util.CommonUtil.getOrDefault;
-
 import java.util.Collections;
 import java.util.List;
+
+import org.apache.commons.lang3.ObjectUtils;
 
 import com.sap.cloud.lm.sl.common.util.ListUtil;
 
@@ -62,9 +62,9 @@ public class Platform extends com.sap.cloud.lm.sl.mta.model.v2_0.Platform {
             Platform result = new Platform();
             result.setName(name);
             result.setDescription(description);
-            result.setModuleTypes3_0(getOrDefault(moduleTypes3_0, Collections.<PlatformModuleType> emptyList()));
-            result.setParameters(getOrDefault(parameters, Collections.<String, Object> emptyMap()));
-            result.setResourceTypes3_0(getOrDefault(resourceTypes3_0, Collections.<PlatformResourceType> emptyList()));
+            result.setModuleTypes3_0(ObjectUtils.defaultIfNull(moduleTypes3_0, Collections.<PlatformModuleType> emptyList()));
+            result.setParameters(ObjectUtils.defaultIfNull(parameters, Collections.<String, Object> emptyMap()));
+            result.setResourceTypes3_0(ObjectUtils.defaultIfNull(resourceTypes3_0, Collections.<PlatformResourceType> emptyList()));
             return result;
         }
 

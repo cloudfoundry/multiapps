@@ -1,12 +1,12 @@
 package com.sap.cloud.lm.sl.mta.model.v1_0;
 
-import static com.sap.cloud.lm.sl.common.util.CommonUtil.getOrDefault;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+
+import org.apache.commons.lang3.ObjectUtils;
 
 import com.sap.cloud.lm.sl.common.util.ListUtil;
 import com.sap.cloud.lm.sl.common.util.MapUtil;
@@ -173,10 +173,10 @@ public class ExtensionDescriptor implements VisitableElement, ExtensionElement, 
             result.setParentId(parentId);
             result.setProvider(provider);
             result.setSchemaVersion(schemaVersion);
-            result.setDeployTargets(getOrDefault(deployTargets, Collections.<String> emptyList()));
-            result.setModules1_0(getOrDefault(modules1_0, Collections.<ExtensionModule> emptyList()));
-            result.setResources1_0(getOrDefault(resources1_0, Collections.<ExtensionResource> emptyList()));
-            result.setProperties(getOrDefault(properties, Collections.<String, Object> emptyMap()));
+            result.setDeployTargets(ObjectUtils.defaultIfNull(deployTargets, Collections.<String> emptyList()));
+            result.setModules1_0(ObjectUtils.defaultIfNull(modules1_0, Collections.<ExtensionModule> emptyList()));
+            result.setResources1_0(ObjectUtils.defaultIfNull(resources1_0, Collections.<ExtensionResource> emptyList()));
+            result.setProperties(ObjectUtils.defaultIfNull(properties, Collections.<String, Object> emptyMap()));
             return result;
         }
 

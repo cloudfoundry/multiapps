@@ -2,7 +2,7 @@ package com.sap.cloud.lm.sl.mta.model;
 
 import java.util.Map;
 
-import com.sap.cloud.lm.sl.common.util.CommonUtil;
+import org.apache.commons.lang3.ObjectUtils;
 
 public class Metadata {
 
@@ -46,7 +46,7 @@ public class Metadata {
 
     private <E> E getPropertyMetadata(String property, String metadataName, E defaultValue) {
         E overWritableMetadata = this.getPropertyMetadata(property, metadataName);
-        return CommonUtil.getOrDefault(overWritableMetadata, defaultValue);
+        return ObjectUtils.defaultIfNull(overWritableMetadata, defaultValue);
     }
 
 }

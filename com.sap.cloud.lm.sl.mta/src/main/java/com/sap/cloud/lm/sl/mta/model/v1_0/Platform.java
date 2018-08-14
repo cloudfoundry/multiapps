@@ -1,11 +1,11 @@
 package com.sap.cloud.lm.sl.mta.model.v1_0;
 
-import static com.sap.cloud.lm.sl.common.util.CommonUtil.getOrDefault;
-
 import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+
+import org.apache.commons.lang3.ObjectUtils;
 
 import com.sap.cloud.lm.sl.common.util.ListUtil;
 import com.sap.cloud.lm.sl.common.util.MapUtil;
@@ -125,9 +125,9 @@ public class Platform implements VisitableElement, NamedElement, PropertiesConta
             result.setName(name);
             result.setVersion(version);
             result.setDescription(description);
-            result.setProperties(getOrDefault(properties, Collections.<String, Object> emptyMap()));
-            result.setModuleTypes1_0(getOrDefault(moduleTypes1_0, Collections.<PlatformModuleType> emptyList()));
-            result.setResourceTypes1_0(getOrDefault(resourceTypes1_0, Collections.<PlatformResourceType> emptyList()));
+            result.setProperties(ObjectUtils.defaultIfNull(properties, Collections.<String, Object> emptyMap()));
+            result.setModuleTypes1_0(ObjectUtils.defaultIfNull(moduleTypes1_0, Collections.<PlatformModuleType> emptyList()));
+            result.setResourceTypes1_0(ObjectUtils.defaultIfNull(resourceTypes1_0, Collections.<PlatformResourceType> emptyList()));
             return result;
         }
 

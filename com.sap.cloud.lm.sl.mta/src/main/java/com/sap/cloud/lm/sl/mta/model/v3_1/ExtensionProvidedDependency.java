@@ -1,8 +1,8 @@
 package com.sap.cloud.lm.sl.mta.model.v3_1;
 
-import static com.sap.cloud.lm.sl.common.util.CommonUtil.getOrDefault;
-
 import java.util.Collections;
+
+import org.apache.commons.lang3.ObjectUtils;
 
 public class ExtensionProvidedDependency extends com.sap.cloud.lm.sl.mta.model.v3_0.ExtensionProvidedDependency {
 
@@ -17,7 +17,7 @@ public class ExtensionProvidedDependency extends com.sap.cloud.lm.sl.mta.model.v
         public ExtensionProvidedDependency build() {
             ExtensionProvidedDependency result = new ExtensionProvidedDependency();
             result.setName(name);
-            result.setProperties(getOrDefault(properties, Collections.<String, Object> emptyMap()));
+            result.setProperties(ObjectUtils.defaultIfNull(properties, Collections.<String, Object> emptyMap()));
             return result;
         }
 

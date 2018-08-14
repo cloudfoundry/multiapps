@@ -1,8 +1,5 @@
 package com.sap.cloud.lm.sl.mta.parsers;
 
-import java.util.Arrays;
-
-import com.sap.cloud.lm.sl.common.util.CommonUtil;
 import com.sap.cloud.lm.sl.mta.model.SupportedVersions;
 import com.sap.cloud.lm.sl.mta.model.VersionComponent;
 import com.sap.cloud.lm.sl.mta.model.VersionComponent.VersionComponentBuilder;
@@ -50,6 +47,6 @@ public class VersionParser {
         if (suffixTokens.length == 0) {
             return DEFAULT_VERSION_SUFFIX;
         }
-        return String.format(VERSION_SUFFIX_STRING_TEMPLATE, CommonUtil.joinStrings(Arrays.asList(suffixTokens), "", "."));
+        return String.format(VERSION_SUFFIX_STRING_TEMPLATE, String.join(".", suffixTokens));
     }
 }

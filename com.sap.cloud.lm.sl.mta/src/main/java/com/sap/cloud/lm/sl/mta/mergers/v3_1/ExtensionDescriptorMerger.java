@@ -1,12 +1,11 @@
 package com.sap.cloud.lm.sl.mta.mergers.v3_1;
 
-import static com.sap.cloud.lm.sl.common.util.CommonUtil.getOrDefault;
+import org.apache.commons.lang3.ObjectUtils;
 
 import com.sap.cloud.lm.sl.mta.handlers.v3_1.DescriptorHandler;
 import com.sap.cloud.lm.sl.mta.model.v3_1.ExtensionDescriptor;
 import com.sap.cloud.lm.sl.mta.model.v3_1.ExtensionResource;
 import com.sap.cloud.lm.sl.mta.model.v3_1.Resource;
-import com.sap.cloud.lm.sl.mta.util.PropertiesUtil;
 
 public class ExtensionDescriptorMerger extends com.sap.cloud.lm.sl.mta.mergers.v2_0.ExtensionDescriptorMerger {
 
@@ -21,7 +20,7 @@ public class ExtensionDescriptorMerger extends com.sap.cloud.lm.sl.mta.mergers.v
     }
 
     private void merge(Resource resource, ExtensionResource extension) {
-        resource.setActive(getOrDefault(extension.getActive(), resource.getActive()));
+        resource.setActive(ObjectUtils.defaultIfNull(extension.getActive(), resource.getActive()));
         super.merge(resource, extension);
     }
 }

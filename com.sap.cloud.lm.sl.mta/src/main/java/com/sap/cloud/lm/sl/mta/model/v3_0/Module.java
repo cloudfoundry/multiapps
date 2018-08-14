@@ -1,10 +1,10 @@
 package com.sap.cloud.lm.sl.mta.model.v3_0;
 
-import static com.sap.cloud.lm.sl.common.util.CommonUtil.getOrDefault;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+
+import org.apache.commons.lang3.ObjectUtils;
 
 import com.sap.cloud.lm.sl.common.util.ListUtil;
 import com.sap.cloud.lm.sl.mta.parsers.v3_0.ModuleParser;
@@ -91,10 +91,10 @@ public class Module extends com.sap.cloud.lm.sl.mta.model.v2_0.Module {
             result.setType(type);
             result.setPath(path);
             result.setDescription(description);
-            result.setProperties(getOrDefault(properties, Collections.<String, Object> emptyMap()));
-            result.setParameters(getOrDefault(parameters, Collections.<String, Object> emptyMap()));
-            result.setRequiredDependencies3_0(getOrDefault(requiredDependencies3_0, Collections.<RequiredDependency> emptyList()));
-            result.setProvidedDependencies3_0(getOrDefault(providedDependencies3_0, Collections.<ProvidedDependency> emptyList()));
+            result.setProperties(ObjectUtils.defaultIfNull(properties, Collections.<String, Object> emptyMap()));
+            result.setParameters(ObjectUtils.defaultIfNull(parameters, Collections.<String, Object> emptyMap()));
+            result.setRequiredDependencies3_0(ObjectUtils.defaultIfNull(requiredDependencies3_0, Collections.<RequiredDependency> emptyList()));
+            result.setProvidedDependencies3_0(ObjectUtils.defaultIfNull(providedDependencies3_0, Collections.<ProvidedDependency> emptyList()));
             return result;
         }
 

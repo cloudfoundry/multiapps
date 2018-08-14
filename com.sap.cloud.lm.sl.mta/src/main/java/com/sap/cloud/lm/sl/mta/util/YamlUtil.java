@@ -4,11 +4,11 @@ import java.io.InputStream;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang3.StringUtils;
 import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.constructor.SafeConstructor;
 
 import com.sap.cloud.lm.sl.common.ParsingException;
-import com.sap.cloud.lm.sl.common.util.CommonUtil;
 import com.sap.cloud.lm.sl.mta.message.Messages;
 import com.sap.cloud.lm.sl.mta.tags.YamlTaggedObjectsConstructor;
 
@@ -58,7 +58,7 @@ public class YamlUtil {
     }
 
     private static String constructParsingExceptionMessage(Exception e, String yaml) {
-        String trimmedYaml = CommonUtil.abbreviate(yaml, EXCEPTION_MESSAGE_YAML_LENGTH_LIMIT);
+        String trimmedYaml = StringUtils.abbreviate(yaml, EXCEPTION_MESSAGE_YAML_LENGTH_LIMIT);
         return String.format(Messages.ERROR_PARSING_YAML_STRING, trimmedYaml, e.getMessage());
     }
 

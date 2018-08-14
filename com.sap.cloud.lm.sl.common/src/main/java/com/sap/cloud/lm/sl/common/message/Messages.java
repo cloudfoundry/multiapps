@@ -15,7 +15,6 @@ public class Messages {
     public static final String UNABLE_TO_PARSE_SCHEMA = "Could not parse schema at location \"{0}\"";
     public static final String UNABLE_TO_UNMARSHAL_OBJECT = "An unexpected error occurred while unmarshalling the XML content";
     public static final String UNABLE_TO_MARSHAL_OBJECT = "An unexpected error occurred while marshalling the object";
-    public static final String LIMIT_IS_TOO_SMALL = "String length limit is below the minimum abbreviation limit of {0}";
     // Audit log messages:
 
     // ERROR log messages:

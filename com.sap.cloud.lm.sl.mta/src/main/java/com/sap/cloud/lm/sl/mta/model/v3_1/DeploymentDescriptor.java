@@ -1,10 +1,10 @@
 package com.sap.cloud.lm.sl.mta.model.v3_1;
 
-import static com.sap.cloud.lm.sl.common.util.CommonUtil.getOrDefault;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+
+import org.apache.commons.lang3.ObjectUtils;
 
 import com.sap.cloud.lm.sl.common.util.ListUtil;
 import com.sap.cloud.lm.sl.mta.model.Metadata;
@@ -117,9 +117,9 @@ public class DeploymentDescriptor extends com.sap.cloud.lm.sl.mta.model.v3_0.Dep
             result.setVersion(version);
             result.setCopyright(copyright);
             result.setSchemaVersion(schemaVersion);
-            result.setModules3_1(getOrDefault(modules3_1, Collections.<Module> emptyList()));
-            result.setResources3_1(getOrDefault(resources3_1, Collections.<Resource> emptyList()));
-            result.setParameters(getOrDefault(parameters, Collections.<String, Object> emptyMap()));
+            result.setModules3_1(ObjectUtils.defaultIfNull(modules3_1, Collections.<Module> emptyList()));
+            result.setResources3_1(ObjectUtils.defaultIfNull(resources3_1, Collections.<Resource> emptyList()));
+            result.setParameters(ObjectUtils.defaultIfNull(parameters, Collections.<String, Object> emptyMap()));
             result.setParametersMetadata(parametersMetadata);
             return result;
         }

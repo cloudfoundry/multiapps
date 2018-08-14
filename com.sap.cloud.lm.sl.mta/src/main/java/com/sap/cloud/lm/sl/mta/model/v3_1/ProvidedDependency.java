@@ -1,9 +1,9 @@
 package com.sap.cloud.lm.sl.mta.model.v3_1;
 
-import static com.sap.cloud.lm.sl.common.util.CommonUtil.getOrDefault;
-
 import java.util.Collections;
 import java.util.Map;
+
+import org.apache.commons.lang3.ObjectUtils;
 
 import com.sap.cloud.lm.sl.mta.model.Metadata;
 import com.sap.cloud.lm.sl.mta.model.ParametersContainer;
@@ -61,10 +61,10 @@ public class ProvidedDependency extends com.sap.cloud.lm.sl.mta.model.v3_0.Provi
         public ProvidedDependency build() {
             ProvidedDependency result = new ProvidedDependency();
             result.setName(name);
-            result.setPublic(getOrDefault(isPublic, false));
-            result.setProperties(getOrDefault(properties, Collections.<String, Object> emptyMap()));
+            result.setPublic(ObjectUtils.defaultIfNull(isPublic, false));
+            result.setProperties(ObjectUtils.defaultIfNull(properties, Collections.<String, Object> emptyMap()));
             result.setPropertiesMetadata(propertiesMetadata);
-            result.setParameters(getOrDefault(parameters, Collections.<String, Object> emptyMap()));
+            result.setParameters(ObjectUtils.defaultIfNull(parameters, Collections.<String, Object> emptyMap()));
             result.setParametersMetadata(parametersMetadata);
             return result;
         }
