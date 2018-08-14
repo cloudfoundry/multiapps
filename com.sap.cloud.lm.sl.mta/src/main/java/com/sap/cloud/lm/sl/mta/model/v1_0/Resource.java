@@ -1,12 +1,12 @@
 package com.sap.cloud.lm.sl.mta.model.v1_0;
 
-import static com.sap.cloud.lm.sl.common.util.CommonUtil.getOrDefault;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+
+import org.apache.commons.lang3.ObjectUtils;
 
 import com.sap.cloud.lm.sl.common.util.ListUtil;
 import com.sap.cloud.lm.sl.common.util.MapUtil;
@@ -104,8 +104,8 @@ public class Resource implements VisitableElement, NamedElement, PropertiesConta
             result.setName(name);
             result.setType(type);
             result.setDescription(description);
-            result.setGroups(getOrDefault(groups, Collections.<String> emptyList()));
-            result.setProperties(getOrDefault(properties, Collections.<String, Object> emptyMap()));
+            result.setGroups(ObjectUtils.defaultIfNull(groups, Collections.<String> emptyList()));
+            result.setProperties(ObjectUtils.defaultIfNull(properties, Collections.<String, Object> emptyMap()));
             return result;
         }
 

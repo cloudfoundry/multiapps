@@ -1,9 +1,9 @@
 package com.sap.cloud.lm.sl.mta.model.v3_0;
 
-import static com.sap.cloud.lm.sl.common.util.CommonUtil.getOrDefault;
-
 import java.util.Collections;
 import java.util.List;
+
+import org.apache.commons.lang3.ObjectUtils;
 
 import com.sap.cloud.lm.sl.common.util.ListUtil;
 
@@ -63,9 +63,9 @@ public class Target extends com.sap.cloud.lm.sl.mta.model.v2_0.Target {
             result.setName(name);
             result.setType(type);
             result.setDescription(description);
-            result.setModuleTypes3_0(getOrDefault(platformModuleTypes3_0, Collections.<TargetModuleType> emptyList()));
-            result.setParameters(getOrDefault(parameters, Collections.<String, Object> emptyMap()));
-            result.setResourceTypes3_0(getOrDefault(platformResourceTypes3_0, Collections.<TargetResourceType> emptyList()));
+            result.setModuleTypes3_0(ObjectUtils.defaultIfNull(platformModuleTypes3_0, Collections.<TargetModuleType> emptyList()));
+            result.setParameters(ObjectUtils.defaultIfNull(parameters, Collections.<String, Object> emptyMap()));
+            result.setResourceTypes3_0(ObjectUtils.defaultIfNull(platformResourceTypes3_0, Collections.<TargetResourceType> emptyList()));
             return result;
         }
 

@@ -1,12 +1,12 @@
 package com.sap.cloud.lm.sl.mta.model.v2_0;
 
-import static com.sap.cloud.lm.sl.common.util.CommonUtil.getOrDefault;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+
+import org.apache.commons.lang3.ObjectUtils;
 
 import com.sap.cloud.lm.sl.common.util.ListUtil;
 import com.sap.cloud.lm.sl.common.util.MapUtil;
@@ -123,9 +123,9 @@ public class DeploymentDescriptor extends com.sap.cloud.lm.sl.mta.model.v1_0.Dep
             result.setVersion(version);
             result.setCopyright(copyright);
             result.setSchemaVersion(schemaVersion);
-            result.setModules2_0(getOrDefault(modules2_0, Collections.<Module> emptyList()));
-            result.setResources2_0(getOrDefault(resources2_0, Collections.<Resource> emptyList()));
-            result.setParameters(getOrDefault(parameters, Collections.<String, Object> emptyMap()));
+            result.setModules2_0(ObjectUtils.defaultIfNull(modules2_0, Collections.<Module> emptyList()));
+            result.setResources2_0(ObjectUtils.defaultIfNull(resources2_0, Collections.<Resource> emptyList()));
+            result.setParameters(ObjectUtils.defaultIfNull(parameters, Collections.<String, Object> emptyMap()));
             return result;
         }
 

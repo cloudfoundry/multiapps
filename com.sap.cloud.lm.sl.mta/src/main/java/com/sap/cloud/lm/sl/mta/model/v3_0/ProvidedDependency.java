@@ -1,8 +1,8 @@
 package com.sap.cloud.lm.sl.mta.model.v3_0;
 
-import static com.sap.cloud.lm.sl.common.util.CommonUtil.getOrDefault;
-
 import java.util.Collections;
+
+import org.apache.commons.lang3.ObjectUtils;
 
 public class ProvidedDependency extends com.sap.cloud.lm.sl.mta.model.v2_0.ProvidedDependency {
 
@@ -16,8 +16,8 @@ public class ProvidedDependency extends com.sap.cloud.lm.sl.mta.model.v2_0.Provi
         public ProvidedDependency build() {
             ProvidedDependency result = new ProvidedDependency();
             result.setName(name);
-            result.setPublic(getOrDefault(isPublic, false));
-            result.setProperties(getOrDefault(properties, Collections.<String, Object> emptyMap()));
+            result.setPublic(ObjectUtils.defaultIfNull(isPublic, false));
+            result.setProperties(ObjectUtils.defaultIfNull(properties, Collections.<String, Object> emptyMap()));
             return result;
         }
 

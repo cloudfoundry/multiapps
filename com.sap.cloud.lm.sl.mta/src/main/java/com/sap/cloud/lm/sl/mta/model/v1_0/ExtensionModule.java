@@ -1,11 +1,11 @@
 package com.sap.cloud.lm.sl.mta.model.v1_0;
 
-import static com.sap.cloud.lm.sl.common.util.CommonUtil.getOrDefault;
-
 import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+
+import org.apache.commons.lang3.ObjectUtils;
 
 import com.sap.cloud.lm.sl.common.util.ListUtil;
 import com.sap.cloud.lm.sl.common.util.MapUtil;
@@ -79,8 +79,8 @@ public class ExtensionModule implements VisitableElement, NamedElement, Properti
         public ExtensionModule build() {
             ExtensionModule result = new ExtensionModule();
             result.setName(name);
-            result.setProperties(getOrDefault(properties, Collections.<String, Object> emptyMap()));
-            result.setProvidedDependencies1_0(getOrDefault(providedDependencies1_0, Collections.<ExtensionProvidedDependency> emptyList()));
+            result.setProperties(ObjectUtils.defaultIfNull(properties, Collections.<String, Object> emptyMap()));
+            result.setProvidedDependencies1_0(ObjectUtils.defaultIfNull(providedDependencies1_0, Collections.<ExtensionProvidedDependency> emptyList()));
             return result;
         }
 

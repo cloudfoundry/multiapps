@@ -5,7 +5,8 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-import com.sap.cloud.lm.sl.common.util.CommonUtil;
+import org.apache.commons.lang3.ObjectUtils;
+
 import com.sap.cloud.lm.sl.mta.model.Metadata;
 import com.sap.cloud.lm.sl.mta.tags.TaggedObject;
 
@@ -19,7 +20,7 @@ public class MetadataUpdater {
 
     public Metadata getUpdatedMetadata(Map<String, Map<String, Object>> metadataMap) {
         if (properties == null) {
-            return new Metadata(CommonUtil.getOrDefault(metadataMap, Collections.<String, Map<String, Object>> emptyMap()));
+            return new Metadata(ObjectUtils.defaultIfNull(metadataMap, Collections.<String, Map<String, Object>> emptyMap()));
         }
         if (metadataMap == null) {
             metadataMap = new LinkedHashMap<>();

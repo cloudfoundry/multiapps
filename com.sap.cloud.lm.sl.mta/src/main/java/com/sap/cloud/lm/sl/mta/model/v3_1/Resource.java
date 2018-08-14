@@ -1,9 +1,9 @@
 package com.sap.cloud.lm.sl.mta.model.v3_1;
 
-import static com.sap.cloud.lm.sl.common.util.CommonUtil.getOrDefault;
-
 import java.util.Collections;
 import java.util.List;
+
+import org.apache.commons.lang3.ObjectUtils;
 
 import com.sap.cloud.lm.sl.common.util.ListUtil;
 import com.sap.cloud.lm.sl.mta.model.ElementContext;
@@ -123,14 +123,14 @@ public class Resource extends com.sap.cloud.lm.sl.mta.model.v3_0.Resource
             Resource result = new Resource();
             result.setName(name);
             result.setType(type);
-            result.setActive(getOrDefault(active, true));
+            result.setActive(ObjectUtils.defaultIfNull(active, true));
             result.setDescription(description);
-            result.setProperties(getOrDefault(properties, Collections.<String, Object> emptyMap()));
-            result.setParameters(getOrDefault(parameters, Collections.<String, Object> emptyMap()));
+            result.setProperties(ObjectUtils.defaultIfNull(properties, Collections.<String, Object> emptyMap()));
+            result.setParameters(ObjectUtils.defaultIfNull(parameters, Collections.<String, Object> emptyMap()));
             result.setPropertiesMetadata(propertiesMetadata);
             result.setParametersMetadata(parametersMetadata);
             result.setRequiredDependencies3_1(requiredDependencies);
-            result.setOptional(getOrDefault(isOptional, false));
+            result.setOptional(ObjectUtils.defaultIfNull(isOptional, false));
             return result;
         }
 

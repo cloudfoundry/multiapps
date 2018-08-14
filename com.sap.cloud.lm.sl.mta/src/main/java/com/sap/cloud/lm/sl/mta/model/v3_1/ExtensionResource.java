@@ -1,9 +1,9 @@
 package com.sap.cloud.lm.sl.mta.model.v3_1;
 
-import static com.sap.cloud.lm.sl.common.util.CommonUtil.getOrDefault;
-
 import java.util.Collections;
 import java.util.List;
+
+import org.apache.commons.lang3.ObjectUtils;
 
 import com.sap.cloud.lm.sl.common.util.ListUtil;
 import com.sap.cloud.lm.sl.mta.parsers.v3_1.ExtensionResourceParser;
@@ -54,8 +54,8 @@ public class ExtensionResource extends com.sap.cloud.lm.sl.mta.model.v3_0.Extens
             ExtensionResource result = new ExtensionResource();
             result.setName(name);
             result.setActive(active);
-            result.setProperties(getOrDefault(properties, Collections.<String, Object> emptyMap()));
-            result.setParameters(getOrDefault(parameters, Collections.<String, Object> emptyMap()));
+            result.setProperties(ObjectUtils.defaultIfNull(properties, Collections.<String, Object> emptyMap()));
+            result.setParameters(ObjectUtils.defaultIfNull(parameters, Collections.<String, Object> emptyMap()));
             result.setRequiredDependencies3_1(requiredDependencies);
             return result;
         }

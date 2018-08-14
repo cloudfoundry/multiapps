@@ -1,10 +1,10 @@
 package com.sap.cloud.lm.sl.mta.model.v2_0;
 
-import static com.sap.cloud.lm.sl.common.util.CommonUtil.getOrDefault;
-
 import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.Map;
+
+import org.apache.commons.lang3.ObjectUtils;
 
 import com.sap.cloud.lm.sl.common.util.MapUtil;
 import com.sap.cloud.lm.sl.mta.model.ParametersContainer;
@@ -46,7 +46,7 @@ public class PlatformResourceType extends com.sap.cloud.lm.sl.mta.model.v1_0.Pla
             PlatformResourceType result = new PlatformResourceType();
             result.setName(name);
             result.setResourceManager(resourceManager);
-            result.setParameters(getOrDefault(parameters, Collections.<String, Object> emptyMap()));
+            result.setParameters(ObjectUtils.defaultIfNull(parameters, Collections.<String, Object> emptyMap()));
             return result;
         }
 

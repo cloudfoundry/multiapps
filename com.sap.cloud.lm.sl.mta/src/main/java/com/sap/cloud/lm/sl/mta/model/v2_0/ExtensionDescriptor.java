@@ -1,11 +1,11 @@
 package com.sap.cloud.lm.sl.mta.model.v2_0;
 
-import static com.sap.cloud.lm.sl.common.util.CommonUtil.getOrDefault;
-
 import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+
+import org.apache.commons.lang3.ObjectUtils;
 
 import com.sap.cloud.lm.sl.common.util.ListUtil;
 import com.sap.cloud.lm.sl.common.util.MapUtil;
@@ -98,10 +98,10 @@ public class ExtensionDescriptor extends com.sap.cloud.lm.sl.mta.model.v1_0.Exte
             result.setParentId(parentId);
             result.setProvider(provider);
             result.setSchemaVersion(schemaVersion);
-            result.setResources2_0(getOrDefault(resources2_0, Collections.<ExtensionResource> emptyList()));
-            result.setDeployTargets(getOrDefault(deployTargets, Collections.<String> emptyList()));
-            result.setParameters(getOrDefault(parameters, Collections.<String, Object> emptyMap()));
-            result.setModules2_0(getOrDefault(modules2_0, Collections.<ExtensionModule> emptyList()));
+            result.setResources2_0(ObjectUtils.defaultIfNull(resources2_0, Collections.<ExtensionResource> emptyList()));
+            result.setDeployTargets(ObjectUtils.defaultIfNull(deployTargets, Collections.<String> emptyList()));
+            result.setParameters(ObjectUtils.defaultIfNull(parameters, Collections.<String, Object> emptyMap()));
+            result.setModules2_0(ObjectUtils.defaultIfNull(modules2_0, Collections.<ExtensionModule> emptyList()));
             return result;
         }
 

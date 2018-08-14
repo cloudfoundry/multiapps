@@ -1,9 +1,9 @@
 package com.sap.cloud.lm.sl.mta.model.v3_1;
 
-import static com.sap.cloud.lm.sl.common.util.CommonUtil.getOrDefault;
-
 import java.util.Collections;
 import java.util.List;
+
+import org.apache.commons.lang3.ObjectUtils;
 
 import com.sap.cloud.lm.sl.common.util.ListUtil;
 import com.sap.cloud.lm.sl.mta.parsers.v3_1.ExtensionModuleParser;
@@ -66,10 +66,10 @@ public class ExtensionModule extends com.sap.cloud.lm.sl.mta.model.v3_0.Extensio
         public ExtensionModule build() {
             ExtensionModule result = new ExtensionModule();
             result.setName(name);
-            result.setProvidedDependencies3_1(getOrDefault(providedDependencies3_1, Collections.<ExtensionProvidedDependency> emptyList()));
-            result.setRequiredDependencies3_1(getOrDefault(requiredDependencies3_1, Collections.<ExtensionRequiredDependency> emptyList()));
-            result.setProperties(getOrDefault(properties, Collections.<String, Object> emptyMap()));
-            result.setParameters(getOrDefault(parameters, Collections.<String, Object> emptyMap()));
+            result.setProvidedDependencies3_1(ObjectUtils.defaultIfNull(providedDependencies3_1, Collections.<ExtensionProvidedDependency> emptyList()));
+            result.setRequiredDependencies3_1(ObjectUtils.defaultIfNull(requiredDependencies3_1, Collections.<ExtensionRequiredDependency> emptyList()));
+            result.setProperties(ObjectUtils.defaultIfNull(properties, Collections.<String, Object> emptyMap()));
+            result.setParameters(ObjectUtils.defaultIfNull(parameters, Collections.<String, Object> emptyMap()));
             return result;
         }
 
