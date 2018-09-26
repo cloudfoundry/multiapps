@@ -16,13 +16,13 @@ public class PropertiesPlaceholderResolver {
 
     public Map<String, Object> resolve(Map<String, Object> properties, final Map<String, Object> replacementValues, String prefix)
         throws ContentException {
-        ProvidedValuesResolver<ContentException> valuesresolver = new ProvidedValuesResolver<ContentException>() {
+        ProvidedValuesResolver valuesResolver = new ProvidedValuesResolver() {
             @Override
-            public Map<String, Object> resolveProvidedValues(String irrelevant) throws ContentException {
+            public Map<String, Object> resolveProvidedValues(String irrelevant) {
                 return replacementValues;
             }
         };
-        return propertiesResolverBuilder.build(properties, valuesresolver, PLACEHOLDER, prefix, true)
+        return propertiesResolverBuilder.build(properties, valuesResolver, PLACEHOLDER, prefix, true)
             .resolve();
     }
 

@@ -16,7 +16,7 @@ import com.sap.cloud.lm.sl.mta.resolvers.Resolver;
 import com.sap.cloud.lm.sl.mta.resolvers.ResolverBuilder;
 import com.sap.cloud.lm.sl.mta.resolvers.v2_0.RequiredDependencyReferenceResolver;
 
-public class ResourceReferenceResolver implements Resolver<Resource, ContentException> {
+public class ResourceReferenceResolver implements Resolver<Resource> {
 
     protected final DeploymentDescriptor descriptor;
     protected final Resource resource;
