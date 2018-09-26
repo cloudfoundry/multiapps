@@ -52,6 +52,10 @@ public class DescriptorReferenceResolverTest {
             {
                 "merged-06.yaml", "R:resolved-05.yaml.json",
             },
+            // (6) The same reference occurs multiple times in the same property:
+            {
+                "mtad-with-repeating-reference.yaml", "R:result-from-repeating-reference.json",
+            },
 // @formatter:on
         });
     }

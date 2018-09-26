@@ -1,0 +1,25 @@
+{
+  "modules2_0": [
+    {
+      "requiredDependencies2_0": [],
+      "providedDependencies2_0": [
+        {
+          "isPublic": true,
+          "name": "web-server",
+          "properties": {}
+        }
+      ],
+      "parameters": {
+        "bar": "foo.foo",
+        "foo": "foo"
+      },
+      "name": "web-server",
+      "type": "com.sap.static-content",
+      "properties": {}
+    }
+  ],
+  "resources2_0": [],
+  "parameters": {},
+  "id": "repeating-placeholder-test",
+  "version": "1.0.0"
+}

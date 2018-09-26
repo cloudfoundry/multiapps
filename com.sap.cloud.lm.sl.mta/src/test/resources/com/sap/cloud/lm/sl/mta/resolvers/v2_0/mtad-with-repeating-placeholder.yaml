@@ -1,0 +1,9 @@
+ID: repeating-placeholder-test
+version: 1.0.0
+
+modules:
+  - name: web-server
+    type: com.sap.static-content
+    parameters:
+      foo: foo
+      bar: "${foo}.${foo}"

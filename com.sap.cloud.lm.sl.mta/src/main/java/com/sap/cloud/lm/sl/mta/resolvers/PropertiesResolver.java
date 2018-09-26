@@ -2,10 +2,10 @@ package com.sap.cloud.lm.sl.mta.resolvers;
 
 import static com.sap.cloud.lm.sl.mta.util.ValidatorUtil.getPrefixedName;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.TreeSet;
 
 import com.sap.cloud.lm.sl.common.ContentException;
 import com.sap.cloud.lm.sl.mta.helpers.SimplePropertyVisitor;
@@ -17,11 +17,9 @@ public class PropertiesResolver implements SimplePropertyVisitor, Resolver<Map<S
     private Map<String, Object> properties;
     private String prefix;
     private ProvidedValuesResolver valuesResolver;
-    private String origin;
     private ReferencePattern referencePattern;
     private boolean isStrict;
-    private boolean isOrigin;
-    private Set<String> seenKeys = new TreeSet<String>();
+    private ResolutionContext resolutionContext;
 
     public PropertiesResolver() {
         // do nothing
@@ -38,7 +36,6 @@ public class PropertiesResolver implements SimplePropertyVisitor, Resolver<Map<S
         this.prefix = prefix;
         this.referencePattern = referencePattern;
         this.isStrict = isStrict;
-        this.isOrigin = true;
         this.valuesResolver = valuesResolver;
     }
 
@@ -58,32 +55,20 @@ public class PropertiesResolver implements SimplePropertyVisitor, Resolver<Map<S
 
     @Override
     public Object visit(String key, String value) {
-        if (seenKeys.contains(key)) {
-            throw new ContentException(Messages.DETECTED_CIRCULAR_REFERENCE, getPrefixedName(prefix, origin));
+        if (resolutionContext != null) {
+            resolutionContext.addToReferencedKeys(key);
         }
-        boolean usedToBeOrigin = isOrigin;
-        if (usedToBeOrigin) {
-            isOrigin = !isOrigin;
-            origin = key;
-        } else {
-            seenKeys.add(key);
-        }
-        Object resolved = resolveReferences(value);
-        if (usedToBeOrigin) {
-            isOrigin = !isOrigin;
-            seenKeys.clear();
-        }
-        return resolved;
+        return resolveReferences(key, value);
     }
 
-    private Object resolveReferences(String value) {
+    private Object resolveReferences(String key, String value) {
         List<Reference> references = detectReferences(value);
         if (isSimpleReference(value, references)) {
-            return resolveReference(references.get(0));
+            return resolveReferenceInContext(key, references.get(0));
         }
         StringBuilder result = new StringBuilder(value);
-        for (Reference referrence : references) {
-            result = resolveReferenceInPlace(result, referrence);
+        for (Reference reference : references) {
+            result = resolveReferenceInPlace(key, result, reference);
             if (result == null) {
                 return null;
             }
@@ -91,10 +76,10 @@ public class PropertiesResolver implements SimplePropertyVisitor, Resolver<Map<S
         return result.toString();
     }
 
-    private StringBuilder resolveReferenceInPlace(StringBuilder value, Reference reference) {
+    private StringBuilder resolveReferenceInPlace(String key, StringBuilder value, Reference reference) {
         String matchedPattern = reference.getMatchedPattern();
         int patternStartIndex = value.indexOf(matchedPattern);
-        Object resolvedReference = resolveReference(reference);
+        Object resolvedReference = resolveReferenceInContext(key, reference);
         if (resolvedReference != null) {
             return value.replace(patternStartIndex, patternStartIndex + matchedPattern.length(), resolvedReference.toString());
         }
@@ -107,25 +92,60 @@ public class PropertiesResolver implements SimplePropertyVisitor, Resolver<Map<S
             .length();
     }
 
-    protected Object resolveReference(Reference reference) {
-        String referenceName = reference.getPropertyName();
+    protected Object resolveReferenceInContext(String key, Reference reference) {
+        boolean resolutionContextWasCreated = false;
+        if (resolutionContext == null) {
+            resolutionContext = new ResolutionContext(getPrefixedName(prefix, key));
+            resolutionContextWasCreated = true;
+        }
+        Object resolvedValue = resolveReference(reference);
+        if (resolutionContextWasCreated) {
+            resolutionContext = null;
+        }
+        return resolvedValue;
+    }
+
+    private Object resolveReference(Reference reference) {
+        String referencedPropertyKey = reference.getPropertyName();
         Map<String, Object> replacementValues = valuesResolver.resolveProvidedValues(reference.getDependencyName());
-        if (replacementValues == null || !replacementValues.containsKey(referenceName)) {
-            if (!isStrict) {
-                return null;
+        if (replacementValues == null || !replacementValues.containsKey(referencedPropertyKey)) {
+            if (isStrict) {
+                throw new ContentException(Messages.UNABLE_TO_RESOLVE, getPrefixedName(prefix, referencedPropertyKey));
             }
-            throw new ContentException(Messages.UNABLE_TO_RESOLVE, getPrefixedName(prefix, referenceName));
+            return null;
         }
-        String key = null;
+        String referencedPropertyKeyWithSuffix = getReferencedPropertyKeyWithSuffix(reference);
+        Object referencedProperty = replacementValues.get(referencedPropertyKey);
+        return resolve(referencedPropertyKeyWithSuffix, referencedProperty);
+    }
+
+    private String getReferencedPropertyKeyWithSuffix(Reference reference) {
         if (reference.getDependencyName() != null) {
-            key = getPrefixedName(reference.getDependencyName(), reference.getPropertyName());
-        } else {
-            key = reference.getPropertyName();
+            return getPrefixedName(reference.getDependencyName(), reference.getPropertyName());
         }
-        return resolve(key, replacementValues.get(referenceName));
+        return reference.getPropertyName();
     }
 
     private List<Reference> detectReferences(String line) {
         return referencePattern.match(line);
     }
+
+    private static class ResolutionContext {
+
+        private String rootKey;
+        private Set<String> referencedKeys = new HashSet<>();
+
+        public ResolutionContext(String rootKey) {
+            this.rootKey = rootKey;
+        }
+
+        public void addToReferencedKeys(String key) {
+            if (referencedKeys.contains(key)) {
+                throw new ContentException(Messages.DETECTED_CIRCULAR_REFERENCE, rootKey);
+            }
+            referencedKeys.add(key);
+        }
+
+    }
+
 }
