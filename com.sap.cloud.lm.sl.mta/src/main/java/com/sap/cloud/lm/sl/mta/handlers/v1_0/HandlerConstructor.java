@@ -60,10 +60,10 @@ public class HandlerConstructor implements com.sap.cloud.lm.sl.mta.handlers.Hand
     }
 
     @Override
-    public Resolver<? extends DeploymentDescriptor, ContentException> getDescriptorReferenceResolver(
+    public Resolver<? extends DeploymentDescriptor> getDescriptorReferenceResolver(
         final DeploymentDescriptor mergedDescriptor, ResolverBuilder modulesPropertiesResolverBuilder,
         ResolverBuilder resourcePropertiesResolverBuilder, ResolverBuilder requiredDepencenciesPropertiesResolverBuilder) {
-        return new Resolver<DeploymentDescriptor, ContentException>() {
+        return new Resolver<DeploymentDescriptor>() {
             @Override
             public DeploymentDescriptor resolve() {
                 return mergedDescriptor;

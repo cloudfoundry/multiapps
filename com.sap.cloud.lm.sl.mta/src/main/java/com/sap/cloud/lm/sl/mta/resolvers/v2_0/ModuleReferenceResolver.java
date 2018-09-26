@@ -13,7 +13,7 @@ import com.sap.cloud.lm.sl.mta.model.v2_0.RequiredDependency;
 import com.sap.cloud.lm.sl.mta.resolvers.Resolver;
 import com.sap.cloud.lm.sl.mta.resolvers.ResolverBuilder;
 
-public class ModuleReferenceResolver implements Resolver<Module, ContentException> {
+public class ModuleReferenceResolver implements Resolver<Module> {
 
     protected final DeploymentDescriptor descriptor;
     protected final Module module;

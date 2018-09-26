@@ -12,8 +12,7 @@ import com.sap.cloud.lm.sl.mta.resolvers.ProvidedValuesResolver;
 import com.sap.cloud.lm.sl.mta.resolvers.ReferenceResolver;
 import com.sap.cloud.lm.sl.mta.resolvers.ResolverBuilder;
 
-public class ModulePropertiesReferenceResolver extends ReferenceResolver<Map<String, Object>>
-    implements ProvidedValuesResolver<ContentException> {
+public class ModulePropertiesReferenceResolver extends ReferenceResolver<Map<String, Object>> implements ProvidedValuesResolver {
 
     protected final Map<String, Object> properties;
     protected final ResolverBuilder propertiesResolverBuilder;

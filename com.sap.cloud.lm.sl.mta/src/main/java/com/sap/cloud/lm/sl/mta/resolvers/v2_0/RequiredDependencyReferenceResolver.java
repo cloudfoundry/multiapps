@@ -48,9 +48,9 @@ public class RequiredDependencyReferenceResolver extends ReferenceResolver<Requi
     @Override
     protected Map<String, Object> resolve(Map<String, Object> properties, final Map<String, Object> propertyValues, Boolean isStrict)
         throws ContentException {
-        ProvidedValuesResolver<ContentException> valuesResolver = new ProvidedValuesResolver<ContentException>() {
+        ProvidedValuesResolver valuesResolver = new ProvidedValuesResolver() {
             @Override
-            public Map<String, Object> resolveProvidedValues(String irrelevant) throws ContentException {
+            public Map<String, Object> resolveProvidedValues(String irrelevant) {
                 return propertyValues;
             }
         };

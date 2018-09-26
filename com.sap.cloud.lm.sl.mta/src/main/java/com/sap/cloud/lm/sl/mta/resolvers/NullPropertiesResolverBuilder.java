@@ -7,7 +7,7 @@ import com.sap.cloud.lm.sl.common.ContentException;
 public class NullPropertiesResolverBuilder extends ResolverBuilder {
 
     @Override
-    public PropertiesResolver build(Map<String, Object> properties, ProvidedValuesResolver<? extends ContentException> valuesResolver,
+    public PropertiesResolver build(Map<String, Object> properties, ProvidedValuesResolver valuesResolver,
         ReferencePattern patternToMatch, String prefix, Boolean isStrict) {
         return new NullPropertiesResolver(properties);
     }
@@ -25,10 +25,6 @@ public class NullPropertiesResolverBuilder extends ResolverBuilder {
             return this.properties;
         }
 
-        @Override
-        public Object visit(String key, String value) throws ContentException {
-            return value;
-        }
     }
 
 }
