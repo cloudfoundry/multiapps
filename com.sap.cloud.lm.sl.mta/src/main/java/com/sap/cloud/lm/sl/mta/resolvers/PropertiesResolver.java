@@ -12,11 +12,11 @@ import com.sap.cloud.lm.sl.mta.helpers.SimplePropertyVisitor;
 import com.sap.cloud.lm.sl.mta.helpers.VisitableObject;
 import com.sap.cloud.lm.sl.mta.message.Messages;
 
-public class PropertiesResolver implements SimplePropertyVisitor, Resolver<Map<String, Object>, ContentException> {
+public class PropertiesResolver implements SimplePropertyVisitor, Resolver<Map<String, Object>> {
 
     private Map<String, Object> properties;
     private String prefix;
-    private ProvidedValuesResolver<? extends ContentException> valuesResolver;
+    private ProvidedValuesResolver valuesResolver;
     private String origin;
     private ReferencePattern referencePattern;
     private boolean isStrict;
@@ -27,13 +27,13 @@ public class PropertiesResolver implements SimplePropertyVisitor, Resolver<Map<S
         // do nothing
     }
 
-    public PropertiesResolver(Map<String, Object> properties, ProvidedValuesResolver<? extends ContentException> valuesResolver,
-        ReferencePattern referencePattern, String prefix) {
+    public PropertiesResolver(Map<String, Object> properties, ProvidedValuesResolver valuesResolver, ReferencePattern referencePattern,
+        String prefix) {
         this(properties, valuesResolver, referencePattern, prefix, true);
     }
 
-    public PropertiesResolver(Map<String, Object> properties, ProvidedValuesResolver<? extends ContentException> valuesResolver,
-        ReferencePattern referencePattern, String prefix, boolean isStrict) {
+    public PropertiesResolver(Map<String, Object> properties, ProvidedValuesResolver valuesResolver, ReferencePattern referencePattern,
+        String prefix, boolean isStrict) {
         this.properties = properties;
         this.prefix = prefix;
         this.referencePattern = referencePattern;
@@ -44,20 +44,20 @@ public class PropertiesResolver implements SimplePropertyVisitor, Resolver<Map<S
 
     @SuppressWarnings("unchecked")
     @Override
-    public Map<String, Object> resolve() throws ContentException {
+    public Map<String, Object> resolve() {
         return (Map<String, Object>) resolve(properties);
     }
 
-    private Object resolve(Object value) throws ContentException {
+    private Object resolve(Object value) {
         return new VisitableObject(value).accept(this);
     }
 
-    private Object resolve(String key, Object value) throws ContentException {
+    private Object resolve(String key, Object value) {
         return new VisitableObject(value).accept(key, this);
     }
 
     @Override
-    public Object visit(String key, String value) throws ContentException {
+    public Object visit(String key, String value) {
         if (seenKeys.contains(key)) {
             throw new ContentException(Messages.DETECTED_CIRCULAR_REFERENCE, getPrefixedName(prefix, origin));
         }
@@ -76,7 +76,7 @@ public class PropertiesResolver implements SimplePropertyVisitor, Resolver<Map<S
         return resolved;
     }
 
-    private Object resolveReferences(String value) throws ContentException {
+    private Object resolveReferences(String value) {
         List<Reference> references = detectReferences(value);
         if (isSimpleReference(value, references)) {
             return resolveReference(references.get(0));
@@ -91,7 +91,7 @@ public class PropertiesResolver implements SimplePropertyVisitor, Resolver<Map<S
         return result.toString();
     }
 
-    private StringBuilder resolveReferenceInPlace(StringBuilder value, Reference reference) throws ContentException {
+    private StringBuilder resolveReferenceInPlace(StringBuilder value, Reference reference) {
         String matchedPattern = reference.getMatchedPattern();
         int patternStartIndex = value.indexOf(matchedPattern);
         Object resolvedReference = resolveReference(reference);
@@ -107,7 +107,7 @@ public class PropertiesResolver implements SimplePropertyVisitor, Resolver<Map<S
             .length();
     }
 
-    protected Object resolveReference(Reference reference) throws ContentException {
+    protected Object resolveReference(Reference reference) {
         String referenceName = reference.getPropertyName();
         Map<String, Object> replacementValues = valuesResolver.resolveProvidedValues(reference.getDependencyName());
         if (replacementValues == null || !replacementValues.containsKey(referenceName)) {

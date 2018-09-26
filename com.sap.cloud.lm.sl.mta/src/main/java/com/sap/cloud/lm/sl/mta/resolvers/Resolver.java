@@ -1,7 +1,7 @@
 package com.sap.cloud.lm.sl.mta.resolvers;
 
-public interface Resolver<T, E extends Exception> {
+public interface Resolver<T> {
 
-    T resolve() throws E;
+    T resolve();
 
 }

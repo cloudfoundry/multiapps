@@ -1,6 +1,5 @@
 package com.sap.cloud.lm.sl.mta.handlers;
 
-import com.sap.cloud.lm.sl.common.ContentException;
 import com.sap.cloud.lm.sl.mta.handlers.v1_0.ConfigurationParser;
 import com.sap.cloud.lm.sl.mta.handlers.v1_0.DescriptorHandler;
 import com.sap.cloud.lm.sl.mta.handlers.v1_0.DescriptorMerger;
@@ -30,7 +29,7 @@ public interface HandlerConstructor {
         Platform platform, Target target, SystemParameters systemParameters, ResolverBuilder propertiesResolverBuilder,
         ResolverBuilder parametersResolverBuilder);
 
-    Resolver<? extends DeploymentDescriptor, ContentException> getDescriptorReferenceResolver(DeploymentDescriptor mergedDescriptor,
+    Resolver<? extends DeploymentDescriptor> getDescriptorReferenceResolver(DeploymentDescriptor mergedDescriptor,
         ResolverBuilder modulesPropertiesResolverBuilder, ResolverBuilder resourcePropertiesResolverBuilder,
         ResolverBuilder requiredDepencenciesPropertiesResolverBuilder);
 

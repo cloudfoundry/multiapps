@@ -2,7 +2,6 @@ package com.sap.cloud.lm.sl.mta.handlers;
 
 import static java.text.MessageFormat.format;
 
-import com.sap.cloud.lm.sl.common.ContentException;
 import com.sap.cloud.lm.sl.mta.handlers.v1_0.ConfigurationParser;
 import com.sap.cloud.lm.sl.mta.handlers.v1_0.DescriptorHandler;
 import com.sap.cloud.lm.sl.mta.handlers.v1_0.DescriptorMerger;
@@ -130,7 +129,7 @@ public class HandlerFactory implements HandlerConstructor {
     }
 
     @Override
-    public Resolver<? extends DeploymentDescriptor, ContentException> getDescriptorReferenceResolver(
+    public Resolver<? extends DeploymentDescriptor> getDescriptorReferenceResolver(
         final DeploymentDescriptor mergedDescriptor, ResolverBuilder modulesPropertiesResolverBuilder,
         ResolverBuilder resourcePropertiesResolverBuilder, ResolverBuilder requiredDepencenciesPropertiesResolverBuilder) {
         return getHandlerDelegate().getDescriptorReferenceResolver(mergedDescriptor, modulesPropertiesResolverBuilder,
