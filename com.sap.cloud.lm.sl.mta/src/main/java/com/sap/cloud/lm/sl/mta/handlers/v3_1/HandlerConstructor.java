@@ -2,8 +2,6 @@ package com.sap.cloud.lm.sl.mta.handlers.v3_1;
 
 import static com.sap.cloud.lm.sl.common.util.CommonUtil.cast;
 
-import com.sap.cloud.lm.sl.common.ContentException;
-import com.sap.cloud.lm.sl.mta.handlers.v3_1.DescriptorMerger;
 import com.sap.cloud.lm.sl.mta.model.SystemParameters;
 import com.sap.cloud.lm.sl.mta.model.v1_0.DeploymentDescriptor;
 import com.sap.cloud.lm.sl.mta.model.v1_0.Platform;
@@ -30,7 +28,7 @@ public class HandlerConstructor extends com.sap.cloud.lm.sl.mta.handlers.v3_0.Ha
     public DescriptorMerger getDescriptorMerger() {
         return new DescriptorMerger(getDescriptorHandler());
     }
-    
+
     @Override
     public DescriptorValidator getDescriptorValidator() {
         return new DescriptorValidator();
@@ -56,7 +54,7 @@ public class HandlerConstructor extends com.sap.cloud.lm.sl.mta.handlers.v3_0.Ha
     }
 
     @Override
-    public Resolver<? extends com.sap.cloud.lm.sl.mta.model.v3_1.DeploymentDescriptor, ContentException> getDescriptorReferenceResolver(
+    public Resolver<? extends com.sap.cloud.lm.sl.mta.model.v3_1.DeploymentDescriptor> getDescriptorReferenceResolver(
         DeploymentDescriptor mergedDescriptor, ResolverBuilder modulesPropertiesResolverBuilder,
         ResolverBuilder resourcePropertiesResolverBuilder, ResolverBuilder requiredDepencenciesPropertiesResolverBuilder) {
         com.sap.cloud.lm.sl.mta.model.v3_1.DeploymentDescriptor descriptor = cast(mergedDescriptor);

@@ -6,7 +6,7 @@ import java.util.Map;
 
 import com.sap.cloud.lm.sl.common.ContentException;
 
-public abstract class PatternResolver<T> implements Resolver<T, ContentException> {
+public abstract class PatternResolver<T> implements Resolver<T> {
 
     protected final String prefix;
     protected final ReferencePattern patternToMatch;
@@ -26,7 +26,7 @@ public abstract class PatternResolver<T> implements Resolver<T, ContentException
 
     protected Map<String, Object> resolve(Map<String, Object> properties, final Map<String, Object> propertyValues, Boolean isStrict)
         throws ContentException {
-        ProvidedValuesResolver<ContentException> valuesResolver = new ProvidedValuesResolver<ContentException>() {
+        ProvidedValuesResolver valuesResolver = new ProvidedValuesResolver() {
             @Override
             public Map<String, Object> resolveProvidedValues(String irrelevant) throws ContentException {
                 return propertyValues;
