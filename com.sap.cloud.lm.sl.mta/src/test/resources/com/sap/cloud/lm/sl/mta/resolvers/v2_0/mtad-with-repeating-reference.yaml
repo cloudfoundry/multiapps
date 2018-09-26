@@ -1,0 +1,16 @@
+ID: repeating-reference-test
+version: 1.0.0
+
+modules:
+  - name: web-server
+    type: com.sap.static-content
+    requires:
+      - name: web-server-database
+        properties:
+          bar: "~{foo}.~{foo}"
+
+resources:
+  - name: web-server-database
+    type: com.sap.hana.hdi-container
+    properties:
+      foo: foo
