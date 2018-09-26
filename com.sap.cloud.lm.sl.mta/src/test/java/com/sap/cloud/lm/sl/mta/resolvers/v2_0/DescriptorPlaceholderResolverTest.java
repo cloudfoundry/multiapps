@@ -108,6 +108,10 @@ public class DescriptorPlaceholderResolverTest {
             {
                 "mtad-18.yaml",  "platform-1.json", "R:result-16.json",  
             },
+            // (18) The same placeholder occurs multiple times in the same parameter:
+            {
+                "mtad-with-repeating-placeholder.yaml", "platform-1.json", "R:result-from-repeating-placeholder.json",
+            },
 // @formatter:on
         });
     }
