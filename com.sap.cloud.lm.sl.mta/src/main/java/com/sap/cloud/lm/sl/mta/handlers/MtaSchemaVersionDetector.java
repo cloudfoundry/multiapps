@@ -57,7 +57,7 @@ public class MtaSchemaVersionDetector {
 
     private List<RawExtensionDescriptor> getRelevantExtensionDescriptors(RawDeploymentDescriptor rawDeploymentDescriptor,
         List<RawExtensionDescriptor> rawExtensionDescriptors) {
-        return new ExtensionChainBuilder<>(rawDeploymentDescriptor, rawExtensionDescriptors, false).build();
+        return new ExtensionChainBuilder<RawExtensionDescriptor>(false).build(rawDeploymentDescriptor, rawExtensionDescriptors);
     }
 
     private Version getSchemaVersion(RawDescriptor rawDescriptor) {

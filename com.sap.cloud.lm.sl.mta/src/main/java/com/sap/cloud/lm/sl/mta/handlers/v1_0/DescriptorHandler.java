@@ -187,7 +187,7 @@ public class DescriptorHandler {
 
     public List<ExtensionDescriptor> getExtensionDescriptorChain(DeploymentDescriptor deploymentDescriptor,
         List<ExtensionDescriptor> extensionDescriptors, boolean isStrict) throws ContentException {
-        return new ExtensionChainBuilder<>(deploymentDescriptor, extensionDescriptors, isStrict).build();
+        return new ExtensionChainBuilder<ExtensionDescriptor>(isStrict).build(deploymentDescriptor, extensionDescriptors);
     }
 
     public List<ExtensionDescriptor> getExtensionDescriptorChain(DeploymentDescriptor deploymentDescriptor,

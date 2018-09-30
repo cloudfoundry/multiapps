@@ -25,6 +25,9 @@ public class ExtensionChainBuilderTest {
     private final String expected;
     private ExtensionChainBuilder<ExtensionDescriptor> builder;
 
+    private DeploymentDescriptor deploymentDescriptor;
+    private List<ExtensionDescriptor> extensionDescriptors;
+
     @Parameters
     public static Iterable<Object[]> getParameters() {
         return Arrays.asList(new Object[][] {
@@ -35,11 +38,11 @@ public class ExtensionChainBuilderTest {
             },
             // (1) Extension descriptor has an unknown parent descriptor:
             {
-                "/mta/sample/v1_0/mtad-01.yaml", new String[] { "/mta/sample/v1_0/config-06.mtaext", }, "E:Unknown parent descriptor \"com.sap.mta.samplex\" in extension descriptor \"com.sap.mta.sample.config-06\"",
+                "/mta/sample/v1_0/mtad-01.yaml", new String[] { "/mta/sample/v1_0/config-01.mtaext", "/mta/sample/v1_0/config-06.mtaext", }, "E:Cannot build extension descriptor chain, because the following descriptors have an unknown parent: com.sap.mta.sample.config-06",
             },
             // (2) Extension descriptors do not form a valid chain (both extend the deployment descriptor):
             {
-                "/mta/sample/v1_0/mtad-01.yaml", new String[] { "/mta/sample/v1_0/config-01.mtaext", "/mta/sample/v1_0/config-08.mtaext", }, "E:Cannot build extension descriptor chain, last valid extension descriptor is \"com.sap.mta.sample.config-01\"",
+                "/mta/sample/v1_0/mtad-01.yaml", new String[] { "/mta/sample/v1_0/config-01.mtaext", "/mta/sample/v1_0/config-08.mtaext", }, "E:Multiple extension descriptors extend the parent \"com.sap.mta.sample\". This is not allowed. The extension descriptors must form a chain.",
             },
 // @formatter:on
         });
@@ -55,11 +58,10 @@ public class ExtensionChainBuilderTest {
     public void setUp() throws Exception {
         DescriptorParser parser = new DescriptorParser();
 
-        DeploymentDescriptor deploymentDescriptor = MtaTestUtil.loadDeploymentDescriptor(deploymentDescriptorLocation, parser, getClass());
-        List<ExtensionDescriptor> extensionDescriptors = MtaTestUtil.loadExtensionDescriptors(extensionDescriptorLocations, parser,
-            getClass());
+        deploymentDescriptor = MtaTestUtil.loadDeploymentDescriptor(deploymentDescriptorLocation, parser, getClass());
+        extensionDescriptors = MtaTestUtil.loadExtensionDescriptors(extensionDescriptorLocations, parser, getClass());
 
-        builder = new ExtensionChainBuilder<>(deploymentDescriptor, extensionDescriptors);
+        builder = new ExtensionChainBuilder<ExtensionDescriptor>();
     }
 
     @Test
@@ -68,7 +70,7 @@ public class ExtensionChainBuilderTest {
             @Override
             public List<String> call() throws Exception {
                 List<String> descriptorIds = new ArrayList<String>();
-                for (ExtensionDescriptor descriptor : builder.build()) {
+                for (ExtensionDescriptor descriptor : builder.build(deploymentDescriptor, extensionDescriptors)) {
                     descriptorIds.add(descriptor.getId());
                 }
                 return descriptorIds;
