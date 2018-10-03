@@ -87,7 +87,11 @@ public class VersionParserTest {
             // (16) Supported version with SNAPSHOT:
             {
                 "1.9-SHAPHOT", "1.9.0-SHAPHOT", null,
-            }
+            },
+            // (17) Version range:
+            {
+                "[ 2.0, 2.1 ]", null, "Invalid version (no major version): [ 2.0, 2.1 ]",
+            },
 // @formatter:on
         });
     }

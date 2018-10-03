@@ -5,7 +5,7 @@
     "metadata": {}
   },
   "parameters": {},
+  "schemaVersion": "3.1.0",
   "id": "partial-schema-version-test",
-  "version": "1.0.0",
-  "schemaVersion": "3.1.0"
+  "version": "1.0.0"
 }

@@ -45,16 +45,20 @@ public class ExtensionDescriptorParser extends ModelParser<ExtensionDescriptor> 
     @Override
     public ExtensionDescriptor parse() throws ParsingException {
         Builder builder = new Builder();
+        builder.setSchemaVersion(getSchemaVersion());
         builder.setId(getId());
         builder.setDescription(getDescription());
         builder.setParentId(getParentId());
         builder.setProvider(getProvider());
-        builder.setSchemaVersion(getSchemaVersion());
         builder.setDeployTargets(getTargetPLatforms());
         builder.setModules1_0(getModules1_0());
         builder.setResources1_0(getResources1_0());
         builder.setProperties(getProperties());
         return builder.build();
+    }
+
+    protected String getSchemaVersion() {
+        return getSchemaVersion(SCHEMA_VERSION);
     }
 
     protected String getId() throws ParsingException {
@@ -71,10 +75,6 @@ public class ExtensionDescriptorParser extends ModelParser<ExtensionDescriptor> 
 
     protected String getProvider() throws ParsingException {
         return getStringElement(PROVIDER);
-    }
-
-    protected String getSchemaVersion() {
-        return getSchemaVersion(SCHEMA_VERSION);
     }
 
     protected List<String> getTargetPLatforms() {

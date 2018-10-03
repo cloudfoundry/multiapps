@@ -2,8 +2,8 @@
   "modules3_1": [],
   "resources3_1": [],
   "parameters": {},
+  "schemaVersion": "3.1.0",
   "id": "mtaext-partial-schema-version-test",
   "parentId": "partial-schema-version-test",
-  "schemaVersion": "3.1.0",
   "deployTargets": []
 }

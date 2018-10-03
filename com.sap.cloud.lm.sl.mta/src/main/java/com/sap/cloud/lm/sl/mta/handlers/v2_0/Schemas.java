@@ -29,7 +29,7 @@ public class Schemas extends com.sap.cloud.lm.sl.mta.handlers.v1_0.Schemas {
     public static final ListElement PLATFORMS = new ListElement(PLATFORM);
 
     static {
-        MTAD.add("_schema-version", OBJECT);
+        MTAD.add("_schema-version", OBJECT_REQUIRED);
         MTAD.add("ID", NON_UNIQUE_MTA_IDENTIFIER);
         MTAD.add("version", STRING_REQUIRED);
         MTAD.add("description", STRING);
@@ -64,7 +64,7 @@ public class Schemas extends com.sap.cloud.lm.sl.mta.handlers.v1_0.Schemas {
         RESOURCE.add("properties", PROPERTIES);
         RESOURCE.add("parameters", PROPERTIES);
 
-        MTAEXT.add("_schema-version", OBJECT);
+        MTAEXT.add("_schema-version", OBJECT_REQUIRED);
         MTAEXT.add("ID", NON_UNIQUE_MTA_IDENTIFIER);
         MTAEXT.add("ext_description", STRING);
         MTAEXT.add("extends", STRING_REQUIRED);

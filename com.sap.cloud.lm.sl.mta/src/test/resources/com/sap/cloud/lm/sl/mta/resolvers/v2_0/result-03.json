@@ -62,6 +62,7 @@
     "foo": "deployer",
     "qux": "git://example.com/xs2-java/xs2javabuildpack"
   },
+  "schemaVersion": "2.0.0",
   "id": "com.sap.mta.sample.v2",
   "version": "1.2.1-beta+20150403144937853"
 }

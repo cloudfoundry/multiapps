@@ -43,11 +43,11 @@
   "parameters": {
     "descriptor-property": "some-descriptor-property"
   },
+  "schemaVersion": "2.0.0",
   "id": "mta-extension",
   "description": "description",
   "parentId": "mta-id",
   "provider": "provider-id",
-  "schemaVersion": "2.0.0",
   "deployTargets": [
     "first-target",
     "second-target"

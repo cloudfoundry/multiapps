@@ -1,8 +1,8 @@
+_schema-version: 1.0.0
 ID: mta-extension
 ext_description: description
 extends: mta-id
 ext_provider: provider-id
-_schema-version: 1.0.0
 target-platforms:
   - first-target
   - second-target

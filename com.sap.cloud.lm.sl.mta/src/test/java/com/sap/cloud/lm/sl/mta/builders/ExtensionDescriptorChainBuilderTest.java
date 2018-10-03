@@ -18,12 +18,12 @@ import com.sap.cloud.lm.sl.mta.model.v1_0.DeploymentDescriptor;
 import com.sap.cloud.lm.sl.mta.model.v1_0.ExtensionDescriptor;
 
 @RunWith(Parameterized.class)
-public class ExtensionChainBuilderTest {
+public class ExtensionDescriptorChainBuilderTest {
 
     private final String deploymentDescriptorLocation;
     private final String[] extensionDescriptorLocations;
     private final String expected;
-    private ExtensionChainBuilder<ExtensionDescriptor> builder;
+    private ExtensionDescriptorChainBuilder builder;
 
     private DeploymentDescriptor deploymentDescriptor;
     private List<ExtensionDescriptor> extensionDescriptors;
@@ -48,7 +48,8 @@ public class ExtensionChainBuilderTest {
         });
     }
 
-    public ExtensionChainBuilderTest(String deploymentDescriptorLocation, String[] extensionDescriptorLocations, String expected) {
+    public ExtensionDescriptorChainBuilderTest(String deploymentDescriptorLocation, String[] extensionDescriptorLocations,
+        String expected) {
         this.deploymentDescriptorLocation = deploymentDescriptorLocation;
         this.extensionDescriptorLocations = extensionDescriptorLocations;
         this.expected = expected;
@@ -61,7 +62,7 @@ public class ExtensionChainBuilderTest {
         deploymentDescriptor = MtaTestUtil.loadDeploymentDescriptor(deploymentDescriptorLocation, parser, getClass());
         extensionDescriptors = MtaTestUtil.loadExtensionDescriptors(extensionDescriptorLocations, parser, getClass());
 
-        builder = new ExtensionChainBuilder<ExtensionDescriptor>();
+        builder = new ExtensionDescriptorChainBuilder();
     }
 
     @Test

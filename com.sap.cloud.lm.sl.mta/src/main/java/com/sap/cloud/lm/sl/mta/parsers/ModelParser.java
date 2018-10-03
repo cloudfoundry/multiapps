@@ -38,12 +38,8 @@ public abstract class ModelParser<T> implements Parser<T> {
     protected String getSchemaVersion(String key) throws ParsingException {
         // If the user specified a partial schema version like '2' or '2.0' without quoting it, the YAML parser would parse it to Integer or
         // Double, which is why the type of possiblyPartialSchemaVersion needs to be Object.
-        Object possiblyPartialSchemaVersion = getElement(key);
-        return possiblyPartialSchemaVersion == null ? null : toFullSchemaVersion(possiblyPartialSchemaVersion.toString());
-    }
-
-    private String toFullSchemaVersion(String possiblyPartialSchemaVersion) {
-        return Version.parseVersion(possiblyPartialSchemaVersion)
+        Object schemaVersion = getElement(key);
+        return Version.parseVersion(schemaVersion.toString())
             .toString();
     }
 

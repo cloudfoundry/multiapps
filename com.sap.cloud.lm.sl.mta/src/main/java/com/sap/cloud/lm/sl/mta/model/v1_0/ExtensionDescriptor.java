@@ -10,8 +10,8 @@ import org.apache.commons.lang3.ObjectUtils;
 
 import com.sap.cloud.lm.sl.common.util.ListUtil;
 import com.sap.cloud.lm.sl.common.util.MapUtil;
+import com.sap.cloud.lm.sl.mta.model.Descriptor;
 import com.sap.cloud.lm.sl.mta.model.ElementContext;
-import com.sap.cloud.lm.sl.mta.model.ExtensionElement;
 import com.sap.cloud.lm.sl.mta.model.PropertiesContainer;
 import com.sap.cloud.lm.sl.mta.model.VisitableElement;
 import com.sap.cloud.lm.sl.mta.model.Visitor;
@@ -22,9 +22,11 @@ import com.sap.cloud.lm.sl.mta.util.YamlElementOrder;
 /**
  * @see <a href="https://[My Github Repo]/mta/spec/blob/master/schemas/v1/mtaext-schema.yaml"> MTA Extension descriptor schema</a>
  */
-@YamlElementOrder({ "id", "description", "parentId", "provider", "schemaVersion", "properties", "modules1_0", "resources1_0" })
-public class ExtensionDescriptor implements VisitableElement, ExtensionElement, PropertiesContainer {
+@YamlElementOrder({ "schemaVersion", "id", "description", "parentId", "provider", "properties", "modules1_0", "resources1_0" })
+public class ExtensionDescriptor implements Descriptor, VisitableElement, PropertiesContainer {
 
+    @YamlElement(ExtensionDescriptorParser.SCHEMA_VERSION)
+    private String schemaVersion;
     @YamlElement(ExtensionDescriptorParser.ID)
     private String id;
     @YamlElement(ExtensionDescriptorParser.EXT_DESCRIPTION)
@@ -33,8 +35,6 @@ public class ExtensionDescriptor implements VisitableElement, ExtensionElement, 
     private String parentId;
     @YamlElement(ExtensionDescriptorParser.PROVIDER)
     private String provider;
-    @YamlElement(ExtensionDescriptorParser.SCHEMA_VERSION)
-    private String schemaVersion;
     @YamlElement(ExtensionDescriptorParser.TARGET_PLATFORMS)
     private List<String> deployTargets;
     @YamlElement(ExtensionDescriptorParser.MODULES)
@@ -48,6 +48,10 @@ public class ExtensionDescriptor implements VisitableElement, ExtensionElement, 
 
     }
 
+    public String getSchemaVersion() {
+        return schemaVersion;
+    }
+
     @Override
     public String getId() {
         return id;
@@ -57,17 +61,12 @@ public class ExtensionDescriptor implements VisitableElement, ExtensionElement, 
         return description;
     }
 
-    @Override
     public String getParentId() {
         return parentId;
     }
 
     public String getProvider() {
         return provider;
-    }
-
-    public String getSchemaVersion() {
-        return schemaVersion;
     }
 
     public List<String> getDeployTargets() {
@@ -95,6 +94,10 @@ public class ExtensionDescriptor implements VisitableElement, ExtensionElement, 
         return MapUtil.unmodifiable(properties);
     }
 
+    public void setSchemaVersion(String schemaVersion) {
+        this.schemaVersion = schemaVersion;
+    }
+
     public void setId(String id) {
         this.id = id;
     }
@@ -109,10 +112,6 @@ public class ExtensionDescriptor implements VisitableElement, ExtensionElement, 
 
     public void setProvider(String provider) {
         this.provider = provider;
-    }
-
-    public void setSchemaVersion(String schemaVersion) {
-        this.schemaVersion = schemaVersion;
     }
 
     public void setDeployTargets(List<String> targetPlatforms) {
@@ -156,11 +155,11 @@ public class ExtensionDescriptor implements VisitableElement, ExtensionElement, 
 
     public static class Builder {
 
+        protected String schemaVersion;
         protected String id;
         protected String description;
         protected String parentId;
         protected String provider;
-        protected String schemaVersion;
         protected List<String> deployTargets;
         protected List<ExtensionModule> modules1_0;
         protected List<ExtensionResource> resources1_0;
@@ -168,16 +167,20 @@ public class ExtensionDescriptor implements VisitableElement, ExtensionElement, 
 
         public ExtensionDescriptor build() {
             ExtensionDescriptor result = new ExtensionDescriptor();
+            result.setSchemaVersion(schemaVersion);
             result.setId(id);
             result.setDescription(description);
             result.setParentId(parentId);
             result.setProvider(provider);
-            result.setSchemaVersion(schemaVersion);
             result.setDeployTargets(ObjectUtils.defaultIfNull(deployTargets, Collections.<String> emptyList()));
             result.setModules1_0(ObjectUtils.defaultIfNull(modules1_0, Collections.<ExtensionModule> emptyList()));
             result.setResources1_0(ObjectUtils.defaultIfNull(resources1_0, Collections.<ExtensionResource> emptyList()));
             result.setProperties(ObjectUtils.defaultIfNull(properties, Collections.<String, Object> emptyMap()));
             return result;
+        }
+
+        public void setSchemaVersion(String schemaVersion) {
+            this.schemaVersion = schemaVersion;
         }
 
         public void setId(String id) {
@@ -194,10 +197,6 @@ public class ExtensionDescriptor implements VisitableElement, ExtensionElement, 
 
         public void setProvider(String provider) {
             this.provider = provider;
-        }
-
-        public void setSchemaVersion(String schemaVersion) {
-            this.schemaVersion = schemaVersion;
         }
 
         public void setDeployTargets(List<String> deployTargets) {

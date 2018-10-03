@@ -117,7 +117,7 @@
   "parameters": {
     "descriptor-parameter": "true"
   },
+  "schemaVersion": "3.1.0",
   "id": "ztana",
-  "version": "1.0.0",
-  "schemaVersion": "3.1.0"
+  "version": "1.0.0"
 }

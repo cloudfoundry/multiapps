@@ -169,9 +169,9 @@
       "test2": "test2v",
       "test3": "test3v"
     },
+    "schemaVersion": "2.0.0",
     "id": "com.sap.mta.sample.v2",
-    "version": "1.2.1-beta+20150403144937853",
-    "schemaVersion": "2.0.0"
+    "version": "1.2.1-beta+20150403144937853"
   },
   "_2": [
     "CF-QUAL",
