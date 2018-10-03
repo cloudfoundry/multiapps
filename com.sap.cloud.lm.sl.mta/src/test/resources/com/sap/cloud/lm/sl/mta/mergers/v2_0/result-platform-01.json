@@ -65,7 +65,7 @@
     "TEST_08": "TEST_08_VALUE",
     "TEST_09": "TEST_09_VALUE"
   },
+  "schemaVersion": "2.0.0",
   "id": "com.sap.sample.mta",
-  "version": "1.0.0",
-  "schemaVersion": "2.0.0"
+  "version": "1.0.0"
 }

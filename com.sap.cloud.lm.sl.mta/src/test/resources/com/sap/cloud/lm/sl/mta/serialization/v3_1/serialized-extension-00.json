@@ -44,9 +44,9 @@
   "parameters": {
     "descriptor-property": "some-descriptor-property"
   },
+  "schemaVersion": "3.1.0",
   "id": "mta-extension",
   "parentId": "mta-id",
   "provider": "provider-id",
-  "schemaVersion": "3.1.0",
   "deployTargets": []
 }

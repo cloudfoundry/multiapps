@@ -1,5 +1,6 @@
 {
   "_1": {
+    "schemaVersion": "1.0.0",
     "id": "com.sap.mta.sample",
     "version": "1.2.1-beta+20150403144937853",
     "modules1_0": [

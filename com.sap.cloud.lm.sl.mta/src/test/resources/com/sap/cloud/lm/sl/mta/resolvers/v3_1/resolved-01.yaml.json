@@ -204,7 +204,7 @@
   "parameters": {
     "descriptor-param": "~{baz/baz-test2}.baz-test2-reference"
   },
+  "schemaVersion": "3.1.0",
   "id": "com.sap.mta.v2.test.config-01",
-  "version": "1.0.0",
-  "schemaVersion": "3.1.0"
+  "version": "1.0.0"
 }

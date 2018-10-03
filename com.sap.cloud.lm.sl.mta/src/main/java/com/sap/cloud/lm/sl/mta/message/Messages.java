@@ -35,12 +35,10 @@ public class Messages {
     public static final String INVALID_STRING_VALUE_FOR_KEY = "Invalid value for key \"{0}\", matching failed at \"{1}\"";
     public static final String CANNOT_BUILD_EXTENSION_DESCRIPTOR_CHAIN_BECAUSE_DESCRIPTORS_0_HAVE_AN_UNKNOWN_PARENT = "Cannot build extension descriptor chain, because the following descriptors have an unknown parent: {0}";
     public static final String MULTIPLE_EXTENSION_DESCRIPTORS_EXTEND_THE_PARENT_0 = "Multiple extension descriptors extend the parent \"{0}\". This is not allowed. The extension descriptors must form a chain.";
-    public static final String UNKNOWN_PARENT_DESCRIPTOR = "Unknown parent descriptor \"{0}\" in extension descriptor \"{1}\"";
+    public static final String EXTENSION_DESCRIPTORS_MUST_HAVE_THE_SAME_MAJOR_SCHEMA_VERSION_AS_THE_DEPLOYMENT_DESCRIPTOR_BUT_0_DO_NOT = "Extension descriptors must have the same major schema version as the deployment descriptor, but the following do not: {0}";
     public static final String CANNOT_MODIFY_ELEMENT = "Cannot modify {0} \"{1}\" in extension descriptor \"{2}\"";
-    public static final String INCOMPATIBLE_VERSIONS = "Versions \"{0}\" and \"{1}\" are incompatible";
     public static final String UNSUPPORTED_VERSION = "Version \"{0}\" is not supported";
     public static final String COULD_NOT_FIND_REQUIRED_PROPERTY = "Could not find required property \"{0}\"";
-    public static final String NO_SCHEMA_VERSIONS_DETECTED = "No schema versions could be detected";
     public static final String MULTIPLE_HARD_MODULES_DETECTED = "Modules, \"{0}\" and \"{1}\", have hard circular dependencies";
     public static final String ILLEGAL_REFERENCES_DETECTED = "Module \"{0}\" does not contain a required dependency for \"{1}\", but contains references to its properties";
     public static final String COULD_NOT_FIND_ELEMENT_IN_SCHEMA = "Could not find element \"{0}\" in schema for {1}";

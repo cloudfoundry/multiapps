@@ -10,8 +10,8 @@ import org.apache.commons.lang3.ObjectUtils;
 
 import com.sap.cloud.lm.sl.common.util.ListUtil;
 import com.sap.cloud.lm.sl.common.util.MapUtil;
+import com.sap.cloud.lm.sl.mta.model.Descriptor;
 import com.sap.cloud.lm.sl.mta.model.ElementContext;
-import com.sap.cloud.lm.sl.mta.model.IdentifiableElement;
 import com.sap.cloud.lm.sl.mta.model.PropertiesContainer;
 import com.sap.cloud.lm.sl.mta.model.VisitableElement;
 import com.sap.cloud.lm.sl.mta.model.Visitor;
@@ -22,9 +22,11 @@ import com.sap.cloud.lm.sl.mta.util.YamlElementOrder;
 /**
  * @see <a href="https://[My Github Repo]/mta/spec/blob/master/schemas/v1/mtad-schema.yaml"> MTA Deployment descriptor schema</a>
  */
-@YamlElementOrder({ "id", "description", "version", "provider", "copyright", "schemaVersion", "properties", "modules1_0", "resources1_0" })
-public class DeploymentDescriptor implements VisitableElement, IdentifiableElement, PropertiesContainer {
+@YamlElementOrder({ "schemaVersion", "id", "description", "version", "provider", "copyright", "properties", "modules1_0", "resources1_0" })
+public class DeploymentDescriptor implements Descriptor, VisitableElement, PropertiesContainer {
 
+    @YamlElement(DeploymentDescriptorParser.SCHEMA_VERSION)
+    private String schemaVersion;
     @YamlElement(DeploymentDescriptorParser.ID)
     private String id;
     @YamlElement(DeploymentDescriptorParser.DESCRIPTION)
@@ -35,8 +37,6 @@ public class DeploymentDescriptor implements VisitableElement, IdentifiableEleme
     private String provider;
     @YamlElement(DeploymentDescriptorParser.COPYRIGHT)
     private String copyright;
-    @YamlElement(DeploymentDescriptorParser.SCHEMA_VERSION)
-    private String schemaVersion;
     @YamlElement(DeploymentDescriptorParser.MODULES)
     private List<Module> modules1_0;
     @YamlElement(DeploymentDescriptorParser.RESOURCES)
@@ -46,6 +46,10 @@ public class DeploymentDescriptor implements VisitableElement, IdentifiableEleme
 
     protected DeploymentDescriptor() {
 
+    }
+
+    public String getSchemaVersion() {
+        return schemaVersion;
     }
 
     @Override
@@ -69,10 +73,6 @@ public class DeploymentDescriptor implements VisitableElement, IdentifiableEleme
         return copyright;
     }
 
-    public String getSchemaVersion() {
-        return schemaVersion;
-    }
-
     public List<Module> getModules1_0() {
         return ListUtil.upcastUnmodifiable(getModules());
     }
@@ -94,6 +94,10 @@ public class DeploymentDescriptor implements VisitableElement, IdentifiableEleme
         return MapUtil.unmodifiable(properties);
     }
 
+    public void setSchemaVersion(String schemaVersion) {
+        this.schemaVersion = schemaVersion;
+    }
+
     public void setId(String id) {
         this.id = id;
     }
@@ -112,10 +116,6 @@ public class DeploymentDescriptor implements VisitableElement, IdentifiableEleme
 
     public void setCopyright(String copyright) {
         this.copyright = copyright;
-    }
-
-    public void setSchemaVersion(String schemaVersion) {
-        this.schemaVersion = schemaVersion;
     }
 
     public void setModules1_0(List<Module> modules) {
@@ -155,12 +155,12 @@ public class DeploymentDescriptor implements VisitableElement, IdentifiableEleme
 
     public DeploymentDescriptor copyOf() {
         Builder result = new Builder();
+        result.setSchemaVersion(getSchemaVersion());
         result.setId(getId());
         result.setProvider(getProvider());
         result.setDescription(getDescription());
         result.setVersion(getVersion());
         result.setCopyright(getCopyright());
-        result.setSchemaVersion(getSchemaVersion());
         List<Module> clonedModules = new ArrayList<>();
         for (Module module : getModules1_0()) {
             clonedModules.add(module.copyOf());
@@ -177,28 +177,32 @@ public class DeploymentDescriptor implements VisitableElement, IdentifiableEleme
 
     public static class Builder {
 
+        protected String schemaVersion;
         protected String id;
         protected String description;
         protected String version;
         protected String provider;
         protected String copyright;
-        protected String schemaVersion;
         protected List<Module> modules1_0;
         protected List<Resource> resources1_0;
         protected Map<String, Object> properties;
 
         public DeploymentDescriptor build() {
             DeploymentDescriptor result = new DeploymentDescriptor();
+            result.setSchemaVersion(schemaVersion);
             result.setId(id);
             result.setProvider(provider);
             result.setDescription(description);
             result.setVersion(version);
             result.setCopyright(copyright);
-            result.setSchemaVersion(schemaVersion);
             result.setProperties(ObjectUtils.defaultIfNull(properties, Collections.<String, Object> emptyMap()));
             result.setModules1_0(ObjectUtils.defaultIfNull(modules1_0, Collections.<Module> emptyList()));
             result.setResources1_0(ObjectUtils.defaultIfNull(resources1_0, Collections.<Resource> emptyList()));
             return result;
+        }
+
+        public void setSchemaVersion(String schemaVersion) {
+            this.schemaVersion = schemaVersion;
         }
 
         public void setId(String id) {
@@ -219,10 +223,6 @@ public class DeploymentDescriptor implements VisitableElement, IdentifiableEleme
 
         public void setCopyright(String copyright) {
             this.copyright = copyright;
-        }
-
-        public void setSchemaVersion(String schemaVersion) {
-            this.schemaVersion = schemaVersion;
         }
 
         public void setModules1_0(List<Module> modules) {

@@ -346,10 +346,10 @@
   "parameters": {
     "com.sap.releaseMetadataRefGuid": "c6bc22d0-48b4-47d1-9fd4"
   },
+  "schemaVersion": "3.1.0",
   "id": "com.sap.mta.sample",
   "description": "Deployment descriptor used for testing purposes",
   "version": "1.2.1-beta+20150403144937853",
   "provider": "Sunny",
-  "copyright": "Sunny Ltd",
-  "schemaVersion": "3.1.0"
+  "copyright": "Sunny Ltd"
 }

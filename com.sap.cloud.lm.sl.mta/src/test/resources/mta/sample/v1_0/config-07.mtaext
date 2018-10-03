@@ -1,3 +1,4 @@
+_schema-version: 1.0.0
 ID: com.sap.mta.sample.config-07
 extends: com.sap.mta.sample
 

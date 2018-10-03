@@ -57,9 +57,9 @@
   "parameters": {
     "test3": "test3v"
   },
+  "schemaVersion": "2.0.0",
   "id": "com.sap.mta.sample.v2.config-01",
   "parentId": "com.sap.mta.sample.v2",
-  "schemaVersion": "2.0.0",
   "deployTargets": [
     "CF-QUAL"
   ]

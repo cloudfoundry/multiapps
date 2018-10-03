@@ -22,7 +22,8 @@ public class Schemas {
         .maxLength(MTA_IDENTIFIER_MAX_LENGTH)
         .buildSimple();
     public static final Element STRING = new ElementBuilder().buildSimple();
-    public static final Element OBJECT = new ElementBuilder().type(Object.class)
+    public static final Element OBJECT_REQUIRED = new ElementBuilder().type(Object.class)
+        .required(true)
         .buildSimple();
     public static final Element STRING_REQUIRED = new ElementBuilder().required(true)
         .buildSimple();
@@ -57,7 +58,7 @@ public class Schemas {
     public static final ListElement PLATFORMS = new ListElement(PLATFORM);
 
     static {
-        MTAD.add("_schema-version", OBJECT);
+        MTAD.add("_schema-version", OBJECT_REQUIRED);
         MTAD.add("ID", NON_UNIQUE_MTA_IDENTIFIER);
         MTAD.add("version", STRING_REQUIRED);
         MTAD.add("description", STRING);
@@ -84,7 +85,7 @@ public class Schemas {
         RESOURCE.add("groups", LIST);
         RESOURCE.add("properties", PROPERTIES);
 
-        MTAEXT.add("_schema-version", OBJECT);
+        MTAEXT.add("_schema-version", OBJECT_REQUIRED);
         MTAEXT.add("ID", NON_UNIQUE_MTA_IDENTIFIER);
         MTAEXT.add("ext_description", STRING);
         MTAEXT.add("extends", STRING_REQUIRED);

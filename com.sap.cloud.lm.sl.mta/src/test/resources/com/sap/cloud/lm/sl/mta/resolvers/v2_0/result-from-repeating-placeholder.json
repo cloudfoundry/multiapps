@@ -20,6 +20,7 @@
   ],
   "resources2_0": [],
   "parameters": {},
+  "schemaVersion": "2.0.0",
   "id": "repeating-placeholder-test",
   "version": "1.0.0"
 }

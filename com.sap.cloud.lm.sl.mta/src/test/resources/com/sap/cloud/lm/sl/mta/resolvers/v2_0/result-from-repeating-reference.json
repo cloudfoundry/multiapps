@@ -34,6 +34,7 @@
     }
   ],
   "parameters": {},
+  "schemaVersion": "2.0.0",
   "id": "repeating-reference-test",
   "version": "1.0.0"
 }

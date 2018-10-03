@@ -44,16 +44,20 @@ public class DeploymentDescriptorParser extends ModelParser<DeploymentDescriptor
     @Override
     public DeploymentDescriptor parse() throws ParsingException {
         Builder builder = new Builder();
+        builder.setSchemaVersion(getSchemaVersion());
         builder.setId(getId());
         builder.setDescription(getDescription());
         builder.setVersion(getVersion());
         builder.setProvider(getProvider());
         builder.setCopyright(getCopyright());
-        builder.setSchemaVersion(getSchemaVersion());
         builder.setModules1_0(getModules1_0());
         builder.setProperties(getProperties());
         builder.setResources1_0(getResources1_0());
         return builder.build();
+    }
+
+    protected String getSchemaVersion() throws ParsingException {
+        return getSchemaVersion(SCHEMA_VERSION);
     }
 
     protected String getId() throws ParsingException {
@@ -74,10 +78,6 @@ public class DeploymentDescriptorParser extends ModelParser<DeploymentDescriptor
 
     protected String getCopyright() throws ParsingException {
         return getStringElement(COPYRIGHT);
-    }
-
-    protected String getSchemaVersion() throws ParsingException {
-        return getSchemaVersion(SCHEMA_VERSION);
     }
 
     protected List<Module> getModules1_0() throws ParsingException {

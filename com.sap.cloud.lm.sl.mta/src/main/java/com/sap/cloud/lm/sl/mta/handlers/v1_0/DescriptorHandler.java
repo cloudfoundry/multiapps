@@ -8,7 +8,7 @@ import java.util.Set;
 
 import com.sap.cloud.lm.sl.common.ContentException;
 import com.sap.cloud.lm.sl.common.util.Pair;
-import com.sap.cloud.lm.sl.mta.builders.ExtensionChainBuilder;
+import com.sap.cloud.lm.sl.mta.builders.ExtensionDescriptorChainBuilder;
 import com.sap.cloud.lm.sl.mta.model.v1_0.DeploymentDescriptor;
 import com.sap.cloud.lm.sl.mta.model.v1_0.ExtensionDescriptor;
 import com.sap.cloud.lm.sl.mta.model.v1_0.ExtensionModule;
@@ -183,16 +183,6 @@ public class DescriptorHandler {
             }
         }
         return null;
-    }
-
-    public List<ExtensionDescriptor> getExtensionDescriptorChain(DeploymentDescriptor deploymentDescriptor,
-        List<ExtensionDescriptor> extensionDescriptors, boolean isStrict) throws ContentException {
-        return new ExtensionChainBuilder<ExtensionDescriptor>(isStrict).build(deploymentDescriptor, extensionDescriptors);
-    }
-
-    public List<ExtensionDescriptor> getExtensionDescriptorChain(DeploymentDescriptor deploymentDescriptor,
-        List<ExtensionDescriptor> extensionDescriptors) throws ContentException {
-        return getExtensionDescriptorChain(deploymentDescriptor, extensionDescriptors, true);
     }
 
     public List<Module> getSortedModules(DeploymentDescriptor descriptor, String dependencyTypeProperty, String hardDependencyType) {
