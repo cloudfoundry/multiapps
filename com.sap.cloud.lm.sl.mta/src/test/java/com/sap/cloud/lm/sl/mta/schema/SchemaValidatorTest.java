@@ -11,7 +11,7 @@ import org.junit.runners.Parameterized.Parameters;
 import com.sap.cloud.lm.sl.common.util.Runnable;
 import com.sap.cloud.lm.sl.common.util.TestUtil;
 import com.sap.cloud.lm.sl.mta.MtaTestUtil;
-import com.sap.cloud.lm.sl.mta.handlers.v1_0.Schemas;
+import com.sap.cloud.lm.sl.mta.handlers.v1.Schemas;
 
 @RunWith(value = Parameterized.class)
 public class SchemaValidatorTest {
@@ -28,19 +28,19 @@ public class SchemaValidatorTest {
 // @formatter:off
             // (00) Valid extension descriptor:
             {
-                "/mta/sample/v1_0/config-01.mtaext", Schemas.MTAEXT, "",
+                "/mta/sample/v1/config-01.mtaext", Schemas.MTAEXT, "",
             },
             // (01) Valid deployment descriptor:
             {
-                "/mta/sample/v1_0/mtad-01.yaml", Schemas.MTAD, "",
+                "/mta/sample/v1/mtad-01.yaml", Schemas.MTAD, "",
             },
             // (02) Valid platforms JSON:
             {
-                "/mta/sample/v1_0/platforms.json", Schemas.PLATFORMS, "",
+                "/mta/sample/v1/platforms.json", Schemas.PLATFORMS, "",
             },
             // (03) Valid platform types JSON:
             {
-                "/mta/sample/v1_0/platform-types.json", Schemas.PLATFORM_TYPES, "",
+                "/mta/sample/v1/platform-types.json", Schemas.PLATFORM_TYPES, "",
             },
             // (04) Deployment descriptor contains invalid key:
             {
@@ -76,7 +76,7 @@ public class SchemaValidatorTest {
             },
             // (12) Deployment descriptor module provides public has String, but not a Boolean value:
             {
-                "mtad-10.yaml", com.sap.cloud.lm.sl.mta.handlers.v2_0.Schemas.MTAD, "E:Invalid type for key \"modules#0#provides#0#public\", expected \"Boolean\" but got \"String\"",
+                "mtad-10.yaml", com.sap.cloud.lm.sl.mta.handlers.v2.Schemas.MTAD, "E:Invalid type for key \"modules#0#provides#0#public\", expected \"Boolean\" but got \"String\"",
             },
             // (13) Null content:
             {

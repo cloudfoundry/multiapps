@@ -1,0 +1,100 @@
+{
+  "modules3": [
+    {
+      "requiredDependencies3": [
+        {
+          "propertiesMetadata": {
+            "metadata": {}
+          },
+          "parametersMetadata": {
+            "metadata": {}
+          },
+          "name": "test-service",
+          "properties": {
+            "required-dependency-property": "required-property"
+          },
+          "parameters": {
+            "required-dependency-parameter": "required-parameter"
+          }
+        }
+      ],
+      "providedDependencies3": [
+        {
+          "parameters": {},
+          "propertiesMetadata": {
+            "metadata": {}
+          },
+          "parametersMetadata": {
+            "metadata": {}
+          },
+          "isPublic": false,
+          "name": "providesSomething",
+          "properties": {}
+        },
+        {
+          "parameters": {},
+          "propertiesMetadata": {
+            "metadata": {}
+          },
+          "parametersMetadata": {
+            "metadata": {}
+          },
+          "isPublic": false,
+          "name": "test-module",
+          "properties": {}
+        }
+      ],
+      "propertiesMetadata": {
+        "metadata": {}
+      },
+      "parametersMetadata": {
+        "metadata": {}
+      },
+      "parameters": {
+        "some-parameter": "module-parameter"
+      },
+      "name": "test-module",
+      "type": "javascript.nodejs",
+      "properties": {
+        "health-check-type": "none",
+        "health-check-timeout": 180,
+        "no-start": true,
+        "password": "sensitive_data"
+      }
+    }
+  ],
+  "resources3": [
+    {
+      "isActive": true,
+      "propertiesMetadata": {
+        "metadata": {}
+      },
+      "parametersMetadata": {
+        "metadata": {}
+      },
+      "requiredDependencies3": [],
+      "isOptional": false,
+      "parameters": {
+        "test-parameter": "resource-parameter",
+        "some-parameter-map": [
+          {
+            "first-parameter": "first-parameter",
+            "second-parameter": "second-parameter"
+          }
+        ]
+      },
+      "name": "test-service",
+      "type": "org.postgresql",
+      "properties": {}
+    }
+  ],
+  "parametersMetadata": {
+    "metadata": {}
+  },
+  "parameters": {
+    "descriptor-parameter": "some-parameter"
+  },
+  "schemaVersion": "3.0.0",
+  "id": "ztana",
+  "version": "1.0.0"
+}

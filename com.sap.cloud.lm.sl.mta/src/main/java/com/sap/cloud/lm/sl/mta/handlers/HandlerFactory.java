@@ -2,16 +2,16 @@ package com.sap.cloud.lm.sl.mta.handlers;
 
 import static java.text.MessageFormat.format;
 
-import com.sap.cloud.lm.sl.mta.handlers.v1_0.ConfigurationParser;
-import com.sap.cloud.lm.sl.mta.handlers.v1_0.DescriptorHandler;
-import com.sap.cloud.lm.sl.mta.handlers.v1_0.DescriptorMerger;
-import com.sap.cloud.lm.sl.mta.handlers.v1_0.DescriptorParser;
-import com.sap.cloud.lm.sl.mta.handlers.v1_0.DescriptorValidator;
+import com.sap.cloud.lm.sl.mta.handlers.v1.ConfigurationParser;
+import com.sap.cloud.lm.sl.mta.handlers.v1.DescriptorHandler;
+import com.sap.cloud.lm.sl.mta.handlers.v1.DescriptorMerger;
+import com.sap.cloud.lm.sl.mta.handlers.v1.DescriptorParser;
+import com.sap.cloud.lm.sl.mta.handlers.v1.DescriptorValidator;
 import com.sap.cloud.lm.sl.mta.message.Messages;
 import com.sap.cloud.lm.sl.mta.model.SystemParameters;
-import com.sap.cloud.lm.sl.mta.model.v1_0.DeploymentDescriptor;
-import com.sap.cloud.lm.sl.mta.model.v1_0.Platform;
-import com.sap.cloud.lm.sl.mta.model.v1_0.Target;
+import com.sap.cloud.lm.sl.mta.model.v1.DeploymentDescriptor;
+import com.sap.cloud.lm.sl.mta.model.v1.Platform;
+import com.sap.cloud.lm.sl.mta.model.v1.Target;
 import com.sap.cloud.lm.sl.mta.resolvers.PlaceholderResolver;
 import com.sap.cloud.lm.sl.mta.resolvers.Resolver;
 import com.sap.cloud.lm.sl.mta.resolvers.ResolverBuilder;
@@ -21,16 +21,10 @@ public class HandlerFactory implements HandlerConstructor {
     public static final Integer HIGHEST_VERSION_INPUT = Integer.MAX_VALUE;
 
     protected int majorVersion;
-    protected int minorVersion;
     protected HandlerConstructor handlerDelegate;
 
     public HandlerFactory(int majorVersion) {
-        this(majorVersion, 0);
-    }
-
-    public HandlerFactory(int majorVersion, int minorVersion) {
         this.majorVersion = majorVersion;
-        this.minorVersion = minorVersion;
     }
 
     protected HandlerConstructor getHandlerDelegate() {
@@ -57,42 +51,20 @@ public class HandlerFactory implements HandlerConstructor {
         }
     }
 
-    protected void initV3Delegates() {
-        switch (minorVersion) {
-            case 0:
-                initV3_0Delegates();
-                break;
-            case Integer.MAX_VALUE: // HandlerFactory.MAX_VERSION_SUPPORTED_INPUT
-            case 1:
-                initV3_1Delegates();
-                break;
-            default:
-                throw new UnsupportedOperationException(format(Messages.UNSUPPORTED_VERSION, majorVersion + "." + minorVersion));
-        }
-    }
-
     protected void initV1Delegates() {
-        handlerDelegate = new com.sap.cloud.lm.sl.mta.handlers.v1_0.HandlerConstructor();
+        handlerDelegate = new com.sap.cloud.lm.sl.mta.handlers.v1.HandlerConstructor();
     }
 
     protected void initV2Delegates() {
-        handlerDelegate = new com.sap.cloud.lm.sl.mta.handlers.v2_0.HandlerConstructor();
+        handlerDelegate = new com.sap.cloud.lm.sl.mta.handlers.v2.HandlerConstructor();
     }
 
-    protected void initV3_0Delegates() {
-        handlerDelegate = new com.sap.cloud.lm.sl.mta.handlers.v3_0.HandlerConstructor();
-    }
-
-    protected void initV3_1Delegates() {
-        handlerDelegate = new com.sap.cloud.lm.sl.mta.handlers.v3_1.HandlerConstructor();
+    protected void initV3Delegates() {
+        handlerDelegate = new com.sap.cloud.lm.sl.mta.handlers.v3.HandlerConstructor();
     }
 
     public int getMajorVersion() {
         return majorVersion;
-    }
-
-    public int getMinorVersion() {
-        return minorVersion;
     }
 
     @Override
@@ -129,9 +101,9 @@ public class HandlerFactory implements HandlerConstructor {
     }
 
     @Override
-    public Resolver<? extends DeploymentDescriptor> getDescriptorReferenceResolver(
-        final DeploymentDescriptor mergedDescriptor, ResolverBuilder modulesPropertiesResolverBuilder,
-        ResolverBuilder resourcePropertiesResolverBuilder, ResolverBuilder requiredDepencenciesPropertiesResolverBuilder) {
+    public Resolver<? extends DeploymentDescriptor> getDescriptorReferenceResolver(final DeploymentDescriptor mergedDescriptor,
+        ResolverBuilder modulesPropertiesResolverBuilder, ResolverBuilder resourcePropertiesResolverBuilder,
+        ResolverBuilder requiredDepencenciesPropertiesResolverBuilder) {
         return getHandlerDelegate().getDescriptorReferenceResolver(mergedDescriptor, modulesPropertiesResolverBuilder,
             resourcePropertiesResolverBuilder, requiredDepencenciesPropertiesResolverBuilder);
     }

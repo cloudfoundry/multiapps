@@ -1,0 +1,52 @@
+{
+  "modules3": [
+    {
+      "providedDependencies3": [
+        {
+          "name": "provided-dependency",
+          "properties": {
+            "provided-property": "some-property"
+          }
+        }
+      ],
+      "requiredDependencies3": [
+        {
+          "name": "required-dependency",
+          "properties": {
+            "required-property": "property-value"
+          },
+          "parameters": {
+            "required-parameter": "parameter-value"
+          }
+        }
+      ],
+      "parameters": {
+        "module-parameter": "parameter"
+      },
+      "name": "test-module",
+      "properties": {
+        "module-property": "property"
+      }
+    }
+  ],
+  "resources3": [
+    {
+      "requiredDependencies3": [],
+      "parameters": {
+        "resource-parameter": "some-resource-parameter"
+      },
+      "name": "test-resource",
+      "properties": {
+        "resource-property": "some-resource-property"
+      }
+    }
+  ],
+  "parameters": {
+    "descriptor-property": "some-descriptor-property"
+  },
+  "schemaVersion": "3.0.0",
+  "id": "mta-extension",
+  "parentId": "mta-id",
+  "provider": "provider-id",
+  "deployTargets": []
+}

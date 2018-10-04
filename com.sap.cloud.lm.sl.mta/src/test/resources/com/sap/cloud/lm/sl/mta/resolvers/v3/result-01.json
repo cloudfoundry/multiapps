@@ -1,0 +1,87 @@
+{
+  "modules3": [
+    {
+      "requiredDependencies3": [],
+      "providedDependencies3": [
+        {
+          "parameters": {
+            "visibility": [
+              {
+                "org": "another",
+                "space": "testSpace"
+              }
+            ]
+          },
+          "propertiesMetadata": {
+            "metadata": {}
+          },
+          "parametersMetadata": {
+            "metadata": {}
+          },
+          "isPublic": true,
+          "name": "web-server",
+          "properties": {
+            "bar": "web-server",
+            "baz": "another"
+          }
+        }
+      ],
+      "propertiesMetadata": {
+        "metadata": {}
+      },
+      "parametersMetadata": {
+        "metadata": {}
+      },
+      "parameters": {},
+      "name": "web-server",
+      "type": "com.sap.static-content",
+      "properties": {}
+    },
+    {
+      "requiredDependencies3": [],
+      "providedDependencies3": [
+        {
+          "parameters": {
+            "visibility": [
+              {
+                "org": "initial",
+                "space": "*"
+              }
+            ]
+          },
+          "propertiesMetadata": {
+            "metadata": {}
+          },
+          "parametersMetadata": {
+            "metadata": {}
+          },
+          "isPublic": true,
+          "name": "pricing",
+          "properties": {
+            "url": "cf.com"
+          }
+        }
+      ],
+      "propertiesMetadata": {
+        "metadata": {}
+      },
+      "parametersMetadata": {
+        "metadata": {}
+      },
+      "parameters": {},
+      "name": "pricing",
+      "type": "org.nodejs",
+      "properties": {}
+    }
+  ],
+  "resources3": [],
+  "parametersMetadata": {
+    "metadata": {}
+  },
+  "parameters": {
+    "default-url": "cf.com"
+  },
+  "schemaVersion": "3.1.0",
+  "id": "com.sap.mta.sample.v3",
+  "version": "1.2.1-beta+20150403144937853"
+}

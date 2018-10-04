@@ -5,12 +5,12 @@ import static java.text.MessageFormat.format;
 import java.util.Map;
 
 import com.sap.cloud.lm.sl.common.ContentException;
-import com.sap.cloud.lm.sl.mta.handlers.v2_0.DescriptorHandler;
+import com.sap.cloud.lm.sl.mta.handlers.v2.DescriptorHandler;
 import com.sap.cloud.lm.sl.mta.message.Messages;
-import com.sap.cloud.lm.sl.mta.model.v2_0.DeploymentDescriptor;
-import com.sap.cloud.lm.sl.mta.model.v2_0.ProvidedDependency;
-import com.sap.cloud.lm.sl.mta.model.v2_0.RequiredDependency;
-import com.sap.cloud.lm.sl.mta.model.v2_0.Resource;
+import com.sap.cloud.lm.sl.mta.model.v2.DeploymentDescriptor;
+import com.sap.cloud.lm.sl.mta.model.v2.ProvidedDependency;
+import com.sap.cloud.lm.sl.mta.model.v2.RequiredDependency;
+import com.sap.cloud.lm.sl.mta.model.v2.Resource;
 
 public abstract class ReferenceResolver<T> extends PatternResolver<T> {
 

@@ -1,0 +1,14 @@
+[
+  {
+    "parameters": {},
+    "platformModuleTypes2": [],
+    "platformResourceTypes2": [],
+    "name": "CF-QUAL"
+  },
+  {
+    "parameters": {},
+    "platformModuleTypes2": [],
+    "platformResourceTypes2": [],
+    "name": "CF-PROD"
+  }
+]
