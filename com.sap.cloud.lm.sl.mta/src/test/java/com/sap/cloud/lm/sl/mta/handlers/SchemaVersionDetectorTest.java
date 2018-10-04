@@ -1,101 +1,82 @@
 package com.sap.cloud.lm.sl.mta.handlers;
 
-import java.io.IOException;
-import java.util.ArrayList;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+
+import java.text.MessageFormat;
 import java.util.Arrays;
 import java.util.List;
 
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.Parameterized;
-import org.junit.runners.Parameterized.Parameters;
+import org.junit.jupiter.api.Test;
 
-import com.sap.cloud.lm.sl.common.util.Callable;
-import com.sap.cloud.lm.sl.common.util.TestUtil;
+import com.sap.cloud.lm.sl.common.ContentException;
+import com.sap.cloud.lm.sl.mta.message.Messages;
+import com.sap.cloud.lm.sl.mta.model.Version;
 import com.sap.cloud.lm.sl.mta.model.v1_0.DeploymentDescriptor;
 import com.sap.cloud.lm.sl.mta.model.v1_0.ExtensionDescriptor;
 
-@RunWith(Parameterized.class)
 public class SchemaVersionDetectorTest {
 
-    private final TestInput input;
-    private final String expected;
+    private static final String FOO_ID = "foo";
+    private static final String BAR_ID = "bar";
+    private static final String BAZ_ID = "baz";
+    private static final String SCHEMA_VERSION_1_0_0 = "1.0.0";
+    private static final String SCHEMA_VERSION_2_0_0 = "2.0.0";
+    private static final String SCHEMA_VERSION_2_1_0 = "2.1.0";
 
-    private DeploymentDescriptor deploymentDescriptor;
-    private List<ExtensionDescriptor> extensionDescriptors = new ArrayList<>();;
+    private final SchemaVersionDetector schemaVersionDetector = new SchemaVersionDetector();
 
-    public SchemaVersionDetectorTest(TestInput input, String expected) {
-        this.input = input;
-        this.expected = expected;
-    }
+    @Test
+    public void testDetectWithCompatibleSchemaVersions() {
+        DeploymentDescriptor deploymentDescriptor = buildDeploymentDescriptor(SCHEMA_VERSION_2_0_0, FOO_ID);
+        ExtensionDescriptor extensionDescriptor1 = buildExtensionDescriptor(SCHEMA_VERSION_2_1_0, BAR_ID);
+        ExtensionDescriptor extensionDescriptor2 = buildExtensionDescriptor(SCHEMA_VERSION_2_0_0, BAZ_ID);
+        List<ExtensionDescriptor> extensionDescriptorChain = Arrays.asList(extensionDescriptor1, extensionDescriptor2);
 
-    @Parameters
-    public static Iterable<Object[]> getParameters() {
-        return Arrays.asList(new Object[][] {
-// @formatter:off
-            // (0) All descriptors are of version 1 (explicit):
-            {
-                new TestInput("mtad-07.yaml", Arrays.asList(new String[] { "config-05.mtaext", "config-06.mtaext", })), "1.0.0",
-            },
-            // (1) All descriptors are of version 2 (explicit):
-            {
-                new TestInput("mtad-08.yaml", Arrays.asList(new String[] { "config-07.mtaext", "config-08.mtaext", })), "2.1.0",
-            },
-            // (2) Mixed versions:
-            {
-                new TestInput("mtad-08.yaml", Arrays.asList(new String[] { "config-05.mtaext", "config-06.mtaext", })), "E:Extension descriptors must have the same major schema version as the deployment descriptor, but the following do not: com.sap.mta.test.config-05,com.sap.mta.test.config-06",
-            },
-// @formatter:on
-        });
-    }
+        Version schemaVersion = schemaVersionDetector.detect(deploymentDescriptor, extensionDescriptorChain);
 
-    @Before
-    public void loadDescriptors() throws IOException {
-        DescriptorParserFacade descriptorParserFacade = new DescriptorParserFacade();
-        String deploymentDescriptorString = TestUtil.getResourceAsString(input.getDeploymentDescriptorLocation(), getClass());
-        deploymentDescriptor = descriptorParserFacade.parseDeploymentDescriptor(deploymentDescriptorString);
-
-        for (String location : input.getExtensionDescriptorLocations()) {
-            String extensionDescriptorString = TestUtil.getResourceAsString(location, getClass());
-            extensionDescriptors.add(descriptorParserFacade.parseExtensionDescriptor(extensionDescriptorString));
-        }
-
+        assertEquals(SCHEMA_VERSION_2_1_0, schemaVersion.toString());
     }
 
     @Test
-    public void testExecute() {
-        TestUtil.test(new Callable<String>() {
+    public void testDetectWithSameSchemaVersions() {
+        DeploymentDescriptor deploymentDescriptor = buildDeploymentDescriptor(SCHEMA_VERSION_2_0_0, FOO_ID);
+        ExtensionDescriptor extensionDescriptor1 = buildExtensionDescriptor(SCHEMA_VERSION_2_0_0, BAR_ID);
+        ExtensionDescriptor extensionDescriptor2 = buildExtensionDescriptor(SCHEMA_VERSION_2_0_0, BAZ_ID);
+        List<ExtensionDescriptor> extensionDescriptorChain = Arrays.asList(extensionDescriptor1, extensionDescriptor2);
 
-            @Override
-            public String call() throws Exception {
-                SchemaVersionDetector detector = new SchemaVersionDetector();
+        Version schemaVersion = schemaVersionDetector.detect(deploymentDescriptor, extensionDescriptorChain);
 
-                return detector.detect(deploymentDescriptor, extensionDescriptors)
-                    .toString();
-            }
-
-        }, expected, getClass(), false);
+        assertEquals(SCHEMA_VERSION_2_0_0, schemaVersion.toString());
     }
 
-    private static class TestInput {
+    @Test
+    public void testDetectWithIncompatibleSchemaVersions() {
+        DeploymentDescriptor deploymentDescriptor = buildDeploymentDescriptor(SCHEMA_VERSION_2_0_0, FOO_ID);
+        ExtensionDescriptor extensionDescriptor1 = buildExtensionDescriptor(SCHEMA_VERSION_1_0_0, BAR_ID);
+        ExtensionDescriptor extensionDescriptor2 = buildExtensionDescriptor(SCHEMA_VERSION_2_0_0, BAZ_ID);
+        List<ExtensionDescriptor> extensionDescriptorChain = Arrays.asList(extensionDescriptor1, extensionDescriptor2);
 
-        private String deploymentDescriptorLocation;
-        private List<String> extensionDescriptorLocations;
+        ContentException contentException = assertThrows(ContentException.class,
+            () -> schemaVersionDetector.detect(deploymentDescriptor, extensionDescriptorChain));
+        String expectedMessage = MessageFormat.format(
+            Messages.EXTENSION_DESCRIPTORS_MUST_HAVE_THE_SAME_MAJOR_SCHEMA_VERSION_AS_THE_DEPLOYMENT_DESCRIPTOR_BUT_0_DO_NOT, BAR_ID);
 
-        public TestInput(String deploymentDescriptorLocation, List<String> extensionDescriptorLocations) {
-            this.deploymentDescriptorLocation = deploymentDescriptorLocation;
-            this.extensionDescriptorLocations = extensionDescriptorLocations;
-        }
+        assertEquals(expectedMessage, contentException.getMessage());
+    }
 
-        public List<String> getExtensionDescriptorLocations() {
-            return extensionDescriptorLocations;
-        }
+    private DeploymentDescriptor buildDeploymentDescriptor(String schemaVersion, String id) {
+        DeploymentDescriptor.Builder builder = new DeploymentDescriptor.Builder();
+        builder.setSchemaVersion(schemaVersion);
+        builder.setId(id);
+        return builder.build();
+    }
 
-        public String getDeploymentDescriptorLocation() {
-            return deploymentDescriptorLocation;
-        }
-
+    private ExtensionDescriptor buildExtensionDescriptor(String schemaVersion, String id) {
+        ExtensionDescriptor.Builder builder = new ExtensionDescriptor.Builder();
+        builder.setSchemaVersion(schemaVersion);
+        builder.setId(id);
+        return builder.build();
     }
 
 }
