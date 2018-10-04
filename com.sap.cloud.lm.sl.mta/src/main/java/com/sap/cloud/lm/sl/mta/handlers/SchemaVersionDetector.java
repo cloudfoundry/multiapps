@@ -14,20 +14,20 @@ import com.sap.cloud.lm.sl.mta.model.v1_0.ExtensionDescriptor;
 
 public class SchemaVersionDetector {
 
-    public Version detect(DeploymentDescriptor deploymentDescriptor, List<ExtensionDescriptor> extensionDescriptors)
+    public Version detect(DeploymentDescriptor deploymentDescriptor, List<ExtensionDescriptor> extensionDescriptorChain)
         throws ContentException {
-        validateSchemaVersionCompatibility(deploymentDescriptor, extensionDescriptors);
-        return getMax(deploymentDescriptor, extensionDescriptors);
+        validateSchemaVersionCompatibility(deploymentDescriptor, extensionDescriptorChain);
+        return getMax(deploymentDescriptor, extensionDescriptorChain);
     }
 
     private void validateSchemaVersionCompatibility(DeploymentDescriptor deploymentDescriptor,
-        List<ExtensionDescriptor> extensionDescriptors) {
+        List<ExtensionDescriptor> extensionDescriptorChain) {
         List<ExtensionDescriptor> incompatibleExtensionDescriptors = getIncompatibleExtensionDescriptors(deploymentDescriptor,
-            extensionDescriptors);
+            extensionDescriptorChain);
         if (!incompatibleExtensionDescriptors.isEmpty()) {
             throw new ContentException(
                 Messages.EXTENSION_DESCRIPTORS_MUST_HAVE_THE_SAME_MAJOR_SCHEMA_VERSION_AS_THE_DEPLOYMENT_DESCRIPTOR_BUT_0_DO_NOT,
-                String.join(",", Descriptor.getIds(extensionDescriptors)));
+                String.join(",", Descriptor.getIds(incompatibleExtensionDescriptors)));
         }
     }
 
