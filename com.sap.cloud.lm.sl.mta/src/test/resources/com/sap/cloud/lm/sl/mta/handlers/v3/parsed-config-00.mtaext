@@ -1,0 +1,83 @@
+{
+  "modules3": [
+    {
+      "providedDependencies3": [
+        {
+          "name": "web-server",
+          "properties": {
+            "url": "${default-url}"
+          }
+        }
+      ],
+      "requiredDependencies3": [],
+      "parameters": {},
+      "name": "web-server",
+      "properties": {
+        "default-locale": "zho"
+      }
+    },
+    {
+      "providedDependencies3": [],
+      "requiredDependencies3": [
+        {
+          "name": "competitor-data",
+          "properties": {
+            "competitor-name": "Something Ltd."
+          },
+          "parameters": {
+            "app-name": "~{application-key}"
+          }
+        }
+      ],
+      "parameters": {},
+      "name": "pricing",
+      "properties": {
+        "default-locale": "zho"
+      }
+    },
+    {
+      "providedDependencies3": [],
+      "requiredDependencies3": [],
+      "parameters": {
+        "no-route": true
+      },
+      "name": "pricing-db",
+      "properties": {
+        "default-locale": "zho"
+      }
+    }
+  ],
+  "resources3": [
+    {
+      "requiredDependencies3": [],
+      "parameters": {
+        "config": {
+          "username": "technicalUser",
+          "password": "shfzj86g"
+        }
+      },
+      "name": "internal-odata-service",
+      "properties": {}
+    },
+    {
+      "requiredDependencies3": [],
+      "parameters": {},
+      "name": "competitor-data",
+      "properties": {
+        "application-key": "25892e17-80f6-415f-9c65-7395632f0223",
+        "secret-key": "cd171f7c-560d-4a62-8d65-16b87419a58c"
+      }
+    }
+  ],
+  "parameters": {
+    "test3": "test3v"
+  },
+  "schemaVersion": "3.0.0",
+  "id": "com.sap.mta.sample.config-00",
+  "description": "Extension descriptor used for testing purposes",
+  "parentId": "com.sap.mta.sample",
+  "provider": "Sunny",
+  "deployTargets": [
+    "CF-QUAL"
+  ]
+}

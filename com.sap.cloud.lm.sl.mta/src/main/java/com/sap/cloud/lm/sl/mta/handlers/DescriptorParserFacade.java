@@ -4,11 +4,11 @@ import java.io.InputStream;
 import java.util.Map;
 
 import com.sap.cloud.lm.sl.common.ContentException;
-import com.sap.cloud.lm.sl.mta.handlers.v1_0.DescriptorParser;
+import com.sap.cloud.lm.sl.mta.handlers.v1.DescriptorParser;
 import com.sap.cloud.lm.sl.mta.message.Messages;
 import com.sap.cloud.lm.sl.mta.model.Version;
-import com.sap.cloud.lm.sl.mta.model.v1_0.DeploymentDescriptor;
-import com.sap.cloud.lm.sl.mta.model.v1_0.ExtensionDescriptor;
+import com.sap.cloud.lm.sl.mta.model.v1.DeploymentDescriptor;
+import com.sap.cloud.lm.sl.mta.model.v1.ExtensionDescriptor;
 import com.sap.cloud.lm.sl.mta.util.YamlUtil;
 
 public class DescriptorParserFacade {
@@ -59,7 +59,7 @@ public class DescriptorParserFacade {
     }
 
     private DescriptorParser getDescriptorParser(Version schemaVersion) {
-        HandlerFactory handlerFactory = new HandlerFactory(schemaVersion.getMajor(), schemaVersion.getMinor());
+        HandlerFactory handlerFactory = new HandlerFactory(schemaVersion.getMajor());
         return handlerFactory.getDescriptorParser();
     }
 

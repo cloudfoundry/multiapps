@@ -1,0 +1,113 @@
+{
+  "modules2": [
+    {
+      "requiredDependencies2": [
+        {
+          "name": "backend1",
+          "properties": {},
+          "parameters": {}
+        },
+        {
+          "name": "backend2",
+          "properties": {},
+          "parameters": {}
+        }
+      ],
+      "providedDependencies2": [
+        {
+          "isPublic": true,
+          "name": "web",
+          "properties": {
+            "name": "web",
+            "url": "https://localhost:52030",
+            "destinations": [
+              {
+                "name": "backend1",
+                "url": "~{backend1/url}",
+                "forwardAuthToken": true
+              },
+              {
+                "name": "backend2",
+                "url": "~{backend2/url}",
+                "forwardAuthToken": true
+              }
+            ]
+          }
+        }
+      ],
+      "parameters": {},
+      "name": "web",
+      "type": "javascript.nodejs",
+      "properties": {}
+    },
+    {
+      "requiredDependencies2": [
+        {
+          "name": "web",
+          "properties": {},
+          "parameters": {}
+        },
+        {
+          "name": "backend1",
+          "properties": {},
+          "parameters": {}
+        },
+        {
+          "name": "backend2",
+          "properties": {},
+          "parameters": {}
+        }
+      ],
+      "providedDependencies2": [
+        {
+          "isPublic": true,
+          "name": "dep",
+          "properties": {}
+        }
+      ],
+      "parameters": {},
+      "name": "dep",
+      "type": "javascript.nodejs",
+      "properties": {
+        "DEPLOY_DETAILS": {
+          "destinations": [
+            {
+              "forwardAuthToken": true,
+              "name": "backend1",
+              "url": "https://example.com:51088"
+            },
+            {
+              "forwardAuthToken": true,
+              "name": "backend2",
+              "url": "https://www.ynet.co.il"
+            }
+          ],
+          "name": "web",
+          "url": "https://localhost:52030"
+        }
+      }
+    }
+  ],
+  "resources2": [
+    {
+      "parameters": {},
+      "name": "backend1",
+      "properties": {
+        "name": "backend1",
+        "url": "https://example.com:51088"
+      }
+    },
+    {
+      "parameters": {},
+      "name": "backend2",
+      "properties": {
+        "name": "backend2",
+        "url": "https://www.ynet.co.il"
+      }
+    }
+  ],
+  "parameters": {},
+  "schemaVersion": "2.0.0",
+  "id": "com.sap.sample.mta",
+  "version": "0.1.0"
+}

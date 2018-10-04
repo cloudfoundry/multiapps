@@ -1,0 +1,109 @@
+{
+  "modules3": [
+    {
+      "requiredDependencies3": [
+        {
+          "propertiesMetadata": {
+            "metadata": {}
+          },
+          "parametersMetadata": {
+            "metadata": {}
+          },
+          "name": "baz",
+          "properties": {
+            "baz-test3": "bar-test2-value.bar-test2-reference-bar-test1-reference.bar-test1-value.baz-test3-reference",
+            "baz-test4": "baz-test/baz-test4-value.baz-test/baz-test4-reference"
+          },
+          "parameters": {}
+        }
+      ],
+      "providedDependencies3": [
+        {
+          "parameters": {},
+          "propertiesMetadata": {
+            "metadata": {}
+          },
+          "parametersMetadata": {
+            "metadata": {}
+          },
+          "isPublic": false,
+          "name": "bar",
+          "properties": {
+            "bar-test1": "bar-test1-value",
+            "bar-test2": "bar-test2-value",
+            "bar-test3": "bar-test3-value"
+          }
+        },
+        {
+          "parameters": {},
+          "propertiesMetadata": {
+            "metadata": {}
+          },
+          "parametersMetadata": {
+            "metadata": {}
+          },
+          "isPublic": false,
+          "name": "qux",
+          "properties": {}
+        }
+      ],
+      "propertiesMetadata": {
+        "metadata": {}
+      },
+      "parametersMetadata": {
+        "metadata": {}
+      },
+      "parameters": {},
+      "name": "qux",
+      "type": "qux",
+      "properties": {
+        "bar-test": "bar-test-value",
+        "baz-test2": "bar-test2-value.bar-test2-reference-bar-test1-reference.bar-test1-value.baz-test3.reference"
+      }
+    }
+  ],
+  "resources3": [
+    {
+      "isActive": true,
+      "propertiesMetadata": {
+        "metadata": {}
+      },
+      "parametersMetadata": {
+        "metadata": {}
+      },
+      "requiredDependencies3": [
+        {
+          "propertiesMetadata": {
+            "metadata": {}
+          },
+          "parametersMetadata": {
+            "metadata": {}
+          },
+          "name": "bar",
+          "properties": {},
+          "parameters": {}
+        }
+      ],
+      "isOptional": false,
+      "parameters": {},
+      "name": "baz",
+      "properties": {
+        "baz-test": {
+          "baz-test1": "bar-test1-value.bar-test1-reference",
+          "baz-test2": "baz-test2-value"
+        },
+        "baz-test/baz-test4": "baz-test/baz-test4-value",
+        "baz-test3": "bar-test2-value.bar-test2-reference-bar-test1-reference.bar-test1-value"
+      }
+    }
+  ],
+  "parametersMetadata": {
+    "metadata": {}
+  },
+  "parameters": {
+    "test": "~{bar/bar-test3}"
+  },
+  "schemaVersion": "3.1.0",
+  "id": "com.sap.mta.v2.test.config-01",
+  "version": "1.0.0"
+}

@@ -1,0 +1,38 @@
+{
+  "schemaVersion": "1.0.0",
+  "id": "mta-extension",
+  "description": "description",
+  "parentId": "mta-id",
+  "provider": "provider-id",
+  "deployTargets": [
+    "first-target",
+    "second-target"
+  ],
+  "modules1": [
+    {
+      "name": "test-module",
+      "properties": {
+        "module-property": "property"
+      },
+      "providedDependencies1": [
+        {
+          "name": "provided-dependency",
+          "properties": {
+            "provided-property": "some-property"
+          }
+        }
+      ]
+    }
+  ],
+  "resources1": [
+    {
+      "name": "test-resource",
+      "properties": {
+        "resource-property": "some-resource-property"
+      }
+    }
+  ],
+  "properties": {
+    "descriptor-property": "some-descriptor-property"
+  }
+}

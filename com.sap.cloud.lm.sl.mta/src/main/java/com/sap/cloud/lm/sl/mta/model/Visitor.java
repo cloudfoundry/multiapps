@@ -1,21 +1,21 @@
 package com.sap.cloud.lm.sl.mta.model;
 
-import com.sap.cloud.lm.sl.mta.model.v1_0.DeploymentDescriptor;
-import com.sap.cloud.lm.sl.mta.model.v1_0.ExtensionDescriptor;
-import com.sap.cloud.lm.sl.mta.model.v1_0.ExtensionModule;
-import com.sap.cloud.lm.sl.mta.model.v1_0.ExtensionProvidedDependency;
-import com.sap.cloud.lm.sl.mta.model.v1_0.ExtensionResource;
-import com.sap.cloud.lm.sl.mta.model.v1_0.Module;
-import com.sap.cloud.lm.sl.mta.model.v1_0.PlatformModuleType;
-import com.sap.cloud.lm.sl.mta.model.v1_0.Platform;
-import com.sap.cloud.lm.sl.mta.model.v1_0.TargetModuleType;
-import com.sap.cloud.lm.sl.mta.model.v1_0.TargetResourceType;
-import com.sap.cloud.lm.sl.mta.model.v1_0.ProvidedDependency;
-import com.sap.cloud.lm.sl.mta.model.v1_0.Resource;
-import com.sap.cloud.lm.sl.mta.model.v1_0.PlatformResourceType;
-import com.sap.cloud.lm.sl.mta.model.v1_0.Target;
-import com.sap.cloud.lm.sl.mta.model.v2_0.ExtensionRequiredDependency;
-import com.sap.cloud.lm.sl.mta.model.v2_0.RequiredDependency;
+import com.sap.cloud.lm.sl.mta.model.v1.DeploymentDescriptor;
+import com.sap.cloud.lm.sl.mta.model.v1.ExtensionDescriptor;
+import com.sap.cloud.lm.sl.mta.model.v1.ExtensionModule;
+import com.sap.cloud.lm.sl.mta.model.v1.ExtensionProvidedDependency;
+import com.sap.cloud.lm.sl.mta.model.v1.ExtensionResource;
+import com.sap.cloud.lm.sl.mta.model.v1.Module;
+import com.sap.cloud.lm.sl.mta.model.v1.Platform;
+import com.sap.cloud.lm.sl.mta.model.v1.PlatformModuleType;
+import com.sap.cloud.lm.sl.mta.model.v1.PlatformResourceType;
+import com.sap.cloud.lm.sl.mta.model.v1.ProvidedDependency;
+import com.sap.cloud.lm.sl.mta.model.v1.Resource;
+import com.sap.cloud.lm.sl.mta.model.v1.Target;
+import com.sap.cloud.lm.sl.mta.model.v1.TargetModuleType;
+import com.sap.cloud.lm.sl.mta.model.v1.TargetResourceType;
+import com.sap.cloud.lm.sl.mta.model.v2.ExtensionRequiredDependency;
+import com.sap.cloud.lm.sl.mta.model.v2.RequiredDependency;
 
 public class Visitor {
 
