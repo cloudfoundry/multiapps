@@ -70,6 +70,7 @@ public class Schemas {
 
         MODULE.add("name", UNIQUE_MTA_IDENTIFIER);
         MODULE.add("type", STRING_REQUIRED);
+        MODULE.add("path", STRING);
         MODULE.add("description", STRING);
         MODULE.add("properties", PROPERTIES);
         MODULE.add("requires", LIST);
