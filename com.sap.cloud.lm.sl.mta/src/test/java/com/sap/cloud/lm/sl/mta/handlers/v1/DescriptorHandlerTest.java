@@ -99,13 +99,14 @@ public class DescriptorHandlerTest {
     @RunWith(Parameterized.class)
     public static class DescriptorHandlerTest2 {
 
+        public static final String PARALLEL_DEPLOYMENTS_PROP = "parallel-deployments";
         public static final String DEPENDENCY_TYPE_PROP = "dependency-type";
         public static final String DEPENDENCY_TYPE_HARD = "hard";
 
-        private final DescriptorHandler handler = getDescriptorHandler();
+        protected final DescriptorHandler handler = getDescriptorHandler();
 
-        private String descriptorLocation;
-        private Expectation expectation;
+        protected String descriptorLocation;
+        protected Expectation expectation;
 
         public DescriptorHandlerTest2(String descriptorLocation, Expectation expectation) {
             this.descriptorLocation = descriptorLocation;
@@ -185,10 +186,10 @@ public class DescriptorHandlerTest {
 
                 @Override
                 public String call() throws Exception {
-                    return Arrays.toString(getNames(handler.getSortedModules(descriptor, DEPENDENCY_TYPE_PROP, DEPENDENCY_TYPE_HARD)));
+                    return Arrays.toString(getNames(handler.getModulesForDeployment(descriptor, PARALLEL_DEPLOYMENTS_PROP, DEPENDENCY_TYPE_PROP, DEPENDENCY_TYPE_HARD)));
                 }
 
-                private String[] getNames(List<Module> modulles) {
+                private String[] getNames(List<? extends Module> modulles) {
                     List<String> names = new LinkedList<>();
                     for (Module module : modulles) {
                         names.add(module.getName());

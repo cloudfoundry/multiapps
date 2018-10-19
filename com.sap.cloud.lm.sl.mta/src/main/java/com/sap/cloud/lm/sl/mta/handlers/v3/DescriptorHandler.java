@@ -2,8 +2,9 @@ package com.sap.cloud.lm.sl.mta.handlers.v3;
 
 import static com.sap.cloud.lm.sl.common.util.CommonUtil.cast;
 
-import com.sap.cloud.lm.sl.mta.model.v2.DeploymentDescriptor;
-import com.sap.cloud.lm.sl.mta.model.v2.ExtensionDescriptor;
+import com.sap.cloud.lm.sl.mta.handlers.ModulesSorter;
+import com.sap.cloud.lm.sl.mta.model.v3.DeploymentDescriptor;
+import com.sap.cloud.lm.sl.mta.model.v3.ExtensionDescriptor;
 import com.sap.cloud.lm.sl.mta.model.v3.ExtensionRequiredDependency;
 import com.sap.cloud.lm.sl.mta.model.v3.ExtensionResource;
 import com.sap.cloud.lm.sl.mta.model.v3.RequiredDependency;
@@ -12,12 +13,13 @@ import com.sap.cloud.lm.sl.mta.model.v3.Resource;
 public class DescriptorHandler extends com.sap.cloud.lm.sl.mta.handlers.v2.DescriptorHandler {
 
     @Override
-    public RequiredDependency findRequiredDependency(DeploymentDescriptor descriptor, String consumerName, String dependencyName) {
+    public RequiredDependency findRequiredDependency(com.sap.cloud.lm.sl.mta.model.v2.DeploymentDescriptor descriptor, String consumerName,
+        String dependencyName) {
         RequiredDependency moduleRequireDependency = cast(super.findRequiredDependency(descriptor, consumerName, dependencyName));
         if (moduleRequireDependency != null) {
             return moduleRequireDependency;
         }
-        com.sap.cloud.lm.sl.mta.model.v3.DeploymentDescriptor descriptorV3 = cast(descriptor);
+        DeploymentDescriptor descriptorV3 = cast(descriptor);
         for (Resource resource : descriptorV3.getResources3()) {
             if (resource.getName()
                 .equals(consumerName)) {
@@ -28,12 +30,13 @@ public class DescriptorHandler extends com.sap.cloud.lm.sl.mta.handlers.v2.Descr
     }
 
     @Override
-    public ExtensionRequiredDependency findRequiredDependency(ExtensionDescriptor descriptor, String consumerName, String dependencyName) {
+    public ExtensionRequiredDependency findRequiredDependency(com.sap.cloud.lm.sl.mta.model.v2.ExtensionDescriptor descriptor,
+        String consumerName, String dependencyName) {
         ExtensionRequiredDependency moduleRequireDependency = cast(super.findRequiredDependency(descriptor, consumerName, dependencyName));
         if (moduleRequireDependency != null) {
             return moduleRequireDependency;
         }
-        com.sap.cloud.lm.sl.mta.model.v3.ExtensionDescriptor descriptorV3 = cast(descriptor);
+        ExtensionDescriptor descriptorV3 = cast(descriptor);
         for (ExtensionResource resource : descriptorV3.getResources3()) {
             if (resource.getName()
                 .equals(consumerName)) {
@@ -62,4 +65,13 @@ public class DescriptorHandler extends com.sap.cloud.lm.sl.mta.handlers.v2.Descr
         }
         return null;
     }
+
+    @Override
+    protected ModulesSorter getModuleSorter(com.sap.cloud.lm.sl.mta.model.v1.DeploymentDescriptor descriptor,
+        String parallelDeploymentProperty, String dependencyTypeProperty, String hardDependencyType) {
+        DeploymentDescriptor descriptorV3 = cast(descriptor);
+        return new com.sap.cloud.lm.sl.mta.handlers.v3.ModulesSorter(descriptorV3, this, dependencyTypeProperty, hardDependencyType,
+            parallelDeploymentProperty);
+    }
+
 }

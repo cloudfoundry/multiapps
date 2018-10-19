@@ -1,0 +1,13 @@
+_schema-version: 3
+ID: com.sap.mta.test
+version: 1.0.0
+parameters:
+  parallel-deployments: true
+
+modules:
+  - name: foo
+    type: foo
+    deployed-after: [bar]
+
+  - name: bar
+    type: bar

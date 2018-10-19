@@ -92,6 +92,9 @@
           }
         }
       },
+      "deployedAfter": [
+        "pricing"
+      ],
       "path": "web-server/",
       "parameters": {
         "domain": "bestprice.sap.com",
@@ -189,6 +192,9 @@
       "parametersMetadata": {
         "metadata": {}
       },
+      "deployedAfter": [
+        "pricing-db"
+      ],
       "parameters": {
         "host": "api",
         "domain": "bestprice.sap.com"

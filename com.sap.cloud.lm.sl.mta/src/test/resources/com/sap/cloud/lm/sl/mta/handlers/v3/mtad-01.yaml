@@ -51,6 +51,7 @@ modules:
       overwritable: false
     domain:
       optional: true
+  deployed-after: [pricing]
 - name: pricing
   type: org.nodejs
   properties:
@@ -81,6 +82,7 @@ modules:
       url: ~{url}
       application-key: ~{application-key}
       secret-key: ~{secret-key}
+  deployed-after: [pricing-db]
 - name: pricing-db
   type: com.sap.hana.hdi
   properties:

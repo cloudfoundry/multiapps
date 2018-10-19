@@ -14,6 +14,15 @@ public class DigestHelper {
 
     private static final int BUFFER_SIZE = 4 * 1024;
 
+    public static String appendDigests(String digest, String additionalDigest, String digestAlgorithm) throws NoSuchAlgorithmException {
+        byte[] fileChecksum = DatatypeConverter.parseHexBinary(digest);
+        byte[] additionalFileChecksum = DatatypeConverter.parseHexBinary(additionalDigest);
+        MessageDigest md = MessageDigest.getInstance(digestAlgorithm);
+        md.update(fileChecksum);
+        md.update(additionalFileChecksum);
+        return DatatypeConverter.printHexBinary(md.digest());
+    }
+
     public static String computeFileChecksum(Path file, String algorithm) throws NoSuchAlgorithmException, IOException {
         return DatatypeConverter.printHexBinary(computeFileCheckSumBytes(file, algorithm));
     }

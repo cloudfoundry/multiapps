@@ -51,6 +51,7 @@ public class Schemas extends com.sap.cloud.lm.sl.mta.handlers.v2.Schemas {
         MODULE.add("parameters-metadata", PROPERTIES);
         MODULE.add("requires", new ListElement(REQUIRED_DEPENDENCY));
         MODULE.add("provides", new ListElement(PROVIDED_DEPENDENCY));
+        MODULE.add("deployed-after", new ListElement(STRING));
 
         REQUIRED_DEPENDENCY.add("name", UNIQUE_MTA_IDENTIFIER);
         REQUIRED_DEPENDENCY.add("group", STRING);

@@ -3,13 +3,13 @@ package com.sap.cloud.lm.sl.mta.handlers.v1;
 import java.text.MessageFormat;
 import java.util.Comparator;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 
-import com.sap.cloud.lm.sl.common.util.Pair;
 import com.sap.cloud.lm.sl.mta.message.Messages;
 import com.sap.cloud.lm.sl.mta.model.v1.Module;
 
-public class ModuleComparator implements Comparator<Pair<Module, Set<String>>> {
+public class ModuleComparator implements Comparator<Entry<Module, Set<String>>> {
 
     private final String dependencyTypeProperty;
     private final String hardDependencyType;
@@ -20,13 +20,14 @@ public class ModuleComparator implements Comparator<Pair<Module, Set<String>>> {
     }
 
     @Override
-    public int compare(Pair<Module, Set<String>> modulePair1, Pair<Module, Set<String>> modulePair2) {
-        Module module1 = modulePair1._1;
-        Module module2 = modulePair2._1;
+    public int compare(Entry<Module, Set<String>> pair1, Entry<Module, Set<String>> pair2) {
+        Module module1 = pair1.getKey();
+        Set<String> module1Dependencies = pair1.getValue();
         String dependencyTypeModule1 = (String) getPropertyValue(module1, dependencyTypeProperty);
+
+        Module module2 = pair2.getKey();
+        Set<String> module2Dependencies = pair2.getValue();
         String dependencyTypeModule2 = (String) getPropertyValue(module2, dependencyTypeProperty);
-        Set<String> module1Dependencies = modulePair1._2;
-        Set<String> module2Dependencies = modulePair2._2;
 
         if (circularDependencyExists(module1.getName(), module1Dependencies, module2.getName(), module2Dependencies)) {
             if (hardDependencyType.equals(dependencyTypeModule1) && hardDependencyType.equals(dependencyTypeModule2)) {

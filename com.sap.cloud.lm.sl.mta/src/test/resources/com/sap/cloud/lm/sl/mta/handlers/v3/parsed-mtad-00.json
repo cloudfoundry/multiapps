@@ -65,6 +65,9 @@
       "parametersMetadata": {
         "metadata": {}
       },
+      "deployedAfter": [
+        "pricing"
+      ],
       "path": "web-server/",
       "parameters": {
         "host": "www",
@@ -158,6 +161,9 @@
       "parametersMetadata": {
         "metadata": {}
       },
+      "deployedAfter": [
+        "pricing-db"
+      ],
       "parameters": {
         "host": "api",
         "domain": "bestprice.sap.com"

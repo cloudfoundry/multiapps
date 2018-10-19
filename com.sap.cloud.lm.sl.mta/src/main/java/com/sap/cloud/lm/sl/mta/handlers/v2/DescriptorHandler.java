@@ -1,9 +1,6 @@
 package com.sap.cloud.lm.sl.mta.handlers.v2;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import com.sap.cloud.lm.sl.mta.handlers.v1.ModuleComparator;
+import com.sap.cloud.lm.sl.mta.handlers.ModulesSorter;
 import com.sap.cloud.lm.sl.mta.model.v2.DeploymentDescriptor;
 import com.sap.cloud.lm.sl.mta.model.v2.ExtensionDescriptor;
 import com.sap.cloud.lm.sl.mta.model.v2.ExtensionModule;
@@ -12,15 +9,6 @@ import com.sap.cloud.lm.sl.mta.model.v2.Module;
 import com.sap.cloud.lm.sl.mta.model.v2.RequiredDependency;
 
 public class DescriptorHandler extends com.sap.cloud.lm.sl.mta.handlers.v1.DescriptorHandler {
-
-    @Override
-    protected List<String> getRequiredDependencyNames(com.sap.cloud.lm.sl.mta.model.v1.Module module) {
-        List<String> names = new ArrayList<>();
-        for (RequiredDependency dependency : ((Module) module).getRequiredDependencies2()) {
-            names.add(dependency.getName());
-        }
-        return names;
-    }
 
     public RequiredDependency findRequiredDependency(DeploymentDescriptor descriptor, String moduleName, String dependencyName) {
         for (Module module : descriptor.getModules2()) {
@@ -63,8 +51,9 @@ public class DescriptorHandler extends com.sap.cloud.lm.sl.mta.handlers.v1.Descr
     }
 
     @Override
-    protected ModuleComparator getModuleComparator(String dependencyTypeProperty, String hardDependencyType) {
-        return new com.sap.cloud.lm.sl.mta.handlers.v2.ModuleComparator(dependencyTypeProperty, hardDependencyType);
+    protected ModulesSorter getModuleSorter(com.sap.cloud.lm.sl.mta.model.v1.DeploymentDescriptor descriptor,
+        String parallelDeploymentProperty, String dependencyTypeProperty, String hardDependencyType) {
+        return new com.sap.cloud.lm.sl.mta.handlers.v2.ModulesSorter(descriptor, this, dependencyTypeProperty, hardDependencyType);
     }
 
 }
