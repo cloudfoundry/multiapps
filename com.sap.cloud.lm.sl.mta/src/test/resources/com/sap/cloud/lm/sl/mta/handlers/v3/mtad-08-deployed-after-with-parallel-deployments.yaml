@@ -1,0 +1,24 @@
+_schema-version: 3
+ID: com.sap.mta.test
+version: 1.0.0
+parameters:
+  parallel-deployments: true
+
+modules:
+  - name: db
+    type: com.sap.xs.hdi
+
+  - name: service
+    type: javascript.nodejs
+    deployed-after: [db]
+
+  - name: broker
+    type: javascript.nodejs
+    deployed-after: [dashboard, db, service]
+
+  - name: backend
+    type: javascript.nodejs
+
+  - name: dashboard
+    type: javascript.nodejs
+    deployed-after: [service, db, backend]

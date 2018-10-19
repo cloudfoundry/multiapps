@@ -1,14 +1,9 @@
 package com.sap.cloud.lm.sl.mta.handlers.v1;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
-import com.sap.cloud.lm.sl.common.ContentException;
 import com.sap.cloud.lm.sl.common.util.Pair;
-import com.sap.cloud.lm.sl.mta.builders.ExtensionDescriptorChainBuilder;
+import com.sap.cloud.lm.sl.mta.handlers.ModulesSorter;
 import com.sap.cloud.lm.sl.mta.model.v1.DeploymentDescriptor;
 import com.sap.cloud.lm.sl.mta.model.v1.ExtensionDescriptor;
 import com.sap.cloud.lm.sl.mta.model.v1.ExtensionModule;
@@ -185,70 +180,16 @@ public class DescriptorHandler {
         return null;
     }
 
-    public List<Module> getSortedModules(DeploymentDescriptor descriptor, String dependencyTypeProperty, String hardDependencyType) {
-        List<Pair<Module, Set<String>>> pairs = getModulesAndTheirDependencies(descriptor);
-        Collections.sort(pairs, getModuleComparator(dependencyTypeProperty, hardDependencyType));
-        List<Module> sortedModules = getModules(pairs);
-        return sortedModules;
+    public List<? extends Module> getModulesForDeployment(DeploymentDescriptor descriptor, String parallelDeploymentProperty,
+        String dependencyTypeProperty, String hardDependencyType) {
+        ModulesSorter moduleSorter = getModuleSorter(descriptor, parallelDeploymentProperty, dependencyTypeProperty,
+            hardDependencyType);
+        return moduleSorter.sort();
     }
 
-    protected ModuleComparator getModuleComparator(String dependencyTypeProperty, String hardDependencyType) {
-        return new ModuleComparator(dependencyTypeProperty, hardDependencyType);
-    }
-
-    protected List<Pair<Module, Set<String>>> getModulesAndTheirDependencies(DeploymentDescriptor descriptor) {
-        List<Pair<Module, Set<String>>> result = new ArrayList<>();
-        for (Module module : descriptor.getModules1()) {
-            result.add(new Pair<Module, Set<String>>(module, getModuleDependencies(descriptor, module)));
-        }
-        return result;
-    }
-
-    protected Module findModuleProvidingDependency(DeploymentDescriptor descriptor, String dependencyName) {
-        for (Module module : descriptor.getModules1()) {
-            if (findProvidedDependency(module, dependencyName) != null) {
-                return module;
-            }
-        }
-        return null;
-    }
-
-    protected Set<String> getModuleDependencies(DeploymentDescriptor descriptor, Module module) {
-        return getModuleDependencies(descriptor, module, new HashSet<String>());
-    }
-
-    protected Set<String> getModuleDependencies(DeploymentDescriptor descriptor, Module module, Set<String> seenModules) {
-        /*
-         * If any circular dependencies are detected an error should NOT be thrown, because the module comparator should be able to handle
-         * them. Instead an empty set should be returned because the current module is the same as the origin module, and the origin
-         * module's dependencies should already be included.
-         */
-        if (seenModules.contains(module.getName())) {
-            return Collections.emptySet();
-        } else {
-            seenModules.add(module.getName());
-        }
-        Set<String> moduleDependencies = new HashSet<>();
-        for (String dependencyName : getRequiredDependencyNames(module)) {
-            Module moduleProvidingDependency = findModuleProvidingDependency(descriptor, dependencyName);
-            if (moduleProvidingDependency != null) {
-                moduleDependencies.add(moduleProvidingDependency.getName());
-                moduleDependencies.addAll(getModuleDependencies(descriptor, moduleProvidingDependency, seenModules));
-            }
-        }
-        return moduleDependencies;
-    }
-
-    protected List<String> getRequiredDependencyNames(Module module) {
-        return module.getRequiredDependencies1();
-    }
-
-    protected List<Module> getModules(List<Pair<Module, Set<String>>> pairs) {
-        List<Module> modules = new ArrayList<>();
-        for (Pair<Module, Set<String>> pair : pairs) {
-            modules.add(pair._1);
-        }
-        return modules;
+    protected ModulesSorter getModuleSorter(DeploymentDescriptor descriptor, String parallelDeploymentProperty,
+        String dependencyTypeProperty, String hardDependencyType) {
+        return new com.sap.cloud.lm.sl.mta.handlers.v1.ModulesSorter(descriptor, this, dependencyTypeProperty, hardDependencyType);
     }
 
 }
