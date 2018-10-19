@@ -133,8 +133,8 @@ public class Module extends com.sap.cloud.lm.sl.mta.model.v2.Module
                 ObjectUtils.defaultIfNull(requiredDependencies3, Collections.<RequiredDependency> emptyList()));
             result.setProvidedDependencies3(
                 ObjectUtils.defaultIfNull(providedDependencies3, Collections.<ProvidedDependency> emptyList()));
-            result.setPropertiesMetadata(propertiesMetadata);
-            result.setParametersMetadata(parametersMetadata);
+            result.setPropertiesMetadata(ObjectUtils.defaultIfNull(propertiesMetadata, Metadata.DEFAULT_METADATA));
+            result.setParametersMetadata(ObjectUtils.defaultIfNull(parametersMetadata, Metadata.DEFAULT_METADATA));
             return result;
         }
 

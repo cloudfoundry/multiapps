@@ -119,7 +119,7 @@ public class DeploymentDescriptor extends com.sap.cloud.lm.sl.mta.model.v2.Deplo
             result.setModules3(ObjectUtils.defaultIfNull(modules3, Collections.<Module> emptyList()));
             result.setResources3(ObjectUtils.defaultIfNull(resources3, Collections.<Resource> emptyList()));
             result.setParameters(ObjectUtils.defaultIfNull(parameters, Collections.<String, Object> emptyMap()));
-            result.setParametersMetadata(parametersMetadata);
+            result.setParametersMetadata(ObjectUtils.defaultIfNull(parametersMetadata, Metadata.DEFAULT_METADATA));
             return result;
         }
 

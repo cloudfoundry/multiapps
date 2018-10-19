@@ -129,8 +129,8 @@ public class Resource extends com.sap.cloud.lm.sl.mta.model.v2.Resource
             result.setDescription(description);
             result.setProperties(ObjectUtils.defaultIfNull(properties, Collections.<String, Object> emptyMap()));
             result.setParameters(ObjectUtils.defaultIfNull(parameters, Collections.<String, Object> emptyMap()));
-            result.setPropertiesMetadata(propertiesMetadata);
-            result.setParametersMetadata(parametersMetadata);
+            result.setPropertiesMetadata(ObjectUtils.defaultIfNull(propertiesMetadata, Metadata.DEFAULT_METADATA));
+            result.setParametersMetadata(ObjectUtils.defaultIfNull(parametersMetadata, Metadata.DEFAULT_METADATA));
             result.setRequiredDependencies3(
                 ObjectUtils.defaultIfNull(requiredDependencies3, Collections.<RequiredDependency> emptyList()));
             result.setOptional(ObjectUtils.defaultIfNull(isOptional, false));

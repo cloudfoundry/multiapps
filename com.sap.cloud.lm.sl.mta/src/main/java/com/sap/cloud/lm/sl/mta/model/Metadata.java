@@ -1,5 +1,6 @@
 package com.sap.cloud.lm.sl.mta.model;
 
+import java.util.Collections;
 import java.util.Map;
 
 import org.apache.commons.lang3.ObjectUtils;
@@ -14,6 +15,8 @@ public class Metadata {
     private static final String SENSITIVE = "sensitive";
 
     private Map<String, Map<String, Object>> metadata;
+
+    public static final Metadata DEFAULT_METADATA = new Metadata(Collections.<String, Map<String, Object>> emptyMap());
 
     public Metadata(Map<String, Map<String, Object>> metadata) {
         this.metadata = metadata;
