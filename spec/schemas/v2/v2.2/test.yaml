@@ -1,0 +1,44 @@
+# Shall validate positively
+_schema-version: "2.2"
+ID: com.acme.scheduling
+version: 1.0.0
+modules:        
+ - name: backend
+   type: javascript.nodejs
+   build-parameters:
+      builder: maven
+   provides:
+    - name: backend_task
+      properties:
+         url: ${default-url}/tasks
+   requires:       
+    - name: scheduler_api
+      group: mylist
+      properties:
+         scheduler_url: ~{url}
+ - name: scheduler
+   type: javascript.nodejs
+   provides:
+    - name: scheduler_api
+      properties:
+         url: ${default-url}/api/v2
+   requires: 
+    - name: backend_task
+      properties:
+         task_url: ~{url}
+         
+resources:
+ - name: plugins
+   type: configuration
+   parameters:
+      filter:
+         type: com.acme.plugin
+   properties:
+      plugin_name: ${name}
+      plugin_url: ${url}/sources
+      
+parameters:
+   first_param: a value
+   second_param:
+      - has
+      - structure

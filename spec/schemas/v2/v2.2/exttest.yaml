@@ -1,0 +1,40 @@
+_schema-version: "2.2"
+ID: com.acme.scheduling.ext
+extends: com.acme.scheduling
+
+modules:        
+ - name: backend
+   build-parameters:
+     builder: maven
+   provides:
+    - name: 0backend_task
+      properties:
+         url: ${default-url}/tasks
+   requires:       
+    - name: scheduler_api
+      properties:
+         scheduler_url: ~{url}
+ - name: scheduler
+   provides:
+    - name: scheduler_api
+      properties:
+         url: ${default-url}/api/v2
+   requires:
+    - name: backend_task
+      properties:
+         task_url: ~{url}
+         
+resources:
+ - name: plugins
+   parameters:
+      filter:
+         type: com.acme.plugin
+   properties:
+      plugin_name: ${name}
+      plugin_url: ${url}/sources
+      
+parameters:
+   first_param: a value
+   second_param:
+      - has
+      - structure

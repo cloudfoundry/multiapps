@@ -1,0 +1,51 @@
+# Shall validate positively
+_schema-version: "3.1"
+ID: com.acme.scheduling.ext
+extends: com.acme.scheduling
+
+targets: [DEV]
+
+modules:        
+ - name: backend
+   build-parameters:
+      ignore: [.gitignore, *.mtar]
+      e: b
+   provides:
+    - name: backend_task
+      properties:
+         url: ${default-url}/tasks
+   requires:       
+    - name: scheduler_api
+      properties:
+         scheduler_url: ~{url}
+ - name: scheduler
+   provides:
+    - name: scheduler_api
+      properties:
+         url: ${default-url}/api/v2
+   requires:
+    - name: backend_task
+      properties:
+         task_url: ~{url}
+         
+resources:
+ - name: plugins
+   active: false
+   requires:
+    - name: scheduler_api
+      parameters:
+         par2: value2
+      properties:
+         prop2: a-prop-value
+   parameters:
+      filter:
+         type: com.acme.plugin
+   properties:
+      plugin_name: ${name}
+      plugin_url: ${url}/sources
+      
+parameters:
+   first_param: a value
+   second_param:
+      - has
+      - structure
