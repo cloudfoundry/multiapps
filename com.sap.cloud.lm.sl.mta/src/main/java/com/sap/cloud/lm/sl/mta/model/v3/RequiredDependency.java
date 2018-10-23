@@ -72,8 +72,8 @@ public class RequiredDependency extends com.sap.cloud.lm.sl.mta.model.v2.Require
             result.setList(list);
             result.setProperties(ObjectUtils.defaultIfNull(properties, Collections.<String, Object> emptyMap()));
             result.setParameters(ObjectUtils.defaultIfNull(parameters, Collections.<String, Object> emptyMap()));
-            result.setPropertiesMetadata(propertiesMetadata);
-            result.setParametersMetadata(parametersMetadata);
+            result.setPropertiesMetadata(ObjectUtils.defaultIfNull(propertiesMetadata, Metadata.DEFAULT_METADATA));
+            result.setParametersMetadata(ObjectUtils.defaultIfNull(parametersMetadata, Metadata.DEFAULT_METADATA));
             return result;
         }
 

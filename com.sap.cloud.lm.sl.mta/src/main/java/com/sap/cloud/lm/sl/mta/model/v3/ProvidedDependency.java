@@ -84,9 +84,9 @@ public class ProvidedDependency extends com.sap.cloud.lm.sl.mta.model.v2.Provide
             result.setName(name);
             result.setPublic(ObjectUtils.defaultIfNull(isPublic, false));
             result.setProperties(ObjectUtils.defaultIfNull(properties, Collections.<String, Object> emptyMap()));
-            result.setPropertiesMetadata(propertiesMetadata);
+            result.setPropertiesMetadata(ObjectUtils.defaultIfNull(propertiesMetadata, Metadata.DEFAULT_METADATA));
             result.setParameters(ObjectUtils.defaultIfNull(parameters, Collections.<String, Object> emptyMap()));
-            result.setParametersMetadata(parametersMetadata);
+            result.setParametersMetadata(ObjectUtils.defaultIfNull(parametersMetadata, Metadata.DEFAULT_METADATA));
             return result;
         }
 
