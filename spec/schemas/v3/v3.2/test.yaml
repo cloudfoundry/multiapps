@@ -1,14 +1,14 @@
 # Shall validate positively
-_schema-version: "3.1"
+_schema-version: "3.2"
 ID: com.acme.scheduling
 version: 1.132.1-edfsd+ewfe
 
 parameters:
-   deployer-version: >=1.2.0
+   deployer-version: ">=1.2.0"
 
 modules:        
  - name: backend
-   type: javascript.nodejs
+   type: java.tomcat
    path: java
    build-parameters:
       builder: maven
@@ -24,7 +24,6 @@ modules:
       password: !sensitive asfhuwehkew efgehk
    parameters-metadata:
       domain: {optional: false, overwritable: true}
-         
    includes: 
     - name: config
       path: cfg/parameters.json
@@ -35,20 +34,19 @@ modules:
          url: ${default-url}/tasks
       properties-metadata:
          url: {optional: true, overwritable: true}
-   requires:       
+   requires:
+    - name: database
     - name: scheduler_api
       list: mylist
       properties:
          scheduler_url: ~{url}
-         
       properties-metadata:
          scheduler_url:
            optional: false
-
       includes: 
        - name: config
          path: cfg/parameters.json
-         
+
  - name: scheduler
    type: javascript.nodejs
    provides:
@@ -59,8 +57,11 @@ modules:
     - name: backend_task
       properties:
          task_url: ~{url}
-         
+
 resources:
+ - name: database
+   type: postgresql
+
  - name: plugins
    type: configuration
    optional: true
@@ -86,3 +87,25 @@ resources:
       plugin_url: ${url}/sources
    properties-metadata:
       plugin_name: {optional: true}
+
+module-types:
+ - name: java.tomcat
+   extends: java
+   parameters:
+     buildpack: 
+     memory: 256M
+   parameters-metadata:
+     buildpack:
+       optional: false
+   properties:
+     TARGET_RUNTIME: tomcat
+
+resource-types:
+ - name: postgresql
+   extends: managed-service
+   parameters:
+     service: postgresql
+     service-plan: 
+   parameters-metadata:
+     service-plan:
+       optional: false
