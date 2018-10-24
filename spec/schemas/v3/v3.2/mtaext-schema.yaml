@@ -26,7 +26,7 @@
 
 desc:   MTA EXTENSION DESCRIPTOR SCHEMA
 # schema version must be extracted as there is no "version" element available to version schemas
-name:   com.sap.mta.mtaext-schema_3.1.8  
+name:   com.sap.mta.mtaext-schema_3.2.0  
 
 type:   map
 mapping:
@@ -113,6 +113,24 @@ mapping:
                      properties: *properties
                      parameters: *parameters
                      includes: *includes            
+
+   module-types:
+      type: seq
+      sequence:
+       - type: map
+         mapping:
+            name: {required: true, unique: true, pattern: '/^[A-Za-z0-9_\-\.]+$/'}
+            properties: *properties
+            parameters: *parameters
+
+   resource-types:
+      type: seq
+      sequence:
+       - type: map
+         mapping:
+            name: {required: true, unique: true, pattern: '/^[A-Za-z0-9_\-\.]+$/'}
+            properties: *properties
+            parameters: *parameters
 
    parameters: *parameters
    includes: *includes
