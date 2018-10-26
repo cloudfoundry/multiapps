@@ -38,11 +38,11 @@ public class ModuleReferenceResolver implements Resolver<Module> {
         return module;
     }
 
-    private Map<String, Object> getResolvedProperties() throws ContentException {
+    private Map<String, Object> getResolvedProperties() {
         return createModulePropertiesReferenceResolver(module.getProperties()).resolve();
     }
 
-    private Map<String, Object> getResolvedParameters() throws ContentException {
+    private Map<String, Object> getResolvedParameters() {
         return createModulePropertiesReferenceResolver(module.getParameters()).resolve();
     }
 

@@ -61,19 +61,19 @@ public class ExtensionDescriptorParser extends ModelParser<ExtensionDescriptor> 
         return getSchemaVersion(SCHEMA_VERSION);
     }
 
-    protected String getId() throws ParsingException {
+    protected String getId() {
         return getStringElement(ID);
     }
 
-    protected String getDescription() throws ParsingException {
+    protected String getDescription() {
         return getStringElement(EXT_DESCRIPTION);
     }
 
-    protected String getParentId() throws ParsingException {
+    protected String getParentId() {
         return getStringElement(EXTENDS);
     }
 
-    protected String getProvider() throws ParsingException {
+    protected String getProvider() {
         return getStringElement(PROVIDER);
     }
 
@@ -81,10 +81,10 @@ public class ExtensionDescriptorParser extends ModelParser<ExtensionDescriptor> 
         return getListElement(TARGET_PLATFORMS);
     }
 
-    protected List<ExtensionModule> getModules1() throws ParsingException {
+    protected List<ExtensionModule> getModules1() {
         return getListElement(MODULES, new ListParser<ExtensionModule>() {
             @Override
-            protected ExtensionModule parseItem(Map<String, Object> map) throws ParsingException {
+            protected ExtensionModule parseItem(Map<String, Object> map) {
                 return getModuleParser(map).setUsedProvidedDependencyNames(usedProvidedDependencyNames)
                     .setUsedValues(usedModuleNames)
                     .parse();
@@ -96,10 +96,10 @@ public class ExtensionDescriptorParser extends ModelParser<ExtensionDescriptor> 
         return new ExtensionModuleParser(source);
     }
 
-    protected List<ExtensionResource> getResources1() throws ParsingException {
+    protected List<ExtensionResource> getResources1() {
         return getListElement(RESOURCES, new ListParser<ExtensionResource>() {
             @Override
-            protected ExtensionResource parseItem(Map<String, Object> map) throws ParsingException {
+            protected ExtensionResource parseItem(Map<String, Object> map) {
                 return getResourceParser(map).setUsedValues(usedResourceNames)
                     .parse();
             }

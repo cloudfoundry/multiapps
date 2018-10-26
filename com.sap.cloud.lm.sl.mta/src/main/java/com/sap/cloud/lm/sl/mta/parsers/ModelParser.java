@@ -35,7 +35,7 @@ public abstract class ModelParser<T> implements Parser<T> {
         return this;
     }
 
-    protected String getSchemaVersion(String key) throws ParsingException {
+    protected String getSchemaVersion(String key) {
         // If the user specified a partial schema version like '2' or '2.0' without quoting it, the YAML parser would parse it to Integer or
         // Double, which is why the type of possiblyPartialSchemaVersion needs to be Object.
         Object schemaVersion = getElement(key);
@@ -43,15 +43,15 @@ public abstract class ModelParser<T> implements Parser<T> {
             .toString();
     }
 
-    protected String getStringElement(String key) throws ParsingException {
+    protected String getStringElement(String key) {
         return (String) getElement(key);
     }
 
-    protected Boolean getBooleanElement(String key) throws ParsingException {
+    protected Boolean getBooleanElement(String key) {
         return (Boolean) getElement(key);
     }
 
-    protected Object getElement(String key) throws ParsingException {
+    protected Object getElement(String key) {
         Element element = schema.getMap()
             .get(key);
         if (element == null) {
@@ -75,7 +75,7 @@ public abstract class ModelParser<T> implements Parser<T> {
      * @return The value to which the specified key is mapped
      * @throws ParsingException If the value is not unique or it is missing
      */
-    private String getRequiredUniqueStringValue(String key) throws ParsingException {
+    private String getRequiredUniqueStringValue(String key) {
         if (uniqueElementsCache.get(key) == null) {
             uniqueElementsCache.put(key, ParserUtil.getRequiredUniqueValue(source, usedValues, key, processedObjectName));
         }
@@ -89,7 +89,7 @@ public abstract class ModelParser<T> implements Parser<T> {
     }
 
     @SuppressWarnings("unchecked")
-    protected <E> List<E> getListElement(String key, ListParser<E> builder) throws ParsingException {
+    protected <E> List<E> getListElement(String key, ListParser<E> builder) {
         Object list = source.get(key);
         if (list != null) {
             return builder.setSource(((List<Object>) list))

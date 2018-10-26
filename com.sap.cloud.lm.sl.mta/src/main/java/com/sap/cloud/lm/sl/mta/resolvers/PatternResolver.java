@@ -19,16 +19,14 @@ public abstract class PatternResolver<T> implements Resolver<T> {
     @Override
     public abstract T resolve() throws ContentException;
 
-    protected Map<String, Object> resolve(Map<String, Object> properties, final Map<String, Object> propertyValues)
-        throws ContentException {
+    protected Map<String, Object> resolve(Map<String, Object> properties, final Map<String, Object> propertyValues) {
         return resolve(properties, propertyValues, null);
     }
 
-    protected Map<String, Object> resolve(Map<String, Object> properties, final Map<String, Object> propertyValues, Boolean isStrict)
-        throws ContentException {
+    protected Map<String, Object> resolve(Map<String, Object> properties, final Map<String, Object> propertyValues, Boolean isStrict) {
         ProvidedValuesResolver valuesResolver = new ProvidedValuesResolver() {
             @Override
-            public Map<String, Object> resolveProvidedValues(String irrelevant) throws ContentException {
+            public Map<String, Object> resolveProvidedValues(String irrelevant) {
                 return propertyValues;
             }
         };

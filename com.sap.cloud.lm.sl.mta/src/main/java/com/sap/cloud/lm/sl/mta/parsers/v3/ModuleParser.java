@@ -51,7 +51,7 @@ public class ModuleParser extends com.sap.cloud.lm.sl.mta.parsers.v2.ModuleParse
         return getMetadata(PARAMETERS_METADATA, getParameters());
     }
 
-    protected List<ProvidedDependency> getProvidedDependencies3() throws ParsingException {
+    protected List<ProvidedDependency> getProvidedDependencies3() {
         return ListUtil.cast(getProvidedDependencies2());
     }
 
@@ -60,7 +60,7 @@ public class ModuleParser extends com.sap.cloud.lm.sl.mta.parsers.v2.ModuleParse
         return new ProvidedDependencyParser(source); // v3
     }
 
-    protected List<RequiredDependency> getRequiredDependencies3() throws ParsingException {
+    protected List<RequiredDependency> getRequiredDependencies3() {
         return ListUtil.cast(getRequiredDependencies2());
     }
 

@@ -35,11 +35,11 @@ public class ResourceTypeParser extends ModelParser<PlatformResourceType> {
         return builder.build();
     }
 
-    protected String getName() throws ParsingException {
+    protected String getName() {
         return getStringElement(NAME);
     }
 
-    protected String getResourceManager() throws ParsingException {
+    protected String getResourceManager() {
         return getStringElement(RESOURCE_MANAGER);
     }
 

@@ -20,7 +20,7 @@ public class ExtensionProvidedDependencyParser extends com.sap.cloud.lm.sl.mta.p
     }
 
     @Override
-    public ExtensionProvidedDependency parse() throws ParsingException {
+    public ExtensionProvidedDependency parse() {
         Builder builder = new Builder();
         builder.setName(getName());
         builder.setProperties(getProperties());

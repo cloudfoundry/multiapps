@@ -56,34 +56,34 @@ public class DeploymentDescriptorParser extends ModelParser<DeploymentDescriptor
         return builder.build();
     }
 
-    protected String getSchemaVersion() throws ParsingException {
+    protected String getSchemaVersion() {
         return getSchemaVersion(SCHEMA_VERSION);
     }
 
-    protected String getId() throws ParsingException {
+    protected String getId() {
         return getStringElement(ID);
     }
 
-    protected String getDescription() throws ParsingException {
+    protected String getDescription() {
         return getStringElement(DESCRIPTION);
     }
 
-    protected String getVersion() throws ParsingException {
+    protected String getVersion() {
         return getStringElement(VERSION);
     }
 
-    protected String getProvider() throws ParsingException {
+    protected String getProvider() {
         return getStringElement(PROVIDER);
     }
 
-    protected String getCopyright() throws ParsingException {
+    protected String getCopyright() {
         return getStringElement(COPYRIGHT);
     }
 
-    protected List<Module> getModules1() throws ParsingException {
+    protected List<Module> getModules1() {
         return getListElement(MODULES, new ListParser<Module>() {
             @Override
-            protected Module parseItem(Map<String, Object> map) throws ParsingException {
+            protected Module parseItem(Map<String, Object> map) {
                 return getModuleParser(map).setUsedProvidedDependencyNames(usedDependencyNames)
                     .setUsedValues(usedModuleNames)
                     .parse();
@@ -95,10 +95,10 @@ public class DeploymentDescriptorParser extends ModelParser<DeploymentDescriptor
         return new ModuleParser(source);
     }
 
-    protected List<Resource> getResources1() throws ParsingException {
+    protected List<Resource> getResources1() {
         return getListElement(RESOURCES, new ListParser<Resource>() {
             @Override
-            protected Resource parseItem(Map<String, Object> map) throws ParsingException {
+            protected Resource parseItem(Map<String, Object> map) {
                 return getResourceParser(map).setUsedValues(usedDependencyNames)
                     .parse();
             }

@@ -46,13 +46,13 @@ public class DeploymentDescriptorValidator extends Visitor {
         validateRequiredDependencies(module);
     }
 
-    protected void validateRequiredDependencies(Module module) throws ContentException {
+    protected void validateRequiredDependencies(Module module) {
         for (String requiredDependency : module.getRequiredDependencies1()) {
             validate(module, requiredDependency);
         }
     }
 
-    protected void validate(NamedElement container, String requiredDependency) throws ContentException {
+    protected void validate(NamedElement container, String requiredDependency) {
         if (!canBeResolved(requiredDependency)) {
             throw new ContentException(Messages.UNRESOLVED_MODULE_REQUIRED_DEPENDENCY, requiredDependency, container.getName());
         }

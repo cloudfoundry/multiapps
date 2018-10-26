@@ -28,8 +28,7 @@ public class SchemaValidator {
     }
 
     @SuppressWarnings("unchecked")
-    private static void validate(Object object, Element schema, String prefix, Map<String, Set<Object>> uniqueValuesMap)
-        throws ParsingException {
+    private static void validate(Object object, Element schema, String prefix, Map<String, Set<Object>> uniqueValuesMap) {
         checkNull(object, prefix);
         checkType(object, schema, prefix);
 
@@ -42,8 +41,7 @@ public class SchemaValidator {
         }
     }
 
-    private static void validate(Map<String, Object> map, MapElement schema, String prefix, Map<String, Set<Object>> uniqueValuesMap)
-        throws ParsingException {
+    private static void validate(Map<String, Object> map, MapElement schema, String prefix, Map<String, Set<Object>> uniqueValuesMap) {
         // Validate existing keys:
         for (String key : map.keySet()) {
             Element element = schema.getMap()
@@ -67,8 +65,7 @@ public class SchemaValidator {
         }
     }
 
-    private static void validate(List<Object> list, ListElement schema, String prefix, Map<String, Set<Object>> uniqueValuesMap)
-        throws ParsingException {
+    private static void validate(List<Object> list, ListElement schema, String prefix, Map<String, Set<Object>> uniqueValuesMap) {
         Element element = schema.getElement();
         for (int i = 0; i < list.size(); i++) {
             String elementPrefix = getPrefixedName(prefix, Integer.toString(i));
@@ -77,13 +74,13 @@ public class SchemaValidator {
         }
     }
 
-    private static void validate(Object object, Element schema, String objectName) throws ParsingException {
+    private static void validate(Object object, Element schema, String objectName) {
         if (schema.getType() == String.class) {
             validateStringElement(object, schema, objectName);
         }
     }
 
-    private static void validateStringElement(Object object, Element schema, String objectName) throws ParsingException {
+    private static void validateStringElement(Object object, Element schema, String objectName) {
         if (schema.getPattern() != null) {
             String value = String.valueOf(object);
 
@@ -99,7 +96,7 @@ public class SchemaValidator {
         }
     }
 
-    private static void checkNull(Object object, String prefix) throws ParsingException {
+    private static void checkNull(Object object, String prefix) {
         if (object == null) {
             if (!isRootElement(prefix)) {
                 throw new ParsingException(Messages.NULL_VALUE_FOR_KEY, prefix);
@@ -108,7 +105,7 @@ public class SchemaValidator {
         }
     }
 
-    private static void checkType(Object object, Element element, String prefix) throws ParsingException {
+    private static void checkType(Object object, Element element, String prefix) {
         if (!element.getType()
             .isInstance(object)) {
             if (!isRootElement(prefix)) {

@@ -40,7 +40,7 @@ public class ExtensionDescriptorParser extends com.sap.cloud.lm.sl.mta.parsers.v
         return builder.build();
     }
 
-    protected List<ExtensionResource> getResources3() throws ParsingException {
+    protected List<ExtensionResource> getResources3() {
         return ListUtil.cast(getResources2());
     }
 
@@ -49,7 +49,7 @@ public class ExtensionDescriptorParser extends com.sap.cloud.lm.sl.mta.parsers.v
         return new ExtensionResourceParser(source); // v3
     }
 
-    protected List<ExtensionModule> getModules3() throws ParsingException {
+    protected List<ExtensionModule> getModules3() {
         return ListUtil.cast(getModules2());
     }
 
@@ -59,7 +59,7 @@ public class ExtensionDescriptorParser extends com.sap.cloud.lm.sl.mta.parsers.v
     }
 
     @Override
-    protected String getDescription() throws ParsingException {
+    protected String getDescription() {
         return getStringElement(DESCRIPTION);
     }
 

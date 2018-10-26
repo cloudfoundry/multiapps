@@ -26,23 +26,21 @@ public class ExtensionDescriptorValidator extends com.sap.cloud.lm.sl.mta.valida
     }
 
     @Override
-    protected void validateParameters(ParametersContainer container, ParametersContainer extensionContainer, String containerName)
-        throws ContentException {
+    protected void validateParameters(ParametersContainer container, ParametersContainer extensionContainer, String containerName) {
         ParametersWithMetadataContainer containerWithMetadata = cast(container);
         validate(containerWithMetadata.getParametersMetadata(), containerWithMetadata.getParameters(), extensionContainer.getParameters(),
             containerName, Constants.PARAMETER_ELEMENT_TYPE_NAME);
     }
 
     @Override
-    protected void validateProperties(PropertiesContainer container, PropertiesContainer extensionContainer, String containerName)
-        throws ContentException {
+    protected void validateProperties(PropertiesContainer container, PropertiesContainer extensionContainer, String containerName) {
         PropertiesWithMetadataContainer containerWithMetadata = cast(container);
         validate(containerWithMetadata.getPropertiesMetadata(), containerWithMetadata.getProperties(), extensionContainer.getProperties(),
             containerName, Constants.PROPERTY_ELEMENT_TYPE_NAME);
     }
 
     protected void validate(Metadata metadata, Map<String, Object> properties, Map<String, Object> extensionProperties,
-        String containerName, String elementType) throws ContentException {
+        String containerName, String elementType) {
         for (String propertyName : extensionProperties.keySet()) {
             boolean isOverwritable = metadata.getOverwritableMetadata(propertyName);
             Object value = properties.get(propertyName);

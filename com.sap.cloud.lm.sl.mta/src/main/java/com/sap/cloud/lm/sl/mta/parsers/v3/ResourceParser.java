@@ -64,7 +64,7 @@ public class ResourceParser extends com.sap.cloud.lm.sl.mta.parsers.v2.ResourceP
     protected List<RequiredDependency> getRequiredDependencies() {
         return getListElement(REQUIRES, new ListParser<RequiredDependency>() {
             @Override
-            protected RequiredDependency parseItem(Map<String, Object> map) throws ParsingException {
+            protected RequiredDependency parseItem(Map<String, Object> map) {
                 RequiredDependencyParser parser = getRequiredDependencyParser(map);
                 parser.setUsedValues(usedRequiredDependencyNames);
                 return parser.parse();

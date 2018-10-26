@@ -31,7 +31,7 @@ public class ModulePlaceholderResolver extends com.sap.cloud.lm.sl.mta.resolvers
         return module3;
     }
 
-    protected List<ProvidedDependency> getResolvedProvidedDependencies3() throws ContentException {
+    protected List<ProvidedDependency> getResolvedProvidedDependencies3() {
         List<ProvidedDependency> resolved = new ArrayList<ProvidedDependency>();
         for (ProvidedDependency providedDependency : module3.getProvidedDependencies3()) {
             resolved.add(getProvidedDependencyResolver(providedDependency).resolve());

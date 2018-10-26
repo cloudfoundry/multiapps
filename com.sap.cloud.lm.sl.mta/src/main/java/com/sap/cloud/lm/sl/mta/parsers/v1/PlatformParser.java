@@ -50,15 +50,15 @@ public class PlatformParser extends ModelParser<Platform> {
         return builder.build();
     }
 
-    protected String getName() throws ParsingException {
+    protected String getName() {
         return getStringElement(NAME);
     }
 
-    protected String getVersion() throws ParsingException {
+    protected String getVersion() {
         return getStringElement(VERSION);
     }
 
-    protected String getDescription() throws ParsingException {
+    protected String getDescription() {
         return getStringElement(DESCRIPTION);
     }
 
@@ -66,10 +66,10 @@ public class PlatformParser extends ModelParser<Platform> {
         return getMapElement(PROPERTIES);
     }
 
-    protected List<PlatformModuleType> getModuleTypes1() throws ParsingException {
+    protected List<PlatformModuleType> getModuleTypes1() {
         return getListElement(MODULE_TYPES, new ListParser<PlatformModuleType>() {
             @Override
-            protected PlatformModuleType parseItem(Map<String, Object> map) throws ParsingException {
+            protected PlatformModuleType parseItem(Map<String, Object> map) {
                 return getModuleTypeParser(map).setUsedValues(usedModuleTypeNames)
                     .parse();
             }
@@ -80,10 +80,10 @@ public class PlatformParser extends ModelParser<Platform> {
         return new ModuleTypeParser(source);
     }
 
-    protected List<PlatformResourceType> getResourceTypes1() throws ParsingException {
+    protected List<PlatformResourceType> getResourceTypes1() {
         return getListElement(RESOURCE_TYPES, new ListParser<PlatformResourceType>() {
             @Override
-            protected PlatformResourceType parseItem(Map<String, Object> map) throws ParsingException {
+            protected PlatformResourceType parseItem(Map<String, Object> map) {
                 return getResourceTypeParser(map).setUsedValues(usedResourceTypeNames)
                     .parse();
             }

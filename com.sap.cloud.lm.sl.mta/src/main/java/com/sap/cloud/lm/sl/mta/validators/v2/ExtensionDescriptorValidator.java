@@ -62,7 +62,7 @@ public class ExtensionDescriptorValidator extends com.sap.cloud.lm.sl.mta.valida
     }
 
     protected void validateParameters(ParametersContainer parametersContainer, ParametersContainer extensionParametersContainer,
-        String containerName) throws ContentException {
+        String containerName) {
         validate(parametersContainer.getParameters(), extensionParametersContainer.getParameters(), containerName,
             Constants.PARAMETER_ELEMENT_TYPE_NAME);
     }

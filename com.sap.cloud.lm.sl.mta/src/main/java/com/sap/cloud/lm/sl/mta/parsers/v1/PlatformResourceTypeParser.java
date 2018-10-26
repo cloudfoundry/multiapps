@@ -33,7 +33,7 @@ public class PlatformResourceTypeParser extends ModelParser<TargetResourceType> 
         return builder.build();
     }
 
-    protected String getName() throws ParsingException {
+    protected String getName() {
         return getStringElement(NAME);
     }
 

@@ -50,15 +50,15 @@ public class TargetParser extends ModelParser<Target> {
         return builder.build();
     }
 
-    protected String getName() throws ParsingException {
+    protected String getName() {
         return getStringElement(NAME);
     }
 
-    protected String getType() throws ParsingException {
+    protected String getType() {
         return getStringElement(TYPE);
     }
 
-    protected String getDescription() throws ParsingException {
+    protected String getDescription() {
         return getStringElement(DESCRIPTION);
     }
 
@@ -66,10 +66,10 @@ public class TargetParser extends ModelParser<Target> {
         return getMapElement(PROPERTIES);
     }
 
-    protected List<TargetModuleType> getModuleTypes1() throws ParsingException {
+    protected List<TargetModuleType> getModuleTypes1() {
         return getListElement(MODULE_TYPES, new ListParser<TargetModuleType>() {
             @Override
-            protected TargetModuleType parseItem(Map<String, Object> map) throws ParsingException {
+            protected TargetModuleType parseItem(Map<String, Object> map) {
                 return getModuleTypeParser(map).setUsedValues(usedModuleTypeNames)
                     .parse();
             }
@@ -80,10 +80,10 @@ public class TargetParser extends ModelParser<Target> {
         return new PlatformModuleTypeParser(source);
     }
 
-    protected List<TargetResourceType> getResourceTypes1() throws ParsingException {
+    protected List<TargetResourceType> getResourceTypes1() {
         return getListElement(RESOURCE_TYPES, new ListParser<TargetResourceType>() {
             @Override
-            protected TargetResourceType parseItem(Map<String, Object> map) throws ParsingException {
+            protected TargetResourceType parseItem(Map<String, Object> map) {
                 return getResourceTypeParser(map).setUsedValues(usedResourceTypeNames)
                     .parse();
             }

@@ -36,7 +36,7 @@ public class ProvidedDependencyParser extends ModelParser<ProvidedDependency> {
         return builder.build();
     }
 
-    protected String getName() throws ParsingException {
+    protected String getName() {
         return getStringElement(NAME);
     }
 

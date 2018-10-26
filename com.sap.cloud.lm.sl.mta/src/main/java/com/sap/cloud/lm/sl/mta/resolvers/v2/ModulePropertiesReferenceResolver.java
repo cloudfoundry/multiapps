@@ -29,7 +29,7 @@ public class ModulePropertiesReferenceResolver extends ReferenceResolver<Map<Str
         return resolve(properties);
     }
 
-    protected Map<String, Object> resolve(Map<String, Object> parameters) throws ContentException {
+    protected Map<String, Object> resolve(Map<String, Object> parameters) {
         return propertiesResolverBuilder.build(parameters, this, patternToMatch, prefix, true)
             .resolve();
     }

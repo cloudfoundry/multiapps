@@ -16,7 +16,7 @@ public class DeploymentDescriptorValidator extends com.sap.cloud.lm.sl.mta.valid
     }
 
     @Override
-    protected void validateRequiredDependencies(com.sap.cloud.lm.sl.mta.model.v1.Module module) throws ContentException {
+    protected void validateRequiredDependencies(com.sap.cloud.lm.sl.mta.model.v1.Module module) {
         // Do nothing!
     }
 

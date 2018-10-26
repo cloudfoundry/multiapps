@@ -36,7 +36,7 @@ public class PlatformParser extends com.sap.cloud.lm.sl.mta.parsers.v1.PlatformP
         return builder.build();
     }
 
-    protected List<PlatformModuleType> getModuleTypes2() throws ParsingException {
+    protected List<PlatformModuleType> getModuleTypes2() {
         return ListUtil.cast(getModuleTypes1());
     }
 
@@ -45,7 +45,7 @@ public class PlatformParser extends com.sap.cloud.lm.sl.mta.parsers.v1.PlatformP
         return new ModuleTypeParser(source);
     }
 
-    protected List<PlatformResourceType> getResourceTypes2() throws ParsingException {
+    protected List<PlatformResourceType> getResourceTypes2() {
         return ListUtil.cast(getResourceTypes1());
     }
 

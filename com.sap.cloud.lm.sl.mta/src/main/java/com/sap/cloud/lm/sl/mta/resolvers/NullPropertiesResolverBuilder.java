@@ -2,8 +2,6 @@ package com.sap.cloud.lm.sl.mta.resolvers;
 
 import java.util.Map;
 
-import com.sap.cloud.lm.sl.common.ContentException;
-
 public class NullPropertiesResolverBuilder extends ResolverBuilder {
 
     @Override
@@ -21,7 +19,7 @@ public class NullPropertiesResolverBuilder extends ResolverBuilder {
         }
 
         @Override
-        public Map<String, Object> resolve() throws ContentException {
+        public Map<String, Object> resolve() {
             return this.properties;
         }
 
