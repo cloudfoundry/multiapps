@@ -1,11 +1,12 @@
 package com.sap.cloud.lm.sl.common.model.json;
 
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.Map;
 import java.util.TreeMap;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import com.google.gson.annotations.JsonAdapter;
 import com.sap.cloud.lm.sl.common.util.JsonUtil;
@@ -22,15 +23,15 @@ public class MapWithNumbersAdapterFactoryTest {
 
         foo = JsonUtil.fromJson(json, Foo.class);
 
-        Map<String, Object> actualProperties = ((Map<String, Object>) foo.getProperties()
-            .get("test1"));
+        Map<String, Object> actualProperties = (Map<String, Object>) foo.getProperties()
+            .get("test1");
 
         assertTestProperties(actualProperties);
     }
 
     @Test
     public void test2() throws Exception {
-        Map<String, Object> properties = new TreeMap<String, Object>();
+        Map<String, Object> properties = new TreeMap<>();
         properties.put("test1", createTestProperties());
         Bar bar = new Bar(properties);
 
@@ -45,7 +46,7 @@ public class MapWithNumbersAdapterFactoryTest {
 
         assertTestProperties(actualProperties);
     }
-    
+
     @Test
     public void test3() throws Exception {
         String json = JsonUtil.toJson(createTestProperties(), true);
@@ -56,13 +57,27 @@ public class MapWithNumbersAdapterFactoryTest {
         assertTestProperties(actualProperties);
     }
 
+    @Test
+    public void testWithNullMap() {
+        Foo foo = new Foo(null);
+
+        String fooJson = JsonUtil.toJson(foo);
+        String barJson = "null";
+
+        Map<String, Object> fooMap = JsonUtil.convertJsonToMap(fooJson);
+        Map<String, Object> barMap = JsonUtil.convertJsonToMap(barJson);
+
+        assertTrue(fooMap.isEmpty());
+        assertNull(barMap);
+    }
+
     private Map<String, Object> createTestProperties() {
-        Map<String, Object> testProperties1 = new TreeMap<String, Object>();
+        Map<String, Object> testProperties1 = new TreeMap<>();
         testProperties1.put("host", "localhost");
         testProperties1.put("port", 30030);
         testProperties1.put("long-value", (long) Integer.MAX_VALUE * 10);
         testProperties1.put("double-value", 1.5);
-        Map<String, Object> testProperties2 = new TreeMap<String, Object>();
+        Map<String, Object> testProperties2 = new TreeMap<>();
         testProperties2.put("port", 50000);
         testProperties2.put("long-value", (long) Integer.MAX_VALUE * 10);
         testProperties2.put("double-value", 1.5);
