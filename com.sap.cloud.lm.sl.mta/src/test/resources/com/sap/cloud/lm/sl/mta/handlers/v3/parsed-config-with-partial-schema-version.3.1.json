@@ -1,9 +1,0 @@
-{
-  "modules3": [],
-  "resources3": [],
-  "parameters": {},
-  "schemaVersion": "3.1.0",
-  "id": "mtaext-partial-schema-version-test",
-  "parentId": "partial-schema-version-test",
-  "deployTargets": []
-}

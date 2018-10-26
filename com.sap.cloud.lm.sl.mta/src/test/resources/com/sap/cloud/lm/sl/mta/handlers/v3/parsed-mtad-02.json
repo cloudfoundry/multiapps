@@ -172,7 +172,7 @@
     "deploymendDescriptorNormalParameter": "parameter",
     "deploymentDescriptorSensitiveParameter": "sensitive-parameter"
   },
-  "schemaVersion": "3.1.0",
+  "schemaVersion": "3.0.0",
   "id": "com.sap.xs2.samples.javahelloworld",
   "version": "0.1.0"
 }
