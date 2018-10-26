@@ -1,9 +1,8 @@
 package com.sap.cloud.lm.sl.mta.handlers.v1;
 
+import java.io.IOException;
 import java.io.InputStream;
 import java.util.Map;
-
-import org.apache.commons.io.IOUtils;
 
 import com.sap.cloud.lm.sl.common.ParsingException;
 import com.sap.cloud.lm.sl.mta.model.v1.DeploymentDescriptor;
@@ -28,10 +27,11 @@ public class DescriptorParser {
     }
 
     public ExtensionDescriptor parseExtensionDescriptorYaml(InputStream yaml) throws ParsingException {
-        try {
-            return parseExtensionDescriptor(YamlUtil.convertYamlToMap(yaml));
-        } finally {
-            IOUtils.closeQuietly(yaml);
+        // TODO: Java 9 - Remove the second variable (https://blogs.oracle.com/darcy/more-concise-try-with-resources-statements-in-jdk-9).
+        try (InputStream closableYaml = yaml) {
+            return parseExtensionDescriptor(YamlUtil.convertYamlToMap(closableYaml));
+        } catch (IOException e) {
+            throw new IllegalStateException(e.getMessage(), e);
         }
     }
 
@@ -49,10 +49,11 @@ public class DescriptorParser {
     }
 
     public DeploymentDescriptor parseDeploymentDescriptorYaml(InputStream yaml) throws ParsingException {
-        try {
-            return parseDeploymentDescriptor(YamlUtil.convertYamlToMap(yaml));
-        } finally {
-            IOUtils.closeQuietly(yaml);
+        // TODO: Java 9 - Remove the second variable (https://blogs.oracle.com/darcy/more-concise-try-with-resources-statements-in-jdk-9).
+        try (InputStream closableYaml = yaml) {
+            return parseDeploymentDescriptor(YamlUtil.convertYamlToMap(closableYaml));
+        } catch (IOException e) {
+            throw new IllegalStateException(e.getMessage(), e);
         }
     }
 

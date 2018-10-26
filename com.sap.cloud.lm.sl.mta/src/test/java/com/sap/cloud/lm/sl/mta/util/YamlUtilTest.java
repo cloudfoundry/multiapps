@@ -1,6 +1,7 @@
 package com.sap.cloud.lm.sl.mta.util;
 
 import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.Map;
 
@@ -63,14 +64,8 @@ public class YamlUtilTest {
         TestUtil.test(new Callable<Map<String, Object>>() {
             @Override
             public Map<String, Object> call() throws Exception {
-                InputStream inputStream = null;
-                try {
-                    inputStream = getClass().getResourceAsStream(deploymentDescriptorLocation);
-                    Map<String, Object> map;
-                    map = YamlUtil.convertYamlToMap(inputStream);
-                    return map;
-                } finally {
-                    IOUtils.closeQuietly(inputStream);
+                try (InputStream inputStream = getClass().getResourceAsStream(deploymentDescriptorLocation)) {
+                    return YamlUtil.convertYamlToMap(inputStream);
                 }
             }
         }, expectedResult, expectedExceptionMsgs[0], expectedExceptionCauses[0], getClass());
@@ -81,15 +76,9 @@ public class YamlUtilTest {
         TestUtil.test(new Callable<Map<String, Object>>() {
             @Override
             public Map<String, Object> call() throws Exception {
-                InputStream inputStream = null;
-                try {
-                    inputStream = getClass().getResourceAsStream(deploymentDescriptorLocation);
-                    String deploymentDescriptor = IOUtils.toString(inputStream);
-                    Map<String, Object> map;
-                    map = YamlUtil.convertYamlToMap(deploymentDescriptor);
-                    return map;
-                } finally {
-                    IOUtils.closeQuietly(inputStream);
+                try (InputStream inputStream =getClass().getResourceAsStream(deploymentDescriptorLocation)){
+                    String deploymentDescriptor = IOUtils.toString(inputStream, StandardCharsets.UTF_8);
+                    return YamlUtil.convertYamlToMap(deploymentDescriptor);
                 }
             }
         }, expectedResult, expectedExceptionMsgs[1], expectedExceptionCauses[1], getClass());

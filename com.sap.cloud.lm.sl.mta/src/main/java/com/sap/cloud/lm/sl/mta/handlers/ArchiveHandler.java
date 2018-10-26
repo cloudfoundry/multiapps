@@ -2,6 +2,7 @@ package com.sap.cloud.lm.sl.mta.handlers;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
 import java.util.jar.JarFile;
 import java.util.jar.Manifest;
 import java.util.zip.ZipEntry;
@@ -17,43 +18,27 @@ public class ArchiveHandler {
 
     public static final String MTA_DEPLOYMENT_DESCRIPTOR_NAME = "META-INF/mtad.yaml";
 
-    public static Manifest getManifest(InputStream is, long maxManifestSize) throws SLException {
-        InputStream manifestStream = null;
-        try {
-            manifestStream = getInputStream(is, JarFile.MANIFEST_NAME, maxManifestSize);
+    public static Manifest getManifest(InputStream archiveStream, long maxManifestSize) throws SLException {
+        try (InputStream manifestStream = getInputStream(archiveStream, JarFile.MANIFEST_NAME, maxManifestSize)) {
             return new Manifest(manifestStream);
         } catch (IOException e) {
             throw new SLException(e, Messages.ERROR_RETRIEVING_MTA_ARCHIVE_MANIFEST);
-        } finally {
-            IOUtils.closeQuietly(manifestStream);
-            IOUtils.closeQuietly(is);
         }
     }
 
-    public static String getDescriptor(InputStream is, long maxMtaDescriptorSize) throws SLException {
-        InputStream descriptorStream = null;
-        try {
-            descriptorStream = getInputStream(is, MTA_DEPLOYMENT_DESCRIPTOR_NAME, maxMtaDescriptorSize);
-            String descriptorString = IOUtils.toString(descriptorStream);
-            return descriptorString;
+    public static String getDescriptor(InputStream archiveStream, long maxMtaDescriptorSize) throws SLException {
+        try (InputStream descriptorStream = getInputStream(archiveStream, MTA_DEPLOYMENT_DESCRIPTOR_NAME, maxMtaDescriptorSize)) {
+            return IOUtils.toString(descriptorStream, StandardCharsets.UTF_8);
         } catch (IOException e) {
             throw new SLException(e, Messages.ERROR_RETRIEVING_MTA_MODULE_CONTENT);
-        } finally {
-            IOUtils.closeQuietly(descriptorStream);
-            IOUtils.closeQuietly(is);
         }
     }
 
-    public static byte[] getFileContent(InputStream is, String fileName, long maxMtaFileSize) throws SLException {
-        InputStream moduleStream = null;
-        try {
-            moduleStream = getInputStream(is, fileName, maxMtaFileSize);
+    public static byte[] getFileContent(InputStream archiveStream, String fileName, long maxMtaFileSize) throws SLException {
+        try (InputStream moduleStream = getInputStream(archiveStream, fileName, maxMtaFileSize)) {
             return IOUtils.toByteArray(moduleStream);
         } catch (IOException e) {
             throw new SLException(e, Messages.ERROR_RETRIEVING_MTA_MODULE_CONTENT, fileName);
-        } finally {
-            IOUtils.closeQuietly(moduleStream);
-            IOUtils.closeQuietly(is);
         }
     }
 

@@ -6,6 +6,7 @@ import static org.junit.Assert.assertTrue;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
 import java.util.Map;
 import java.util.jar.Attributes;
 import java.util.jar.Manifest;
@@ -59,7 +60,7 @@ public class ArchiveHandlerTest {
             "web/web-server.zip", 2 * 1024 * 1024);
 
         InputStream entryStream = getEntryStream(moduleContent, "readme.txt");
-        String readmeContent = IOUtils.toString(entryStream);
+        String readmeContent = IOUtils.toString(entryStream, StandardCharsets.UTF_8);
         assertEquals("App router code will be packaged in this archive", readmeContent);
     }
 
@@ -88,21 +89,15 @@ public class ArchiveHandlerTest {
 
     @Test
     public void testGetModuleContentFlat() throws Exception {
-        InputStream is = null;
-        try {
-            is = ArchiveHandler.getInputStream(ArchiveHandlerTest.class.getResourceAsStream(SAMPLE_FLAT_MTAR), "web/",
-                MAX_RESOURCE_FILE_SIZE);
+        InputStream mtarStream = ArchiveHandlerTest.class.getResourceAsStream(SAMPLE_FLAT_MTAR);
+        try (InputStream is = ArchiveHandler.getInputStream(mtarStream, "web/", MAX_RESOURCE_FILE_SIZE)) {
             ZipInputStream zis = (ZipInputStream) is;
             for (ZipEntry e; (e = zis.getNextEntry()) != null;) {
                 if (e.getName()
                     .equals("web/readme.txt")) {
-                    String readmeContent = IOUtils.toString(zis);
+                    String readmeContent = IOUtils.toString(zis, StandardCharsets.UTF_8);
                     assertEquals("App router code will be packaged in this archive", readmeContent);
                 }
-            }
-        } finally {
-            if (is != null) {
-                IOUtils.closeQuietly(is);
             }
         }
     }

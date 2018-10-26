@@ -5,6 +5,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.Assert.assertEquals;
 
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 
 import org.apache.commons.io.IOUtils;
@@ -134,8 +135,8 @@ public class TestUtil {
     }
 
     public static String getResourceAsString(String name, Class<?> resourceClass) throws IOException {
-        return IOUtils.toString(resourceClass.getResourceAsStream(name))
-            .replace("\r", "");
+        String resource = IOUtils.toString(resourceClass.getResourceAsStream(name), StandardCharsets.UTF_8);
+        return resource.replace("\r", "");
     }
 
     public static class JsonSerializationOptions {

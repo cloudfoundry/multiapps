@@ -1,12 +1,11 @@
 package com.sap.cloud.lm.sl.mta.handlers.v1;
 
+import java.io.IOException;
 import java.io.InputStream;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-
-import org.apache.commons.io.IOUtils;
 
 import com.sap.cloud.lm.sl.common.ParsingException;
 import com.sap.cloud.lm.sl.common.util.JsonUtil;
@@ -58,10 +57,11 @@ public class ConfigurationParser {
     }
 
     public List<Platform> parsePlatformsJson(InputStream json) throws ParsingException {
-        try {
-            return getPlatforms(JsonUtil.convertJsonToList(json));
-        } finally {
-            IOUtils.closeQuietly(json);
+        // TODO: Java 9 - Remove the second variable (https://blogs.oracle.com/darcy/more-concise-try-with-resources-statements-in-jdk-9).
+        try (InputStream closableJson = json) {
+            return getPlatforms(JsonUtil.convertJsonToList(closableJson));
+        } catch (IOException e) {
+            throw new IllegalStateException(e.getMessage(), e);
         }
     }
 
@@ -98,10 +98,11 @@ public class ConfigurationParser {
     }
 
     public List<Target> parseTargetsJson(InputStream json) throws ParsingException {
-        try {
-            return getDeployTargets(JsonUtil.convertJsonToList(json));
-        } finally {
-            IOUtils.closeQuietly(json);
+        // TODO: Java 9 - Remove the second variable (https://blogs.oracle.com/darcy/more-concise-try-with-resources-statements-in-jdk-9).
+        try (InputStream closableJson = json) {
+            return getDeployTargets(JsonUtil.convertJsonToList(closableJson));
+        } catch (IOException e) {
+            throw new IllegalStateException(e.getMessage(), e);
         }
     }
 
