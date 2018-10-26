@@ -34,7 +34,7 @@ public class MapUtil {
     }
 
     public static <K, V> Map<K, V> mergeSafely(Map<K, V> original, Map<K, V> override) {
-        Map<K, V> result = new TreeMap<K, V>();
+        Map<K, V> result = new TreeMap<>();
         if (original != null) {
             result.putAll(original);
         }
@@ -45,21 +45,21 @@ public class MapUtil {
     }
 
     public static <K, V> Map<K, V> merge(Map<K, V> original, Map<K, V> override) {
-        Map<K, V> result = new TreeMap<K, V>();
+        Map<K, V> result = new TreeMap<>();
         result.putAll(original);
         result.putAll(override);
         return result;
     }
 
     public static <K, V> Map<K, V> asMap(K key, V value) {
-        Map<K, V> result = new TreeMap<K, V>();
+        Map<K, V> result = new TreeMap<>();
         result.put(key, value);
         return result;
     }
 
     // Use this method until adoption of Java 9
     public static <K, V> Map<K, V> of(Pair<K, V>... keysValues) {
-        Map<K, V> result = new TreeMap<K, V>();
+        Map<K, V> result = new TreeMap<>();
         for (Pair<K, V> keyValue : keysValues) {
             result.put(keyValue._1, keyValue._2);
         }
