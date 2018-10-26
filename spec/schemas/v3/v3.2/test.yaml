@@ -46,6 +46,7 @@ modules:
       includes: 
        - name: config
          path: cfg/parameters.json
+   deployed-after: [ scheduler ]
 
  - name: scheduler
    type: javascript.nodejs
