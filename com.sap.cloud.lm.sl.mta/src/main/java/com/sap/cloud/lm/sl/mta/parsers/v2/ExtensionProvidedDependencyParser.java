@@ -4,7 +4,6 @@ import static com.sap.cloud.lm.sl.mta.handlers.v2.Schemas.EXT_PROVIDED_DEPENDENC
 
 import java.util.Map;
 
-import com.sap.cloud.lm.sl.common.ParsingException;
 import com.sap.cloud.lm.sl.mta.model.v2.ExtensionProvidedDependency;
 import com.sap.cloud.lm.sl.mta.model.v2.ExtensionProvidedDependency.Builder;
 import com.sap.cloud.lm.sl.mta.schema.MapElement;

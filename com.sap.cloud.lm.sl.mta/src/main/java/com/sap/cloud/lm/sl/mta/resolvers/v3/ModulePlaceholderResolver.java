@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import com.sap.cloud.lm.sl.common.ContentException;
 import com.sap.cloud.lm.sl.mta.builders.v2.ParametersChainBuilder;
 import com.sap.cloud.lm.sl.mta.model.SystemParameters;
 import com.sap.cloud.lm.sl.mta.model.v3.Module;
@@ -32,7 +31,7 @@ public class ModulePlaceholderResolver extends com.sap.cloud.lm.sl.mta.resolvers
     }
 
     protected List<ProvidedDependency> getResolvedProvidedDependencies3() {
-        List<ProvidedDependency> resolved = new ArrayList<ProvidedDependency>();
+        List<ProvidedDependency> resolved = new ArrayList<>();
         for (ProvidedDependency providedDependency : module3.getProvidedDependencies3()) {
             resolved.add(getProvidedDependencyResolver(providedDependency).resolve());
         }

@@ -32,7 +32,7 @@ public class ExtensionDescriptorMerger extends Visitor {
     public Pair<DeploymentDescriptor, List<String>> merge(Pair<DeploymentDescriptor, List<String>> descriptor) {
         List<String> targets = ListUtil.merge(descriptor._2, extensionDescriptor.getDeployTargets());
         descriptor._1.accept(this);
-        return new Pair<DeploymentDescriptor, List<String>>(descriptor._1, targets);
+        return new Pair<>(descriptor._1, targets);
     }
 
     @Override

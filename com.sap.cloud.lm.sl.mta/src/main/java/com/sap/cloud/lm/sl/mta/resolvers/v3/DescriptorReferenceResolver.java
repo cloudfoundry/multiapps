@@ -31,7 +31,7 @@ public class DescriptorReferenceResolver extends com.sap.cloud.lm.sl.mta.resolve
     }
 
     private List<Resource> getResolvedResources() {
-        List<Resource> resolvedResources = new ArrayList<Resource>();
+        List<Resource> resolvedResources = new ArrayList<>();
         for (Resource resource : getDescriptor().getResources3()) {
             resolvedResources.add(createResourceResolver(resource).resolve());
         }

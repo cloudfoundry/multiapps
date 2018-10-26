@@ -71,7 +71,7 @@ public class PropertiesChainBuilder extends com.sap.cloud.lm.sl.mta.builders.v1.
 
     protected static List<Map<String, Object>> getPropertiesList(List<RequiredDependency> dependencies, Module module,
         TargetModuleType targetModuleType, PlatformModuleType platformModuleType) {
-        List<PropertiesContainer> containers = new ArrayList<PropertiesContainer>();
+        List<PropertiesContainer> containers = new ArrayList<>();
         containers.addAll(dependencies);
         ListUtil.addNonNull(containers, module);
         ListUtil.addNonNull(containers, targetModuleType);

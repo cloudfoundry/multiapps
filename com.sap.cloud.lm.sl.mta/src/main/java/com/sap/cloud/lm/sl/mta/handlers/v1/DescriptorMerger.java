@@ -22,8 +22,7 @@ public class DescriptorMerger {
 
     public Pair<DeploymentDescriptor, List<String>> merge(DeploymentDescriptor deploymentDescriptor,
         List<ExtensionDescriptor> extensionDescriptorsChain) {
-        Pair<DeploymentDescriptor, List<String>> result = new Pair<DeploymentDescriptor, List<String>>(deploymentDescriptor,
-            new ArrayList<String>());
+        Pair<DeploymentDescriptor, List<String>> result = new Pair<>(deploymentDescriptor, new ArrayList<>());
         for (ExtensionDescriptor extension : extensionDescriptorsChain) {
             result = getExtensionDescriptorMerger(extension).merge(result);
         }

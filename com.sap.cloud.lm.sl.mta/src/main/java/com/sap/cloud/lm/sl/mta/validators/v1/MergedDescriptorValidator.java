@@ -18,7 +18,7 @@ import com.sap.cloud.lm.sl.mta.validators.DescriptorValidationRules;
 
 public class MergedDescriptorValidator extends Visitor {
 
-    protected final Set<String> emptyProperties = new TreeSet<String>();
+    protected final Set<String> emptyProperties = new TreeSet<>();
 
     protected final Pair<DeploymentDescriptor, List<String>> mergedDescriptor;
     protected final DescriptorHandler handler;

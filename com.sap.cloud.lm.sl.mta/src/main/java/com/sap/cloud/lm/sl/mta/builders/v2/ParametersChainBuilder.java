@@ -88,7 +88,7 @@ public class ParametersChainBuilder extends PropertiesChainBuilder {
 
     protected static List<Map<String, Object>> getParametersList(List<RequiredDependency> dependencies, Module module,
         TargetModuleType targetModuleType, PlatformModuleType platformModuleType, DeploymentDescriptor descriptor) {
-        List<ParametersContainer> containers = new ArrayList<ParametersContainer>();
+        List<ParametersContainer> containers = new ArrayList<>();
         containers.addAll(dependencies);
         ListUtil.addNonNull(containers, module);
         ListUtil.addNonNull(containers, targetModuleType);

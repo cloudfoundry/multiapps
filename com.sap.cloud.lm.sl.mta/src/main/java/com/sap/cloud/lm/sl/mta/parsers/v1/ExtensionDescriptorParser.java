@@ -30,9 +30,9 @@ public class ExtensionDescriptorParser extends ModelParser<ExtensionDescriptor> 
     public static final String PROPERTIES = "properties";
     public static final String SCHEMA_VERSION = "_schema-version";
 
-    protected final Set<String> usedModuleNames = new HashSet<String>();
-    protected final Set<String> usedProvidedDependencyNames = new HashSet<String>();
-    protected final Set<String> usedResourceNames = new HashSet<String>();
+    protected final Set<String> usedModuleNames = new HashSet<>();
+    protected final Set<String> usedProvidedDependencyNames = new HashSet<>();
+    protected final Set<String> usedResourceNames = new HashSet<>();
 
     public ExtensionDescriptorParser(Map<String, Object> source) {
         this(MTAEXT, source);

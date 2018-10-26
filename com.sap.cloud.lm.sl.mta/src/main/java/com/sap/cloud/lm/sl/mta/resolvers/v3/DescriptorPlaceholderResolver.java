@@ -32,7 +32,7 @@ public class DescriptorPlaceholderResolver extends com.sap.cloud.lm.sl.mta.resol
 
     @Override
     protected List<? extends Module> getResolvedModules() {
-        List<Module> result = new ArrayList<Module>();
+        List<Module> result = new ArrayList<>();
         for (Module module : deploymentDescriptor.getModules3()) {
             result.add(getModuleResolver(module).resolve());
         }

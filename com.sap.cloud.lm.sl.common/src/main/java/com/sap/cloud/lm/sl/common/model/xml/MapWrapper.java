@@ -19,7 +19,7 @@ import javax.xml.bind.annotation.XmlType;
 public class MapWrapper extends Wrapper {
 
     @XmlElement(name = "entry")
-    public List<Entry> map = new ArrayList<Entry>();
+    public List<Entry> map = new ArrayList<>();
 
     public MapWrapper() {
         // Required by JAXB
@@ -28,7 +28,6 @@ public class MapWrapper extends Wrapper {
     @SuppressWarnings("unchecked")
     public MapWrapper(Object o) {
         Map<String, Object> map = o == null ? Collections.<String, Object> emptyMap() : (Map<String, Object>) o;
-
         for (String key : map.keySet()) {
             this.map.add(new Entry(key, wrap(map.get(key))));
         }
@@ -36,12 +35,10 @@ public class MapWrapper extends Wrapper {
 
     @Override
     public Map<String, Object> unwrap() {
-        Map<String, Object> result = new TreeMap<String, Object>();
-
+        Map<String, Object> result = new TreeMap<>();
         for (Entry entry : map) {
             result.put(entry.getKey(), unwrap(entry.getValue()));
         }
-
         return result;
     }
 

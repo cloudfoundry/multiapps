@@ -22,8 +22,8 @@ public class ConfigurationParser {
     protected final SchemaValidator platformTypesValidator;
     protected final SchemaValidator platformValidator;
 
-    protected final Set<String> usedPlatformNames = new HashSet<String>();
-    protected final Set<String> usedPlatformTypeNames = new HashSet<String>();
+    protected final Set<String> usedPlatformNames = new HashSet<>();
+    protected final Set<String> usedPlatformTypeNames = new HashSet<>();
 
     public ConfigurationParser() {
         this(new SchemaValidator(Schemas.PLATFORM_TYPES), new SchemaValidator(Schemas.PLATFORMS), new SchemaValidator(Schemas.PLATFORM));

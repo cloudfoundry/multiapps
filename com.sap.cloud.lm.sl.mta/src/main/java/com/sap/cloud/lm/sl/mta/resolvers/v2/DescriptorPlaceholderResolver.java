@@ -62,7 +62,7 @@ public class DescriptorPlaceholderResolver extends PlaceholderResolver<Deploymen
     }
 
     protected List<Resource> getResolvedResources() {
-        List<Resource> result = new ArrayList<Resource>();
+        List<Resource> result = new ArrayList<>();
         for (Resource resource : deploymentDescriptor.getResources2()) {
             result.add(getResourceResolver(resource).resolve());
         }
@@ -75,7 +75,7 @@ public class DescriptorPlaceholderResolver extends PlaceholderResolver<Deploymen
     }
 
     protected List<? extends Module> getResolvedModules() {
-        List<Module> result = new ArrayList<Module>();
+        List<Module> result = new ArrayList<>();
         for (Module module : deploymentDescriptor.getModules2()) {
             result.add(getModuleResolver(module).resolve());
         }

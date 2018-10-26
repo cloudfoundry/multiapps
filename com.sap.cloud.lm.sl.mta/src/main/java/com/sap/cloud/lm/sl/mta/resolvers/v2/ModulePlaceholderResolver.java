@@ -60,7 +60,7 @@ public class ModulePlaceholderResolver extends PlaceholderResolver<Module> {
     }
 
     protected List<ProvidedDependency> getResolvedProvidedDependencies() {
-        List<ProvidedDependency> resolved = new ArrayList<ProvidedDependency>();
+        List<ProvidedDependency> resolved = new ArrayList<>();
         for (ProvidedDependency providedDependency : module.getProvidedDependencies2()) {
             resolved.add(getProvidedDependencyResolver(providedDependency).resolve());
         }
@@ -73,7 +73,7 @@ public class ModulePlaceholderResolver extends PlaceholderResolver<Module> {
     }
 
     protected List<RequiredDependency> getResolvedRequiredDependencies() {
-        List<RequiredDependency> resolved = new ArrayList<RequiredDependency>();
+        List<RequiredDependency> resolved = new ArrayList<>();
         for (RequiredDependency requiredDependency : module.getRequiredDependencies2()) {
             resolved.add(getRequiredDependencyResolver(requiredDependency).resolve());
         }

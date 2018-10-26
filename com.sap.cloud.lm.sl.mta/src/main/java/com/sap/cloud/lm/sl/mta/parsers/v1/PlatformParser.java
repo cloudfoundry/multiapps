@@ -27,8 +27,8 @@ public class PlatformParser extends ModelParser<Platform> {
     public static final String PROPERTIES = "properties";
     public static final String RESOURCE_TYPES = "resource-types";
 
-    protected final Set<String> usedModuleTypeNames = new HashSet<String>();
-    protected final Set<String> usedResourceTypeNames = new HashSet<String>();
+    protected final Set<String> usedModuleTypeNames = new HashSet<>();
+    protected final Set<String> usedResourceTypeNames = new HashSet<>();
 
     public PlatformParser(Map<String, Object> source) {
         this(PLATFORM_TYPE, source);

@@ -58,7 +58,7 @@ public abstract class PlaceholderResolver<T> extends PatternResolver<T> {
     }
 
     protected Map<String, Object> getFullSystemParameters(Map<String, Object> parametersToAdd) {
-        Map<String, Object> fullSystemParameters = new HashMap<String, Object>(systemParameters.getGeneralParameters());
+        Map<String, Object> fullSystemParameters = new HashMap<>(systemParameters.getGeneralParameters());
         if (parametersToAdd != null && !parametersToAdd.isEmpty()) {
             fullSystemParameters.putAll(parametersToAdd);
         }

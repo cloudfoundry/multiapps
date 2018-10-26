@@ -30,7 +30,7 @@ public class ListUtil {
     }
 
     public static <T> List<T> merge(List<T> original, List<T> override) {
-        List<T> result = new ArrayList<T>();
+        List<T> result = new ArrayList<>();
         result.addAll(original);
         result.addAll(override);
         return result;
@@ -50,7 +50,7 @@ public class ListUtil {
     }
 
     public static <T> List<T> removeDuplicates(List<T> list) {
-        return new ArrayList<T>(new LinkedHashSet<T>(list));
+        return new ArrayList<>(new LinkedHashSet<>(list));
     }
 
 }

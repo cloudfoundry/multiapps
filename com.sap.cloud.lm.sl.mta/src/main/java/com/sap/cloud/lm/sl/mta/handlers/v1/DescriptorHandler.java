@@ -136,11 +136,11 @@ public class DescriptorHandler {
     public Pair<Resource, ProvidedDependency> findDependency(DeploymentDescriptor descriptor, String dependencyName) {
         Resource resource = findResource(descriptor, dependencyName);
         if (resource != null) {
-            return new Pair<Resource, ProvidedDependency>(resource, null);
+            return new Pair<>(resource, null);
         }
         ProvidedDependency providedDependency = findProvidedDependency(descriptor, dependencyName);
         if (providedDependency != null) {
-            return new Pair<Resource, ProvidedDependency>(null, providedDependency);
+            return new Pair<>(null, providedDependency);
         }
         return null;
     }
@@ -244,7 +244,7 @@ public class DescriptorHandler {
     }
 
     protected List<Module> getModules(List<Pair<Module, Set<String>>> pairs) {
-        List<Module> modules = new ArrayList<Module>();
+        List<Module> modules = new ArrayList<>();
         for (Pair<Module, Set<String>> pair : pairs) {
             modules.add(pair._1);
         }
