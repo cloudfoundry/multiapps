@@ -138,6 +138,12 @@ mapping:
                      parameters-metadata: *parameters-metadata
                      # THE 'includes' ELEMENT IS ONLY RELEVANT FOR DEVELOPMENT DESCRIPTORS (PRIO TO BUILD), NOT FOR DEPLOYMENT DESCRIPTORS!  
                      includes: *includes
+            # A list containing the names of the modules that must be deployed prior to this one.
+            deployed-after:
+               type: seq
+               sequence:
+                 - type: str
+
    # Resource declarations. Resources can be anything required to run the application which is not provided by the application itself.
    resources:
       type: seq
