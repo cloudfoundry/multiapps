@@ -27,8 +27,8 @@ public class TargetParser extends ModelParser<Target> {
     public static final String MODULE_TYPES = "module-types";
     public static final String RESOURCE_TYPES = "resource-types";
 
-    protected final Set<String> usedModuleTypeNames = new HashSet<String>();
-    protected final Set<String> usedResourceTypeNames = new HashSet<String>();
+    protected final Set<String> usedModuleTypeNames = new HashSet<>();
+    protected final Set<String> usedResourceTypeNames = new HashSet<>();
 
     public TargetParser(Map<String, Object> source) {
         this(PLATFORM, source);

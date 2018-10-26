@@ -36,7 +36,7 @@ public class PropertiesUtil {
      * @return A list of properties
      */
     public static List<Map<String, Object>> getPropertiesList(Iterable<PropertiesContainer> providers) {
-        List<Map<String, Object>> result = new ArrayList<Map<String, Object>>();
+        List<Map<String, Object>> result = new ArrayList<>();
         for (PropertiesContainer provider : providers) {
             if (provider != null && provider.getProperties() != null) {
                 result.add(provider.getProperties());
@@ -64,7 +64,7 @@ public class PropertiesUtil {
      * @return A list of parameters
      */
     public static List<Map<String, Object>> getParametersList(Iterable<ParametersContainer> providers) {
-        List<Map<String, Object>> result = new ArrayList<Map<String, Object>>();
+        List<Map<String, Object>> result = new ArrayList<>();
         for (ParametersContainer provider : providers) {
             if (provider != null && provider.getParameters() != null) {
                 result.add(provider.getParameters());
@@ -81,7 +81,7 @@ public class PropertiesUtil {
      * @return A single properties map
      */
     public static Map<String, Object> mergeProperties(List<Map<String, Object>> propertiesList) {
-        Map<String, Object> result = new TreeMap<String, Object>();
+        Map<String, Object> result = new TreeMap<>();
         // Add properties from the original list to the result in reverse order:
         for (int i = propertiesList.size() - 1; i >= 0; i--) {
             Map<String, Object> properties = propertiesList.get(i);
@@ -124,7 +124,7 @@ public class PropertiesUtil {
 
     @SuppressWarnings("unchecked")
     public static <T> List<T> getAll(List<Map<String, Object>> propertiesList, String single, String plural) {
-        List<T> result = new ArrayList<T>();
+        List<T> result = new ArrayList<>();
         T value = (T) getPropertyValue(propertiesList, single, null);
         List<T> values = (List<T>) getPropertyValue(propertiesList, plural, null);
         if (value != null) {
@@ -194,7 +194,7 @@ public class PropertiesUtil {
         if (override == null || original == null) {
             return true;
         }
-        return (!isMap(original) && !isMap(override));
+        return !isMap(original) && !isMap(override);
     }
 
     private static boolean isMap(Object o) {

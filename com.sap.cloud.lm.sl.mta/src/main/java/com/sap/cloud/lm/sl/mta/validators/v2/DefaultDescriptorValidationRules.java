@@ -10,7 +10,7 @@ import com.sap.cloud.lm.sl.mta.model.ParametersContainer;
 
 public class DefaultDescriptorValidationRules extends com.sap.cloud.lm.sl.mta.validators.v1.DefaultDescriptorValidationRules {
 
-    protected final Set<String> emptyParameters = new TreeSet<String>();
+    protected final Set<String> emptyParameters = new TreeSet<>();
 
     @Override
     public void validateParameters(ParametersContainer parametersContainer, ElementContext elementContext) throws ContentException {

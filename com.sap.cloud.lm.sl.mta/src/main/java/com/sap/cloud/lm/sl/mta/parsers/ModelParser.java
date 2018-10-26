@@ -20,8 +20,8 @@ public abstract class ModelParser<T> implements Parser<T> {
 
     protected String processedObjectName;
     protected Map<String, Object> source;
-    protected Map<String, Object> uniqueElementsCache = new HashMap<String, Object>();
-    protected Set<? extends Object> usedValues = new HashSet<Object>();
+    protected Map<String, Object> uniqueElementsCache = new HashMap<>();
+    protected Set<? extends Object> usedValues = new HashSet<>();
     protected MapElement schema;
 
     public ModelParser(String processedObjectName, MapElement schema, Map<String, Object> source) {

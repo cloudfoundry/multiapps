@@ -19,7 +19,7 @@ public abstract class ListParser<T> implements Parser<List<T>> {
 
     @Override
     public List<T> parse() throws ParsingException {
-        List<T> result = new ArrayList<T>();
+        List<T> result = new ArrayList<>();
         for (Map<String, Object> item : source) {
             result.add(parseItem(item));
         }

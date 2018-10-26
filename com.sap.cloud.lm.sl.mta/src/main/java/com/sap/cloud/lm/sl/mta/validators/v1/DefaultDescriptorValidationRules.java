@@ -15,7 +15,7 @@ import com.sap.cloud.lm.sl.mta.validators.DescriptorValidationRules;
 
 public class DefaultDescriptorValidationRules implements DescriptorValidationRules {
 
-    protected final Set<String> emptyProperties = new TreeSet<String>();
+    protected final Set<String> emptyProperties = new TreeSet<>();
 
     @Override
     public void validateProperties(PropertiesContainer propertiesContainer, ElementContext elementContext) throws ContentException {

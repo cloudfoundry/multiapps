@@ -22,7 +22,7 @@ public class ModuleParser extends com.sap.cloud.lm.sl.mta.parsers.v1.ModuleParse
     public static final String PATH = "path";
     public static final String PARAMETERS = "parameters";
 
-    protected final Set<String> usedRequiredDependencyNames = new HashSet<String>();
+    protected final Set<String> usedRequiredDependencyNames = new HashSet<>();
 
     public ModuleParser(Map<String, Object> source) {
         super(MODULE, source);
@@ -85,7 +85,7 @@ public class ModuleParser extends com.sap.cloud.lm.sl.mta.parsers.v1.ModuleParse
     }
 
     protected ProvidedDependency getCurrentModuleAsProvidedDependency() {
-        Map<String, Object> currentModule = new TreeMap<String, Object>();
+        Map<String, Object> currentModule = new TreeMap<>();
         currentModule.put(NAME, getName());
         return (ProvidedDependency) getProvidedDependencyParser(currentModule).setUsedValues(usedProvidedDependencyNames)
             .parse();

@@ -29,7 +29,7 @@ public class DescriptorReferenceResolver implements Resolver<DeploymentDescripto
     }
 
     protected List<Module> getResolvedModules() {
-        List<Module> resolvedModules = new ArrayList<Module>();
+        List<Module> resolvedModules = new ArrayList<>();
         for (Module module : descriptor.getModules2()) {
             resolvedModules.add(createModuleResolver(module).resolve());
         }

@@ -30,8 +30,8 @@ public class DeploymentDescriptorParser extends ModelParser<DeploymentDescriptor
     public static final String PROPERTIES = "properties";
     public static final String SCHEMA_VERSION = "_schema-version";
 
-    protected final Set<String> usedModuleNames = new HashSet<String>();
-    protected final Set<String> usedDependencyNames = new HashSet<String>();
+    protected final Set<String> usedModuleNames = new HashSet<>();
+    protected final Set<String> usedDependencyNames = new HashSet<>();
 
     public DeploymentDescriptorParser(Map<String, Object> source) {
         this(MTAD, source);

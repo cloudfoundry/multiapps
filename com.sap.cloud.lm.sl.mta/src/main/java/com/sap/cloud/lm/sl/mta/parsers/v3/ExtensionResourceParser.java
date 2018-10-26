@@ -18,7 +18,7 @@ public class ExtensionResourceParser extends com.sap.cloud.lm.sl.mta.parsers.v2.
 
     public static final String ACTIVE = "active";
     public static final String REQUIRES = "requires";
-    protected final Set<String> usedRequiredDependencyNames = new HashSet<String>();
+    protected final Set<String> usedRequiredDependencyNames = new HashSet<>();
 
     public ExtensionResourceParser(Map<String, Object> source) {
         super(EXT_RESOURCE, source);

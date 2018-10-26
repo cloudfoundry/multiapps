@@ -16,7 +16,7 @@ public class ListWrapper extends Wrapper {
 
     @XmlElements({ @XmlElement(name = "value", type = String.class), @XmlElement(name = "list", type = ListWrapper.class),
         @XmlElement(name = "map", type = MapWrapper.class), })
-    private List<Object> list = new ArrayList<Object>();
+    private List<Object> list = new ArrayList<>();
 
     public ListWrapper() {
         // Required by JAXB
@@ -31,12 +31,10 @@ public class ListWrapper extends Wrapper {
 
     @Override
     public List<Object> unwrap() {
-        List<Object> result = new ArrayList<Object>();
-
+        List<Object> result = new ArrayList<>();
         for (Object element : list) {
             result.add(unwrap(element));
         }
-
         return result;
     }
 

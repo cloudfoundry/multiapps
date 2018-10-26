@@ -21,7 +21,7 @@ public class ExtensionModuleParser extends com.sap.cloud.lm.sl.mta.parsers.v1.Ex
     public static final String PARAMETERS = "parameters";
     public static final String REQUIRES = "requires";
 
-    protected Set<String> usedRequiredDependencyNames = new HashSet<String>();
+    protected Set<String> usedRequiredDependencyNames = new HashSet<>();
 
     public ExtensionModuleParser(Map<String, Object> source) {
         super(EXT_MODULE, source);

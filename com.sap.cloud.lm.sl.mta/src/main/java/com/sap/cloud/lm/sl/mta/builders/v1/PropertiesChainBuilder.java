@@ -117,12 +117,12 @@ public class PropertiesChainBuilder {
     }
 
     protected Pair<List<Resource>, List<ProvidedDependency>> findDependencies(Module module) {
-        List<ProvidedDependency> providedDependencies = new ArrayList<ProvidedDependency>();
-        List<Resource> resources = new ArrayList<Resource>();
+        List<ProvidedDependency> providedDependencies = new ArrayList<>();
+        List<Resource> resources = new ArrayList<>();
         for (String dependencyName : module.getRequiredDependencies1()) {
             findDependency(dependencyName, providedDependencies, resources);
         }
-        return new Pair<List<Resource>, List<ProvidedDependency>>(resources, providedDependencies);
+        return new Pair<>(resources, providedDependencies);
     }
 
     protected void findDependency(String dependencyName, List<ProvidedDependency> providedDependencies, List<Resource> resources) {
@@ -150,7 +150,7 @@ public class PropertiesChainBuilder {
 
     protected static List<Map<String, Object>> getPropertiesList(List<Resource> resources, List<ProvidedDependency> providedDependencies,
         Module module, TargetModuleType targetModuleType, PlatformModuleType platformModuleType) {
-        List<PropertiesContainer> containers = new ArrayList<PropertiesContainer>();
+        List<PropertiesContainer> containers = new ArrayList<>();
         for (Resource resource : resources) {
             containers.add(resource);
         }
