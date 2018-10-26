@@ -20,13 +20,13 @@ public class YamlUtilTest {
     protected String deploymentDescriptorLocation;
     protected static String expectedResult;
     protected static String expectedExceptionMsgFromParsingFromInputStream = "E:Error while parsing YAML stream";
-    protected static String expectedExceptionMsgFromParsingFromString = "E:null; could not determine a constructor for the tag tag:yaml.org,2002:javax.script.ScriptEngineManager";
+    protected static String expectedExceptionMsgFromParsingFromString = "E:could not determine a constructor for the tag tag:yaml.org,2002:javax.script.ScriptEngineManager";
 
     protected static String expectedExceptionCauseFromParsingFromInputStream = "E:could not determine a constructor for the tag tag:yaml.org,2002:javax.script.ScriptEngineManager\n"
-        + " in \"<reader>\", line 10, column 17:\n" + "         instances: !!javax.script.ScriptEngineManager [\n"
+        + " in 'reader', line 10, column 17:\n" + "         instances: !!javax.script.ScriptEngineManager [\n"
         + "                    ^";
     protected static String expectedExceptionCauseFromParsingFromString = "E:could not determine a constructor for the tag tag:yaml.org,2002:javax.script.ScriptEngineManager\n"
-        + " in \"<string>\", line 10, column 17:\n" + "         instances: !!javax.script.ScriptEngineManager [\n"
+        + " in 'string', line 10, column 17:\n" + "         instances: !!javax.script.ScriptEngineManager [\n"
         + "                    ^";
 
     protected static String[] expectedExceptionMsgs = new String[] { expectedExceptionMsgFromParsingFromInputStream,
@@ -76,7 +76,7 @@ public class YamlUtilTest {
         TestUtil.test(new Callable<Map<String, Object>>() {
             @Override
             public Map<String, Object> call() throws Exception {
-                try (InputStream inputStream =getClass().getResourceAsStream(deploymentDescriptorLocation)){
+                try (InputStream inputStream = getClass().getResourceAsStream(deploymentDescriptorLocation)) {
                     String deploymentDescriptor = IOUtils.toString(inputStream, StandardCharsets.UTF_8);
                     return YamlUtil.convertYamlToMap(deploymentDescriptor);
                 }
