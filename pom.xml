@@ -19,7 +19,7 @@
         <sonar.core.codeCoveragePlugin>jacoco</sonar.core.codeCoveragePlugin>
         <sonar.dynamicAnalysis>reuseReports</sonar.dynamicAnalysis>
         <sonar.jacoco.reportPath>target/jacoco.exec</sonar.jacoco.reportPath>
-        <commons-lang3.version>3.3</commons-lang3.version>
+        <commons-lang3.version>3.8.1</commons-lang3.version>
         <liquibase.version>3.6.1</liquibase.version>
         <spring.version>4.3.19.RELEASE</spring.version>
         <jax-rs.version>2.0.1</jax-rs.version>
