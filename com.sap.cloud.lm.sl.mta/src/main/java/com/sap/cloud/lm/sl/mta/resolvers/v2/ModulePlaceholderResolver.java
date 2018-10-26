@@ -51,15 +51,15 @@ public class ModulePlaceholderResolver extends PlaceholderResolver<Module> {
         return mergedParameters;
     }
 
-    protected Map<String, Object> getResolvedProperties(Map<String, Object> mergedParameters) throws ContentException {
+    protected Map<String, Object> getResolvedProperties(Map<String, Object> mergedParameters) {
         return new PropertiesPlaceholderResolver(propertiesResolverBuilder).resolve(module.getProperties(), mergedParameters, prefix);
     }
 
-    protected Map<String, Object> getResolvedParameters(Map<String, Object> mergedParameters) throws ContentException {
+    protected Map<String, Object> getResolvedParameters(Map<String, Object> mergedParameters) {
         return new PropertiesPlaceholderResolver(parametersResolverBuilder).resolve(module.getParameters(), mergedParameters, prefix);
     }
 
-    protected List<ProvidedDependency> getResolvedProvidedDependencies() throws ContentException {
+    protected List<ProvidedDependency> getResolvedProvidedDependencies() {
         List<ProvidedDependency> resolved = new ArrayList<ProvidedDependency>();
         for (ProvidedDependency providedDependency : module.getProvidedDependencies2()) {
             resolved.add(getProvidedDependencyResolver(providedDependency).resolve());
@@ -72,7 +72,7 @@ public class ModulePlaceholderResolver extends PlaceholderResolver<Module> {
             propertiesResolverBuilder);
     }
 
-    protected List<RequiredDependency> getResolvedRequiredDependencies() throws ContentException {
+    protected List<RequiredDependency> getResolvedRequiredDependencies() {
         List<RequiredDependency> resolved = new ArrayList<RequiredDependency>();
         for (RequiredDependency requiredDependency : module.getRequiredDependencies2()) {
             resolved.add(getRequiredDependencyResolver(requiredDependency).resolve());

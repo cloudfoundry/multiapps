@@ -41,12 +41,12 @@ public class ResourcePlaceholderResolver extends PlaceholderResolver<Resource> {
         return resource;
     }
 
-    protected Map<String, Object> getResolvedProperties(Map<String, Object> mergedParametersChain) throws ContentException {
+    protected Map<String, Object> getResolvedProperties(Map<String, Object> mergedParametersChain) {
         return new PropertiesPlaceholderResolver(propertiesResolverBuilder).resolve(resource.getProperties(), mergedParametersChain,
             prefix);
     }
 
-    protected Map<String, Object> getResolvedParameters(Map<String, Object> mergedParametersChain) throws ContentException {
+    protected Map<String, Object> getResolvedParameters(Map<String, Object> mergedParametersChain) {
         return new PropertiesPlaceholderResolver(parametersResolverBuilder).resolve(resource.getParameters(), mergedParametersChain,
             prefix);
     }

@@ -35,11 +35,11 @@ public class ModuleTypeParser extends ModelParser<PlatformModuleType> {
         return builder.build();
     }
 
-    protected String getName() throws ParsingException {
+    protected String getName() {
         return getStringElement(NAME);
     }
 
-    protected String getDeployer() throws ParsingException {
+    protected String getDeployer() {
         return getStringElement(DEPLOYER);
     }
 

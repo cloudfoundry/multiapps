@@ -26,6 +26,6 @@ public abstract class ListParser<T> implements Parser<List<T>> {
         return Collections.unmodifiableList(result);
     }
 
-    protected abstract T parseItem(Map<String, Object> map) throws ParsingException;
+    protected abstract T parseItem(Map<String, Object> map);
 
 }

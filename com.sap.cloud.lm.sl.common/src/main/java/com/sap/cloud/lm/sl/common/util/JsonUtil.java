@@ -57,8 +57,7 @@ public class JsonUtil {
         return fromJson(json, type, new ArrayList<T>(), Messages.CANNOT_CONVERT_JSON_STRING_TO_LIST);
     }
 
-    private static <T> T fromJson(String json, Type type, T defaultValue, String errorMessage)
-        throws ParsingException {
+    private static <T> T fromJson(String json, Type type, T defaultValue, String errorMessage) {
         if (json == null || json.isEmpty()) {
             return defaultValue;
         }
@@ -71,8 +70,7 @@ public class JsonUtil {
         }
     }
 
-    private static <T> T fromJson(InputStream json, Type type, T defaultValue, String errorMessage)
-        throws ParsingException {
+    private static <T> T fromJson(InputStream json, Type type, T defaultValue, String errorMessage) {
         if (json == null) {
             return defaultValue;
         }

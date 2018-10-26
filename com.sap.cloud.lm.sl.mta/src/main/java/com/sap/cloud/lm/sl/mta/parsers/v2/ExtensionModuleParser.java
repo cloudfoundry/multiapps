@@ -46,17 +46,17 @@ public class ExtensionModuleParser extends com.sap.cloud.lm.sl.mta.parsers.v1.Ex
         return getMapElement(PARAMETERS);
     }
 
-    protected List<ExtensionRequiredDependency> getExtensionRequiredDependencies2() throws ParsingException {
+    protected List<ExtensionRequiredDependency> getExtensionRequiredDependencies2() {
         return getListElement(REQUIRES, new ListParser<ExtensionRequiredDependency>() {
             @Override
-            protected ExtensionRequiredDependency parseItem(Map<String, Object> map) throws ParsingException {
+            protected ExtensionRequiredDependency parseItem(Map<String, Object> map) {
                 return getRequiredDependencyParser(map).setUsedValues(usedRequiredDependencyNames)
                     .parse();
             }
         });
     }
 
-    protected List<ExtensionProvidedDependency> getExtensionProvidedDependencies2() throws ParsingException {
+    protected List<ExtensionProvidedDependency> getExtensionProvidedDependencies2() {
         return ListUtil.cast(getExtensionProvidedDependencies1());
     }
 

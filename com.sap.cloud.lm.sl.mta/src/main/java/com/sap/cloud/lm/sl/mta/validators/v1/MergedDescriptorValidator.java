@@ -58,7 +58,7 @@ public class MergedDescriptorValidator extends Visitor {
 
     }
 
-    protected void validateTarget(String target) throws ContentException {
+    protected void validateTarget(String target) {
         if (!targetIsListed(target)) {
             throw new ContentException(Messages.DEPLOY_TARGET_NOT_LISTED, target);
         }

@@ -46,12 +46,12 @@ public class RequiredDependencyPlaceholderResolver extends PlaceholderResolver<R
         return requiredDependency;
     }
 
-    protected Map<String, Object> getResolvedParameters(Map<String, Object> mergedParameters) throws ContentException {
+    protected Map<String, Object> getResolvedParameters(Map<String, Object> mergedParameters) {
         return new PropertiesPlaceholderResolver(propertiesResolverBuilder).resolve(requiredDependency.getParameters(), mergedParameters,
             prefix);
     }
 
-    protected Map<String, Object> getResolvedProperties(Map<String, Object> mergedParameters) throws ContentException {
+    protected Map<String, Object> getResolvedProperties(Map<String, Object> mergedParameters) {
         return new PropertiesPlaceholderResolver(parametersResolverBuilder).resolve(requiredDependency.getProperties(), mergedParameters,
             prefix);
     }

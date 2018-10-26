@@ -59,11 +59,11 @@ public class ResourceReferenceResolver implements Resolver<Resource> {
             requiredDepencenciesPropertiesResolverBuilder);
     }
 
-    private Map<String, Object> getResolvedProperties() throws ContentException {
+    private Map<String, Object> getResolvedProperties() {
         return createResourcePropertiesReferenceResolver(resource.getProperties()).resolve();
     }
 
-    private Map<String, Object> getResolvedParameters() throws ContentException {
+    private Map<String, Object> getResolvedParameters() {
         return createResourcePropertiesReferenceResolver(resource.getParameters()).resolve();
     }
 

@@ -34,11 +34,11 @@ public class ExtensionModuleParser extends com.sap.cloud.lm.sl.mta.parsers.v2.Ex
         return builder.build();
     }
 
-    protected List<ExtensionRequiredDependency> getExtensionRequiredDependencies3() throws ParsingException {
+    protected List<ExtensionRequiredDependency> getExtensionRequiredDependencies3() {
         return ListUtil.cast(getExtensionRequiredDependencies2());
     }
 
-    protected List<ExtensionProvidedDependency> getExtensionProvidedDependencies3() throws ParsingException {
+    protected List<ExtensionProvidedDependency> getExtensionProvidedDependencies3() {
         return ListUtil.cast(getExtensionProvidedDependencies2());
     }
 

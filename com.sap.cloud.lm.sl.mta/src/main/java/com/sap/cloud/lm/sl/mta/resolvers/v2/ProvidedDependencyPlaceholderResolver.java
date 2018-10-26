@@ -35,7 +35,7 @@ public class ProvidedDependencyPlaceholderResolver extends PlaceholderResolver<P
         return providedDependency;
     }
 
-    protected Map<String, Object> getResolvedProperties() throws ContentException {
+    protected Map<String, Object> getResolvedProperties() {
         List<Map<String, Object>> parametersChain = getParametersChain();
         return resolve(providedDependency.getProperties(), PropertiesUtil.mergeProperties(parametersChain));
     }
@@ -50,8 +50,7 @@ public class ProvidedDependencyPlaceholderResolver extends PlaceholderResolver<P
     }
 
     @Override
-    protected Map<String, Object> resolve(Map<String, Object> properties, final Map<String, Object> propertyValues, Boolean isStrict)
-        throws ContentException {
+    protected Map<String, Object> resolve(Map<String, Object> properties, final Map<String, Object> propertyValues, Boolean isStrict) {
         return new PropertiesPlaceholderResolver(this.propertiesResolverBuilder).resolve(properties, propertyValues, prefix);
     }
 

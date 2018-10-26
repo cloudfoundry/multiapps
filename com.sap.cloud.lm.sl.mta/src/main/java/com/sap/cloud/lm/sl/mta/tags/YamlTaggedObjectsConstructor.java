@@ -8,7 +8,6 @@ public class YamlTaggedObjectsConstructor extends SafeConstructor {
     private static final String SENSITIVE_TAG = "!sensitive";
 
     public YamlTaggedObjectsConstructor() {
-        super();
         this.yamlConstructors.put(new Tag(SENSITIVE_TAG), new SecureConstruct());
     }
 }

@@ -53,15 +53,15 @@ public class ModuleParser extends ModelParser<Module> {
         return builder.build();
     }
 
-    protected String getName() throws ParsingException {
+    protected String getName() {
         return getStringElement(NAME);
     }
 
-    protected String getType() throws ParsingException {
+    protected String getType() {
         return getStringElement(TYPE);
     }
 
-    protected String getDescription() throws ParsingException {
+    protected String getDescription() {
         return getStringElement(DESCRIPTION);
     }
 
@@ -73,10 +73,10 @@ public class ModuleParser extends ModelParser<Module> {
         return getMapElement(PROPERTIES);
     }
 
-    protected List<ProvidedDependency> getProvidedDependencies1() throws ParsingException {
+    protected List<ProvidedDependency> getProvidedDependencies1() {
         return getListElement(PROVIDES, new ListParser<ProvidedDependency>() {
             @Override
-            protected ProvidedDependency parseItem(Map<String, Object> map) throws ParsingException {
+            protected ProvidedDependency parseItem(Map<String, Object> map) {
                 return getProvidedDependencyParser(map).setUsedValues(usedProvidedDependencyNames)
                     .parse();
             }

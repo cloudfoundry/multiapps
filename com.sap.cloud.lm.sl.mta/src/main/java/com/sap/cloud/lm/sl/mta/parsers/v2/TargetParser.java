@@ -51,11 +51,11 @@ public class TargetParser extends com.sap.cloud.lm.sl.mta.parsers.v1.TargetParse
         return new PlatformResourceTypeParser(source);
     }
 
-    protected List<TargetModuleType> getModuleTypes2() throws ParsingException {
+    protected List<TargetModuleType> getModuleTypes2() {
         return ListUtil.cast(getModuleTypes1());
     }
 
-    protected List<TargetResourceType> getResourceTypes2() throws ParsingException {
+    protected List<TargetResourceType> getResourceTypes2() {
         return ListUtil.cast(getResourceTypes1());
     }
 

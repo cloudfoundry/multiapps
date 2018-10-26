@@ -37,7 +37,7 @@ public class DeploymentDescriptorValidator extends com.sap.cloud.lm.sl.mta.valid
         validateProperties(requiredDependencyV3, requiredDependencyV3.getName());
     }
 
-    protected void validate(NamedElement container, String requiredDependency) throws ContentException {
+    protected void validate(NamedElement container, String requiredDependency) {
         if (!canBeResolved(requiredDependency)) {
             if (container instanceof Module) {
                 throw new ContentException(Messages.UNRESOLVED_MODULE_REQUIRED_DEPENDENCY, requiredDependency, container.getName());
@@ -78,20 +78,19 @@ public class DeploymentDescriptorValidator extends com.sap.cloud.lm.sl.mta.valid
         validateProperties(providedDependencyV3, providedDependencyV3.getName());
     }
 
-    protected void validateParameters(ParametersContainer container, String containerName) throws ContentException {
+    protected void validateParameters(ParametersContainer container, String containerName) {
         ParametersWithMetadataContainer containerWithMetadata = cast(container);
         validate(containerWithMetadata.getParametersMetadata(), containerWithMetadata.getParameters(), containerName,
             Constants.PARAMETER_ELEMENT_TYPE_NAME);
     }
 
-    protected void validateProperties(PropertiesContainer container, String containerName) throws ContentException {
+    protected void validateProperties(PropertiesContainer container, String containerName) {
         PropertiesWithMetadataContainer containerWithMetadata = cast(container);
         validate(containerWithMetadata.getPropertiesMetadata(), containerWithMetadata.getProperties(), containerName,
             Constants.PARAMETER_ELEMENT_TYPE_NAME);
     }
 
-    protected void validate(Metadata metadata, Map<String, Object> properties, String containerName, String elementType)
-        throws ContentException {
+    protected void validate(Metadata metadata, Map<String, Object> properties, String containerName, String elementType) {
         for (String propertyName : properties.keySet()) {
             boolean isOverwritable = metadata.getOverwritableMetadata(propertyName);
             boolean isOptional = metadata.getOptionalMetadata(propertyName);

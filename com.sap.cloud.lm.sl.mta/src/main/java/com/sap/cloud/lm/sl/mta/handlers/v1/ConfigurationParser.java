@@ -40,11 +40,11 @@ public class ConfigurationParser {
         return getPlatforms(JsonUtil.convertJsonToList(json));
     }
 
-    protected List<Platform> getPlatforms(List<Object> list) throws ParsingException {
+    protected List<Platform> getPlatforms(List<Object> list) {
         platformTypesValidator.validate(list);
         return new ListParser<Platform>() {
             @Override
-            protected Platform parseItem(Map<String, Object> map) throws ParsingException {
+            protected Platform parseItem(Map<String, Object> map) {
                 return getPlatformParser(map).setUsedValues(usedPlatformTypeNames)
                     .parse();
             }
@@ -81,11 +81,11 @@ public class ConfigurationParser {
         return getDeployTargetParser(map).parse();
     }
 
-    protected List<Target> getDeployTargets(List<Object> list) throws ParsingException {
+    protected List<Target> getDeployTargets(List<Object> list) {
         platformsValidator.validate(list);
         return new ListParser<Target>() {
             @Override
-            protected Target parseItem(Map<String, Object> map) throws ParsingException {
+            protected Target parseItem(Map<String, Object> map) {
                 return getDeployTargetParser(map).setUsedValues(usedPlatformNames)
                     .parse();
             }

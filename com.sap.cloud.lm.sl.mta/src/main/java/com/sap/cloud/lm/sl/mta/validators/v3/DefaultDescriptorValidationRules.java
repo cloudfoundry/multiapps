@@ -30,7 +30,7 @@ public class DefaultDescriptorValidationRules extends com.sap.cloud.lm.sl.mta.va
     }
 
     protected void validateOptionalProperties(Map<String, Object> properties, Metadata metadata, ElementContext elementContext,
-        String elementType) throws ContentException {
+        String elementType) {
         for (String propertyName : properties.keySet()) {
             if (!isPropertyValid(properties.get(propertyName), propertyName, metadata)) {
                 throw new ContentException(Messages.MANDATORY_ELEMENT_HAS_NO_VALUE, elementType,

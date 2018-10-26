@@ -46,7 +46,7 @@ public class ExtensionResourceParser extends com.sap.cloud.lm.sl.mta.parsers.v2.
     protected List<ExtensionRequiredDependency> getExtensionRequiredDependencies() {
         return getListElement(REQUIRES, new ListParser<ExtensionRequiredDependency>() {
             @Override
-            protected ExtensionRequiredDependency parseItem(Map<String, Object> map) throws ParsingException {
+            protected ExtensionRequiredDependency parseItem(Map<String, Object> map) {
                 ExtensionRequiredDependencyParser parser = getRequiredDependencyParser(map);
                 parser.setUsedValues(usedRequiredDependencyNames);
                 return parser.parse();

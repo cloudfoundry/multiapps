@@ -35,7 +35,7 @@ public class ExtensionRequiredDependencyParser extends ModelParser<ExtensionRequ
         return builder.build();
     }
 
-    protected String getName() throws ParsingException {
+    protected String getName() {
         return getStringElement(NAME);
     }
 

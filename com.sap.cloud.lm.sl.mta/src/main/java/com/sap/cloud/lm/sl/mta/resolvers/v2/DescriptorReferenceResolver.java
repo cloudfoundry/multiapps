@@ -28,7 +28,7 @@ public class DescriptorReferenceResolver implements Resolver<DeploymentDescripto
         return descriptor;
     }
 
-    protected List<Module> getResolvedModules() throws ContentException {
+    protected List<Module> getResolvedModules() {
         List<Module> resolvedModules = new ArrayList<Module>();
         for (Module module : descriptor.getModules2()) {
             resolvedModules.add(createModuleResolver(module).resolve());

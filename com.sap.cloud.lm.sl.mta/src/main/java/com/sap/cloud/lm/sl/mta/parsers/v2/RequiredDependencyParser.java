@@ -39,15 +39,15 @@ public class RequiredDependencyParser extends ModelParser<RequiredDependency> {
         return builder.build();
     }
 
-    protected String getName() throws ParsingException {
+    protected String getName() {
         return getStringElement(NAME);
     }
 
-    protected String getGroup() throws ParsingException {
+    protected String getGroup() {
         return getStringElement(GROUP);
     }
 
-    protected String getList() throws ParsingException {
+    protected String getList() {
         return getStringElement(LIST);
     }
 

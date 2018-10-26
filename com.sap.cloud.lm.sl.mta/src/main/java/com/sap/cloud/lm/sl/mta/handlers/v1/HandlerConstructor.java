@@ -1,6 +1,5 @@
 package com.sap.cloud.lm.sl.mta.handlers.v1;
 
-import com.sap.cloud.lm.sl.common.ContentException;
 import com.sap.cloud.lm.sl.mta.model.SystemParameters;
 import com.sap.cloud.lm.sl.mta.model.v1.DeploymentDescriptor;
 import com.sap.cloud.lm.sl.mta.model.v1.Platform;
@@ -53,16 +52,16 @@ public class HandlerConstructor implements com.sap.cloud.lm.sl.mta.handlers.Hand
             public DeploymentDescriptor descriptor = mergedDescriptor;
 
             @Override
-            public DeploymentDescriptor resolve() throws ContentException {
+            public DeploymentDescriptor resolve() {
                 return descriptor;
             }
         };
     }
 
     @Override
-    public Resolver<? extends DeploymentDescriptor> getDescriptorReferenceResolver(
-        final DeploymentDescriptor mergedDescriptor, ResolverBuilder modulesPropertiesResolverBuilder,
-        ResolverBuilder resourcePropertiesResolverBuilder, ResolverBuilder requiredDepencenciesPropertiesResolverBuilder) {
+    public Resolver<? extends DeploymentDescriptor> getDescriptorReferenceResolver(final DeploymentDescriptor mergedDescriptor,
+        ResolverBuilder modulesPropertiesResolverBuilder, ResolverBuilder resourcePropertiesResolverBuilder,
+        ResolverBuilder requiredDepencenciesPropertiesResolverBuilder) {
         return new Resolver<DeploymentDescriptor>() {
             @Override
             public DeploymentDescriptor resolve() {

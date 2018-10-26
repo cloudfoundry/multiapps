@@ -94,12 +94,12 @@ public class ExtensionDescriptorValidator extends Visitor {
     }
 
     protected void validateProperties(final PropertiesContainer parentContainer, final PropertiesContainer extensionContainer,
-        final String containerName) throws ContentException {
+        final String containerName) {
         validate(parentContainer.getProperties(), extensionContainer.getProperties(), containerName, Constants.PROPERTY_ELEMENT_TYPE_NAME);
     }
 
     protected void validate(Map<String, Object> properties, Map<String, Object> extensionProperties, String containerName,
-        String elementType) throws ContentException {
+        String elementType) {
         for (String propertyName : extensionProperties.keySet()) {
             Object parentValue = properties.get(propertyName);
             Object value = extensionProperties.get(propertyName);

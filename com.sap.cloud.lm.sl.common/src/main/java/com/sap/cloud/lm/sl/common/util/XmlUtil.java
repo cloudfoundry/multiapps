@@ -95,7 +95,7 @@ public class XmlUtil {
         return JAXBContext.newInstance(clazz);
     }
 
-    private static Marshaller getMarshaller(JAXBContext context, boolean formattedOutput) throws SLException {
+    private static Marshaller getMarshaller(JAXBContext context, boolean formattedOutput) {
         try {
             return formattedOutput ? getFormattingMarshaller(context) : getRegularMarshaller(context);
         } catch (JAXBException e) {
@@ -103,7 +103,7 @@ public class XmlUtil {
         }
     }
 
-    private static Marshaller getMarshaller(JAXBContext context, Map<String, Object> properties) throws SLException {
+    private static Marshaller getMarshaller(JAXBContext context, Map<String, Object> properties) {
         try {
             return properties.isEmpty() ? getRegularMarshaller(context) : getPropertyMarshaller(context, properties);
         } catch (JAXBException e) {
@@ -122,7 +122,6 @@ public class XmlUtil {
     private static Marshaller getFormattingMarshaller(JAXBContext context) throws JAXBException {
         Marshaller marshaller = getRegularMarshaller(context);
         marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
-
         return marshaller;
     }
 
@@ -130,15 +129,15 @@ public class XmlUtil {
         return context.createMarshaller();
     }
 
-    private static Document getAsDocument(InputStream xml) throws ParsingException {
+    private static Document getAsDocument(InputStream xml) {
         return getAsDocument(new InputSource(xml));
     }
 
-    private static Document getAsDocument(String xml) throws ParsingException {
+    private static Document getAsDocument(String xml) {
         return getAsDocument(new InputSource(new StringReader(xml)));
     }
 
-    private static Document getAsDocument(InputSource xml) throws ParsingException {
+    private static Document getAsDocument(InputSource xml) {
         try {
             return getDocumentBuilder().parse(xml);
         } catch (SAXException | IOException e) {
@@ -146,7 +145,7 @@ public class XmlUtil {
         }
     }
 
-    private static DocumentBuilder getDocumentBuilder() throws ParsingException {
+    private static DocumentBuilder getDocumentBuilder() {
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
         factory.setNamespaceAware(true);
         try {
@@ -163,11 +162,10 @@ public class XmlUtil {
         Unmarshaller unmarshaller = getRegularUnmarshaller(context);
         unmarshaller.setSchema(SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI)
             .newSchema(schemaLocation));
-
         return unmarshaller;
     }
 
-    private static Unmarshaller getUnmarshaller(JAXBContext context, URL schemaLocation) throws SAXException, ParsingException {
+    private static Unmarshaller getUnmarshaller(JAXBContext context, URL schemaLocation) throws SAXException {
         try {
             return (schemaLocation != null) ? getValidatingUnmarshaller(context, schemaLocation) : getRegularUnmarshaller(context);
         } catch (JAXBException e) {
@@ -175,7 +173,7 @@ public class XmlUtil {
         }
     }
 
-    private static void handleUnmarshallingException(Exception e, URL schemaLocation) throws ParsingException {
+    private static void handleUnmarshallingException(Exception e, URL schemaLocation) {
         if (e instanceof SAXException) {
             throw new ParsingException(MessageFormat.format(Messages.UNABLE_TO_PARSE_SCHEMA, schemaLocation), e);
         } else if (e instanceof JAXBException && e.getCause() instanceof SAXParseException) {
@@ -190,7 +188,7 @@ public class XmlUtil {
         return context.createUnmarshaller();
     }
 
-    private static void handleMarshallingException(Exception e) throws SLException {
+    private static void handleMarshallingException(Exception e) {
         throw new SLException(e, Messages.UNABLE_TO_MARSHAL_OBJECT);
     }
 

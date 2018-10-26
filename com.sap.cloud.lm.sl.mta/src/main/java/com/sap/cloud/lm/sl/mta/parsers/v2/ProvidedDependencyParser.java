@@ -30,7 +30,7 @@ public class ProvidedDependencyParser extends com.sap.cloud.lm.sl.mta.parsers.v1
         return builder.build();
     }
 
-    protected Boolean isPublic() throws ParsingException {
+    protected Boolean isPublic() {
         return getBooleanElement(PUBLIC);
     }
 

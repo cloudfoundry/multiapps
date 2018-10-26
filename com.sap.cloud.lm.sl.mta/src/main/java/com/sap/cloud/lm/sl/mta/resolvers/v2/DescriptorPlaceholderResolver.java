@@ -1,4 +1,5 @@
 package com.sap.cloud.lm.sl.mta.resolvers.v2;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -47,7 +48,7 @@ public class DescriptorPlaceholderResolver extends PlaceholderResolver<Deploymen
         return deploymentDescriptor;
     }
 
-    protected Map<String, Object> getResolvedProperties(Map<String, Object> propertiesToResolve) throws ContentException {
+    protected Map<String, Object> getResolvedProperties(Map<String, Object> propertiesToResolve) {
         List<Map<String, Object>> parametersList = PropertiesUtil.getParametersList(target, platform,
             PropertiesUtil.asParametersProvider(systemParameters.getGeneralParameters()));
         addSingularParametersIfNecessary(parametersList);
@@ -60,7 +61,7 @@ public class DescriptorPlaceholderResolver extends PlaceholderResolver<Deploymen
             parametersResolverBuilder);
     }
 
-    protected List<Resource> getResolvedResources() throws ContentException {
+    protected List<Resource> getResolvedResources() {
         List<Resource> result = new ArrayList<Resource>();
         for (Resource resource : deploymentDescriptor.getResources2()) {
             result.add(getResourceResolver(resource).resolve());
@@ -73,7 +74,7 @@ public class DescriptorPlaceholderResolver extends PlaceholderResolver<Deploymen
             parametersResolverBuilder);
     }
 
-    protected List<? extends Module> getResolvedModules() throws ContentException {
+    protected List<? extends Module> getResolvedModules() {
         List<Module> result = new ArrayList<Module>();
         for (Module module : deploymentDescriptor.getModules2()) {
             result.add(getModuleResolver(module).resolve());
