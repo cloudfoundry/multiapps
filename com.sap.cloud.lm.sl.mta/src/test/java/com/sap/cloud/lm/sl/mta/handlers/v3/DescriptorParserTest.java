@@ -29,19 +29,19 @@ public class DescriptorParserTest extends com.sap.cloud.lm.sl.mta.handlers.v2.De
             },
             // (3) Partial schema version support test (int):
             {
-                "mtad-with-partial-schema-version-major.yaml", "config-with-partial-schema-version-major.mtaext", new String[] { "R:parsed-mtad-with-partial-schema-version.3.1.json", "R:parsed-config-with-partial-schema-version.3.1.json" },
+                "mtad-with-partial-schema-version-major.yaml", "config-with-partial-schema-version-major.mtaext", new String[] { "R:parsed-mtad-with-partial-schema-version.json", "R:parsed-config-with-partial-schema-version.json" },
             },
             // (4) Partial schema version support test (double):
             {
-                "mtad-with-partial-schema-version-major.minor.yaml", "config-with-partial-schema-version-major.minor.mtaext", new String[] { "R:parsed-mtad-with-partial-schema-version.3.0.json", "R:parsed-config-with-partial-schema-version.3.0.json" },
+                "mtad-with-partial-schema-version-major.minor.yaml", "config-with-partial-schema-version-major.minor.mtaext", new String[] { "R:parsed-mtad-with-partial-schema-version.json", "R:parsed-config-with-partial-schema-version.json" },
             },
             // (5) Partial schema version support test (string):
             {
-                "mtad-with-partial-schema-version-major-quoted.yaml", "config-with-partial-schema-version-major-quoted.mtaext", new String[] { "R:parsed-mtad-with-partial-schema-version.3.1.json", "R:parsed-config-with-partial-schema-version.3.1.json" },
+                "mtad-with-partial-schema-version-major-quoted.yaml", "config-with-partial-schema-version-major-quoted.mtaext", new String[] { "R:parsed-mtad-with-partial-schema-version.json", "R:parsed-config-with-partial-schema-version.json" },
             },
             // (6) Partial schema version support test (string):
             {
-                "mtad-with-partial-schema-version-major.minor-quoted.yaml", "config-with-partial-schema-version-major.minor-quoted.mtaext", new String[] { "R:parsed-mtad-with-partial-schema-version.3.0.json", "R:parsed-config-with-partial-schema-version.3.0.json" },
+                "mtad-with-partial-schema-version-major.minor-quoted.yaml", "config-with-partial-schema-version-major.minor-quoted.mtaext", new String[] { "R:parsed-mtad-with-partial-schema-version.json", "R:parsed-config-with-partial-schema-version.json" },
             },
 // @formatter:on
         });

@@ -2,13 +2,16 @@ package com.sap.cloud.lm.sl.mta.model;
 
 import java.text.MessageFormat;
 
+import com.sap.cloud.lm.sl.common.ParsingException;
 import com.sap.cloud.lm.sl.mta.message.Messages;
-import com.sap.cloud.lm.sl.mta.parsers.VersionParser;
+import com.sap.cloud.lm.sl.mta.parsers.PartialVersionConverter;
 import com.vdurmont.semver4j.Semver;
 import com.vdurmont.semver4j.Semver.SemverType;
 import com.vdurmont.semver4j.SemverException;
 
 public class Version implements Comparable<Version> {
+
+    private static final PartialVersionConverter PARTIAL_VERSION_CONVERTER = new PartialVersionConverter();
 
     private final Semver version;
 
@@ -38,10 +41,10 @@ public class Version implements Comparable<Version> {
 
     public static Version parseVersion(String versionString) {
         try {
-            String parsedVersion = new VersionParser().parse(versionString);
-            return new Version(new Semver(parsedVersion, SemverType.NPM));
+            String fullVersionString = PARTIAL_VERSION_CONVERTER.convertToFullVersionString(versionString);
+            return new Version(new Semver(fullVersionString, SemverType.NPM));
         } catch (SemverException e) {
-            throw new IllegalArgumentException(MessageFormat.format(Messages.UNABLE_TO_PARSE_VERSION, versionString), e);
+            throw new ParsingException(e, Messages.UNABLE_TO_PARSE_VERSION, versionString);
         }
     }
 

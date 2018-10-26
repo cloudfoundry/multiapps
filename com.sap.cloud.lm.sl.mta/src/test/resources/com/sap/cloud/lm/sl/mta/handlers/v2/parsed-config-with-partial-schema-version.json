@@ -2,7 +2,7 @@
   "modules2": [],
   "resources2": [],
   "parameters": {},
-  "schemaVersion": "2.2.0",
+  "schemaVersion": "2.0.0",
   "id": "mtaext-partial-schema-version-test",
   "parentId": "partial-schema-version-test",
   "deployTargets": []
