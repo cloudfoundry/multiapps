@@ -1,6 +1,5 @@
 package com.sap.cloud.lm.sl.mta.util;
 
-import java.beans.IntrospectionException;
 import java.lang.reflect.Field;
 import java.util.Arrays;
 import java.util.List;
@@ -22,7 +21,7 @@ public class YamlRepresenter extends Representer {
     }
 
     @Override
-    protected Set<Property> getProperties(Class<? extends Object> type) throws IntrospectionException {
+    protected Set<Property> getProperties(Class<? extends Object> type) {
         Set<Property> properties = super.getProperties(type);
         if (type.isAnnotationPresent(YamlElementOrder.class)) {
             List<String> fieldOrder = Arrays.asList(type.getAnnotation(YamlElementOrder.class)

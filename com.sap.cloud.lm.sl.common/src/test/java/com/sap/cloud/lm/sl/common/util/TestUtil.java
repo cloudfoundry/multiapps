@@ -57,6 +57,7 @@ public class TestUtil {
             String resultAsString = getResultAsString(result, shouldConvertResultToJson, expectedResult, serializationOptions);
             validateResult(expectedResult, resourceClass, resultAsString);
         } catch (Exception e) {
+            // e.printStackTrace();
             validateException(expectedExceptionMessage, expectedExceptionCause, e);
         }
     }
