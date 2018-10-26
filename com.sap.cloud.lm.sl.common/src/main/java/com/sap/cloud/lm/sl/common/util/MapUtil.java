@@ -57,4 +57,13 @@ public class MapUtil {
         return result;
     }
 
+    // Use this method until adoption of Java 9
+    public static <K, V> Map<K, V> of(Pair<K, V>... keysValues) {
+        Map<K, V> result = new TreeMap<K, V>();
+        for (Pair<K, V> keyValue : keysValues) {
+            result.put(keyValue._1, keyValue._2);
+        }
+        return result;
+    }
+
 }
