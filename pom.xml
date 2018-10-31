@@ -20,6 +20,7 @@
         <sonar.dynamicAnalysis>reuseReports</sonar.dynamicAnalysis>
         <sonar.jacoco.reportPath>target/jacoco.exec</sonar.jacoco.reportPath>
         <commons-lang3.version>3.8.1</commons-lang3.version>
+        <commons-collections4.version>4.2</commons-collections4.version>
         <commons-io.version>2.6</commons-io.version>
         <liquibase.version>3.6.1</liquibase.version>
         <spring.version>5.1.2.RELEASE</spring.version>
@@ -255,6 +256,12 @@
                 <groupId>org.apache.commons</groupId>
                 <artifactId>commons-lang3</artifactId>
                 <version>${commons-lang3.version}</version>
+            </dependency>
+            <!-- https://mvnrepository.com/artifact/org.apache.commons/commons-collections4 -->
+            <dependency>
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-collections4</artifactId>
+                <version>${commons-collections4.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.springframework</groupId>

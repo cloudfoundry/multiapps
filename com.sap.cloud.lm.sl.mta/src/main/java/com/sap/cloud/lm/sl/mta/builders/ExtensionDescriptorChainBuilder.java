@@ -5,8 +5,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import org.apache.commons.collections4.CollectionUtils;
+
 import com.sap.cloud.lm.sl.common.ContentException;
-import com.sap.cloud.lm.sl.common.util.ListUtil;
 import com.sap.cloud.lm.sl.mta.message.Messages;
 import com.sap.cloud.lm.sl.mta.model.Descriptor;
 import com.sap.cloud.lm.sl.mta.model.v1.DeploymentDescriptor;
@@ -36,7 +37,7 @@ public class ExtensionDescriptorChainBuilder {
         Descriptor currentDescriptor = deploymentDescriptor;
         while (currentDescriptor != null) {
             ExtensionDescriptor nextDescriptor = extensionDescriptorsPerParent.remove(currentDescriptor.getId());
-            ListUtil.addNonNull(chain, nextDescriptor);
+            CollectionUtils.addIgnoreNull(chain, nextDescriptor);
             currentDescriptor = nextDescriptor;
         }
         if (!extensionDescriptorsPerParent.isEmpty() && isStrict) {

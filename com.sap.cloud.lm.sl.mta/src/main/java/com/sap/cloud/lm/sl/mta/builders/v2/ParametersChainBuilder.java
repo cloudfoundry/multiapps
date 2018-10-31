@@ -5,7 +5,8 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
-import com.sap.cloud.lm.sl.common.util.ListUtil;
+import org.apache.commons.collections4.CollectionUtils;
+
 import com.sap.cloud.lm.sl.mta.handlers.v2.DescriptorHandler;
 import com.sap.cloud.lm.sl.mta.model.ParametersContainer;
 import com.sap.cloud.lm.sl.mta.model.v2.DeploymentDescriptor;
@@ -90,10 +91,10 @@ public class ParametersChainBuilder extends PropertiesChainBuilder {
         TargetModuleType targetModuleType, PlatformModuleType platformModuleType, DeploymentDescriptor descriptor) {
         List<ParametersContainer> containers = new ArrayList<>();
         containers.addAll(dependencies);
-        ListUtil.addNonNull(containers, module);
-        ListUtil.addNonNull(containers, targetModuleType);
-        ListUtil.addNonNull(containers, platformModuleType);
-        ListUtil.addNonNull(containers, descriptor);
+        CollectionUtils.addIgnoreNull(containers, module);
+        CollectionUtils.addIgnoreNull(containers, targetModuleType);
+        CollectionUtils.addIgnoreNull(containers, platformModuleType);
+        CollectionUtils.addIgnoreNull(containers, descriptor);
         return PropertiesUtil.getParametersList(containers);
     }
 

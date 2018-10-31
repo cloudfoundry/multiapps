@@ -29,19 +29,6 @@ public class ListUtil {
         return list == null ? null : Collections.unmodifiableList(list);
     }
 
-    public static <T> List<T> merge(List<T> original, List<T> override) {
-        List<T> result = new ArrayList<>();
-        result.addAll(original);
-        result.addAll(override);
-        return result;
-    }
-
-    public static <T> void addNonNull(List<T> list, T item) {
-        if (item != null) {
-            list.add(item);
-        }
-    }
-
     public static <T> List<T> asList(T item) {
         if (item == null) {
             return Collections.emptyList();
