@@ -5,7 +5,8 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
-import com.sap.cloud.lm.sl.common.util.ListUtil;
+import org.apache.commons.collections4.CollectionUtils;
+
 import com.sap.cloud.lm.sl.mta.handlers.v2.DescriptorHandler;
 import com.sap.cloud.lm.sl.mta.model.PropertiesContainer;
 import com.sap.cloud.lm.sl.mta.model.v2.DeploymentDescriptor;
@@ -73,9 +74,9 @@ public class PropertiesChainBuilder extends com.sap.cloud.lm.sl.mta.builders.v1.
         TargetModuleType targetModuleType, PlatformModuleType platformModuleType) {
         List<PropertiesContainer> containers = new ArrayList<>();
         containers.addAll(dependencies);
-        ListUtil.addNonNull(containers, module);
-        ListUtil.addNonNull(containers, targetModuleType);
-        ListUtil.addNonNull(containers, platformModuleType);
+        CollectionUtils.addIgnoreNull(containers, module);
+        CollectionUtils.addIgnoreNull(containers, targetModuleType);
+        CollectionUtils.addIgnoreNull(containers, platformModuleType);
         return PropertiesUtil.getPropertiesList(containers);
     }
 

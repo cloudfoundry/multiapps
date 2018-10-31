@@ -3,7 +3,8 @@ package com.sap.cloud.lm.sl.mta.mergers.v1;
 import java.util.List;
 import java.util.Map;
 
-import com.sap.cloud.lm.sl.common.util.ListUtil;
+import org.apache.commons.collections4.ListUtils;
+
 import com.sap.cloud.lm.sl.common.util.Pair;
 import com.sap.cloud.lm.sl.mta.handlers.v1.DescriptorHandler;
 import com.sap.cloud.lm.sl.mta.model.ElementContext;
@@ -30,7 +31,7 @@ public class ExtensionDescriptorMerger extends Visitor {
     }
 
     public Pair<DeploymentDescriptor, List<String>> merge(Pair<DeploymentDescriptor, List<String>> descriptor) {
-        List<String> targets = ListUtil.merge(descriptor._2, extensionDescriptor.getDeployTargets());
+        List<String> targets = ListUtils.union(descriptor._2, extensionDescriptor.getDeployTargets());
         descriptor._1.accept(this);
         return new Pair<>(descriptor._1, targets);
     }

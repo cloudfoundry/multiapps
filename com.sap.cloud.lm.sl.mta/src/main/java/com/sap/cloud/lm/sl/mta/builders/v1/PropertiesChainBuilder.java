@@ -5,7 +5,8 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
-import com.sap.cloud.lm.sl.common.util.ListUtil;
+import org.apache.commons.collections4.CollectionUtils;
+
 import com.sap.cloud.lm.sl.common.util.Pair;
 import com.sap.cloud.lm.sl.mta.handlers.v1.DescriptorHandler;
 import com.sap.cloud.lm.sl.mta.model.PropertiesContainer;
@@ -157,9 +158,9 @@ public class PropertiesChainBuilder {
         for (ProvidedDependency providedDependency : providedDependencies) {
             containers.add(providedDependency);
         }
-        ListUtil.addNonNull(containers, module);
-        ListUtil.addNonNull(containers, targetModuleType);
-        ListUtil.addNonNull(containers, platformModuleType);
+        CollectionUtils.addIgnoreNull(containers, module);
+        CollectionUtils.addIgnoreNull(containers, targetModuleType);
+        CollectionUtils.addIgnoreNull(containers, platformModuleType);
         return PropertiesUtil.getPropertiesList(containers);
     }
 
