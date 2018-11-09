@@ -14,7 +14,6 @@ import com.sap.cloud.lm.sl.mta.model.Version;
 import com.sap.cloud.lm.sl.mta.schema.Element;
 import com.sap.cloud.lm.sl.mta.schema.MapElement;
 import com.sap.cloud.lm.sl.mta.util.MetadataUpdater;
-import com.sap.cloud.lm.sl.mta.util.ParserUtil;
 
 public abstract class ModelParser<T> implements Parser<T> {
 
@@ -61,7 +60,7 @@ public abstract class ModelParser<T> implements Parser<T> {
             if (element.isUnique()) {
                 return getRequiredUniqueStringValue(key);
             }
-            return ParserUtil.getRequiredValue(source, key, processedObjectName);
+            return getRequiredValue(key);
         }
         return source.get(key);
     }
@@ -77,7 +76,7 @@ public abstract class ModelParser<T> implements Parser<T> {
      */
     private String getRequiredUniqueStringValue(String key) {
         if (uniqueElementsCache.get(key) == null) {
-            uniqueElementsCache.put(key, ParserUtil.getRequiredUniqueValue(source, usedValues, key, processedObjectName));
+            uniqueElementsCache.put(key, getRequiredUniqueValue(key));
         }
         return uniqueElementsCache.get(key)
             .toString();
@@ -108,4 +107,27 @@ public abstract class ModelParser<T> implements Parser<T> {
         MetadataUpdater propertiesUpdater = new MetadataUpdater(metadataDescribedProperties);
         return propertiesUpdater.getUpdatedMetadata(metadataMapElement);
     }
+
+    private Object getRequiredUniqueValue(String key) {
+        Object value = getRequiredValue(key);
+        validateUniqueness(key, value, usedValues);
+        return value;
+    }
+
+    private Object getRequiredValue(String key) {
+        Object value = source.get(key);
+        if (value == null) {
+            throw new ParsingException(Messages.REQUIRED_ELEMENT_IS_MISSING, key, processedObjectName);
+        }
+        return value;
+    }
+
+    @SuppressWarnings("unchecked")
+    private <V> void validateUniqueness(String key, Object value, Set<V> usedValues) {
+        if (usedValues.contains(value)) {
+            throw new ParsingException(Messages.VALUE_NOT_UNIQUE, value, key, processedObjectName);
+        }
+        usedValues.add((V) value);
+    }
+
 }
