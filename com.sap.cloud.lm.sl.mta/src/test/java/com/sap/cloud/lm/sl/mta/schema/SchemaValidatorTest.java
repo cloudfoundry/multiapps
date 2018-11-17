@@ -10,6 +10,7 @@ import org.junit.runners.Parameterized.Parameters;
 
 import com.sap.cloud.lm.sl.common.util.Runnable;
 import com.sap.cloud.lm.sl.common.util.TestUtil;
+import com.sap.cloud.lm.sl.common.util.TestUtil.Expectation;
 import com.sap.cloud.lm.sl.mta.MtaTestUtil;
 import com.sap.cloud.lm.sl.mta.handlers.v1.Schemas;
 
@@ -18,7 +19,7 @@ public class SchemaValidatorTest {
 
     private final Element schema;
     private final String file;
-    private final String expected;
+    private final Expectation expectation;
 
     private SchemaValidator validator;
 
@@ -28,68 +29,68 @@ public class SchemaValidatorTest {
 // @formatter:off
             // (00) Valid extension descriptor:
             {
-                "/mta/sample/v1/config-01.mtaext", Schemas.MTAEXT, "",
+                "/mta/sample/v1/config-01.mtaext", Schemas.MTAEXT, new Expectation(""),
             },
             // (01) Valid deployment descriptor:
             {
-                "/mta/sample/v1/mtad-01.yaml", Schemas.MTAD, "",
+                "/mta/sample/v1/mtad-01.yaml", Schemas.MTAD, new Expectation(""),
             },
             // (02) Valid platforms JSON:
             {
-                "/mta/sample/v1/platforms.json", Schemas.PLATFORMS, "",
+                "/mta/sample/v1/platforms.json", Schemas.PLATFORMS, new Expectation(""),
             },
             // (03) Valid platform types JSON:
             {
-                "/mta/sample/v1/platform-types.json", Schemas.PLATFORM_TYPES, "",
+                "/mta/sample/v1/platform-types.json", Schemas.PLATFORM_TYPES, new Expectation(""),
             },
             // (04) Deployment descriptor contains invalid key:
             {
-                "mtad-01.yaml", Schemas.MTAD, "E:Invalid key \"test\"",
+                "mtad-01.yaml", Schemas.MTAD, new Expectation(Expectation.Type.EXCEPTION, "Invalid key \"test\""),
             },
             // (05) Deployment descriptor module contains an invalid key:
             {
-                "mtad-02.yaml", Schemas.MTAD, "E:Invalid key \"modules#0#test\"",
+                "mtad-02.yaml", Schemas.MTAD, new Expectation(Expectation.Type.EXCEPTION, "Invalid key \"modules#0#test\""),
             },
             // (06) Deployment descriptor is missing a required key:
             {
-                "mtad-03.yaml", Schemas.MTAD, "E:Missing required key \"ID\"",
+                "mtad-03.yaml", Schemas.MTAD, new Expectation(Expectation.Type.EXCEPTION, "Missing required key \"ID\""),
             },
             // (07) Deployment descriptor module has invalid content for requires dependency:
             {
-                "mtad-04.yaml", Schemas.MTAD, "E:Invalid type for key \"modules#0#requires\", expected \"List\" but got \"String\"",
+                "mtad-04.yaml", Schemas.MTAD, new Expectation(Expectation.Type.EXCEPTION, "Invalid type for key \"modules#0#requires\", expected \"List\" but got \"String\""),
             },
             // (08) Deployment descriptor has an invalid ID:
             {
-                "mtad-06.yaml", Schemas.MTAD, "E:Invalid value for key \"ID\", matching failed at \"com[/]sap/mta/sample\"",
+                "mtad-06.yaml", Schemas.MTAD, new Expectation(Expectation.Type.EXCEPTION, "Invalid value for key \"ID\", matching failed at \"com[/]sap/mta/sample\""),
             },
             // (09) Deployment descriptor has a too long ID:
             {
-                "mtad-07.yaml", Schemas.MTAD, "E:Invalid value for key \"ID\", maximum length is 128",
+                "mtad-07.yaml", Schemas.MTAD, new Expectation(Expectation.Type.EXCEPTION, "Invalid value for key \"ID\", maximum length is 128"),
             },
             // (10) Deployment descriptor provided dependency has an invalid name:
             {
-                "mtad-08.yaml", Schemas.MTAD, "E:Invalid value for key \"modules#0#provides#0#name\", matching failed at \"internal-od[@]ta\"",
+                "mtad-08.yaml", Schemas.MTAD, new Expectation(Expectation.Type.EXCEPTION, "Invalid value for key \"modules#0#provides#0#name\", matching failed at \"internal-od[@]ta\""),
             },
             // (11) Deployment descriptor module has an invalid name:
             {
-                "mtad-09.yaml", Schemas.MTAD, "E:Invalid value for key \"modules#0#name\", matching failed at \"web[ ]server\"",
+                "mtad-09.yaml", Schemas.MTAD, new Expectation(Expectation.Type.EXCEPTION, "Invalid value for key \"modules#0#name\", matching failed at \"web[ ]server\""),
             },
             // (12) Deployment descriptor module provides public has String, but not a Boolean value:
             {
-                "mtad-10.yaml", com.sap.cloud.lm.sl.mta.handlers.v2.Schemas.MTAD, "E:Invalid type for key \"modules#0#provides#0#public\", expected \"Boolean\" but got \"String\"",
+                "mtad-10.yaml", com.sap.cloud.lm.sl.mta.handlers.v2.Schemas.MTAD, new Expectation(Expectation.Type.EXCEPTION, "Invalid type for key \"modules#0#provides#0#public\", expected \"Boolean\" but got \"String\""),
             },
             // (13) Null content:
             {
-                null, Schemas.MTAD, "E:Null content",
+                null, Schemas.MTAD, new Expectation(Expectation.Type.EXCEPTION, "Null content"),
             },
 // @formatter:on
         });
     }
 
-    public SchemaValidatorTest(String file, Element schema, String expected) {
+    public SchemaValidatorTest(String file, Element schema, Expectation expectation) {
         this.schema = schema;
         this.file = file;
-        this.expected = expected;
+        this.expectation = expectation;
     }
 
     @Before
@@ -108,7 +109,7 @@ public class SchemaValidatorTest {
                     validator.validate(MtaTestUtil.getList(file, getClass()));
                 }
             }
-        }, expected);
+        }, expectation);
     }
 
 }

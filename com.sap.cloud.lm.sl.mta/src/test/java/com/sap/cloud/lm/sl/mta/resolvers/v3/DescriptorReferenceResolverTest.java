@@ -10,17 +10,17 @@ import org.junit.runners.Parameterized.Parameters;
 
 import com.sap.cloud.lm.sl.common.util.Callable;
 import com.sap.cloud.lm.sl.common.util.TestUtil;
+import com.sap.cloud.lm.sl.common.util.TestUtil.Expectation;
 import com.sap.cloud.lm.sl.mta.MtaTestUtil;
 import com.sap.cloud.lm.sl.mta.handlers.v3.DescriptorParser;
 import com.sap.cloud.lm.sl.mta.model.v3.DeploymentDescriptor;
 import com.sap.cloud.lm.sl.mta.resolvers.ResolverBuilder;
-import com.sap.cloud.lm.sl.mta.resolvers.v3.DescriptorReferenceResolver;
 
 @RunWith(Parameterized.class)
 public class DescriptorReferenceResolverTest {
 
     private final String mergedDescriptorLocation;
-    private final String expected;
+    private final Expectation expectation;
 
     private DeploymentDescriptor mergedDescriptor;
     private DescriptorReferenceResolver resolver;
@@ -31,23 +31,23 @@ public class DescriptorReferenceResolverTest {
 // @formatter:off
             // (0) Resolve references in resources:
             {
-                "merged-01.yaml", "R:resolved-01.yaml.json",
+                "merged-01.yaml", new Expectation(Expectation.Type.RESOURCE, "resolved-01.yaml.json"),
             },
             // (1) Resolve references in resources - cyclic dependencies & corner cases:
             {
-                "merged-02.yaml", "R:resolved-02.yaml.json",
+                "merged-02.yaml", new Expectation(Expectation.Type.RESOURCE, "resolved-02.yaml.json"),
             },
             // (2) Test error reporting on failure to resolve value:
             {
-                "merged-03.yaml", "E:Unable to resolve \"baz##non-existing\"",
+                "merged-03.yaml", new Expectation(Expectation.Type.EXCEPTION, "Unable to resolve \"baz##non-existing\""),
             },
 // @formatter:on
         });
     }
 
-    public DescriptorReferenceResolverTest(String mergedDescriptorLocation, String expected) {
+    public DescriptorReferenceResolverTest(String mergedDescriptorLocation, Expectation expectation) {
         this.mergedDescriptorLocation = mergedDescriptorLocation;
-        this.expected = expected;
+        this.expectation = expectation;
     }
 
     @Before
@@ -64,7 +64,7 @@ public class DescriptorReferenceResolverTest {
             public DeploymentDescriptor call() throws Exception {
                 return resolver.resolve();
             }
-        }, expected, getClass());
+        }, expectation, getClass());
     }
 
 }

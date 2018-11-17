@@ -12,11 +12,11 @@ import org.junit.runners.Parameterized.Parameters;
 
 import com.sap.cloud.lm.sl.common.util.Callable;
 import com.sap.cloud.lm.sl.common.util.TestUtil;
+import com.sap.cloud.lm.sl.common.util.TestUtil.Expectation;
 import com.sap.cloud.lm.sl.mta.handlers.HandlerFactory;
 import com.sap.cloud.lm.sl.mta.handlers.v1.ConfigurationParser;
 import com.sap.cloud.lm.sl.mta.handlers.v1.DescriptorHandler;
 import com.sap.cloud.lm.sl.mta.handlers.v1.DescriptorParser;
-import com.sap.cloud.lm.sl.mta.mergers.v1.TargetMerger;
 import com.sap.cloud.lm.sl.mta.model.v1.DeploymentDescriptor;
 import com.sap.cloud.lm.sl.mta.model.v1.Target;
 
@@ -29,15 +29,15 @@ public class TargetMergerTest {
 // @formatter:off
             // (0) There are properties in every deployment descriptor and target component:
             {
-                "mtad-00.yaml", "target-00.json", "R:result-target-00.json",
+                "mtad-00.yaml", "target-00.json", new Expectation(Expectation.Type.RESOURCE, "result-target-00.json"),
             },
             // (1) Some deployment descriptor components do not have a corresponding deploy target component:
             {
-                "mtad-01.yaml", "target-01.json", "R:result-target-01.json",
+                "mtad-01.yaml", "target-01.json", new Expectation(Expectation.Type.RESOURCE, "result-target-01.json"),
             },
             // (2) Some deploy target properties override properties from the deployment descriptor:
             {
-                "mtad-00.yaml", "target-02.json", "R:result-target-02.json",
+                "mtad-00.yaml", "target-02.json", new Expectation(Expectation.Type.RESOURCE, "result-target-02.json"),
             },
 // @formatter:on
         });
@@ -45,12 +45,12 @@ public class TargetMergerTest {
 
     private String deploymentDescriptorYamlLocation;
     private String targetJsonLocation;
-    private String expectedJsonLocation;
+    private Expectation expectation;
 
-    public TargetMergerTest(String deploymentDescriptorYamlLocation, String targetJsonLocation, String expectedJsonLocation) {
+    public TargetMergerTest(String deploymentDescriptorYamlLocation, String targetJsonLocation, Expectation expectation) {
         this.deploymentDescriptorYamlLocation = deploymentDescriptorYamlLocation;
         this.targetJsonLocation = targetJsonLocation;
-        this.expectedJsonLocation = expectedJsonLocation;
+        this.expectation = expectation;
     }
 
     private DeploymentDescriptor deploymentDescriptor;
@@ -82,7 +82,7 @@ public class TargetMergerTest {
                 return deploymentDescriptor;
             }
 
-        }, expectedJsonLocation, getClass());
+        }, expectation, getClass());
 
     }
 

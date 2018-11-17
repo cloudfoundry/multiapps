@@ -13,11 +13,11 @@ import org.junit.runners.Parameterized.Parameters;
 
 import com.sap.cloud.lm.sl.common.util.Callable;
 import com.sap.cloud.lm.sl.common.util.TestUtil;
+import com.sap.cloud.lm.sl.common.util.TestUtil.Expectation;
 import com.sap.cloud.lm.sl.mta.handlers.HandlerFactory;
 import com.sap.cloud.lm.sl.mta.handlers.v1.ConfigurationParser;
 import com.sap.cloud.lm.sl.mta.handlers.v1.DescriptorHandler;
 import com.sap.cloud.lm.sl.mta.handlers.v1.DescriptorParser;
-import com.sap.cloud.lm.sl.mta.mergers.v1.PlatformMerger;
 import com.sap.cloud.lm.sl.mta.model.v1.DeploymentDescriptor;
 import com.sap.cloud.lm.sl.mta.model.v1.Platform;
 
@@ -30,15 +30,15 @@ public class PlatformMergerTest {
 // @formatter:off
             // (0)
             {
-                "mtad-00.yaml", "platforms-00.json", "R:result-platform-00.json",
+                "mtad-00.yaml", "platforms-00.json", new Expectation(Expectation.Type.RESOURCE, "result-platform-00.json"),
             },
             // (1)
             {
-                "mtad-01.yaml", "platforms-01.json", "R:result-platform-01.json",
+                "mtad-01.yaml", "platforms-01.json", new Expectation(Expectation.Type.RESOURCE, "result-platform-01.json"),
             },
             // (2)
             {
-                "mtad-00.yaml", "platforms-02.json", "R:result-platform-02.json",
+                "mtad-00.yaml", "platforms-02.json", new Expectation(Expectation.Type.RESOURCE, "result-platform-02.json"),
             },
 // @formatter:on
         });
@@ -46,14 +46,14 @@ public class PlatformMergerTest {
 
     private String deploymentDescriptorLocation;
     private String platformsLocation;
-    private String expectedJsonLocation;
+    private Expectation expectation;
     private DeploymentDescriptor descriptor;
     private List<Platform> platforms;
 
-    public PlatformMergerTest(String deploymentDescriptorLocation, String platformsLocation, String expectedJsonLocation) {
+    public PlatformMergerTest(String deploymentDescriptorLocation, String platformsLocation, Expectation expectation) {
         this.deploymentDescriptorLocation = deploymentDescriptorLocation;
         this.platformsLocation = platformsLocation;
-        this.expectedJsonLocation = expectedJsonLocation;
+        this.expectation = expectation;
     }
 
     @Before
@@ -87,7 +87,7 @@ public class PlatformMergerTest {
                     return descriptor;
                 }
 
-            }, expectedJsonLocation, getClass());
+            }, expectation, getClass());
         }
     }
 

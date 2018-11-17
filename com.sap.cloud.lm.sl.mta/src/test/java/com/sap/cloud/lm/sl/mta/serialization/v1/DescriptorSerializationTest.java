@@ -12,6 +12,7 @@ import org.junit.runners.Parameterized.Parameters;
 
 import com.sap.cloud.lm.sl.common.util.Callable;
 import com.sap.cloud.lm.sl.common.util.TestUtil;
+import com.sap.cloud.lm.sl.common.util.TestUtil.Expectation;
 import com.sap.cloud.lm.sl.mta.model.v1.DeploymentDescriptor;
 import com.sap.cloud.lm.sl.mta.model.v1.ExtensionDescriptor;
 import com.sap.cloud.lm.sl.mta.parsers.v1.DeploymentDescriptorParser;
@@ -22,9 +23,9 @@ import com.sap.cloud.lm.sl.mta.util.YamlUtil;
 public class DescriptorSerializationTest {
 
     protected String deploymentDescriptorLocation;
-    protected String serializedDescriptorLocation;
+    protected Expectation expectedSerializedDescriptor;
     protected String extensionDescriptorLocation;
-    protected String serializedExtensionLocation;
+    protected Expectation expectedSerializedExtension;
 
     private InputStream deploymentDescriptorYaml;
     private InputStream extensionDescriptorYaml;
@@ -35,18 +36,19 @@ public class DescriptorSerializationTest {
 // @formatter:off
             // (0) Valid deployment and extension descriptors:
             {
-                "mtad-00.yaml", "R:serialized-descriptor-00.json", "extension-descriptor-00.mtaext", "R:serialized-extension-00.json"
+                "mtad-00.yaml", new Expectation(Expectation.Type.RESOURCE, "serialized-descriptor-00.json"),
+                "extension-descriptor-00.mtaext", new Expectation(Expectation.Type.RESOURCE, "serialized-extension-00.json"),
             }
             // @formatter:on
         });
     }
 
-    public DescriptorSerializationTest(String deploymentDescriptorLocation, String serializedDescriptorLocation,
-        String extensionDescriptorLocation, String serializedExtensionLocation) {
+    public DescriptorSerializationTest(String deploymentDescriptorLocation, Expectation expectedSerializedDescriptor,
+        String extensionDescriptorLocation, Expectation expectedSerializedExtension) {
         this.deploymentDescriptorLocation = deploymentDescriptorLocation;
-        this.serializedDescriptorLocation = serializedDescriptorLocation;
+        this.expectedSerializedDescriptor = expectedSerializedDescriptor;
         this.extensionDescriptorLocation = extensionDescriptorLocation;
-        this.serializedExtensionLocation = serializedExtensionLocation;
+        this.expectedSerializedExtension = expectedSerializedExtension;
     }
 
     @Before
@@ -66,7 +68,7 @@ public class DescriptorSerializationTest {
                 return getDescriptorFromMap(YamlUtil.convertYamlToMap(serializedMap));
             }
 
-        }, serializedDescriptorLocation, getClass());
+        }, expectedSerializedDescriptor, getClass());
     }
 
     @Test
@@ -80,7 +82,7 @@ public class DescriptorSerializationTest {
                 return getExtensionDescriptorFromMap(YamlUtil.convertYamlToMap(serializedMap));
             }
 
-        }, serializedExtensionLocation, getClass());
+        }, expectedSerializedExtension, getClass());
     }
 
     private DeploymentDescriptor getDescriptorFromMap(Map<String, Object> yamlMap) {

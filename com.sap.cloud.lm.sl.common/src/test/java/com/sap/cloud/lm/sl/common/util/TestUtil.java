@@ -3,103 +3,42 @@ package com.sap.cloud.lm.sl.common.util;
 import static org.hamcrest.CoreMatchers.containsString;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
-import java.util.Arrays;
 
 import org.apache.commons.io.IOUtils;
 
 public class TestUtil {
 
-    public static final String RESOURCE_PREFIX = "R";
-    public static final String DO_NOT_RUN_TEST = "S";
-    public static final String EXCEPTION_PREFIX = "E";
+    public static class Expectation {
 
-    public static final String NO_CONTENT = "";
-
-    public static final char PREFIX_SEPARATOR = ':';
-
-    public static void test(Runnable runnable, String expected) {
-        try {
-            if (!expected.equals(DO_NOT_RUN_TEST)) {
-                runnable.run();
-                validateResult(expected, null, NO_CONTENT);
-            }
-        } catch (Exception e) {
-            // e.printStackTrace();
-            validateException(expected, e);
+        public enum Type {
+            DEFAULT, RESOURCE, EXCEPTION, DO_NOT_RUN
         }
-    }
 
-    private static <T> void test(Callable<T> callable, String expected, Class<?> resourceClass,
-        JsonSerializationOptions serializationOptions, boolean shouldConvertResultToJson) {
-        try {
-            if (!expected.equals(DO_NOT_RUN_TEST)) {
-                T result = callable.call();
-                String resultAsString = getResultAsString(result, shouldConvertResultToJson, expected, serializationOptions);
-                validateResult(expected, resourceClass, resultAsString);
-            }
-        } catch (Exception e) {
-            // e.printStackTrace();
-            validateException(expected, e);
+        private final Type type;
+        private final String expectation;
+
+        public Expectation(String expectation) {
+            this(Type.DEFAULT, expectation);
         }
-    }
 
-    public static <T> void test(Callable<T> callable, String expected, Class<?> resourceClass, boolean shouldConvertResultToJson) {
-        test(callable, expected, resourceClass, new JsonSerializationOptions(false, false), shouldConvertResultToJson);
-    }
-
-    public static <T> void test(Callable<T> callable, String expected, Class<?> resourceClass) {
-        test(callable, expected, resourceClass, new JsonSerializationOptions(false, false), true);
-    }
-
-    public static <T> void test(Callable<T> callable, String expected, Class<?> resourceClass,
-        JsonSerializationOptions serializationOptions) {
-        test(callable, expected, resourceClass, serializationOptions, true);
-    }
-
-    private static void validateResult(String expected, Class<?> resourceClass, String actual) throws IOException {
-        String expectedContent = null;
-        if (getPrefix(expected).equals(RESOURCE_PREFIX)) {
-            expectedContent = getResourceAsString(getContent(expected), resourceClass);
-        } else {
-            expectedContent = getContent(expected);
+        public Expectation(Type type, String expectation) {
+            this.type = type;
+            this.expectation = expectation;
         }
-        assertEquals(expectedContent, actual);
-    }
 
-    private static void validateException(String expected, Exception exception) {
-        String stackTrace = Arrays.asList(exception.getStackTrace())
-            .subList(0, 5)
-            .toString();
-        assertEquals(exception.getMessage() + stackTrace, getPrefix(expected), EXCEPTION_PREFIX);
-        assertThat("exception's message doesn't match up", exception.getMessage(), containsString(getContent(expected)));
-    }
-
-    private static String getContent(String expected) {
-        return expected.substring(expected.indexOf(PREFIX_SEPARATOR) + 1);
-    }
-
-    private static boolean hasPrefix(String expected) {
-        return expected.indexOf(PREFIX_SEPARATOR) != -1;
-    }
-
-    private static String getPrefix(String expected) {
-        if (hasPrefix(expected)) {
-            return expected.substring(0, expected.indexOf(PREFIX_SEPARATOR));
+        public Type getType() {
+            return type;
         }
-        return NO_CONTENT;
-    }
 
-    private static <T> String getResultAsString(T result, boolean shouldConvertToJson, String expected,
-        JsonSerializationOptions serializationOptions) {
-        if (shouldConvertToJson) {
-            return JsonUtil.toJson(result, getPrefix(expected).equals(RESOURCE_PREFIX), serializationOptions.getUseExposeAnnotation(),
-                serializationOptions.getDisableHtmlEscaping());
+        public String getExpectation() {
+            return expectation;
         }
-        return (String) result;
+
     }
 
     public static InputStream getResourceAsInputStream(String name, Class<?> resourceClass) {
@@ -113,6 +52,64 @@ public class TestUtil {
         } catch (IOException e) {
             throw new IllegalStateException(e.getMessage(), e);
         }
+    }
+
+    public static void test(Runnable runnable, Expectation expectation) {
+        if (expectation.type.equals(Expectation.Type.DO_NOT_RUN)) {
+            return;
+        }
+        try {
+            runnable.run();
+        } catch (Exception e) {
+            // e.printStackTrace();
+            validateException(expectation, e);
+        }
+    }
+
+    public static <T> void test(Callable<T> callable, Expectation expectation, Class<?> resourceClass) {
+        test(callable, expectation, resourceClass, new JsonSerializationOptions(false, false));
+    }
+
+    public static <T> void test(Callable<T> callable, Expectation expectation, Class<?> resourceClass,
+        JsonSerializationOptions serializationOptions) {
+        if (expectation.type.equals(Expectation.Type.DO_NOT_RUN)) {
+            return;
+        }
+        try {
+            T result = callable.call();
+            String resultAsString = getResultAsString(result, expectation, serializationOptions);
+            validateResult(expectation, resultAsString, resourceClass);
+        } catch (Exception e) {
+            // e.printStackTrace();
+            validateException(expectation, e);
+        }
+    }
+
+    private static void validateResult(Expectation expectation, Object result, Class<?> resourceClass) {
+        Object expectedResult = getExpectedResult(expectation, resourceClass);
+        assertEquals(expectedResult, result);
+    }
+
+    private static Object getExpectedResult(Expectation expectation, Class<?> resourceClass) {
+        if (expectation.type.equals(Expectation.Type.RESOURCE)) {
+            return getResourceAsString(expectation.expectation, resourceClass);
+        }
+        return expectation.expectation;
+    }
+
+    private static void validateException(Expectation expectation, Exception exception) {
+        assertTrue(expectation.type.equals(Expectation.Type.EXCEPTION));
+        assertThat("Exception's message doesn't match up", exception.getMessage(), containsString(expectation.expectation));
+    }
+
+    private static <T> String getResultAsString(T result, Expectation expectation, JsonSerializationOptions serializationOptions) {
+        if (result == null) {
+            return null;
+        }
+        if (result instanceof String || !expectation.type.equals(Expectation.Type.RESOURCE)) {
+            return result.toString();
+        }
+        return JsonUtil.toJson(result, true, serializationOptions.getUseExposeAnnotation(), serializationOptions.getDisableHtmlEscaping());
     }
 
     public static class JsonSerializationOptions {

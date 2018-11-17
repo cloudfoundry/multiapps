@@ -11,13 +11,14 @@ import org.junit.runners.Parameterized.Parameters;
 import com.sap.cloud.lm.sl.common.util.Callable;
 import com.sap.cloud.lm.sl.common.util.JsonUtil;
 import com.sap.cloud.lm.sl.common.util.TestUtil;
+import com.sap.cloud.lm.sl.common.util.TestUtil.Expectation;
 
 @RunWith(Parameterized.class)
 public class PropertiesUtilTest {
 
     private Map<String, Object> deploymentDescriptorProperties;
     private Map<String, Object> extensionDescriptorProperties;
-    private String expected;
+    private Expectation expectation;
 
     @Parameters
     public static Iterable<Object[]> getParameters() {
@@ -25,23 +26,23 @@ public class PropertiesUtilTest {
 // @formatter:off
             // (0) Merge normal properties maps
             {
-                "deployment-properties-01.json", "extension-properties-01.json", "R:merged-properties-01.json", 
+                "deployment-properties-01.json", "extension-properties-01.json", new Expectation(Expectation.Type.RESOURCE, "merged-properties-01.json"), 
             },
             // (1) No changes in the extension => merged properties should be the same
             {
-                "deployment-properties-02.json", "extension-properties-02.json", "R:merged-properties-02.json", 
+                "deployment-properties-02.json", "extension-properties-02.json", new Expectation(Expectation.Type.RESOURCE, "merged-properties-02.json"), 
             },
             // (2) Merging of nested maps
             {
-                "deployment-properties-03.json", "extension-properties-03.json", "R:merged-properties-03.json", 
+                "deployment-properties-03.json", "extension-properties-03.json", new Expectation(Expectation.Type.RESOURCE, "merged-properties-03.json"), 
             },
             // (3) Scalar parameter cannot be overwritten by a structured parameter
             {
-                "deployment-properties-04.json", "extension-properties-04.json", "E:",
+                "deployment-properties-04.json", "extension-properties-04.json", new Expectation(Expectation.Type.EXCEPTION, ""),
             },
             // (4) Structured parameter cannot be overwritten by a scalar parameter
             {
-                "deployment-properties-05.json", "extension-properties-05.json", "E:",
+                "deployment-properties-05.json", "extension-properties-05.json", new Expectation(Expectation.Type.EXCEPTION, ""),
             }
             
             
@@ -49,10 +50,10 @@ public class PropertiesUtilTest {
         });
     }
 
-    public PropertiesUtilTest(String deploymentDescriptorPath, String extensionDescriptorPath, String expected) throws Exception {
+    public PropertiesUtilTest(String deploymentDescriptorPath, String extensionDescriptorPath, Expectation expectation) throws Exception {
         deploymentDescriptorProperties = JsonUtil.fromJson(TestUtil.getResourceAsString(deploymentDescriptorPath, getClass()), Map.class);
         extensionDescriptorProperties = JsonUtil.fromJson(TestUtil.getResourceAsString(extensionDescriptorPath, getClass()), Map.class);
-        this.expected = expected;
+        this.expectation = expectation;
     }
 
     @Test
@@ -64,6 +65,6 @@ public class PropertiesUtilTest {
                 return PropertiesUtil.mergeExtensionProperties(deploymentDescriptorProperties, extensionDescriptorProperties);
             }
 
-        }, expected, getClass());
+        }, expectation, getClass());
     }
 }

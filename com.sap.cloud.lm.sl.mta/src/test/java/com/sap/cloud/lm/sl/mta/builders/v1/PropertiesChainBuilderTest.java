@@ -13,6 +13,7 @@ import org.junit.runners.Parameterized.Parameters;
 
 import com.sap.cloud.lm.sl.common.util.Callable;
 import com.sap.cloud.lm.sl.common.util.TestUtil;
+import com.sap.cloud.lm.sl.common.util.TestUtil.Expectation;
 import com.sap.cloud.lm.sl.mta.MtaTestUtil;
 import com.sap.cloud.lm.sl.mta.builders.v1.PropertiesChainBuilder;
 import com.sap.cloud.lm.sl.mta.handlers.v1.ConfigurationParser;
@@ -29,7 +30,7 @@ public class PropertiesChainBuilderTest {
     protected final String deploymentDescriptorLocation;
     protected final String targetLocation;
     protected final String platformLocation;
-    protected final String[] expected;
+    protected final Expectation[] expectations;
 
     protected PropertiesChainBuilder builder;
     protected List<String> moduleNames;
@@ -41,30 +42,54 @@ public class PropertiesChainBuilderTest {
 // @formatter:off
             // (0) All module and resource types are present in platform and platform type:
             {
-                "mtad-01.yaml", "platform-01.json", "target-01.json", new String[] { "R:module-chain-01.json", "R:module-chain-without-dependencies-01.json", "R:resource-chain-01.json", "R:resource-type-chain-01.json", },
+                "mtad-01.yaml", "platform-01.json", "target-01.json",
+                new Expectation[] {
+                    new Expectation(Expectation.Type.RESOURCE, "module-chain-01.json"),
+                    new Expectation(Expectation.Type.RESOURCE, "module-chain-without-dependencies-01.json"),
+                    new Expectation(Expectation.Type.RESOURCE, "resource-chain-01.json"),
+                    new Expectation(Expectation.Type.RESOURCE, "resource-type-chain-01.json"),
+                },
             },
             // (1) No module and resource types in platform and platform type:
             {
-                "mtad-01.yaml", "platform-02.json", "target-02.json", new String[] { "R:module-chain-02.json", "R:module-chain-without-dependencies-02.json", "R:resource-chain-02.json", "R:resource-type-chain-02.json", },
+                "mtad-01.yaml", "platform-02.json", "target-02.json",
+                new Expectation[] {
+                    new Expectation(Expectation.Type.RESOURCE, "module-chain-02.json"),
+                    new Expectation(Expectation.Type.RESOURCE, "module-chain-without-dependencies-02.json"),
+                    new Expectation(Expectation.Type.RESOURCE, "resource-chain-02.json"),
+                    new Expectation(Expectation.Type.RESOURCE, "resource-type-chain-02.json"),
+                },
             },
             // (2) Some module and resource types are present in platform and platform type:
             {
-                "mtad-01.yaml", "platform-03.json", "target-03.json", new String[] { "R:module-chain-03.json", "R:module-chain-without-dependencies-03.json", "R:resource-chain-03.json", "R:resource-type-chain-03.json", },
+                "mtad-01.yaml", "platform-03.json", "target-03.json",
+                new Expectation[] {
+                    new Expectation(Expectation.Type.RESOURCE, "module-chain-03.json"),
+                    new Expectation(Expectation.Type.RESOURCE, "module-chain-without-dependencies-03.json"),
+                    new Expectation(Expectation.Type.RESOURCE, "resource-chain-03.json"),
+                    new Expectation(Expectation.Type.RESOURCE, "resource-type-chain-03.json"),
+                },
             },
             // (3) No platform and platform type:
             {
-                "mtad-01.yaml", null, null, new String[] { "R:module-chain-04.json", "R:module-chain-without-dependencies-04.json", "R:resource-chain-04.json", "R:resource-type-chain-04.json", },
+                "mtad-01.yaml", null, null,
+                new Expectation[] {
+                    new Expectation(Expectation.Type.RESOURCE, "module-chain-04.json"),
+                    new Expectation(Expectation.Type.RESOURCE, "module-chain-without-dependencies-04.json"),
+                    new Expectation(Expectation.Type.RESOURCE, "resource-chain-04.json"),
+                    new Expectation(Expectation.Type.RESOURCE, "resource-type-chain-04.json"),
+                },
             },
 // @formatter:on
         });
     }
 
     public PropertiesChainBuilderTest(String deploymentDescriptorLocation, String platformTypeLocation, String platformLocation,
-        String[] expected) {
+        Expectation[] expectations) {
         this.deploymentDescriptorLocation = deploymentDescriptorLocation;
         this.targetLocation = platformLocation;
         this.platformLocation = platformTypeLocation;
-        this.expected = expected;
+        this.expectations = expectations;
     }
 
     @Before
@@ -133,7 +158,7 @@ public class PropertiesChainBuilderTest {
                 }
                 return moduleChains;
             }
-        }, expected[0], getClass());
+        }, expectations[0], getClass());
     }
 
     @Test
@@ -147,7 +172,7 @@ public class PropertiesChainBuilderTest {
                 }
                 return moduleChains;
             }
-        }, expected[1], getClass());
+        }, expectations[1], getClass());
     }
 
     @Test
@@ -161,7 +186,7 @@ public class PropertiesChainBuilderTest {
                 }
                 return resourceChains;
             }
-        }, expected[2], getClass());
+        }, expectations[2], getClass());
     }
 
     @Test
@@ -175,7 +200,7 @@ public class PropertiesChainBuilderTest {
                 }
                 return resourceTypeChains;
             }
-        }, expected[3], getClass());
+        }, expectations[3], getClass());
     }
 
 }
