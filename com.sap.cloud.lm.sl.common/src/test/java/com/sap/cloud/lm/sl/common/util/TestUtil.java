@@ -5,6 +5,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.Assert.assertEquals;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 
@@ -46,22 +47,6 @@ public class TestUtil {
         }
     }
 
-    public static <T> void test(Callable<T> callable, String expectedResult, String expectedExceptionMessage, String expectedExceptionCause,
-        Class<?> resourceClass, JsonSerializationOptions serializationOptions, boolean shouldConvertResultToJson) {
-        try {
-            if (expectedResult.equals(DO_NOT_RUN_TEST) || expectedExceptionMessage.equals(DO_NOT_RUN_TEST)
-                || expectedExceptionCause.equals(DO_NOT_RUN_TEST)) {
-                return;
-            }
-            T result = callable.call();
-            String resultAsString = getResultAsString(result, shouldConvertResultToJson, expectedResult, serializationOptions);
-            validateResult(expectedResult, resourceClass, resultAsString);
-        } catch (Exception e) {
-            // e.printStackTrace();
-            validateException(expectedExceptionMessage, expectedExceptionCause, e);
-        }
-    }
-
     public static <T> void test(Callable<T> callable, String expected, Class<?> resourceClass, boolean shouldConvertResultToJson) {
         test(callable, expected, resourceClass, new JsonSerializationOptions(false, false), shouldConvertResultToJson);
     }
@@ -73,12 +58,6 @@ public class TestUtil {
     public static <T> void test(Callable<T> callable, String expected, Class<?> resourceClass,
         JsonSerializationOptions serializationOptions) {
         test(callable, expected, resourceClass, serializationOptions, true);
-    }
-
-    public static <T> void test(Callable<T> callable, String expectedResult, String expectedExceptionMessage, String expectedExceptionCause,
-        Class<?> resourceClass) {
-        test(callable, expectedResult, expectedExceptionMessage, expectedExceptionCause, resourceClass,
-            new JsonSerializationOptions(false, false), true);
     }
 
     private static void validateResult(String expected, Class<?> resourceClass, String actual) throws IOException {
@@ -97,18 +76,6 @@ public class TestUtil {
             .toString();
         assertEquals(exception.getMessage() + stackTrace, getPrefix(expected), EXCEPTION_PREFIX);
         assertThat("exception's message doesn't match up", exception.getMessage(), containsString(getContent(expected)));
-    }
-
-    private static void validateException(String expectedMessage, String expectedCause, Exception exception) {
-        String stackTrace = Arrays.asList(exception.getStackTrace())
-            .subList(0, 5)
-            .toString();
-        assertEquals(exception.getMessage() + stackTrace, getPrefix(expectedMessage), EXCEPTION_PREFIX);
-        assertEquals(exception.getCause()
-            .toString(), getPrefix(expectedCause), EXCEPTION_PREFIX);
-        assertThat("exception's message match up", exception.getMessage(), containsString(getContent(expectedMessage)));
-        assertThat("exception's cause match up", exception.getCause()
-            .toString(), containsString(getContent(expectedCause)));
     }
 
     private static String getContent(String expected) {
@@ -135,9 +102,17 @@ public class TestUtil {
         return (String) result;
     }
 
-    public static String getResourceAsString(String name, Class<?> resourceClass) throws IOException {
-        String resource = IOUtils.toString(resourceClass.getResourceAsStream(name), StandardCharsets.UTF_8);
-        return resource.replace("\r", "");
+    public static InputStream getResourceAsInputStream(String name, Class<?> resourceClass) {
+        return resourceClass.getResourceAsStream(name);
+    }
+
+    public static String getResourceAsString(String name, Class<?> resourceClass) {
+        try {
+            String resource = IOUtils.toString(getResourceAsInputStream(name, resourceClass), StandardCharsets.UTF_8);
+            return resource.replace("\r", "");
+        } catch (IOException e) {
+            throw new IllegalStateException(e.getMessage(), e);
+        }
     }
 
     public static class JsonSerializationOptions {

@@ -1,86 +1,64 @@
 package com.sap.cloud.lm.sl.mta.util;
 
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import java.io.InputStream;
-import java.nio.charset.StandardCharsets;
-import java.util.Arrays;
-import java.util.Map;
 
-import org.apache.commons.io.IOUtils;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.Parameterized;
-import org.junit.runners.Parameterized.Parameters;
+import org.junit.jupiter.api.Nested;
+import org.junit.jupiter.api.Test;
 
-import com.sap.cloud.lm.sl.common.util.Callable;
+import com.sap.cloud.lm.sl.common.ParsingException;
 import com.sap.cloud.lm.sl.common.util.TestUtil;
 
-@RunWith(Parameterized.class)
 public class YamlUtilTest {
 
-    protected String deploymentDescriptorLocation;
-    protected static String expectedResult;
-    protected static String expectedExceptionMsgFromParsingFromInputStream = "E:Error while parsing YAML stream";
-    protected static String expectedExceptionMsgFromParsingFromString = "E:could not determine a constructor for the tag tag:yaml.org,2002:javax.script.ScriptEngineManager";
+    @Nested
+    class WithValidDescriptor {
 
-    protected static String expectedExceptionCauseFromParsingFromInputStream = "E:could not determine a constructor for the tag tag:yaml.org,2002:javax.script.ScriptEngineManager\n"
-        + " in 'reader', line 10, column 17:\n" + "         instances: !!javax.script.ScriptEngineManager [\n"
-        + "                    ^";
-    protected static String expectedExceptionCauseFromParsingFromString = "E:could not determine a constructor for the tag tag:yaml.org,2002:javax.script.ScriptEngineManager\n"
-        + " in 'string', line 10, column 17:\n" + "         instances: !!javax.script.ScriptEngineManager [\n"
-        + "                    ^";
+        private static final String DESCRIPTOR = "mtad.yaml";
 
-    protected static String[] expectedExceptionMsgs = new String[] { expectedExceptionMsgFromParsingFromInputStream,
-        expectedExceptionMsgFromParsingFromString };
-    protected static String[] expectedExceptionCauses = new String[] { expectedExceptionCauseFromParsingFromInputStream,
-        expectedExceptionCauseFromParsingFromString };
+        @Test
+        public void testWithStream() {
+            InputStream descriptorStream = TestUtil.getResourceAsInputStream(DESCRIPTOR, getClass());
+            assertNotNull(YamlUtil.convertYamlToMap(descriptorStream));
+        }
 
-    @Parameters
-    public static Iterable<Object[]> getParameters() {
-        return Arrays.asList(new Object[][] {
-// @formatter:off
-            // (0) Correct deployment descriptor
-            {
-                "mtad-01.yaml", "R:expected-map-01.json", new String[] {"", ""}, new String[] {"",""}
-            },
-            // (1) Deployment descriptor with security violation
-            {
-                "mtad-02.yaml", "", expectedExceptionMsgs, expectedExceptionCauses
-            },
-// @formatter:on
-        });
+        @Test
+        public void testWithString() {
+            String descriptorString = TestUtil.getResourceAsString(DESCRIPTOR, getClass());
+            assertNotNull(YamlUtil.convertYamlToMap(descriptorString));
+        }
+
     }
 
-    @SuppressWarnings("static-access")
-    public YamlUtilTest(String deploymentDescriptorLocation, String expectedResult, String[] expectedExceptionMsgs,
-        String[] expectedExceptionCauses) throws Exception {
-        this.deploymentDescriptorLocation = deploymentDescriptorLocation;
-        this.expectedResult = expectedResult;
-        this.expectedExceptionMsgs = expectedExceptionMsgs;
-        this.expectedExceptionCauses = expectedExceptionCauses;
+    @Nested
+    class WithDescriptorContainingSecurityViolations {
+
+        private static final String DESCRIPTOR = "mtad-with-security-violation.yaml";
+        private static final String EXPECTED_EXCEPTION_MESSAGE = "could not determine a constructor for the tag tag:yaml.org,2002:javax.script.ScriptEngineManager";
+
+        @Test
+        public void testWithStream() {
+            InputStream descriptorStream = TestUtil.getResourceAsInputStream(DESCRIPTOR, getClass());
+            ParsingException parsingException = assertThrows(ParsingException.class, () -> YamlUtil.convertYamlToMap(descriptorStream));
+            validate(parsingException);
+        }
+
+        @Test
+        public void testWithString() {
+            String descriptorString = TestUtil.getResourceAsString(DESCRIPTOR, getClass());
+            ParsingException parsingException = assertThrows(ParsingException.class, () -> YamlUtil.convertYamlToMap(descriptorString));
+            validate(parsingException);
+        }
+
+        private void validate(ParsingException parsingException) {
+            Throwable cause = parsingException.getCause();
+            assertTrue(cause.getMessage()
+                .contains(EXPECTED_EXCEPTION_MESSAGE));
+        }
+
     }
 
-    @Test
-    public void testConvertYamlInputStreamToMap() {
-        TestUtil.test(new Callable<Map<String, Object>>() {
-            @Override
-            public Map<String, Object> call() throws Exception {
-                try (InputStream inputStream = getClass().getResourceAsStream(deploymentDescriptorLocation)) {
-                    return YamlUtil.convertYamlToMap(inputStream);
-                }
-            }
-        }, expectedResult, expectedExceptionMsgs[0], expectedExceptionCauses[0], getClass());
-    }
-
-    @Test
-    public void testConvertYamlStringToMap() {
-        TestUtil.test(new Callable<Map<String, Object>>() {
-            @Override
-            public Map<String, Object> call() throws Exception {
-                try (InputStream inputStream = getClass().getResourceAsStream(deploymentDescriptorLocation)) {
-                    String deploymentDescriptor = IOUtils.toString(inputStream, StandardCharsets.UTF_8);
-                    return YamlUtil.convertYamlToMap(deploymentDescriptor);
-                }
-            }
-        }, expectedResult, expectedExceptionMsgs[1], expectedExceptionCauses[1], getClass());
-    }
 }
