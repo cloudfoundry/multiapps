@@ -1,13 +1,15 @@
 package com.sap.cloud.lm.sl.common.util;
 
+import com.sap.cloud.lm.sl.common.util.TestUtil.Expectation;
+
 public abstract class TestCase<I extends TestInput> {
 
     protected I input;
-    protected String expected;
+    protected Expectation expectation;
 
-    public TestCase(I input, String expected) {
+    public TestCase(I input, Expectation expectation) {
         this.input = input;
-        this.expected = expected;
+        this.expectation = expectation;
     }
 
     protected void setUp() throws Exception {

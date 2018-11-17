@@ -13,11 +13,8 @@ import org.junit.runners.Parameterized.Parameters;
 import com.sap.cloud.lm.sl.common.util.Pair;
 import com.sap.cloud.lm.sl.common.util.Runnable;
 import com.sap.cloud.lm.sl.common.util.TestUtil;
+import com.sap.cloud.lm.sl.common.util.TestUtil.Expectation;
 import com.sap.cloud.lm.sl.mta.MtaTestUtil;
-import com.sap.cloud.lm.sl.mta.handlers.v1.ConfigurationParser;
-import com.sap.cloud.lm.sl.mta.handlers.v1.DescriptorHandler;
-import com.sap.cloud.lm.sl.mta.handlers.v1.DescriptorParser;
-import com.sap.cloud.lm.sl.mta.handlers.v1.DescriptorValidator;
 import com.sap.cloud.lm.sl.mta.model.v1.DeploymentDescriptor;
 import com.sap.cloud.lm.sl.mta.model.v1.ExtensionDescriptor;
 import com.sap.cloud.lm.sl.mta.model.v1.Platform;
@@ -34,7 +31,7 @@ public class DescriptorValidatorTest {
     private final String[] extensionDescriptorLocations;
     private final String mergedDescriptorLocation;
     private final String[] targets;
-    private final String[] expected;
+    private final Expectation[] expectations;
 
     private DeploymentDescriptor deploymentDescriptor;
     private List<ExtensionDescriptor> extensionDescriptors;
@@ -57,59 +54,114 @@ public class DescriptorValidatorTest {
 // @formatter:off
             // (0) Valid deployment and extension descriptors:
             {
-                "/mta/sample/v1/mtad-01.yaml", new String[] { "/mta/sample/v1/config-01.mtaext" }, null, null, new String[] { "", "", "S", },
+                "/mta/sample/v1/mtad-01.yaml", new String[] { "/mta/sample/v1/config-01.mtaext" }, null, null,
+                new Expectation[] {
+                    new Expectation(""),
+                    new Expectation(""),
+                    new Expectation(Expectation.Type.DO_NOT_RUN, null),
+                },
             },
             // (1) Deploy Target not listed in merged descriptor (there are other targets listed):
             {
-                null, null, "/mta/sample/v1/merged-01.yaml", new String[] { "CF-TEST", "CF-PROD", }, new String[] { "S", "S", "E:Deploy target \"CF-QUAL\" not listed in extension descriptor chain", },
+                null, null, "/mta/sample/v1/merged-01.yaml", new String[] { "CF-TEST", "CF-PROD", },
+                new Expectation[] {
+                    new Expectation(Expectation.Type.DO_NOT_RUN, null),
+                    new Expectation(Expectation.Type.DO_NOT_RUN, null),
+                    new Expectation(Expectation.Type.EXCEPTION, "Deploy target \"CF-QUAL\" not listed in extension descriptor chain"),
+                },
             },
             // (2) Deploy target not listed in merged descriptor (there aren't any other targets listed):
             {
-                null, null, "/mta/sample/v1/merged-01.yaml", new String[] {}, new String[] { "S", "S", "", },
+                null, null, "/mta/sample/v1/merged-01.yaml", new String[] {},
+                new Expectation[] {
+                    new Expectation(Expectation.Type.DO_NOT_RUN, null),
+                    new Expectation(Expectation.Type.DO_NOT_RUN, null),
+                    new Expectation(""),
+                },
             },
             // (3) Unresolved properties in merged descriptor:
             {
-                null, null, "/mta/sample/v1/merged-03.yaml", new String[] { "CF-QUAL", }, new String[] { "S", "S", "E:Unresolved mandatory properties: [competitor-data#test, pricing#internal-odata#test, pricing-db#test, test]", },
+                null, null, "/mta/sample/v1/merged-03.yaml", new String[] { "CF-QUAL", },
+                new Expectation[] {
+                    new Expectation(Expectation.Type.DO_NOT_RUN, null),
+                    new Expectation(Expectation.Type.DO_NOT_RUN, null),
+                    new Expectation(Expectation.Type.EXCEPTION, "Unresolved mandatory properties: [competitor-data#test, pricing#internal-odata#test, pricing-db#test, test]"),
+                },
             },
             // (4) Unknown module in extension descriptor:
             {
-                "/mta/sample/v1/mtad-01.yaml", new String[] { "/mta/sample/v1/config-02.mtaext" }, null, null, new String[] { "S", "E:Unknown module \"web-serverx\" in extension descriptor \"com.sap.mta.sample.config-02\"", "S", },
+                "/mta/sample/v1/mtad-01.yaml", new String[] { "/mta/sample/v1/config-02.mtaext" }, null, null,
+                new Expectation[] {
+                    new Expectation(Expectation.Type.DO_NOT_RUN, null),
+                    new Expectation(Expectation.Type.EXCEPTION, "Unknown module \"web-serverx\" in extension descriptor \"com.sap.mta.sample.config-02\""),
+                    new Expectation(Expectation.Type.DO_NOT_RUN, null),
+                },
             },
             // (5) Unknown provided dependency in extension descriptor:
             {
-                "/mta/sample/v1/mtad-01.yaml", new String[] { "/mta/sample/v1/config-03.mtaext" }, null, null, new String[] { "S", "E:Unknown provided dependency \"internal-odatax\" for module \"pricing\" in extension descriptor \"com.sap.mta.sample.config-03\"", "S", },
+                "/mta/sample/v1/mtad-01.yaml", new String[] { "/mta/sample/v1/config-03.mtaext" }, null, null,
+                new Expectation[] {
+                    new Expectation(Expectation.Type.DO_NOT_RUN, null),
+                    new Expectation(Expectation.Type.EXCEPTION, "Unknown provided dependency \"internal-odatax\" for module \"pricing\" in extension descriptor \"com.sap.mta.sample.config-03\""),
+                    new Expectation(Expectation.Type.DO_NOT_RUN, null),
+                },
             },
             // (6) Unknown resource in extension descriptor:
             {
-                "/mta/sample/v1/mtad-01.yaml", new String[] { "/mta/sample/v1/config-04.mtaext" }, null, null, new String[] { "", "E:Unknown resource \"internal-odata-servicex\" in extension descriptor \"com.sap.mta.sample.config-04\"", "S", },
+                "/mta/sample/v1/mtad-01.yaml", new String[] { "/mta/sample/v1/config-04.mtaext" }, null, null,
+                new Expectation[] {
+                    new Expectation(""),
+                    new Expectation(Expectation.Type.EXCEPTION, "Unknown resource \"internal-odata-servicex\" in extension descriptor \"com.sap.mta.sample.config-04\""),
+                    new Expectation(Expectation.Type.DO_NOT_RUN, null),
+                },
             },
             // (7) Unsupported resource type in deployment descriptor:
             {
-                "/mta/sample/v1/mtad-02.yaml", null, null, null, new String[] { "E:Unsupported resource type \"com.sap.hana.hdi-containerx\" for platform type \"CLOUD-FOUNDRY\"", "S", "S", },
+                "/mta/sample/v1/mtad-02.yaml", null, null, null,
+                new Expectation[] {
+                    new Expectation(Expectation.Type.EXCEPTION, "Unsupported resource type \"com.sap.hana.hdi-containerx\" for platform type \"CLOUD-FOUNDRY\""),
+                    new Expectation(Expectation.Type.DO_NOT_RUN, null),
+                    new Expectation(Expectation.Type.DO_NOT_RUN, null),
+                },
             },
             // (8) Unresolved required dependency in deployment descriptor:
             {
-                "/mta/sample/v1/mtad-03.yaml", null, null, null, new String[] { "E:Unresolved required dependency \"internal-odatax\" for module \"web-server\"", "S", "S", },
+                "/mta/sample/v1/mtad-03.yaml", null, null, null,
+                new Expectation[] {
+                    new Expectation(Expectation.Type.EXCEPTION, "Unresolved required dependency \"internal-odatax\" for module \"web-server\""),
+                    new Expectation(Expectation.Type.DO_NOT_RUN, null),
+                    new Expectation(Expectation.Type.DO_NOT_RUN, null),
+                },
             },
             // (9) Unsupported module type in deployment descriptor:
             {
-                "/mta/sample/v1/mtad-04.yaml", null, null, null, new String[] { "E:Unsupported module type \"com.sap.static-contentx\" for platform type \"CLOUD-FOUNDRY\"", "S", "S", },
+                "/mta/sample/v1/mtad-04.yaml", null, null, null,
+                new Expectation[] {
+                    new Expectation(Expectation.Type.EXCEPTION, "Unsupported module type \"com.sap.static-contentx\" for platform type \"CLOUD-FOUNDRY\""),
+                    new Expectation(Expectation.Type.DO_NOT_RUN, null),
+                    new Expectation(Expectation.Type.DO_NOT_RUN, null),
+                },
             },
             // (10) Merged descriptor contains properties with empty values (but not null):
             {
-                null, null, "/mta/sample/v1/merged-06.yaml", new String[] {}, new String[] { "S", "S", "" },
+                null, null, "/mta/sample/v1/merged-06.yaml", new String[] {},
+                new Expectation[] {
+                    new Expectation(Expectation.Type.DO_NOT_RUN, null),
+                    new Expectation(Expectation.Type.DO_NOT_RUN, null),
+                    new Expectation(""),
+                },
             },
 // @formatter:on
         });
     }
 
     public DescriptorValidatorTest(String deploymentDescriptorLocation, String[] extensionDescriptorLocations,
-        String mergedDescriptorLocation, String[] targets, String[] expected) {
+        String mergedDescriptorLocation, String[] targets, Expectation[] expectations) {
         this.deploymentDescriptorLocation = deploymentDescriptorLocation;
         this.extensionDescriptorLocations = extensionDescriptorLocations;
         this.mergedDescriptorLocation = mergedDescriptorLocation;
         this.targets = targets;
-        this.expected = expected;
+        this.expectations = expectations;
     }
 
     @Before
@@ -155,7 +207,7 @@ public class DescriptorValidatorTest {
             public void run() throws Exception {
                 validator.validateDeploymentDescriptor(deploymentDescriptor, platform);
             }
-        }, expected[0]);
+        }, expectations[0]);
     }
 
     @Test
@@ -165,7 +217,7 @@ public class DescriptorValidatorTest {
             public void run() throws Exception {
                 validator.validateExtensionDescriptors(extensionDescriptors, deploymentDescriptor);
             }
-        }, expected[1]);
+        }, expectations[1]);
 
     }
 
@@ -177,7 +229,7 @@ public class DescriptorValidatorTest {
                 validator.validateMergedDescriptor(new Pair<DeploymentDescriptor, List<String>>(mergedDescriptor, Arrays.asList(targets)),
                     target);
             }
-        }, expected[2]);
+        }, expectations[2]);
     }
 
 }

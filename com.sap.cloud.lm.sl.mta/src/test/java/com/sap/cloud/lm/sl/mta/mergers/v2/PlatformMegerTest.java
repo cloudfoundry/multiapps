@@ -7,6 +7,7 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import org.junit.runners.Parameterized.Parameters;
 
+import com.sap.cloud.lm.sl.common.util.TestUtil.Expectation;
 import com.sap.cloud.lm.sl.mta.handlers.v1.DescriptorHandler;
 import com.sap.cloud.lm.sl.mta.mergers.v1.PlatformMerger;
 import com.sap.cloud.lm.sl.mta.model.v1.Platform;
@@ -20,22 +21,22 @@ public class PlatformMegerTest extends com.sap.cloud.lm.sl.mta.mergers.v1.Platfo
 // @formatter:off
             // (0)
             {
-                "mtad-00.yaml", "platforms-00.json", "R:result-platform-00.json",
+                "mtad-00.yaml", "platforms-00.json", new Expectation(Expectation.Type.RESOURCE, "result-platform-00.json"),
             },
             // (1)
             {
-                "mtad-01.yaml", "platforms-01.json", "R:result-platform-01.json",
+                "mtad-01.yaml", "platforms-01.json", new Expectation(Expectation.Type.RESOURCE, "result-platform-01.json"),
             },
             // (2)
             {
-                "mtad-00.yaml", "platforms-02.json", "R:result-platform-02.json",
+                "mtad-00.yaml", "platforms-02.json", new Expectation(Expectation.Type.RESOURCE, "result-platform-02.json"),
             },
 // @formatter:on
         });
     }
 
-    public PlatformMegerTest(String deploymentDescriptorLocation, String platformTypesLocation, String expectedJsonLocation) {
-        super(deploymentDescriptorLocation, platformTypesLocation, expectedJsonLocation);
+    public PlatformMegerTest(String deploymentDescriptorLocation, String platformTypesLocation, Expectation expectation) {
+        super(deploymentDescriptorLocation, platformTypesLocation, expectation);
     }
 
     protected int getMajorVersion() {

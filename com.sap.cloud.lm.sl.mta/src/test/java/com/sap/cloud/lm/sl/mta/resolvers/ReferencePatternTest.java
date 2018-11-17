@@ -14,9 +14,6 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import org.junit.runners.Parameterized.Parameters;
 
-import com.sap.cloud.lm.sl.common.util.Callable;
-import com.sap.cloud.lm.sl.common.util.TestUtil;
-
 @RunWith(Enclosed.class)
 public class ReferencePatternTest {
 
@@ -130,14 +127,7 @@ public class ReferencePatternTest {
 
         @Test
         public void testToString() {
-            TestUtil.test(new Callable<String>() {
-
-                @Override
-                public String call() {
-                    return referencePattern.toString(reference);
-                }
-
-            }, expectedResult, getClass(), false);
+            assertEquals(expectedResult, referencePattern.toString(reference));
         }
 
     }
