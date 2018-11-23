@@ -2,6 +2,7 @@ package com.sap.cloud.lm.sl.mta.parsers.v2;
 
 import static com.sap.cloud.lm.sl.mta.handlers.v2.Schemas.MODULE;
 
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -11,25 +12,40 @@ import java.util.TreeMap;
 import com.sap.cloud.lm.sl.common.ParsingException;
 import com.sap.cloud.lm.sl.common.util.ListUtil;
 import com.sap.cloud.lm.sl.mta.model.v2.Module;
+import com.sap.cloud.lm.sl.mta.model.v2.Module.Builder;
 import com.sap.cloud.lm.sl.mta.model.v2.ProvidedDependency;
 import com.sap.cloud.lm.sl.mta.model.v2.RequiredDependency;
-import com.sap.cloud.lm.sl.mta.model.v2.Module.Builder;
 import com.sap.cloud.lm.sl.mta.parsers.ListParser;
+import com.sap.cloud.lm.sl.mta.parsers.ModelParser;
 import com.sap.cloud.lm.sl.mta.schema.MapElement;
 
-public class ModuleParser extends com.sap.cloud.lm.sl.mta.parsers.v1.ModuleParser {
+public class ModuleParser extends ModelParser<Module> {
+
+    protected static final String PROCESSED_OBJECT_NAME = "MTA module";
 
     public static final String PATH = "path";
     public static final String PARAMETERS = "parameters";
-
+    public static final String NAME = "name";
+    public static final String TYPE = "type";
+    public static final String DESCRIPTION = "description";
+    public static final String PROPERTIES = "properties";
+    public static final String REQUIRES = "requires";
+    public static final String PROVIDES = "provides";
+    
+    protected Set<String> usedProvidedDependencyNames = Collections.emptySet();
     protected final Set<String> usedRequiredDependencyNames = new HashSet<>();
 
     public ModuleParser(Map<String, Object> source) {
-        super(MODULE, source);
+        this(MODULE, source);
     }
 
     protected ModuleParser(MapElement schema, Map<String, Object> source) {
-        super(schema, source);
+        super(PROCESSED_OBJECT_NAME, schema, source);
+    }
+
+    public ModuleParser setUsedProvidedDependencyNames(Set<String> usedProvidedDependencyNames) {
+        this.usedProvidedDependencyNames = usedProvidedDependencyNames;
+        return this;
     }
 
     @Override
@@ -46,6 +62,22 @@ public class ModuleParser extends com.sap.cloud.lm.sl.mta.parsers.v1.ModuleParse
         return builder.build();
     }
 
+    protected String getName() {
+        return getStringElement(NAME);
+    }
+
+    protected String getType() {
+        return getStringElement(TYPE);
+    }
+
+    protected String getDescription() {
+        return getStringElement(DESCRIPTION);
+    }
+
+    protected Map<String, Object> getProperties() {
+        return getMapElement(PROPERTIES);
+    }
+
     protected String getPath() {
         return getStringElement(PATH);
     }
@@ -53,13 +85,21 @@ public class ModuleParser extends com.sap.cloud.lm.sl.mta.parsers.v1.ModuleParse
     protected Map<String, Object> getParameters() {
         return getMapElement(PARAMETERS);
     }
-
     protected List<ProvidedDependency> getProvidedDependencies2() {
-        List<ProvidedDependency> providedDependencies = ListUtil.cast(getProvidedDependencies1());
+        List<ProvidedDependency> providedDependencies = ListUtil.cast(getProvidedDependencies());
         return getAllProvidedDependencies(providedDependencies);
     }
+    
+    protected List<ProvidedDependency> getProvidedDependencies() {
+        return getListElement(PROVIDES, new ListParser<ProvidedDependency>() {
+            @Override
+            protected ProvidedDependency parseItem(Map<String, Object> map) {
+                return getProvidedDependencyParser(map).setUsedValues(usedProvidedDependencyNames)
+                    .parse();
+            }
+        });
+    }
 
-    @Override
     protected ProvidedDependencyParser getProvidedDependencyParser(Map<String, Object> source) {
         return new ProvidedDependencyParser(source); // v2
     }
@@ -87,7 +127,7 @@ public class ModuleParser extends com.sap.cloud.lm.sl.mta.parsers.v1.ModuleParse
     protected ProvidedDependency getCurrentModuleAsProvidedDependency() {
         Map<String, Object> currentModule = new TreeMap<>();
         currentModule.put(NAME, getName());
-        return (ProvidedDependency) getProvidedDependencyParser(currentModule).setUsedValues(usedProvidedDependencyNames)
+        return getProvidedDependencyParser(currentModule).setUsedValues(usedProvidedDependencyNames)
             .parse();
     }
 
@@ -102,7 +142,7 @@ public class ModuleParser extends com.sap.cloud.lm.sl.mta.parsers.v1.ModuleParse
     }
 
     protected RequiredDependencyParser getRequiredDependencyParser(Map<String, Object> source) {
-        return new RequiredDependencyParser(source); // v2
+        return new RequiredDependencyParser(source);
     }
 
 }

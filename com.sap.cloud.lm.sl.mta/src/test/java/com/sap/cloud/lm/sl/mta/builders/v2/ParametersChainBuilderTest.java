@@ -1,16 +1,22 @@
 package com.sap.cloud.lm.sl.mta.builders.v2;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
 
+import org.junit.Test;
 import org.junit.runners.Parameterized.Parameters;
 
+import com.sap.cloud.lm.sl.common.util.Callable;
+import com.sap.cloud.lm.sl.common.util.TestUtil;
 import com.sap.cloud.lm.sl.common.util.TestUtil.Expectation;
 import com.sap.cloud.lm.sl.mta.handlers.v2.ConfigurationParser;
 import com.sap.cloud.lm.sl.mta.handlers.v2.DescriptorParser;
 import com.sap.cloud.lm.sl.mta.model.v2.DeploymentDescriptor;
 import com.sap.cloud.lm.sl.mta.model.v2.Platform;
 
-public class ParametersChainBuilderTest extends com.sap.cloud.lm.sl.mta.builders.v1.PropertiesChainBuilderTest {
+public class ParametersChainBuilderTest extends PropertiesChainBuilderTest {
 
     @Parameters
     public static Iterable<Object[]> getParameters() {
@@ -50,8 +56,7 @@ public class ParametersChainBuilderTest extends com.sap.cloud.lm.sl.mta.builders
         });
     }
 
-    public ParametersChainBuilderTest(String deploymentDescriptorLocation, String platformLocation,
-        Expectation[] expectations) {
+    public ParametersChainBuilderTest(String deploymentDescriptorLocation, String platformLocation, Expectation[] expectations) {
         super(deploymentDescriptorLocation, platformLocation, expectations);
     }
 
@@ -66,9 +71,22 @@ public class ParametersChainBuilderTest extends com.sap.cloud.lm.sl.mta.builders
     }
 
     @Override
-    protected PropertiesChainBuilder createPropertiesChainBuilder(
-        com.sap.cloud.lm.sl.mta.model.v1.DeploymentDescriptor deploymentDescriptor, com.sap.cloud.lm.sl.mta.model.v1.Platform platform) {
+    protected PropertiesChainBuilder createPropertiesChainBuilder(DeploymentDescriptor deploymentDescriptor, Platform platform) {
         return new ParametersChainBuilder((DeploymentDescriptor) deploymentDescriptor, (Platform) platform);
+    }
+    
+    @Test
+    public void testBuildResourceTypeChain() {
+        TestUtil.test(new Callable<List<List<Map<String, Object>>>>() {
+            @Override
+            public List<List<Map<String, Object>>> call() throws Exception {
+                List<List<Map<String, Object>>> resourceTypeChains = new ArrayList<List<Map<String, Object>>>();
+                for (String resourceName : resourceNames) {
+                    resourceTypeChains.add(builder.buildResourceTypeChain(resourceName));
+                }
+                return resourceTypeChains;
+            }
+        }, expectations[3], getClass());
     }
 
 }

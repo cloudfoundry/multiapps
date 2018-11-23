@@ -1,5 +1,8 @@
 package com.sap.cloud.lm.sl.mta.handlers.v2;
 
+import java.util.List;
+
+import com.sap.cloud.lm.sl.common.ContentException;
 import com.sap.cloud.lm.sl.mta.model.v2.DeploymentDescriptor;
 import com.sap.cloud.lm.sl.mta.model.v2.ExtensionDescriptor;
 import com.sap.cloud.lm.sl.mta.model.v2.Platform;
@@ -9,41 +12,50 @@ import com.sap.cloud.lm.sl.mta.validators.v2.DeploymentDescriptorValidator;
 import com.sap.cloud.lm.sl.mta.validators.v2.ExtensionDescriptorValidator;
 import com.sap.cloud.lm.sl.mta.validators.v2.MergedDescriptorValidator;
 
-public class DescriptorValidator extends com.sap.cloud.lm.sl.mta.handlers.v1.DescriptorValidator {
+public class DescriptorValidator {
+
+    protected final DescriptorHandler handler;
 
     public DescriptorValidator() {
-        super(new DescriptorHandler());
+        this(new DescriptorHandler());
     }
 
     public DescriptorValidator(DescriptorHandler handler) {
-        super(handler);
+        this.handler = handler;
     }
 
-    @Override
-    protected DeploymentDescriptorValidator getDeploymentDescriptorValidator(
-        com.sap.cloud.lm.sl.mta.model.v1.DeploymentDescriptor deploymentDescriptor,
-        com.sap.cloud.lm.sl.mta.model.v1.Platform platformType) {
-        return new DeploymentDescriptorValidator((DeploymentDescriptor) deploymentDescriptor, (Platform) platformType,
-            (DescriptorHandler) handler);
+    protected DeploymentDescriptorValidator getDeploymentDescriptorValidator(DeploymentDescriptor deploymentDescriptor,
+        Platform platformType) {
+        return new DeploymentDescriptorValidator(deploymentDescriptor, platformType, handler);
     }
 
-    @Override
-    protected ExtensionDescriptorValidator getExtensionDescriptorValidator(
-        com.sap.cloud.lm.sl.mta.model.v1.ExtensionDescriptor extensionDescriptor,
-        com.sap.cloud.lm.sl.mta.model.v1.DeploymentDescriptor deploymentDescriptor) {
-        return new ExtensionDescriptorValidator((ExtensionDescriptor) extensionDescriptor, (DeploymentDescriptor) deploymentDescriptor,
-            (DescriptorHandler) handler);
+    protected ExtensionDescriptorValidator getExtensionDescriptorValidator(ExtensionDescriptor extensionDescriptor,
+        DeploymentDescriptor deploymentDescriptor) {
+        return new ExtensionDescriptorValidator(extensionDescriptor, deploymentDescriptor, handler);
     }
 
-    @Override
-    protected MergedDescriptorValidator getMergedDescriptorValidator(com.sap.cloud.lm.sl.mta.model.v1.DeploymentDescriptor mergedDescriptor,
+    protected MergedDescriptorValidator getMergedDescriptorValidator(DeploymentDescriptor mergedDescriptor,
         DescriptorValidationRules validationRules) {
-        return new MergedDescriptorValidator((DeploymentDescriptor) mergedDescriptor, validationRules, (DescriptorHandler) handler);
+        return new MergedDescriptorValidator(mergedDescriptor, validationRules, handler);
     }
 
-    @Override
     protected DescriptorValidationRules getDefaultDescriptorValidationRules() {
         return new DefaultDescriptorValidationRules();
+    }
+
+    public void validateDeploymentDescriptor(DeploymentDescriptor deploymentDescriptor, Platform platform) throws ContentException {
+        getDeploymentDescriptorValidator(deploymentDescriptor, platform).validate();
+    }
+
+    public void validateExtensionDescriptors(List<ExtensionDescriptor> extensionDescriptors, DeploymentDescriptor deploymentDescriptor)
+        throws ContentException {
+        for (ExtensionDescriptor extensionDescriptor : extensionDescriptors) {
+            getExtensionDescriptorValidator(extensionDescriptor, deploymentDescriptor).validate();
+        }
+    }
+
+    public void validateMergedDescriptor(DeploymentDescriptor mergedDescriptor) throws ContentException {
+        getMergedDescriptorValidator(mergedDescriptor, getDefaultDescriptorValidationRules()).validate();
     }
 
 }

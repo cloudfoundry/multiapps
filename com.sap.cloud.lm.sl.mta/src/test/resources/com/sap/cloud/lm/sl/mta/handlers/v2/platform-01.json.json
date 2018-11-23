@@ -26,19 +26,19 @@
   ],
   "resourceTypes2": [
     {
+      "name": "com.sap.hana.hdi-container",
       "parameters": {
         "service": "hdi-hana",
         "service-plan": "hdi-shared"
-      },
-      "name": "com.sap.hana.hdi-container"
+      }
     },
     {
-      "parameters": {},
-      "name": "com.sap.user-provided"
+      "name": "com.sap.user-provided",
+      "parameters": {}
     },
     {
-      "parameters": {},
-      "name": "configuration"
+      "name": "configuration",
+      "parameters": {}
     }
   ],
   "name": "CLOUD-FOUNDRY"

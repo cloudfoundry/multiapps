@@ -1,9 +1,16 @@
 package com.sap.cloud.lm.sl.mta.handlers.v2;
 
+import java.util.Map;
+
+import com.sap.cloud.lm.sl.mta.schema.Element;
 import com.sap.cloud.lm.sl.mta.schema.ListElement;
 import com.sap.cloud.lm.sl.mta.schema.MapElement;
+import com.sap.cloud.lm.sl.mta.schema.Element.ElementBuilder;
 
-public class Schemas extends com.sap.cloud.lm.sl.mta.handlers.v1.Schemas {
+public class Schemas {
+    
+    public static final String MTA_IDENTIFIER_PATTERN = "^[A-Za-z0-9_\\-\\.]+$";
+    public static final int MTA_IDENTIFIER_MAX_LENGTH = 128;
 
     public static final MapElement MTAD = new MapElement();
     public static final MapElement MODULE = new MapElement();
@@ -20,6 +27,27 @@ public class Schemas extends com.sap.cloud.lm.sl.mta.handlers.v1.Schemas {
     public static final MapElement PLATFORM = new MapElement();
     public static final MapElement MODULE_TYPE = new MapElement();
     public static final MapElement RESOURCE_TYPE = new MapElement();
+
+    public static final Element OBJECT_REQUIRED = new ElementBuilder().type(Object.class)
+        .required(true)
+        .buildSimple();
+    public static final Element NON_UNIQUE_MTA_IDENTIFIER = new ElementBuilder().required(true)
+        .pattern(MTA_IDENTIFIER_PATTERN)
+        .maxLength(MTA_IDENTIFIER_MAX_LENGTH)
+        .buildSimple();
+    public static final Element STRING_REQUIRED = new ElementBuilder().required(true)
+        .buildSimple();
+    public static final Element STRING = new ElementBuilder().buildSimple();
+    public static final Element UNIQUE_MTA_IDENTIFIER = new ElementBuilder().required(true)
+        .unique(true)
+        .pattern(MTA_IDENTIFIER_PATTERN)
+        .maxLength(MTA_IDENTIFIER_MAX_LENGTH)
+        .buildSimple();
+    public static final Element PROPERTIES = new ElementBuilder().type(Map.class)
+        .buildSimple();
+    public static final Element BOOLEAN = new ElementBuilder().type(Boolean.class)
+        .buildSimple();
+    public static final ListElement LIST = new ListElement(STRING);
 
     static {
         MTAD.add("_schema-version", OBJECT_REQUIRED);

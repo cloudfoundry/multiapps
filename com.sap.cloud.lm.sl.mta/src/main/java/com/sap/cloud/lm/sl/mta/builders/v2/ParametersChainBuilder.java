@@ -11,10 +11,11 @@ import com.sap.cloud.lm.sl.mta.handlers.v2.DescriptorHandler;
 import com.sap.cloud.lm.sl.mta.model.ParametersContainer;
 import com.sap.cloud.lm.sl.mta.model.v2.DeploymentDescriptor;
 import com.sap.cloud.lm.sl.mta.model.v2.Module;
-import com.sap.cloud.lm.sl.mta.model.v2.Platform;
 import com.sap.cloud.lm.sl.mta.model.v2.ModuleType;
+import com.sap.cloud.lm.sl.mta.model.v2.Platform;
 import com.sap.cloud.lm.sl.mta.model.v2.RequiredDependency;
 import com.sap.cloud.lm.sl.mta.model.v2.Resource;
+import com.sap.cloud.lm.sl.mta.model.v2.ResourceType;
 import com.sap.cloud.lm.sl.mta.util.PropertiesUtil;
 
 public class ParametersChainBuilder extends PropertiesChainBuilder {
@@ -33,31 +34,31 @@ public class ParametersChainBuilder extends PropertiesChainBuilder {
 
     @Override
     public List<Map<String, Object>> buildModuleChain(String moduleName) {
-        Module module = (Module) handler.findModule(descriptor, moduleName);
+        Module module = handler.findModule(descriptor, moduleName);
         if (module == null) {
             return Collections.emptyList();
         }
         List<RequiredDependency> dependencies = module.getRequiredDependencies2();
-        ModuleType moduleType = (ModuleType) getModuleType(module);
-        DeploymentDescriptor deploymentDescriptor = (com.sap.cloud.lm.sl.mta.model.v2.DeploymentDescriptor) descriptor;
+        ModuleType moduleType = getModuleType(module);
+        DeploymentDescriptor deploymentDescriptor = descriptor;
         return getParametersList(dependencies, module, moduleType, deploymentDescriptor);
     }
 
     @Override
     public List<Map<String, Object>> buildModuleChainWithoutDependencies(String moduleName) {
-        Module module = (Module) handler.findModule(descriptor, moduleName);
+        Module module = handler.findModule(descriptor, moduleName);
         if (module == null) {
             return Collections.emptyList();
         }
-        ModuleType moduleType = (ModuleType) getModuleType(module);
-        DeploymentDescriptor deploymentDescriptor = (DeploymentDescriptor) descriptor;
+        ModuleType moduleType = getModuleType(module);
+        DeploymentDescriptor deploymentDescriptor = descriptor;
         return PropertiesUtil.getParametersList(module, moduleType, deploymentDescriptor);
     }
 
     @Override
     public List<Map<String, Object>> buildResourceChain(String resourceName) {
-        Resource resource = (Resource) handler.findResource(descriptor, resourceName);
-        DeploymentDescriptor deploymentDescriptor = (DeploymentDescriptor) descriptor;
+        Resource resource = handler.findResource(descriptor, resourceName);
+        DeploymentDescriptor deploymentDescriptor = descriptor;
         if (resource == null) {
             return Collections.emptyList();
         }
@@ -72,12 +73,12 @@ public class ParametersChainBuilder extends PropertiesChainBuilder {
 
     @Override
     public List<Map<String, Object>> buildResourceTypeChain(String resourceName) {
-        Resource resource = (Resource) handler.findResource(descriptor, resourceName);
+        Resource resource = handler.findResource(descriptor, resourceName);
         if (resource == null) {
             return Collections.emptyList();
         }
-        ParametersContainer resourceType = (ParametersContainer) getResourceType(resource);
-        DeploymentDescriptor deploymentDescriptor = (DeploymentDescriptor) descriptor;
+        ParametersContainer resourceType = getResourceType(resource);
+        DeploymentDescriptor deploymentDescriptor = descriptor;
         return PropertiesUtil.getParametersList(resourceType, deploymentDescriptor);
     }
 
@@ -89,6 +90,13 @@ public class ParametersChainBuilder extends PropertiesChainBuilder {
         CollectionUtils.addIgnoreNull(containers, moduleType);
         CollectionUtils.addIgnoreNull(containers, descriptor);
         return PropertiesUtil.getParametersList(containers);
+    }
+
+    protected ResourceType getResourceType(Resource resource) {
+        if (platform == null) {
+            return null;
+        }
+        return handler.findResourceType(platform, resource.getType());
     }
 
 }

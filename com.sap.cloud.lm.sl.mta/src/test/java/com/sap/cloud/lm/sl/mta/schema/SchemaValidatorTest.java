@@ -12,7 +12,7 @@ import com.sap.cloud.lm.sl.common.util.Runnable;
 import com.sap.cloud.lm.sl.common.util.TestUtil;
 import com.sap.cloud.lm.sl.common.util.TestUtil.Expectation;
 import com.sap.cloud.lm.sl.mta.MtaTestUtil;
-import com.sap.cloud.lm.sl.mta.handlers.v1.Schemas;
+import com.sap.cloud.lm.sl.mta.handlers.v2.Schemas;
 
 @RunWith(value = Parameterized.class)
 public class SchemaValidatorTest {
@@ -29,15 +29,15 @@ public class SchemaValidatorTest {
 // @formatter:off
             // (00) Valid extension descriptor:
             {
-                "/mta/sample/v1/config-01.mtaext", Schemas.MTAEXT, new Expectation(null),
+                "/mta/sample/v2/config-01-v2.mtaext", Schemas.MTAEXT, new Expectation(null),
             },
             // (01) Valid deployment descriptor:
             {
-                "/mta/sample/v1/mtad-01.yaml", Schemas.MTAD, new Expectation(null),
+                "/mta/sample/v2/mtad-01-v2.yaml", Schemas.MTAD, new Expectation(null),
             },
             // (02) Valid platform JSON:
             {
-                "/mta/sample/v1/platform-01.json", Schemas.PLATFORM, new Expectation(null),
+                "/mta/sample/v2/platform-01-v2.json", Schemas.PLATFORM, new Expectation(null),
             },
             // (04) Deployment descriptor contains invalid key:
             {

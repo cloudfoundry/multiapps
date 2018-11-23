@@ -10,12 +10,15 @@ import org.apache.commons.lang3.ObjectUtils;
 import com.sap.cloud.lm.sl.common.util.ListUtil;
 import com.sap.cloud.lm.sl.common.util.MapUtil;
 import com.sap.cloud.lm.sl.mta.model.ElementContext;
+import com.sap.cloud.lm.sl.mta.model.NamedElement;
 import com.sap.cloud.lm.sl.mta.model.ParametersContainer;
+import com.sap.cloud.lm.sl.mta.model.PropertiesContainer;
+import com.sap.cloud.lm.sl.mta.model.VisitableElement;
 import com.sap.cloud.lm.sl.mta.model.Visitor;
 import com.sap.cloud.lm.sl.mta.parsers.v2.ExtensionModuleParser;
 import com.sap.cloud.lm.sl.mta.util.YamlElement;
 
-public class ExtensionModule extends com.sap.cloud.lm.sl.mta.model.v1.ExtensionModule implements ParametersContainer {
+public class ExtensionModule implements VisitableElement, NamedElement, PropertiesContainer, ParametersContainer {
 
     @YamlElement(ExtensionModuleParser.PARAMETERS)
     private Map<String, Object> parameters;
@@ -23,11 +26,23 @@ public class ExtensionModule extends com.sap.cloud.lm.sl.mta.model.v1.ExtensionM
     private List<ExtensionRequiredDependency> requiredDependencies2;
     @YamlElement(ExtensionModuleParser.PROVIDES)
     private List<ExtensionProvidedDependency> providedDependencies2;
+    @YamlElement(ExtensionModuleParser.NAME)
+    private String name;
+    @YamlElement(ExtensionModuleParser.PROPERTIES)
+    private Map<String, Object> properties;
 
     protected ExtensionModule() {
 
     }
-
+    
+    public String getName() {
+        return name;
+    }
+    
+    public Map<String, Object> getProperties() {
+        return MapUtil.unmodifiable(properties);
+    }
+    
     @Override
     public Map<String, Object> getParameters() {
         return MapUtil.unmodifiable(parameters);
@@ -45,11 +60,18 @@ public class ExtensionModule extends com.sap.cloud.lm.sl.mta.model.v1.ExtensionM
         return ListUtil.upcastUnmodifiable(getProvidedDependencies());
     }
 
-    @Override
     protected List<? extends ExtensionProvidedDependency> getProvidedDependencies() {
         return providedDependencies2;
     }
+    
+    public void setName(String name) {
+        this.name = name;
+    }
 
+    public void setProperties(Map<String, Object> properties) {
+        this.properties = new LinkedHashMap<>(properties);
+    }
+    
     @Override
     public void setParameters(Map<String, Object> parameters) {
         this.parameters = new LinkedHashMap<>(parameters);
@@ -60,7 +82,7 @@ public class ExtensionModule extends com.sap.cloud.lm.sl.mta.model.v1.ExtensionM
     }
 
     protected void setRequiredDependencies(
-        List<? extends com.sap.cloud.lm.sl.mta.model.v2.ExtensionRequiredDependency> requiredDependencies) {
+        List<? extends ExtensionRequiredDependency> requiredDependencies) {
         this.requiredDependencies2 = ListUtil.cast(requiredDependencies);
     }
 
@@ -68,27 +90,31 @@ public class ExtensionModule extends com.sap.cloud.lm.sl.mta.model.v1.ExtensionM
         setProvidedDependencies(providedDependencies);
     }
 
-    @Override
     protected void setProvidedDependencies(
-        List<? extends com.sap.cloud.lm.sl.mta.model.v1.ExtensionProvidedDependency> providedDependencies) {
+        List<? extends ExtensionProvidedDependency> providedDependencies) {
         this.providedDependencies2 = ListUtil.cast(providedDependencies);
     }
 
     @Override
     public void accept(ElementContext context, Visitor visitor) {
-        super.accept(context, visitor);
+        visitor.visit(context, this);
+        for (ExtensionProvidedDependency providedDependency : getProvidedDependencies()) {
+            providedDependency.accept(new ElementContext(providedDependency, context), visitor);
+        }
+        
         for (ExtensionRequiredDependency requiredDependency : getRequiredDependencies()) {
             requiredDependency.accept(new ElementContext(requiredDependency, context), visitor);
         }
     }
 
-    public static class Builder extends com.sap.cloud.lm.sl.mta.model.v1.ExtensionModule.Builder {
+    public static class Builder {
 
+        protected String name;
+        protected Map<String, Object> properties;
         protected Map<String, Object> parameters;
         protected List<ExtensionRequiredDependency> requiredDependencies2;
         protected List<ExtensionProvidedDependency> providedDependencies2;
 
-        @Override
         public ExtensionModule build() {
             ExtensionModule result = new ExtensionModule();
             result.setName(name);
@@ -99,6 +125,14 @@ public class ExtensionModule extends com.sap.cloud.lm.sl.mta.model.v1.ExtensionM
             return result;
         }
 
+        public void setName(String name) {
+            this.name = name;
+        }
+        
+        public void setProperties(Map<String, Object> properties) {
+            this.properties = properties;
+        }
+        
         public void setParameters(Map<String, Object> parameters) {
             this.parameters = parameters;
         }
@@ -107,9 +141,8 @@ public class ExtensionModule extends com.sap.cloud.lm.sl.mta.model.v1.ExtensionM
             setProvidedDependencies(providedDependencies);
         }
 
-        @Override
         protected void setProvidedDependencies(
-            List<? extends com.sap.cloud.lm.sl.mta.model.v1.ExtensionProvidedDependency> providedDependencies) {
+            List<? extends ExtensionProvidedDependency> providedDependencies) {
             this.providedDependencies2 = ListUtil.cast(providedDependencies);
         }
 
@@ -118,7 +151,7 @@ public class ExtensionModule extends com.sap.cloud.lm.sl.mta.model.v1.ExtensionM
         }
 
         protected void setRequiredDependencies(
-            List<? extends com.sap.cloud.lm.sl.mta.model.v2.ExtensionRequiredDependency> requiredDependencies) {
+            List<? extends ExtensionRequiredDependency> requiredDependencies) {
             this.requiredDependencies2 = ListUtil.cast(requiredDependencies);
         }
 

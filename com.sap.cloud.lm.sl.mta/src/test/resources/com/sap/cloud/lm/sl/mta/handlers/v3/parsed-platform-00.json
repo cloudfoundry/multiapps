@@ -22,11 +22,11 @@
   ],
   "resourceTypes3": [
     {
+      "name": "hana",
+      "resourceManager": "hdi-broker",
       "parameters": {
         "TABLES_LIMIT": 100
-      },
-      "name": "hana",
-      "resourceManager": "hdi-broker"
+      }
     }
   ],
   "parameters": {

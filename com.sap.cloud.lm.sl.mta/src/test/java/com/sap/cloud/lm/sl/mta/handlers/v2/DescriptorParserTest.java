@@ -1,15 +1,31 @@
 package com.sap.cloud.lm.sl.mta.handlers.v2;
 
+import java.io.InputStream;
 import java.util.Arrays;
 
+import org.junit.Before;
+import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import org.junit.runners.Parameterized.Parameters;
 
+import com.sap.cloud.lm.sl.common.util.Callable;
+import com.sap.cloud.lm.sl.common.util.TestUtil;
 import com.sap.cloud.lm.sl.common.util.TestUtil.Expectation;
+import com.sap.cloud.lm.sl.mta.model.v2.DeploymentDescriptor;
+import com.sap.cloud.lm.sl.mta.model.v2.ExtensionDescriptor;
 
 @RunWith(value = Parameterized.class)
-public class DescriptorParserTest extends com.sap.cloud.lm.sl.mta.handlers.v1.DescriptorParserTest {
+public class DescriptorParserTest {
+    
+    private final String extensionDescriptorsLocation;
+    private final String deploymentDescriptorLocation;
+    private final Expectation[] expectations;
+
+    private InputStream extensionDescriptorsYaml;
+    private InputStream deploymentDescriptorYaml;
+
+    private DescriptorParser parser;
 
     @Parameters
     public static Iterable<Object[]> getParameters() {
@@ -23,15 +39,7 @@ public class DescriptorParserTest extends com.sap.cloud.lm.sl.mta.handlers.v1.De
                     new Expectation(Expectation.Type.RESOURCE, "config-01.mtaext.json"),
                 },
             },
-            // (1) Valid deployment and extension descriptors for version 1 of MTA specification:
-            {
-                "/mta/sample/v1/mtad-01.yaml", null,
-                new Expectation[] {
-                    new Expectation(Expectation.Type.EXCEPTION, "Invalid type for key \"modules#0#requires#0\", expected \"Map\" but got \"String\""),
-                    new Expectation(Expectation.Type.SKIP, null),
-                },
-            },
-            // (2) Multiple modules with the same name:
+            // (1) Multiple modules with the same name:
             {
                 "mtad-01.yaml", "config-01.mtaext",
                 new Expectation[] {
@@ -39,7 +47,7 @@ public class DescriptorParserTest extends com.sap.cloud.lm.sl.mta.handlers.v1.De
                     new Expectation(Expectation.Type.EXCEPTION, "Value \"foo\" for key \"name\" not unique for object \"MTA extension module\""),
                 },
             },
-            // (3) Multiple provided dependencies with the same name:
+            // (2) Multiple provided dependencies with the same name:
             {
                 "mtad-02.yaml", "config-02.mtaext",
                 new Expectation[] {
@@ -47,7 +55,7 @@ public class DescriptorParserTest extends com.sap.cloud.lm.sl.mta.handlers.v1.De
                     new Expectation(Expectation.Type.EXCEPTION, "Value \"bar\" for key \"name\" not unique for object \"MTA extension provided dependency\""),
                 },
             },
-            // (4) Multiple required dependencies with the same name:
+            // (3) Multiple required dependencies with the same name:
             {
                 "mtad-03.yaml", "config-03.mtaext",
                 new Expectation[] {
@@ -55,7 +63,7 @@ public class DescriptorParserTest extends com.sap.cloud.lm.sl.mta.handlers.v1.De
                     new Expectation(Expectation.Type.EXCEPTION, "Value \"baz\" for key \"name\" not unique for object \"MTA extension required dependency\""),
                 },
             },
-            // (5) Multiple provided dependencies with the same name (in the same module):
+            // (4) Multiple provided dependencies with the same name (in the same module):
             {
                 "mtad-04.yaml", "config-04.mtaext",
                 new Expectation[] {
@@ -63,7 +71,7 @@ public class DescriptorParserTest extends com.sap.cloud.lm.sl.mta.handlers.v1.De
                     new Expectation(Expectation.Type.EXCEPTION, "Value \"bar\" for key \"name\" not unique for object \"MTA extension provided dependency\""),
                 },
             },
-            // (6) Explicit declaration that module provides itself as a dependency:
+            // (5) Explicit declaration that module provides itself as a dependency:
             {
                 "/mta/sample/v2/mtad-05.yaml", null,
                 new Expectation[] {
@@ -71,7 +79,7 @@ public class DescriptorParserTest extends com.sap.cloud.lm.sl.mta.handlers.v1.De
                     new Expectation(Expectation.Type.SKIP, null),
                 },
             },
-            // (7) Module and resource with the same name:
+            // (6) Module and resource with the same name:
             {
                 "mtad-19.yaml", null,
                 new Expectation[] {
@@ -79,7 +87,7 @@ public class DescriptorParserTest extends com.sap.cloud.lm.sl.mta.handlers.v1.De
                     new Expectation(Expectation.Type.SKIP, null),
                 },
             },
-            // (8) Resource and module provided dependency with the same name:
+            // (7) Resource and module provided dependency with the same name:
             {
                 "mtad-20.yaml", null,
                 new Expectation[] {
@@ -87,7 +95,7 @@ public class DescriptorParserTest extends com.sap.cloud.lm.sl.mta.handlers.v1.De
                     new Expectation(Expectation.Type.SKIP, null),
                 },
             },
-            // (9) Provided dependency name same as another module:
+            // (8) Provided dependency name same as another module:
             {
                 "mtad-21.yaml", null,
                 new Expectation[] {
@@ -95,7 +103,7 @@ public class DescriptorParserTest extends com.sap.cloud.lm.sl.mta.handlers.v1.De
                     new Expectation(Expectation.Type.SKIP, null),
                 },
             },
-            // (10) Partial schema version support test (int):
+            // (9) Partial schema version support test (int):
             {
                 "mtad-with-partial-schema-version-major.yaml", "config-with-partial-schema-version-major.mtaext",
                 new Expectation[] {
@@ -103,7 +111,7 @@ public class DescriptorParserTest extends com.sap.cloud.lm.sl.mta.handlers.v1.De
                     new Expectation(Expectation.Type.RESOURCE, "parsed-config-with-partial-schema-version.json"),
                 },
             },
-            // (11) Partial schema version support test (double):
+            // (10) Partial schema version support test (double):
             {
                 "mtad-with-partial-schema-version-major.minor.yaml", "config-with-partial-schema-version-major.minor.mtaext",
                 new Expectation[] {
@@ -111,7 +119,7 @@ public class DescriptorParserTest extends com.sap.cloud.lm.sl.mta.handlers.v1.De
                     new Expectation(Expectation.Type.RESOURCE, "parsed-config-with-partial-schema-version.json"),
                 },
             },
-            // (12) Partial schema version support test (string):
+            // (11) Partial schema version support test (string):
             {
                 "mtad-with-partial-schema-version-major-quoted.yaml", "config-with-partial-schema-version-major-quoted.mtaext",
                 new Expectation[] {
@@ -119,7 +127,7 @@ public class DescriptorParserTest extends com.sap.cloud.lm.sl.mta.handlers.v1.De
                     new Expectation(Expectation.Type.RESOURCE, "parsed-config-with-partial-schema-version.json"),
                 },
             },
-            // (13) Partial schema version support test (string):
+            // (12) Partial schema version support test (string):
             {
                 "mtad-with-partial-schema-version-major.minor-quoted.yaml", "config-with-partial-schema-version-major.minor-quoted.mtaext",
                 new Expectation[] {
@@ -132,12 +140,44 @@ public class DescriptorParserTest extends com.sap.cloud.lm.sl.mta.handlers.v1.De
     }
 
     public DescriptorParserTest(String deploymentDescriptorLocation, String extensionDescriptorLocation, Expectation[] expectation) {
-        super(deploymentDescriptorLocation, extensionDescriptorLocation, expectation);
+        this.extensionDescriptorsLocation = extensionDescriptorLocation;
+        this.deploymentDescriptorLocation = deploymentDescriptorLocation;
+        this.expectations = expectation;
+    }
+    
+    @Before
+    public void setUp() throws Exception {
+        if (extensionDescriptorsLocation != null) {
+            extensionDescriptorsYaml = getClass().getResourceAsStream(extensionDescriptorsLocation);
+        }
+        if (deploymentDescriptorLocation != null) {
+            deploymentDescriptorYaml = getClass().getResourceAsStream(deploymentDescriptorLocation);
+        }
+        parser = createDescriptorParser();
     }
 
-    @Override
     protected DescriptorParser createDescriptorParser() {
         return new DescriptorParser();
     }
 
+    @Test
+    public void testParseDeploymentDescriptorYaml() throws Exception {
+        TestUtil.test(new Callable<DeploymentDescriptor>() {
+            @Override
+            public DeploymentDescriptor call() throws Exception {
+                return parser.parseDeploymentDescriptorYaml(deploymentDescriptorYaml);
+            }
+        }, expectations[0], getClass());
+    }
+
+    @Test
+    public void testParseExtensionDescriptorYaml() throws Exception {
+        TestUtil.test(new Callable<ExtensionDescriptor>() {
+            @Override
+            public ExtensionDescriptor call() throws Exception {
+                return parser.parseExtensionDescriptorYaml(extensionDescriptorsYaml);
+            }
+        }, expectations[1], getClass());
+    }
+    
 }

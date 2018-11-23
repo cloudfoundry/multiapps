@@ -19,11 +19,11 @@ public class ConfigurationParser extends com.sap.cloud.lm.sl.mta.handlers.v2.Con
     }
 
     public Platform parsePlatformJson3(String json) throws ParsingException {
-        return (Platform) super.parsePlatformJson(json);
+        return (Platform) super.parsePlatformJson2(json);
     }
 
     public Platform parsePlatformJson3(InputStream json) throws ParsingException {
-        return (Platform) super.parsePlatformJson(json);
+        return (Platform) super.parsePlatformJson2(json);
     }
 
     @Override

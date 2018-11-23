@@ -2,26 +2,84 @@ package com.sap.cloud.lm.sl.mta.builders.v2;
 
 import static com.sap.cloud.lm.sl.common.util.CommonUtil.cast;
 
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
-import com.sap.cloud.lm.sl.mta.handlers.v1.DescriptorHandler;
-import com.sap.cloud.lm.sl.mta.model.v1.DeploymentDescriptor;
-import com.sap.cloud.lm.sl.mta.model.v1.Module;
+import com.sap.cloud.lm.sl.mta.handlers.v2.DescriptorHandler;
+import com.sap.cloud.lm.sl.mta.model.v2.DeploymentDescriptor;
+import com.sap.cloud.lm.sl.mta.model.v2.Module;
 import com.sap.cloud.lm.sl.mta.model.v2.RequiredDependency;
 
-public class ModuleDependenciesCollector extends com.sap.cloud.lm.sl.mta.builders.v1.ModuleDependenciesCollector {
+public class ModuleDependenciesCollector {
+    
+    private DescriptorHandler handler;
+    protected DeploymentDescriptor descriptor;
+    protected Set<String> seenModules = new HashSet<>();
 
     public ModuleDependenciesCollector(DeploymentDescriptor descriptor, DescriptorHandler handler) {
-        super(descriptor, handler);
+        this.descriptor = descriptor;
+        this.handler = handler;
     }
 
-    @Override
     protected List<String> getDependencies(Module module) {
-        com.sap.cloud.lm.sl.mta.model.v2.Module moduleV2 = cast(module);
+        Module moduleV2 = cast(module);
         return moduleV2.getRequiredDependencies2()
             .stream()
             .map(RequiredDependency::getName)
             .collect(Collectors.toList());
+    }
+    
+    public Set<String> collect(Module module) {
+        clearVisitedModules();
+        return getDependenciesRecursively(module);
+    }
+    
+    private void clearVisitedModules() {
+        seenModules.clear();
+    }
+
+    private Set<String> getDependenciesRecursively(Module module) {
+        if (visited(module)) {
+            return Collections.emptySet();
+        }
+        markVisited(module);
+        return collectDependenciesRecursively(module);
+    }
+    
+    private boolean visited(Module module) {
+        return seenModules.contains(module.getName());
+    }
+    
+    private void markVisited(Module module) {
+        seenModules.add(module.getName());
+    }
+
+    private Set<String> collectDependenciesRecursively(Module module) {
+        Set<String> dependencies = new LinkedHashSet<>();
+        for (String dependency : getDependencies(module)) {
+            Module moduleProvidingDependency = findModuleSatisfyingDependency(dependency);
+            if (notRequiresSelf(module, moduleProvidingDependency)) {
+                dependencies.add(moduleProvidingDependency.getName());
+                dependencies.addAll(getDependenciesRecursively(moduleProvidingDependency));
+            }
+        }
+        return dependencies;
+    }
+    
+    protected Module findModuleSatisfyingDependency(String dependency) {
+        return descriptor.getModules2()
+            .stream()
+            .filter(module -> handler.findProvidedDependency(module, dependency) != null)
+            .findFirst()
+            .orElse(null);
+    }
+
+    private boolean notRequiresSelf(Module module, Module requiredModule) {
+        return requiredModule != null && !requiredModule.getName()
+            .equals(module.getName());
     }
 }

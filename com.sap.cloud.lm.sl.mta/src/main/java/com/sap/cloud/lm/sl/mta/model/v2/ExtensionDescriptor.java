@@ -1,5 +1,6 @@
 package com.sap.cloud.lm.sl.mta.model.v2;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -9,13 +10,18 @@ import org.apache.commons.lang3.ObjectUtils;
 
 import com.sap.cloud.lm.sl.common.util.ListUtil;
 import com.sap.cloud.lm.sl.common.util.MapUtil;
+import com.sap.cloud.lm.sl.mta.model.Descriptor;
+import com.sap.cloud.lm.sl.mta.model.ElementContext;
 import com.sap.cloud.lm.sl.mta.model.ParametersContainer;
+import com.sap.cloud.lm.sl.mta.model.PropertiesContainer;
+import com.sap.cloud.lm.sl.mta.model.VisitableElement;
+import com.sap.cloud.lm.sl.mta.model.Visitor;
 import com.sap.cloud.lm.sl.mta.parsers.v2.ExtensionDescriptorParser;
 import com.sap.cloud.lm.sl.mta.util.YamlElement;
 import com.sap.cloud.lm.sl.mta.util.YamlElementOrder;
 
 @YamlElementOrder({ "schemaVersion", "id", "parentId", "description", "provider", "parameters", "modules2", "resources2" })
-public class ExtensionDescriptor extends com.sap.cloud.lm.sl.mta.model.v1.ExtensionDescriptor implements ParametersContainer {
+public class ExtensionDescriptor implements Descriptor, VisitableElement, PropertiesContainer, ParametersContainer {
 
     @YamlElement(ExtensionDescriptorParser.DESCRIPTION)
     private String description;
@@ -27,6 +33,20 @@ public class ExtensionDescriptor extends com.sap.cloud.lm.sl.mta.model.v1.Extens
     private List<ExtensionResource> resources2;
     @YamlElement(ExtensionDescriptorParser.PARAMETERS)
     private Map<String, Object> parameters;
+    @YamlElement(ExtensionDescriptorParser.SCHEMA_VERSION)
+    private String schemaVersion;
+    @YamlElement(ExtensionDescriptorParser.ID)
+    private String id;
+    @YamlElement(ExtensionDescriptorParser.EXT_DESCRIPTION)
+    private String extensionDescription;
+    @YamlElement(ExtensionDescriptorParser.EXTENDS)
+    private String parentId;
+    @YamlElement(ExtensionDescriptorParser.EXT_PROVIDER)
+    private String extensionProvider;
+    @YamlElement(ExtensionDescriptorParser.TARGET_PLATFORMS)
+    private List<String> deployTargets;
+    @YamlElement(ExtensionDescriptorParser.PROPERTIES)
+    private Map<String, Object> properties;
 
     protected ExtensionDescriptor() {
 
@@ -36,7 +56,6 @@ public class ExtensionDescriptor extends com.sap.cloud.lm.sl.mta.model.v1.Extens
      * @deprecated Use {@link #getDescription()} instead.
      */
     @Deprecated
-    @Override
     public String getExtensionDescription() {
         return getDescription();
     }
@@ -45,7 +64,6 @@ public class ExtensionDescriptor extends com.sap.cloud.lm.sl.mta.model.v1.Extens
      * @deprecated Use {@link #getProvider()} instead.
      */
     @Deprecated
-    @Override
     public String getExtensionProvider() {
         return getProvider();
     }
@@ -58,11 +76,23 @@ public class ExtensionDescriptor extends com.sap.cloud.lm.sl.mta.model.v1.Extens
         return provider;
     }
 
+    @Override
+    public String getId() {
+        return id;
+    }
+    
+    public String getParentId() {
+        return parentId;
+    }
+
+    public String getSchemaVersion() {
+        return schemaVersion;
+    }
+    
     public List<ExtensionModule> getModules2() {
         return ListUtil.upcastUnmodifiable(getModules());
     }
 
-    @Override
     public List<? extends ExtensionModule> getModules() {
         return modules2;
     }
@@ -71,7 +101,6 @@ public class ExtensionDescriptor extends com.sap.cloud.lm.sl.mta.model.v1.Extens
         return ListUtil.upcastUnmodifiable(getResources());
     }
 
-    @Override
     public List<? extends ExtensionResource> getResources() {
         return resources2;
     }
@@ -90,7 +119,6 @@ public class ExtensionDescriptor extends com.sap.cloud.lm.sl.mta.model.v1.Extens
      * @deprecated Use {@link #setDescription(String)} instead.
      */
     @Deprecated
-    @Override
     public void setExtensionDescription(String extensionDescription) {
         setDescription(extensionDescription);
     }
@@ -99,25 +127,39 @@ public class ExtensionDescriptor extends com.sap.cloud.lm.sl.mta.model.v1.Extens
      * @deprecated Use {@link #setProvider(String)} instead.
      */
     @Deprecated
-    @Override
     public void setExtensionProvider(String extensionProvider) {
         setProvider(extensionProvider);
+    }
+
+    public void setSchemaVersion(String schemaVersion) {
+        this.schemaVersion = schemaVersion;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public void setDescription(String description) {
         this.description = description;
     }
 
+    public void setParentId(String parentId) {
+        this.parentId = parentId;
+    }
+
     public void setProvider(String provider) {
         this.provider = provider;
+    }
+
+    public void setDeployTargets(List<String> targetPlatforms) {
+        this.deployTargets = new ArrayList<>(targetPlatforms);
     }
 
     public void setModules2(List<ExtensionModule> modules) {
         setModules(modules);
     }
 
-    @Override
-    protected void setModules(List<? extends com.sap.cloud.lm.sl.mta.model.v1.ExtensionModule> modules) {
+    protected void setModules(List<? extends ExtensionModule> modules) {
         this.modules2 = ListUtil.cast(modules);
     }
 
@@ -125,8 +167,7 @@ public class ExtensionDescriptor extends com.sap.cloud.lm.sl.mta.model.v1.Extens
         setResources(resources);
     }
 
-    @Override
-    protected void setResources(List<? extends com.sap.cloud.lm.sl.mta.model.v1.ExtensionResource> resources) {
+    protected void setResources(List<? extends ExtensionResource> resources) {
         this.resources2 = ListUtil.cast(resources);
     }
 
@@ -139,16 +180,36 @@ public class ExtensionDescriptor extends com.sap.cloud.lm.sl.mta.model.v1.Extens
     public void setParameters(Map<String, Object> parameters) {
         this.parameters = new LinkedHashMap<>(parameters);
     }
+    
+    public void accept(Visitor visitor) {
+        accept(new ElementContext(this, null), visitor);
+    }
+    
+    @Override
+    public void accept(ElementContext context, Visitor visitor) {
+        visitor.visit(context, this);
+        for (ExtensionModule module : getModules()) {
+            module.accept(new ElementContext(module, context), visitor);
+        }
+        for (ExtensionResource resource : getResources()) {
+            resource.accept(new ElementContext(resource, context), visitor);
+        }
+    }
 
-    public static class Builder extends com.sap.cloud.lm.sl.mta.model.v1.ExtensionDescriptor.Builder {
+    public static class Builder {
 
+        protected String extensionDescription;
+        protected String extensionProvider;
+        protected String schemaVersion;
+        protected String id;
         protected String description;
+        protected String parentId;
         protected String provider;
+        protected List<String> deployTargets;
         protected List<ExtensionModule> modules2;
         protected List<ExtensionResource> resources2;
         protected Map<String, Object> parameters;
 
-        @Override
         public ExtensionDescriptor build() {
             ExtensionDescriptor result = new ExtensionDescriptor();
             result.setId(id);
@@ -167,7 +228,6 @@ public class ExtensionDescriptor extends com.sap.cloud.lm.sl.mta.model.v1.Extens
          * @deprecated Use {@link #setDescription(String)} instead.
          */
         @Deprecated
-        @Override
         public void setExtensionDescription(String extensionDescription) {
             setDescription(extensionDescription);
         }
@@ -176,25 +236,41 @@ public class ExtensionDescriptor extends com.sap.cloud.lm.sl.mta.model.v1.Extens
          * @deprecated Use {@link #setProvider(String)} instead.
          */
         @Deprecated
-        @Override
         public void setExtensionProvider(String extensionProvider) {
             setProvider(extensionProvider);
+        }
+
+        public void setSchemaVersion(String schemaVersion) {
+            this.schemaVersion = schemaVersion;
+        }
+
+        public void setId(String id) {
+            this.id = id;
         }
 
         public void setDescription(String description) {
             this.description = description;
         }
 
+
+        public void setParentId(String parentId) {
+            this.parentId = parentId;
+        }
+
         public void setProvider(String provider) {
             this.provider = provider;
+        }
+
+
+        public void setDeployTargets(List<String> deployTargets) {
+            this.deployTargets = deployTargets;
         }
 
         public void setModules2(List<ExtensionModule> modules) {
             setModules(modules);
         }
 
-        @Override
-        protected void setModules(List<? extends com.sap.cloud.lm.sl.mta.model.v1.ExtensionModule> modules) {
+        protected void setModules(List<? extends ExtensionModule> modules) {
             this.modules2 = ListUtil.cast(modules);
         }
 
@@ -202,8 +278,7 @@ public class ExtensionDescriptor extends com.sap.cloud.lm.sl.mta.model.v1.Extens
             setResources(resources);
         }
 
-        @Override
-        protected void setResources(List<? extends com.sap.cloud.lm.sl.mta.model.v1.ExtensionResource> resources) {
+        protected void setResources(List<? extends ExtensionResource> resources) {
             this.resources2 = ListUtil.cast(resources);
         }
 
@@ -211,7 +286,6 @@ public class ExtensionDescriptor extends com.sap.cloud.lm.sl.mta.model.v1.Extens
             this.parameters = parameters;
         }
 
-        @Override
         public void setProperties(Map<String, Object> properties) {
             throw new UnsupportedOperationException();
         }
