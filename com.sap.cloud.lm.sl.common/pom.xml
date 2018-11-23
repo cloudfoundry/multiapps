@@ -8,7 +8,7 @@
     <parent>
         <groupId>com.sap.cloud.lm.sl</groupId>
         <artifactId>com.sap.cloud.lm.sl.open.parent</artifactId>
-        <version>1.65.0-SNAPSHOT</version>
+        <version>1.65.0</version>
     </parent>
 
     <build>
