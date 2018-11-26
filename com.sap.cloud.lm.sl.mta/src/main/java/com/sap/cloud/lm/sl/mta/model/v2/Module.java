@@ -11,19 +11,30 @@ import org.apache.commons.lang3.ObjectUtils;
 import com.sap.cloud.lm.sl.common.util.ListUtil;
 import com.sap.cloud.lm.sl.common.util.MapUtil;
 import com.sap.cloud.lm.sl.mta.model.ElementContext;
+import com.sap.cloud.lm.sl.mta.model.NamedElement;
 import com.sap.cloud.lm.sl.mta.model.ParametersContainer;
+import com.sap.cloud.lm.sl.mta.model.PropertiesContainer;
+import com.sap.cloud.lm.sl.mta.model.VisitableElement;
 import com.sap.cloud.lm.sl.mta.model.Visitor;
 import com.sap.cloud.lm.sl.mta.parsers.v2.ModuleParser;
 import com.sap.cloud.lm.sl.mta.util.YamlElement;
 
-public class Module extends com.sap.cloud.lm.sl.mta.model.v1.Module implements ParametersContainer {
+public class Module implements VisitableElement, NamedElement, PropertiesContainer, ParametersContainer {
 
+    @YamlElement(ModuleParser.NAME)
+    private String name;
+    @YamlElement(ModuleParser.TYPE)
+    private String type;
+    @YamlElement(ModuleParser.DESCRIPTION)
+    private String description;
     @YamlElement(ModuleParser.PATH)
     private String path;
     @YamlElement(ModuleParser.REQUIRES)
     private List<RequiredDependency> requiredDependencies2;
     @YamlElement(ModuleParser.PROVIDES)
     private List<ProvidedDependency> providedDependencies2;
+    @YamlElement(ModuleParser.PROPERTIES)
+    private Map<String, Object> properties;
     @YamlElement(ModuleParser.PARAMETERS)
     private Map<String, Object> parameters;
 
@@ -31,13 +42,24 @@ public class Module extends com.sap.cloud.lm.sl.mta.model.v1.Module implements P
 
     }
 
-    @Override
-    public List<String> getRequiredDependencies1() {
-        throw new UnsupportedOperationException();
+    public String getName() {
+        return name;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public String getPath() {
+        return path;
     }
 
     public List<RequiredDependency> getRequiredDependencies2() {
-        return ListUtil.upcastUnmodifiable(getRequiredDependencies());
+        return ListUtil.upcastUnmodifiable(requiredDependencies2);
     }
 
     protected List<? extends RequiredDependency> getRequiredDependencies() {
@@ -48,13 +70,13 @@ public class Module extends com.sap.cloud.lm.sl.mta.model.v1.Module implements P
         return ListUtil.upcastUnmodifiable(getProvidedDependencies());
     }
 
-    @Override
     protected List<? extends ProvidedDependency> getProvidedDependencies() {
         return providedDependencies2;
     }
 
-    public String getPath() {
-        return path;
+    @Override
+    public Map<String, Object> getProperties() {
+        return MapUtil.unmodifiable(properties);
     }
 
     @Override
@@ -62,30 +84,40 @@ public class Module extends com.sap.cloud.lm.sl.mta.model.v1.Module implements P
         return MapUtil.unmodifiable(parameters);
     }
 
-    @Override
-    public void setRequiredDependencies1(List<String> requiredDependencies) {
-        throw new UnsupportedOperationException();
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public void setRequiredDependencies2(List<RequiredDependency> requiredDependencies) {
-        setRequiredDependencies(requiredDependencies);
+    public void setType(String type) {
+        this.type = type;
     }
 
-    protected void setRequiredDependencies(List<? extends com.sap.cloud.lm.sl.mta.model.v2.RequiredDependency> requiredDependencies) {
-        this.requiredDependencies2 = ListUtil.cast(requiredDependencies);
-    }
-
-    public void setProvidedDependencies2(List<ProvidedDependency> providedDependencies) {
-        setProvidedDependencies(providedDependencies);
-    }
-
-    @Override
-    protected void setProvidedDependencies(List<? extends com.sap.cloud.lm.sl.mta.model.v1.ProvidedDependency> providedDependencies) {
-        this.providedDependencies2 = ListUtil.cast(providedDependencies);
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public void setPath(String path) {
         this.path = path;
+    }
+    
+    public void setRequiredDependencies2(List<? extends RequiredDependency> requiredDependencies) {
+        this.requiredDependencies2 = ListUtil.cast(requiredDependencies);
+    }
+
+    protected void setRequiredDependencies(List<? extends RequiredDependency> requiredDependencies) {
+        this.requiredDependencies2 = ListUtil.cast(requiredDependencies);
+    }
+
+    public void setProvidedDependencies2(List<? extends ProvidedDependency> providedDependencies) {
+        this.providedDependencies2 = ListUtil.cast(providedDependencies);
+     }
+    
+    protected void setProvidedDependencies(List<? extends ProvidedDependency> providedDependencies) {
+       this.providedDependencies2 = ListUtil.cast(providedDependencies);
+    }
+
+    public void setProperties(Map<String, Object> properties) {
+        this.properties = new LinkedHashMap<>(properties);
     }
 
     @Override
@@ -95,13 +127,15 @@ public class Module extends com.sap.cloud.lm.sl.mta.model.v1.Module implements P
 
     @Override
     public void accept(ElementContext context, Visitor visitor) {
-        super.accept(context, visitor);
+        visitor.visit(context, this);
+        for (ProvidedDependency providedDependency : getProvidedDependencies()) {
+            providedDependency.accept(new ElementContext(providedDependency, context), visitor);
+        }
         for (RequiredDependency requiredDependency : getRequiredDependencies()) {
             requiredDependency.accept(new ElementContext(requiredDependency, context), visitor);
         }
     }
 
-    @Override
     public Module copyOf() {
         Builder result = new Builder();
         result.setName(getName());
@@ -111,26 +145,29 @@ public class Module extends com.sap.cloud.lm.sl.mta.model.v1.Module implements P
         result.setProperties(getProperties());
         result.setParameters(getParameters());
         List<RequiredDependency> clonedRequiredDependencies = new ArrayList<>();
-        for (RequiredDependency requiredDependency : getRequiredDependencies2()) {
+        for (RequiredDependency requiredDependency : getRequiredDependencies()) {
             clonedRequiredDependencies.add(requiredDependency.copyOf());
         }
-        result.setRequiredDependencies2(clonedRequiredDependencies);
+        result.setRequiredDependencies(clonedRequiredDependencies);
         List<ProvidedDependency> clonedProvidedDependencies = new ArrayList<>();
-        for (ProvidedDependency providedDependency : getProvidedDependencies2()) {
+        for (ProvidedDependency providedDependency : getProvidedDependencies()) {
             clonedProvidedDependencies.add(providedDependency.copyOf());
         }
-        result.setProvidedDependencies2(clonedProvidedDependencies);
+        result.setProvidedDependencies(clonedProvidedDependencies);
         return result.build();
     }
 
-    public static class Builder extends com.sap.cloud.lm.sl.mta.model.v1.Module.Builder {
+    public static class Builder {
 
+        protected String name;
+        protected String type;
+        protected String description;
         protected String path;
+        protected Map<String, Object> properties;
         protected Map<String, Object> parameters;
-        protected List<RequiredDependency> requiredDependencies2;
-        protected List<ProvidedDependency> providedDependencies2;
+        protected List<RequiredDependency> requiredDependencies;
+        protected List<ProvidedDependency> providedDependencies;
 
-        @Override
         public Module build() {
             Module result = new Module();
             result.setName(name);
@@ -139,39 +176,41 @@ public class Module extends com.sap.cloud.lm.sl.mta.model.v1.Module implements P
             result.setDescription(description);
             result.setProperties(ObjectUtils.defaultIfNull(properties, Collections.<String, Object> emptyMap()));
             result.setParameters(ObjectUtils.defaultIfNull(parameters, Collections.<String, Object> emptyMap()));
-            result.setRequiredDependencies2(ObjectUtils.defaultIfNull(requiredDependencies2, Collections.<RequiredDependency> emptyList()));
-            result.setProvidedDependencies2(ObjectUtils.defaultIfNull(providedDependencies2, Collections.<ProvidedDependency> emptyList()));
+            result.setRequiredDependencies(ObjectUtils.defaultIfNull(requiredDependencies, Collections.<RequiredDependency> emptyList()));
+            result.setProvidedDependencies(ObjectUtils.defaultIfNull(providedDependencies, Collections.<ProvidedDependency> emptyList()));
             return result;
+        }
+
+        public void setName(String name) {
+            this.name = name;
+        }
+
+        public void setType(String type) {
+            this.type = type;
+        }
+
+        public void setDescription(String description) {
+            this.description = description;
         }
 
         public void setPath(String path) {
             this.path = path;
         }
 
+        public void setProperties(Map<String, Object> properties) {
+            this.properties = properties;
+        }
+
         public void setParameters(Map<String, Object> parameters) {
             this.parameters = parameters;
         }
 
-        protected void setRequiredDependencies(List<? extends com.sap.cloud.lm.sl.mta.model.v2.RequiredDependency> requiredDependencies) {
-            this.requiredDependencies2 = ListUtil.cast(requiredDependencies);
+        public void setRequiredDependencies(List<? extends RequiredDependency> requiredDependencies) {
+            this.requiredDependencies = ListUtil.cast(requiredDependencies);
         }
 
-        @Override
-        public void setRequiredDependencies1(List<String> requiredDependencies) {
-            throw new UnsupportedOperationException();
-        }
-
-        public void setRequiredDependencies2(List<RequiredDependency> requiredDependencies) {
-            setRequiredDependencies(requiredDependencies);
-        }
-
-        @Override
-        protected void setProvidedDependencies(List<? extends com.sap.cloud.lm.sl.mta.model.v1.ProvidedDependency> providedDependencies) {
-            this.providedDependencies2 = ListUtil.cast(providedDependencies);
-        }
-
-        public void setProvidedDependencies2(List<ProvidedDependency> providedDependencies) {
-            setProvidedDependencies(providedDependencies);
+        protected void setProvidedDependencies(List<? extends ProvidedDependency> providedDependencies) {
+            this.providedDependencies = ListUtil.cast(providedDependencies);
         }
 
     }
