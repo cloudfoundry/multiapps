@@ -67,7 +67,7 @@ public class DescriptorHandler extends com.sap.cloud.lm.sl.mta.handlers.v2.Descr
     }
 
     @Override
-    protected ModulesSorter getModuleSorter(com.sap.cloud.lm.sl.mta.model.v1.DeploymentDescriptor descriptor,
+    protected ModulesSorter getModuleSorter(com.sap.cloud.lm.sl.mta.model.v2.DeploymentDescriptor descriptor,
         String parallelDeploymentProperty, String dependencyTypeProperty, String hardDependencyType) {
         DeploymentDescriptor descriptorV3 = cast(descriptor);
         return new com.sap.cloud.lm.sl.mta.handlers.v3.ModulesSorter(descriptorV3, this, dependencyTypeProperty, hardDependencyType,
