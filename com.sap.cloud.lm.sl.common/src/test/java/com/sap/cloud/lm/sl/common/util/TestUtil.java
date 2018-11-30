@@ -4,6 +4,7 @@ import static org.hamcrest.CoreMatchers.containsString;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -98,7 +99,10 @@ public class TestUtil {
     }
 
     private static void validateException(Expectation expectation, Exception exception) {
-        assertTrue(expectation.type.equals(Expectation.Type.EXCEPTION));
+        if (!expectation.type.equals(Expectation.Type.EXCEPTION)) {
+            exception.printStackTrace();
+            fail(exception.toString());
+        }
         assertThat("Exception's message doesn't match up", exception.getMessage(), containsString(expectation.expectation));
     }
 
