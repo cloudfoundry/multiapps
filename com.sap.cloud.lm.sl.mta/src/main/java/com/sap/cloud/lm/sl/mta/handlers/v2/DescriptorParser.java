@@ -1,5 +1,6 @@
 package com.sap.cloud.lm.sl.mta.handlers.v2;
 
+import java.io.IOException;
 import java.io.InputStream;
 import java.util.Map;
 
@@ -9,45 +10,64 @@ import com.sap.cloud.lm.sl.mta.model.v2.ExtensionDescriptor;
 import com.sap.cloud.lm.sl.mta.parsers.v2.DeploymentDescriptorParser;
 import com.sap.cloud.lm.sl.mta.parsers.v2.ExtensionDescriptorParser;
 import com.sap.cloud.lm.sl.mta.schema.SchemaValidator;
+import com.sap.cloud.lm.sl.mta.util.YamlUtil;
 
-public class DescriptorParser extends com.sap.cloud.lm.sl.mta.handlers.v1.DescriptorParser {
+public class DescriptorParser {
+
+    private final SchemaValidator mtadValidator;
+    private final SchemaValidator mtaextValidator;
 
     public DescriptorParser() {
-        super(new SchemaValidator(Schemas.MTAD), new SchemaValidator(Schemas.MTAEXT));
+        this(new SchemaValidator(Schemas.MTAD), new SchemaValidator(Schemas.MTAEXT));
     }
 
     protected DescriptorParser(SchemaValidator mtadValidator, SchemaValidator mtaextValidator) {
-        super(mtadValidator, mtaextValidator);
+        this.mtadValidator = mtadValidator;
+        this.mtaextValidator = mtaextValidator;
     }
 
-    @Override
     public ExtensionDescriptor parseExtensionDescriptorYaml(InputStream yaml) throws ParsingException {
-        return (ExtensionDescriptor) super.parseExtensionDescriptorYaml(yaml);
+        // TODO: Java 9 - Remove the second variable (https://blogs.oracle.com/darcy/more-concise-try-with-resources-statements-in-jdk-9).
+        try (InputStream closableYaml = yaml) {
+            return parseExtensionDescriptor(YamlUtil.convertYamlToMap(closableYaml));
+        } catch (IOException e) {
+            throw new IllegalStateException(e.getMessage(), e);
+        }
     }
 
-    @Override
+    public ExtensionDescriptor parseExtensionDescriptor(Map<String, Object> map) throws ParsingException {
+        mtaextValidator.validate(map);
+        return getExtensionDescriptorParser(map).parse();
+    }
+    
     public ExtensionDescriptor parseExtensionDescriptorYaml(String yaml) throws ParsingException {
-        return (ExtensionDescriptor) super.parseExtensionDescriptorYaml(yaml);
+        return parseExtensionDescriptor(YamlUtil.convertYamlToMap(yaml));
     }
 
-    @Override
     protected ExtensionDescriptorParser getExtensionDescriptorParser(Map<String, Object> map) {
-        return new com.sap.cloud.lm.sl.mta.parsers.v2.ExtensionDescriptorParser(map);
+        return new ExtensionDescriptorParser(map);
     }
 
-    @Override
     public DeploymentDescriptor parseDeploymentDescriptorYaml(InputStream yaml) throws ParsingException {
-        return (DeploymentDescriptor) super.parseDeploymentDescriptorYaml(yaml);
+        // TODO: Java 9 - Remove the second variable (https://blogs.oracle.com/darcy/more-concise-try-with-resources-statements-in-jdk-9).
+        try (InputStream closableYaml = yaml) {
+            return parseDeploymentDescriptor(YamlUtil.convertYamlToMap(closableYaml));
+        } catch (IOException e) {
+            throw new IllegalStateException(e.getMessage(), e);
+        }
+    }
+    
+    public DeploymentDescriptor parseDeploymentDescriptor(Map<String, Object> map) throws ParsingException {
+        mtadValidator.validate(map);
+        return getDeploymentDescriptorParser(map).parse();
     }
 
-    @Override
     public DeploymentDescriptor parseDeploymentDescriptorYaml(String yaml) throws ParsingException {
-        return (DeploymentDescriptor) super.parseDeploymentDescriptorYaml(yaml);
+        return parseDeploymentDescriptor(YamlUtil.convertYamlToMap(yaml));
     }
 
-    @Override
     protected DeploymentDescriptorParser getDeploymentDescriptorParser(Map<String, Object> map) {
-        return new com.sap.cloud.lm.sl.mta.parsers.v2.DeploymentDescriptorParser(map);
+        return new DeploymentDescriptorParser(map);
     }
 
 }
