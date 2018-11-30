@@ -10,7 +10,7 @@ import com.sap.cloud.lm.sl.mta.parsers.v3.ExtensionDescriptorParser;
 import com.sap.cloud.lm.sl.mta.util.YamlElement;
 import com.sap.cloud.lm.sl.mta.util.YamlElementOrder;
 
-@YamlElementOrder({ "id", "description", "parentId", "provider", "schemaVersion", "parameters", "modules3", "resources3" })
+@YamlElementOrder({ "schemaVersion", "id", "parentId", "description", "provider", "parameters", "modules3", "resources3" })
 public class ExtensionDescriptor extends com.sap.cloud.lm.sl.mta.model.v2.ExtensionDescriptor {
 
     @YamlElement(ExtensionDescriptorParser.MODULES)

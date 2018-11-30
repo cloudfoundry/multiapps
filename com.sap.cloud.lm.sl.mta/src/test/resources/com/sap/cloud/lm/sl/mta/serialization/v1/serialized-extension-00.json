@@ -1,9 +1,9 @@
 {
   "schemaVersion": "1.0.0",
   "id": "mta-extension",
-  "description": "description",
+  "extensionDescription": "description",
   "parentId": "mta-id",
-  "provider": "provider-id",
+  "extensionProvider": "provider-id",
   "deployTargets": [
     "first-target",
     "second-target"

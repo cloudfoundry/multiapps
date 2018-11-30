@@ -69,14 +69,14 @@
       }
     }
   ],
+  "description": "Extension descriptor used for testing purposes",
+  "provider": "Sunny",
   "parameters": {
     "test3": "test3v"
   },
   "schemaVersion": "3.0.0",
   "id": "com.sap.mta.sample.config-00",
-  "description": "Extension descriptor used for testing purposes",
   "parentId": "com.sap.mta.sample",
-  "provider": "Sunny",
   "deployTargets": [
     "CF-QUAL"
   ]

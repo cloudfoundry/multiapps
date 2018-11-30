@@ -23,7 +23,7 @@ public class ExtensionDescriptorParser extends ModelParser<ExtensionDescriptor> 
     public static final String ID = "ID";
     public static final String EXT_DESCRIPTION = "ext_description";
     public static final String EXTENDS = "extends";
-    public static final String PROVIDER = "ext_provider";
+    public static final String EXT_PROVIDER = "ext_provider";
     public static final String TARGET_PLATFORMS = "target-platforms";
     public static final String MODULES = "modules";
     public static final String RESOURCES = "resources";
@@ -47,9 +47,9 @@ public class ExtensionDescriptorParser extends ModelParser<ExtensionDescriptor> 
         Builder builder = new Builder();
         builder.setSchemaVersion(getSchemaVersion());
         builder.setId(getId());
-        builder.setDescription(getDescription());
+        builder.setExtensionDescription(getExtensionDescription());
         builder.setParentId(getParentId());
-        builder.setProvider(getProvider());
+        builder.setExtensionProvider(getExtensionProvider());
         builder.setDeployTargets(getTargetPLatforms());
         builder.setModules1(getModules1());
         builder.setResources1(getResources1());
@@ -65,7 +65,7 @@ public class ExtensionDescriptorParser extends ModelParser<ExtensionDescriptor> 
         return getStringElement(ID);
     }
 
-    protected String getDescription() {
+    protected String getExtensionDescription() {
         return getStringElement(EXT_DESCRIPTION);
     }
 
@@ -73,8 +73,8 @@ public class ExtensionDescriptorParser extends ModelParser<ExtensionDescriptor> 
         return getStringElement(EXTENDS);
     }
 
-    protected String getProvider() {
-        return getStringElement(PROVIDER);
+    protected String getExtensionProvider() {
+        return getStringElement(EXT_PROVIDER);
     }
 
     protected List<String> getTargetPLatforms() {

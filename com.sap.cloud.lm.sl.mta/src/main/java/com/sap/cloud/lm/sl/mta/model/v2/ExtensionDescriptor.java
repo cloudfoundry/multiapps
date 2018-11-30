@@ -14,9 +14,13 @@ import com.sap.cloud.lm.sl.mta.parsers.v2.ExtensionDescriptorParser;
 import com.sap.cloud.lm.sl.mta.util.YamlElement;
 import com.sap.cloud.lm.sl.mta.util.YamlElementOrder;
 
-@YamlElementOrder({ "id", "description", "parentId", "provider", "schemaVersion", "parameters", "modules2", "resources2" })
+@YamlElementOrder({ "schemaVersion", "id", "parentId", "description", "provider", "parameters", "modules2", "resources2" })
 public class ExtensionDescriptor extends com.sap.cloud.lm.sl.mta.model.v1.ExtensionDescriptor implements ParametersContainer {
 
+    @YamlElement(ExtensionDescriptorParser.DESCRIPTION)
+    private String description;
+    @YamlElement(ExtensionDescriptorParser.PROVIDER)
+    private String provider;
     @YamlElement(ExtensionDescriptorParser.MODULES)
     private List<ExtensionModule> modules2;
     @YamlElement(ExtensionDescriptorParser.RESOURCES)
@@ -26,6 +30,32 @@ public class ExtensionDescriptor extends com.sap.cloud.lm.sl.mta.model.v1.Extens
 
     protected ExtensionDescriptor() {
 
+    }
+
+    /**
+     * @deprecated Use {@link #getDescription()} instead.
+     */
+    @Deprecated
+    @Override
+    public String getExtensionDescription() {
+        return getDescription();
+    }
+
+    /**
+     * @deprecated Use {@link #getProvider()} instead.
+     */
+    @Deprecated
+    @Override
+    public String getExtensionProvider() {
+        return getProvider();
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public String getProvider() {
+        return provider;
     }
 
     public List<ExtensionModule> getModules2() {
@@ -54,6 +84,32 @@ public class ExtensionDescriptor extends com.sap.cloud.lm.sl.mta.model.v1.Extens
     @Override
     public Map<String, Object> getParameters() {
         return MapUtil.unmodifiable(parameters);
+    }
+
+    /**
+     * @deprecated Use {@link #setDescription(String)} instead.
+     */
+    @Deprecated
+    @Override
+    public void setExtensionDescription(String extensionDescription) {
+        setDescription(extensionDescription);
+    }
+
+    /**
+     * @deprecated Use {@link #setProvider(String)} instead.
+     */
+    @Deprecated
+    @Override
+    public void setExtensionProvider(String extensionProvider) {
+        setProvider(extensionProvider);
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public void setProvider(String provider) {
+        this.provider = provider;
     }
 
     public void setModules2(List<ExtensionModule> modules) {
@@ -86,6 +142,8 @@ public class ExtensionDescriptor extends com.sap.cloud.lm.sl.mta.model.v1.Extens
 
     public static class Builder extends com.sap.cloud.lm.sl.mta.model.v1.ExtensionDescriptor.Builder {
 
+        protected String description;
+        protected String provider;
         protected List<ExtensionModule> modules2;
         protected List<ExtensionResource> resources2;
         protected Map<String, Object> parameters;
@@ -103,6 +161,32 @@ public class ExtensionDescriptor extends com.sap.cloud.lm.sl.mta.model.v1.Extens
             result.setParameters(ObjectUtils.defaultIfNull(parameters, Collections.<String, Object> emptyMap()));
             result.setModules2(ObjectUtils.defaultIfNull(modules2, Collections.<ExtensionModule> emptyList()));
             return result;
+        }
+
+        /**
+         * @deprecated Use {@link #setDescription(String)} instead.
+         */
+        @Deprecated
+        @Override
+        public void setExtensionDescription(String extensionDescription) {
+            setDescription(extensionDescription);
+        }
+
+        /**
+         * @deprecated Use {@link #setProvider(String)} instead.
+         */
+        @Deprecated
+        @Override
+        public void setExtensionProvider(String extensionProvider) {
+            setProvider(extensionProvider);
+        }
+
+        public void setDescription(String description) {
+            this.description = description;
+        }
+
+        public void setProvider(String provider) {
+            this.provider = provider;
         }
 
         public void setModules2(List<ExtensionModule> modules) {
