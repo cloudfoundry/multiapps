@@ -45,7 +45,7 @@ public class ExtensionDescriptor extends com.sap.cloud.lm.sl.mta.model.v2.Extens
     }
 
     @Override
-    protected void setModules(List<? extends com.sap.cloud.lm.sl.mta.model.v1.ExtensionModule> modules) {
+    protected void setModules(List<? extends com.sap.cloud.lm.sl.mta.model.v2.ExtensionModule> modules) {
         this.modules3 = ListUtil.cast(modules);
     }
 
@@ -54,7 +54,7 @@ public class ExtensionDescriptor extends com.sap.cloud.lm.sl.mta.model.v2.Extens
     }
 
     @Override
-    protected void setResources(List<? extends com.sap.cloud.lm.sl.mta.model.v1.ExtensionResource> resources) {
+    protected void setResources(List<? extends com.sap.cloud.lm.sl.mta.model.v2.ExtensionResource> resources) {
         this.resources3 = ListUtil.cast(resources);
     }
 
@@ -83,7 +83,7 @@ public class ExtensionDescriptor extends com.sap.cloud.lm.sl.mta.model.v2.Extens
         }
 
         @Override
-        protected void setModules(List<? extends com.sap.cloud.lm.sl.mta.model.v1.ExtensionModule> modules) {
+        protected void setModules(List<? extends com.sap.cloud.lm.sl.mta.model.v2.ExtensionModule> modules) {
             this.modules3 = ListUtil.cast(modules);
         }
 
@@ -92,7 +92,7 @@ public class ExtensionDescriptor extends com.sap.cloud.lm.sl.mta.model.v2.Extens
         }
 
         @Override
-        protected void setResources(List<? extends com.sap.cloud.lm.sl.mta.model.v1.ExtensionResource> resources) {
+        protected void setResources(List<? extends com.sap.cloud.lm.sl.mta.model.v2.ExtensionResource> resources) {
             this.resources3 = ListUtil.cast(resources);
         }
 
