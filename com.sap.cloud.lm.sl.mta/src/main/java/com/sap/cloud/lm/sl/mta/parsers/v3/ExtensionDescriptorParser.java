@@ -15,8 +15,6 @@ import com.sap.cloud.lm.sl.mta.schema.MapElement;
 
 public class ExtensionDescriptorParser extends com.sap.cloud.lm.sl.mta.parsers.v2.ExtensionDescriptorParser {
 
-    public static final String DESCRIPTION = "description";
-
     public ExtensionDescriptorParser(Map<String, Object> source) {
         super(MTAEXT, source);
     }
@@ -40,6 +38,16 @@ public class ExtensionDescriptorParser extends com.sap.cloud.lm.sl.mta.parsers.v
         return builder.build();
     }
 
+    @Override
+    protected String getDescription() {
+        return getStringElement(DESCRIPTION);
+    }
+
+    @Override
+    protected String getProvider() {
+        return getStringElement(PROVIDER);
+    }
+
     protected List<ExtensionResource> getResources3() {
         return ListUtil.cast(getResources2());
     }
@@ -56,11 +64,6 @@ public class ExtensionDescriptorParser extends com.sap.cloud.lm.sl.mta.parsers.v
     @Override
     protected ExtensionModuleParser getModuleParser(Map<String, Object> source) {
         return new ExtensionModuleParser(source); // v3
-    }
-
-    @Override
-    protected String getDescription() {
-        return getStringElement(DESCRIPTION);
     }
 
 }

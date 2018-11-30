@@ -41,12 +41,13 @@
       }
     }
   ],
+  "description": "description",
+  "provider": "provider-id",
   "parameters": {
     "descriptor-property": "some-descriptor-property"
   },
   "schemaVersion": "3.0.0",
   "id": "mta-extension",
   "parentId": "mta-id",
-  "provider": "provider-id",
   "deployTargets": []
 }

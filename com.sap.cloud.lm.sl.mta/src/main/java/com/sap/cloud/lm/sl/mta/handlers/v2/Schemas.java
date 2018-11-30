@@ -67,8 +67,10 @@ public class Schemas extends com.sap.cloud.lm.sl.mta.handlers.v1.Schemas {
         MTAEXT.add("_schema-version", OBJECT_REQUIRED);
         MTAEXT.add("ID", NON_UNIQUE_MTA_IDENTIFIER);
         MTAEXT.add("ext_description", STRING);
+        MTAEXT.add("description", STRING);
         MTAEXT.add("extends", STRING_REQUIRED);
         MTAEXT.add("ext_provider", STRING);
+        MTAEXT.add("provider", STRING);
         MTAEXT.add("targets", LIST);
         MTAEXT.add("target-platforms", LIST);
         MTAEXT.add("modules", new ListElement(EXT_MODULE));

@@ -15,6 +15,8 @@ import com.sap.cloud.lm.sl.mta.schema.MapElement;
 
 public class ExtensionDescriptorParser extends com.sap.cloud.lm.sl.mta.parsers.v1.ExtensionDescriptorParser {
 
+    public static final String DESCRIPTION = "description";
+    public static final String PROVIDER = "provider";
     public static final String PARAMETERS = "parameters";
     public static final String DEPLOY_TARGETS = "targets";
 
@@ -38,12 +40,45 @@ public class ExtensionDescriptorParser extends com.sap.cloud.lm.sl.mta.parsers.v
         builder.setDeployTargets(getTargetPLatforms());
         if (getDeployTargets() != null) {
             builder.setDeployTargets(getDeployTargets());
-
         }
         builder.setModules2(getModules2());
         builder.setResources2(getResources2());
         builder.setParameters(getParameters());
         return builder.build();
+    }
+
+    /**
+     * @deprecated Use {@link #getDescription()} instead.
+     */
+    @Deprecated
+    @Override
+    protected String getExtensionDescription() {
+        return getDescription();
+    }
+
+    /**
+     * @deprecated Use {@link #getProvider()} instead.
+     */
+    @Deprecated
+    @Override
+    protected String getExtensionProvider() {
+        return getProvider();
+    }
+
+    protected String getDescription() {
+        String description = getStringElement(DESCRIPTION);
+        if (description != null) {
+            return description;
+        }
+        return getStringElement(EXT_DESCRIPTION);
+    }
+
+    protected String getProvider() {
+        String provider = getStringElement(PROVIDER);
+        if (provider != null) {
+            return provider;
+        }
+        return getStringElement(EXT_PROVIDER);
     }
 
     protected List<String> getDeployTargets() {

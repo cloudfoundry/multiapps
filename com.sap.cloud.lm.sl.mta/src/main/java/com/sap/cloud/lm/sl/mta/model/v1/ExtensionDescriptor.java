@@ -22,7 +22,8 @@ import com.sap.cloud.lm.sl.mta.util.YamlElementOrder;
 /**
  * @see <a href="https://[My Github Repo]/mta/spec/blob/master/schemas/v1/mtaext-schema.yaml"> MTA Extension descriptor schema</a>
  */
-@YamlElementOrder({ "schemaVersion", "id", "description", "parentId", "provider", "properties", "modules1", "resources1" })
+@YamlElementOrder({ "schemaVersion", "id", "parentId", "extensionDescription", "extensionProvider", "properties", "modules1",
+    "resources1" })
 public class ExtensionDescriptor implements Descriptor, VisitableElement, PropertiesContainer {
 
     @YamlElement(ExtensionDescriptorParser.SCHEMA_VERSION)
@@ -30,11 +31,11 @@ public class ExtensionDescriptor implements Descriptor, VisitableElement, Proper
     @YamlElement(ExtensionDescriptorParser.ID)
     private String id;
     @YamlElement(ExtensionDescriptorParser.EXT_DESCRIPTION)
-    private String description;
+    private String extensionDescription;
     @YamlElement(ExtensionDescriptorParser.EXTENDS)
     private String parentId;
-    @YamlElement(ExtensionDescriptorParser.PROVIDER)
-    private String provider;
+    @YamlElement(ExtensionDescriptorParser.EXT_PROVIDER)
+    private String extensionProvider;
     @YamlElement(ExtensionDescriptorParser.TARGET_PLATFORMS)
     private List<String> deployTargets;
     @YamlElement(ExtensionDescriptorParser.MODULES)
@@ -57,16 +58,16 @@ public class ExtensionDescriptor implements Descriptor, VisitableElement, Proper
         return id;
     }
 
-    public String getDescription() {
-        return description;
+    public String getExtensionDescription() {
+        return extensionDescription;
     }
 
     public String getParentId() {
         return parentId;
     }
 
-    public String getProvider() {
-        return provider;
+    public String getExtensionProvider() {
+        return extensionProvider;
     }
 
     public List<String> getDeployTargets() {
@@ -102,16 +103,16 @@ public class ExtensionDescriptor implements Descriptor, VisitableElement, Proper
         this.id = id;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public void setExtensionDescription(String extensionDescription) {
+        this.extensionDescription = extensionDescription;
     }
 
     public void setParentId(String parentId) {
         this.parentId = parentId;
     }
 
-    public void setProvider(String provider) {
-        this.provider = provider;
+    public void setExtensionProvider(String extensionProvider) {
+        this.extensionProvider = extensionProvider;
     }
 
     public void setDeployTargets(List<String> targetPlatforms) {
@@ -157,9 +158,9 @@ public class ExtensionDescriptor implements Descriptor, VisitableElement, Proper
 
         protected String schemaVersion;
         protected String id;
-        protected String description;
+        protected String extensionDescription;
         protected String parentId;
-        protected String provider;
+        protected String extensionProvider;
         protected List<String> deployTargets;
         protected List<ExtensionModule> modules1;
         protected List<ExtensionResource> resources1;
@@ -169,9 +170,9 @@ public class ExtensionDescriptor implements Descriptor, VisitableElement, Proper
             ExtensionDescriptor result = new ExtensionDescriptor();
             result.setSchemaVersion(schemaVersion);
             result.setId(id);
-            result.setDescription(description);
+            result.setExtensionDescription(extensionDescription);
             result.setParentId(parentId);
-            result.setProvider(provider);
+            result.setExtensionProvider(extensionProvider);
             result.setDeployTargets(ObjectUtils.defaultIfNull(deployTargets, Collections.<String> emptyList()));
             result.setModules1(ObjectUtils.defaultIfNull(modules1, Collections.<ExtensionModule> emptyList()));
             result.setResources1(ObjectUtils.defaultIfNull(resources1, Collections.<ExtensionResource> emptyList()));
@@ -187,16 +188,16 @@ public class ExtensionDescriptor implements Descriptor, VisitableElement, Proper
             this.id = id;
         }
 
-        public void setDescription(String description) {
-            this.description = description;
+        public void setExtensionDescription(String extensionDescription) {
+            this.extensionDescription = extensionDescription;
         }
 
         public void setParentId(String parentId) {
             this.parentId = parentId;
         }
 
-        public void setProvider(String provider) {
-            this.provider = provider;
+        public void setExtensionProvider(String extensionProvider) {
+            this.extensionProvider = extensionProvider;
         }
 
         public void setDeployTargets(List<String> deployTargets) {

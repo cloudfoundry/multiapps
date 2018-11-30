@@ -2,7 +2,7 @@ _schema-version: 3.1.0
 ID: com.sap.mta.sample.config-00
 extends: com.sap.mta.sample
 description: "Extension descriptor used for testing purposes"
-ext_provider: "Sunny"
+provider: "Sunny"
 
 targets: [CF-QUAL]
 

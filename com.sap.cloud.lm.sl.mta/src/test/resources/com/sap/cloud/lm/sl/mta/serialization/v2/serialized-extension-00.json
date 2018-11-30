@@ -1,4 +1,6 @@
 {
+  "description": "new-description",
+  "provider": "new-provider-id",
   "modules2": [
     {
       "parameters": {
@@ -45,9 +47,7 @@
   },
   "schemaVersion": "2.0.0",
   "id": "mta-extension",
-  "description": "description",
   "parentId": "mta-id",
-  "provider": "provider-id",
   "deployTargets": [
     "first-target",
     "second-target"
