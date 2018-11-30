@@ -14,8 +14,7 @@ public class ExtensionDescriptorMerger extends com.sap.cloud.lm.sl.mta.mergers.v
     }
 
     @Override
-    public void merge(com.sap.cloud.lm.sl.mta.model.v1.Resource resource,
-        com.sap.cloud.lm.sl.mta.model.v1.ExtensionResource extension) {
+    public void merge(com.sap.cloud.lm.sl.mta.model.v2.Resource resource, com.sap.cloud.lm.sl.mta.model.v2.ExtensionResource extension) {
         merge((Resource) resource, (ExtensionResource) extension);
     }
 
