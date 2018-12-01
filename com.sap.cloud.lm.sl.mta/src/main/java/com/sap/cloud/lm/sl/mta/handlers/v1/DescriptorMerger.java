@@ -20,13 +20,11 @@ public class DescriptorMerger {
         this.handler = handler;
     }
 
-    public Pair<DeploymentDescriptor, List<String>> merge(DeploymentDescriptor deploymentDescriptor,
-        List<ExtensionDescriptor> extensionDescriptorsChain) {
-        Pair<DeploymentDescriptor, List<String>> result = new Pair<>(deploymentDescriptor, new ArrayList<>());
+    public DeploymentDescriptor merge(DeploymentDescriptor deploymentDescriptor, List<ExtensionDescriptor> extensionDescriptorsChain) {
         for (ExtensionDescriptor extension : extensionDescriptorsChain) {
-            result = getExtensionDescriptorMerger(extension).merge(result);
+            deploymentDescriptor = getExtensionDescriptorMerger(extension).merge(deploymentDescriptor);
         }
-        return result;
+        return deploymentDescriptor;
     }
 
     public ExtensionDescriptorMerger getExtensionDescriptorMerger(ExtensionDescriptor extension) {

@@ -18,13 +18,11 @@ import com.sap.cloud.lm.sl.mta.handlers.v2.DescriptorParser;
 import com.sap.cloud.lm.sl.mta.model.SystemParameters;
 import com.sap.cloud.lm.sl.mta.model.v2.DeploymentDescriptor;
 import com.sap.cloud.lm.sl.mta.model.v2.Platform;
-import com.sap.cloud.lm.sl.mta.model.v2.Target;
 import com.sap.cloud.lm.sl.mta.resolvers.ResolverBuilder;
 
-@RunWith(value = Parameterized.class)
+@RunWith(Parameterized.class)
 public class DescriptorPlaceholderResolverTest {
 
-    protected static final String TARGET_LOCATION = "target.json";
     protected static final String SYSTEM_PARAMETERS_LOCATION = "system-parameters.json";
 
     protected final String deploymentDescriptorLocation;
@@ -131,29 +129,22 @@ public class DescriptorPlaceholderResolverTest {
 
         ConfigurationParser configurationParser = getConfigurationParser();
 
-        Target target = getTarget(configurationParser);
         Platform platform = getPlatform(configurationParser);
 
         SystemParameters systemParameters = JsonUtil.fromJson(TestUtil.getResourceAsString(SYSTEM_PARAMETERS_LOCATION, getClass()),
             SystemParameters.class);
 
-        resolver = getDescriptorPlaceholderResolver(deploymentDescriptor, target, platform, systemParameters);
+        resolver = getDescriptorPlaceholderResolver(deploymentDescriptor, platform, systemParameters);
     }
 
-    protected DescriptorPlaceholderResolver getDescriptorPlaceholderResolver(DeploymentDescriptor deploymentDescriptor, Target target,
-        Platform platform, SystemParameters systemParameters) {
-        return new DescriptorPlaceholderResolver(deploymentDescriptor, platform, target, systemParameters, new ResolverBuilder(),
+    protected DescriptorPlaceholderResolver getDescriptorPlaceholderResolver(DeploymentDescriptor deploymentDescriptor, Platform platform,
+        SystemParameters systemParameters) {
+        return new DescriptorPlaceholderResolver(deploymentDescriptor, platform, systemParameters, new ResolverBuilder(),
             new ResolverBuilder());
     }
 
     protected Platform getPlatform(ConfigurationParser configurationParser) {
-        return (Platform) MtaTestUtil.loadPlatforms(platformLocation, configurationParser, getClass())
-            .get(0);
-    }
-
-    protected Target getTarget(ConfigurationParser configurationParser) {
-        return (Target) MtaTestUtil.loadTargets(TARGET_LOCATION, configurationParser, getClass())
-            .get(0);
+        return (Platform) MtaTestUtil.loadPlatform(platformLocation, configurationParser, getClass());
     }
 
     protected ConfigurationParser getConfigurationParser() {

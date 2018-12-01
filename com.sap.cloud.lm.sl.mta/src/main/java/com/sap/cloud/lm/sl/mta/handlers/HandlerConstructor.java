@@ -8,7 +8,6 @@ import com.sap.cloud.lm.sl.mta.handlers.v1.DescriptorValidator;
 import com.sap.cloud.lm.sl.mta.model.SystemParameters;
 import com.sap.cloud.lm.sl.mta.model.v1.DeploymentDescriptor;
 import com.sap.cloud.lm.sl.mta.model.v1.Platform;
-import com.sap.cloud.lm.sl.mta.model.v1.Target;
 import com.sap.cloud.lm.sl.mta.resolvers.PlaceholderResolver;
 import com.sap.cloud.lm.sl.mta.resolvers.Resolver;
 import com.sap.cloud.lm.sl.mta.resolvers.ResolverBuilder;
@@ -26,7 +25,7 @@ public interface HandlerConstructor {
     DescriptorValidator getDescriptorValidator();
 
     PlaceholderResolver<? extends DeploymentDescriptor> getDescriptorPlaceholderResolver(DeploymentDescriptor mergedDescriptor,
-        Platform platform, Target target, SystemParameters systemParameters, ResolverBuilder propertiesResolverBuilder,
+        Platform platform, SystemParameters systemParameters, ResolverBuilder propertiesResolverBuilder,
         ResolverBuilder parametersResolverBuilder);
 
     Resolver<? extends DeploymentDescriptor> getDescriptorReferenceResolver(DeploymentDescriptor mergedDescriptor,

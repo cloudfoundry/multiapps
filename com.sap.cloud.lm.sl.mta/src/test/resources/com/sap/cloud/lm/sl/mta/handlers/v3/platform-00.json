@@ -1,0 +1,36 @@
+{
+  "name": "CF",
+  "description": "A list of supported modules and resources in Cloud Foundry",
+  "module-types": [
+    {
+      "name": "java.tomcat",
+      "deployer": "deploy-service",
+      "properties": {
+        "TARGET_RUNTIME": "TOMCAT",
+        "JAVA_CONFIG": "[]"
+      },
+      "parameters": {
+        "memory": "512M"
+      }
+    },
+    {
+      "name": "nodejs",
+      "deployer": "deploy-service",
+      "parameters": {
+        "memory": "256M"
+      }
+    }
+  ],
+  "resource-types": [
+    {
+      "name": "hana",
+      "resource-manager": "hdi-broker",
+      "parameters": {
+        "TABLES_LIMIT": 100
+      }
+    }
+  ],
+  "parameters": {
+    "api-url": "https://cf-api.com"
+  }
+}

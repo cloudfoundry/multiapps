@@ -15,38 +15,8 @@ import com.sap.cloud.lm.sl.mta.model.v1.PlatformModuleType;
 import com.sap.cloud.lm.sl.mta.model.v1.PlatformResourceType;
 import com.sap.cloud.lm.sl.mta.model.v1.ProvidedDependency;
 import com.sap.cloud.lm.sl.mta.model.v1.Resource;
-import com.sap.cloud.lm.sl.mta.model.v1.Target;
-import com.sap.cloud.lm.sl.mta.model.v1.TargetModuleType;
-import com.sap.cloud.lm.sl.mta.model.v1.TargetResourceType;
 
 public class DescriptorHandler {
-
-    public Target findTarget(List<Target> targets, String targetName, Target defaultTarget) {
-        for (Target target : targets) {
-            if (target.getName()
-                .equals(targetName)) {
-                return target;
-            }
-        }
-        return defaultTarget;
-    }
-
-    public Target findTarget(List<Target> targets, String targetName) {
-        return findTarget(targets, targetName, null);
-    }
-
-    public Platform findPlatform(List<Platform> platforms, String platformName) {
-        if (platformName == null && platforms.size() > 0) {
-            return platforms.get(0);
-        }
-        for (Platform platform : platforms) {
-            if (platform.getName()
-                .equals(platformName)) {
-                return platform;
-            }
-        }
-        return null;
-    }
 
     public PlatformResourceType findPlatformResourceType(Platform platform, String resourceTypeName) {
         for (PlatformResourceType resourceType : platform.getResourceTypes1()) {
@@ -58,28 +28,8 @@ public class DescriptorHandler {
         return null;
     }
 
-    public TargetResourceType findTargetResourceType(Target target, String resourceTypeName) {
-        for (TargetResourceType resourceType : target.getResourceTypes1()) {
-            if (resourceType.getName()
-                .equals(resourceTypeName)) {
-                return resourceType;
-            }
-        }
-        return null;
-    }
-
     public PlatformModuleType findPlatformModuleType(Platform platform, String moduleTypeName) {
         for (PlatformModuleType moduleType : platform.getModuleTypes1()) {
-            if (moduleType.getName()
-                .equals(moduleTypeName)) {
-                return moduleType;
-            }
-        }
-        return null;
-    }
-
-    public TargetModuleType findTargetModuleType(Target target, String moduleTypeName) {
-        for (TargetModuleType moduleType : target.getModuleTypes1()) {
             if (moduleType.getName()
                 .equals(moduleTypeName)) {
                 return moduleType;
@@ -182,8 +132,7 @@ public class DescriptorHandler {
 
     public List<? extends Module> getModulesForDeployment(DeploymentDescriptor descriptor, String parallelDeploymentProperty,
         String dependencyTypeProperty, String hardDependencyType) {
-        ModulesSorter moduleSorter = getModuleSorter(descriptor, parallelDeploymentProperty, dependencyTypeProperty,
-            hardDependencyType);
+        ModulesSorter moduleSorter = getModuleSorter(descriptor, parallelDeploymentProperty, dependencyTypeProperty, hardDependencyType);
         return moduleSorter.sort();
     }
 

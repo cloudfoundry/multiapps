@@ -35,13 +35,9 @@ public class SchemaValidatorTest {
             {
                 "/mta/sample/v1/mtad-01.yaml", Schemas.MTAD, new Expectation(""),
             },
-            // (02) Valid platforms JSON:
+            // (02) Valid platform JSON:
             {
-                "/mta/sample/v1/platforms.json", Schemas.PLATFORMS, new Expectation(""),
-            },
-            // (03) Valid platform types JSON:
-            {
-                "/mta/sample/v1/platform-types.json", Schemas.PLATFORM_TYPES, new Expectation(""),
+                "/mta/sample/v1/platform-01.json", Schemas.PLATFORM, new Expectation(""),
             },
             // (04) Deployment descriptor contains invalid key:
             {

@@ -3,7 +3,6 @@ package com.sap.cloud.lm.sl.mta.mergers.v1;
 import java.io.InputStream;
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -30,29 +29,29 @@ public class PlatformMergerTest {
 // @formatter:off
             // (0)
             {
-                "mtad-00.yaml", "platforms-00.json", new Expectation(Expectation.Type.RESOURCE, "result-platform-00.json"),
+                "mtad-00.yaml", "platform-00.json", new Expectation(Expectation.Type.RESOURCE, "result-platform-00.json"),
             },
             // (1)
             {
-                "mtad-01.yaml", "platforms-01.json", new Expectation(Expectation.Type.RESOURCE, "result-platform-01.json"),
+                "mtad-01.yaml", "platform-01.json", new Expectation(Expectation.Type.RESOURCE, "result-platform-01.json"),
             },
             // (2)
             {
-                "mtad-00.yaml", "platforms-02.json", new Expectation(Expectation.Type.RESOURCE, "result-platform-02.json"),
+                "mtad-00.yaml", "platform-02.json", new Expectation(Expectation.Type.RESOURCE, "result-platform-02.json"),
             },
 // @formatter:on
         });
     }
 
     private String deploymentDescriptorLocation;
-    private String platformsLocation;
+    private String platformLocation;
     private Expectation expectation;
     private DeploymentDescriptor descriptor;
-    private List<Platform> platforms;
+    private Platform platform;
 
-    public PlatformMergerTest(String deploymentDescriptorLocation, String platformsLocation, Expectation expectation) {
+    public PlatformMergerTest(String deploymentDescriptorLocation, String platformLocation, Expectation expectation) {
         this.deploymentDescriptorLocation = deploymentDescriptorLocation;
-        this.platformsLocation = platformsLocation;
+        this.platformLocation = platformLocation;
         this.expectation = expectation;
     }
 
@@ -70,25 +69,23 @@ public class PlatformMergerTest {
 
     private void loadDeploymentDescriptor() throws Exception {
         ConfigurationParser parser = getHandlerFactory().getConfigurationParser();
-        InputStream platformsTypeJson = getClass().getResourceAsStream(platformsLocation);
-        this.platforms = parser.parsePlatformsJson(platformsTypeJson);
+        InputStream platformJson = getClass().getResourceAsStream(platformLocation);
+        this.platform = parser.parsePlatformJson(platformJson);
     }
 
     @Test
     public void testMerge() {
         DescriptorHandler handler = getHandlerFactory().getDescriptorHandler();
-        for (Platform platform : platforms) {
-            final PlatformMerger merger = getPlatformMerger(platform, handler);
-            TestUtil.test(new Callable<DeploymentDescriptor>() {
+        PlatformMerger merger = getPlatformMerger(platform, handler);
+        TestUtil.test(new Callable<DeploymentDescriptor>() {
 
-                @Override
-                public DeploymentDescriptor call() throws Exception {
-                    merger.mergeInto(descriptor);
-                    return descriptor;
-                }
+            @Override
+            public DeploymentDescriptor call() throws Exception {
+                merger.mergeInto(descriptor);
+                return descriptor;
+            }
 
-            }, expectation, getClass());
-        }
+        }, expectation, getClass());
     }
 
     protected HandlerFactory getHandlerFactory() {

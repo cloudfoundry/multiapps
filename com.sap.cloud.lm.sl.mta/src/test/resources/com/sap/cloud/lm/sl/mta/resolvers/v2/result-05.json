@@ -60,7 +60,7 @@
       "parameters": {
         "bar": "hdi-shared",
         "baz": "i318495",
-        "foo": "hdi-hana2",
+        "foo": "hdi-hana",
         "qux": "self",
         "self": "self"
       },
@@ -70,7 +70,7 @@
         "bar": "hdi-shared",
         "baz": "i318495",
         "corge": "xs2deploy",
-        "foo": "hdi-hana2",
+        "foo": "hdi-hana",
         "quux": "pricing-db-service",
         "qux": "self"
       }

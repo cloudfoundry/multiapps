@@ -3,11 +3,9 @@ package com.sap.cloud.lm.sl.mta.handlers.v1;
 import java.util.List;
 
 import com.sap.cloud.lm.sl.common.ContentException;
-import com.sap.cloud.lm.sl.common.util.Pair;
 import com.sap.cloud.lm.sl.mta.model.v1.DeploymentDescriptor;
 import com.sap.cloud.lm.sl.mta.model.v1.ExtensionDescriptor;
 import com.sap.cloud.lm.sl.mta.model.v1.Platform;
-import com.sap.cloud.lm.sl.mta.model.v1.Target;
 import com.sap.cloud.lm.sl.mta.validators.DescriptorValidationRules;
 import com.sap.cloud.lm.sl.mta.validators.v1.DefaultDescriptorValidationRules;
 import com.sap.cloud.lm.sl.mta.validators.v1.DeploymentDescriptorValidator;
@@ -46,16 +44,16 @@ public class DescriptorValidator {
         return new ExtensionDescriptorValidator(extensionDescriptor, deploymentDescriptor, handler);
     }
 
-    public void validateMergedDescriptor(Pair<DeploymentDescriptor, List<String>> mergedDescriptor,
-        DescriptorValidationRules validationRules, Target target) throws ContentException {
-        getMergedDescriptorValidator(mergedDescriptor, validationRules).validate(target.getName());
+    public void validateMergedDescriptor(DeploymentDescriptor mergedDescriptor, DescriptorValidationRules validationRules)
+        throws ContentException {
+        getMergedDescriptorValidator(mergedDescriptor, validationRules).validate();
     }
 
-    public void validateMergedDescriptor(Pair<DeploymentDescriptor, List<String>> mergedDescriptor, Target target) throws ContentException {
-        getMergedDescriptorValidator(mergedDescriptor, getDefaultDescriptorValidationRules()).validate(target.getName());
+    public void validateMergedDescriptor(DeploymentDescriptor mergedDescriptor) throws ContentException {
+        getMergedDescriptorValidator(mergedDescriptor, getDefaultDescriptorValidationRules()).validate();
     }
 
-    protected MergedDescriptorValidator getMergedDescriptorValidator(Pair<DeploymentDescriptor, List<String>> mergedDescriptor,
+    protected MergedDescriptorValidator getMergedDescriptorValidator(DeploymentDescriptor mergedDescriptor,
         DescriptorValidationRules validationRules) {
         return new MergedDescriptorValidator(mergedDescriptor, validationRules, handler);
     }

@@ -1,0 +1,32 @@
+{
+  "name": "CLOUD-FOUNDRY",
+  "properties": {
+    "org.cf.api": "https://api.sap.cf.com"
+  },
+  "module-types": [
+    {
+      "name": "com.sap.static-content"
+    },
+    {
+      "name": "org.nodejs"
+    },
+    {
+      "name": "com.sap.java.jee6webprofile"
+    },
+    {
+      "name": "com.sap.hana.hdi"
+    }
+  ],
+  "resource-types": [
+    {
+      "name": "com.sap.hana.hdi-container",
+      "properties": {
+        "service": "hdi-hana",
+        "service-plan": "hdi-shared"
+      }
+    },
+    {
+      "name": "com.sap.user-provided"
+    }
+  ]
+}

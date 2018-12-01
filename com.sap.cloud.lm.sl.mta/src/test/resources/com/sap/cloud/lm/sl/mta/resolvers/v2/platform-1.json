@@ -1,41 +1,44 @@
-[
+{
+  "name": "CLOUD-FOUNDRY",
+  "parameters": {
+    "xs-api-url": "https://api.sap.cf.com",
+    "user": "deployer",
+    "password": "password",
+    "org": "SAP-STANDARD",
+    "space": "STAGING"
+  },
+  "module-types": [
     {
-        "name": "CLOUD-FOUNDRY",
-        "parameters": {
-            "xs-api-url": "https://api.sap.cf.com"
-        },
-        "module-types": [
-            {
-                "name": "com.sap.static-content"
-            },
-            {
-                "name": "org.nodejs",
-                "parameters": {
-                  "test": "test"
-                }
-            },
-            {
-                "name": "com.sap.java.jee6webprofile"
-            },
-            {
-                "name": "com.sap.hana.hdi"
-            }
-        ],
-        "resource-types": [
-            { 
-                "name": "com.sap.hana.hdi-container",
-                "parameters": {
-                    "service": "hdi-hana",
-                    "service-plan": "hdi-shared"
-                }
-            },
-            {
-                "name": "com.sap.user-provided",
-                "parameters": {
-                    "service": "test",
-                    "service-plan": "test-plan"
-                }
-            }
-        ]
+      "name": "com.sap.static-content"
+    },
+    {
+      "name": "org.nodejs",
+      "parameters": {
+        "test": "test",
+        "buildpack": "nodejs-test"
+      }
+    },
+    {
+      "name": "com.sap.java.jee6webprofile"
+    },
+    {
+      "name": "com.sap.hana.hdi"
     }
-]
+  ],
+  "resource-types": [
+    {
+      "name": "com.sap.hana.hdi-container",
+      "parameters": {
+        "service": "hdi-hana",
+        "service-plan": "hdi-shared"
+      }
+    },
+    {
+      "name": "com.sap.user-provided",
+      "parameters": {
+        "service": "test",
+        "service-plan": "test-plan"
+      }
+    }
+  ]
+}

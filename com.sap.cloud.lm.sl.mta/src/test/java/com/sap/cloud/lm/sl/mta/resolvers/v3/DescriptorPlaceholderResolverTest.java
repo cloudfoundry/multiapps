@@ -34,9 +34,9 @@ public class DescriptorPlaceholderResolverTest extends com.sap.cloud.lm.sl.mta.r
 
     @Override
     protected DescriptorPlaceholderResolver getDescriptorPlaceholderResolver(
-        com.sap.cloud.lm.sl.mta.model.v2.DeploymentDescriptor deploymentDescriptor, com.sap.cloud.lm.sl.mta.model.v2.Target target,
-        com.sap.cloud.lm.sl.mta.model.v2.Platform platform, SystemParameters systemParameters) {
-        return new DescriptorPlaceholderResolver((DeploymentDescriptor) deploymentDescriptor, platform, target, systemParameters,
+        com.sap.cloud.lm.sl.mta.model.v2.DeploymentDescriptor deploymentDescriptor, com.sap.cloud.lm.sl.mta.model.v2.Platform platform,
+        SystemParameters systemParameters) {
+        return new DescriptorPlaceholderResolver((DeploymentDescriptor) deploymentDescriptor, platform, systemParameters,
             new ResolverBuilder(), new ResolverBuilder());
     }
 

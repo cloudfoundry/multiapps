@@ -9,18 +9,11 @@
     {
       "foo-test-1": "foo-test-1-value",
       "foo-test-2": "foo-test-2-value"
-    },
-    {
-      "foo-test-3": "foo-test-3-value",
-      "foo-test-4": "foo-test-4-value"
     }
   ],
   [
     {
       "bar-test-3": "bar-test-3-value"
-    },
-    {
-      "bar-test-4": "bar-test-4-value"
     }
   ],
   [

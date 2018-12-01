@@ -1,0 +1,11 @@
+{
+  "name": "CLOUD-FOUNDRY",
+  "resource-types": [
+    {
+      "name": "com.sap.hana.hdi-container",
+      "properties": {
+        
+      }
+    }
+  ]
+}
