@@ -15,23 +15,20 @@ import com.sap.cloud.lm.sl.mta.model.v2.Platform;
 import com.sap.cloud.lm.sl.mta.model.v2.PlatformModuleType;
 import com.sap.cloud.lm.sl.mta.model.v2.RequiredDependency;
 import com.sap.cloud.lm.sl.mta.model.v2.Resource;
-import com.sap.cloud.lm.sl.mta.model.v2.Target;
-import com.sap.cloud.lm.sl.mta.model.v2.TargetModuleType;
-import com.sap.cloud.lm.sl.mta.model.v2.TargetResourceType;
 import com.sap.cloud.lm.sl.mta.util.PropertiesUtil;
 
 public class ParametersChainBuilder extends PropertiesChainBuilder {
 
-    public ParametersChainBuilder(DeploymentDescriptor descriptor, Target target, Platform platform) {
-        super(descriptor, target, platform, new DescriptorHandler());
+    public ParametersChainBuilder(DeploymentDescriptor descriptor, Platform platform) {
+        super(descriptor, platform, new DescriptorHandler());
     }
 
     public ParametersChainBuilder(DeploymentDescriptor descriptor) {
-        super(descriptor, null, null, new DescriptorHandler());
+        super(descriptor, null, new DescriptorHandler());
     }
 
-    public ParametersChainBuilder(DeploymentDescriptor descriptor, Target target, Platform platform, DescriptorHandler handler) {
-        super(descriptor, target, platform, handler);
+    public ParametersChainBuilder(DeploymentDescriptor descriptor, Platform platform, DescriptorHandler handler) {
+        super(descriptor, platform, handler);
     }
 
     @Override
@@ -41,10 +38,9 @@ public class ParametersChainBuilder extends PropertiesChainBuilder {
             return Collections.emptyList();
         }
         List<RequiredDependency> dependencies = module.getRequiredDependencies2();
-        TargetModuleType targetModuleType = (TargetModuleType) getTargetModuleType(module);
         PlatformModuleType platformModuleType = (PlatformModuleType) getPlatformModuleType(module);
         DeploymentDescriptor deploymentDescriptor = (com.sap.cloud.lm.sl.mta.model.v2.DeploymentDescriptor) descriptor;
-        return getParametersList(dependencies, module, targetModuleType, platformModuleType, deploymentDescriptor);
+        return getParametersList(dependencies, module, platformModuleType, deploymentDescriptor);
     }
 
     @Override
@@ -53,10 +49,9 @@ public class ParametersChainBuilder extends PropertiesChainBuilder {
         if (module == null) {
             return Collections.emptyList();
         }
-        TargetModuleType targetModuleType = (TargetModuleType) getTargetModuleType(module);
         PlatformModuleType platformModuleType = (PlatformModuleType) getPlatformModuleType(module);
         DeploymentDescriptor deploymentDescriptor = (DeploymentDescriptor) descriptor;
-        return PropertiesUtil.getParametersList(module, targetModuleType, platformModuleType, deploymentDescriptor);
+        return PropertiesUtil.getParametersList(module, platformModuleType, deploymentDescriptor);
     }
 
     @Override
@@ -81,18 +76,16 @@ public class ParametersChainBuilder extends PropertiesChainBuilder {
         if (resource == null) {
             return Collections.emptyList();
         }
-        TargetResourceType targetResourceType = (TargetResourceType) getTargetResourceType(resource);
         ParametersContainer platformResourceType = (ParametersContainer) getPlatformResourceType(resource);
         DeploymentDescriptor deploymentDescriptor = (DeploymentDescriptor) descriptor;
-        return PropertiesUtil.getParametersList(targetResourceType, platformResourceType, deploymentDescriptor);
+        return PropertiesUtil.getParametersList(platformResourceType, deploymentDescriptor);
     }
 
     protected static List<Map<String, Object>> getParametersList(List<RequiredDependency> dependencies, Module module,
-        TargetModuleType targetModuleType, PlatformModuleType platformModuleType, DeploymentDescriptor descriptor) {
+        PlatformModuleType platformModuleType, DeploymentDescriptor descriptor) {
         List<ParametersContainer> containers = new ArrayList<>();
         containers.addAll(dependencies);
         CollectionUtils.addIgnoreNull(containers, module);
-        CollectionUtils.addIgnoreNull(containers, targetModuleType);
         CollectionUtils.addIgnoreNull(containers, platformModuleType);
         CollectionUtils.addIgnoreNull(containers, descriptor);
         return PropertiesUtil.getParametersList(containers);

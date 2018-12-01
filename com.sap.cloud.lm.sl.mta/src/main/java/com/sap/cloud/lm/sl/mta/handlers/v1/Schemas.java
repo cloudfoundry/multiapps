@@ -46,16 +46,9 @@ public class Schemas {
     public static final MapElement EXT_PROVIDED_DEPENDENCY = new MapElement();
     public static final MapElement EXT_RESOURCE = new MapElement();
 
-    public static final MapElement PLATFORM_TYPE = new MapElement();
+    public static final MapElement PLATFORM = new MapElement();
     public static final MapElement MODULE_TYPE = new MapElement();
     public static final MapElement RESOURCE_TYPE = new MapElement();
-
-    public static final MapElement PLATFORM = new MapElement();
-    public static final MapElement PTF_MODULE_TYPE = new MapElement();
-    public static final MapElement PTF_RESOURCE_TYPE = new MapElement();
-
-    public static final ListElement PLATFORM_TYPES = new ListElement(PLATFORM_TYPE);
-    public static final ListElement PLATFORMS = new ListElement(PLATFORM);
 
     static {
         MTAD.add("_schema-version", OBJECT_REQUIRED);
@@ -107,12 +100,12 @@ public class Schemas {
         EXT_RESOURCE.add("type", STRING);
         EXT_RESOURCE.add("properties", PROPERTIES);
 
-        PLATFORM_TYPE.add("name", UNIQUE_MTA_IDENTIFIER);
-        PLATFORM_TYPE.add("version", STRING);
-        PLATFORM_TYPE.add("description", STRING);
-        PLATFORM_TYPE.add("properties", PROPERTIES);
-        PLATFORM_TYPE.add("module-types", new ListElement(MODULE_TYPE));
-        PLATFORM_TYPE.add("resource-types", new ListElement(RESOURCE_TYPE));
+        PLATFORM.add("name", UNIQUE_MTA_IDENTIFIER);
+        PLATFORM.add("version", STRING);
+        PLATFORM.add("description", STRING);
+        PLATFORM.add("properties", PROPERTIES);
+        PLATFORM.add("module-types", new ListElement(MODULE_TYPE));
+        PLATFORM.add("resource-types", new ListElement(RESOURCE_TYPE));
 
         MODULE_TYPE.add("name", UNIQUE_MTA_IDENTIFIER);
         MODULE_TYPE.add("deployer", STRING);
@@ -121,19 +114,6 @@ public class Schemas {
         RESOURCE_TYPE.add("name", UNIQUE_MTA_IDENTIFIER);
         RESOURCE_TYPE.add("resource-manager", STRING);
         RESOURCE_TYPE.add("properties", PROPERTIES);
-
-        PLATFORM.add("name", UNIQUE_MTA_IDENTIFIER);
-        PLATFORM.add("type", STRING);
-        PLATFORM.add("description", STRING);
-        PLATFORM.add("properties", PROPERTIES);
-        PLATFORM.add("module-types", new ListElement(PTF_MODULE_TYPE));
-        PLATFORM.add("resource-types", new ListElement(PTF_RESOURCE_TYPE));
-
-        PTF_MODULE_TYPE.add("name", UNIQUE_MTA_IDENTIFIER);
-        PTF_MODULE_TYPE.add("properties", PROPERTIES);
-
-        PTF_RESOURCE_TYPE.add("name", UNIQUE_MTA_IDENTIFIER);
-        PTF_RESOURCE_TYPE.add("properties", PROPERTIES);
     }
 
 }

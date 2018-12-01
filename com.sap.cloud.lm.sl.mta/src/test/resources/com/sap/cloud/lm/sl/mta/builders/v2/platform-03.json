@@ -1,22 +1,20 @@
-[
-  {
-    "name": "CF-TEST",
-    "module-types": [
-      {
-        "name": "baz",
-        "properties": {
-          "baz-test-5": "baz-test-5-value",
-          "baz-test-6": "baz-test-6-value"
-        }
+{
+  "name": "CF-TEST",
+  "module-types": [
+    {
+      "name": "baz",
+      "properties": {
+        "baz-test-5": "baz-test-5-value",
+        "baz-test-6": "baz-test-6-value"
       }
-    ],
-    "resource-types": [
-      {
-        "name": "quux",
-        "parameters": {
-          "quux-test-2": "quux-test-2-value"
-        }
+    }
+  ],
+  "resource-types": [
+    {
+      "name": "quux",
+      "parameters": {
+        "quux-test-2": "quux-test-2-value"
       }
-    ]
-  }
-]
+    }
+  ]
+}

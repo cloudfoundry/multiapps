@@ -5,7 +5,6 @@ import static com.sap.cloud.lm.sl.common.util.CommonUtil.cast;
 import com.sap.cloud.lm.sl.mta.model.SystemParameters;
 import com.sap.cloud.lm.sl.mta.model.v1.DeploymentDescriptor;
 import com.sap.cloud.lm.sl.mta.model.v1.Platform;
-import com.sap.cloud.lm.sl.mta.model.v1.Target;
 import com.sap.cloud.lm.sl.mta.resolvers.PlaceholderResolver;
 import com.sap.cloud.lm.sl.mta.resolvers.Resolver;
 import com.sap.cloud.lm.sl.mta.resolvers.ResolverBuilder;
@@ -44,12 +43,11 @@ public class HandlerConstructor extends com.sap.cloud.lm.sl.mta.handlers.v1.Hand
 
     @Override
     public PlaceholderResolver<? extends DeploymentDescriptor> getDescriptorPlaceholderResolver(final DeploymentDescriptor mergedDescriptor,
-        Platform platform, Target target, SystemParameters systemParameters, ResolverBuilder propertiesResolverBuilder,
+        Platform platform, SystemParameters systemParameters, ResolverBuilder propertiesResolverBuilder,
         ResolverBuilder parametersResolverBuilder) {
         com.sap.cloud.lm.sl.mta.model.v2.DeploymentDescriptor mergedDescriptorV2 = cast(mergedDescriptor);
         com.sap.cloud.lm.sl.mta.model.v2.Platform platformV2 = cast(platform);
-        com.sap.cloud.lm.sl.mta.model.v2.Target targetV2 = cast(target);
-        return new DescriptorPlaceholderResolver(mergedDescriptorV2, platformV2, targetV2, systemParameters, propertiesResolverBuilder,
+        return new DescriptorPlaceholderResolver(mergedDescriptorV2, platformV2, systemParameters, propertiesResolverBuilder,
             parametersResolverBuilder);
     }
 

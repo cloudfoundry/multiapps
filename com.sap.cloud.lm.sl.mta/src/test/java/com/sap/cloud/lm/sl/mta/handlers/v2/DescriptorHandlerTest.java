@@ -2,20 +2,18 @@ package com.sap.cloud.lm.sl.mta.handlers.v2;
 
 import java.util.Arrays;
 
-import org.junit.experimental.runners.Enclosed;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import org.junit.runners.Parameterized.Parameters;
 
 import com.sap.cloud.lm.sl.common.util.TestUtil.Expectation;
 
-@RunWith(Enclosed.class)
 public class DescriptorHandlerTest extends com.sap.cloud.lm.sl.mta.handlers.v1.DescriptorHandlerTest {
 
     @RunWith(Parameterized.class)
-    public static class DescriptorHandlerTest2 extends com.sap.cloud.lm.sl.mta.handlers.v1.DescriptorHandlerTest.DescriptorHandlerTest2 {
+    public static class DeployOrderTest extends com.sap.cloud.lm.sl.mta.handlers.v1.DescriptorHandlerTest.DeployOrderTest {
 
-        public DescriptorHandlerTest2(String descriptorLocation, Expectation expectation) {
+        public DeployOrderTest(String descriptorLocation, Expectation expectation) {
             super(descriptorLocation, expectation);
         }
 

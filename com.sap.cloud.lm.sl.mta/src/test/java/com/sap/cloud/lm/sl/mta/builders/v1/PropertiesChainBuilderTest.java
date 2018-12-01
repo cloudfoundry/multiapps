@@ -15,20 +15,17 @@ import com.sap.cloud.lm.sl.common.util.Callable;
 import com.sap.cloud.lm.sl.common.util.TestUtil;
 import com.sap.cloud.lm.sl.common.util.TestUtil.Expectation;
 import com.sap.cloud.lm.sl.mta.MtaTestUtil;
-import com.sap.cloud.lm.sl.mta.builders.v1.PropertiesChainBuilder;
 import com.sap.cloud.lm.sl.mta.handlers.v1.ConfigurationParser;
 import com.sap.cloud.lm.sl.mta.handlers.v1.DescriptorParser;
 import com.sap.cloud.lm.sl.mta.model.v1.DeploymentDescriptor;
 import com.sap.cloud.lm.sl.mta.model.v1.Module;
 import com.sap.cloud.lm.sl.mta.model.v1.Platform;
 import com.sap.cloud.lm.sl.mta.model.v1.Resource;
-import com.sap.cloud.lm.sl.mta.model.v1.Target;
 
 @RunWith(Parameterized.class)
 public class PropertiesChainBuilderTest {
 
     protected final String deploymentDescriptorLocation;
-    protected final String targetLocation;
     protected final String platformLocation;
     protected final Expectation[] expectations;
 
@@ -40,9 +37,9 @@ public class PropertiesChainBuilderTest {
     public static Iterable<Object[]> getParameters() {
         return Arrays.asList(new Object[][] {
 // @formatter:off
-            // (0) All module and resource types are present in platform and platform type:
+            // (0) All module and resource types are present in the platform:
             {
-                "mtad-01.yaml", "platform-01.json", "target-01.json",
+                "mtad-01.yaml", "platform-01.json",
                 new Expectation[] {
                     new Expectation(Expectation.Type.RESOURCE, "module-chain-01.json"),
                     new Expectation(Expectation.Type.RESOURCE, "module-chain-without-dependencies-01.json"),
@@ -50,9 +47,9 @@ public class PropertiesChainBuilderTest {
                     new Expectation(Expectation.Type.RESOURCE, "resource-type-chain-01.json"),
                 },
             },
-            // (1) No module and resource types in platform and platform type:
+            // (1) No module and resource types in the platform:
             {
-                "mtad-01.yaml", "platform-02.json", "target-02.json",
+                "mtad-01.yaml", "platform-02.json",
                 new Expectation[] {
                     new Expectation(Expectation.Type.RESOURCE, "module-chain-02.json"),
                     new Expectation(Expectation.Type.RESOURCE, "module-chain-without-dependencies-02.json"),
@@ -60,9 +57,9 @@ public class PropertiesChainBuilderTest {
                     new Expectation(Expectation.Type.RESOURCE, "resource-type-chain-02.json"),
                 },
             },
-            // (2) Some module and resource types are present in platform and platform type:
+            // (2) Some module and resource types are present in the platform:
             {
-                "mtad-01.yaml", "platform-03.json", "target-03.json",
+                "mtad-01.yaml", "platform-03.json",
                 new Expectation[] {
                     new Expectation(Expectation.Type.RESOURCE, "module-chain-03.json"),
                     new Expectation(Expectation.Type.RESOURCE, "module-chain-without-dependencies-03.json"),
@@ -70,9 +67,9 @@ public class PropertiesChainBuilderTest {
                     new Expectation(Expectation.Type.RESOURCE, "resource-type-chain-03.json"),
                 },
             },
-            // (3) No platform and platform type:
+            // (3) No platform:
             {
-                "mtad-01.yaml", null, null,
+                "mtad-01.yaml", null,
                 new Expectation[] {
                     new Expectation(Expectation.Type.RESOURCE, "module-chain-04.json"),
                     new Expectation(Expectation.Type.RESOURCE, "module-chain-without-dependencies-04.json"),
@@ -84,11 +81,9 @@ public class PropertiesChainBuilderTest {
         });
     }
 
-    public PropertiesChainBuilderTest(String deploymentDescriptorLocation, String platformTypeLocation, String platformLocation,
-        Expectation[] expectations) {
+    public PropertiesChainBuilderTest(String deploymentDescriptorLocation, String platformLocation, Expectation[] expectations) {
         this.deploymentDescriptorLocation = deploymentDescriptorLocation;
-        this.targetLocation = platformLocation;
-        this.platformLocation = platformTypeLocation;
+        this.platformLocation = platformLocation;
         this.expectations = expectations;
     }
 
@@ -103,19 +98,12 @@ public class PropertiesChainBuilderTest {
 
         ConfigurationParser configurationParser = getConfigurationParser();
 
-        Target target = null;
-        if (targetLocation != null) {
-            target = MtaTestUtil.loadTargets(targetLocation, configurationParser, getClass())
-                .get(0);
-        }
-
         Platform platform = null;
         if (platformLocation != null) {
-            platform = MtaTestUtil.loadPlatforms(platformLocation, configurationParser, getClass())
-                .get(0);
+            platform = MtaTestUtil.loadPlatform(platformLocation, configurationParser, getClass());
         }
 
-        builder = createPropertiesChainBuilder(deploymentDescriptor, platform, target);
+        builder = createPropertiesChainBuilder(deploymentDescriptor, platform);
     }
 
     protected ConfigurationParser getConfigurationParser() {
@@ -142,9 +130,8 @@ public class PropertiesChainBuilderTest {
         return moduleNames;
     }
 
-    protected PropertiesChainBuilder createPropertiesChainBuilder(DeploymentDescriptor deploymentDescriptor, Platform platform,
-        Target target) {
-        return new PropertiesChainBuilder(deploymentDescriptor, target, platform);
+    protected PropertiesChainBuilder createPropertiesChainBuilder(DeploymentDescriptor deploymentDescriptor, Platform platform) {
+        return new PropertiesChainBuilder(deploymentDescriptor, platform);
     }
 
     @Test

@@ -7,7 +7,6 @@ import com.sap.cloud.lm.sl.common.ContentException;
 import com.sap.cloud.lm.sl.common.util.ListUtil;
 import com.sap.cloud.lm.sl.mta.model.SystemParameters;
 import com.sap.cloud.lm.sl.mta.model.v2.Platform;
-import com.sap.cloud.lm.sl.mta.model.v2.Target;
 import com.sap.cloud.lm.sl.mta.model.v3.DeploymentDescriptor;
 import com.sap.cloud.lm.sl.mta.model.v3.Module;
 import com.sap.cloud.lm.sl.mta.resolvers.ResolverBuilder;
@@ -16,9 +15,9 @@ public class DescriptorPlaceholderResolver extends com.sap.cloud.lm.sl.mta.resol
 
     protected final DeploymentDescriptor deploymentDescriptor;
 
-    public DescriptorPlaceholderResolver(DeploymentDescriptor descriptor, Platform platform, Target target,
-        SystemParameters systemParameters, ResolverBuilder propertiesResolverBuilder, ResolverBuilder parametersResolverBuilder) {
-        super(descriptor, platform, target, systemParameters, propertiesResolverBuilder, parametersResolverBuilder);
+    public DescriptorPlaceholderResolver(DeploymentDescriptor descriptor, Platform platform, SystemParameters systemParameters,
+        ResolverBuilder propertiesResolverBuilder, ResolverBuilder parametersResolverBuilder) {
+        super(descriptor, platform, systemParameters, propertiesResolverBuilder, parametersResolverBuilder);
         this.deploymentDescriptor = descriptor;
     }
 

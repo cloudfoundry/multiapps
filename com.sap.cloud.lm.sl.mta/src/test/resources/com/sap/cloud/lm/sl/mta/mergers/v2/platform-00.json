@@ -1,0 +1,27 @@
+{
+  "name": "TEST",
+  "module-types": [
+    {
+      "name": "foo",
+      "parameters": {
+        "TEST_05": "TEST_05_VALUE",
+        "TEST_06": "TEST_06_VALUE"
+      }
+    },
+    {
+      "name": "bar",
+      "parameters": {
+        
+      }
+    }
+  ],
+  "resource-types": [
+    {
+      "name": "baz",
+      "parameters": {
+        "TEST_09": "TEST_09_VALUE",
+        "TEST_10": "TEST_10_VALUE"
+      }
+    }
+  ]
+}

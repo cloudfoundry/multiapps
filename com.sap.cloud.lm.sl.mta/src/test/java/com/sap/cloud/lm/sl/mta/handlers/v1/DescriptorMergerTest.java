@@ -10,7 +10,6 @@ import org.junit.runners.Parameterized;
 import org.junit.runners.Parameterized.Parameters;
 
 import com.sap.cloud.lm.sl.common.util.Callable;
-import com.sap.cloud.lm.sl.common.util.Pair;
 import com.sap.cloud.lm.sl.common.util.TestUtil;
 import com.sap.cloud.lm.sl.common.util.TestUtil.Expectation;
 import com.sap.cloud.lm.sl.mta.MtaTestUtil;
@@ -74,9 +73,9 @@ public class DescriptorMergerTest {
 
     @Test
     public void testMerge() {
-        TestUtil.test(new Callable<Pair<DeploymentDescriptor, List<String>>>() {
+        TestUtil.test(new Callable<DeploymentDescriptor>() {
             @Override
-            public Pair<DeploymentDescriptor, List<String>> call() throws Exception {
+            public DeploymentDescriptor call() throws Exception {
                 return merger.merge(deploymentDescriptor, extensionDescriptors);
             }
         }, expectation, getClass());

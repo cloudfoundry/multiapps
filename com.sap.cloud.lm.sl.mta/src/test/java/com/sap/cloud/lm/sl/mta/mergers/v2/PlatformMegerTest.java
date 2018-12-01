@@ -21,15 +21,15 @@ public class PlatformMegerTest extends com.sap.cloud.lm.sl.mta.mergers.v1.Platfo
 // @formatter:off
             // (0)
             {
-                "mtad-00.yaml", "platforms-00.json", new Expectation(Expectation.Type.RESOURCE, "result-platform-00.json"),
+                "mtad-00.yaml", "platform-00.json", new Expectation(Expectation.Type.RESOURCE, "result-platform-00.json"),
             },
             // (1)
             {
-                "mtad-01.yaml", "platforms-01.json", new Expectation(Expectation.Type.RESOURCE, "result-platform-01.json"),
+                "mtad-01.yaml", "platform-01.json", new Expectation(Expectation.Type.RESOURCE, "result-platform-01.json"),
             },
             // (2)
             {
-                "mtad-00.yaml", "platforms-02.json", new Expectation(Expectation.Type.RESOURCE, "result-platform-02.json"),
+                "mtad-00.yaml", "platform-02.json", new Expectation(Expectation.Type.RESOURCE, "result-platform-02.json"),
             },
 // @formatter:on
         });
@@ -39,6 +39,7 @@ public class PlatformMegerTest extends com.sap.cloud.lm.sl.mta.mergers.v1.Platfo
         super(deploymentDescriptorLocation, platformTypesLocation, expectation);
     }
 
+    @Override
     protected int getMajorVersion() {
         return 2;
     }

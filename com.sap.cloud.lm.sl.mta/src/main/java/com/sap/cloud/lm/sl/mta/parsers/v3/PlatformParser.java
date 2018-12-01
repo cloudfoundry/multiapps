@@ -1,6 +1,6 @@
 package com.sap.cloud.lm.sl.mta.parsers.v3;
 
-import static com.sap.cloud.lm.sl.mta.handlers.v3.Schemas.PLATFORM_TYPE;
+import static com.sap.cloud.lm.sl.mta.handlers.v3.Schemas.PLATFORM;
 
 import java.util.List;
 import java.util.Map;
@@ -16,7 +16,7 @@ import com.sap.cloud.lm.sl.mta.schema.MapElement;
 public class PlatformParser extends com.sap.cloud.lm.sl.mta.parsers.v2.PlatformParser {
 
     public PlatformParser(Map<String, Object> source) {
-        super(PLATFORM_TYPE, source);
+        super(PLATFORM, source);
     }
 
     protected PlatformParser(MapElement schema, Map<String, Object> source) {

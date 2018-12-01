@@ -1,32 +1,32 @@
-[
-  {
-    "name": "CF-TEST",
-    "module-types": [
-      {
-        "name": "foo",
-        "parameters": {
-          "foo-test-5": "foo-test-5-value"
-        }
-      },
-      {
-        "name": "bar",
-        "parameters": {}
-      },
-      {
-        "name": "baz",
-        "parameters": {
-          "baz-test-5": "baz-test-5-value",
-          "baz-test-6": "baz-test-6-value"
-        }
+{
+  "name": "CF-TEST",
+  "module-types": [
+    {
+      "name": "foo",
+      "parameters": {
+        "foo-test-5": "foo-test-5-value"
       }
-    ],
-    "resource-types": [
-      {
-        "name": "quux",
-        "parameters": {
-          "quux-test-2": "quux-test-2-value"
-        }
+    },
+    {
+      "name": "bar",
+      "parameters": {
+        
       }
-    ]
-  }
-]
+    },
+    {
+      "name": "baz",
+      "parameters": {
+        "baz-test-5": "baz-test-5-value",
+        "baz-test-6": "baz-test-6-value"
+      }
+    }
+  ],
+  "resource-types": [
+    {
+      "name": "quux",
+      "parameters": {
+        "quux-test-2": "quux-test-2-value"
+      }
+    }
+  ]
+}

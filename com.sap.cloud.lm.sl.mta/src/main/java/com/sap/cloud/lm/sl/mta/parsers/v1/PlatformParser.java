@@ -1,6 +1,6 @@
 package com.sap.cloud.lm.sl.mta.parsers.v1;
 
-import static com.sap.cloud.lm.sl.mta.handlers.v1.Schemas.PLATFORM_TYPE;
+import static com.sap.cloud.lm.sl.mta.handlers.v1.Schemas.PLATFORM;
 
 import java.util.HashSet;
 import java.util.List;
@@ -31,7 +31,7 @@ public class PlatformParser extends ModelParser<Platform> {
     protected final Set<String> usedResourceTypeNames = new HashSet<>();
 
     public PlatformParser(Map<String, Object> source) {
-        this(PLATFORM_TYPE, source);
+        this(PLATFORM, source);
     }
 
     protected PlatformParser(MapElement schema, Map<String, Object> source) {

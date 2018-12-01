@@ -1,11 +1,9 @@
 package com.sap.cloud.lm.sl.mta.validators.v2;
 
-import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
 
 import com.sap.cloud.lm.sl.common.ContentException;
-import com.sap.cloud.lm.sl.common.util.Pair;
 import com.sap.cloud.lm.sl.mta.handlers.v1.DescriptorHandler;
 import com.sap.cloud.lm.sl.mta.model.ElementContext;
 import com.sap.cloud.lm.sl.mta.model.v2.DeploymentDescriptor;
@@ -18,8 +16,8 @@ public class MergedDescriptorValidator extends com.sap.cloud.lm.sl.mta.validator
 
     protected final Set<String> emptyParameters = new TreeSet<>();
 
-    public MergedDescriptorValidator(Pair<com.sap.cloud.lm.sl.mta.model.v1.DeploymentDescriptor, List<String>> mergedDescriptor,
-        DescriptorValidationRules validationRules, DescriptorHandler handler) {
+    public MergedDescriptorValidator(DeploymentDescriptor mergedDescriptor, DescriptorValidationRules validationRules,
+        DescriptorHandler handler) {
         super(mergedDescriptor, validationRules, handler);
     }
 

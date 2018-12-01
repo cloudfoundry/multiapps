@@ -1,8 +1,5 @@
 package com.sap.cloud.lm.sl.mta.handlers.v2;
 
-import java.util.List;
-
-import com.sap.cloud.lm.sl.common.util.Pair;
 import com.sap.cloud.lm.sl.mta.model.v2.DeploymentDescriptor;
 import com.sap.cloud.lm.sl.mta.model.v2.ExtensionDescriptor;
 import com.sap.cloud.lm.sl.mta.model.v2.Platform;
@@ -39,10 +36,9 @@ public class DescriptorValidator extends com.sap.cloud.lm.sl.mta.handlers.v1.Des
     }
 
     @Override
-    protected MergedDescriptorValidator getMergedDescriptorValidator(
-        Pair<com.sap.cloud.lm.sl.mta.model.v1.DeploymentDescriptor, List<String>> mergedDescriptor,
+    protected MergedDescriptorValidator getMergedDescriptorValidator(com.sap.cloud.lm.sl.mta.model.v1.DeploymentDescriptor mergedDescriptor,
         DescriptorValidationRules validationRules) {
-        return new MergedDescriptorValidator(mergedDescriptor, validationRules, (DescriptorHandler) handler);
+        return new MergedDescriptorValidator((DeploymentDescriptor) mergedDescriptor, validationRules, (DescriptorHandler) handler);
     }
 
     @Override

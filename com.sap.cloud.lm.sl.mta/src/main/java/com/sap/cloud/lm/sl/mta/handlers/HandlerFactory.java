@@ -11,7 +11,6 @@ import com.sap.cloud.lm.sl.mta.message.Messages;
 import com.sap.cloud.lm.sl.mta.model.SystemParameters;
 import com.sap.cloud.lm.sl.mta.model.v1.DeploymentDescriptor;
 import com.sap.cloud.lm.sl.mta.model.v1.Platform;
-import com.sap.cloud.lm.sl.mta.model.v1.Target;
 import com.sap.cloud.lm.sl.mta.resolvers.PlaceholderResolver;
 import com.sap.cloud.lm.sl.mta.resolvers.Resolver;
 import com.sap.cloud.lm.sl.mta.resolvers.ResolverBuilder;
@@ -94,9 +93,8 @@ public class HandlerFactory implements HandlerConstructor {
 
     @Override
     public PlaceholderResolver<? extends DeploymentDescriptor> getDescriptorPlaceholderResolver(final DeploymentDescriptor mergedDescriptor,
-        Platform platform, Target target, SystemParameters systemParameters, ResolverBuilder propertiesResolver,
-        ResolverBuilder parametersResolver) {
-        return getHandlerDelegate().getDescriptorPlaceholderResolver(mergedDescriptor, platform, target, systemParameters,
+        Platform platform, SystemParameters systemParameters, ResolverBuilder propertiesResolver, ResolverBuilder parametersResolver) {
+        return getHandlerDelegate().getDescriptorPlaceholderResolver(mergedDescriptor, platform, systemParameters,
             propertiesResolver, parametersResolver);
     }
 

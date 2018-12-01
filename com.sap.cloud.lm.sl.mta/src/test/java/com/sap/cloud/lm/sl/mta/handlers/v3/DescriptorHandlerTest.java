@@ -7,7 +7,6 @@ import java.util.Map;
 
 import org.apache.commons.collections4.ListUtils;
 import org.junit.Test;
-import org.junit.experimental.runners.Enclosed;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import org.junit.runners.Parameterized.Parameters;
@@ -20,14 +19,11 @@ import com.sap.cloud.lm.sl.common.util.TestUtil.Expectation.Type;
 import com.sap.cloud.lm.sl.mta.model.v1.DeploymentDescriptor;
 import com.sap.cloud.lm.sl.mta.model.v1.Module;
 
-@RunWith(Enclosed.class)
 public class DescriptorHandlerTest extends com.sap.cloud.lm.sl.mta.handlers.v2.DescriptorHandlerTest {
 
-    @RunWith(Parameterized.class)
-    public static class DescriptorHandlerSequentialTest2
-        extends com.sap.cloud.lm.sl.mta.handlers.v2.DescriptorHandlerTest.DescriptorHandlerTest2 {
+    public static class DeployOrderSequentialTest extends com.sap.cloud.lm.sl.mta.handlers.v2.DescriptorHandlerTest.DeployOrderTest {
 
-        public DescriptorHandlerSequentialTest2(String descriptorLocation, Expectation expectation) {
+        public DeployOrderSequentialTest(String descriptorLocation, Expectation expectation) {
             super(descriptorLocation, expectation);
         }
 
@@ -111,10 +107,9 @@ public class DescriptorHandlerTest extends com.sap.cloud.lm.sl.mta.handlers.v2.D
     }
 
     @RunWith(Parameterized.class)
-    public static class DescriptorHandlerParallelTest2
-        extends com.sap.cloud.lm.sl.mta.handlers.v2.DescriptorHandlerTest.DescriptorHandlerTest2 {
+    public static class DeployOrderParallelTest extends com.sap.cloud.lm.sl.mta.handlers.v2.DescriptorHandlerTest.DeployOrderTest {
 
-        public DescriptorHandlerParallelTest2(String descriptorLocation, Expectation expectation) {
+        public DeployOrderParallelTest(String descriptorLocation, Expectation expectation) {
             super(descriptorLocation, expectation);
         }
 

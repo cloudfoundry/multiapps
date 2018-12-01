@@ -3,7 +3,6 @@ package com.sap.cloud.lm.sl.mta.handlers.v1;
 import com.sap.cloud.lm.sl.mta.model.SystemParameters;
 import com.sap.cloud.lm.sl.mta.model.v1.DeploymentDescriptor;
 import com.sap.cloud.lm.sl.mta.model.v1.Platform;
-import com.sap.cloud.lm.sl.mta.model.v1.Target;
 import com.sap.cloud.lm.sl.mta.resolvers.PlaceholderResolver;
 import com.sap.cloud.lm.sl.mta.resolvers.Resolver;
 import com.sap.cloud.lm.sl.mta.resolvers.ResolverBuilder;
@@ -46,7 +45,7 @@ public class HandlerConstructor implements com.sap.cloud.lm.sl.mta.handlers.Hand
 
     @Override
     public PlaceholderResolver<? extends DeploymentDescriptor> getDescriptorPlaceholderResolver(final DeploymentDescriptor mergedDescriptor,
-        Platform platform, Target target, SystemParameters systemParameters, ResolverBuilder propertiesResolverBuilder,
+        Platform platform, SystemParameters systemParameters, ResolverBuilder propertiesResolverBuilder,
         ResolverBuilder parametersResolverBuilder) {
         return new PlaceholderResolver<DeploymentDescriptor>("", "", systemParameters) {
             public DeploymentDescriptor descriptor = mergedDescriptor;

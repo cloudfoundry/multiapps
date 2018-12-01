@@ -12,7 +12,6 @@ import com.sap.cloud.lm.sl.mta.model.v2.DeploymentDescriptor;
 import com.sap.cloud.lm.sl.mta.model.v2.Module;
 import com.sap.cloud.lm.sl.mta.model.v2.Platform;
 import com.sap.cloud.lm.sl.mta.model.v2.Resource;
-import com.sap.cloud.lm.sl.mta.model.v2.Target;
 import com.sap.cloud.lm.sl.mta.resolvers.PlaceholderResolver;
 import com.sap.cloud.lm.sl.mta.resolvers.PropertiesPlaceholderResolver;
 import com.sap.cloud.lm.sl.mta.resolvers.ResolverBuilder;
@@ -22,22 +21,20 @@ public class DescriptorPlaceholderResolver extends PlaceholderResolver<Deploymen
 
     protected final DeploymentDescriptor deploymentDescriptor;
 
-    protected final Target target;
     protected final Platform platform;
     protected final ResolverBuilder propertiesResolverBuilder;
     protected final ResolverBuilder parametersResolverBuilder;
 
     protected final ParametersChainBuilder parametersChainBuilder;
 
-    public DescriptorPlaceholderResolver(DeploymentDescriptor descriptor, Platform platform, Target target,
-        SystemParameters systemParameters, ResolverBuilder propertiesResolverBuilder, ResolverBuilder parametersResolverBuilder) {
+    public DescriptorPlaceholderResolver(DeploymentDescriptor descriptor, Platform platform, SystemParameters systemParameters,
+        ResolverBuilder propertiesResolverBuilder, ResolverBuilder parametersResolverBuilder) {
         super("", "", systemParameters);
         this.deploymentDescriptor = descriptor;
-        this.target = target;
         this.platform = platform;
         this.propertiesResolverBuilder = propertiesResolverBuilder;
         this.parametersResolverBuilder = parametersResolverBuilder;
-        this.parametersChainBuilder = new ParametersChainBuilder(descriptor, target, platform);
+        this.parametersChainBuilder = new ParametersChainBuilder(descriptor, platform);
     }
 
     @Override
@@ -49,7 +46,7 @@ public class DescriptorPlaceholderResolver extends PlaceholderResolver<Deploymen
     }
 
     protected Map<String, Object> getResolvedProperties(Map<String, Object> propertiesToResolve) {
-        List<Map<String, Object>> parametersList = PropertiesUtil.getParametersList(target, platform,
+        List<Map<String, Object>> parametersList = PropertiesUtil.getParametersList(platform,
             PropertiesUtil.asParametersProvider(systemParameters.getGeneralParameters()));
         addSingularParametersIfNecessary(parametersList);
         return new PropertiesPlaceholderResolver(propertiesResolverBuilder) //
