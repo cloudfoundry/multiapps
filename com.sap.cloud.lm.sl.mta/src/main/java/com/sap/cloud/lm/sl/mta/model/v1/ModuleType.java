@@ -13,13 +13,13 @@ import com.sap.cloud.lm.sl.mta.model.PropertiesContainer;
 import com.sap.cloud.lm.sl.mta.model.VisitableElement;
 import com.sap.cloud.lm.sl.mta.model.Visitor;
 
-public class PlatformResourceType implements VisitableElement, NamedElement, PropertiesContainer {
+public class ModuleType implements VisitableElement, NamedElement, PropertiesContainer {
 
     private String name;
-    private String resourceManager;
+    private String deployer;
     private Map<String, Object> properties;
 
-    protected PlatformResourceType() {
+    protected ModuleType() {
 
     }
 
@@ -27,10 +27,11 @@ public class PlatformResourceType implements VisitableElement, NamedElement, Pro
         return name;
     }
 
-    public String getResourceManager() {
-        return resourceManager;
+    public String getDeployer() {
+        return deployer;
     }
 
+    @Override
     public Map<String, Object> getProperties() {
         return MapUtil.unmodifiable(properties);
     }
@@ -39,8 +40,8 @@ public class PlatformResourceType implements VisitableElement, NamedElement, Pro
         this.name = name;
     }
 
-    public void setResourceManager(String resourceManager) {
-        this.resourceManager = resourceManager;
+    public void setDeployer(String deployer) {
+        this.deployer = deployer;
     }
 
     public void setProperties(Map<String, Object> properties) {
@@ -55,13 +56,13 @@ public class PlatformResourceType implements VisitableElement, NamedElement, Pro
     public static class Builder {
 
         protected String name;
-        protected String resourceManager;
+        protected String deployer;
         protected Map<String, Object> properties;
 
-        public PlatformResourceType build() {
-            PlatformResourceType result = new PlatformResourceType();
+        public ModuleType build() {
+            ModuleType result = new ModuleType();
             result.setName(name);
-            result.setResourceManager(resourceManager);
+            result.setDeployer(deployer);
             result.setProperties(ObjectUtils.defaultIfNull(properties, Collections.<String, Object> emptyMap()));
             return result;
         }
@@ -70,8 +71,8 @@ public class PlatformResourceType implements VisitableElement, NamedElement, Pro
             this.name = name;
         }
 
-        public void setResourceManager(String resourceManager) {
-            this.resourceManager = resourceManager;
+        public void setDeployer(String deployer) {
+            this.deployer = deployer;
         }
 
         public void setProperties(Map<String, Object> properties) {

@@ -11,15 +11,15 @@ import com.sap.cloud.lm.sl.mta.model.v1.ExtensionProvidedDependency;
 import com.sap.cloud.lm.sl.mta.model.v1.ExtensionResource;
 import com.sap.cloud.lm.sl.mta.model.v1.Module;
 import com.sap.cloud.lm.sl.mta.model.v1.Platform;
-import com.sap.cloud.lm.sl.mta.model.v1.PlatformModuleType;
-import com.sap.cloud.lm.sl.mta.model.v1.PlatformResourceType;
+import com.sap.cloud.lm.sl.mta.model.v1.ModuleType;
+import com.sap.cloud.lm.sl.mta.model.v1.ResourceType;
 import com.sap.cloud.lm.sl.mta.model.v1.ProvidedDependency;
 import com.sap.cloud.lm.sl.mta.model.v1.Resource;
 
 public class DescriptorHandler {
 
-    public PlatformResourceType findPlatformResourceType(Platform platform, String resourceTypeName) {
-        for (PlatformResourceType resourceType : platform.getResourceTypes1()) {
+    public ResourceType findResourceType(Platform platform, String resourceTypeName) {
+        for (ResourceType resourceType : platform.getResourceTypes1()) {
             if (resourceType.getName()
                 .equals(resourceTypeName)) {
                 return resourceType;
@@ -28,8 +28,8 @@ public class DescriptorHandler {
         return null;
     }
 
-    public PlatformModuleType findPlatformModuleType(Platform platform, String moduleTypeName) {
-        for (PlatformModuleType moduleType : platform.getModuleTypes1()) {
+    public ModuleType findModuleType(Platform platform, String moduleTypeName) {
+        for (ModuleType moduleType : platform.getModuleTypes1()) {
             if (moduleType.getName()
                 .equals(moduleTypeName)) {
                 return moduleType;

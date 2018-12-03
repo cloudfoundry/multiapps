@@ -12,7 +12,7 @@ import com.sap.cloud.lm.sl.mta.model.PropertiesContainer;
 import com.sap.cloud.lm.sl.mta.model.v2.DeploymentDescriptor;
 import com.sap.cloud.lm.sl.mta.model.v2.Module;
 import com.sap.cloud.lm.sl.mta.model.v2.Platform;
-import com.sap.cloud.lm.sl.mta.model.v2.PlatformModuleType;
+import com.sap.cloud.lm.sl.mta.model.v2.ModuleType;
 import com.sap.cloud.lm.sl.mta.model.v2.RequiredDependency;
 import com.sap.cloud.lm.sl.mta.model.v2.Resource;
 import com.sap.cloud.lm.sl.mta.util.PropertiesUtil;
@@ -38,8 +38,8 @@ public class PropertiesChainBuilder extends com.sap.cloud.lm.sl.mta.builders.v1.
             return Collections.emptyList();
         }
         List<RequiredDependency> dependencies = module.getRequiredDependencies2();
-        PlatformModuleType platformModuleType = (PlatformModuleType) getPlatformModuleType(module);
-        return getPropertiesList(dependencies, module, platformModuleType);
+        ModuleType moduleType = (ModuleType) getModuleType(module);
+        return getPropertiesList(dependencies, module, moduleType);
     }
 
     @Override
@@ -48,8 +48,8 @@ public class PropertiesChainBuilder extends com.sap.cloud.lm.sl.mta.builders.v1.
         if (module == null) {
             return Collections.emptyList();
         }
-        PlatformModuleType platformModuleType = (PlatformModuleType) getPlatformModuleType(module);
-        return PropertiesUtil.getPropertiesList(module, platformModuleType);
+        ModuleType moduleType = (ModuleType) getModuleType(module);
+        return PropertiesUtil.getPropertiesList(module, moduleType);
     }
 
     @Override
@@ -67,11 +67,11 @@ public class PropertiesChainBuilder extends com.sap.cloud.lm.sl.mta.builders.v1.
     }
 
     protected static List<Map<String, Object>> getPropertiesList(List<RequiredDependency> dependencies, Module module,
-        PlatformModuleType platformModuleType) {
+        ModuleType moduleType) {
         List<PropertiesContainer> containers = new ArrayList<>();
         containers.addAll(dependencies);
         CollectionUtils.addIgnoreNull(containers, module);
-        CollectionUtils.addIgnoreNull(containers, platformModuleType);
+        CollectionUtils.addIgnoreNull(containers, moduleType);
         return PropertiesUtil.getPropertiesList(containers);
     }
 
