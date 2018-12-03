@@ -38,7 +38,7 @@ public class ExtensionResourceParser extends com.sap.cloud.lm.sl.mta.parsers.v2.
         builder.setRequiredDependencies(getExtensionRequiredDependencies());
         return builder.build();
     }
-    
+
     protected Boolean getActive() {
         return getBooleanElement(ACTIVE);
     }
