@@ -7,8 +7,8 @@ import com.sap.cloud.lm.sl.mta.model.v1.ExtensionProvidedDependency;
 import com.sap.cloud.lm.sl.mta.model.v1.ExtensionResource;
 import com.sap.cloud.lm.sl.mta.model.v1.Module;
 import com.sap.cloud.lm.sl.mta.model.v1.Platform;
-import com.sap.cloud.lm.sl.mta.model.v1.PlatformModuleType;
-import com.sap.cloud.lm.sl.mta.model.v1.PlatformResourceType;
+import com.sap.cloud.lm.sl.mta.model.v1.ModuleType;
+import com.sap.cloud.lm.sl.mta.model.v1.ResourceType;
 import com.sap.cloud.lm.sl.mta.model.v1.ProvidedDependency;
 import com.sap.cloud.lm.sl.mta.model.v1.Resource;
 import com.sap.cloud.lm.sl.mta.model.v2.ExtensionRequiredDependency;
@@ -60,11 +60,11 @@ public class Visitor {
 
     }
 
-    public void visit(ElementContext context, PlatformResourceType resourceType) {
+    public void visit(ElementContext context, ResourceType resourceType) {
 
     }
 
-    public void visit(ElementContext context, PlatformModuleType moduleType) {
+    public void visit(ElementContext context, ModuleType moduleType) {
 
     }
 

@@ -4,17 +4,17 @@ import java.util.Collections;
 
 import org.apache.commons.lang3.ObjectUtils;
 
-public class PlatformResourceType extends com.sap.cloud.lm.sl.mta.model.v2.PlatformResourceType {
+public class ResourceType extends com.sap.cloud.lm.sl.mta.model.v2.ResourceType {
 
-    protected PlatformResourceType() {
+    protected ResourceType() {
 
     }
 
-    public static class Builder extends com.sap.cloud.lm.sl.mta.model.v2.PlatformResourceType.Builder {
+    public static class Builder extends com.sap.cloud.lm.sl.mta.model.v2.ResourceType.Builder {
 
         @Override
-        public PlatformResourceType build() {
-            PlatformResourceType result = new PlatformResourceType();
+        public ResourceType build() {
+            ResourceType result = new ResourceType();
             result.setName(name);
             result.setResourceManager(resourceManager);
             result.setParameters(ObjectUtils.defaultIfNull(parameters, Collections.<String, Object> emptyMap()));

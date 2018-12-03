@@ -13,8 +13,8 @@ import com.sap.cloud.lm.sl.mta.model.PropertiesContainer;
 import com.sap.cloud.lm.sl.mta.model.v1.DeploymentDescriptor;
 import com.sap.cloud.lm.sl.mta.model.v1.Module;
 import com.sap.cloud.lm.sl.mta.model.v1.Platform;
-import com.sap.cloud.lm.sl.mta.model.v1.PlatformModuleType;
-import com.sap.cloud.lm.sl.mta.model.v1.PlatformResourceType;
+import com.sap.cloud.lm.sl.mta.model.v1.ModuleType;
+import com.sap.cloud.lm.sl.mta.model.v1.ResourceType;
 import com.sap.cloud.lm.sl.mta.model.v1.ProvidedDependency;
 import com.sap.cloud.lm.sl.mta.model.v1.Resource;
 import com.sap.cloud.lm.sl.mta.util.PropertiesUtil;
@@ -45,15 +45,15 @@ public class PropertiesChainBuilder {
             return Collections.emptyList();
         }
         Pair<List<Resource>, List<ProvidedDependency>> dependencies = findDependencies(module);
-        PlatformModuleType platformModuleType = getPlatformModuleType(module);
-        return getPropertiesList(dependencies._1, dependencies._2, module, platformModuleType);
+        ModuleType moduleType = getModuleType(module);
+        return getPropertiesList(dependencies._1, dependencies._2, module, moduleType);
     }
 
-    protected PlatformModuleType getPlatformModuleType(Module module) {
+    protected ModuleType getModuleType(Module module) {
         if (platform == null) {
             return null;
         }
-        return handler.findPlatformModuleType(platform, module.getType());
+        return handler.findModuleType(platform, module.getType());
     }
 
     public List<Map<String, Object>> buildModuleChainWithoutDependencies(String moduleName) {
@@ -61,8 +61,8 @@ public class PropertiesChainBuilder {
         if (module == null) {
             return Collections.emptyList();
         }
-        PlatformModuleType platformModuleType = getPlatformModuleType(module);
-        return PropertiesUtil.getPropertiesList(module, platformModuleType);
+        ModuleType moduleType = getModuleType(module);
+        return PropertiesUtil.getPropertiesList(module, moduleType);
     }
 
     public List<Map<String, Object>> buildResourceTypeChain(String resourceName) {
@@ -70,15 +70,15 @@ public class PropertiesChainBuilder {
         if (resource == null) {
             return Collections.emptyList();
         }
-        PlatformResourceType platformResourceType = getPlatformResourceType(resource);
-        return PropertiesUtil.getPropertiesList(platformResourceType);
+        ResourceType resourceType = getResourceType(resource);
+        return PropertiesUtil.getPropertiesList(resourceType);
     }
 
-    protected PlatformResourceType getPlatformResourceType(Resource resource) {
+    protected ResourceType getResourceType(Resource resource) {
         if (platform == null) {
             return null;
         }
-        return handler.findPlatformResourceType(platform, resource.getType());
+        return handler.findResourceType(platform, resource.getType());
     }
 
     public List<Map<String, Object>> buildResourceChain(String resourceName) {
@@ -128,7 +128,7 @@ public class PropertiesChainBuilder {
     }
 
     protected static List<Map<String, Object>> getPropertiesList(List<Resource> resources, List<ProvidedDependency> providedDependencies,
-        Module module, PlatformModuleType platformModuleType) {
+        Module module, ModuleType moduleType) {
         List<PropertiesContainer> containers = new ArrayList<>();
         for (Resource resource : resources) {
             containers.add(resource);
@@ -137,7 +137,7 @@ public class PropertiesChainBuilder {
             containers.add(providedDependency);
         }
         CollectionUtils.addIgnoreNull(containers, module);
-        CollectionUtils.addIgnoreNull(containers, platformModuleType);
+        CollectionUtils.addIgnoreNull(containers, moduleType);
         return PropertiesUtil.getPropertiesList(containers);
     }
 

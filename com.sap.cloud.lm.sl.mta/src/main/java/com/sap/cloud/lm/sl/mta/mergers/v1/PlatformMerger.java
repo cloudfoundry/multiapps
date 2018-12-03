@@ -26,7 +26,7 @@ public class PlatformMerger extends Visitor {
 
     @Override
     public void visit(ElementContext context, Module module) {
-        PropertiesContainer moduleType = handler.findPlatformModuleType(platform, module.getType());
+        PropertiesContainer moduleType = handler.findModuleType(platform, module.getType());
         if (moduleType == null) {
             return;
         }
@@ -43,7 +43,7 @@ public class PlatformMerger extends Visitor {
         if (resource.getType() == null) {
             return;
         }
-        PropertiesContainer resourceType = handler.findPlatformResourceType(platform, resource.getType());
+        PropertiesContainer resourceType = handler.findResourceType(platform, resource.getType());
         if (resourceType == null) {
             return;
         }

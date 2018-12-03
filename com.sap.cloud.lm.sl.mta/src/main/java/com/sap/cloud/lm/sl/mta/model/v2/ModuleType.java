@@ -9,11 +9,11 @@ import org.apache.commons.lang3.ObjectUtils;
 import com.sap.cloud.lm.sl.common.util.MapUtil;
 import com.sap.cloud.lm.sl.mta.model.ParametersContainer;
 
-public class PlatformModuleType extends com.sap.cloud.lm.sl.mta.model.v1.PlatformModuleType implements ParametersContainer {
+public class ModuleType extends com.sap.cloud.lm.sl.mta.model.v1.ModuleType implements ParametersContainer {
 
     private Map<String, Object> parameters;
 
-    protected PlatformModuleType() {
+    protected ModuleType() {
 
     }
 
@@ -27,13 +27,13 @@ public class PlatformModuleType extends com.sap.cloud.lm.sl.mta.model.v1.Platfor
         this.parameters = new LinkedHashMap<>(parameters);
     }
 
-    public static class Builder extends com.sap.cloud.lm.sl.mta.model.v1.PlatformModuleType.Builder {
+    public static class Builder extends com.sap.cloud.lm.sl.mta.model.v1.ModuleType.Builder {
 
         protected Map<String, Object> parameters;
 
         @Override
-        public PlatformModuleType build() {
-            PlatformModuleType result = new PlatformModuleType();
+        public ModuleType build() {
+            ModuleType result = new ModuleType();
             result.setName(name);
             result.setDeployer(deployer);
             result.setProperties(ObjectUtils.defaultIfNull(properties, Collections.<String, Object> emptyMap()));

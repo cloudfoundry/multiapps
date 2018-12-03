@@ -59,7 +59,7 @@ public class DeploymentDescriptorValidator extends Visitor {
     }
 
     protected boolean isSupported(Resource resource) {
-        return handler.findPlatformResourceType(platformType, resource.getType()) != null;
+        return handler.findResourceType(platformType, resource.getType()) != null;
     }
 
     protected boolean isService(Resource resource) {
@@ -67,7 +67,7 @@ public class DeploymentDescriptorValidator extends Visitor {
     }
 
     protected boolean isSupported(Module module) {
-        return handler.findPlatformModuleType(platformType, module.getType()) != null;
+        return handler.findModuleType(platformType, module.getType()) != null;
     }
 
     protected boolean canBeResolved(String dependency) {
