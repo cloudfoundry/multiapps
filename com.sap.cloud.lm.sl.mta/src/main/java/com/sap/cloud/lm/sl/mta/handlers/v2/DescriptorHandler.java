@@ -81,7 +81,7 @@ public class DescriptorHandler {
         }
         return null;
     }
-    
+
     public Pair<Resource, ProvidedDependency> findDependency(DeploymentDescriptor descriptor, String dependencyName) {
         Resource resource = findResource(descriptor, dependencyName);
         if (resource != null) {
@@ -93,7 +93,7 @@ public class DescriptorHandler {
         }
         return null;
     }
-    
+
     public Resource findResource(DeploymentDescriptor descriptor, String resourceName) {
         for (Resource resource : descriptor.getResources2()) {
             if (resource.getName()
@@ -103,7 +103,7 @@ public class DescriptorHandler {
         }
         return null;
     }
-    
+
     public ExtensionResource findResource(ExtensionDescriptor descriptor, String resourceName) {
         for (ExtensionResource resource : descriptor.getResources()) {
             if (resource.getName()
@@ -123,7 +123,7 @@ public class DescriptorHandler {
         }
         return null;
     }
-    
+
     public ExtensionProvidedDependency findProvidedDependency(ExtensionDescriptor descriptor, String providedDependencyName) {
         for (ExtensionModule module : descriptor.getModules()) {
             ExtensionProvidedDependency dependency = findProvidedDependency(module, providedDependencyName);
@@ -133,7 +133,7 @@ public class DescriptorHandler {
         }
         return null;
     }
-    
+
     public ProvidedDependency findProvidedDependency(Module module, String providedDependencyName) {
         for (ProvidedDependency providedDependency : module.getProvidedDependencies2()) {
             if (providedDependency.getName()
@@ -143,7 +143,7 @@ public class DescriptorHandler {
         }
         return null;
     }
-    
+
     public ExtensionProvidedDependency findProvidedDependency(ExtensionModule module, String providedDependencyName) {
         for (ExtensionProvidedDependency providedDependency : module.getProvidedDependencies2()) {
             if (providedDependency.getName()
@@ -163,7 +163,7 @@ public class DescriptorHandler {
         }
         return null;
     }
-    
+
     public Module findModule(DeploymentDescriptor descriptor, String moduleName) {
         for (Module module : descriptor.getModules2()) {
             if (module.getName()
@@ -173,6 +173,5 @@ public class DescriptorHandler {
         }
         return null;
     }
-    
-    
+
 }
