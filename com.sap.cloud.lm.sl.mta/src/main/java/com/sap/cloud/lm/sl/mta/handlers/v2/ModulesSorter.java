@@ -43,7 +43,7 @@ public class ModulesSorter implements com.sap.cloud.lm.sl.mta.handlers.ModulesSo
     
     protected Map<Module, Set<String>> getModulesAndDeploymentDependencies() {
         Map<Module, Set<String>> result = new LinkedHashMap<>();
-        for (Module module : descriptor.getModules()) {
+        for (Module module : descriptor.getModules2()) {
             result.put(module, getDependencies(module));
         }
         return result;
