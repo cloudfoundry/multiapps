@@ -35,7 +35,7 @@ public class ModuleDependenciesCollector extends com.sap.cloud.lm.sl.mta.builder
 
     @Override
     protected Module findModuleSatisfyingDependency(String dependency) {
-        return descriptor.getModules()
+        return descriptor.getModules2()
             .stream()
             .filter(module -> module.getName()
                 .equals(dependency))
