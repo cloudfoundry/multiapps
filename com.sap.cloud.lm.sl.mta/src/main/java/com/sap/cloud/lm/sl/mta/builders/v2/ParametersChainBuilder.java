@@ -15,6 +15,7 @@ import com.sap.cloud.lm.sl.mta.model.v2.Platform;
 import com.sap.cloud.lm.sl.mta.model.v2.ModuleType;
 import com.sap.cloud.lm.sl.mta.model.v2.RequiredDependency;
 import com.sap.cloud.lm.sl.mta.model.v2.Resource;
+import com.sap.cloud.lm.sl.mta.model.v2.ResourceType;
 import com.sap.cloud.lm.sl.mta.util.PropertiesUtil;
 
 public class ParametersChainBuilder extends PropertiesChainBuilder {
@@ -91,4 +92,12 @@ public class ParametersChainBuilder extends PropertiesChainBuilder {
         return PropertiesUtil.getParametersList(containers);
     }
 
+    
+    protected ResourceType getResourceType(Resource resource) {
+        if (platform == null) {
+            return null;
+        }
+        return handler.findResourceType(platform, resource.getType());
+    }
+    
 }
