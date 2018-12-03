@@ -80,7 +80,15 @@ public class ExtensionDescriptor implements Descriptor, VisitableElement, Proper
     public String getId() {
         return id;
     }
+    
+    public String getParentId() {
+        return parentId;
+    }
 
+    public String getSchemaVersion() {
+        return schemaVersion;
+    }
+    
     public List<ExtensionModule> getModules2() {
         return ListUtil.upcastUnmodifiable(getModules());
     }
@@ -172,7 +180,11 @@ public class ExtensionDescriptor implements Descriptor, VisitableElement, Proper
     public void setParameters(Map<String, Object> parameters) {
         this.parameters = new LinkedHashMap<>(parameters);
     }
-
+    
+    public void accept(Visitor visitor) {
+        accept(new ElementContext(this, null), visitor);
+    }
+    
     @Override
     public void accept(ElementContext context, Visitor visitor) {
         visitor.visit(context, this);
@@ -279,4 +291,5 @@ public class ExtensionDescriptor implements Descriptor, VisitableElement, Proper
         }
 
     }
+
 }
