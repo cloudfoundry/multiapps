@@ -125,6 +125,14 @@ public class ExtensionModule implements VisitableElement, NamedElement, Properti
             return result;
         }
 
+        public void setName(String name) {
+            this.name = name;
+        }
+        
+        public void setProperties(Map<String, Object> properties) {
+            this.properties = properties;
+        }
+        
         public void setParameters(Map<String, Object> parameters) {
             this.parameters = parameters;
         }
