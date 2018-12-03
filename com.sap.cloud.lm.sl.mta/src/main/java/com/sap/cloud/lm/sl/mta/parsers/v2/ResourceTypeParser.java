@@ -7,18 +7,24 @@ import java.util.Map;
 import com.sap.cloud.lm.sl.common.ParsingException;
 import com.sap.cloud.lm.sl.mta.model.v2.ResourceType;
 import com.sap.cloud.lm.sl.mta.model.v2.ResourceType.Builder;
+import com.sap.cloud.lm.sl.mta.parsers.ModelParser;
 import com.sap.cloud.lm.sl.mta.schema.MapElement;
 
-public class ResourceTypeParser extends com.sap.cloud.lm.sl.mta.parsers.v1.ResourceTypeParser {
+public class ResourceTypeParser extends ModelParser<ResourceType> {
 
+    protected static final String PROCESSED_OBJECT_NAME = "MTA resource type";
+
+    public static final String NAME = "name";
+    public static final String PROPERTIES = "properties";
     public static final String PARAMETERS = "parameters";
+    public static final String RESOURCE_MANAGER = "resource-manager";
 
     public ResourceTypeParser(Map<String, Object> source) {
-        super(RESOURCE_TYPE, source);
+        this(RESOURCE_TYPE, source);
     }
 
     protected ResourceTypeParser(MapElement schema, Map<String, Object> source) {
-        super(schema, source);
+        super(PROCESSED_OBJECT_NAME, schema, source);
     }
 
     @Override
@@ -28,6 +34,14 @@ public class ResourceTypeParser extends com.sap.cloud.lm.sl.mta.parsers.v1.Resou
         builder.setResourceManager(getResourceManager());
         builder.setParameters(getParameters());
         return builder.build();
+    }
+
+    protected String getName() {
+        return getStringElement(NAME);
+    }
+
+    protected String getResourceManager() {
+        return getStringElement(RESOURCE_MANAGER);
     }
 
     protected Map<String, Object> getParameters() {
