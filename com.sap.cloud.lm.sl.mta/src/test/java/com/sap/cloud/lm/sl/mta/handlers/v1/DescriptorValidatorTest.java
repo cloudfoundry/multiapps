@@ -48,99 +48,90 @@ public class DescriptorValidatorTest {
             {
                 "/mta/sample/v1/mtad-01.yaml", new String[] { "/mta/sample/v1/config-01.mtaext" }, null,
                 new Expectation[] {
-                    new Expectation(""),
-                    new Expectation(""),
-                    new Expectation(Expectation.Type.DO_NOT_RUN, null),
+                    new Expectation(null),
+                    new Expectation(null),
+                    new Expectation(Expectation.Type.SKIP, null),
                 },
             },
-            // (1) Deploy Target not listed in merged descriptor (there are other targets listed):
+            // (1) Deploy target not listed in merged descriptor (there aren't any other targets listed):
             {
                 null, null, "/mta/sample/v1/merged-01.yaml",
                 new Expectation[] {
-                    new Expectation(Expectation.Type.DO_NOT_RUN, null),
-                    new Expectation(Expectation.Type.DO_NOT_RUN, null),
-                    new Expectation(Expectation.Type.RESOURCE, "Deploy target \"CF-QUAL\" not listed in extension descriptor chain"),
+                    new Expectation(Expectation.Type.SKIP, null),
+                    new Expectation(Expectation.Type.SKIP, null),
+                    new Expectation(null),
                 },
             },
-            // (2) Deploy target not listed in merged descriptor (there aren't any other targets listed):
-            {
-                null, null, "/mta/sample/v1/merged-01.yaml",
-                new Expectation[] {
-                    new Expectation(Expectation.Type.DO_NOT_RUN, null),
-                    new Expectation(Expectation.Type.DO_NOT_RUN, null),
-                    new Expectation(""),
-                },
-            },
-            // (3) Unresolved properties in merged descriptor:
+            // (2) Unresolved properties in merged descriptor:
             {
                 null, null, "/mta/sample/v1/merged-03.yaml",
                 new Expectation[] {
-                    new Expectation(Expectation.Type.DO_NOT_RUN, null),
-                    new Expectation(Expectation.Type.DO_NOT_RUN, null),
+                    new Expectation(Expectation.Type.SKIP, null),
+                    new Expectation(Expectation.Type.SKIP, null),
                     new Expectation(Expectation.Type.EXCEPTION, "Unresolved mandatory properties: [competitor-data#test, pricing#internal-odata#test, pricing-db#test, test]"),
                 },
             },
-            // (4) Unknown module in extension descriptor:
+            // (3) Unknown module in extension descriptor:
             {
                 "/mta/sample/v1/mtad-01.yaml", new String[] { "/mta/sample/v1/config-02.mtaext" }, null,
                 new Expectation[] {
-                    new Expectation(Expectation.Type.DO_NOT_RUN, null),
+                    new Expectation(Expectation.Type.SKIP, null),
                     new Expectation(Expectation.Type.EXCEPTION, "Unknown module \"web-serverx\" in extension descriptor \"com.sap.mta.sample.config-02\""),
-                    new Expectation(Expectation.Type.DO_NOT_RUN, null),
+                    new Expectation(Expectation.Type.SKIP, null),
                 },
             },
-            // (5) Unknown provided dependency in extension descriptor:
+            // (4) Unknown provided dependency in extension descriptor:
             {
                 "/mta/sample/v1/mtad-01.yaml", new String[] { "/mta/sample/v1/config-03.mtaext" }, null,
                 new Expectation[] {
-                    new Expectation(Expectation.Type.DO_NOT_RUN, null),
+                    new Expectation(Expectation.Type.SKIP, null),
                     new Expectation(Expectation.Type.EXCEPTION, "Unknown provided dependency \"internal-odatax\" for module \"pricing\" in extension descriptor \"com.sap.mta.sample.config-03\""),
-                    new Expectation(Expectation.Type.DO_NOT_RUN, null),
+                    new Expectation(Expectation.Type.SKIP, null),
                 },
             },
-            // (6) Unknown resource in extension descriptor:
+            // (5) Unknown resource in extension descriptor:
             {
                 "/mta/sample/v1/mtad-01.yaml", new String[] { "/mta/sample/v1/config-04.mtaext" }, null,
                 new Expectation[] {
-                    new Expectation(""),
+                    new Expectation(null),
                     new Expectation(Expectation.Type.EXCEPTION, "Unknown resource \"internal-odata-servicex\" in extension descriptor \"com.sap.mta.sample.config-04\""),
-                    new Expectation(Expectation.Type.DO_NOT_RUN, null),
+                    new Expectation(Expectation.Type.SKIP, null),
                 },
             },
-            // (7) Unsupported resource type in deployment descriptor:
+            // (6) Unsupported resource type in deployment descriptor:
             {
                 "/mta/sample/v1/mtad-02.yaml", null, null,
                 new Expectation[] {
                     new Expectation(Expectation.Type.EXCEPTION, "Unsupported resource type \"com.sap.hana.hdi-containerx\" for platform type \"CLOUD-FOUNDRY\""),
-                    new Expectation(Expectation.Type.DO_NOT_RUN, null),
-                    new Expectation(Expectation.Type.DO_NOT_RUN, null),
+                    new Expectation(Expectation.Type.SKIP, null),
+                    new Expectation(Expectation.Type.SKIP, null),
                 },
             },
-            // (8) Unresolved required dependency in deployment descriptor:
+            // (7) Unresolved required dependency in deployment descriptor:
             {
                 "/mta/sample/v1/mtad-03.yaml", null, null,
                 new Expectation[] {
                     new Expectation(Expectation.Type.EXCEPTION, "Unresolved required dependency \"internal-odatax\" for module \"web-server\""),
-                    new Expectation(Expectation.Type.DO_NOT_RUN, null),
-                    new Expectation(Expectation.Type.DO_NOT_RUN, null),
+                    new Expectation(Expectation.Type.SKIP, null),
+                    new Expectation(Expectation.Type.SKIP, null),
                 },
             },
-            // (9) Unsupported module type in deployment descriptor:
+            // (8) Unsupported module type in deployment descriptor:
             {
                 "/mta/sample/v1/mtad-04.yaml", null, null,
                 new Expectation[] {
                     new Expectation(Expectation.Type.EXCEPTION, "Unsupported module type \"com.sap.static-contentx\" for platform type \"CLOUD-FOUNDRY\""),
-                    new Expectation(Expectation.Type.DO_NOT_RUN, null),
-                    new Expectation(Expectation.Type.DO_NOT_RUN, null),
+                    new Expectation(Expectation.Type.SKIP, null),
+                    new Expectation(Expectation.Type.SKIP, null),
                 },
             },
-            // (10) Merged descriptor contains properties with empty values (but not null):
+            // (9) Merged descriptor contains properties with empty values (but not null):
             {
                 null, null, "/mta/sample/v1/merged-06.yaml",
                 new Expectation[] {
-                    new Expectation(Expectation.Type.DO_NOT_RUN, null),
-                    new Expectation(Expectation.Type.DO_NOT_RUN, null),
-                    new Expectation(""),
+                    new Expectation(Expectation.Type.SKIP, null),
+                    new Expectation(Expectation.Type.SKIP, null),
+                    new Expectation(null),
                 },
             },
 // @formatter:on

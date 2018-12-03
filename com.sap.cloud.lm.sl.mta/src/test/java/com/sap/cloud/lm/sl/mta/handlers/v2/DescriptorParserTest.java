@@ -28,7 +28,7 @@ public class DescriptorParserTest extends com.sap.cloud.lm.sl.mta.handlers.v1.De
                 "/mta/sample/v1/mtad-01.yaml", null,
                 new Expectation[] {
                     new Expectation(Expectation.Type.EXCEPTION, "Invalid type for key \"modules#0#requires#0\", expected \"Map\" but got \"String\""),
-                    new Expectation(Expectation.Type.DO_NOT_RUN, null),
+                    new Expectation(Expectation.Type.SKIP, null),
                 },
             },
             // (2) Multiple modules with the same name:
@@ -68,7 +68,7 @@ public class DescriptorParserTest extends com.sap.cloud.lm.sl.mta.handlers.v1.De
                 "/mta/sample/v2/mtad-05.yaml", null,
                 new Expectation[] {
                     new Expectation(Expectation.Type.RESOURCE, "mtad-01.yaml.json"),
-                    new Expectation(Expectation.Type.DO_NOT_RUN, null),
+                    new Expectation(Expectation.Type.SKIP, null),
                 },
             },
             // (7) Module and resource with the same name:
@@ -76,7 +76,7 @@ public class DescriptorParserTest extends com.sap.cloud.lm.sl.mta.handlers.v1.De
                 "mtad-19.yaml", null,
                 new Expectation[] {
                     new Expectation(Expectation.Type.EXCEPTION, "Value \"foo\" for key \"name\" not unique for object \"MTA resource\""),
-                    new Expectation(Expectation.Type.DO_NOT_RUN, null),
+                    new Expectation(Expectation.Type.SKIP, null),
                 },
             },
             // (8) Resource and module provided dependency with the same name:
@@ -84,7 +84,7 @@ public class DescriptorParserTest extends com.sap.cloud.lm.sl.mta.handlers.v1.De
                 "mtad-20.yaml", null,
                 new Expectation[] {
                     new Expectation(Expectation.Type.EXCEPTION, "Value \"bar\" for key \"name\" not unique for object \"MTA resource\""),
-                    new Expectation(Expectation.Type.DO_NOT_RUN, null),
+                    new Expectation(Expectation.Type.SKIP, null),
                 },
             },
             // (9) Provided dependency name same as another module:
@@ -92,7 +92,7 @@ public class DescriptorParserTest extends com.sap.cloud.lm.sl.mta.handlers.v1.De
                 "mtad-21.yaml", null,
                 new Expectation[] {
                     new Expectation(Expectation.Type.EXCEPTION, "Value \"bar\" for key \"name\" not unique for object \"MTA provided dependency\""),
-                    new Expectation(Expectation.Type.DO_NOT_RUN, null),
+                    new Expectation(Expectation.Type.SKIP, null),
                 },
             },
             // (10) Partial schema version support test (int):
