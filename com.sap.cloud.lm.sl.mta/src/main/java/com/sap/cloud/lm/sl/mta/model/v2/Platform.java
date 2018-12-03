@@ -9,10 +9,17 @@ import org.apache.commons.lang3.ObjectUtils;
 
 import com.sap.cloud.lm.sl.common.util.ListUtil;
 import com.sap.cloud.lm.sl.common.util.MapUtil;
+import com.sap.cloud.lm.sl.mta.model.ElementContext;
+import com.sap.cloud.lm.sl.mta.model.NamedElement;
 import com.sap.cloud.lm.sl.mta.model.ParametersContainer;
+import com.sap.cloud.lm.sl.mta.model.PropertiesContainer;
+import com.sap.cloud.lm.sl.mta.model.VisitableElement;
+import com.sap.cloud.lm.sl.mta.model.Visitor;
 
-public class Platform extends com.sap.cloud.lm.sl.mta.model.v1.Platform implements ParametersContainer {
+public class Platform implements VisitableElement, NamedElement, PropertiesContainer, ParametersContainer {
 
+    private String name;
+    private String description;
     private Map<String, Object> parameters;
     private List<ModuleType> moduleTypes2;
     private List<ResourceType> resourceTypes2;
@@ -20,23 +27,28 @@ public class Platform extends com.sap.cloud.lm.sl.mta.model.v1.Platform implemen
     protected Platform() {
 
     }
-
-    @Override
-    public String getVersion() {
-        throw new UnsupportedOperationException();
+    
+    public String getName() {
+        return name;
     }
-
-    @Override
-    public void setVersion(String version) {
-        throw new UnsupportedOperationException();
+    
+    public void setName(String name) {
+        this.name = name;
+    }
+    
+    public String getDescription() {
+        return description;
+    }
+    
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public void setResourceTypes2(List<ResourceType> resourceTypes) {
         setResourceTypes(resourceTypes);
     }
 
-    @Override
-    protected void setResourceTypes(List<? extends com.sap.cloud.lm.sl.mta.model.v1.ResourceType> resourceTypes) {
+    protected void setResourceTypes(List<? extends com.sap.cloud.lm.sl.mta.model.v2.ResourceType> resourceTypes) {
         this.resourceTypes2 = ListUtil.cast(resourceTypes);
     }
 
@@ -44,7 +56,6 @@ public class Platform extends com.sap.cloud.lm.sl.mta.model.v1.Platform implemen
         return ListUtil.upcastUnmodifiable(getResourceTypes());
     }
 
-    @Override
     protected List<? extends ResourceType> getResourceTypes() {
         return resourceTypes2;
     }
@@ -53,8 +64,7 @@ public class Platform extends com.sap.cloud.lm.sl.mta.model.v1.Platform implemen
         setModuleTypes(moduleTypes);
     }
 
-    @Override
-    protected void setModuleTypes(List<? extends com.sap.cloud.lm.sl.mta.model.v1.ModuleType> moduleTypes) {
+    protected void setModuleTypes(List<? extends com.sap.cloud.lm.sl.mta.model.v2.ModuleType> moduleTypes) {
         this.moduleTypes2 = ListUtil.cast(moduleTypes);
     }
 
@@ -62,7 +72,6 @@ public class Platform extends com.sap.cloud.lm.sl.mta.model.v1.Platform implemen
         return ListUtil.upcastUnmodifiable(getModuleTypes());
     }
 
-    @Override
     protected List<? extends ModuleType> getModuleTypes() {
         return moduleTypes2;
     }
@@ -86,14 +95,30 @@ public class Platform extends com.sap.cloud.lm.sl.mta.model.v1.Platform implemen
     public void setParameters(Map<String, Object> parameters) {
         this.parameters = new LinkedHashMap<>(parameters);
     }
+    
+    public void accept(Visitor visitor) {
+        accept(new ElementContext(this, null), visitor);
+    }
 
-    public static class Builder extends com.sap.cloud.lm.sl.mta.model.v1.Platform.Builder {
+    @Override
+    public void accept(ElementContext context, Visitor visitor) {
+        visitor.visit(context, this);
+        for (ModuleType moduleType : getModuleTypes()) {
+            moduleType.accept(new ElementContext(moduleType, context), visitor);
+        }
+        for (ResourceType resourceType : getResourceTypes()) {
+            resourceType.accept(new ElementContext(resourceType, context), visitor);
+        }
+    }
 
+    public static class Builder {
+
+        protected String name;
+        protected String description;
         protected Map<String, Object> parameters;
         protected List<ModuleType> moduleTypes2;
         protected List<ResourceType> resourceTypes2;
 
-        @Override
         public Platform build() {
             Platform result = new Platform();
             result.setName(name);
@@ -108,8 +133,7 @@ public class Platform extends com.sap.cloud.lm.sl.mta.model.v1.Platform implemen
             setModuleTypes(moduleTypes);
         }
 
-        @Override
-        protected void setModuleTypes(List<? extends com.sap.cloud.lm.sl.mta.model.v1.ModuleType> moduleTypes) {
+        protected void setModuleTypes(List<? extends com.sap.cloud.lm.sl.mta.model.v2.ModuleType> moduleTypes) {
             this.moduleTypes2 = ListUtil.cast(moduleTypes);
         }
 
@@ -117,23 +141,12 @@ public class Platform extends com.sap.cloud.lm.sl.mta.model.v1.Platform implemen
             setResourceTypes(resourceTypes);
         }
 
-        @Override
-        protected void setResourceTypes(List<? extends com.sap.cloud.lm.sl.mta.model.v1.ResourceType> resourceTypes) {
+        protected void setResourceTypes(List<? extends com.sap.cloud.lm.sl.mta.model.v2.ResourceType> resourceTypes) {
             this.resourceTypes2 = ListUtil.cast(resourceTypes);
         }
 
         public void setParameters(Map<String, Object> parameters) {
             this.parameters = parameters;
-        }
-
-        @Override
-        public void setProperties(Map<String, Object> properties) {
-            throw new UnsupportedOperationException();
-        }
-
-        @Override
-        public void setVersion(String version) {
-            throw new UnsupportedOperationException();
         }
 
     }
