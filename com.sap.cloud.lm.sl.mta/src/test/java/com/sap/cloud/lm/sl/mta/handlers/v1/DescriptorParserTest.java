@@ -67,7 +67,7 @@ public class DescriptorParserTest {
             {
                 null, "config-04.mtaext",
                 new Expectation[] {
-                    new Expectation(Expectation.Type.DO_NOT_RUN, null),
+                    new Expectation(Expectation.Type.SKIP, null),
                     new Expectation(Expectation.Type.RESOURCE, "config-04.mtaext.json"),
                 },
             },

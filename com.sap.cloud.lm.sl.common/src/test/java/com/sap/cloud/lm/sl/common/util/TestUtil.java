@@ -17,14 +17,14 @@ public class TestUtil {
     public static class Expectation {
 
         public enum Type {
-            DEFAULT, RESOURCE, EXCEPTION, DO_NOT_RUN
+            DIRECT, RESOURCE, EXCEPTION, SKIP,
         }
 
         private final Type type;
         private final String expectation;
 
         public Expectation(String expectation) {
-            this(Type.DEFAULT, expectation);
+            this(Type.DIRECT, expectation);
         }
 
         public Expectation(Type type, String expectation) {
@@ -32,12 +32,16 @@ public class TestUtil {
             this.expectation = expectation;
         }
 
-        public Type getType() {
-            return type;
+        private boolean expectsSuccess() {
+            return type == Type.DIRECT || type == Type.RESOURCE;
         }
 
-        public String getExpectation() {
-            return expectation;
+        private boolean expectsFailure() {
+            return type == Type.EXCEPTION;
+        }
+
+        private boolean shouldSkipTest() {
+            return type == Type.SKIP;
         }
 
     }
@@ -56,15 +60,7 @@ public class TestUtil {
     }
 
     public static void test(Runnable runnable, Expectation expectation) {
-        if (expectation.type.equals(Expectation.Type.DO_NOT_RUN)) {
-            return;
-        }
-        try {
-            runnable.run();
-        } catch (Exception e) {
-            // e.printStackTrace();
-            validateException(expectation, e);
-        }
+        test(toCallable(runnable), expectation, null);
     }
 
     public static <T> void test(Callable<T> callable, Expectation expectation, Class<?> resourceClass) {
@@ -73,47 +69,59 @@ public class TestUtil {
 
     public static <T> void test(Callable<T> callable, Expectation expectation, Class<?> resourceClass,
         JsonSerializationOptions serializationOptions) {
-        if (expectation.type.equals(Expectation.Type.DO_NOT_RUN)) {
+        if (expectation.shouldSkipTest()) {
             return;
         }
         try {
             T result = callable.call();
-            String resultAsString = getResultAsString(result, expectation, serializationOptions);
-            validateResult(expectation, resultAsString, resourceClass);
+            validateResult(expectation, result, resourceClass, serializationOptions);
         } catch (Exception e) {
-            // e.printStackTrace();
             validateException(expectation, e);
         }
     }
 
-    private static void validateResult(Expectation expectation, Object result, Class<?> resourceClass) {
+    private static Callable<Void> toCallable(Runnable runnable) {
+        return () -> {
+            runnable.run();
+            return null;
+        };
+    }
+
+    private static void validateResult(Expectation expectation, Object result, Class<?> resourceClass,
+        JsonSerializationOptions serializationOptions) {
+        assertTrue("Expected an exception, but the test finished successfully!", expectation.expectsSuccess());
+        String resultAsString = getResultAsString(result, expectation, serializationOptions);
         Object expectedResult = getExpectedResult(expectation, resourceClass);
-        assertEquals(expectedResult, result);
-    }
-
-    private static Object getExpectedResult(Expectation expectation, Class<?> resourceClass) {
-        if (expectation.type.equals(Expectation.Type.RESOURCE)) {
-            return getResourceAsString(expectation.expectation, resourceClass);
-        }
-        return expectation.expectation;
-    }
-
-    private static void validateException(Expectation expectation, Exception exception) {
-        if (!expectation.type.equals(Expectation.Type.EXCEPTION)) {
-            exception.printStackTrace();
-            fail(exception.toString());
-        }
-        assertThat("Exception's message doesn't match up", exception.getMessage(), containsString(expectation.expectation));
+        assertEquals(expectedResult, resultAsString);
     }
 
     private static <T> String getResultAsString(T result, Expectation expectation, JsonSerializationOptions serializationOptions) {
         if (result == null) {
             return null;
         }
-        if (result instanceof String || !expectation.type.equals(Expectation.Type.RESOURCE)) {
+        if (result instanceof String || expectation.type == Expectation.Type.DIRECT) {
             return result.toString();
         }
+        return serializeToJson(result, serializationOptions);
+    }
+
+    private static <T> String serializeToJson(T result, JsonSerializationOptions serializationOptions) {
         return JsonUtil.toJson(result, true, serializationOptions.getUseExposeAnnotation(), serializationOptions.getDisableHtmlEscaping());
+    }
+
+    private static Object getExpectedResult(Expectation expectation, Class<?> resourceClass) {
+        if (expectation.type == Expectation.Type.RESOURCE) {
+            return getResourceAsString(expectation.expectation, resourceClass);
+        }
+        return expectation.expectation;
+    }
+
+    private static void validateException(Expectation expectation, Exception e) {
+        if (!expectation.expectsFailure()) {
+            e.printStackTrace();
+            fail(e.toString());
+        }
+        assertThat("Exception's message doesn't match up!", e.getMessage(), containsString(expectation.expectation));
     }
 
     public static class JsonSerializationOptions {

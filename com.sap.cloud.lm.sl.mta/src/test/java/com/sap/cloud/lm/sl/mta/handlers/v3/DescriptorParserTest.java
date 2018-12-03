@@ -36,7 +36,7 @@ public class DescriptorParserTest extends com.sap.cloud.lm.sl.mta.handlers.v2.De
                 "mtad-02.yaml", null,
                 new Expectation[] {
                     new Expectation(Expectation.Type.RESOURCE, "parsed-mtad-02.json"),
-                    new Expectation(Expectation.Type.DO_NOT_RUN, null),
+                    new Expectation(Expectation.Type.SKIP, null),
                 },
             },
             // (3) Partial schema version support test (int):

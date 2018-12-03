@@ -29,15 +29,15 @@ public class SchemaValidatorTest {
 // @formatter:off
             // (00) Valid extension descriptor:
             {
-                "/mta/sample/v1/config-01.mtaext", Schemas.MTAEXT, new Expectation(""),
+                "/mta/sample/v1/config-01.mtaext", Schemas.MTAEXT, new Expectation(null),
             },
             // (01) Valid deployment descriptor:
             {
-                "/mta/sample/v1/mtad-01.yaml", Schemas.MTAD, new Expectation(""),
+                "/mta/sample/v1/mtad-01.yaml", Schemas.MTAD, new Expectation(null),
             },
             // (02) Valid platform JSON:
             {
-                "/mta/sample/v1/platform-01.json", Schemas.PLATFORM, new Expectation(""),
+                "/mta/sample/v1/platform-01.json", Schemas.PLATFORM, new Expectation(null),
             },
             // (04) Deployment descriptor contains invalid key:
             {
