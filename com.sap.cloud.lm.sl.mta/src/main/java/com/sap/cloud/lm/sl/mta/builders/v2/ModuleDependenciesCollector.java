@@ -27,7 +27,7 @@ public class ModuleDependenciesCollector {
 
     protected List<String> getDependencies(Module module) {
         Module moduleV2 = cast(module);
-        return moduleV2.getRequiredDependencies()
+        return moduleV2.getRequiredDependencies2()
             .stream()
             .map(RequiredDependency::getName)
             .collect(Collectors.toList());
@@ -71,7 +71,7 @@ public class ModuleDependenciesCollector {
     }
     
     protected Module findModuleSatisfyingDependency(String dependency) {
-        return descriptor.getModules()
+        return descriptor.getModules2()
             .stream()
             .filter(module -> handler.findProvidedDependency(module, dependency) != null)
             .findFirst()
