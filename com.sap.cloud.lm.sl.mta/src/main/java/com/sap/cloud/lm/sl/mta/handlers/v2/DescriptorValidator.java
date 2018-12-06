@@ -1,5 +1,8 @@
 package com.sap.cloud.lm.sl.mta.handlers.v2;
 
+import java.util.List;
+
+import com.sap.cloud.lm.sl.common.ContentException;
 import com.sap.cloud.lm.sl.mta.model.v2.DeploymentDescriptor;
 import com.sap.cloud.lm.sl.mta.model.v2.ExtensionDescriptor;
 import com.sap.cloud.lm.sl.mta.model.v2.Platform;
@@ -31,7 +34,6 @@ public class DescriptorValidator {
         return new ExtensionDescriptorValidator(extensionDescriptor, deploymentDescriptor, handler);
     }
 
-
     protected MergedDescriptorValidator getMergedDescriptorValidator(DeploymentDescriptor mergedDescriptor,
         DescriptorValidationRules validationRules) {
         return new MergedDescriptorValidator(mergedDescriptor, validationRules, handler);
@@ -39,6 +41,21 @@ public class DescriptorValidator {
 
     protected DescriptorValidationRules getDefaultDescriptorValidationRules() {
         return new DefaultDescriptorValidationRules();
+    }
+
+    public void validateDeploymentDescriptor(DeploymentDescriptor deploymentDescriptor, Platform platform) throws ContentException {
+        getDeploymentDescriptorValidator(deploymentDescriptor, platform).validate();
+    }
+
+    public void validateExtensionDescriptors(List<ExtensionDescriptor> extensionDescriptors, DeploymentDescriptor deploymentDescriptor)
+        throws ContentException {
+        for (ExtensionDescriptor extensionDescriptor : extensionDescriptors) {
+            getExtensionDescriptorValidator(extensionDescriptor, deploymentDescriptor).validate();
+        }
+    }
+
+    public void validateMergedDescriptor(DeploymentDescriptor mergedDescriptor) throws ContentException {
+        getMergedDescriptorValidator(mergedDescriptor, getDefaultDescriptorValidationRules()).validate();
     }
 
 }
