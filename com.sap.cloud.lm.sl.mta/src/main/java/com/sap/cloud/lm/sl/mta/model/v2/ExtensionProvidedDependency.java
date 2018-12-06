@@ -15,7 +15,6 @@ import com.sap.cloud.lm.sl.mta.model.Visitor;
 
 public class ExtensionProvidedDependency implements VisitableElement, NamedElement, PropertiesContainer {
 
-    //TODO: implement ParametersContainer ?
     private String name;
     private Map<String, Object> properties;
     

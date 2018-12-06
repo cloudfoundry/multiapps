@@ -23,6 +23,12 @@ import com.sap.cloud.lm.sl.mta.util.YamlElementOrder;
 @YamlElementOrder({ "id", "description", "version", "provider", "copyright", "schemaVersion", "parameters", "modules2", "resources2" })
 public class DeploymentDescriptor implements Descriptor, VisitableElement, PropertiesContainer, ParametersContainer {
 
+    @YamlElement(DeploymentDescriptorParser.MODULES)
+    private List<Module> modules2;
+    @YamlElement(DeploymentDescriptorParser.RESOURCES)
+    private List<Resource> resources2;
+    @YamlElement(DeploymentDescriptorParser.PARAMETERS)
+    private Map<String, Object> parameters;
     @YamlElement(DeploymentDescriptorParser.SCHEMA_VERSION)
     private String schemaVersion;
     @YamlElement(DeploymentDescriptorParser.ID)
@@ -35,14 +41,8 @@ public class DeploymentDescriptor implements Descriptor, VisitableElement, Prope
     private String provider;
     @YamlElement(DeploymentDescriptorParser.COPYRIGHT)
     private String copyright;
-    @YamlElement(DeploymentDescriptorParser.MODULES)
-    private List<Module> modules2;
-    @YamlElement(DeploymentDescriptorParser.RESOURCES)
-    private List<Resource> resources2;
     @YamlElement(DeploymentDescriptorParser.PROPERTIES)
     private Map<String, Object> properties;
-    @YamlElement(DeploymentDescriptorParser.PARAMETERS)
-    private Map<String, Object> parameters;
 
     protected DeploymentDescriptor() {
 
@@ -52,7 +52,7 @@ public class DeploymentDescriptor implements Descriptor, VisitableElement, Prope
     public String getId() {
         return id;
     }
-    
+
     public List<Module> getModules2() {
         return ListUtil.upcastUnmodifiable(getModules());
     }
@@ -104,11 +104,11 @@ public class DeploymentDescriptor implements Descriptor, VisitableElement, Prope
     public void setParameters(Map<String, Object> parameters) {
         this.parameters = new LinkedHashMap<>(parameters);
     }
-    
+
     public void accept(Visitor visitor) {
         accept(new ElementContext(this, null), visitor);
     }
-    
+
     @Override
     public void accept(ElementContext context, Visitor visitor) {
         visitor.visit(context, this);

@@ -21,22 +21,23 @@ import com.sap.cloud.lm.sl.mta.util.YamlElement;
 
 public class Module implements VisitableElement, NamedElement, PropertiesContainer, ParametersContainer {
 
-    @YamlElement(ModuleParser.NAME)
-    private String name;
-    @YamlElement(ModuleParser.TYPE)
-    private String type;
-    @YamlElement(ModuleParser.DESCRIPTION)
-    private String description;
+    
     @YamlElement(ModuleParser.PATH)
     private String path;
     @YamlElement(ModuleParser.REQUIRES)
     private List<RequiredDependency> requiredDependencies2;
     @YamlElement(ModuleParser.PROVIDES)
     private List<ProvidedDependency> providedDependencies2;
-    @YamlElement(ModuleParser.PROPERTIES)
-    private Map<String, Object> properties;
     @YamlElement(ModuleParser.PARAMETERS)
     private Map<String, Object> parameters;
+    @YamlElement(ModuleParser.NAME)
+    private String name;
+    @YamlElement(ModuleParser.TYPE)
+    private String type;
+    @YamlElement(ModuleParser.DESCRIPTION)
+    private String description;
+    @YamlElement(ModuleParser.PROPERTIES)
+    private Map<String, Object> properties;
 
     protected Module() {
 

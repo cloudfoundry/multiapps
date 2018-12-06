@@ -15,10 +15,10 @@ import com.sap.cloud.lm.sl.mta.model.ParametersContainer;
 import com.sap.cloud.lm.sl.mta.model.ParametersWithMetadataContainer;
 import com.sap.cloud.lm.sl.mta.model.PropertiesContainer;
 import com.sap.cloud.lm.sl.mta.model.PropertiesWithMetadataContainer;
-import com.sap.cloud.lm.sl.mta.model.v1.Module;
-import com.sap.cloud.lm.sl.mta.model.v1.ProvidedDependency;
-import com.sap.cloud.lm.sl.mta.model.v1.Resource;
+import com.sap.cloud.lm.sl.mta.model.v2.Module;
+import com.sap.cloud.lm.sl.mta.model.v2.ProvidedDependency;
 import com.sap.cloud.lm.sl.mta.model.v2.RequiredDependency;
+import com.sap.cloud.lm.sl.mta.model.v2.Resource;
 import com.sap.cloud.lm.sl.mta.model.v3.DeploymentDescriptor;
 import com.sap.cloud.lm.sl.mta.model.v3.Platform;
 import com.sap.cloud.lm.sl.mta.util.ValidatorUtil;
@@ -64,7 +64,7 @@ public class DeploymentDescriptorValidator extends com.sap.cloud.lm.sl.mta.valid
     }
 
     @Override
-    public void visit(ElementContext context, com.sap.cloud.lm.sl.mta.model.v1.Module module) throws ContentException {
+    public void visit(ElementContext context, com.sap.cloud.lm.sl.mta.model.v2.Module module) throws ContentException {
         super.visit(context, module);
         com.sap.cloud.lm.sl.mta.model.v3.Module moduleV3 = cast(module);
         validateParameters(moduleV3, moduleV3.getName());

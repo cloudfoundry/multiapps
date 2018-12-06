@@ -23,30 +23,30 @@ import com.sap.cloud.lm.sl.mta.util.YamlElementOrder;
 @YamlElementOrder({ "schemaVersion", "id", "parentId", "description", "provider", "parameters", "modules2", "resources2" })
 public class ExtensionDescriptor implements Descriptor, VisitableElement, PropertiesContainer, ParametersContainer {
 
-    @YamlElement(ExtensionDescriptorParser.SCHEMA_VERSION)
-    private String schemaVersion;
-    @YamlElement(ExtensionDescriptorParser.ID)
-    private String id;
     @YamlElement(ExtensionDescriptorParser.DESCRIPTION)
     private String description;
-    @YamlElement(ExtensionDescriptorParser.EXT_DESCRIPTION)
-    private String extensionDescription;
-    @YamlElement(ExtensionDescriptorParser.EXTENDS)
-    private String parentId;
     @YamlElement(ExtensionDescriptorParser.PROVIDER)
     private String provider;
-    @YamlElement(ExtensionDescriptorParser.EXT_PROVIDER)
-    private String extensionProvider;
-    @YamlElement(ExtensionDescriptorParser.TARGET_PLATFORMS)
-    private List<String> deployTargets;
     @YamlElement(ExtensionDescriptorParser.MODULES)
     private List<ExtensionModule> modules2;
     @YamlElement(ExtensionDescriptorParser.RESOURCES)
     private List<ExtensionResource> resources2;
-    @YamlElement(ExtensionDescriptorParser.PROPERTIES)
-    private Map<String, Object> properties;
     @YamlElement(ExtensionDescriptorParser.PARAMETERS)
     private Map<String, Object> parameters;
+    @YamlElement(ExtensionDescriptorParser.SCHEMA_VERSION)
+    private String schemaVersion;
+    @YamlElement(ExtensionDescriptorParser.ID)
+    private String id;
+    @YamlElement(ExtensionDescriptorParser.EXT_DESCRIPTION)
+    private String extensionDescription;
+    @YamlElement(ExtensionDescriptorParser.EXTENDS)
+    private String parentId;
+    @YamlElement(ExtensionDescriptorParser.EXT_PROVIDER)
+    private String extensionProvider;
+    @YamlElement(ExtensionDescriptorParser.TARGET_PLATFORMS)
+    private List<String> deployTargets;
+    @YamlElement(ExtensionDescriptorParser.PROPERTIES)
+    private Map<String, Object> properties;
 
     protected ExtensionDescriptor() {
 
