@@ -2,7 +2,6 @@ package com.sap.cloud.lm.sl.mta.handlers.v3;
 
 import static com.sap.cloud.lm.sl.common.util.CommonUtil.cast;
 
-import com.sap.cloud.lm.sl.mta.handlers.ModulesSorter;
 import com.sap.cloud.lm.sl.mta.model.v3.DeploymentDescriptor;
 import com.sap.cloud.lm.sl.mta.model.v3.ExtensionDescriptor;
 import com.sap.cloud.lm.sl.mta.model.v3.ExtensionRequiredDependency;
@@ -67,8 +66,9 @@ public class DescriptorHandler extends com.sap.cloud.lm.sl.mta.handlers.v2.Descr
     }
 
     @Override
-    protected ModulesSorter getModuleSorter(com.sap.cloud.lm.sl.mta.model.v2.DeploymentDescriptor descriptor,
-        String parallelDeploymentProperty, String dependencyTypeProperty, String hardDependencyType) {
+    protected com.sap.cloud.lm.sl.mta.handlers.v2.ModulesSorter getModuleSorter(
+        com.sap.cloud.lm.sl.mta.model.v2.DeploymentDescriptor descriptor, String parallelDeploymentProperty, String dependencyTypeProperty,
+        String hardDependencyType) {
         DeploymentDescriptor descriptorV3 = cast(descriptor);
         return new com.sap.cloud.lm.sl.mta.handlers.v3.ModulesSorter(descriptorV3, this, dependencyTypeProperty, hardDependencyType,
             parallelDeploymentProperty);

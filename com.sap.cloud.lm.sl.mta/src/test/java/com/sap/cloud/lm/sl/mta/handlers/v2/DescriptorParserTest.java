@@ -1,15 +1,31 @@
 package com.sap.cloud.lm.sl.mta.handlers.v2;
 
+import java.io.InputStream;
 import java.util.Arrays;
 
+import org.junit.Before;
+import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import org.junit.runners.Parameterized.Parameters;
 
+import com.sap.cloud.lm.sl.common.util.Callable;
+import com.sap.cloud.lm.sl.common.util.TestUtil;
 import com.sap.cloud.lm.sl.common.util.TestUtil.Expectation;
+import com.sap.cloud.lm.sl.mta.model.v2.DeploymentDescriptor;
+import com.sap.cloud.lm.sl.mta.model.v2.ExtensionDescriptor;
 
 @RunWith(value = Parameterized.class)
-public class DescriptorParserTest extends com.sap.cloud.lm.sl.mta.handlers.v1.DescriptorParserTest {
+public class DescriptorParserTest {
+    
+    private final String extensionDescriptorsLocation;
+    private final String deploymentDescriptorLocation;
+    private final Expectation[] expectations;
+
+    private InputStream extensionDescriptorsYaml;
+    private InputStream deploymentDescriptorYaml;
+
+    private DescriptorParser parser;
 
     @Parameters
     public static Iterable<Object[]> getParameters() {
@@ -132,12 +148,44 @@ public class DescriptorParserTest extends com.sap.cloud.lm.sl.mta.handlers.v1.De
     }
 
     public DescriptorParserTest(String deploymentDescriptorLocation, String extensionDescriptorLocation, Expectation[] expectation) {
-        super(deploymentDescriptorLocation, extensionDescriptorLocation, expectation);
+        this.extensionDescriptorsLocation = extensionDescriptorLocation;
+        this.deploymentDescriptorLocation = deploymentDescriptorLocation;
+        this.expectations = expectation;
+    }
+    
+    @Before
+    public void setUp() throws Exception {
+        if (extensionDescriptorsLocation != null) {
+            extensionDescriptorsYaml = getClass().getResourceAsStream(extensionDescriptorsLocation);
+        }
+        if (deploymentDescriptorLocation != null) {
+            deploymentDescriptorYaml = getClass().getResourceAsStream(deploymentDescriptorLocation);
+        }
+        parser = createDescriptorParser();
     }
 
-    @Override
     protected DescriptorParser createDescriptorParser() {
         return new DescriptorParser();
     }
 
+    @Test
+    public void testParseDeploymentDescriptorYaml() throws Exception {
+        TestUtil.test(new Callable<DeploymentDescriptor>() {
+            @Override
+            public DeploymentDescriptor call() throws Exception {
+                return parser.parseDeploymentDescriptorYaml(deploymentDescriptorYaml);
+            }
+        }, expectations[0], getClass());
+    }
+
+    @Test
+    public void testParseExtensionDescriptorYaml() throws Exception {
+        TestUtil.test(new Callable<ExtensionDescriptor>() {
+            @Override
+            public ExtensionDescriptor call() throws Exception {
+                return parser.parseExtensionDescriptorYaml(extensionDescriptorsYaml);
+            }
+        }, expectations[1], getClass());
+    }
+    
 }

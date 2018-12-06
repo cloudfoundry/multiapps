@@ -7,7 +7,6 @@ import java.util.Map;
 
 import org.apache.commons.lang3.ObjectUtils;
 
-import com.sap.cloud.lm.sl.common.util.ListUtil;
 import com.sap.cloud.lm.sl.common.util.MapUtil;
 import com.sap.cloud.lm.sl.mta.model.ElementContext;
 import com.sap.cloud.lm.sl.mta.model.NamedElement;
@@ -19,14 +18,14 @@ import com.sap.cloud.lm.sl.mta.util.YamlElement;
 
 public class ProvidedDependency implements VisitableElement, NamedElement, PropertiesContainer {
 
+    @YamlElement(ProvidedDependencyParser.PUBLIC)
+    private boolean isPublic;
     @YamlElement(ProvidedDependencyParser.NAME)
     private String name;
     @YamlElement(ProvidedDependencyParser.GROUPS)
     private List<String> groups;
     @YamlElement(ProvidedDependencyParser.PROPERTIES)
     private Map<String, Object> properties;
-    @YamlElement(ProvidedDependencyParser.PUBLIC)
-    private boolean isPublic;
 
     protected ProvidedDependency() {
 
@@ -44,11 +43,11 @@ public class ProvidedDependency implements VisitableElement, NamedElement, Prope
     public Map<String, Object> getProperties() {
         return MapUtil.unmodifiable(properties);
     }
-    
+
     public boolean isPublic() {
         return isPublic;
     }
-    
+
     public void setName(String name) {
         this.name = name;
     }
@@ -60,12 +59,12 @@ public class ProvidedDependency implements VisitableElement, NamedElement, Prope
     public void setGroups(List<String> groups) {
         throw new UnsupportedOperationException();
     }
-    
+
     @Override
     public void setProperties(Map<String, Object> properties) {
         this.properties = new LinkedHashMap<>(properties);
     }
-    
+
     @Override
     public void accept(ElementContext context, Visitor visitor) {
         visitor.visit(context, this);
@@ -97,15 +96,15 @@ public class ProvidedDependency implements VisitableElement, NamedElement, Prope
         public void setName(String name) {
             this.name = name;
         }
-        
+
         public void setGroups(List<String> groups) {
             throw new UnsupportedOperationException();
         }
-        
+
         public void setProperties(Map<String, Object> properties) {
             this.properties = properties;
         }
-        
+
         public void setPublic(Boolean isPublic) {
             this.isPublic = isPublic;
         }

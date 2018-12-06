@@ -1,13 +1,29 @@
 package com.sap.cloud.lm.sl.mta.handlers.v2;
 
+import java.io.InputStream;
 import java.util.Arrays;
 
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.Parameterized;
 import org.junit.runners.Parameterized.Parameters;
 
+import com.sap.cloud.lm.sl.common.util.Callable;
+import com.sap.cloud.lm.sl.common.util.TestUtil;
 import com.sap.cloud.lm.sl.common.util.TestUtil.Expectation;
+import com.sap.cloud.lm.sl.mta.model.v2.Platform;
 
-public class ConfigurationParserTest extends com.sap.cloud.lm.sl.mta.handlers.v1.ConfigurationParserTest {
+@RunWith(Parameterized.class)
+public class ConfigurationParserTest {
 
+    private final String platformLocation;
+    private InputStream platformInputStream;
+
+    private final Expectation expectation;
+
+    private ConfigurationParser parser;
+    
     @Parameters
     public static Iterable<Object[]> getParameters() {
         return Arrays.asList(new Object[][] {
@@ -29,12 +45,30 @@ public class ConfigurationParserTest extends com.sap.cloud.lm.sl.mta.handlers.v1
     }
 
     public ConfigurationParserTest(String platformsLocation, Expectation expectation) {
-        super(platformsLocation, expectation);
+        this.platformLocation = platformsLocation;
+        this.expectation = expectation;
+    }
+    
+    @Before
+    public void setUp() throws Exception {
+        if (platformLocation != null) {
+            platformInputStream = getClass().getResourceAsStream(platformLocation);
+        }
+        parser = createConfigurationParser();
     }
 
-    @Override
     protected ConfigurationParser createConfigurationParser() {
         return new ConfigurationParser();
+    }
+    
+    @Test
+    public void testParsePlatformsJson() throws Exception {
+        TestUtil.test(new Callable<Platform>() {
+            @Override
+            public Platform call() throws Exception {
+                return parser.parsePlatformJson(platformInputStream);
+            }
+        }, expectation, getClass());
     }
 
 }

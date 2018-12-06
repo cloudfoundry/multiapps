@@ -18,12 +18,12 @@ import com.sap.cloud.lm.sl.mta.util.YamlElement;
 
 public class ExtensionResource implements VisitableElement, NamedElement, PropertiesContainer, ParametersContainer {
 
+    @YamlElement(ExtensionResourceParser.PARAMETERS)
+    private Map<String, Object> parameters;
     @YamlElement(ExtensionResourceParser.NAME)
     private String name;
     @YamlElement(ExtensionResourceParser.PROPERTIES)
     private Map<String, Object> properties;
-    @YamlElement(ExtensionResourceParser.PARAMETERS)
-    private Map<String, Object> parameters;
 
     protected ExtensionResource() {
 

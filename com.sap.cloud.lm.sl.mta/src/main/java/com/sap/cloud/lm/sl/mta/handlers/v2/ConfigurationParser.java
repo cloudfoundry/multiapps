@@ -13,25 +13,30 @@ import com.sap.cloud.lm.sl.mta.schema.SchemaValidator;
 public class ConfigurationParser {
 
     protected final SchemaValidator platformValidator;
-
+    
     public ConfigurationParser() {
         this(new SchemaValidator(Schemas.PLATFORM));
     }
 
-    protected ConfigurationParser(SchemaValidator platformValidator) {
-        this.platformValidator = platformValidator;
+    protected ConfigurationParser(SchemaValidator platformsValidator) {
+        this.platformValidator = platformsValidator;
     }
 
     public Platform parsePlatformJson2(String json) throws ParsingException {
-        return parsePlatform(JsonUtil.convertJsonToMap(json));
+        return (Platform) parsePlatformJson(json);
     }
 
-    public Platform parsePlatformJson2(InputStream json) throws ParsingException {
+    public Platform parsePlatformJson(String json) throws ParsingException {
         return parsePlatform(JsonUtil.convertJsonToMap(json));
     }
     
-    public Platform parsePlatformJson(String json) throws ParsingException {
-        return parsePlatform(JsonUtil.convertJsonToMap(json));
+    private Platform parsePlatform(Map<String, Object> source) {
+        platformValidator.validate(source);
+        return getPlatformParser(source).parse();
+    }
+    
+    public Platform parsePlatformJson2(InputStream json) throws ParsingException {
+        return (Platform) parsePlatformJson(json);
     }
 
     public Platform parsePlatformJson(InputStream json) throws ParsingException {
@@ -41,11 +46,6 @@ public class ConfigurationParser {
         } catch (IOException e) {
             throw new IllegalStateException(e.getMessage(), e);
         }
-    }
-
-    private Platform parsePlatform(Map<String, Object> source) {
-        platformValidator.validate(source);
-        return getPlatformParser(source).parse();
     }
 
     protected PlatformParser getPlatformParser(Map<String, Object> source) {

@@ -10,7 +10,7 @@ import com.sap.cloud.lm.sl.mta.handlers.v2.DescriptorParser;
 import com.sap.cloud.lm.sl.mta.model.v2.DeploymentDescriptor;
 import com.sap.cloud.lm.sl.mta.model.v2.Platform;
 
-public class ParametersChainBuilderTest extends com.sap.cloud.lm.sl.mta.builders.v1.PropertiesChainBuilderTest {
+public class ParametersChainBuilderTest extends PropertiesChainBuilderTest {
 
     @Parameters
     public static Iterable<Object[]> getParameters() {
@@ -50,8 +50,7 @@ public class ParametersChainBuilderTest extends com.sap.cloud.lm.sl.mta.builders
         });
     }
 
-    public ParametersChainBuilderTest(String deploymentDescriptorLocation, String platformLocation,
-        Expectation[] expectations) {
+    public ParametersChainBuilderTest(String deploymentDescriptorLocation, String platformLocation, Expectation[] expectations) {
         super(deploymentDescriptorLocation, platformLocation, expectations);
     }
 
@@ -66,8 +65,7 @@ public class ParametersChainBuilderTest extends com.sap.cloud.lm.sl.mta.builders
     }
 
     @Override
-    protected PropertiesChainBuilder createPropertiesChainBuilder(
-        com.sap.cloud.lm.sl.mta.model.v1.DeploymentDescriptor deploymentDescriptor, com.sap.cloud.lm.sl.mta.model.v1.Platform platform) {
+    protected PropertiesChainBuilder createPropertiesChainBuilder(DeploymentDescriptor deploymentDescriptor, Platform platform) {
         return new ParametersChainBuilder((DeploymentDescriptor) deploymentDescriptor, (Platform) platform);
     }
 

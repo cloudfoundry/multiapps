@@ -1,14 +1,40 @@
 package com.sap.cloud.lm.sl.mta.handlers.v2;
 
 import java.util.Arrays;
+import java.util.List;
 
+import org.junit.Before;
 import org.junit.BeforeClass;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.Parameterized;
 import org.junit.runners.Parameterized.Parameters;
 
+import com.sap.cloud.lm.sl.common.util.Runnable;
+import com.sap.cloud.lm.sl.common.util.TestUtil;
 import com.sap.cloud.lm.sl.common.util.TestUtil.Expectation;
+import com.sap.cloud.lm.sl.mta.MtaTestUtil;
+import com.sap.cloud.lm.sl.mta.model.v2.DeploymentDescriptor;
+import com.sap.cloud.lm.sl.mta.model.v2.ExtensionDescriptor;
+import com.sap.cloud.lm.sl.mta.model.v2.Platform;
 
-public class DescriptorValidatorTest extends com.sap.cloud.lm.sl.mta.handlers.v1.DescriptorValidatorTest {
+@RunWith(Parameterized.class)
+public class DescriptorValidatorTest {
 
+    protected static String platformLocation;
+
+    private final String deploymentDescriptorLocation;
+    private final String[] extensionDescriptorLocations;
+    private final String mergedDescriptorLocation;
+    private final Expectation[] expectations;
+
+    private DeploymentDescriptor deploymentDescriptor;
+    private List<ExtensionDescriptor> extensionDescriptors;
+    private DeploymentDescriptor mergedDescriptor;
+    private Platform platform;
+
+    private DescriptorValidator validator;
+    
     @BeforeClass
     public static void setTargetsInformation() {
         platformLocation = "/mta/sample/v2/platform-01.json";
@@ -159,22 +185,73 @@ public class DescriptorValidatorTest extends com.sap.cloud.lm.sl.mta.handlers.v1
 
     public DescriptorValidatorTest(String deploymentDescriptorLocation, String[] extensionDescriptorLocations,
         String mergedDescriptorLocation, Expectation[] expectations) {
-        super(deploymentDescriptorLocation, extensionDescriptorLocations, mergedDescriptorLocation, expectations);
+        this.deploymentDescriptorLocation = deploymentDescriptorLocation;
+        this.extensionDescriptorLocations = extensionDescriptorLocations;
+        this.mergedDescriptorLocation = mergedDescriptorLocation;
+        this.expectations = expectations;
+    }
+    
+    @Before
+    public void setUp() throws Exception {
+        DescriptorParser descriptorParser = getDescriptorParser();
+        if (deploymentDescriptorLocation != null) {
+            deploymentDescriptor = MtaTestUtil.loadDeploymentDescriptor(deploymentDescriptorLocation, descriptorParser, getClass());
+        }
+        if (extensionDescriptorLocations != null) {
+            extensionDescriptors = MtaTestUtil.loadExtensionDescriptors(extensionDescriptorLocations, descriptorParser, getClass());
+        }
+        if (mergedDescriptorLocation != null) {
+            mergedDescriptor = MtaTestUtil.loadDeploymentDescriptor(mergedDescriptorLocation, descriptorParser, getClass());
+        }
+
+        ConfigurationParser configurationParser = getConfigurationParser();
+
+        platform = MtaTestUtil.loadPlatform(platformLocation, configurationParser, getClass());
+
+        validator = createValidator();
     }
 
-    @Override
     protected DescriptorParser getDescriptorParser() {
         return new DescriptorParser();
     }
 
-    @Override
     protected ConfigurationParser getConfigurationParser() {
         return new ConfigurationParser();
     }
 
-    @Override
     protected DescriptorValidator createValidator() {
         return new DescriptorValidator();
     }
+    
+    @Test
+    public void testValidateDeploymentDescriptor() throws Exception {
+        TestUtil.test(new Runnable() {
+            @Override
+            public void run() throws Exception {
+                validator.validateDeploymentDescriptor(deploymentDescriptor, platform);
+            }
+        }, expectations[0]);
+    }
 
+    @Test
+    public void testValidateExtensionDescriptors() throws Exception {
+        TestUtil.test(new Runnable() {
+            @Override
+            public void run() throws Exception {
+                validator.validateExtensionDescriptors(extensionDescriptors, deploymentDescriptor);
+            }
+        }, expectations[1]);
+
+    }
+
+    @Test
+    public void testValidateMergedDescriptor() throws Exception {
+        TestUtil.test(new Runnable() {
+            @Override
+            public void run() throws Exception {
+                validator.validateMergedDescriptor(mergedDescriptor);
+            }
+        }, expectations[2]);
+    }
+    
 }

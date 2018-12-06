@@ -1,12 +1,32 @@
 package com.sap.cloud.lm.sl.mta.handlers.v2;
 
 import java.util.Arrays;
+import java.util.List;
 
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.Parameterized;
 import org.junit.runners.Parameterized.Parameters;
 
+import com.sap.cloud.lm.sl.common.util.Callable;
+import com.sap.cloud.lm.sl.common.util.TestUtil;
 import com.sap.cloud.lm.sl.common.util.TestUtil.Expectation;
+import com.sap.cloud.lm.sl.mta.MtaTestUtil;
+import com.sap.cloud.lm.sl.mta.model.v2.DeploymentDescriptor;
+import com.sap.cloud.lm.sl.mta.model.v2.ExtensionDescriptor;
 
-public class DescriptorMergerTest extends com.sap.cloud.lm.sl.mta.handlers.v1.DescriptorMergerTest {
+@RunWith(Parameterized.class)
+public class DescriptorMergerTest {
+    
+    private final String deploymentDescriptorLocation;
+    private final String[] extensionDescriptorLocations;
+    private final Expectation expectation;
+
+    private DeploymentDescriptor deploymentDescriptor;
+    private List<ExtensionDescriptor> extensionDescriptors;
+
+    private DescriptorMerger merger;
 
     @Parameters
     public static Iterable<Object[]> getParameters() {
@@ -27,17 +47,40 @@ public class DescriptorMergerTest extends com.sap.cloud.lm.sl.mta.handlers.v1.De
     }
 
     public DescriptorMergerTest(String deploymentDescriptorLocation, String[] extensionDescriptorLocations, Expectation expectation) {
-        super(deploymentDescriptorLocation, extensionDescriptorLocations, expectation);
+        this.deploymentDescriptorLocation = deploymentDescriptorLocation;
+        this.extensionDescriptorLocations = extensionDescriptorLocations;
+        this.expectation = expectation;
     }
 
-    @Override
+    @Before
+    public void setUp() throws Exception {
+        DescriptorParser descriptorParser = getDescriptorParser();
+        if (deploymentDescriptorLocation != null) {
+            deploymentDescriptor = MtaTestUtil.loadDeploymentDescriptor(deploymentDescriptorLocation, descriptorParser, getClass());
+        }
+        if (extensionDescriptorLocations != null) {
+            extensionDescriptors = MtaTestUtil.loadExtensionDescriptors(extensionDescriptorLocations, descriptorParser, getClass());
+        }
+
+        merger = createDescriptorMerger();
+    }
+    
     protected DescriptorMerger createDescriptorMerger() {
         return new DescriptorMerger();
     }
 
-    @Override
     protected DescriptorParser getDescriptorParser() {
         return new DescriptorParser();
+    }
+    
+    @Test
+    public void testMerge() {
+        TestUtil.test(new Callable<DeploymentDescriptor>() {
+            @Override
+            public DeploymentDescriptor call() throws Exception {
+                return merger.merge(deploymentDescriptor, extensionDescriptors);
+            }
+        }, expectation, getClass());
     }
 
 }

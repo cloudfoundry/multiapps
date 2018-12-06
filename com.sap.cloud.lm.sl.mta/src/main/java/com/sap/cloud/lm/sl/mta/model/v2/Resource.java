@@ -19,6 +19,8 @@ import com.sap.cloud.lm.sl.mta.util.YamlElement;
 
 public class Resource implements VisitableElement, NamedElement, PropertiesContainer, ParametersContainer {
 
+    @YamlElement(ResourceParser.PARAMETERS)
+    private Map<String, Object> parameters;
     @YamlElement(ResourceParser.NAME)
     private String name;
     @YamlElement(ResourceParser.TYPE)
@@ -29,8 +31,6 @@ public class Resource implements VisitableElement, NamedElement, PropertiesConta
     private List<String> groups;
     @YamlElement(ResourceParser.PROPERTIES)
     private Map<String, Object> properties;
-    @YamlElement(ResourceParser.PARAMETERS)
-    private Map<String, Object> parameters;
 
     protected Resource() {
 
