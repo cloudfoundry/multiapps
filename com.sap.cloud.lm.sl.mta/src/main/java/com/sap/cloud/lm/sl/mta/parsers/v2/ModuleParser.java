@@ -23,15 +23,15 @@ public class ModuleParser extends ModelParser<Module> {
 
     protected static final String PROCESSED_OBJECT_NAME = "MTA module";
 
+    public static final String PATH = "path";
+    public static final String PARAMETERS = "parameters";
     public static final String NAME = "name";
     public static final String TYPE = "type";
     public static final String DESCRIPTION = "description";
     public static final String PROPERTIES = "properties";
     public static final String REQUIRES = "requires";
     public static final String PROVIDES = "provides";
-    public static final String PATH = "path";
-    public static final String PARAMETERS = "parameters";
-
+    
     protected Set<String> usedProvidedDependencyNames = Collections.emptySet();
     protected final Set<String> usedRequiredDependencyNames = new HashSet<>();
 
@@ -85,16 +85,19 @@ public class ModuleParser extends ModelParser<Module> {
     protected Map<String, Object> getParameters() {
         return getMapElement(PARAMETERS);
     }
-
     protected List<ProvidedDependency> getProvidedDependencies2() {
-        List<ProvidedDependency> providedDependencies = ListUtil.cast(getListElement(PROVIDES, new ListParser<ProvidedDependency>() {
+        List<ProvidedDependency> providedDependencies = ListUtil.cast(getProvidedDependencies());
+        return getAllProvidedDependencies(providedDependencies);
+    }
+    
+    protected List<ProvidedDependency> getProvidedDependencies() {
+        return getListElement(PROVIDES, new ListParser<ProvidedDependency>() {
             @Override
             protected ProvidedDependency parseItem(Map<String, Object> map) {
                 return getProvidedDependencyParser(map).setUsedValues(usedProvidedDependencyNames)
                     .parse();
             }
-        }));
-        return getAllProvidedDependencies(providedDependencies);
+        });
     }
 
     protected ProvidedDependencyParser getProvidedDependencyParser(Map<String, Object> source) {
@@ -139,7 +142,7 @@ public class ModuleParser extends ModelParser<Module> {
     }
 
     protected RequiredDependencyParser getRequiredDependencyParser(Map<String, Object> source) {
-        return new RequiredDependencyParser(source); // v2
+        return new RequiredDependencyParser(source);
     }
 
 }

@@ -122,7 +122,7 @@ public class PropertiesChainBuilderTest {
     protected PropertiesChainBuilder createPropertiesChainBuilder(DeploymentDescriptor deploymentDescriptor, Platform platform) {
         return new PropertiesChainBuilder((DeploymentDescriptor) deploymentDescriptor, (Platform) platform);
     }
-
+    
     @Test
     public void testBuildModuleChain() {
         TestUtil.test(new Callable<List<List<Map<String, Object>>>>() {
@@ -164,7 +164,7 @@ public class PropertiesChainBuilderTest {
             }
         }, expectations[2], getClass());
     }
-    
+
     @Test(expected = UnsupportedOperationException.class)
     public void testBuildResourceTypeChain() {
         for (String resourceName : resourceNames) {
