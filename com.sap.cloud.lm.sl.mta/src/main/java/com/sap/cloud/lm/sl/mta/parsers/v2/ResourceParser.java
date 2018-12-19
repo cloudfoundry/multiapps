@@ -15,12 +15,13 @@ public class ResourceParser extends ModelParser<Resource> {
 
     protected static final String PROCESSED_OBJECT_NAME = "MTA resource";
 
+    public static final String PARAMETERS = "parameters";
     public static final String NAME = "name";
     public static final String TYPE = "type";
     public static final String DESCRIPTION = "description";
     public static final String GROUPS = "groups";
     public static final String PROPERTIES = "properties";
-    public static final String PARAMETERS = "parameters";
+    
 
     public ResourceParser(Map<String, Object> source) {
         this(RESOURCE, source);

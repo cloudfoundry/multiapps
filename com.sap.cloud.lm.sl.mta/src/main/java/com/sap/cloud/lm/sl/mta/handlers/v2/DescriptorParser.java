@@ -35,13 +35,13 @@ public class DescriptorParser {
         }
     }
 
+    public ExtensionDescriptor parseExtensionDescriptorYaml(String yaml) throws ParsingException {
+        return parseExtensionDescriptor(YamlUtil.convertYamlToMap(yaml));
+    }
+
     public ExtensionDescriptor parseExtensionDescriptor(Map<String, Object> map) throws ParsingException {
         mtaextValidator.validate(map);
         return getExtensionDescriptorParser(map).parse();
-    }
-    
-    public ExtensionDescriptor parseExtensionDescriptorYaml(String yaml) throws ParsingException {
-        return parseExtensionDescriptor(YamlUtil.convertYamlToMap(yaml));
     }
 
     protected ExtensionDescriptorParser getExtensionDescriptorParser(Map<String, Object> map) {
@@ -56,14 +56,14 @@ public class DescriptorParser {
             throw new IllegalStateException(e.getMessage(), e);
         }
     }
-    
-    public DeploymentDescriptor parseDeploymentDescriptor(Map<String, Object> map) throws ParsingException {
-        mtadValidator.validate(map);
-        return getDeploymentDescriptorParser(map).parse();
-    }
 
     public DeploymentDescriptor parseDeploymentDescriptorYaml(String yaml) throws ParsingException {
         return parseDeploymentDescriptor(YamlUtil.convertYamlToMap(yaml));
+    }
+
+    public DeploymentDescriptor parseDeploymentDescriptor(Map<String, Object> map) throws ParsingException {
+        mtadValidator.validate(map);
+        return getDeploymentDescriptorParser(map).parse();
     }
 
     protected DeploymentDescriptorParser getDeploymentDescriptorParser(Map<String, Object> map) {

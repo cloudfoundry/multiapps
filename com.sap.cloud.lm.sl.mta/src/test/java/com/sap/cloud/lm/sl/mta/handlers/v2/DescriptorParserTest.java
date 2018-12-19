@@ -39,6 +39,7 @@ public class DescriptorParserTest {
                     new Expectation(Expectation.Type.RESOURCE, "config-01.mtaext.json"),
                 },
             },
+            //TODO
             // (1) Valid deployment and extension descriptors for version 1 of MTA specification:
             {
                 "/mta/sample/v1/mtad-01.yaml", null,

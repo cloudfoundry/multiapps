@@ -25,6 +25,14 @@ public class ExtensionDescriptorMerger extends Visitor {
         this.extensionDescriptor = extensionDescriptor;
         this.handler = handler;
     }
+    
+    @Override
+    public void visit(ElementContext context, Module module) {
+        ExtensionModule extension = handler.findModule(extensionDescriptor, module.getName());
+        if (extension != null) {
+            merge(module, extension);
+        }
+    }
 
     @Override
     public void visit(ElementContext context, DeploymentDescriptor descriptor) {
@@ -44,6 +52,14 @@ public class ExtensionDescriptorMerger extends Visitor {
             merge(requiredDependency, extension);
         }
     }
+    
+    @Override
+    public void visit(ElementContext context, Resource resource) {
+        ExtensionResource extension = handler.findResource(extensionDescriptor, resource.getName());
+        if (extension != null) {
+            merge(resource, extension);
+        }
+    }
 
     protected void merge(RequiredDependency requiredDependency, ExtensionRequiredDependency extension) {
         requiredDependency
@@ -58,8 +74,8 @@ public class ExtensionDescriptorMerger extends Visitor {
     }
 
     public void merge(Module module, ExtensionModule extension) {
-        module.setProperties(mergeProperties(module, extension));
         module.setParameters(PropertiesUtil.mergeExtensionProperties(module.getParameters(), extension.getParameters()));
+        module.setProperties(mergeProperties(module, extension));
     }
 
     protected Map<String, Object> mergeProperties(PropertiesContainer container, PropertiesContainer extensionContainer) {
@@ -67,8 +83,8 @@ public class ExtensionDescriptorMerger extends Visitor {
     }
 
     public void merge(Resource resource, ExtensionResource extension) {
-        resource.setProperties(mergeProperties(resource, extension));
         resource.setParameters(PropertiesUtil.mergeExtensionProperties(resource.getParameters(), extension.getParameters()));
+        resource.setProperties(mergeProperties(resource, extension));
     }
 
 }
