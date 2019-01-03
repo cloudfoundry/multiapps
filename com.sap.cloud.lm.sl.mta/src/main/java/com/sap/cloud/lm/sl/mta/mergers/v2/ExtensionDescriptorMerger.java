@@ -9,9 +9,11 @@ import com.sap.cloud.lm.sl.mta.model.Visitor;
 import com.sap.cloud.lm.sl.mta.model.v2.DeploymentDescriptor;
 import com.sap.cloud.lm.sl.mta.model.v2.ExtensionDescriptor;
 import com.sap.cloud.lm.sl.mta.model.v2.ExtensionModule;
+import com.sap.cloud.lm.sl.mta.model.v2.ExtensionProvidedDependency;
 import com.sap.cloud.lm.sl.mta.model.v2.ExtensionRequiredDependency;
 import com.sap.cloud.lm.sl.mta.model.v2.ExtensionResource;
 import com.sap.cloud.lm.sl.mta.model.v2.Module;
+import com.sap.cloud.lm.sl.mta.model.v2.ProvidedDependency;
 import com.sap.cloud.lm.sl.mta.model.v2.RequiredDependency;
 import com.sap.cloud.lm.sl.mta.model.v2.Resource;
 import com.sap.cloud.lm.sl.mta.util.PropertiesUtil;
@@ -61,6 +63,14 @@ public class ExtensionDescriptorMerger extends Visitor {
         }
     }
 
+    @Override
+    public void visit(ElementContext context, ProvidedDependency providedDependency) {
+        ExtensionProvidedDependency extension = handler.findProvidedDependency(extensionDescriptor, providedDependency.getName());
+        if (extension != null) {
+            merge(providedDependency, extension);
+        }
+    }
+    
     protected void merge(RequiredDependency requiredDependency, ExtensionRequiredDependency extension) {
         requiredDependency
             .setParameters(PropertiesUtil.mergeExtensionProperties(requiredDependency.getParameters(), extension.getParameters()));
@@ -85,6 +95,10 @@ public class ExtensionDescriptorMerger extends Visitor {
     public void merge(Resource resource, ExtensionResource extension) {
         resource.setParameters(PropertiesUtil.mergeExtensionProperties(resource.getParameters(), extension.getParameters()));
         resource.setProperties(mergeProperties(resource, extension));
+    }
+    
+    protected void merge(ProvidedDependency providedDependency, ExtensionProvidedDependency extension) {
+        providedDependency.setProperties(mergeProperties(providedDependency, extension));
     }
 
 }
