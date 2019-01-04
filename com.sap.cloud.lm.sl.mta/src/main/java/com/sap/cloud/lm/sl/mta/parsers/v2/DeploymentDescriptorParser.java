@@ -62,7 +62,7 @@ public class DeploymentDescriptorParser extends ModelParser<DeploymentDescriptor
         return getListElement(MODULES, new ListParser<Module>() {
             @Override
             protected Module parseItem(Map<String, Object> map) {
-                return (Module) getModuleParser(map).setUsedProvidedDependencyNames(usedDependencyNames)
+                return getModuleParser(map).setUsedProvidedDependencyNames(usedDependencyNames)
                     .setUsedValues(usedModuleNames)
                     .parse();
             }
