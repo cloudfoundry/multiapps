@@ -42,6 +42,7 @@ public class PlatformMerger extends Visitor {
         resource.setParameters(MapUtil.merge(resourceType.getParameters(), resource.getParameters()));
     }
 
+    @Override
     public void visit(ElementContext context, com.sap.cloud.lm.sl.mta.model.v2.Module module) {
         ModuleType moduleType = (ModuleType) handler.findModuleType(platform, module.getType());
         if (moduleType == null) {

@@ -1,6 +1,0 @@
-{
-  "name": "HCP-CLASSIC",
-  "parameters": {
-    "org.cf.api": "https://api.sap.cf.com"
-  }
-}
