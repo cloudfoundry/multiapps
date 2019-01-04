@@ -37,7 +37,7 @@ public class ExtensionResource implements VisitableElement, NamedElement, Proper
     public Map<String, Object> getProperties() {
         return MapUtil.unmodifiable(properties);
     }
-    
+
     @Override
     public Map<String, Object> getParameters() {
         return MapUtil.unmodifiable(parameters);
@@ -55,7 +55,7 @@ public class ExtensionResource implements VisitableElement, NamedElement, Proper
     public void setParameters(Map<String, Object> parameters) {
         this.parameters = new LinkedHashMap<>(parameters);
     }
-    
+
     @Override
     public void accept(ElementContext context, Visitor visitor) {
         visitor.visit(context, this);
@@ -88,5 +88,5 @@ public class ExtensionResource implements VisitableElement, NamedElement, Proper
         }
 
     }
-    
+
 }
