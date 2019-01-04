@@ -124,7 +124,7 @@ public class ExtensionDescriptorValidator extends Visitor {
     }
 
     protected RequiredDependency findRequiredDependency(String containerName, ExtensionRequiredDependency extensionRequiredDependency) {
-        return ((DescriptorHandler) handler).findRequiredDependency((DeploymentDescriptor) deploymentDescriptor, containerName,
+        return handler.findRequiredDependency(deploymentDescriptor, containerName,
             extensionRequiredDependency.getName());
     }
     

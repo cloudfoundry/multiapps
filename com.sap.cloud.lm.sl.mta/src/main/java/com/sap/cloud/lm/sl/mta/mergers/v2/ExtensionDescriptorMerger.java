@@ -27,7 +27,7 @@ public class ExtensionDescriptorMerger extends Visitor {
         this.extensionDescriptor = extensionDescriptor;
         this.handler = handler;
     }
-    
+
     @Override
     public void visit(ElementContext context, Module module) {
         ExtensionModule extension = handler.findModule(extensionDescriptor, module.getName());
@@ -48,13 +48,13 @@ public class ExtensionDescriptorMerger extends Visitor {
     public void visit(ElementContext context, RequiredDependency requiredDependency) {
         String containerName = context.getPreviousElementContext()
             .getVisitableElementName();
-        ExtensionRequiredDependency extension = ((DescriptorHandler) handler)
-            .findRequiredDependency((ExtensionDescriptor) extensionDescriptor, containerName, requiredDependency.getName());
+        ExtensionRequiredDependency extension = handler.findRequiredDependency(extensionDescriptor, containerName,
+            requiredDependency.getName());
         if (extension != null) {
             merge(requiredDependency, extension);
         }
     }
-    
+
     @Override
     public void visit(ElementContext context, Resource resource) {
         ExtensionResource extension = handler.findResource(extensionDescriptor, resource.getName());
@@ -70,14 +70,14 @@ public class ExtensionDescriptorMerger extends Visitor {
             merge(providedDependency, extension);
         }
     }
-    
+
     protected void merge(RequiredDependency requiredDependency, ExtensionRequiredDependency extension) {
         requiredDependency
             .setParameters(PropertiesUtil.mergeExtensionProperties(requiredDependency.getParameters(), extension.getParameters()));
         requiredDependency
             .setProperties(PropertiesUtil.mergeExtensionProperties(requiredDependency.getProperties(), extension.getProperties()));
     }
-    
+
     public DeploymentDescriptor merge(DeploymentDescriptor descriptor) {
         descriptor.accept(this);
         return descriptor;
@@ -96,7 +96,7 @@ public class ExtensionDescriptorMerger extends Visitor {
         resource.setParameters(PropertiesUtil.mergeExtensionProperties(resource.getParameters(), extension.getParameters()));
         resource.setProperties(mergeProperties(resource, extension));
     }
-    
+
     protected void merge(ProvidedDependency providedDependency, ExtensionProvidedDependency extension) {
         providedDependency.setProperties(mergeProperties(providedDependency, extension));
     }
