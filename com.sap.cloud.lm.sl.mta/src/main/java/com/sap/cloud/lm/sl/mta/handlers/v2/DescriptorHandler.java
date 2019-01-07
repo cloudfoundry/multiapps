@@ -62,7 +62,7 @@ public class DescriptorHandler {
         return new ModulesSorter(descriptor, this, dependencyTypeProperty, hardDependencyType);
     }
     
-    public ResourceType findResourceType(Platform platform, String resourceTypeName) {
+    public ResourceType findPlatformResourceType(Platform platform, String resourceTypeName) {
         for (ResourceType resourceType : platform.getResourceTypes2()) {
             if (resourceType.getName()
                 .equals(resourceTypeName)) {
@@ -72,7 +72,7 @@ public class DescriptorHandler {
         return null;
     }
 
-    public ModuleType findModuleType(Platform platform, String moduleTypeName) {
+    public ModuleType findPlatformModuleType(Platform platform, String moduleTypeName) {
         for (ModuleType moduleType : platform.getModuleTypes2()) {
             if (moduleType.getName()
                 .equals(moduleTypeName)) {
