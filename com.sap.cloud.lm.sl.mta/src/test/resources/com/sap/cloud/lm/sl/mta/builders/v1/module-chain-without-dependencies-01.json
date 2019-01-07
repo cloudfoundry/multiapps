@@ -1,0 +1,24 @@
+[
+  [
+    {
+      "foo-test-1": "foo-test-1-value",
+      "foo-test-2": "foo-test-2-value"
+    },
+    {
+      "foo-test-5": "foo-test-5-value"
+    }
+  ],
+  [
+    {
+      "bar-test-3": "bar-test-3-value"
+    },
+    {}
+  ],
+  [
+    {},
+    {
+      "baz-test-5": "baz-test-5-value",
+      "baz-test-6": "baz-test-6-value"
+    }
+  ]
+]

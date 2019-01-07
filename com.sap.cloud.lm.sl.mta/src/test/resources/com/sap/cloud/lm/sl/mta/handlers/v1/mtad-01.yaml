@@ -1,0 +1,26 @@
+_schema-version: 1.0.0
+ID: com.sap.mta.test
+version: 1.0.0
+
+modules:
+  - name: foo
+    type: foo
+    requires: [bar, baz]
+    provides:
+      - name: foo
+
+  - name: bar
+    type: bar
+    provides:
+      - name: bar
+
+  - name: baz
+    type: baz
+    requires: [foo]
+    provides:
+      - name: baz
+
+  - name: qux
+    type: qux
+    provides:
+      - name: qux

@@ -75,6 +75,7 @@ public class ParametersChainBuilderTest extends PropertiesChainBuilderTest {
         return new ParametersChainBuilder((DeploymentDescriptor) deploymentDescriptor, (Platform) platform);
     }
     
+    @Override
     @Test
     public void testBuildResourceTypeChain() {
         TestUtil.test(new Callable<List<List<Map<String, Object>>>>() {

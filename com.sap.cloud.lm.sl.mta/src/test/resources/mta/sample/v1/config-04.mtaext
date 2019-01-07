@@ -1,0 +1,8 @@
+_schema-version: 1.0.0
+ID: com.sap.mta.sample.config-04
+extends: com.sap.mta.sample
+
+target-platforms: [CF-QUAL]
+
+resources:
+  - name: internal-odata-servicex

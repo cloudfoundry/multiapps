@@ -1,0 +1,32 @@
+_schema-version: 1.0.0
+ID: com.sap.mta.test
+version: 1.0.0
+
+modules:
+  - name: db
+    type: com.sap.xs.hdi
+    provides:
+      - name: db
+
+  - name: service
+    type: javascript.nodejs
+    requires: [db]
+    provides:
+      - name: service
+
+  - name: broker
+    type: javascript.nodejs
+    requires: [db, service, dashboard]
+    provides:
+      - name: broker
+
+  - name: backend
+    type: javascript.nodejs
+    provides:
+      - name: backend
+
+  - name: dashboard
+    type: javascript.nodejs
+    requires: [db, service, backend]
+    provides:
+      - name: dashboard
