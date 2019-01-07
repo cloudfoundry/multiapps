@@ -27,19 +27,19 @@ public class Platform implements VisitableElement, NamedElement, PropertiesConta
     protected Platform() {
 
     }
-
+    
     public String getName() {
         return name;
     }
-
+    
     public void setName(String name) {
         this.name = name;
     }
-
+    
     public String getDescription() {
         return description;
     }
-
+    
     public void setDescription(String description) {
         this.description = description;
     }
@@ -95,7 +95,7 @@ public class Platform implements VisitableElement, NamedElement, PropertiesConta
     public void setParameters(Map<String, Object> parameters) {
         this.parameters = new LinkedHashMap<>(parameters);
     }
-
+    
     public void accept(Visitor visitor) {
         accept(new ElementContext(this, null), visitor);
     }
@@ -127,14 +127,6 @@ public class Platform implements VisitableElement, NamedElement, PropertiesConta
             result.setParameters(ObjectUtils.defaultIfNull(parameters, Collections.<String, Object> emptyMap()));
             result.setResourceTypes2(ObjectUtils.defaultIfNull(resourceTypes2, Collections.<ResourceType> emptyList()));
             return result;
-        }
-
-        public void setName(String name) {
-            this.name = name;
-        }
-
-        public void setDescription(String description) {
-            this.description = description;
         }
 
         public void setModuleTypes2(List<ModuleType> moduleTypes) {
