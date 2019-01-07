@@ -2,7 +2,6 @@ package com.sap.cloud.lm.sl.mta.parsers.v2;
 
 import static com.sap.cloud.lm.sl.mta.handlers.v2.Schemas.MODULE;
 
-import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -12,40 +11,25 @@ import java.util.TreeMap;
 import com.sap.cloud.lm.sl.common.ParsingException;
 import com.sap.cloud.lm.sl.common.util.ListUtil;
 import com.sap.cloud.lm.sl.mta.model.v2.Module;
-import com.sap.cloud.lm.sl.mta.model.v2.Module.Builder;
 import com.sap.cloud.lm.sl.mta.model.v2.ProvidedDependency;
 import com.sap.cloud.lm.sl.mta.model.v2.RequiredDependency;
+import com.sap.cloud.lm.sl.mta.model.v2.Module.Builder;
 import com.sap.cloud.lm.sl.mta.parsers.ListParser;
-import com.sap.cloud.lm.sl.mta.parsers.ModelParser;
 import com.sap.cloud.lm.sl.mta.schema.MapElement;
 
-public class ModuleParser extends ModelParser<Module> {
+public class ModuleParser extends com.sap.cloud.lm.sl.mta.parsers.v1.ModuleParser {
 
-    protected static final String PROCESSED_OBJECT_NAME = "MTA module";
-
-    public static final String NAME = "name";
-    public static final String TYPE = "type";
-    public static final String DESCRIPTION = "description";
-    public static final String PROPERTIES = "properties";
-    public static final String REQUIRES = "requires";
-    public static final String PROVIDES = "provides";
     public static final String PATH = "path";
     public static final String PARAMETERS = "parameters";
 
-    protected Set<String> usedProvidedDependencyNames = Collections.emptySet();
     protected final Set<String> usedRequiredDependencyNames = new HashSet<>();
 
     public ModuleParser(Map<String, Object> source) {
-        this(MODULE, source);
+        super(MODULE, source);
     }
 
     protected ModuleParser(MapElement schema, Map<String, Object> source) {
-        super(PROCESSED_OBJECT_NAME, schema, source);
-    }
-
-    public ModuleParser setUsedProvidedDependencyNames(Set<String> usedProvidedDependencyNames) {
-        this.usedProvidedDependencyNames = usedProvidedDependencyNames;
-        return this;
+        super(schema, source);
     }
 
     @Override
@@ -62,22 +46,6 @@ public class ModuleParser extends ModelParser<Module> {
         return builder.build();
     }
 
-    protected String getName() {
-        return getStringElement(NAME);
-    }
-
-    protected String getType() {
-        return getStringElement(TYPE);
-    }
-
-    protected String getDescription() {
-        return getStringElement(DESCRIPTION);
-    }
-
-    protected Map<String, Object> getProperties() {
-        return getMapElement(PROPERTIES);
-    }
-
     protected String getPath() {
         return getStringElement(PATH);
     }
@@ -87,16 +55,11 @@ public class ModuleParser extends ModelParser<Module> {
     }
 
     protected List<ProvidedDependency> getProvidedDependencies2() {
-        List<ProvidedDependency> providedDependencies = ListUtil.cast(getListElement(PROVIDES, new ListParser<ProvidedDependency>() {
-            @Override
-            protected ProvidedDependency parseItem(Map<String, Object> map) {
-                return getProvidedDependencyParser(map).setUsedValues(usedProvidedDependencyNames)
-                    .parse();
-            }
-        }));
+        List<ProvidedDependency> providedDependencies = ListUtil.cast(getProvidedDependencies1());
         return getAllProvidedDependencies(providedDependencies);
     }
 
+    @Override
     protected ProvidedDependencyParser getProvidedDependencyParser(Map<String, Object> source) {
         return new ProvidedDependencyParser(source); // v2
     }
@@ -124,7 +87,7 @@ public class ModuleParser extends ModelParser<Module> {
     protected ProvidedDependency getCurrentModuleAsProvidedDependency() {
         Map<String, Object> currentModule = new TreeMap<>();
         currentModule.put(NAME, getName());
-        return getProvidedDependencyParser(currentModule).setUsedValues(usedProvidedDependencyNames)
+        return (ProvidedDependency) getProvidedDependencyParser(currentModule).setUsedValues(usedProvidedDependencyNames)
             .parse();
     }
 
