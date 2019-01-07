@@ -105,10 +105,6 @@ public class DeploymentDescriptor implements Descriptor, VisitableElement, Prope
         this.parameters = new LinkedHashMap<>(parameters);
     }
     
-    public void accept(Visitor visitor) {
-        accept(new ElementContext(this, null), visitor);
-    }
-    
     @Override
     public void accept(ElementContext context, Visitor visitor) {
         visitor.visit(context, this);
