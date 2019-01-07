@@ -43,7 +43,7 @@ public class DeploymentDescriptorParser extends com.sap.cloud.lm.sl.mta.parsers.
     }
 
     protected List<Resource> getResources3() {
-        return ListUtil.cast(getResources());
+        return ListUtil.cast(getResources2());
     }
 
     @Override
@@ -52,7 +52,7 @@ public class DeploymentDescriptorParser extends com.sap.cloud.lm.sl.mta.parsers.
     }
 
     protected List<Module> getModules3() {
-        return ListUtil.cast(getModules());
+        return ListUtil.cast(getModules2());
     }
 
     @Override
