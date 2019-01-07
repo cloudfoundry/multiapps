@@ -21,7 +21,7 @@ public class Platform extends com.sap.cloud.lm.sl.mta.model.v2.Platform {
     }
 
     @Override
-    protected void setResourceTypes(List<? extends com.sap.cloud.lm.sl.mta.model.v2.ResourceType> resourceTypes) {
+    protected void setResourceTypes(List<? extends com.sap.cloud.lm.sl.mta.model.v1.ResourceType> resourceTypes) {
         this.resourceTypes3 = ListUtil.cast(resourceTypes);
     }
 
@@ -39,7 +39,7 @@ public class Platform extends com.sap.cloud.lm.sl.mta.model.v2.Platform {
     }
 
     @Override
-    protected void setModuleTypes(List<? extends com.sap.cloud.lm.sl.mta.model.v2.ModuleType> moduleTypes) {
+    protected void setModuleTypes(List<? extends com.sap.cloud.lm.sl.mta.model.v1.ModuleType> moduleTypes) {
         this.moduleTypes3 = ListUtil.cast(moduleTypes);
     }
 
@@ -73,7 +73,7 @@ public class Platform extends com.sap.cloud.lm.sl.mta.model.v2.Platform {
         }
 
         @Override
-        protected void setModuleTypes(List<? extends com.sap.cloud.lm.sl.mta.model.v2.ModuleType> moduleTypes) {
+        protected void setModuleTypes(List<? extends com.sap.cloud.lm.sl.mta.model.v1.ModuleType> moduleTypes) {
             this.moduleTypes3 = ListUtil.cast(moduleTypes);
         }
 
@@ -82,7 +82,7 @@ public class Platform extends com.sap.cloud.lm.sl.mta.model.v2.Platform {
         }
 
         @Override
-        protected void setResourceTypes(List<? extends com.sap.cloud.lm.sl.mta.model.v2.ResourceType> resourceTypes) {
+        protected void setResourceTypes(List<? extends com.sap.cloud.lm.sl.mta.model.v1.ResourceType> resourceTypes) {
             this.resourceTypes3 = ListUtil.cast(resourceTypes);
         }
 
