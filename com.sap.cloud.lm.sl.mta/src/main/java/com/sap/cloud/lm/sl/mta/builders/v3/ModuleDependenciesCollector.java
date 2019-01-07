@@ -8,8 +8,8 @@ import java.util.stream.Collectors;
 
 import org.apache.commons.collections4.ListUtils;
 
-import com.sap.cloud.lm.sl.mta.model.v2.DeploymentDescriptor;
-import com.sap.cloud.lm.sl.mta.model.v2.Module;
+import com.sap.cloud.lm.sl.mta.model.v1.DeploymentDescriptor;
+import com.sap.cloud.lm.sl.mta.model.v1.Module;
 
 public class ModuleDependenciesCollector extends com.sap.cloud.lm.sl.mta.builders.v2.ModuleDependenciesCollector {
 
@@ -35,7 +35,7 @@ public class ModuleDependenciesCollector extends com.sap.cloud.lm.sl.mta.builder
 
     @Override
     protected Module findModuleSatisfyingDependency(String dependency) {
-        return descriptor.getModules()
+        return descriptor.getModules1()
             .stream()
             .filter(module -> module.getName()
                 .equals(dependency))
