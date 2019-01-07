@@ -1,30 +1,15 @@
 package com.sap.cloud.lm.sl.mta.model.v2;
 
 import java.util.Collections;
-import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.apache.commons.lang3.ObjectUtils;
 
-import com.sap.cloud.lm.sl.common.util.ListUtil;
-import com.sap.cloud.lm.sl.common.util.MapUtil;
-import com.sap.cloud.lm.sl.mta.model.ElementContext;
-import com.sap.cloud.lm.sl.mta.model.NamedElement;
-import com.sap.cloud.lm.sl.mta.model.PropertiesContainer;
-import com.sap.cloud.lm.sl.mta.model.VisitableElement;
-import com.sap.cloud.lm.sl.mta.model.Visitor;
 import com.sap.cloud.lm.sl.mta.parsers.v2.ProvidedDependencyParser;
 import com.sap.cloud.lm.sl.mta.util.YamlElement;
 
-public class ProvidedDependency implements VisitableElement, NamedElement, PropertiesContainer {
+public class ProvidedDependency extends com.sap.cloud.lm.sl.mta.model.v1.ProvidedDependency {
 
-    @YamlElement(ProvidedDependencyParser.NAME)
-    private String name;
-    @YamlElement(ProvidedDependencyParser.GROUPS)
-    private List<String> groups;
-    @YamlElement(ProvidedDependencyParser.PROPERTIES)
-    private Map<String, Object> properties;
     @YamlElement(ProvidedDependencyParser.PUBLIC)
     private boolean isPublic;
 
@@ -32,45 +17,25 @@ public class ProvidedDependency implements VisitableElement, NamedElement, Prope
 
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public List<String> getGroups() {
-        throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public Map<String, Object> getProperties() {
-        return MapUtil.unmodifiable(properties);
-    }
-    
     public boolean isPublic() {
         return isPublic;
-    }
-    
-    public void setName(String name) {
-        this.name = name;
     }
 
     public void setPublic(boolean isPublic) {
         this.isPublic = isPublic;
     }
 
+    @Override
+    public List<String> getGroups() {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
     public void setGroups(List<String> groups) {
         throw new UnsupportedOperationException();
     }
-    
-    @Override
-    public void setProperties(Map<String, Object> properties) {
-        this.properties = new LinkedHashMap<>(properties);
-    }
-    
-    @Override
-    public void accept(ElementContext context, Visitor visitor) {
-        visitor.visit(context, this);
-    }
 
+    @Override
     public ProvidedDependency copyOf() {
         Builder result = new Builder();
         result.setName(getName());
@@ -79,13 +44,11 @@ public class ProvidedDependency implements VisitableElement, NamedElement, Prope
         return result.build();
     }
 
-    public static class Builder {
+    public static class Builder extends com.sap.cloud.lm.sl.mta.model.v1.ProvidedDependency.Builder {
 
-        protected String name;
-        protected List<String> groups;
-        protected Map<String, Object> properties;
         protected Boolean isPublic;
 
+        @Override
         public ProvidedDependency build() {
             ProvidedDependency result = new ProvidedDependency();
             result.setName(name);
@@ -94,20 +57,13 @@ public class ProvidedDependency implements VisitableElement, NamedElement, Prope
             return result;
         }
 
-        public void setName(String name) {
-            this.name = name;
-        }
-        
-        public void setGroups(List<String> groups) {
-            throw new UnsupportedOperationException();
-        }
-        
-        public void setProperties(Map<String, Object> properties) {
-            this.properties = properties;
-        }
-        
         public void setPublic(Boolean isPublic) {
             this.isPublic = isPublic;
+        }
+
+        @Override
+        public void setGroups(List<String> groups) {
+            throw new UnsupportedOperationException();
         }
 
     }
