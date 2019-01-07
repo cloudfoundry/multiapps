@@ -91,7 +91,7 @@ public class Module extends com.sap.cloud.lm.sl.mta.model.v2.Module
     }
 
     @Override
-    protected void setProvidedDependencies(List<? extends com.sap.cloud.lm.sl.mta.model.v2.ProvidedDependency> providedDependencies) {
+    protected void setProvidedDependencies(List<? extends om.sap.cloud.lm.sl.mta.model.v2.ProvidedDependency> providedDependencies) {
         this.providedDependencies3 = ListUtil.cast(providedDependencies);
     }
 

@@ -20,16 +20,16 @@ import com.sap.cloud.lm.sl.mta.util.YamlElement;
 
 public class ExtensionModule implements VisitableElement, NamedElement, PropertiesContainer, ParametersContainer {
 
+    @YamlElement(ExtensionModuleParser.NAME)
+    private String name;
+    @YamlElement(ExtensionModuleParser.PROPERTIES)
+    private Map<String, Object> properties;
     @YamlElement(ExtensionModuleParser.PARAMETERS)
     private Map<String, Object> parameters;
     @YamlElement(ExtensionModuleParser.REQUIRES)
     private List<ExtensionRequiredDependency> requiredDependencies2;
     @YamlElement(ExtensionModuleParser.PROVIDES)
     private List<ExtensionProvidedDependency> providedDependencies2;
-    @YamlElement(ExtensionModuleParser.NAME)
-    private String name;
-    @YamlElement(ExtensionModuleParser.PROPERTIES)
-    private Map<String, Object> properties;
 
     protected ExtensionModule() {
 
