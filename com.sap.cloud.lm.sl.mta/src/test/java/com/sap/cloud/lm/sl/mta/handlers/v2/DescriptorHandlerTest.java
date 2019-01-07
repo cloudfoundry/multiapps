@@ -1,39 +1,20 @@
 package com.sap.cloud.lm.sl.mta.handlers.v2;
 
 import java.util.Arrays;
-import java.util.LinkedList;
-import java.util.List;
 
-import org.junit.Test;
-import org.junit.experimental.runners.Enclosed;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import org.junit.runners.Parameterized.Parameters;
 
-import com.sap.cloud.lm.sl.common.util.Callable;
-import com.sap.cloud.lm.sl.common.util.TestUtil;
 import com.sap.cloud.lm.sl.common.util.TestUtil.Expectation;
-import com.sap.cloud.lm.sl.mta.model.v2.DeploymentDescriptor;
-import com.sap.cloud.lm.sl.mta.model.v2.Module;
 
-@RunWith(Enclosed.class)
-public class DescriptorHandlerTest {
+public class DescriptorHandlerTest extends com.sap.cloud.lm.sl.mta.handlers.v1.DescriptorHandlerTest {
 
     @RunWith(Parameterized.class)
-    public static class DeployOrderTest {
-        
-        public static final String PARALLEL_DEPLOYMENTS_PROP = "parallel-deployments";
-        public static final String DEPENDENCY_TYPE_PROP = "dependency-type";
-        public static final String DEPENDENCY_TYPE_HARD = "hard";
+    public static class DeployOrderTest extends com.sap.cloud.lm.sl.mta.handlers.v1.DescriptorHandlerTest.DeployOrderTest {
 
-        protected final DescriptorHandler handler = getDescriptorHandler();
-
-        protected String descriptorLocation;
-        protected Expectation expectation;
-        
         public DeployOrderTest(String descriptorLocation, Expectation expectation) {
-            this.descriptorLocation = descriptorLocation;
-            this.expectation = expectation;
+            super(descriptorLocation, expectation);
         }
 
         protected DescriptorHandler getDescriptorHandler() {
@@ -104,29 +85,7 @@ public class DescriptorHandlerTest {
             });
         }
 
-        @Test
-        public void testGetSortedModules() throws Exception {
-            final DeploymentDescriptor descriptor = getDescriptorParser()
-                .parseDeploymentDescriptorYaml(TestUtil.getResourceAsString(descriptorLocation, getClass()));
-
-            TestUtil.test(new Callable<String>() {
-
-                @Override
-                public String call() throws Exception {
-                    return Arrays.toString(getNames(handler.getModulesForDeployment(descriptor, PARALLEL_DEPLOYMENTS_PROP, DEPENDENCY_TYPE_PROP, DEPENDENCY_TYPE_HARD)));
-                }
-
-                private String[] getNames(List<? extends Module> modulles) {
-                    List<String> names = new LinkedList<>();
-                    for (Module module : modulles) {
-                        names.add(module.getName());
-                    }
-                    return names.toArray(new String[0]);
-                }
-
-            }, expectation, getClass());
-        }
-        
+        @Override
         protected DescriptorParser getDescriptorParser() {
             return new DescriptorParser();
         }

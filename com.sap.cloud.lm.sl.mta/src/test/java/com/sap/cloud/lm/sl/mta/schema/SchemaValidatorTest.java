@@ -12,7 +12,7 @@ import com.sap.cloud.lm.sl.common.util.Runnable;
 import com.sap.cloud.lm.sl.common.util.TestUtil;
 import com.sap.cloud.lm.sl.common.util.TestUtil.Expectation;
 import com.sap.cloud.lm.sl.mta.MtaTestUtil;
-import com.sap.cloud.lm.sl.mta.handlers.v2.Schemas;
+import com.sap.cloud.lm.sl.mta.handlers.v1.Schemas;
 
 @RunWith(value = Parameterized.class)
 public class SchemaValidatorTest {

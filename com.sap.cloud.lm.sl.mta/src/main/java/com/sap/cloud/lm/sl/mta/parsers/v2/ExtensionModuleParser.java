@@ -72,11 +72,6 @@ public class ExtensionModuleParser extends ModelParser<ExtensionModule> {
         });
     }
 
-    public ExtensionModuleParser setUsedProvidedDependencyNames(Set<String> usedProvidedDependencyNames) {
-        this.usedProvidedDependencyNames = usedProvidedDependencyNames;
-        return this;
-    }
-    
     protected List<ExtensionProvidedDependency> getExtensionProvidedDependencies2() {
         return ListUtil.cast(getExtensionProvidedDependencies());
     }
