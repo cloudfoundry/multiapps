@@ -8,7 +8,7 @@ import java.util.Comparator;
 import java.util.List;
 
 import com.sap.cloud.lm.sl.mta.builders.v2.ModuleDependenciesCollector;
-import com.sap.cloud.lm.sl.mta.model.v2.Module;
+import com.sap.cloud.lm.sl.mta.model.v1.Module;
 import com.sap.cloud.lm.sl.mta.model.v3.DeploymentDescriptor;
 
 public class ModulesSorter extends com.sap.cloud.lm.sl.mta.handlers.v2.ModulesSorter {
