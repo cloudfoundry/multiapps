@@ -1,7 +1,5 @@
 package com.sap.cloud.lm.sl.mta.handlers.v2;
 
-import java.util.List;
-
 import com.sap.cloud.lm.sl.common.util.Pair;
 import com.sap.cloud.lm.sl.mta.model.v2.DeploymentDescriptor;
 import com.sap.cloud.lm.sl.mta.model.v2.ExtensionDescriptor;
@@ -10,12 +8,12 @@ import com.sap.cloud.lm.sl.mta.model.v2.ExtensionProvidedDependency;
 import com.sap.cloud.lm.sl.mta.model.v2.ExtensionRequiredDependency;
 import com.sap.cloud.lm.sl.mta.model.v2.ExtensionResource;
 import com.sap.cloud.lm.sl.mta.model.v2.Module;
-import com.sap.cloud.lm.sl.mta.model.v2.ModuleType;
 import com.sap.cloud.lm.sl.mta.model.v2.Platform;
+import com.sap.cloud.lm.sl.mta.model.v2.ModuleType;
+import com.sap.cloud.lm.sl.mta.model.v2.ResourceType;
 import com.sap.cloud.lm.sl.mta.model.v2.ProvidedDependency;
 import com.sap.cloud.lm.sl.mta.model.v2.RequiredDependency;
 import com.sap.cloud.lm.sl.mta.model.v2.Resource;
-import com.sap.cloud.lm.sl.mta.model.v2.ResourceType;
 
 public class DescriptorHandler {
 
@@ -59,11 +57,11 @@ public class DescriptorHandler {
         return null;
     }
 
-    protected ModulesSorter getModuleSorter(DeploymentDescriptor descriptor, String parallelDeploymentProperty,
-        String dependencyTypeProperty, String hardDependencyType) {
+    protected com.sap.cloud.lm.sl.mta.handlers.ModulesSorter getModuleSorter(DeploymentDescriptor descriptor,
+        String parallelDeploymentProperty, String dependencyTypeProperty, String hardDependencyType) {
         return new ModulesSorter(descriptor, this, dependencyTypeProperty, hardDependencyType);
     }
-
+    
     public ResourceType findResourceType(Platform platform, String resourceTypeName) {
         for (ResourceType resourceType : platform.getResourceTypes2()) {
             if (resourceType.getName()
@@ -174,12 +172,6 @@ public class DescriptorHandler {
             }
         }
         return null;
-    }
-
-    public List<? extends Module> getModulesForDeployment(DeploymentDescriptor descriptor, String parallelDeploymentProperty,
-        String dependencyTypeProperty, String hardDependencyType) {
-        ModulesSorter moduleSorter = getModuleSorter(descriptor, parallelDeploymentProperty, dependencyTypeProperty, hardDependencyType);
-        return moduleSorter.sort();
     }
 
 }

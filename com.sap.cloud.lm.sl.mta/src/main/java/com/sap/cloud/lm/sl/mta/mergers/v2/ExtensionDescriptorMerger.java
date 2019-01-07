@@ -51,11 +51,6 @@ public class ExtensionDescriptorMerger extends Visitor {
         requiredDependency
             .setProperties(PropertiesUtil.mergeExtensionProperties(requiredDependency.getProperties(), extension.getProperties()));
     }
-    
-    public DeploymentDescriptor merge(DeploymentDescriptor descriptor) {
-        descriptor.accept(this);
-        return descriptor;
-    }
 
     public void merge(Module module, ExtensionModule extension) {
         module.setProperties(mergeProperties(module, extension));

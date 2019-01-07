@@ -29,10 +29,6 @@ public class ConfigurationParser {
     public Platform parsePlatformJson2(InputStream json) throws ParsingException {
         return parsePlatform(JsonUtil.convertJsonToMap(json));
     }
-    
-    public Platform parsePlatformJson(String json) throws ParsingException {
-        return parsePlatform(JsonUtil.convertJsonToMap(json));
-    }
 
     public Platform parsePlatformJson(InputStream json) throws ParsingException {
         // TODO: Java 9 - Remove the second variable (https://blogs.oracle.com/darcy/more-concise-try-with-resources-statements-in-jdk-9).
