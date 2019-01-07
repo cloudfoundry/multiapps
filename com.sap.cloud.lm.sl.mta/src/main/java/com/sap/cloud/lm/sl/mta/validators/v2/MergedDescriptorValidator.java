@@ -33,24 +33,20 @@ public class MergedDescriptorValidator extends Visitor {
         validationRules.postValidate();
     }
 
-    @Override
     public void visit(ElementContext context, DeploymentDescriptor descriptor) throws ContentException {
         validationRules.validateParameters((DeploymentDescriptor) descriptor, context);
     }
 
-    @Override
     public void visit(ElementContext context, Module module) throws ContentException {
         validationRules.validateProperties(module, context);
         validationRules.validateParameters((Module) module, context);
     }
 
-    @Override
     public void visit(ElementContext context, Resource resource) throws ContentException {
         validationRules.validateProperties(resource, context);
         validationRules.validateParameters(resource, context);
     }
 
-    @Override
     public void visit(ElementContext context, RequiredDependency requiredDependency) throws ContentException {
         validationRules.validateProperties(requiredDependency, context);
         validationRules.validateParameters(requiredDependency, context);

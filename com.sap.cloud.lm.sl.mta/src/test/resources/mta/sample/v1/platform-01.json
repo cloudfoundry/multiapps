@@ -1,6 +1,6 @@
 {
   "name": "CLOUD-FOUNDRY",
-  "parameters": {
+  "properties": {
     "org.cf.api": "https://api.sap.cf.com"
   },
   "module-types": [
@@ -20,7 +20,7 @@
   "resource-types": [
     {
       "name": "com.sap.hana.hdi-container",
-      "parameters": {
+      "properties": {
         "service": "hdi-hana",
         "service-plan": "hdi-shared"
       }

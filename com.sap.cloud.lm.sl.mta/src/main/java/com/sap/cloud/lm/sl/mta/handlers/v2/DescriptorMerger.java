@@ -19,7 +19,7 @@ public class DescriptorMerger {
     }
 
     public ExtensionDescriptorMerger getExtensionDescriptorMerger(ExtensionDescriptor extension) {
-        return new ExtensionDescriptorMerger(extension, handler);
+        return new ExtensionDescriptorMerger((ExtensionDescriptor) extension, (DescriptorHandler) handler);
     }
 
     public DeploymentDescriptor merge(DeploymentDescriptor deploymentDescriptor, List<ExtensionDescriptor> extensionDescriptorsChain) {

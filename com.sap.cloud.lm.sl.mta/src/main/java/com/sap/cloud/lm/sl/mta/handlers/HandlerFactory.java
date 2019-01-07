@@ -35,7 +35,6 @@ public class HandlerFactory implements HandlerConstructor {
 
     protected void initDelegates() {
         switch (majorVersion) {
-            case 1:
             case 2:
                 initV2Delegates();
                 break;

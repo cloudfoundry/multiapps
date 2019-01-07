@@ -8,11 +8,10 @@ import java.util.Map;
 import java.util.Set;
 
 import com.sap.cloud.lm.sl.common.ParsingException;
-import com.sap.cloud.lm.sl.common.util.ListUtil;
-import com.sap.cloud.lm.sl.mta.model.v2.ModuleType;
 import com.sap.cloud.lm.sl.mta.model.v2.Platform;
-import com.sap.cloud.lm.sl.mta.model.v2.Platform.Builder;
+import com.sap.cloud.lm.sl.mta.model.v2.ModuleType;
 import com.sap.cloud.lm.sl.mta.model.v2.ResourceType;
+import com.sap.cloud.lm.sl.mta.model.v2.Platform.Builder;
 import com.sap.cloud.lm.sl.mta.parsers.ListParser;
 import com.sap.cloud.lm.sl.mta.parsers.ModelParser;
 import com.sap.cloud.lm.sl.mta.schema.MapElement;
@@ -21,13 +20,13 @@ public class PlatformParser extends ModelParser<Platform> {
 
     protected static final String PROCESSED_OBJECT_NAME = "MTA platform type";
 
-    public static final String PARAMETERS = "parameters";
     public static final String NAME = "name";
     public static final String DESCRIPTION = "description";
     public static final String VERSION = "version";
     public static final String MODULE_TYPES = "module-types";
     public static final String PROPERTIES = "properties";
     public static final String RESOURCE_TYPES = "resource-types";
+    public static final String PARAMETERS = "parameters";
 
     protected final Set<String> usedModuleTypeNames = new HashSet<>();
     protected final Set<String> usedResourceTypeNames = new HashSet<>();
@@ -82,10 +81,6 @@ public class PlatformParser extends ModelParser<Platform> {
     }
 
     protected List<ResourceType> getResourceTypes2() {
-        return ListUtil.cast(getResourceTypes());
-    }
-    
-    protected List<ResourceType> getResourceTypes() {
         return getListElement(RESOURCE_TYPES, new ListParser<ResourceType>() {
             @Override
             protected ResourceType parseItem(Map<String, Object> map) {

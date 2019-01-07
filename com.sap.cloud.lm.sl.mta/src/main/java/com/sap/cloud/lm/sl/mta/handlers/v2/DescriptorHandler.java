@@ -127,7 +127,7 @@ public class DescriptorHandler {
     }
 
     public ExtensionProvidedDependency findProvidedDependency(ExtensionDescriptor descriptor, String providedDependencyName) {
-        for (ExtensionModule module : descriptor.getModules2()) {
+        for (ExtensionModule module : descriptor.getModules()) {
             ExtensionProvidedDependency dependency = findProvidedDependency(module, providedDependencyName);
             if (dependency != null) {
                 return dependency;
@@ -157,7 +157,7 @@ public class DescriptorHandler {
     }
 
     public ExtensionModule findModule(ExtensionDescriptor descriptor, String moduleName) {
-        for (ExtensionModule module : descriptor.getModules2()) {
+        for (ExtensionModule module : descriptor.getModules()) {
             if (module.getName()
                 .equals(moduleName)) {
                 return module;
@@ -182,5 +182,4 @@ public class DescriptorHandler {
         return moduleSorter.sort();
     }
 
-    
 }
