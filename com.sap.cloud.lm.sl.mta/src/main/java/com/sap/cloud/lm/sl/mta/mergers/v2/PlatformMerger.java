@@ -5,7 +5,6 @@ import com.sap.cloud.lm.sl.mta.handlers.v2.DescriptorHandler;
 import com.sap.cloud.lm.sl.mta.model.ElementContext;
 import com.sap.cloud.lm.sl.mta.model.Visitor;
 import com.sap.cloud.lm.sl.mta.model.v2.DeploymentDescriptor;
-import com.sap.cloud.lm.sl.mta.model.v2.Module;
 import com.sap.cloud.lm.sl.mta.model.v2.ModuleType;
 import com.sap.cloud.lm.sl.mta.model.v2.Platform;
 import com.sap.cloud.lm.sl.mta.model.v2.Resource;
@@ -36,7 +35,7 @@ public class PlatformMerger extends Visitor {
         if (resource.getType() == null) {
             return;
         }
-        ResourceType resourceType = handler.findResourceType(platform, resource.getType());
+        ResourceType resourceType = (ResourceType) handler.findResourceType(platform, resource.getType());
         if (resourceType == null) {
             return;
         }
@@ -44,8 +43,8 @@ public class PlatformMerger extends Visitor {
     }
 
     @Override
-    public void visit(ElementContext context, Module module) {
-        ModuleType moduleType = handler.findModuleType(platform, module.getType());
+    public void visit(ElementContext context, com.sap.cloud.lm.sl.mta.model.v2.Module module) {
+        ModuleType moduleType = (ModuleType) handler.findModuleType(platform, module.getType());
         if (moduleType == null) {
             return;
         }

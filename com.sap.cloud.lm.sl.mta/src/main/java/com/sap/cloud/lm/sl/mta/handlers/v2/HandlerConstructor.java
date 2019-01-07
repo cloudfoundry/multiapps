@@ -27,7 +27,7 @@ public class HandlerConstructor implements com.sap.cloud.lm.sl.mta.handlers.Hand
     @Override
     public DescriptorHandler getDescriptorHandler() {
         if (this.handler != null) {
-            return this.handler;
+            return (DescriptorHandler) this.handler;
         }
         return new DescriptorHandler();
     }
