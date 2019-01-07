@@ -1,13 +1,11 @@
-_schema-version: 2.0.0
+_schema-version: 1.0.0
 ID: com.sap.mta.sample
 version: 1.2.1-beta+20150403144937853
 
 modules:
   - name: web-server
-    type: com.sap.static-content
-    requires: 
-      - name: internal-odata
-      - name: internal-odata-service
+    type: com.sap.static-contentx
+    requires: [internal-odata, internal-odata-service]
     properties:
       docu-url: &docu-url "http://help.sap.com/saphelp_nw74/en/5c"
       default-locale: &default-locale ""
@@ -25,10 +23,7 @@ modules:
       - name: internal-odata
         properties:
           odata.svc_root: "odata/"
-    requires: 
-      - name: price-optimization
-      - name: pricing-db-service
-      - name: competitor-data
+    requires: [price-optimization, pricing-db-service, competitor-data]
 
   - name: pricing-db
     type: com.sap.hana.hdi
@@ -36,8 +31,7 @@ modules:
       - name: price-optimization
     properties:
       default-locale: *default-locale
-    requires: 
-      - name: pricing-db-service
+    requires: [pricing-db-service]
 
 resources:
   - name: pricing-db-service
@@ -52,5 +46,5 @@ resources:
       application-key:
       secret-key:
 
-parameters:
+properties:
   com.sap.releaseMetadataRefGuid: c6bc22d0-48b4-47d1-9fd4

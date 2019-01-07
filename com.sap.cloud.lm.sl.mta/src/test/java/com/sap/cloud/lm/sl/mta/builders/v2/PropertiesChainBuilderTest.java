@@ -24,7 +24,7 @@ import com.sap.cloud.lm.sl.mta.model.v2.Resource;
 
 @RunWith(Parameterized.class)
 public class PropertiesChainBuilderTest {
-
+    
     protected final String deploymentDescriptorLocation;
     protected final String platformLocation;
     protected final Expectation[] expectations;
@@ -68,12 +68,13 @@ public class PropertiesChainBuilderTest {
         });
     }
 
-    public PropertiesChainBuilderTest(String deploymentDescriptorLocation, String platformLocation, Expectation[] expectations) {
+    public PropertiesChainBuilderTest(String deploymentDescriptorLocation, String platformLocation,
+        Expectation[] expectations) {
         this.deploymentDescriptorLocation = deploymentDescriptorLocation;
         this.platformLocation = platformLocation;
         this.expectations = expectations;
     }
-
+    
     @Before
     public void setUp() throws Exception {
         DescriptorParser descriptorParser = getDescriptorParser();
@@ -108,7 +109,7 @@ public class PropertiesChainBuilderTest {
         }
         return resourceNames;
     }
-
+    
     private List<String> getModuleNames(List<Module> modules) {
         List<String> moduleNames = new ArrayList<String>();
         for (Module module : modules) {
@@ -117,10 +118,11 @@ public class PropertiesChainBuilderTest {
         return moduleNames;
     }
 
+    
     protected PropertiesChainBuilder createPropertiesChainBuilder(DeploymentDescriptor deploymentDescriptor, Platform platform) {
         return new PropertiesChainBuilder((DeploymentDescriptor) deploymentDescriptor, (Platform) platform);
     }
-
+    
     @Test
     public void testBuildModuleChain() {
         TestUtil.test(new Callable<List<List<Map<String, Object>>>>() {

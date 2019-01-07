@@ -71,6 +71,7 @@ public class ParametersChainBuilder extends PropertiesChainBuilder {
         return resourceChain;
     }
 
+    @Override
     public List<Map<String, Object>> buildResourceTypeChain(String resourceName) {
         Resource resource = (Resource) handler.findResource(descriptor, resourceName);
         if (resource == null) {

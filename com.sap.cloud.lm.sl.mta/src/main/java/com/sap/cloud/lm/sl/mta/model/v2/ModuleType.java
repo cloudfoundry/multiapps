@@ -14,6 +14,7 @@ import com.sap.cloud.lm.sl.mta.model.PropertiesContainer;
 import com.sap.cloud.lm.sl.mta.model.VisitableElement;
 import com.sap.cloud.lm.sl.mta.model.Visitor;
 
+
 public class ModuleType implements VisitableElement, NamedElement, PropertiesContainer, ParametersContainer {
 
     private Map<String, Object> parameters;
@@ -59,6 +60,7 @@ public class ModuleType implements VisitableElement, NamedElement, PropertiesCon
     public void setParameters(Map<String, Object> parameters) {
         this.parameters = new LinkedHashMap<>(parameters);
     }
+
 
     @Override
     public void accept(ElementContext context, Visitor visitor) {
