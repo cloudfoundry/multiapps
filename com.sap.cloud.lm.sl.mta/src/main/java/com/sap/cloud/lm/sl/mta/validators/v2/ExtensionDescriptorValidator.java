@@ -10,19 +10,15 @@ import com.sap.cloud.lm.sl.mta.handlers.v2.DescriptorHandler;
 import com.sap.cloud.lm.sl.mta.message.Constants;
 import com.sap.cloud.lm.sl.mta.message.Messages;
 import com.sap.cloud.lm.sl.mta.model.ElementContext;
-import com.sap.cloud.lm.sl.mta.model.NamedElement;
 import com.sap.cloud.lm.sl.mta.model.ParametersContainer;
 import com.sap.cloud.lm.sl.mta.model.PropertiesContainer;
-import com.sap.cloud.lm.sl.mta.model.VisitableElement;
 import com.sap.cloud.lm.sl.mta.model.Visitor;
 import com.sap.cloud.lm.sl.mta.model.v2.DeploymentDescriptor;
 import com.sap.cloud.lm.sl.mta.model.v2.ExtensionDescriptor;
 import com.sap.cloud.lm.sl.mta.model.v2.ExtensionModule;
-import com.sap.cloud.lm.sl.mta.model.v2.ExtensionProvidedDependency;
 import com.sap.cloud.lm.sl.mta.model.v2.ExtensionRequiredDependency;
 import com.sap.cloud.lm.sl.mta.model.v2.ExtensionResource;
 import com.sap.cloud.lm.sl.mta.model.v2.Module;
-import com.sap.cloud.lm.sl.mta.model.v2.ProvidedDependency;
 import com.sap.cloud.lm.sl.mta.model.v2.RequiredDependency;
 import com.sap.cloud.lm.sl.mta.model.v2.Resource;
 
@@ -97,8 +93,9 @@ public class ExtensionDescriptorValidator extends Visitor {
         if (!extendsDeploymentDescriptorElement(extensionResource)) {
             throw new ContentException(Messages.UNKNOWN_RESOURCE_IN_MTAEXT, extensionResource.getName(), extensionDescriptor.getId());
         }
+
         validateProperties(findResource(extensionResource), extensionResource, extensionResource.getName());
-        ExtensionResource extensionResourceV2 = cast(extensionResource);
+        com.sap.cloud.lm.sl.mta.model.v2.ExtensionResource extensionResourceV2 = cast(extensionResource);
         Resource resourceV2 = cast(findResource(extensionResource));
         validateParameters(resourceV2, extensionResourceV2, extensionResourceV2.getName());
     }
@@ -124,27 +121,6 @@ public class ExtensionDescriptorValidator extends Visitor {
     protected RequiredDependency findRequiredDependency(String containerName, ExtensionRequiredDependency extensionRequiredDependency) {
         return ((DescriptorHandler) handler).findRequiredDependency((DeploymentDescriptor) deploymentDescriptor, containerName,
             extensionRequiredDependency.getName());
-    }
-    
-    @Override
-    public void visit(ElementContext context, ExtensionProvidedDependency extensionProvidedDependency) throws ContentException {
-        VisitableElement container = context.getPreviousElementContext()
-            .getVisitableElement();
-        if (!extendsDeploymentDescriptorElement(extensionProvidedDependency)) {
-            String containerName = container instanceof NamedElement ? ((NamedElement) container).getName() : "";
-            throw new ContentException(Messages.UNKNOWN_PROVIDED_DEPENDENCY_IN_MTAEXT, extensionProvidedDependency.getName(), containerName,
-                extensionDescriptor.getId());
-        }
-        validateProperties(findProvidedDependency(extensionProvidedDependency), extensionProvidedDependency,
-            extensionProvidedDependency.getName());
-    }
-    
-    private boolean extendsDeploymentDescriptorElement(ExtensionProvidedDependency extensionProvidedDependency) {
-        return findProvidedDependency(extensionProvidedDependency) != null;
-    }
-    
-    protected ProvidedDependency findProvidedDependency(ExtensionProvidedDependency extensionProvidedDependency) {
-        return handler.findProvidedDependency(deploymentDescriptor, extensionProvidedDependency.getName());
     }
 
 }

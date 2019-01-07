@@ -17,10 +17,10 @@ import com.sap.cloud.lm.sl.mta.model.Visitor;
 
 public class ModuleType implements VisitableElement, NamedElement, PropertiesContainer, ParametersContainer {
 
-    private Map<String, Object> parameters;
     private String name;
     private String deployer;
     private Map<String, Object> properties;
+    private Map<String, Object> parameters;
 
     protected ModuleType() {
 

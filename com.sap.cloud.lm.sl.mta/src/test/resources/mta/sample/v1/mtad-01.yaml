@@ -5,10 +5,8 @@ version: 1.2.1-beta+20150403144937853
 modules:
   - name: web-server
     type: com.sap.static-content
-    requires: 
-      - name: internal-odata
-      - name: internal-odata-service
-    parameters:
+    requires: [internal-odata, internal-odata-service]
+    properties:
       docu-url: &docu-url "http://help.sap.com/saphelp_nw74/en/5c"
       default-locale: &default-locale ""
       host: www
@@ -25,19 +23,15 @@ modules:
       - name: internal-odata
         properties:
           odata.svc_root: "odata/"
-    requires: 
-      - name: price-optimization
-      - name: pricing-db-service
-      - name: competitor-data
+    requires: [price-optimization, pricing-db-service, competitor-data]
 
   - name: pricing-db
     type: com.sap.hana.hdi
     provides:
       - name: price-optimization
-    parameters:
+    properties:
       default-locale: *default-locale
-    requires: 
-      - name: pricing-db-service
+    requires: [pricing-db-service]
 
 resources:
   - name: pricing-db-service
@@ -47,10 +41,10 @@ resources:
     type: com.sap.user-provided
 
   - name: competitor-data
-    parameters:
+    properties:
       url: "https://marketwatch.il/v2/"
       application-key:
       secret-key:
 
-parameters:
+properties:
   com.sap.releaseMetadataRefGuid: c6bc22d0-48b4-47d1-9fd4

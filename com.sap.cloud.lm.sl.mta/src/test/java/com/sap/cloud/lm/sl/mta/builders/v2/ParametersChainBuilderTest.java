@@ -1,15 +1,9 @@
 package com.sap.cloud.lm.sl.mta.builders.v2;
 
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
 
-import org.junit.Test;
 import org.junit.runners.Parameterized.Parameters;
 
-import com.sap.cloud.lm.sl.common.util.Callable;
-import com.sap.cloud.lm.sl.common.util.TestUtil;
 import com.sap.cloud.lm.sl.common.util.TestUtil.Expectation;
 import com.sap.cloud.lm.sl.mta.handlers.v2.ConfigurationParser;
 import com.sap.cloud.lm.sl.mta.handlers.v2.DescriptorParser;
@@ -73,21 +67,6 @@ public class ParametersChainBuilderTest extends PropertiesChainBuilderTest {
     @Override
     protected PropertiesChainBuilder createPropertiesChainBuilder(DeploymentDescriptor deploymentDescriptor, Platform platform) {
         return new ParametersChainBuilder((DeploymentDescriptor) deploymentDescriptor, (Platform) platform);
-    }
-    
-    @Override
-    @Test
-    public void testBuildResourceTypeChain() {
-        TestUtil.test(new Callable<List<List<Map<String, Object>>>>() {
-            @Override
-            public List<List<Map<String, Object>>> call() throws Exception {
-                List<List<Map<String, Object>>> resourceTypeChains = new ArrayList<List<Map<String, Object>>>();
-                for (String resourceName : resourceNames) {
-                    resourceTypeChains.add(builder.buildResourceTypeChain(resourceName));
-                }
-                return resourceTypeChains;
-            }
-        }, expectations[3], getClass());
     }
 
 }

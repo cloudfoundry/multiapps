@@ -8,7 +8,6 @@ import com.sap.cloud.lm.sl.mta.model.NamedElement;
 import com.sap.cloud.lm.sl.mta.model.VisitableElement;
 import com.sap.cloud.lm.sl.mta.model.Visitor;
 import com.sap.cloud.lm.sl.mta.model.v2.DeploymentDescriptor;
-import com.sap.cloud.lm.sl.mta.model.v2.Module;
 import com.sap.cloud.lm.sl.mta.model.v2.Platform;
 import com.sap.cloud.lm.sl.mta.model.v2.RequiredDependency;
 import com.sap.cloud.lm.sl.mta.model.v2.Resource;
@@ -44,37 +43,6 @@ public class DeploymentDescriptorValidator extends Visitor {
 
     protected boolean canBeResolved(String dependency) {
         return handler.findDependency(descriptor, dependency) != null;
-    }
-    
-    @Override
-    public void visit(ElementContext context, Resource resource) throws ContentException {
-        if (isService(resource) && !isSupported(resource) && !isOptional(resource)) {
-            throw new ContentException(Messages.UNSUPPORTED_RESOURCE_TYPE, resource.getType(), platformType.getName());
-        }
-    }
-    
-    protected boolean isService(Resource resource) {
-        return resource.getType() != null;
-    }
-    
-    protected boolean isSupported(Resource resource) {
-        return handler.findResourceType(platformType, resource.getType()) != null;
-    }
-    
-    @Override
-    public void visit(ElementContext context, Module module) throws ContentException {
-        if (!isSupported(module)) {
-            throw new ContentException(Messages.UNSUPPORTED_MODULE_TYPE, module.getType(), platformType.getName());
-        }
-        validateRequiredDependencies(module);
-    }
-    
-    protected boolean isSupported(Module module) {
-        return handler.findModuleType(platformType, module.getType()) != null;
-    }
-    
-    protected void validateRequiredDependencies(Module module) {
-        //Do nothing!
     }
 
     protected boolean isOptional(Resource resource) {

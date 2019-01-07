@@ -23,15 +23,20 @@ public class ConfigurationParser {
     }
 
     public Platform parsePlatformJson2(String json) throws ParsingException {
-        return parsePlatformJson(json);
+        return (Platform) parsePlatformJson(json);
     }
 
     public Platform parsePlatformJson(String json) throws ParsingException {
         return parsePlatform(JsonUtil.convertJsonToMap(json));
     }
     
+    private Platform parsePlatform(Map<String, Object> source) {
+        platformValidator.validate(source);
+        return getPlatformParser(source).parse();
+    }
+    
     public Platform parsePlatformJson2(InputStream json) throws ParsingException {
-        return parsePlatformJson(json);
+        return (Platform) parsePlatformJson(json);
     }
 
     public Platform parsePlatformJson(InputStream json) throws ParsingException {
@@ -42,12 +47,7 @@ public class ConfigurationParser {
             throw new IllegalStateException(e.getMessage(), e);
         }
     }
-    
-    private Platform parsePlatform(Map<String, Object> source) {
-        platformValidator.validate(source);
-        return getPlatformParser(source).parse();
-    }
-    
+
     protected PlatformParser getPlatformParser(Map<String, Object> source) {
         return new PlatformParser(source);
     }
