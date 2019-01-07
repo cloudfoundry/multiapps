@@ -91,7 +91,7 @@ public class Module extends com.sap.cloud.lm.sl.mta.model.v2.Module
     }
 
     @Override
-    protected void setProvidedDependencies(List<? extends om.sap.cloud.lm.sl.mta.model.v2.ProvidedDependency> providedDependencies) {
+    protected void setProvidedDependencies(List<? extends com.sap.cloud.lm.sl.mta.model.v1.ProvidedDependency> providedDependencies) {
         this.providedDependencies3 = ListUtil.cast(providedDependencies);
     }
 
@@ -158,8 +158,7 @@ public class Module extends com.sap.cloud.lm.sl.mta.model.v2.Module
             this.parametersMetadata = parametersMetadata;
         }
 
-        @Override
-        public void setRequiredDependencies(List<? extends com.sap.cloud.lm.sl.mta.model.v2.RequiredDependency> requiredDependencies) {
+        protected void setRequiredDependencies(List<? extends com.sap.cloud.lm.sl.mta.model.v2.RequiredDependency> requiredDependencies) {
             this.requiredDependencies3 = ListUtil.cast(requiredDependencies);
         }
 
@@ -168,7 +167,7 @@ public class Module extends com.sap.cloud.lm.sl.mta.model.v2.Module
         }
 
         @Override
-        protected void setProvidedDependencies(List<? extends com.sap.cloud.lm.sl.mta.model.v2.ProvidedDependency> providedDependencies) {
+        protected void setProvidedDependencies(List<? extends com.sap.cloud.lm.sl.mta.model.v1.ProvidedDependency> providedDependencies) {
             this.providedDependencies3 = ListUtil.cast(providedDependencies);
         }
 
