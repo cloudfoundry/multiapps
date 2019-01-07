@@ -11,11 +11,10 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import org.junit.runners.Parameterized.Parameters;
 
-import com.sap.cloud.lm.sl.mta.handlers.v2.ConfigurationParser;
-import com.sap.cloud.lm.sl.mta.handlers.v2.DescriptorHandler;
-import com.sap.cloud.lm.sl.mta.handlers.v2.DescriptorParser;
-import com.sap.cloud.lm.sl.mta.handlers.v2.DescriptorValidator;
-
+import com.sap.cloud.lm.sl.mta.handlers.v1.ConfigurationParser;
+import com.sap.cloud.lm.sl.mta.handlers.v1.DescriptorHandler;
+import com.sap.cloud.lm.sl.mta.handlers.v1.DescriptorParser;
+import com.sap.cloud.lm.sl.mta.handlers.v1.DescriptorValidator;
 
 @RunWith(value = Parameterized.class)
 public class HandlerFactoryTest {
@@ -29,15 +28,19 @@ public class HandlerFactoryTest {
     public static Iterable<Object[]> getParameters() {
         return Arrays.asList(new Object[][] {
 // @formatter:off
-            // (0) Version 2.0:
+            // (0) Version 1.0:
+            {
+                1, null,
+            },
+            // (1) Version 2.0:
             {
                 2, null,
             },
-            // (1) Version 3.1:
+            // (2) Version 3.1:
             {
                 3, null,
             },
-            // (2) Unsupported version 0:
+            // (3) Unsupported version 0:
             {
                 0, "Version \"0\" is not supported",
             },
@@ -56,8 +59,11 @@ public class HandlerFactoryTest {
     public void testGetDescriptorHandler() {
         DescriptorHandler handler = new HandlerFactory(majorVersion).getDescriptorHandler();
         switch (majorVersion) {
-            case 2:
+            case 1:
                 assertTrue(handler instanceof DescriptorHandler);
+                break;
+            case 2:
+                assertTrue(handler instanceof com.sap.cloud.lm.sl.mta.handlers.v2.DescriptorHandler);
                 break;
             case 3:
                 assertTrue(handler instanceof com.sap.cloud.lm.sl.mta.handlers.v3.DescriptorHandler);
@@ -69,8 +75,11 @@ public class HandlerFactoryTest {
     public void testGetDescriptorValidator() {
         DescriptorValidator handler = new HandlerFactory(majorVersion).getDescriptorValidator();
         switch (majorVersion) {
-            case 2:
+            case 1:
                 assertTrue(handler instanceof DescriptorValidator);
+                break;
+            case 2:
+                assertTrue(handler instanceof com.sap.cloud.lm.sl.mta.handlers.v2.DescriptorValidator);
                 break;
             case 3:
                 assertTrue(handler instanceof com.sap.cloud.lm.sl.mta.handlers.v3.DescriptorValidator);
@@ -78,13 +87,15 @@ public class HandlerFactoryTest {
         }
     }
 
-    
     @Test
     public void testGetDescriptorParser() {
         DescriptorParser handler = new HandlerFactory(majorVersion).getDescriptorParser();
         switch (majorVersion) {
-            case 2:
+            case 1:
                 assertTrue(handler instanceof DescriptorParser);
+                break;
+            case 2:
+                assertTrue(handler instanceof com.sap.cloud.lm.sl.mta.handlers.v2.DescriptorParser);
                 break;
             case 3:
                 assertTrue(handler instanceof com.sap.cloud.lm.sl.mta.handlers.v3.DescriptorParser);
@@ -96,8 +107,11 @@ public class HandlerFactoryTest {
     public void testGetConfigurationParser() {
         ConfigurationParser handler = new HandlerFactory(majorVersion).getConfigurationParser();
         switch (majorVersion) {
-            case 2:
+            case 1:
                 assertTrue(handler instanceof ConfigurationParser);
+                break;
+            case 2:
+                assertTrue(handler instanceof com.sap.cloud.lm.sl.mta.handlers.v2.ConfigurationParser);
                 break;
             case 3:
                 assertTrue(handler instanceof com.sap.cloud.lm.sl.mta.handlers.v3.ConfigurationParser);
