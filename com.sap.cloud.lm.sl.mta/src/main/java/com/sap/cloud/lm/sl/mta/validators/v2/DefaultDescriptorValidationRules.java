@@ -3,6 +3,7 @@ package com.sap.cloud.lm.sl.mta.validators.v2;
 import static com.sap.cloud.lm.sl.mta.util.ValidatorUtil.getPrefixedName;
 
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 import java.util.TreeSet;
 
@@ -29,9 +30,9 @@ public class DefaultDescriptorValidationRules implements DescriptorValidationRul
     }
 
     protected void checkForEmptyFields(Map<String, Object> properties, ElementContext elementContext, Set<String> emptyFields) {
-        for (String propertyName : properties.keySet()) {
-            if (properties.get(propertyName) == null) {
-                emptyFields.add(getPrefixedName(elementContext.getPrefixedName(), propertyName));
+        for ( Entry<String,Object> property: properties.entrySet()) {
+            if (property.getValue() == null) {
+                emptyFields.add(getPrefixedName(elementContext.getPrefixedName(), property.getKey()));
             }
         }
     }

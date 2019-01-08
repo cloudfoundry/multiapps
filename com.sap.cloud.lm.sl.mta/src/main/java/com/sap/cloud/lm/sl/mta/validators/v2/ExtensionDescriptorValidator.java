@@ -4,6 +4,7 @@ import static com.sap.cloud.lm.sl.common.util.CommonUtil.cast;
 import static com.sap.cloud.lm.sl.mta.util.ValidatorUtil.validateModifiableElements;
 
 import java.util.Map;
+import java.util.Map.Entry;
 
 import com.sap.cloud.lm.sl.common.ContentException;
 import com.sap.cloud.lm.sl.mta.handlers.v2.DescriptorHandler;
@@ -85,9 +86,10 @@ public class ExtensionDescriptorValidator extends Visitor {
 
     protected void validate(Map<String, Object> properties, Map<String, Object> extensionProperties, String containerName,
         String elementType) {
-        for (String propertyName : extensionProperties.keySet()) {
+        for (Entry<String,Object> extensionProperty: extensionProperties.entrySet()) {
+            String propertyName = extensionProperty.getKey();
             Object parentValue = properties.get(propertyName);
-            Object value = extensionProperties.get(propertyName);
+            Object value = extensionProperty.getValue();
             validateModifiableElements(elementType, containerName, extensionDescriptor.getId(), propertyName, value, parentValue);
         }
     }
