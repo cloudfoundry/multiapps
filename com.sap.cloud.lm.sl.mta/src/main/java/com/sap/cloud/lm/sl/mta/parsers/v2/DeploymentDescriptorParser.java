@@ -8,6 +8,7 @@ import java.util.Map;
 import java.util.Set;
 
 import com.sap.cloud.lm.sl.common.ParsingException;
+import com.sap.cloud.lm.sl.common.util.ListUtil;
 import com.sap.cloud.lm.sl.mta.model.v2.DeploymentDescriptor;
 import com.sap.cloud.lm.sl.mta.model.v2.DeploymentDescriptor.Builder;
 import com.sap.cloud.lm.sl.mta.model.v2.Module;
@@ -20,6 +21,7 @@ public class DeploymentDescriptorParser extends ModelParser<DeploymentDescriptor
 
     protected static final String PROCESSED_OBJECT_NAME = "MTA deployment descriptor";
 
+    public static final String PARAMETERS = "parameters";
     public static final String ID = "ID";
     public static final String DESCRIPTION = "description";
     public static final String VERSION = "version";
@@ -28,7 +30,6 @@ public class DeploymentDescriptorParser extends ModelParser<DeploymentDescriptor
     public static final String MODULES = "modules";
     public static final String RESOURCES = "resources";
     public static final String PROPERTIES = "properties";
-    public static final String PARAMETERS = "parameters";
     public static final String SCHEMA_VERSION = "_schema-version";
 
     protected final Set<String> usedModuleNames = new HashSet<>();
@@ -50,8 +51,8 @@ public class DeploymentDescriptorParser extends ModelParser<DeploymentDescriptor
         builder.setVersion(getVersion());
         builder.setProvider(getProvider());
         builder.setCopyright(getCopyright());
-        builder.setModules2(getModules());
-        builder.setResources2(getResources());
+        builder.setModules2(getModules2());
+        builder.setResources2(getResources2());
         builder.setParameters(getParameters());
         builder.setSchemaVersion(getSchemaVersion());
         return builder.build();
@@ -103,11 +104,11 @@ public class DeploymentDescriptorParser extends ModelParser<DeploymentDescriptor
     }
 
     protected ResourceParser getResourceParser(Map<String, Object> source) {
-        return new ResourceParser(source); // v2
+        return new ResourceParser(source);
     }
 
     protected ModuleParser getModuleParser(Map<String, Object> source) {
-        return new ModuleParser(source); // v2
+        return new ModuleParser(source);
     }
 
     protected Map<String, Object> getProperties() {
@@ -117,5 +118,14 @@ public class DeploymentDescriptorParser extends ModelParser<DeploymentDescriptor
     protected Map<String, Object> getParameters() {
         return getMapElement(PARAMETERS);
     }
+    
 
+    protected List<Module> getModules2() {
+        return ListUtil.cast(getModules());
+    }
+
+    protected List<Resource> getResources2() {
+        return ListUtil.cast(getResources());
+    }
+    
 }
