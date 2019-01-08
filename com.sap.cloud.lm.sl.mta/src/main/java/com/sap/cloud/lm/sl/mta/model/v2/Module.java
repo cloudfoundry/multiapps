@@ -54,12 +54,13 @@ public class Module implements VisitableElement, NamedElement, PropertiesContain
         return description;
     }
 
-    public String getPath() {
-        return path;
+    @Override
+    public Map<String, Object> getProperties() {
+        return MapUtil.unmodifiable(properties);
     }
 
     public List<RequiredDependency> getRequiredDependencies2() {
-        return ListUtil.upcastUnmodifiable(requiredDependencies2);
+        return ListUtil.upcastUnmodifiable(getRequiredDependencies());
     }
 
     protected List<? extends RequiredDependency> getRequiredDependencies() {
@@ -74,9 +75,8 @@ public class Module implements VisitableElement, NamedElement, PropertiesContain
         return providedDependencies2;
     }
 
-    @Override
-    public Map<String, Object> getProperties() {
-        return MapUtil.unmodifiable(properties);
+    public String getPath() {
+        return path;
     }
 
     @Override
@@ -96,28 +96,28 @@ public class Module implements VisitableElement, NamedElement, PropertiesContain
         this.description = description;
     }
 
-    public void setPath(String path) {
-        this.path = path;
+    public void setProperties(Map<String, Object> properties) {
+        this.properties = new LinkedHashMap<>(properties);
     }
-    
-    public void setRequiredDependencies2(List<? extends RequiredDependency> requiredDependencies) {
-        this.requiredDependencies2 = ListUtil.cast(requiredDependencies);
+
+    public void setRequiredDependencies2(List<RequiredDependency> requiredDependencies) {
+        setRequiredDependencies(requiredDependencies);
     }
 
     protected void setRequiredDependencies(List<? extends RequiredDependency> requiredDependencies) {
         this.requiredDependencies2 = ListUtil.cast(requiredDependencies);
     }
 
-    public void setProvidedDependencies2(List<? extends ProvidedDependency> providedDependencies) {
-        this.providedDependencies2 = ListUtil.cast(providedDependencies);
-     }
-    
-    protected void setProvidedDependencies(List<? extends ProvidedDependency> providedDependencies) {
-       this.providedDependencies2 = ListUtil.cast(providedDependencies);
+    public void setProvidedDependencies2(List<ProvidedDependency> providedDependencies) {
+        setProvidedDependencies(providedDependencies);
     }
 
-    public void setProperties(Map<String, Object> properties) {
-        this.properties = new LinkedHashMap<>(properties);
+    protected void setProvidedDependencies(List<? extends ProvidedDependency> providedDependencies) {
+        this.providedDependencies2 = ListUtil.cast(providedDependencies);
+    }
+
+    public void setPath(String path) {
+        this.path = path;
     }
 
     @Override
@@ -145,15 +145,15 @@ public class Module implements VisitableElement, NamedElement, PropertiesContain
         result.setProperties(getProperties());
         result.setParameters(getParameters());
         List<RequiredDependency> clonedRequiredDependencies = new ArrayList<>();
-        for (RequiredDependency requiredDependency : getRequiredDependencies()) {
+        for (RequiredDependency requiredDependency : getRequiredDependencies2()) {
             clonedRequiredDependencies.add(requiredDependency.copyOf());
         }
-        result.setRequiredDependencies(clonedRequiredDependencies);
+        result.setRequiredDependencies2(clonedRequiredDependencies);
         List<ProvidedDependency> clonedProvidedDependencies = new ArrayList<>();
-        for (ProvidedDependency providedDependency : getProvidedDependencies()) {
+        for (ProvidedDependency providedDependency : getProvidedDependencies2()) {
             clonedProvidedDependencies.add(providedDependency.copyOf());
         }
-        result.setProvidedDependencies(clonedProvidedDependencies);
+        result.setProvidedDependencies2(clonedProvidedDependencies);
         return result.build();
     }
 
@@ -165,8 +165,8 @@ public class Module implements VisitableElement, NamedElement, PropertiesContain
         protected String path;
         protected Map<String, Object> properties;
         protected Map<String, Object> parameters;
-        protected List<RequiredDependency> requiredDependencies;
-        protected List<ProvidedDependency> providedDependencies;
+        protected List<RequiredDependency> requiredDependencies2;
+        protected List<ProvidedDependency> providedDependencies2;
 
         public Module build() {
             Module result = new Module();
@@ -176,8 +176,8 @@ public class Module implements VisitableElement, NamedElement, PropertiesContain
             result.setDescription(description);
             result.setProperties(ObjectUtils.defaultIfNull(properties, Collections.<String, Object> emptyMap()));
             result.setParameters(ObjectUtils.defaultIfNull(parameters, Collections.<String, Object> emptyMap()));
-            result.setRequiredDependencies(ObjectUtils.defaultIfNull(requiredDependencies, Collections.<RequiredDependency> emptyList()));
-            result.setProvidedDependencies(ObjectUtils.defaultIfNull(providedDependencies, Collections.<ProvidedDependency> emptyList()));
+            result.setRequiredDependencies2(ObjectUtils.defaultIfNull(requiredDependencies2, Collections.<RequiredDependency> emptyList()));
+            result.setProvidedDependencies2(ObjectUtils.defaultIfNull(providedDependencies2, Collections.<ProvidedDependency> emptyList()));
             return result;
         }
 
@@ -205,12 +205,20 @@ public class Module implements VisitableElement, NamedElement, PropertiesContain
             this.parameters = parameters;
         }
 
-        public void setRequiredDependencies(List<? extends RequiredDependency> requiredDependencies) {
-            this.requiredDependencies = ListUtil.cast(requiredDependencies);
+        protected void setRequiredDependencies(List<? extends com.sap.cloud.lm.sl.mta.model.v2.RequiredDependency> requiredDependencies) {
+            this.requiredDependencies2 = ListUtil.cast(requiredDependencies);
         }
 
-        protected void setProvidedDependencies(List<? extends ProvidedDependency> providedDependencies) {
-            this.providedDependencies = ListUtil.cast(providedDependencies);
+        public void setRequiredDependencies2(List<RequiredDependency> requiredDependencies) {
+            setRequiredDependencies(requiredDependencies);
+        }
+
+        protected void setProvidedDependencies(List<? extends com.sap.cloud.lm.sl.mta.model.v2.ProvidedDependency> providedDependencies) {
+            this.providedDependencies2 = ListUtil.cast(providedDependencies);
+        }
+
+        public void setProvidedDependencies2(List<ProvidedDependency> providedDependencies) {
+            setProvidedDependencies(providedDependencies);
         }
 
     }
