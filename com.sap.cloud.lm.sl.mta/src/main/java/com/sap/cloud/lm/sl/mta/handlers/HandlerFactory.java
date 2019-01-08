@@ -2,15 +2,20 @@ package com.sap.cloud.lm.sl.mta.handlers;
 
 import static java.text.MessageFormat.format;
 
-import com.sap.cloud.lm.sl.mta.handlers.v1.ConfigurationParser;
-import com.sap.cloud.lm.sl.mta.handlers.v1.DescriptorHandler;
-import com.sap.cloud.lm.sl.mta.handlers.v1.DescriptorMerger;
-import com.sap.cloud.lm.sl.mta.handlers.v1.DescriptorParser;
-import com.sap.cloud.lm.sl.mta.handlers.v1.DescriptorValidator;
+import com.sap.cloud.lm.sl.mta.handlers.v2.ConfigurationParser;
+import com.sap.cloud.lm.sl.mta.handlers.v2.DescriptorHandler;
+import com.sap.cloud.lm.sl.mta.handlers.v2.DescriptorMerger;
+import com.sap.cloud.lm.sl.mta.handlers.v2.DescriptorParser;
+import com.sap.cloud.lm.sl.mta.handlers.v2.DescriptorValidator;
+//import com.sap.cloud.lm.sl.mta.handlers.v1.ConfigurationParser;
+//import com.sap.cloud.lm.sl.mta.handlers.v1.DescriptorHandler;
+//import com.sap.cloud.lm.sl.mta.handlers.v1.DescriptorMerger;
+//import com.sap.cloud.lm.sl.mta.handlers.v1.DescriptorParser;
+//import com.sap.cloud.lm.sl.mta.handlers.v1.DescriptorValidator;
 import com.sap.cloud.lm.sl.mta.message.Messages;
 import com.sap.cloud.lm.sl.mta.model.SystemParameters;
-import com.sap.cloud.lm.sl.mta.model.v1.DeploymentDescriptor;
-import com.sap.cloud.lm.sl.mta.model.v1.Platform;
+import com.sap.cloud.lm.sl.mta.model.v2.DeploymentDescriptor;
+import com.sap.cloud.lm.sl.mta.model.v2.Platform;
 import com.sap.cloud.lm.sl.mta.resolvers.PlaceholderResolver;
 import com.sap.cloud.lm.sl.mta.resolvers.Resolver;
 import com.sap.cloud.lm.sl.mta.resolvers.ResolverBuilder;
@@ -35,9 +40,6 @@ public class HandlerFactory implements HandlerConstructor {
 
     protected void initDelegates() {
         switch (majorVersion) {
-            case 1:
-                initV1Delegates();
-                break;
             case 2:
                 initV2Delegates();
                 break;
@@ -49,11 +51,6 @@ public class HandlerFactory implements HandlerConstructor {
                 throw new UnsupportedOperationException(format(Messages.UNSUPPORTED_VERSION, majorVersion));
         }
     }
-
-    protected void initV1Delegates() {
-        handlerDelegate = new com.sap.cloud.lm.sl.mta.handlers.v1.HandlerConstructor();
-    }
-
     protected void initV2Delegates() {
         handlerDelegate = new com.sap.cloud.lm.sl.mta.handlers.v2.HandlerConstructor();
     }
