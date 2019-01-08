@@ -27,6 +27,11 @@ public class MergedDescriptorValidator extends Visitor {
         this.handler = handler;
 
     }
+    
+    public void validate() throws ContentException {
+        mergedDescriptor.accept(this);
+        validationRules.postValidate();
+    }
 
     public void visit(ElementContext context, DeploymentDescriptor descriptor) throws ContentException {
         validationRules.validateParameters((DeploymentDescriptor) descriptor, context);
