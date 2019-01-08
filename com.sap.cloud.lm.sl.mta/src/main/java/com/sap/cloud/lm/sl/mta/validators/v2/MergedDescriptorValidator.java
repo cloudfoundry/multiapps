@@ -9,6 +9,7 @@ import com.sap.cloud.lm.sl.mta.model.ElementContext;
 import com.sap.cloud.lm.sl.mta.model.Visitor;
 import com.sap.cloud.lm.sl.mta.model.v2.DeploymentDescriptor;
 import com.sap.cloud.lm.sl.mta.model.v2.Module;
+import com.sap.cloud.lm.sl.mta.model.v2.ProvidedDependency;
 import com.sap.cloud.lm.sl.mta.model.v2.RequiredDependency;
 import com.sap.cloud.lm.sl.mta.model.v2.Resource;
 import com.sap.cloud.lm.sl.mta.validators.DescriptorValidationRules;
@@ -56,4 +57,9 @@ public class MergedDescriptorValidator extends Visitor {
         validationRules.validateParameters(requiredDependency, context);
     }
 
+    @Override
+    public void visit(ElementContext context, ProvidedDependency providedDependency) {
+        validationRules.validateProperties(providedDependency, context);
+    }
+    
 }
