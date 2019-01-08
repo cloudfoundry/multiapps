@@ -53,7 +53,7 @@ public class ExtensionModule extends com.sap.cloud.lm.sl.mta.model.v2.ExtensionM
 
     @Override
     protected void setProvidedDependencies(
-        List<? extends com.sap.cloud.lm.sl.mta.model.v1.ExtensionProvidedDependency> providedDependencies) {
+        List<? extends com.sap.cloud.lm.sl.mta.model.v2.ExtensionProvidedDependency> providedDependencies) {
         this.providedDependencies3 = ListUtil.cast(providedDependencies);
     }
 
@@ -79,7 +79,7 @@ public class ExtensionModule extends com.sap.cloud.lm.sl.mta.model.v2.ExtensionM
 
         @Override
         protected void setProvidedDependencies(
-            List<? extends com.sap.cloud.lm.sl.mta.model.v1.ExtensionProvidedDependency> providedDependencies) {
+            List<? extends com.sap.cloud.lm.sl.mta.model.v2.ExtensionProvidedDependency> providedDependencies) {
             this.providedDependencies3 = ListUtil.cast(providedDependencies);
         }
 
