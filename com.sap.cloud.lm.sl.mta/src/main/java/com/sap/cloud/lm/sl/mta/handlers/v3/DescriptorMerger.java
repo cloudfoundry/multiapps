@@ -14,8 +14,8 @@ public class DescriptorMerger extends com.sap.cloud.lm.sl.mta.handlers.v2.Descri
     }
 
     @Override
-    public ExtensionDescriptorMerger getExtensionDescriptorMerger(com.sap.cloud.lm.sl.mta.model.v1.ExtensionDescriptor extension) {
+    public ExtensionDescriptorMerger getExtensionDescriptorMerger(com.sap.cloud.lm.sl.mta.model.v2.ExtensionDescriptor extension) {
         return new ExtensionDescriptorMerger((ExtensionDescriptor) extension, (DescriptorHandler) handler);
     }
-    
+
 }
