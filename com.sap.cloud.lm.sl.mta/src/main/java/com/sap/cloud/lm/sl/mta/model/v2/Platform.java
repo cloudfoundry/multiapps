@@ -18,11 +18,12 @@ import com.sap.cloud.lm.sl.mta.model.Visitor;
 
 public class Platform implements VisitableElement, NamedElement, PropertiesContainer, ParametersContainer {
 
-    private String name;
-    private String description;
+    
     private Map<String, Object> parameters;
     private List<ModuleType> moduleTypes2;
     private List<ResourceType> resourceTypes2;
+    private String name;
+    private String description;
 
     protected Platform() {
 
