@@ -34,7 +34,7 @@ public class ConfigurationParserTest {
             },
             // (1) Invalid JSON (invalid key 'properties' in resource types):
             {
-                "/mta/sample/v2/platform-02.json", new Expectation(Expectation.Type.EXCEPTION, "Invalid key \"resource-types#0#properties\""),
+                "/mta/sample/v2/platform-02.json", new Expectation(Expectation.Type.RESOURCE,"platform-02.json.json"),
             },
             // (3) Valid JSON (containing only a name):
             {
