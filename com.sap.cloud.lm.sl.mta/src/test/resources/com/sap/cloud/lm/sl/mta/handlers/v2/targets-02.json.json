@@ -1,0 +1,25 @@
+[
+  {
+    "parameters": {},
+    "platformModuleTypes2": [
+      {
+        "parameters": {},
+        "name": "com.sap.static-content",
+        "properties": {}
+      }
+    ],
+    "platformResourceTypes2": [],
+    "name": "CF-QUAL"
+  },
+  {
+    "parameters": {},
+    "platformModuleTypes2": [],
+    "platformResourceTypes2": [
+      {
+        "parameters": {},
+        "name": "com.sap.hana.hdi-container"
+      }
+    ],
+    "name": "CF-PROD"
+  }
+]

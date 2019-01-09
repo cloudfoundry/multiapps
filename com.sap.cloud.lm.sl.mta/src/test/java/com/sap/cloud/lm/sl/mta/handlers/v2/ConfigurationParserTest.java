@@ -27,8 +27,8 @@ public class ConfigurationParserTest extends com.sap.cloud.lm.sl.mta.handlers.v1
             {
                 "/mta/sample/v2/platforms-02.json", "/mta/sample/v2/targets-02.json",
                 new Expectation[] {
-                    new Expectation(Expectation.Type.EXCEPTION, "Invalid key \"0#resource-types#0#properties\""),
-                    new Expectation(Expectation.Type.EXCEPTION, "Invalid key \"1#resource-types#0#properties\""),
+                    new Expectation(Expectation.Type.RESOURCE, "platforms-02.json.json"),
+                    new Expectation(Expectation.Type.RESOURCE, "targets-02.json.json"),
                 },
             },
             // (2) Invalid JSONs (platform and platform type names are not unique):

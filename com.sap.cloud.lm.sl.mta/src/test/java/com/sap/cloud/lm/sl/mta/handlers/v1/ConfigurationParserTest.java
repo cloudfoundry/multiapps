@@ -40,23 +40,7 @@ public class ConfigurationParserTest {
                     new Expectation(Expectation.Type.RESOURCE, "targets-01.json.json")
                 },
             },
-            // (1) Invalid JSONs (invalid key 'parameters' in platform module type and module type objects):
-            {
-                "/mta/sample/v1/platforms-02.json", "/mta/sample/v1/targets-02.json",
-                new Expectation[] {
-                    new Expectation(Expectation.Type.EXCEPTION, "Invalid key \"0#module-types#0#parameters\""),
-                    new Expectation(Expectation.Type.EXCEPTION, "Invalid key \"1#module-types#0#parameters\""),
-                },
-            },
-            // (2) Invalid JSONs (invalid key 'parameters' in target and platform objects):
-            {
-                "/mta/sample/v1/platforms-03.json", "/mta/sample/v1/targets-03.json",
-                new Expectation[] {
-                    new Expectation(Expectation.Type.EXCEPTION, "Invalid key \"1#parameters\""),
-                    new Expectation(Expectation.Type.EXCEPTION, "Invalid key \"0#parameters\""),
-                },
-            },
-            // (3) Invalid JSONs (target and platform names are not unique):
+            // (1) Invalid JSONs (target and platform names are not unique):
             {
                 "/mta/sample/v1/platforms-04.json", "/mta/sample/v1/targets-04.json",
                 new Expectation[] {
@@ -64,7 +48,7 @@ public class ConfigurationParserTest {
                     new Expectation(Expectation.Type.EXCEPTION, "Value \"CF-QUAL\" for key \"name\" not unique for object \"MTA platform\""),
                 },
             },
-            // (4) Valid JSONs (containing only names):
+            // (2) Valid JSONs (containing only names):
             {
                 "/mta/sample/v1/platforms-05.json", "/mta/sample/v1/targets-05.json",
                 new Expectation[] {
