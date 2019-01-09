@@ -39,43 +39,35 @@ public class SchemaValidatorTest {
             {
                 "/mta/sample/v2/platform-01-v2.json", Schemas.PLATFORM, new Expectation(null),
             },
-            // (04) Deployment descriptor contains invalid key:
-            {
-                "mtad-01.yaml", Schemas.MTAD, new Expectation(Expectation.Type.EXCEPTION, "Invalid key \"test\""),
-            },
-            // (05) Deployment descriptor module contains an invalid key:
-            {
-                "mtad-02.yaml", Schemas.MTAD, new Expectation(Expectation.Type.EXCEPTION, "Invalid key \"modules#0#test\""),
-            },
-            // (06) Deployment descriptor is missing a required key:
+            // (03) Deployment descriptor is missing a required key:
             {
                 "mtad-03.yaml", Schemas.MTAD, new Expectation(Expectation.Type.EXCEPTION, "Missing required key \"ID\""),
             },
-            // (07) Deployment descriptor module has invalid content for requires dependency:
+            // (04) Deployment descriptor module has invalid content for requires dependency:
             {
                 "mtad-04.yaml", Schemas.MTAD, new Expectation(Expectation.Type.EXCEPTION, "Invalid type for key \"modules#0#requires\", expected \"List\" but got \"String\""),
             },
-            // (08) Deployment descriptor has an invalid ID:
+            // (05) Deployment descriptor has an invalid ID:
             {
                 "mtad-06.yaml", Schemas.MTAD, new Expectation(Expectation.Type.EXCEPTION, "Invalid value for key \"ID\", matching failed at \"com[/]sap/mta/sample\""),
             },
-            // (09) Deployment descriptor has a too long ID:
+            // (06) Deployment descriptor has a too long ID:
             {
                 "mtad-07.yaml", Schemas.MTAD, new Expectation(Expectation.Type.EXCEPTION, "Invalid value for key \"ID\", maximum length is 128"),
             },
-            // (10) Deployment descriptor provided dependency has an invalid name:
+            // (07) Deployment descriptor provided dependency has an invalid name:
             {
                 "mtad-08.yaml", Schemas.MTAD, new Expectation(Expectation.Type.EXCEPTION, "Invalid value for key \"modules#0#provides#0#name\", matching failed at \"internal-od[@]ta\""),
             },
-            // (11) Deployment descriptor module has an invalid name:
+            // (08) Deployment descriptor module has an invalid name:
             {
                 "mtad-09.yaml", Schemas.MTAD, new Expectation(Expectation.Type.EXCEPTION, "Invalid value for key \"modules#0#name\", matching failed at \"web[ ]server\""),
             },
-            // (12) Deployment descriptor module provides public has String, but not a Boolean value:
+            // (09) Deployment descriptor module provides public has String, but not a Boolean value:
             {
                 "mtad-10.yaml", com.sap.cloud.lm.sl.mta.handlers.v2.Schemas.MTAD, new Expectation(Expectation.Type.EXCEPTION, "Invalid type for key \"modules#0#provides#0#public\", expected \"Boolean\" but got \"String\""),
             },
-            // (13) Null content:
+            // (10) Null content:
             {
                 null, Schemas.MTAD, new Expectation(Expectation.Type.EXCEPTION, "Null content"),
             },
