@@ -2,6 +2,8 @@ package com.sap.cloud.lm.sl.mta.model;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 import java.util.StringTokenizer;
 import java.util.TreeMap;
 
@@ -29,9 +31,9 @@ public class VersionComponent {
     }
 
     public static class VersionComponentBuilder {
-        private List<String> versions;
+        private Map<Integer, List<Integer>> versions;
 
-        public VersionComponentBuilder(List<String> versions) {
+        public VersionComponentBuilder(Map<Integer, List<Integer>> versions) {
             this.versions = versions;
         }
 
@@ -39,11 +41,14 @@ public class VersionComponent {
             return new VersionComponent(buildVersionsMap(versions));
         }
 
-        private static TreeMap<Integer, Object> buildVersionsMap(List<String> versions) {
+        private static TreeMap<Integer, Object> buildVersionsMap(Map<Integer, List<Integer>> versions) {
             TreeMap<Integer, Object> versionsMap = new TreeMap<>();
-            for (String supportedMtaVersion : versions) {
-                StringTokenizer tokenizer = new StringTokenizer(supportedMtaVersion, VERSION_SEPARATOR);
-                buildVersionsMap(tokenizer, versionsMap);
+            for (Entry<Integer, List<Integer>> mtaVersion : versions.entrySet()) {
+                for (Integer minorVersion : mtaVersion.getValue()) {
+                    String supportedMtaVersion = mtaVersion.getKey()+"."+minorVersion;
+                        StringTokenizer tokenizer = new StringTokenizer(supportedMtaVersion, VERSION_SEPARATOR);
+                        buildVersionsMap(tokenizer, versionsMap);
+                }
             }
             return versionsMap;
         }

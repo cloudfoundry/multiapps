@@ -1,0 +1,25 @@
+[
+  {
+    "parameters": {},
+    "moduleTypes2": [],
+    "resourceTypes2": [
+      {
+        "parameters": {},
+        "name": "com.sap.hana.hdi-container"
+      }
+    ],
+    "name": "CLOUD-FOUNDRY"
+  },
+  {
+    "parameters": {},
+    "moduleTypes2": [
+      {
+        "parameters": {},
+        "name": "com.sap.static-content",
+        "properties": {}
+      }
+    ],
+    "resourceTypes2": [],
+    "name": "HCP-CLASSIC"
+  }
+]

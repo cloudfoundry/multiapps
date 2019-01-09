@@ -54,7 +54,7 @@ public class MtaSchemaVersionDetectorTest {
             },
             // (5) A descriptor has an integer version:
             {
-                new TestInput("mtad-10.yaml", Collections.<String> emptyList()), "3.1.0",
+                new TestInput("mtad-10.yaml", Collections.<String> emptyList()), "3.2.0",
             },
             // (6) A descriptor has an list of versions:
             {

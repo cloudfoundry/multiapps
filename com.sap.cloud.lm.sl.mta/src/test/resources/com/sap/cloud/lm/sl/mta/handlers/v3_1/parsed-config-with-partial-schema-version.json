@@ -4,6 +4,6 @@
   "parameters": {},
   "id": "mtaext-partial-schema-version-test",
   "parentId": "partial-schema-version-test",
-  "schemaVersion": "3.1.0",
+  "schemaVersion": "3.2.0",
   "deployTargets": []
 }

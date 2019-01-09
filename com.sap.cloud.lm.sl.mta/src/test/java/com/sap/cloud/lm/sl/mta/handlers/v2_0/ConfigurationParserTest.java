@@ -17,15 +17,11 @@ public class ConfigurationParserTest extends com.sap.cloud.lm.sl.mta.handlers.v1
             {
                 "/mta/sample/v2_0/platforms-01.json", "/mta/sample/v2_0/targets-01.json", new String[] { "R:platforms-01.json.json", "R:targets-01.json.json" },
             },
-            // (1) Invalid JSONs (invalid key 'properties' in platform resource type and resource type objects):
-            {
-                "/mta/sample/v2_0/platforms-02.json", "/mta/sample/v2_0/targets-02.json", new String[] { "E:Invalid key \"0#resource-types#0#properties\"", "E:Invalid key \"1#resource-types#0#properties\"" },
-            },
-            // (2) Invalid JSONs (platform and platform type names are not unique):
+            // (1) Invalid JSONs (platform and platform type names are not unique):
             {
                 "/mta/sample/v2_0/platforms-03.json", "/mta/sample/v2_0/targets-03.json", new String[] { "E:Value \"CLOUD-FOUNDRY\" for key \"name\" not unique for object \"MTA platform type\"", "E:Value \"CF-QUAL\" for key \"name\" not unique for object \"MTA platform\"" },
             },
-            // (3) Valid JSONs (containing only names):
+            // (2) Valid JSONs (containing only names):
             {
                 "/mta/sample/v2_0/platforms-04.json", "/mta/sample/v2_0/targets-04.json", new String[] { "R:platforms-04.json.json", "R:targets-04.json.json" },
             },

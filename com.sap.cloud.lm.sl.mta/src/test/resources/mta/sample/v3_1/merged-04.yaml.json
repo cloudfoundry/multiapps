@@ -297,7 +297,7 @@
     },
     "id": "com.sap.mta.sample.v3",
     "version": "1.2.1-beta+20150403144937853",
-    "schemaVersion": "3.1.0"
+    "schemaVersion": "3.2.0"
   },
   "_2": [
     "CF-QUAL"

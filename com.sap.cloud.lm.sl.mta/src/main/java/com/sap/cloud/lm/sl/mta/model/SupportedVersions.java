@@ -1,19 +1,39 @@
 package com.sap.cloud.lm.sl.mta.model;
 
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class SupportedVersions {
 
-    public static final List<String> SUPPORTED_VERSIONS = Arrays.asList("1.0", "2.0", "2.1", "2.2", "3.0", "3.1");
+
+    public static final Map<Integer, List<Integer>> SUPPORTED_VERSIONS;
+
+    static {
+        SUPPORTED_VERSIONS = new HashMap<>();
+        SUPPORTED_VERSIONS.put(2, Arrays.asList(0, 1, 2));
+        SUPPORTED_VERSIONS.put(3, Arrays.asList(0, 1, 2));
+    }
 
     public static boolean isSupported(Version schemaVersion) {
-        for (String rule : SUPPORTED_VERSIONS) {
-            if (schemaVersion.satisfies(rule)) {
-                return true;
-            }
+        int majorSchemaVersion = schemaVersion.getMajor();
+        return SUPPORTED_VERSIONS.keySet()
+            .stream()
+            .anyMatch(majorVersion -> majorVersion.equals(majorSchemaVersion));
+    }
+
+    public static boolean isFullySupported(Version schemaVersion) {
+        int majorSchemaVersion = schemaVersion.getMajor();
+        int minorSchemaVersion = schemaVersion.getMinor();
+
+        if (!SUPPORTED_VERSIONS.containsKey(majorSchemaVersion)) {
+            return false;
         }
-        return false;
+
+        return SUPPORTED_VERSIONS.get(majorSchemaVersion)
+            .stream()
+            .anyMatch(minorVersion -> minorVersion.equals(minorSchemaVersion));
     }
 
 }

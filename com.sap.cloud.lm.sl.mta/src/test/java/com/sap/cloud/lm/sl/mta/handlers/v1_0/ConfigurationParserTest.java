@@ -35,19 +35,11 @@ public class ConfigurationParserTest {
             { 
                 "/mta/sample/v1_0/platforms-01.json", "/mta/sample/v1_0/targets-01.json", new String[] { "R:platforms-01.json.json", "R:targets-01.json.json" },
             },
-            // (1) Invalid JSONs (invalid key 'parameters' in platform module type and module type objects):
-            {
-                "/mta/sample/v1_0/platforms-02.json", "/mta/sample/v1_0/targets-02.json", new String[] { "E:Invalid key \"0#module-types#0#parameters\"", "E:Invalid key \"1#module-types#0#parameters\"" },
-            },
-            // (2) Invalid JSONs (invalid key 'parameters' in target and platform objects):
-            {
-                "/mta/sample/v1_0/platforms-03.json", "/mta/sample/v1_0/targets-03.json", new String[] { "E:Invalid key \"1#parameters\"", "E:Invalid key \"0#parameters\"" },
-            },
-            // (3) Invalid JSONs (target and platform names are not unique):
+            // (1) Invalid JSONs (target and platform names are not unique):
             {
                 "/mta/sample/v1_0/platforms-04.json", "/mta/sample/v1_0/targets-04.json", new String[] { "E:Value \"CLOUD-FOUNDRY\" for key \"name\" not unique for object \"MTA platform type\"", "E:Value \"CF-QUAL\" for key \"name\" not unique for object \"MTA platform\"" },
             },
-            // (4) Valid JSONs (containing only names):
+            // (2) Valid JSONs (containing only names):
             {
                 "/mta/sample/v1_0/platforms-05.json", "/mta/sample/v1_0/targets-05.json", new String[] { "R:platforms-05.json.json", "R:targets-05.json.json" },
             },

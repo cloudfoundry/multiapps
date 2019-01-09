@@ -49,8 +49,8 @@ public class SchemaValidator {
             Element element = schema.getMap()
                 .get(key);
             String elementPrefix = getPrefixedName(prefix, key);
-            if (element == null) {
-                throw new ParsingException(Messages.INVALID_KEY, elementPrefix);
+            if (element == null) { 
+               continue;    
             }
             Object object = map.get(key);
             validate(object, element, elementPrefix, uniqueValuesMap);
