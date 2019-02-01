@@ -13,8 +13,8 @@ import com.google.gson.annotations.JsonAdapter;
 import com.sap.cloud.lm.sl.common.model.json.MapWithNumbersAdapterFactory;
 import com.sap.cloud.lm.sl.mta.parsers.v3.ModuleParser;
 import com.sap.cloud.lm.sl.mta.util.MetadataConverter;
-import com.sap.cloud.lm.sl.mta.util.YamlAdapter;
-import com.sap.cloud.lm.sl.mta.util.YamlElement;
+import com.sap.cloud.lm.sl.common.util.yaml.YamlAdapter;
+import com.sap.cloud.lm.sl.common.util.yaml.YamlElement;
 
 public class Module extends VersionedEntity
     implements VisitableElement, NamedElement, PropertiesWithMetadataContainer, ParametersWithMetadataContainer {

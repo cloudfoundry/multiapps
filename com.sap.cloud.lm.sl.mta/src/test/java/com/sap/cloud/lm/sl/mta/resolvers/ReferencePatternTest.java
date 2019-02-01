@@ -59,7 +59,7 @@ public class ReferencePatternTest {
                 Reference expected = expectedReferences[i];
                 Reference actual = actualRefs.get(i);
                 assertEquals(expected.getMatchedPattern(), actual.getMatchedPattern());
-                assertEquals(expected.getPropertyName(), actual.getPropertyName());
+                assertEquals(expected.getKey(), actual.getKey());
                 if (pattern.hasPropertySetSegment()) {
                     assertEquals(expected.getDependencyName(), actual.getDependencyName());
                 }

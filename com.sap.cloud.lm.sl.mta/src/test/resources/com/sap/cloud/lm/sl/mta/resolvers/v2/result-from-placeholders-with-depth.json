@@ -1,0 +1,111 @@
+{
+  "schemaVersion": "2.0.0",
+  "id": "com.sap.mta.sample.v2",
+  "version": "1.2.1-beta+20150403144937853",
+  "modules": [
+    {
+      "name": "web-server",
+      "type": "java.tomee",
+      "properties": {},
+      "parameters": {
+        "disk-quota": "256M",
+        "list": [
+          "512M",
+          "256M"
+        ],
+        "list-of-things": [
+          "thing1",
+          "thing2"
+        ],
+        "memory": "512M",
+        "routes": [
+          {
+            "route": "something"
+          }
+        ]
+      },
+      "requiredDependencies": [],
+      "providedDependencies": [
+        {
+          "name": "web-server-props",
+          "isPublic": true,
+          "properties": {
+            "route": "something",
+            "second-in-list": "256M"
+          },
+          "parameters": {},
+          "propertiesMetadata": {
+            "metadata": {}
+          },
+          "parametersMetadata": {
+            "metadata": {}
+          },
+          "majorSchemaVersion": 2
+        },
+        {
+          "name": "web-server",
+          "isPublic": true,
+          "properties": {},
+          "parameters": {},
+          "propertiesMetadata": {
+            "metadata": {}
+          },
+          "parametersMetadata": {
+            "metadata": {}
+          },
+          "majorSchemaVersion": 2
+        }
+      ],
+      "propertiesMetadata": {
+        "metadata": {}
+      },
+      "parametersMetadata": {
+        "metadata": {}
+      },
+      "majorSchemaVersion": 2
+    },
+    {
+      "name": "backend",
+      "type": "java.tomee",
+      "properties": {},
+      "parameters": {
+        "routes": [
+          {
+            "route": "something-else"
+          }
+        ]
+      },
+      "requiredDependencies": [],
+      "providedDependencies": [
+        {
+          "name": "backend",
+          "isPublic": true,
+          "properties": {
+            "url": "some-url"
+          },
+          "parameters": {},
+          "propertiesMetadata": {
+            "metadata": {}
+          },
+          "parametersMetadata": {
+            "metadata": {}
+          },
+          "majorSchemaVersion": 2
+        }
+      ],
+      "propertiesMetadata": {
+        "metadata": {}
+      },
+      "parametersMetadata": {
+        "metadata": {}
+      },
+      "majorSchemaVersion": 2
+    }
+  ],
+  "resources": [],
+  "parameters": {},
+  "parametersMetadata": {
+    "metadata": {}
+  },
+  "majorSchemaVersion": 2
+}

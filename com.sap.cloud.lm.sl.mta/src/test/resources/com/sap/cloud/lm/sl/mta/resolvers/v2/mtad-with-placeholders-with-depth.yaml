@@ -1,0 +1,32 @@
+_schema-version: 2.0.0
+ID: com.sap.mta.sample.v2
+version: 1.2.1-beta+20150403144937853
+
+modules:
+  - name: web-server
+    type: java.tomee
+    provides:
+      - name: web-server-props
+        properties:
+          route: ${routes/0/route}
+          second-in-list: ${list/1}
+    parameters:
+      memory: 512M
+      disk-quota: 256M
+      routes:
+        - route: something
+      list-of-things:
+        - thing1
+        - thing2
+      list:
+        - ${memory}
+        - ${disk-quota}
+  - name: backend
+    type: java.tomee
+    provides:
+      - name: backend
+        properties:
+          url: some-url
+    parameters:
+      routes:
+        - route: something-else

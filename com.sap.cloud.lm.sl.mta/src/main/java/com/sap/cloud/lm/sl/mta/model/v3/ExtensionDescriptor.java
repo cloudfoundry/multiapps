@@ -6,9 +6,9 @@ import java.util.List;
 import org.apache.commons.lang3.ObjectUtils;
 
 import com.sap.cloud.lm.sl.common.util.ListUtil;
+import com.sap.cloud.lm.sl.common.util.yaml.YamlElement;
+import com.sap.cloud.lm.sl.common.util.yaml.YamlElementOrder;
 import com.sap.cloud.lm.sl.mta.parsers.v3.ExtensionDescriptorParser;
-import com.sap.cloud.lm.sl.mta.util.YamlElement;
-import com.sap.cloud.lm.sl.mta.util.YamlElementOrder;
 
 @YamlElementOrder({ "schemaVersion", "id", "parentId", "description", "provider", "parameters", "modules3", "resources3" })
 public class ExtensionDescriptor extends com.sap.cloud.lm.sl.mta.model.v2.ExtensionDescriptor {

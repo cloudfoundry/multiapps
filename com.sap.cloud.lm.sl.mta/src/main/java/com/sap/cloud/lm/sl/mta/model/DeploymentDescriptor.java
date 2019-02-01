@@ -12,9 +12,9 @@ import com.google.gson.annotations.JsonAdapter;
 import com.sap.cloud.lm.sl.common.model.json.MapWithNumbersAdapterFactory;
 import com.sap.cloud.lm.sl.mta.parsers.v3.DeploymentDescriptorParser;
 import com.sap.cloud.lm.sl.mta.util.MetadataConverter;
-import com.sap.cloud.lm.sl.mta.util.YamlAdapter;
-import com.sap.cloud.lm.sl.mta.util.YamlElement;
-import com.sap.cloud.lm.sl.mta.util.YamlElementOrder;
+import com.sap.cloud.lm.sl.common.util.yaml.YamlAdapter;
+import com.sap.cloud.lm.sl.common.util.yaml.YamlElement;
+import com.sap.cloud.lm.sl.common.util.yaml.YamlElementOrder;
 
 @YamlElementOrder({ "schemaVersion", "id", "version", "parameters", "modules", "resources" })
 public class DeploymentDescriptor extends VersionedEntity implements Descriptor, VisitableElement, ParametersWithMetadataContainer {
