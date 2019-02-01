@@ -1,4 +1,4 @@
-package com.sap.cloud.lm.sl.mta.tags;
+package com.sap.cloud.lm.sl.common.tags;
 
 import org.yaml.snakeyaml.constructor.AbstractConstruct;
 import org.yaml.snakeyaml.nodes.Node;

@@ -2,10 +2,17 @@ package com.sap.cloud.lm.sl.mta.resolvers;
 
 import static com.sap.cloud.lm.sl.mta.util.ValidatorUtil.getPrefixedName;
 
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+import org.apache.commons.collections4.IterableUtils;
+import org.apache.commons.collections4.MapUtils;
+import org.apache.commons.lang3.StringUtils;
 
 import com.sap.cloud.lm.sl.common.ContentException;
 import com.sap.cloud.lm.sl.mta.helpers.SimplePropertyVisitor;
@@ -106,24 +113,102 @@ public class PropertiesResolver implements SimplePropertyVisitor, Resolver<Map<S
     }
 
     private Object resolveReference(Reference reference) {
-        String referencedPropertyKey = reference.getPropertyName();
+        String referenceKey = reference.getKey();
         Map<String, Object> replacementValues = valuesResolver.resolveProvidedValues(reference.getDependencyName());
-        if (replacementValues == null || !replacementValues.containsKey(referencedPropertyKey)) {
+
+        boolean canResolveInDepth = referencePattern.hasDepthOfReference() && referenceKey.contains("/");
+        if (!referenceResolutionIsPossible(referenceKey, replacementValues, canResolveInDepth)) {
             if (isStrict) {
-                throw new ContentException(Messages.UNABLE_TO_RESOLVE, getPrefixedName(prefix, referencedPropertyKey));
+                throw new ContentException(Messages.UNABLE_TO_RESOLVE, getPrefixedName(prefix, referenceKey));
             }
             return null;
         }
+        // always try to resolve as a flat reference first
+        Object referencedProperty = replacementValues.get(referenceKey);
+
+        if (referencedProperty == null && canResolveInDepth) {
+            referencedProperty = resolveReferenceInDepth(referenceKey, replacementValues);
+        }
+
         String referencedPropertyKeyWithSuffix = getReferencedPropertyKeyWithSuffix(reference);
-        Object referencedProperty = replacementValues.get(referencedPropertyKey);
         return resolve(referencedPropertyKeyWithSuffix, referencedProperty);
+    }
+
+    private boolean referenceResolutionIsPossible(String referenceKey, Map<String, Object> referencedProperties,
+        boolean canResolveInDepth) {
+        if (referencedProperties == null) {
+            return false;
+        }
+
+        if (!referencedProperties.containsKey(referenceKey) && !canResolveInDepth) {
+            return false;
+        }
+
+        return true;
+    }
+
+    protected Object resolveReferenceInDepth(String deepReferenceKey, Map<String, Object> referencedProperties) {
+        Matcher referencePartsMatcher = Pattern.compile("([^/]+)/?")
+            .matcher(deepReferenceKey);
+
+        if (!referencePartsMatcher.find()) {
+            if (isStrict) {
+                throw new ContentException(Messages.UNABLE_TO_RESOLVE, getPrefixedName(prefix, deepReferenceKey));
+            }
+            return null;
+        }
+
+        Object currentProperty = referencedProperties.get(referencePartsMatcher.group(1));
+        String keyPart = "";
+
+        while (referencePartsMatcher.find()) {
+            keyPart = addOldKeyAsPrefixIfUnresolved(keyPart, referencePartsMatcher.group(1));
+
+            if (currentProperty instanceof Collection) {
+                currentProperty = resolveKeyInIterable(keyPart, (Collection<?>) currentProperty, deepReferenceKey);
+                keyPart = "";
+            } else if (currentProperty instanceof Map) {
+                Object subProperty = MapUtils.getObject((Map<Object, ?>) currentProperty, keyPart);
+                if (subProperty != null) {
+                    currentProperty = subProperty;
+                    keyPart = "";
+                }
+            } else {
+                throw new ContentException(Messages.UNABLE_TO_RESOLVE, getPrefixedName(prefix, deepReferenceKey));
+            }
+        }
+
+        if (!keyPart.isEmpty()) {
+            throw new ContentException(Messages.UNABLE_TO_RESOLVE, getPrefixedName(prefix, deepReferenceKey));
+        }
+
+        return currentProperty;
+    }
+
+    private String addOldKeyAsPrefixIfUnresolved(String oldKey, String newKey) {
+        if (oldKey.isEmpty()) {
+            return newKey;
+        } else {
+            return oldKey + "/" + newKey;
+        }
+    }
+    
+    private Object resolveKeyInIterable(String key, Collection<?> listOfProperties, String longKey) {
+        if (StringUtils.isNumeric(key)) {
+            try {
+                return IterableUtils.get(listOfProperties, Integer.parseInt(key));
+            } catch (IndexOutOfBoundsException e) {
+            }
+        }
+        
+        throw new ContentException(Messages.UNABLE_TO_RESOLVE, getPrefixedName(prefix, longKey));
     }
 
     private String getReferencedPropertyKeyWithSuffix(Reference reference) {
         if (reference.getDependencyName() != null) {
-            return getPrefixedName(reference.getDependencyName(), reference.getPropertyName());
+            return getPrefixedName(reference.getDependencyName(), reference.getKey());
         }
-        return reference.getPropertyName();
+        return reference.getKey();
     }
 
     private List<Reference> detectReferences(String line) {

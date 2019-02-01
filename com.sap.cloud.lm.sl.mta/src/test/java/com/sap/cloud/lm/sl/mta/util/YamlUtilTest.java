@@ -11,6 +11,7 @@ import org.junit.jupiter.api.Test;
 
 import com.sap.cloud.lm.sl.common.ParsingException;
 import com.sap.cloud.lm.sl.common.util.TestUtil;
+import com.sap.cloud.lm.sl.common.util.YamlUtil;
 
 public class YamlUtilTest {
 

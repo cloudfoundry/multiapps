@@ -7,6 +7,7 @@ import java.util.Map;
 import org.apache.commons.lang3.ObjectUtils;
 
 import com.sap.cloud.lm.sl.common.util.MapUtil;
+import com.sap.cloud.lm.sl.common.util.yaml.YamlElement;
 import com.sap.cloud.lm.sl.mta.model.ElementContext;
 import com.sap.cloud.lm.sl.mta.model.NamedElement;
 import com.sap.cloud.lm.sl.mta.model.ParametersContainer;
@@ -14,7 +15,6 @@ import com.sap.cloud.lm.sl.mta.model.PropertiesContainer;
 import com.sap.cloud.lm.sl.mta.model.VisitableElement;
 import com.sap.cloud.lm.sl.mta.model.Visitor;
 import com.sap.cloud.lm.sl.mta.parsers.v2.ExtensionResourceParser;
-import com.sap.cloud.lm.sl.mta.util.YamlElement;
 
 public class ExtensionResource implements VisitableElement, NamedElement, PropertiesContainer, ParametersContainer {
 

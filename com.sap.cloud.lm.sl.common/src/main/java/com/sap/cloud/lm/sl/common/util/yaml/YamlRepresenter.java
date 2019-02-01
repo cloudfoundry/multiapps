@@ -1,4 +1,4 @@
-package com.sap.cloud.lm.sl.mta.util;
+package com.sap.cloud.lm.sl.common.util.yaml;
 
 import java.lang.reflect.Field;
 import java.util.Arrays;

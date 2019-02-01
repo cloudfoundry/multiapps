@@ -40,8 +40,7 @@ public class ParametersChainBuilder extends PropertiesChainBuilder {
         }
         List<RequiredDependency> dependencies = module.getRequiredDependencies();
         ModuleType moduleType = getModuleType(module);
-        DeploymentDescriptor deploymentDescriptor = descriptor;
-        return getParametersList(dependencies, module, moduleType, deploymentDescriptor);
+        return getParametersList(dependencies, module, moduleType, descriptor);
     }
 
     @Override
@@ -51,14 +50,12 @@ public class ParametersChainBuilder extends PropertiesChainBuilder {
             return Collections.emptyList();
         }
         ModuleType moduleType = getModuleType(module);
-        DeploymentDescriptor deploymentDescriptor = descriptor;
-        return PropertiesUtil.getParametersList(module, moduleType, deploymentDescriptor);
+        return PropertiesUtil.getParametersList(module, moduleType, descriptor);
     }
 
     @Override
     public List<Map<String, Object>> buildResourceChain(String resourceName) {
         Resource resource = handler.findResource(descriptor, resourceName);
-        DeploymentDescriptor deploymentDescriptor = descriptor;
         if (resource == null) {
             return Collections.emptyList();
         }
@@ -66,7 +63,7 @@ public class ParametersChainBuilder extends PropertiesChainBuilder {
         if (resource != null && resource.getType() != null) {
             resourceTypeChain = buildResourceTypeChain(resourceName);
         }
-        List<Map<String, Object>> resourceChain = PropertiesUtil.getParametersList(resource, deploymentDescriptor);
+        List<Map<String, Object>> resourceChain = PropertiesUtil.getParametersList(resource, descriptor);
         resourceChain.addAll(resourceTypeChain);
         return resourceChain;
     }
@@ -78,8 +75,7 @@ public class ParametersChainBuilder extends PropertiesChainBuilder {
             return Collections.emptyList();
         }
         ParametersContainer resourceType = getResourceType(resource);
-        DeploymentDescriptor deploymentDescriptor = descriptor;
-        return PropertiesUtil.getParametersList(resourceType, deploymentDescriptor);
+        return PropertiesUtil.getParametersList(resourceType, descriptor);
     }
 
     protected static List<Map<String, Object>> getParametersList(List<RequiredDependency> dependencies, Module module,

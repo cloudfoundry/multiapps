@@ -7,8 +7,8 @@ import java.util.Map;
 
 import org.apache.commons.lang3.ObjectUtils;
 
+import com.sap.cloud.lm.sl.common.tags.TaggedObject;
 import com.sap.cloud.lm.sl.mta.model.Metadata;
-import com.sap.cloud.lm.sl.mta.tags.TaggedObject;
 
 public class MetadataUpdater {
 

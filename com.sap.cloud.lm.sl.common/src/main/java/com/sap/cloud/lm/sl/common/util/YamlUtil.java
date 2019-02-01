@@ -1,4 +1,4 @@
-package com.sap.cloud.lm.sl.mta.util;
+package com.sap.cloud.lm.sl.common.util;
 
 import java.io.InputStream;
 import java.util.List;
@@ -9,8 +9,9 @@ import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.constructor.SafeConstructor;
 
 import com.sap.cloud.lm.sl.common.ParsingException;
-import com.sap.cloud.lm.sl.mta.message.Messages;
-import com.sap.cloud.lm.sl.mta.tags.YamlTaggedObjectsConstructor;
+import com.sap.cloud.lm.sl.common.message.Messages;
+import com.sap.cloud.lm.sl.common.tags.YamlTaggedObjectsConstructor;
+import com.sap.cloud.lm.sl.common.util.yaml.YamlRepresenter;
 
 public class YamlUtil {
 

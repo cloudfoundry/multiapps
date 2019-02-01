@@ -15,6 +15,8 @@ public class Messages {
     public static final String UNABLE_TO_PARSE_SCHEMA = "Could not parse schema at location \"{0}\"";
     public static final String UNABLE_TO_UNMARSHAL_OBJECT = "An unexpected error occurred while unmarshalling the XML content";
     public static final String UNABLE_TO_MARSHAL_OBJECT = "An unexpected error occurred while marshalling the object";
+    public static final String ERROR_PARSING_YAML_STREAM = "Error while parsing YAML stream";
+    public static final String ERROR_PARSING_YAML_STRING = "Error while parsing YAML string: %n%s%n%s";
     // Audit log messages:
 
     // ERROR log messages:

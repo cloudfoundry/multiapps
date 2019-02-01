@@ -1,0 +1,25 @@
+test-list:
+  - foo: '@foo'
+    bar: '@bar'
+  - fizz: '@fizz'
+    buzz: '@buzz'
+  - 'a string in list'
+hosts:
+  - 'some host'
+  - 'another host'
+test-map:
+  a-list:
+    - first-item
+    - second-item
+    - third-item
+  a-string: just-a-string
+tricky-map:
+  "just a key": foo
+  "0":
+    - bar
+    - baz
+  "one/two": why
+  ? "3/4"
+  : "5": stop
+  ? "3/4/5"
+  : this is actually unreachable

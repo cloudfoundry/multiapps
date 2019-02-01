@@ -11,7 +11,6 @@ import org.junit.runners.Parameterized.Parameters;
 import com.sap.cloud.lm.sl.common.util.Runnable;
 import com.sap.cloud.lm.sl.common.util.TestUtil;
 import com.sap.cloud.lm.sl.common.util.TestUtil.Expectation;
-import com.sap.cloud.lm.sl.mta.MtaTestUtil;
 import com.sap.cloud.lm.sl.mta.handlers.v2.Schemas;
 
 @RunWith(value = Parameterized.class)
@@ -92,9 +91,9 @@ public class SchemaValidatorTest {
             @Override
             public void run() throws Exception {
                 if (schema instanceof MapElement) {
-                    validator.validate(MtaTestUtil.getMap(file, getClass()));
+                    validator.validate(TestUtil.getMap(file, getClass()));
                 } else if (schema instanceof ListElement) {
-                    validator.validate(MtaTestUtil.getList(file, getClass()));
+                    validator.validate(TestUtil.getList(file, getClass()));
                 }
             }
         }, expectation);

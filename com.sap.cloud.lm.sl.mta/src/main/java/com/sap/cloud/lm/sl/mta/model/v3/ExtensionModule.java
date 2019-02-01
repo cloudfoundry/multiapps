@@ -6,8 +6,8 @@ import java.util.List;
 import org.apache.commons.lang3.ObjectUtils;
 
 import com.sap.cloud.lm.sl.common.util.ListUtil;
+import com.sap.cloud.lm.sl.common.util.yaml.YamlElement;
 import com.sap.cloud.lm.sl.mta.parsers.v3.ExtensionModuleParser;
-import com.sap.cloud.lm.sl.mta.util.YamlElement;
 
 public class ExtensionModule extends com.sap.cloud.lm.sl.mta.model.v2.ExtensionModule {
 
