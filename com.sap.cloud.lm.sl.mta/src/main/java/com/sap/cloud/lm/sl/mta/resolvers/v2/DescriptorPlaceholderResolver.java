@@ -8,8 +8,6 @@ import java.util.Map;
 import com.sap.cloud.lm.sl.common.ContentException;
 import com.sap.cloud.lm.sl.common.util.ListUtil;
 import com.sap.cloud.lm.sl.mta.builders.v2.ParametersChainBuilder;
-import com.sap.cloud.lm.sl.mta.model.Platform;
-import com.sap.cloud.lm.sl.mta.model.SystemParameters;
 import com.sap.cloud.lm.sl.mta.model.v2.DeploymentDescriptor;
 import com.sap.cloud.lm.sl.mta.model.v2.Module;
 import com.sap.cloud.lm.sl.mta.model.v2.Resource;
@@ -27,9 +25,9 @@ public class DescriptorPlaceholderResolver extends PlaceholderResolver<Deploymen
 
     protected final ParametersChainBuilder parametersChainBuilder;
 
-    public DescriptorPlaceholderResolver(DeploymentDescriptor descriptor, SystemParameters systemParameters,
-        ResolverBuilder propertiesResolverBuilder, ResolverBuilder parametersResolverBuilder) {
-        super("", "", systemParameters);
+    public DescriptorPlaceholderResolver(DeploymentDescriptor descriptor, ResolverBuilder propertiesResolverBuilder,
+        ResolverBuilder parametersResolverBuilder, Map<String, String> singularToPluralMapping) {
+        super("", "", singularToPluralMapping);
         this.deploymentDescriptor = descriptor;
         this.propertiesResolverBuilder = propertiesResolverBuilder;
         this.parametersResolverBuilder = parametersResolverBuilder;
@@ -45,16 +43,15 @@ public class DescriptorPlaceholderResolver extends PlaceholderResolver<Deploymen
     }
 
     protected Map<String, Object> getResolvedProperties(Map<String, Object> propertiesToResolve) {
-        List<Map<String, Object>> parametersList = Arrays.asList(deploymentDescriptor.getParameters(),
-            systemParameters.getGeneralParameters());
+        List<Map<String, Object>> parametersList = Arrays.asList(deploymentDescriptor.getParameters());
         addSingularParametersIfNecessary(parametersList);
         return new PropertiesPlaceholderResolver(propertiesResolverBuilder).resolve(propertiesToResolve,
             PropertiesUtil.mergeProperties(parametersList), prefix);
     }
 
     protected ResourcePlaceholderResolver getResourceResolver(Resource resource) {
-        return new ResourcePlaceholderResolver(resource, prefix, parametersChainBuilder, systemParameters, propertiesResolverBuilder,
-            parametersResolverBuilder);
+        return new ResourcePlaceholderResolver(resource, prefix, parametersChainBuilder, propertiesResolverBuilder,
+            parametersResolverBuilder, singularToPluralMapping);
     }
 
     protected List<Resource> getResolvedResources() {
@@ -66,8 +63,8 @@ public class DescriptorPlaceholderResolver extends PlaceholderResolver<Deploymen
     }
 
     protected ModulePlaceholderResolver getModuleResolver(Module module) {
-        return new ModulePlaceholderResolver(module, prefix, parametersChainBuilder, systemParameters, propertiesResolverBuilder,
-            parametersResolverBuilder);
+        return new ModulePlaceholderResolver(module, prefix, parametersChainBuilder, propertiesResolverBuilder, parametersResolverBuilder,
+            singularToPluralMapping);
     }
 
     protected List<? extends Module> getResolvedModules() {

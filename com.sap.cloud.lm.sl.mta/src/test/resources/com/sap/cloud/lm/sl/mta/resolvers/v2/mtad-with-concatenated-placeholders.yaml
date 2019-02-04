@@ -1,0 +1,16 @@
+_schema-version: 2.0.0
+ID: placeholders-test
+version: 1.0.0
+
+parameters:
+  schema: https
+  host: api
+  domain: cf.sap.corp
+
+modules:
+  - name: foo
+    type: application
+    parameters:
+      uri: ${schema}://${host}.${domain}
+    properties:
+      uri: ${schema}://${host}.${domain}

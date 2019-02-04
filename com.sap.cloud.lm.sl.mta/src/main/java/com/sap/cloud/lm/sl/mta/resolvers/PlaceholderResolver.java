@@ -2,33 +2,28 @@ package com.sap.cloud.lm.sl.mta.resolvers;
 
 import static com.sap.cloud.lm.sl.mta.resolvers.ReferencePattern.PLACEHOLDER;
 
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.sap.cloud.lm.sl.mta.model.SystemParameters;
-
 public abstract class PlaceholderResolver<T> extends PatternResolver<T> {
 
-    protected final SystemParameters systemParameters;
+    protected final Map<String, String> singularToPluralMapping;
 
-    public PlaceholderResolver(String objectName, String prefix, SystemParameters systemParameters) {
+    public PlaceholderResolver(String objectName, String prefix, Map<String, String> singularToPluralMapping) {
         super(objectName, prefix, PLACEHOLDER);
-        this.systemParameters = systemParameters;
+        this.singularToPluralMapping = singularToPluralMapping;
     }
 
     protected void addSingularParametersIfNecessary(List<Map<String, Object>> parametersList) {
-        for (String singular : systemParameters.getSingularPluralMapping()
-            .keySet()) {
+        for (String singular : singularToPluralMapping.keySet()) {
             addSingularParameterIfNecessary(singular, parametersList);
         }
     }
 
     protected void addSingularParameterIfNecessary(String singular, List<Map<String, Object>> parametersList) {
         if (shouldAddSingularParameter(singular, parametersList)) {
-            Object value = getSingularParameter(systemParameters.getSingularPluralMapping()
-                .get(singular), parametersList);
+            Object value = getSingularParameter(singularToPluralMapping.get(singular), parametersList);
             if (value != null) {
                 Map<String, Object> parameters = new LinkedHashMap<>(parametersList.remove(0));
                 parameters.put(singular, value);
@@ -55,14 +50,6 @@ public abstract class PlaceholderResolver<T> extends PatternResolver<T> {
             }
         }
         return pluralValue == null ? null : pluralValue.get(0);
-    }
-
-    protected Map<String, Object> getFullSystemParameters(Map<String, Object> parametersToAdd) {
-        Map<String, Object> fullSystemParameters = new HashMap<>(systemParameters.getGeneralParameters());
-        if (parametersToAdd != null && !parametersToAdd.isEmpty()) {
-            fullSystemParameters.putAll(parametersToAdd);
-        }
-        return fullSystemParameters;
     }
 
 }

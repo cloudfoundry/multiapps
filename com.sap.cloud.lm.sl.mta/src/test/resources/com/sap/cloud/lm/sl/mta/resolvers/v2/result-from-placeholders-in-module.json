@@ -10,16 +10,24 @@
         }
       ],
       "parameters": {
-        "bar": "foo.foo",
-        "foo": "foo"
+        "b": "bbb",
+        "c": "aaa",
+        "d": "bbb"
       },
       "name": "foo",
       "type": "application",
-      "properties": {}
+      "properties": {
+        "e": "aaa",
+        "f": "bbb",
+        "g": "aaa",
+        "h": "bbb"
+      }
     }
   ],
   "resources2": [],
-  "parameters": {},
+  "parameters": {
+    "a": "aaa"
+  },
   "schemaVersion": "2.0.0",
   "id": "placeholders-test",
   "version": "1.0.0"

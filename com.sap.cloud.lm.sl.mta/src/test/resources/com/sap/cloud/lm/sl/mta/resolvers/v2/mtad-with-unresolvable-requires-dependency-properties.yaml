@@ -5,6 +5,7 @@ version: 1.0.0
 modules:
   - name: foo
     type: application
-    parameters:
-      foo: foo
-      bar: "${foo}.${foo}"
+    requires:
+      - name: bar
+        properties:
+          b: ${non-existing}

@@ -6,7 +6,6 @@ import java.util.Map;
 
 import com.sap.cloud.lm.sl.common.ContentException;
 import com.sap.cloud.lm.sl.mta.builders.v2.ParametersChainBuilder;
-import com.sap.cloud.lm.sl.mta.model.SystemParameters;
 import com.sap.cloud.lm.sl.mta.model.v2.Module;
 import com.sap.cloud.lm.sl.mta.model.v2.ProvidedDependency;
 import com.sap.cloud.lm.sl.mta.model.v2.RequiredDependency;
@@ -23,8 +22,8 @@ public class ModulePlaceholderResolver extends PlaceholderResolver<Module> {
     protected final ResolverBuilder parametersResolverBuilder;
 
     public ModulePlaceholderResolver(Module module, String prefix, ParametersChainBuilder parametersChainBuilder,
-        SystemParameters systemParameters, ResolverBuilder propertiesResolverBuilder, ResolverBuilder parametersResolverBuilder) {
-        super(module.getName(), prefix, systemParameters);
+        ResolverBuilder propertiesResolverBuilder, ResolverBuilder parametersResolverBuilder, Map<String, String> singularToPluralMapping) {
+        super(module.getName(), prefix, singularToPluralMapping);
         this.module = module;
         this.parametersChainBuilder = parametersChainBuilder;
         this.propertiesResolverBuilder = propertiesResolverBuilder;
@@ -45,8 +44,6 @@ public class ModulePlaceholderResolver extends PlaceholderResolver<Module> {
         String moduleName = module.getName();
         List<Map<String, Object>> parametersList = parametersChainBuilder.buildModuleChainWithoutDependencies(moduleName);
         addSingularParametersIfNecessary(parametersList);
-        parametersList.add(getFullSystemParameters(systemParameters.getModuleParameters()
-            .get(moduleName)));
         Map<String, Object> mergedParameters = PropertiesUtil.mergeProperties(parametersList);
         return mergedParameters;
     }
@@ -68,8 +65,8 @@ public class ModulePlaceholderResolver extends PlaceholderResolver<Module> {
     }
 
     protected ProvidedDependencyPlaceholderResolver getProvidedDependencyResolver(ProvidedDependency providedDependency) {
-        return new ProvidedDependencyPlaceholderResolver(module, providedDependency, prefix, parametersChainBuilder, systemParameters,
-            propertiesResolverBuilder);
+        return new ProvidedDependencyPlaceholderResolver(module, providedDependency, prefix, parametersChainBuilder,
+            propertiesResolverBuilder, singularToPluralMapping);
     }
 
     protected List<RequiredDependency> getResolvedRequiredDependencies() {
@@ -81,8 +78,8 @@ public class ModulePlaceholderResolver extends PlaceholderResolver<Module> {
     }
 
     protected RequiredDependencyPlaceholderResolver getRequiredDependencyResolver(RequiredDependency requiredDependency) {
-        return new RequiredDependencyPlaceholderResolver(module, requiredDependency, prefix, parametersChainBuilder, systemParameters,
-            propertiesResolverBuilder, parametersResolverBuilder);
+        return new RequiredDependencyPlaceholderResolver(module, requiredDependency, prefix, parametersChainBuilder,
+            propertiesResolverBuilder, parametersResolverBuilder, singularToPluralMapping);
     }
 
 }

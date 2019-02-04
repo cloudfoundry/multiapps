@@ -5,6 +5,6 @@ version: 1.0.0
 modules:
   - name: foo
     type: application
-    parameters:
-      foo: foo
-      bar: "${foo}.${foo}"
+
+parameters:
+  a: ${non-existing}

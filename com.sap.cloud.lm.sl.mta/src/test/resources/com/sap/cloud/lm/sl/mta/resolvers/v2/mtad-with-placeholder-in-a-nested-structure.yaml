@@ -1,0 +1,17 @@
+_schema-version: "2.0.0"
+ID: placeholders-test
+version: 1.0.0
+
+parameters:
+  credentials:
+    username: foo
+    password: bar
+      
+resources:
+  - name: bar
+    type: managed-service
+    parameters:
+      config:
+        instances:
+          - name: default
+            credentials: ${credentials}

@@ -6,5 +6,4 @@ modules:
   - name: foo
     type: application
     parameters:
-      foo: foo
-      bar: "${foo}.${foo}"
+      a: ${non-existing}
