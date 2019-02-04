@@ -6,12 +6,12 @@
           "name": "pricing",
           "properties": {
             "bar": "web-server",
-            "baz": "another",
+            "baz": "SAP-STANDARD",
             "foo": "www"
           },
           "parameters": {
             "bar": "web-server",
-            "baz": "another",
+            "baz": "SAP-STANDARD",
             "foo": "www"
           }
         }
@@ -39,7 +39,7 @@
             "baz": "test",
             "foo": "api",
             "quux": "self",
-            "qux": "i318495"
+            "qux": "deployer"
           },
           "parameters": {
             "self": "self",
@@ -55,7 +55,9 @@
         }
       ],
       "parameters": {
-        "host": "api"
+        "buildpack": "nodejs-test",
+        "host": "api",
+        "test": "test"
       },
       "name": "pricing",
       "type": "org.nodejs",
@@ -77,7 +79,13 @@
     }
   ],
   "resources2": [],
-  "parameters": {},
+  "parameters": {
+    "org": "SAP-STANDARD",
+    "password": "password",
+    "space": "STAGING",
+    "user": "deployer",
+    "xs-api-url": "https://api.sap.cf.com"
+  },
   "schemaVersion": "2.0.0",
   "id": "com.sap.mta.sample.v2",
   "version": "1.2.1-beta+20150403144937853"

@@ -27,7 +27,7 @@
       "parameters": {
         "config": {
           "users": [
-            "i318495",
+            "deployer",
             "XSMASTER"
           ]
         }
@@ -38,6 +38,7 @@
     }
   ],
   "parameters": {
+    "user": "deployer",
     "username": "deployer"
   },
   "schemaVersion": "2.0.0",

@@ -15,9 +15,9 @@ public class DescriptorPlaceholderResolver extends com.sap.cloud.lm.sl.mta.resol
 
     protected final DeploymentDescriptor deploymentDescriptor;
 
-    public DescriptorPlaceholderResolver(DeploymentDescriptor descriptor, Platform platform, SystemParameters systemParameters,
+    public DescriptorPlaceholderResolver(DeploymentDescriptor descriptor, SystemParameters systemParameters,
         ResolverBuilder propertiesResolverBuilder, ResolverBuilder parametersResolverBuilder) {
-        super(descriptor, platform, systemParameters, propertiesResolverBuilder, parametersResolverBuilder);
+        super(descriptor, systemParameters, propertiesResolverBuilder, parametersResolverBuilder);
         this.deploymentDescriptor = descriptor;
     }
 

@@ -7,12 +7,11 @@ import org.junit.runners.Parameterized;
 import org.junit.runners.Parameterized.Parameters;
 
 import com.sap.cloud.lm.sl.common.util.TestUtil.Expectation;
-import com.sap.cloud.lm.sl.mta.handlers.v3.DescriptorParser;
 import com.sap.cloud.lm.sl.mta.model.SystemParameters;
 import com.sap.cloud.lm.sl.mta.model.v3.DeploymentDescriptor;
 import com.sap.cloud.lm.sl.mta.resolvers.ResolverBuilder;
 
-@RunWith(value = Parameterized.class)
+@RunWith(Parameterized.class)
 public class DescriptorPlaceholderResolverTest extends com.sap.cloud.lm.sl.mta.resolvers.v2.DescriptorPlaceholderResolverTest {
 
     @Parameters
@@ -21,27 +20,21 @@ public class DescriptorPlaceholderResolverTest extends com.sap.cloud.lm.sl.mta.r
 // @formatter:off
             // (00) Placeholder in parameters in provided dependencies:
             {
-                "mtad-01.yaml", "platform-1.json", new Expectation(Expectation.Type.RESOURCE, "result-01.json"),
+                "mtad-01.yaml", new Expectation(Expectation.Type.RESOURCE, "result-01.json"),
             },
 // @formatter:on
         });
     }
 
-    public DescriptorPlaceholderResolverTest(String deploymentDescriptorLocation, String platformLocation, Expectation expectation) {
-        super(deploymentDescriptorLocation, platformLocation, expectation);
+    public DescriptorPlaceholderResolverTest(String deploymentDescriptorLocation, Expectation expectation) {
+        super(deploymentDescriptorLocation, expectation);
     }
 
     @Override
-    protected DescriptorPlaceholderResolver getDescriptorPlaceholderResolver(
-        com.sap.cloud.lm.sl.mta.model.v2.DeploymentDescriptor deploymentDescriptor, com.sap.cloud.lm.sl.mta.model.Platform platform,
-        SystemParameters systemParameters) {
-        return new DescriptorPlaceholderResolver((DeploymentDescriptor) deploymentDescriptor, platform, systemParameters,
-            new ResolverBuilder(), new ResolverBuilder());
-    }
-
-    @Override
-    protected DescriptorParser getDescriptorParser() {
-        return new DescriptorParser();
+    protected DescriptorPlaceholderResolver createDescriptorPlaceholderResolver(
+        com.sap.cloud.lm.sl.mta.model.v2.DeploymentDescriptor deploymentDescriptor, SystemParameters systemParameters) {
+        return new DescriptorPlaceholderResolver((DeploymentDescriptor) deploymentDescriptor, systemParameters, new ResolverBuilder(),
+            new ResolverBuilder());
     }
 
 }

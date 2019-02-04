@@ -36,14 +36,16 @@
         }
       ],
       "parameters": {
+        "buildpack": "nodejs-test",
         "self": "self",
-        "self-test": "self"
+        "self-test": "self",
+        "test": "test"
       },
       "name": "pricing",
       "type": "org.nodejs",
       "properties": {
         "bar": "test",
-        "baz": "i318495",
+        "baz": "deployer",
         "foo": "nodejs-test",
         "qux": "self"
       }
@@ -64,7 +66,13 @@
     }
   ],
   "resources2": [],
-  "parameters": {},
+  "parameters": {
+    "org": "SAP-STANDARD",
+    "password": "password",
+    "space": "STAGING",
+    "user": "deployer",
+    "xs-api-url": "https://api.sap.cf.com"
+  },
   "schemaVersion": "2.0.0",
   "id": "com.sap.mta.sample.v2",
   "version": "1.2.1-beta+20150403144937853"

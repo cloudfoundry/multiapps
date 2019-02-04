@@ -49,7 +49,7 @@
     "service1": "fs-storage",
     "time": 180
   },
-  "schemaVersion": "3.1.0",
+  "schemaVersion": "2.0.0",
   "id": "com.sap.sample.mta.test",
   "version": "1.0.0"
 }
