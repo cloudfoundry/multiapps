@@ -9,6 +9,9 @@ modules:
       - name: pricing
   - name: pricing
     type: org.nodejs
+    parameters:
+      buildpack: nodejs-test
+      test: test
     properties:
       foo: ${buildpack}
       bar: ${test}

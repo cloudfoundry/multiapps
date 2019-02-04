@@ -2,6 +2,13 @@ _schema-version: 2.0.0
 ID: com.sap.mta.sample.v2
 version: 1.2.1-beta+20150403144937853
 
+parameters:
+  xs-api-url: https://api.sap.cf.com
+  user: deployer
+  password: password
+  org: SAP-STANDARD
+  space: STAGING
+
 modules:
   - name: web-server
     type: com.sap.static-content
@@ -21,6 +28,8 @@ modules:
       host: api
       domain: bestprice.sap.com
       instances: 2
+      test: test
+      buildpack: nodejs-test
     requires:
       - name: pricing-db
         parameters:

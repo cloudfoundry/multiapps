@@ -64,12 +64,18 @@
       "properties": {
         "bar": "self",
         "baz": "pricing-db-service",
-        "foo": "i318495",
-        "qux": "xs2deploy"
+        "foo": "deployer",
+        "qux": "SAP-STANDARD"
       }
     }
   ],
-  "parameters": {},
+  "parameters": {
+    "org": "SAP-STANDARD",
+    "password": "password",
+    "space": "STAGING",
+    "user": "deployer",
+    "xs-api-url": "https://api.sap.cf.com"
+  },
   "schemaVersion": "2.0.0",
   "id": "com.sap.mta.sample.v2",
   "version": "1.2.1-beta+20150403144937853"

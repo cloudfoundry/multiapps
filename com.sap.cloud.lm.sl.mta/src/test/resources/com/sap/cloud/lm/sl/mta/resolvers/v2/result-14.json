@@ -26,7 +26,7 @@
     {
       "parameters": {
         "config": {
-          "username": "i318495"
+          "username": "deployer"
         }
       },
       "name": "techical-user-provider",
@@ -34,7 +34,13 @@
       "properties": {}
     }
   ],
-  "parameters": {},
+  "parameters": {
+    "org": "SAP-STANDARD",
+    "password": "password",
+    "space": "STAGING",
+    "user": "deployer",
+    "xs-api-url": "https://api.sap.cf.com"
+  },
   "schemaVersion": "2.0.0",
   "id": "com.sap.sample.mta.provider",
   "version": "0.1.0"

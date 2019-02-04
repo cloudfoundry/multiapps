@@ -1,6 +1,7 @@
 package com.sap.cloud.lm.sl.mta.resolvers.v2;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -21,20 +22,18 @@ public class DescriptorPlaceholderResolver extends PlaceholderResolver<Deploymen
 
     protected final DeploymentDescriptor deploymentDescriptor;
 
-    protected final Platform platform;
     protected final ResolverBuilder propertiesResolverBuilder;
     protected final ResolverBuilder parametersResolverBuilder;
 
     protected final ParametersChainBuilder parametersChainBuilder;
 
-    public DescriptorPlaceholderResolver(DeploymentDescriptor descriptor, Platform platform, SystemParameters systemParameters,
+    public DescriptorPlaceholderResolver(DeploymentDescriptor descriptor, SystemParameters systemParameters,
         ResolverBuilder propertiesResolverBuilder, ResolverBuilder parametersResolverBuilder) {
         super("", "", systemParameters);
         this.deploymentDescriptor = descriptor;
-        this.platform = platform;
         this.propertiesResolverBuilder = propertiesResolverBuilder;
         this.parametersResolverBuilder = parametersResolverBuilder;
-        this.parametersChainBuilder = new ParametersChainBuilder(descriptor, platform);
+        this.parametersChainBuilder = new ParametersChainBuilder(descriptor, null);
     }
 
     @Override
@@ -46,11 +45,11 @@ public class DescriptorPlaceholderResolver extends PlaceholderResolver<Deploymen
     }
 
     protected Map<String, Object> getResolvedProperties(Map<String, Object> propertiesToResolve) {
-        List<Map<String, Object>> parametersList = PropertiesUtil.getParametersList(platform,
-            PropertiesUtil.asParametersProvider(systemParameters.getGeneralParameters()));
+        List<Map<String, Object>> parametersList = Arrays.asList(deploymentDescriptor.getParameters(),
+            systemParameters.getGeneralParameters());
         addSingularParametersIfNecessary(parametersList);
-        return new PropertiesPlaceholderResolver(propertiesResolverBuilder) //
-            .resolve(propertiesToResolve, PropertiesUtil.mergeProperties(parametersList), prefix);
+        return new PropertiesPlaceholderResolver(propertiesResolverBuilder).resolve(propertiesToResolve,
+            PropertiesUtil.mergeProperties(parametersList), prefix);
     }
 
     protected ResourcePlaceholderResolver getResourceResolver(Resource resource) {

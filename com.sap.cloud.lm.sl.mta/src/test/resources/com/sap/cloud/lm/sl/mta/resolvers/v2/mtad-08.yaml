@@ -15,6 +15,11 @@ modules:
     type: com.sap.hana.hdi
 
 parameters:
+  xs-api-url: https://api.sap.cf.com
+  user: deployer
+  password: password
+  org: SAP-STANDARD
+  space: STAGING
   foo: ${user}
   bar: ${password}
   baz: ${xs-api-url}

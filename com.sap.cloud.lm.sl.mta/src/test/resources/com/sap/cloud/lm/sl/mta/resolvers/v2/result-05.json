@@ -59,24 +59,32 @@
     {
       "parameters": {
         "bar": "hdi-shared",
-        "baz": "i318495",
+        "baz": "deployer",
         "foo": "hdi-hana",
         "qux": "self",
-        "self": "self"
+        "self": "self",
+        "service": "hdi-hana",
+        "service-plan": "hdi-shared"
       },
       "name": "pricing-db-service",
       "type": "com.sap.hana.hdi-container",
       "properties": {
         "bar": "hdi-shared",
-        "baz": "i318495",
-        "corge": "xs2deploy",
+        "baz": "deployer",
+        "corge": "SAP-STANDARD",
         "foo": "hdi-hana",
         "quux": "pricing-db-service",
         "qux": "self"
       }
     }
   ],
-  "parameters": {},
+  "parameters": {
+    "org": "SAP-STANDARD",
+    "password": "password",
+    "space": "STAGING",
+    "user": "deployer",
+    "xs-api-url": "https://api.sap.cf.com"
+  },
   "schemaVersion": "2.0.0",
   "id": "com.sap.mta.sample.v2",
   "version": "1.2.1-beta+20150403144937853"

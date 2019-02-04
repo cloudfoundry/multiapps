@@ -60,7 +60,12 @@
     "bar": "password",
     "baz": "https://api.sap.cf.com",
     "foo": "deployer",
-    "qux": "git://example.com/xs2-java/xs2javabuildpack"
+    "org": "SAP-STANDARD",
+    "password": "password",
+    "qux": "git://example.com/xs2-java/xs2javabuildpack",
+    "space": "STAGING",
+    "user": "deployer",
+    "xs-api-url": "https://api.sap.cf.com"
   },
   "schemaVersion": "2.0.0",
   "id": "com.sap.mta.sample.v2",

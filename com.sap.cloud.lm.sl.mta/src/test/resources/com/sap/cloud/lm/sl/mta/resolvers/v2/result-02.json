@@ -48,9 +48,11 @@
         }
       ],
       "parameters": {
+        "buildpack": "nodejs-test",
         "domain": "bestprice.sap.com",
         "host": "api",
-        "instances": 2
+        "instances": 2,
+        "test": "test"
       },
       "name": "pricing",
       "type": "org.nodejs",
@@ -72,7 +74,13 @@
     }
   ],
   "resources2": [],
-  "parameters": {},
+  "parameters": {
+    "org": "SAP-STANDARD",
+    "password": "password",
+    "space": "STAGING",
+    "user": "deployer",
+    "xs-api-url": "https://api.sap.cf.com"
+  },
   "schemaVersion": "2.0.0",
   "id": "com.sap.mta.sample.v2",
   "version": "1.2.1-beta+20150403144937853"
