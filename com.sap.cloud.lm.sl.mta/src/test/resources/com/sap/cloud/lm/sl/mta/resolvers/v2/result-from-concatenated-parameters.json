@@ -10,16 +10,21 @@
         }
       ],
       "parameters": {
-        "bar": "foo.foo",
-        "foo": "foo"
+        "uri": "https://api.cf.sap.corp"
       },
       "name": "foo",
       "type": "application",
-      "properties": {}
+      "properties": {
+        "uri": "https://api.cf.sap.corp"
+      }
     }
   ],
   "resources2": [],
-  "parameters": {},
+  "parameters": {
+    "domain": "cf.sap.corp",
+    "host": "api",
+    "schema": "https"
+  },
   "schemaVersion": "2.0.0",
   "id": "placeholders-test",
   "version": "1.0.0"

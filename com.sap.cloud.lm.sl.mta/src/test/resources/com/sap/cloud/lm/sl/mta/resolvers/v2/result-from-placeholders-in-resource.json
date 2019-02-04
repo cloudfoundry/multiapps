@@ -1,0 +1,26 @@
+{
+  "modules2": [],
+  "resources2": [
+    {
+      "parameters": {
+        "b": "bbb",
+        "c": "aaa",
+        "d": "bbb"
+      },
+      "name": "bar",
+      "type": "managed-service",
+      "properties": {
+        "e": "aaa",
+        "f": "bbb",
+        "g": "aaa",
+        "h": "bbb"
+      }
+    }
+  ],
+  "parameters": {
+    "a": "aaa"
+  },
+  "schemaVersion": "2.0.0",
+  "id": "placeholders-test",
+  "version": "1.0.0"
+}

@@ -1,0 +1,29 @@
+_schema-version: 2.0.0
+ID: placeholders-test
+version: 1.0.0
+
+parameters:
+  a: true
+  p: 3.14
+  c: 9999
+  d: dddd
+  e: 
+   - 123
+   - 456
+   - 789
+  f: 
+    foo: bar
+    baz: qux
+
+modules:
+  - name: foo
+    type: application
+    properties:
+      g: ${a}
+      h: ${p}
+      i: ${c}
+      j: ${d}
+      k: ${a}:${p}:${c}
+      l: ${e}
+      m: ${f}
+      n: ${e}---${f}

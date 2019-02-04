@@ -5,7 +5,6 @@ import java.util.Map;
 
 import com.sap.cloud.lm.sl.common.ContentException;
 import com.sap.cloud.lm.sl.mta.builders.v2.ParametersChainBuilder;
-import com.sap.cloud.lm.sl.mta.model.SystemParameters;
 import com.sap.cloud.lm.sl.mta.model.v2.Module;
 import com.sap.cloud.lm.sl.mta.model.v2.RequiredDependency;
 import com.sap.cloud.lm.sl.mta.resolvers.PlaceholderResolver;
@@ -22,9 +21,9 @@ public class RequiredDependencyPlaceholderResolver extends PlaceholderResolver<R
     protected final ResolverBuilder parametersResolverBuilder;
 
     public RequiredDependencyPlaceholderResolver(Module module, RequiredDependency requiredDependency, String prefix,
-        ParametersChainBuilder parametersChainBuilder, SystemParameters systemParameters, ResolverBuilder propertiesResolverBuilder,
-        ResolverBuilder parametersResolverBuilder) {
-        super(requiredDependency.getName(), prefix, systemParameters);
+        ParametersChainBuilder parametersChainBuilder, ResolverBuilder propertiesResolverBuilder, ResolverBuilder parametersResolverBuilder,
+        Map<String, String> singularToPluralMapping) {
+        super(requiredDependency.getName(), prefix, singularToPluralMapping);
         this.parametersChainBuilder = parametersChainBuilder;
         this.module = module;
         this.requiredDependency = requiredDependency;
@@ -38,8 +37,6 @@ public class RequiredDependencyPlaceholderResolver extends PlaceholderResolver<R
         List<Map<String, Object>> parametersChain = parametersChainBuilder.buildModuleChain(moduleName);
         parametersChain.add(0, requiredDependency.getParameters());
         addSingularParametersIfNecessary(parametersChain);
-        parametersChain.add(getFullSystemParameters(systemParameters.getModuleParameters()
-            .get(moduleName)));
         Map<String, Object> mergedParameters = PropertiesUtil.mergeProperties(parametersChain);
         requiredDependency.setParameters(getResolvedParameters(mergedParameters));
         requiredDependency.setProperties(getResolvedProperties(mergedParameters));

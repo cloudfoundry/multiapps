@@ -2,7 +2,8 @@ package com.sap.cloud.lm.sl.mta.handlers.v3;
 
 import static com.sap.cloud.lm.sl.common.util.CommonUtil.cast;
 
-import com.sap.cloud.lm.sl.mta.model.SystemParameters;
+import java.util.Map;
+
 import com.sap.cloud.lm.sl.mta.model.v2.DeploymentDescriptor;
 import com.sap.cloud.lm.sl.mta.resolvers.PlaceholderResolver;
 import com.sap.cloud.lm.sl.mta.resolvers.Resolver;
@@ -36,11 +37,11 @@ public class HandlerConstructor extends com.sap.cloud.lm.sl.mta.handlers.v2.Hand
     }
 
     @Override
-    public PlaceholderResolver<? extends DeploymentDescriptor> getDescriptorPlaceholderResolver(final DeploymentDescriptor mergedDescriptor,
-        SystemParameters systemParameters, ResolverBuilder propertiesResolverBuilder, ResolverBuilder parametersResolverBuilder) {
+    public PlaceholderResolver<? extends DeploymentDescriptor> getDescriptorPlaceholderResolver(DeploymentDescriptor mergedDescriptor,
+        ResolverBuilder propertiesResolverBuilder, ResolverBuilder parametersResolverBuilder, Map<String, String> singularToPluralMapping) {
         com.sap.cloud.lm.sl.mta.model.v3.DeploymentDescriptor mergedDescriptorV3 = cast(mergedDescriptor);
-        return new DescriptorPlaceholderResolver(mergedDescriptorV3, systemParameters, propertiesResolverBuilder,
-            parametersResolverBuilder);
+        return new DescriptorPlaceholderResolver(mergedDescriptorV3, propertiesResolverBuilder, parametersResolverBuilder,
+            singularToPluralMapping);
     }
 
     @Override

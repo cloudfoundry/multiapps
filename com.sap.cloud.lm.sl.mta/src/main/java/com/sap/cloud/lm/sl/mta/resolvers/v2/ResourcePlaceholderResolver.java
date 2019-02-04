@@ -5,7 +5,6 @@ import java.util.Map;
 
 import com.sap.cloud.lm.sl.common.ContentException;
 import com.sap.cloud.lm.sl.mta.builders.v2.ParametersChainBuilder;
-import com.sap.cloud.lm.sl.mta.model.SystemParameters;
 import com.sap.cloud.lm.sl.mta.model.v2.Resource;
 import com.sap.cloud.lm.sl.mta.resolvers.PlaceholderResolver;
 import com.sap.cloud.lm.sl.mta.resolvers.PropertiesPlaceholderResolver;
@@ -20,8 +19,8 @@ public class ResourcePlaceholderResolver extends PlaceholderResolver<Resource> {
     protected final ResolverBuilder parametersResolverBuilder;
 
     public ResourcePlaceholderResolver(Resource resource, String prefix, ParametersChainBuilder parametersChainBuilder,
-        SystemParameters systemParameters, ResolverBuilder propertiesResolverBuilder, ResolverBuilder parametersResolverBuilder) {
-        super(resource.getName(), prefix, systemParameters);
+        ResolverBuilder propertiesResolverBuilder, ResolverBuilder parametersResolverBuilder, Map<String, String> singularToPluralMapping) {
+        super(resource.getName(), prefix, singularToPluralMapping);
         this.resource = resource;
         this.parametersChainBuilder = parametersChainBuilder;
         this.propertiesResolverBuilder = propertiesResolverBuilder;
@@ -33,8 +32,6 @@ public class ResourcePlaceholderResolver extends PlaceholderResolver<Resource> {
         String resourceName = resource.getName();
         List<Map<String, Object>> parametersChain = parametersChainBuilder.buildResourceChain(resourceName);
         addSingularParametersIfNecessary(parametersChain);
-        parametersChain.add(getFullSystemParameters(systemParameters.getResourceParameters()
-            .get(resourceName)));
         Map<String, Object> mergedParameters = PropertiesUtil.mergeProperties(parametersChain);
         resource.setProperties(getResolvedProperties(mergedParameters));
         resource.setParameters(getResolvedParameters(mergedParameters));

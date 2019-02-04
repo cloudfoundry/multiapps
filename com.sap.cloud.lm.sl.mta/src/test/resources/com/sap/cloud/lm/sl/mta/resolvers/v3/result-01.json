@@ -5,12 +5,10 @@
       "providedDependencies3": [
         {
           "parameters": {
-            "visibility": [
-              {
-                "org": "another",
-                "space": "testSpace"
-              }
-            ]
+            "c": "ccc",
+            "d": "aaa",
+            "e": "bbb",
+            "f": "ccc"
           },
           "propertiesMetadata": {
             "metadata": {}
@@ -18,11 +16,15 @@
           "parametersMetadata": {
             "metadata": {}
           },
-          "isPublic": true,
-          "name": "web-server",
+          "isPublic": false,
+          "name": "foo",
           "properties": {
-            "bar": "web-server",
-            "baz": "another"
+            "g": "aaa",
+            "h": "bbb",
+            "i": "ccc",
+            "j": "aaa",
+            "k": "bbb",
+            "l": "ccc"
           }
         }
       ],
@@ -32,45 +34,11 @@
       "parametersMetadata": {
         "metadata": {}
       },
-      "parameters": {},
-      "name": "web-server",
-      "type": "com.sap.static-content",
-      "properties": {}
-    },
-    {
-      "requiredDependencies3": [],
-      "providedDependencies3": [
-        {
-          "parameters": {
-            "visibility": [
-              {
-                "org": "initial",
-                "space": "*"
-              }
-            ]
-          },
-          "propertiesMetadata": {
-            "metadata": {}
-          },
-          "parametersMetadata": {
-            "metadata": {}
-          },
-          "isPublic": true,
-          "name": "pricing",
-          "properties": {
-            "url": "cf.com"
-          }
-        }
-      ],
-      "propertiesMetadata": {
-        "metadata": {}
+      "parameters": {
+        "b": "bbb"
       },
-      "parametersMetadata": {
-        "metadata": {}
-      },
-      "parameters": {},
-      "name": "pricing",
-      "type": "org.nodejs",
+      "name": "foo",
+      "type": "application",
       "properties": {}
     }
   ],
@@ -79,9 +47,9 @@
     "metadata": {}
   },
   "parameters": {
-    "default-url": "cf.com"
+    "a": "aaa"
   },
-  "schemaVersion": "3.1.0",
-  "id": "com.sap.mta.sample.v3",
-  "version": "1.2.1-beta+20150403144937853"
+  "schemaVersion": "3.0.0",
+  "id": "placeholders-test",
+  "version": "1.0.0"
 }

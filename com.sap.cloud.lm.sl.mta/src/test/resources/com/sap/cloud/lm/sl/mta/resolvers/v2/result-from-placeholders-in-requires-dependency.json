@@ -1,0 +1,45 @@
+{
+  "modules2": [
+    {
+      "requiredDependencies2": [
+        {
+          "name": "bar",
+          "properties": {
+            "g": "aaa",
+            "h": "bbb",
+            "i": "ccc",
+            "j": "aaa",
+            "k": "bbb",
+            "l": "ccc"
+          },
+          "parameters": {
+            "c": "ccc",
+            "d": "aaa",
+            "e": "bbb",
+            "f": "ccc"
+          }
+        }
+      ],
+      "providedDependencies2": [
+        {
+          "isPublic": true,
+          "name": "foo",
+          "properties": {}
+        }
+      ],
+      "parameters": {
+        "b": "bbb"
+      },
+      "name": "foo",
+      "type": "application",
+      "properties": {}
+    }
+  ],
+  "resources2": [],
+  "parameters": {
+    "a": "aaa"
+  },
+  "schemaVersion": "2.0.0",
+  "id": "placeholders-test",
+  "version": "1.0.0"
+}
