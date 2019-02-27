@@ -5,6 +5,16 @@ import java.util.Map;
 
 public class CommonUtil {
 
+    public static void sleep(long millis) {
+        try {
+            Thread.sleep(millis);
+        } catch (InterruptedException e) {
+            Thread.currentThread()
+                .interrupt();
+            throw new IllegalStateException("Interrupted!", e);
+        }
+    }
+
     public static boolean isNullOrEmpty(Object value) {
         return value == null || isEmpty(value);
     }
