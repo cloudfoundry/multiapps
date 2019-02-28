@@ -8,7 +8,7 @@ public class Messages {
     public static final String ERROR_RETRIEVING_MTA_ARCHIVE_MANIFEST = "Error retrieving MTA archive manifest";
     public static final String REQUIRED_ELEMENT_IS_MISSING = "Required element \"{0}\" for object \"{1}\" is missing";
     public static final String VALUE_NOT_UNIQUE = "Value \"{0}\" for key \"{1}\" not unique for object \"{2}\"";
-    public static final String UNABLE_TO_PARSE_VERSION_REQUIREMENT = "Unable to parse version requirement \"{0}\"";
+    public static final String UNABLE_TO_PARSE_VERSION_REQUIREMENT = "Unable to parse version requirement \"{0}\". Please provide a valid semantic version.";
     public static final String UNABLE_TO_PARSE_VERSION = "Unable to parse version \"{0}\"";
     public static final String UNSUPPORTED_RESOURCE_TYPE = "Unsupported resource type \"{0}\" for platform type \"{1}\"";
     public static final String UNSUPPORTED_MODULE_TYPE = "Unsupported module type \"{0}\" for platform type \"{1}\"";
