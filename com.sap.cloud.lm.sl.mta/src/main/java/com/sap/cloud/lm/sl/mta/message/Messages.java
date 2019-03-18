@@ -43,7 +43,7 @@ public class Messages {
     public static final String CIRCULAR_DEPLOYMENT_DEPENDENCIES_DETECTED = "Modules, \"{0}\" and \"{1}\", both depend on each others for deployment";
     public static final String ILLEGAL_REFERENCES_DETECTED = "Module \"{0}\" does not contain a required dependency for \"{1}\", but contains references to its properties";
     public static final String COULD_NOT_FIND_ELEMENT_IN_SCHEMA = "Could not find element \"{0}\" in schema for {1}";
-    public static final String ERROR_PARSING_YAML_STREAM = "Error while parsing YAML stream";
+    public static final String ERROR_PARSING_YAML_STREAM = "Error while parsing YAML stream: {0}";
     public static final String ERROR_PARSING_YAML_STRING = "Error while parsing YAML string: %n%s%n%s";
     public static final String MANDATORY_ELEMENT_HAS_NO_VALUE = "The {0} \"{1}\" is not optional and has no value.";
     public static final String INCOMPATIBLE_TYPES = "Type {0} is not compatible with type {1}";
