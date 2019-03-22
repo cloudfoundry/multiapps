@@ -115,15 +115,15 @@ public class JsonUtil {
         }
     }
 
-    public static <T> byte[] toBinaryJson(Object obj) {
+    public static byte[] toJsonBinary(Object obj) {
         return new GsonBuilder().create()
             .toJson(obj)
             .getBytes(StandardCharsets.UTF_8);
     }
 
-    public static <T> T fromBinaryJson(byte[] binaryJson, Class<T> classOfT) {
+    public static <T> T fromJsonBinary(byte[] binaryJson, Type type) {
         try {
-            return new Gson().fromJson(new String(binaryJson, StandardCharsets.UTF_8), classOfT);
+            return new Gson().fromJson(new String(binaryJson, StandardCharsets.UTF_8), type);
         } catch (JsonSyntaxException e) {
             throw new ParsingException(e);
         }
