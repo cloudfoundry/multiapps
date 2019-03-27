@@ -37,7 +37,7 @@ public class SchemaValidatorTest {
             },
             // (02) Valid platform JSON:
             {
-                "/mta/sample/v2/platform-01-v2.json", Schemas.PLATFORM, new Expectation(null),
+                "/mta/sample/platform-01.json", Schemas.PLATFORM, new Expectation(null),
             },
             // (03) Deployment descriptor is missing a required key:
             {

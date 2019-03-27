@@ -11,11 +11,9 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import org.junit.runners.Parameterized.Parameters;
 
-import com.sap.cloud.lm.sl.mta.handlers.v2.ConfigurationParser;
 import com.sap.cloud.lm.sl.mta.handlers.v2.DescriptorHandler;
 import com.sap.cloud.lm.sl.mta.handlers.v2.DescriptorParser;
 import com.sap.cloud.lm.sl.mta.handlers.v2.DescriptorValidator;
-
 
 @RunWith(value = Parameterized.class)
 public class HandlerFactoryTest {
@@ -78,7 +76,6 @@ public class HandlerFactoryTest {
         }
     }
 
-    
     @Test
     public void testGetDescriptorParser() {
         DescriptorParser handler = new HandlerFactory(majorVersion).getDescriptorParser();
@@ -88,19 +85,6 @@ public class HandlerFactoryTest {
                 break;
             case 3:
                 assertTrue(handler instanceof com.sap.cloud.lm.sl.mta.handlers.v3.DescriptorParser);
-                break;
-        }
-    }
-
-    @Test
-    public void testGetConfigurationParser() {
-        ConfigurationParser handler = new HandlerFactory(majorVersion).getConfigurationParser();
-        switch (majorVersion) {
-            case 2:
-                assertTrue(handler instanceof ConfigurationParser);
-                break;
-            case 3:
-                assertTrue(handler instanceof com.sap.cloud.lm.sl.mta.handlers.v3.ConfigurationParser);
                 break;
         }
     }

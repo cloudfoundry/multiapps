@@ -7,7 +7,6 @@ import org.junit.runners.Parameterized;
 import org.junit.runners.Parameterized.Parameters;
 
 import com.sap.cloud.lm.sl.common.util.TestUtil.Expectation;
-import com.sap.cloud.lm.sl.mta.handlers.v3.ConfigurationParser;
 import com.sap.cloud.lm.sl.mta.handlers.v3.DescriptorParser;
 import com.sap.cloud.lm.sl.mta.model.SystemParameters;
 import com.sap.cloud.lm.sl.mta.model.v3.DeploymentDescriptor;
@@ -34,15 +33,10 @@ public class DescriptorPlaceholderResolverTest extends com.sap.cloud.lm.sl.mta.r
 
     @Override
     protected DescriptorPlaceholderResolver getDescriptorPlaceholderResolver(
-        com.sap.cloud.lm.sl.mta.model.v2.DeploymentDescriptor deploymentDescriptor, com.sap.cloud.lm.sl.mta.model.v2.Platform platform,
+        com.sap.cloud.lm.sl.mta.model.v2.DeploymentDescriptor deploymentDescriptor, com.sap.cloud.lm.sl.mta.model.Platform platform,
         SystemParameters systemParameters) {
         return new DescriptorPlaceholderResolver((DeploymentDescriptor) deploymentDescriptor, platform, systemParameters,
             new ResolverBuilder(), new ResolverBuilder());
-    }
-
-    @Override
-    protected ConfigurationParser getConfigurationParser() {
-        return new ConfigurationParser();
     }
 
     @Override

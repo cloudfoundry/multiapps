@@ -54,8 +54,9 @@ public class ExtensionProvidedDependency implements VisitableElement, NamedEleme
     }
 
     @Override
-    public void setProperties(Map<String, Object> properties) {
+    public Void setProperties(Map<String, Object> properties) {
         this.properties = new LinkedHashMap<>(properties);
+        return null;
     }
 
     @Override

@@ -18,10 +18,6 @@ public class Schemas extends com.sap.cloud.lm.sl.mta.handlers.v2.Schemas {
     public static final MapElement EXT_PROVIDED_DEPENDENCY = new MapElement();
     public static final MapElement EXT_RESOURCE = new MapElement();
 
-    public static final MapElement PLATFORM = new MapElement();
-    public static final MapElement MODULE_TYPE = new MapElement();
-    public static final MapElement RESOURCE_TYPE = new MapElement();
-
     static {
         MTAD.add("_schema-version", OBJECT_REQUIRED);
         MTAD.add("ID", NON_UNIQUE_MTA_IDENTIFIER);
@@ -106,21 +102,6 @@ public class Schemas extends com.sap.cloud.lm.sl.mta.handlers.v2.Schemas {
         EXT_RESOURCE.add("properties", PROPERTIES);
         EXT_RESOURCE.add("parameters", PROPERTIES);
         EXT_RESOURCE.add("requires", new ListElement(EXT_REQUIRED_DEPENDENCY));
-
-        PLATFORM.add("name", UNIQUE_MTA_IDENTIFIER);
-        PLATFORM.add("description", STRING);
-        PLATFORM.add("parameters", PROPERTIES);
-        PLATFORM.add("module-types", new ListElement(MODULE_TYPE));
-        PLATFORM.add("resource-types", new ListElement(RESOURCE_TYPE));
-
-        MODULE_TYPE.add("name", UNIQUE_MTA_IDENTIFIER);
-        MODULE_TYPE.add("deployer", STRING);
-        MODULE_TYPE.add("properties", PROPERTIES);
-        MODULE_TYPE.add("parameters", PROPERTIES);
-
-        RESOURCE_TYPE.add("name", UNIQUE_MTA_IDENTIFIER);
-        RESOURCE_TYPE.add("resource-manager", STRING);
-        RESOURCE_TYPE.add("parameters", PROPERTIES);
     }
 
 }

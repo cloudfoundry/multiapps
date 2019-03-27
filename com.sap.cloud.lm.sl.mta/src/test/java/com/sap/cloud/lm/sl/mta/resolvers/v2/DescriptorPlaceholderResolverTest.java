@@ -13,11 +13,11 @@ import com.sap.cloud.lm.sl.common.util.JsonUtil;
 import com.sap.cloud.lm.sl.common.util.TestUtil;
 import com.sap.cloud.lm.sl.common.util.TestUtil.Expectation;
 import com.sap.cloud.lm.sl.mta.MtaTestUtil;
-import com.sap.cloud.lm.sl.mta.handlers.v2.ConfigurationParser;
+import com.sap.cloud.lm.sl.mta.handlers.ConfigurationParser;
 import com.sap.cloud.lm.sl.mta.handlers.v2.DescriptorParser;
+import com.sap.cloud.lm.sl.mta.model.Platform;
 import com.sap.cloud.lm.sl.mta.model.SystemParameters;
 import com.sap.cloud.lm.sl.mta.model.v2.DeploymentDescriptor;
-import com.sap.cloud.lm.sl.mta.model.v2.Platform;
 import com.sap.cloud.lm.sl.mta.resolvers.ResolverBuilder;
 
 @RunWith(Parameterized.class)
@@ -127,9 +127,7 @@ public class DescriptorPlaceholderResolverTest {
 
         DeploymentDescriptor deploymentDescriptor = getDeploymentDescriptor(descriptorParser);
 
-        ConfigurationParser configurationParser = getConfigurationParser();
-
-        Platform platform = getPlatform(configurationParser);
+        Platform platform = MtaTestUtil.loadPlatform(platformLocation, getClass());
 
         SystemParameters systemParameters = JsonUtil.fromJson(TestUtil.getResourceAsString(SYSTEM_PARAMETERS_LOCATION, getClass()),
             SystemParameters.class);
@@ -141,14 +139,6 @@ public class DescriptorPlaceholderResolverTest {
         SystemParameters systemParameters) {
         return new DescriptorPlaceholderResolver(deploymentDescriptor, platform, systemParameters, new ResolverBuilder(),
             new ResolverBuilder());
-    }
-
-    protected Platform getPlatform(ConfigurationParser configurationParser) {
-        return (Platform) MtaTestUtil.loadPlatform(platformLocation, configurationParser, getClass());
-    }
-
-    protected ConfigurationParser getConfigurationParser() {
-        return new ConfigurationParser();
     }
 
     protected DeploymentDescriptor getDeploymentDescriptor(DescriptorParser descriptorParser) {

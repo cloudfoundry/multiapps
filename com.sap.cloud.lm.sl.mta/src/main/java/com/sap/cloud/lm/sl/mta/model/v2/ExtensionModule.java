@@ -68,13 +68,15 @@ public class ExtensionModule implements VisitableElement, NamedElement, Properti
         this.name = name;
     }
 
-    public void setProperties(Map<String, Object> properties) {
+    public Void setProperties(Map<String, Object> properties) {
         this.properties = new LinkedHashMap<>(properties);
+        return null;
     }
     
     @Override
-    public void setParameters(Map<String, Object> parameters) {
+    public Void setParameters(Map<String, Object> parameters) {
         this.parameters = new LinkedHashMap<>(parameters);
+        return null;
     }
 
     public void setRequiredDependencies2(List<ExtensionRequiredDependency> requiredDependencies) {

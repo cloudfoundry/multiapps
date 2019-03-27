@@ -8,11 +8,11 @@ import java.util.Map;
 import org.apache.commons.collections4.CollectionUtils;
 
 import com.sap.cloud.lm.sl.mta.handlers.v2.DescriptorHandler;
+import com.sap.cloud.lm.sl.mta.model.ModuleType;
+import com.sap.cloud.lm.sl.mta.model.Platform;
 import com.sap.cloud.lm.sl.mta.model.PropertiesContainer;
 import com.sap.cloud.lm.sl.mta.model.v2.DeploymentDescriptor;
 import com.sap.cloud.lm.sl.mta.model.v2.Module;
-import com.sap.cloud.lm.sl.mta.model.v2.ModuleType;
-import com.sap.cloud.lm.sl.mta.model.v2.Platform;
 import com.sap.cloud.lm.sl.mta.model.v2.RequiredDependency;
 import com.sap.cloud.lm.sl.mta.model.v2.Resource;
 import com.sap.cloud.lm.sl.mta.util.PropertiesUtil;

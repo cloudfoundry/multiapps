@@ -13,12 +13,13 @@ import org.junit.runners.Parameterized.Parameters;
 import com.sap.cloud.lm.sl.common.util.Callable;
 import com.sap.cloud.lm.sl.common.util.TestUtil;
 import com.sap.cloud.lm.sl.common.util.TestUtil.Expectation;
+import com.sap.cloud.lm.sl.mta.handlers.ConfigurationParser;
 import com.sap.cloud.lm.sl.mta.handlers.HandlerFactory;
-import com.sap.cloud.lm.sl.mta.handlers.v2.ConfigurationParser;
 import com.sap.cloud.lm.sl.mta.handlers.v2.DescriptorHandler;
 import com.sap.cloud.lm.sl.mta.handlers.v2.DescriptorParser;
+import com.sap.cloud.lm.sl.mta.mergers.PlatformMerger;
+import com.sap.cloud.lm.sl.mta.model.Platform;
 import com.sap.cloud.lm.sl.mta.model.v2.DeploymentDescriptor;
-import com.sap.cloud.lm.sl.mta.model.v2.Platform;
 
 @RunWith(Parameterized.class)
 public class PlatformMegerTest {
@@ -69,16 +70,15 @@ public class PlatformMegerTest {
         loadPlatform();
     }
 
-    private void loadPlatform() throws Exception {
+    private void loadDeploymentDescriptor() throws Exception {
         DescriptorParser parser = getHandlerFactory().getDescriptorParser();
         InputStream deploymentDescriptorYaml = getClass().getResourceAsStream(deploymentDescriptorLocation);
         this.descriptor = parser.parseDeploymentDescriptorYaml(deploymentDescriptorYaml);
     }
 
-    private void loadDeploymentDescriptor() throws Exception {
-        ConfigurationParser parser = getHandlerFactory().getConfigurationParser();
+    private void loadPlatform() throws Exception {
         InputStream platformJson = getClass().getResourceAsStream(platformLocation);
-        this.platform = parser.parsePlatformJson(platformJson);
+        this.platform = new ConfigurationParser().parsePlatformJson(platformJson);
     }
 
     @Test

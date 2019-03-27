@@ -144,7 +144,7 @@ public class PropertiesUtil {
             }
 
             @Override
-            public void setProperties(Map<String, Object> properties) {
+            public Void setProperties(Map<String, Object> properties) {
                 throw new UnsupportedOperationException();
             }
         };
@@ -158,14 +158,13 @@ public class PropertiesUtil {
             }
 
             @Override
-            public void setParameters(Map<String, Object> parameters) {
+            public Void setParameters(Map<String, Object> parameters) {
                 throw new UnsupportedOperationException();
             }
         };
     }
 
     public static Map<String, Object> mergeExtensionProperties(Map<String, Object> original, Map<String, Object> override) {
-
         Map<String, Object> result = new TreeMap<>(original);
         for (Entry<String, Object> entry : override.entrySet()) {
             Object originalObject = original.get(entry.getKey());

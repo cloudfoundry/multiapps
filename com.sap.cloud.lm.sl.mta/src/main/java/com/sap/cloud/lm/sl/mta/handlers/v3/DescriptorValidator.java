@@ -1,9 +1,9 @@
 package com.sap.cloud.lm.sl.mta.handlers.v3;
 
 import com.sap.cloud.lm.sl.mta.handlers.v2.DescriptorHandler;
+import com.sap.cloud.lm.sl.mta.model.Platform;
 import com.sap.cloud.lm.sl.mta.model.v3.DeploymentDescriptor;
 import com.sap.cloud.lm.sl.mta.model.v3.ExtensionDescriptor;
-import com.sap.cloud.lm.sl.mta.model.v3.Platform;
 import com.sap.cloud.lm.sl.mta.validators.DescriptorValidationRules;
 import com.sap.cloud.lm.sl.mta.validators.v3.DefaultDescriptorValidationRules;
 import com.sap.cloud.lm.sl.mta.validators.v3.DeploymentDescriptorValidator;
@@ -21,10 +21,8 @@ public class DescriptorValidator extends com.sap.cloud.lm.sl.mta.handlers.v2.Des
 
     @Override
     protected DeploymentDescriptorValidator getDeploymentDescriptorValidator(
-        com.sap.cloud.lm.sl.mta.model.v2.DeploymentDescriptor deploymentDescriptor,
-        com.sap.cloud.lm.sl.mta.model.v2.Platform platformType) {
-        return new DeploymentDescriptorValidator((DeploymentDescriptor) deploymentDescriptor, (Platform) platformType,
-            (DescriptorHandler) handler);
+        com.sap.cloud.lm.sl.mta.model.v2.DeploymentDescriptor deploymentDescriptor, Platform platform) {
+        return new DeploymentDescriptorValidator((DeploymentDescriptor) deploymentDescriptor, platform, (DescriptorHandler) handler);
     }
 
     @Override

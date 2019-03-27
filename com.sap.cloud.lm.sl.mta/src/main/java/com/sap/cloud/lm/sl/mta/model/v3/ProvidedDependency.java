@@ -46,8 +46,9 @@ public class ProvidedDependency extends com.sap.cloud.lm.sl.mta.model.v2.Provide
     }
 
     @Override
-    public void setParameters(Map<String, Object> parameters) {
+    public Void setParameters(Map<String, Object> parameters) {
         this.parameters = parameters;
+        return null;
     }
 
     @Override
