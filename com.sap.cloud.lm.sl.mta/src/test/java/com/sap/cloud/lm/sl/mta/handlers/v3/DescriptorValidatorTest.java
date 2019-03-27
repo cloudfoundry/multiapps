@@ -2,17 +2,11 @@ package com.sap.cloud.lm.sl.mta.handlers.v3;
 
 import java.util.Arrays;
 
-import org.junit.BeforeClass;
 import org.junit.runners.Parameterized.Parameters;
 
 import com.sap.cloud.lm.sl.common.util.TestUtil.Expectation;
 
 public class DescriptorValidatorTest extends com.sap.cloud.lm.sl.mta.handlers.v2.DescriptorValidatorTest {
-
-    @BeforeClass
-    public static void setPlatformsInformation() {
-        platformLocation = "/mta/sample/v3/platform-01.json";
-    }
 
     @Parameters
     public static Iterable<Object[]> getParameters() {
@@ -110,11 +104,6 @@ public class DescriptorValidatorTest extends com.sap.cloud.lm.sl.mta.handlers.v2
     @Override
     protected DescriptorParser getDescriptorParser() {
         return new DescriptorParser();
-    }
-
-    @Override
-    protected ConfigurationParser getConfigurationParser() {
-        return new ConfigurationParser();
     }
 
     @Override

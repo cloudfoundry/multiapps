@@ -4,7 +4,6 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
@@ -14,14 +13,14 @@ import com.sap.cloud.lm.sl.common.util.Runnable;
 import com.sap.cloud.lm.sl.common.util.TestUtil;
 import com.sap.cloud.lm.sl.common.util.TestUtil.Expectation;
 import com.sap.cloud.lm.sl.mta.MtaTestUtil;
+import com.sap.cloud.lm.sl.mta.model.Platform;
 import com.sap.cloud.lm.sl.mta.model.v2.DeploymentDescriptor;
 import com.sap.cloud.lm.sl.mta.model.v2.ExtensionDescriptor;
-import com.sap.cloud.lm.sl.mta.model.v2.Platform;
 
 @RunWith(Parameterized.class)
 public class DescriptorValidatorTest {
 
-    protected static String platformLocation;
+    protected static String platformLocation = "/mta/sample/platform-01.json";
 
     private final String deploymentDescriptorLocation;
     private final String[] extensionDescriptorLocations;
@@ -34,11 +33,6 @@ public class DescriptorValidatorTest {
     private Platform platform;
 
     private DescriptorValidator validator;
-    
-    @BeforeClass
-    public static void setTargetsInformation() {
-        platformLocation = "/mta/sample/v2/platform-01.json";
-    }
 
     @Parameters
     public static Iterable<Object[]> getParameters() {
@@ -190,7 +184,7 @@ public class DescriptorValidatorTest {
         this.mergedDescriptorLocation = mergedDescriptorLocation;
         this.expectations = expectations;
     }
-    
+
     @Before
     public void setUp() throws Exception {
         DescriptorParser descriptorParser = getDescriptorParser();
@@ -204,9 +198,7 @@ public class DescriptorValidatorTest {
             mergedDescriptor = MtaTestUtil.loadDeploymentDescriptor(mergedDescriptorLocation, descriptorParser, getClass());
         }
 
-        ConfigurationParser configurationParser = getConfigurationParser();
-
-        platform = MtaTestUtil.loadPlatform(platformLocation, configurationParser, getClass());
+        platform = MtaTestUtil.loadPlatform(platformLocation, getClass());
 
         validator = createValidator();
     }
@@ -215,14 +207,10 @@ public class DescriptorValidatorTest {
         return new DescriptorParser();
     }
 
-    protected ConfigurationParser getConfigurationParser() {
-        return new ConfigurationParser();
-    }
-
     protected DescriptorValidator createValidator() {
         return new DescriptorValidator();
     }
-    
+
     @Test
     public void testValidateDeploymentDescriptor() throws Exception {
         TestUtil.test(new Runnable() {
@@ -253,5 +241,5 @@ public class DescriptorValidatorTest {
             }
         }, expectations[2]);
     }
-    
+
 }

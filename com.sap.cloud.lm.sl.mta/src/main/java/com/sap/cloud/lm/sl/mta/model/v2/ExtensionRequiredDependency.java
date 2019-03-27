@@ -47,13 +47,15 @@ public class ExtensionRequiredDependency implements VisitableElement, Properties
     }
 
     @Override
-    public void setProperties(Map<String, Object> properties) {
+    public Void setProperties(Map<String, Object> properties) {
         this.properties = new LinkedHashMap<>(properties);
+        return null;
     }
 
     @Override
-    public void setParameters(Map<String, Object> parameters) {
+    public Void setParameters(Map<String, Object> parameters) {
         this.parameters = new LinkedHashMap<>(parameters);
+        return null;
     }
 
     @Override

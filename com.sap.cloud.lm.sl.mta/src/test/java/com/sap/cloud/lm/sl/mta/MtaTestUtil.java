@@ -7,11 +7,11 @@ import java.util.Map;
 
 import com.sap.cloud.lm.sl.common.ParsingException;
 import com.sap.cloud.lm.sl.common.util.JsonUtil;
-import com.sap.cloud.lm.sl.mta.handlers.v2.ConfigurationParser;
+import com.sap.cloud.lm.sl.mta.handlers.ConfigurationParser;
 import com.sap.cloud.lm.sl.mta.handlers.v2.DescriptorParser;
+import com.sap.cloud.lm.sl.mta.model.Platform;
 import com.sap.cloud.lm.sl.mta.model.v2.DeploymentDescriptor;
 import com.sap.cloud.lm.sl.mta.model.v2.ExtensionDescriptor;
-import com.sap.cloud.lm.sl.mta.model.v2.Platform;
 import com.sap.cloud.lm.sl.mta.util.YamlUtil;
 
 public class MtaTestUtil {
@@ -61,9 +61,9 @@ public class MtaTestUtil {
         return descriptorParser.parseExtensionDescriptorYaml(extensionDescriptorYaml);
     }
 
-    public static Platform loadPlatform(String location, ConfigurationParser parser, Class<?> clazz) throws ParsingException {
+    public static Platform loadPlatform(String location, Class<?> clazz) throws ParsingException {
         InputStream platformJson = clazz.getResourceAsStream(location);
-        return parser.parsePlatformJson(platformJson);
+        return new ConfigurationParser().parsePlatformJson(platformJson);
     }
 
 }

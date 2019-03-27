@@ -11,10 +11,9 @@ import org.junit.runners.Parameterized.Parameters;
 import com.sap.cloud.lm.sl.common.util.Callable;
 import com.sap.cloud.lm.sl.common.util.TestUtil;
 import com.sap.cloud.lm.sl.common.util.TestUtil.Expectation;
-import com.sap.cloud.lm.sl.mta.handlers.v2.ConfigurationParser;
 import com.sap.cloud.lm.sl.mta.handlers.v2.DescriptorParser;
+import com.sap.cloud.lm.sl.mta.model.Platform;
 import com.sap.cloud.lm.sl.mta.model.v2.DeploymentDescriptor;
-import com.sap.cloud.lm.sl.mta.model.v2.Platform;
 
 public class ParametersChainBuilderTest extends PropertiesChainBuilderTest {
 
@@ -61,11 +60,6 @@ public class ParametersChainBuilderTest extends PropertiesChainBuilderTest {
     }
 
     @Override
-    protected ConfigurationParser getConfigurationParser() {
-        return new ConfigurationParser();
-    }
-
-    @Override
     protected DescriptorParser getDescriptorParser() {
         return new DescriptorParser();
     }
@@ -74,7 +68,7 @@ public class ParametersChainBuilderTest extends PropertiesChainBuilderTest {
     protected PropertiesChainBuilder createPropertiesChainBuilder(DeploymentDescriptor deploymentDescriptor, Platform platform) {
         return new ParametersChainBuilder((DeploymentDescriptor) deploymentDescriptor, (Platform) platform);
     }
-    
+
     @Test
     public void testBuildResourceTypeChain() {
         TestUtil.test(new Callable<List<List<Map<String, Object>>>>() {

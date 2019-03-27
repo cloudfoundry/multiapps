@@ -8,7 +8,7 @@ import com.sap.cloud.lm.sl.mta.schema.MapElement;
 import com.sap.cloud.lm.sl.mta.schema.Element.ElementBuilder;
 
 public class Schemas {
-    
+
     public static final String MTA_IDENTIFIER_PATTERN = "^[A-Za-z0-9_\\-\\.]+$";
     public static final int MTA_IDENTIFIER_MAX_LENGTH = 128;
 
@@ -116,18 +116,15 @@ public class Schemas {
         EXT_RESOURCE.add("parameters", PROPERTIES);
 
         PLATFORM.add("name", UNIQUE_MTA_IDENTIFIER);
-        PLATFORM.add("description", STRING);
         PLATFORM.add("parameters", PROPERTIES);
         PLATFORM.add("module-types", new ListElement(MODULE_TYPE));
         PLATFORM.add("resource-types", new ListElement(RESOURCE_TYPE));
 
         MODULE_TYPE.add("name", UNIQUE_MTA_IDENTIFIER);
-        MODULE_TYPE.add("deployer", STRING);
         MODULE_TYPE.add("properties", PROPERTIES);
         MODULE_TYPE.add("parameters", PROPERTIES);
 
         RESOURCE_TYPE.add("name", UNIQUE_MTA_IDENTIFIER);
-        RESOURCE_TYPE.add("resource-manager", STRING);
         RESOURCE_TYPE.add("parameters", PROPERTIES);
     }
 

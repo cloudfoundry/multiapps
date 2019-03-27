@@ -96,13 +96,14 @@ public class DeploymentDescriptor implements Descriptor, VisitableElement, Prope
     }
 
     @Override
-    public void setProperties(Map<String, Object> properties) {
+    public Void setProperties(Map<String, Object> properties) {
         throw new UnsupportedOperationException();
     }
 
     @Override
-    public void setParameters(Map<String, Object> parameters) {
+    public Void setParameters(Map<String, Object> parameters) {
         this.parameters = new LinkedHashMap<>(parameters);
+        return null;
     }
 
     public void accept(Visitor visitor) {

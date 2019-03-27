@@ -5,8 +5,8 @@ import java.util.List;
 
 import com.sap.cloud.lm.sl.common.ContentException;
 import com.sap.cloud.lm.sl.common.util.ListUtil;
+import com.sap.cloud.lm.sl.mta.model.Platform;
 import com.sap.cloud.lm.sl.mta.model.SystemParameters;
-import com.sap.cloud.lm.sl.mta.model.v2.Platform;
 import com.sap.cloud.lm.sl.mta.model.v3.DeploymentDescriptor;
 import com.sap.cloud.lm.sl.mta.model.v3.Module;
 import com.sap.cloud.lm.sl.mta.resolvers.ResolverBuilder;

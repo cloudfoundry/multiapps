@@ -21,7 +21,6 @@ import com.sap.cloud.lm.sl.mta.util.YamlElement;
 
 public class Module implements VisitableElement, NamedElement, PropertiesContainer, ParametersContainer {
 
-    
     @YamlElement(ModuleParser.PATH)
     private String path;
     @YamlElement(ModuleParser.REQUIRES)
@@ -97,8 +96,9 @@ public class Module implements VisitableElement, NamedElement, PropertiesContain
         this.description = description;
     }
 
-    public void setProperties(Map<String, Object> properties) {
+    public Void setProperties(Map<String, Object> properties) {
         this.properties = new LinkedHashMap<>(properties);
+        return null;
     }
 
     public void setRequiredDependencies2(List<RequiredDependency> requiredDependencies) {
@@ -122,8 +122,9 @@ public class Module implements VisitableElement, NamedElement, PropertiesContain
     }
 
     @Override
-    public void setParameters(Map<String, Object> parameters) {
+    public Void setParameters(Map<String, Object> parameters) {
         this.parameters = new LinkedHashMap<>(parameters);
+        return null;
     }
 
     @Override

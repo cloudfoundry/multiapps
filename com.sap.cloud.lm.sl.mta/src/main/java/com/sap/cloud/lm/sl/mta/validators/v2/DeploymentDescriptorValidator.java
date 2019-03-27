@@ -5,23 +5,23 @@ import com.sap.cloud.lm.sl.mta.handlers.v2.DescriptorHandler;
 import com.sap.cloud.lm.sl.mta.message.Messages;
 import com.sap.cloud.lm.sl.mta.model.ElementContext;
 import com.sap.cloud.lm.sl.mta.model.NamedElement;
+import com.sap.cloud.lm.sl.mta.model.Platform;
 import com.sap.cloud.lm.sl.mta.model.VisitableElement;
 import com.sap.cloud.lm.sl.mta.model.Visitor;
 import com.sap.cloud.lm.sl.mta.model.v2.DeploymentDescriptor;
 import com.sap.cloud.lm.sl.mta.model.v2.Module;
-import com.sap.cloud.lm.sl.mta.model.v2.Platform;
 import com.sap.cloud.lm.sl.mta.model.v2.RequiredDependency;
 import com.sap.cloud.lm.sl.mta.model.v2.Resource;
 
 public class DeploymentDescriptorValidator extends Visitor {
 
-    protected final Platform platformType;
+    protected final Platform platform;
     protected final DeploymentDescriptor descriptor;
     protected final DescriptorHandler handler;
 
-    public DeploymentDescriptorValidator(DeploymentDescriptor descriptor, Platform platformType, DescriptorHandler handler) {
+    public DeploymentDescriptorValidator(DeploymentDescriptor descriptor, Platform platform, DescriptorHandler handler) {
         this.descriptor = descriptor;
-        this.platformType = platformType;
+        this.platform = platform;
         this.handler = handler;
     }
     
@@ -49,7 +49,7 @@ public class DeploymentDescriptorValidator extends Visitor {
     @Override
     public void visit(ElementContext context, Resource resource) throws ContentException {
         if (isService(resource) && !isSupported(resource) && !isOptional(resource)) {
-            throw new ContentException(Messages.UNSUPPORTED_RESOURCE_TYPE, resource.getType(), platformType.getName());
+            throw new ContentException(Messages.UNSUPPORTED_RESOURCE_TYPE, resource.getType(), platform.getName());
         }
     }
     
@@ -58,19 +58,19 @@ public class DeploymentDescriptorValidator extends Visitor {
     }
     
     protected boolean isSupported(Resource resource) {
-        return handler.findResourceType(platformType, resource.getType()) != null;
+        return handler.findResourceType(platform, resource.getType()) != null;
     }
     
     @Override
     public void visit(ElementContext context, Module module) throws ContentException {
         if (!isSupported(module)) {
-            throw new ContentException(Messages.UNSUPPORTED_MODULE_TYPE, module.getType(), platformType.getName());
+            throw new ContentException(Messages.UNSUPPORTED_MODULE_TYPE, module.getType(), platform.getName());
         }
         validateRequiredDependencies(module);
     }
     
     protected boolean isSupported(Module module) {
-        return handler.findModuleType(platformType, module.getType()) != null;
+        return handler.findModuleType(platform, module.getType()) != null;
     }
     
     protected void validateRequiredDependencies(Module module) {

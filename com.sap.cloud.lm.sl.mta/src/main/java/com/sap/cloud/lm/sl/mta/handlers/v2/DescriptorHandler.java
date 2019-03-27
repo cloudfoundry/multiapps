@@ -3,6 +3,9 @@ package com.sap.cloud.lm.sl.mta.handlers.v2;
 import java.util.List;
 
 import com.sap.cloud.lm.sl.common.util.Pair;
+import com.sap.cloud.lm.sl.mta.model.ModuleType;
+import com.sap.cloud.lm.sl.mta.model.Platform;
+import com.sap.cloud.lm.sl.mta.model.ResourceType;
 import com.sap.cloud.lm.sl.mta.model.v2.DeploymentDescriptor;
 import com.sap.cloud.lm.sl.mta.model.v2.ExtensionDescriptor;
 import com.sap.cloud.lm.sl.mta.model.v2.ExtensionModule;
@@ -10,12 +13,9 @@ import com.sap.cloud.lm.sl.mta.model.v2.ExtensionProvidedDependency;
 import com.sap.cloud.lm.sl.mta.model.v2.ExtensionRequiredDependency;
 import com.sap.cloud.lm.sl.mta.model.v2.ExtensionResource;
 import com.sap.cloud.lm.sl.mta.model.v2.Module;
-import com.sap.cloud.lm.sl.mta.model.v2.ModuleType;
-import com.sap.cloud.lm.sl.mta.model.v2.Platform;
 import com.sap.cloud.lm.sl.mta.model.v2.ProvidedDependency;
 import com.sap.cloud.lm.sl.mta.model.v2.RequiredDependency;
 import com.sap.cloud.lm.sl.mta.model.v2.Resource;
-import com.sap.cloud.lm.sl.mta.model.v2.ResourceType;
 
 public class DescriptorHandler {
 
@@ -65,7 +65,7 @@ public class DescriptorHandler {
     }
 
     public ResourceType findResourceType(Platform platform, String resourceTypeName) {
-        for (ResourceType resourceType : platform.getResourceTypes2()) {
+        for (ResourceType resourceType : platform.getResourceTypes()) {
             if (resourceType.getName()
                 .equals(resourceTypeName)) {
                 return resourceType;
@@ -75,7 +75,7 @@ public class DescriptorHandler {
     }
 
     public ModuleType findModuleType(Platform platform, String moduleTypeName) {
-        for (ModuleType moduleType : platform.getModuleTypes2()) {
+        for (ModuleType moduleType : platform.getModuleTypes()) {
             if (moduleType.getName()
                 .equals(moduleTypeName)) {
                 return moduleType;
