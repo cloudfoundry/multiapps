@@ -83,6 +83,7 @@ mapping:
                   mapping:
                      name: {required: true, unique: true, pattern: '/^[A-Za-z0-9_\-\.]+$/'}
                      properties: *properties
+                     parameters: *parameters
 
             requires:
                type: seq

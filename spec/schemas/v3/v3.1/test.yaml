@@ -4,7 +4,7 @@ ID: com.acme.scheduling
 version: 1.132.1-edfsd+ewfe
 
 parameters:
-   deployer-version: >=1.2.0
+   deployer-version: ">=1.2.0"
 
 modules:        
  - name: backend
