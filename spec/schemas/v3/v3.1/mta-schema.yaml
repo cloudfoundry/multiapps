@@ -113,7 +113,9 @@ mapping:
                      public: {type: bool, default: false}
                      # property names and values make up the configuration data which is to be provided to requiring modules at runtime
                      properties: *properties
-                     properties-metadata: *properties-metadata                     
+                     properties-metadata: *properties-metadata
+                     parameters: *parameters
+                     parameters-metadata: *parameters-metadata
             # list of names either matching a resource name or a name provided by another module within the same MTA
             requires:
                type: seq
