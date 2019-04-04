@@ -1,28 +1,47 @@
 {
-  "modules2": [
+  "schemaVersion": "2.0.0",
+  "id": "placeholders-test",
+  "version": "1.0.0",
+  "modules": [
     {
-      "requiredDependencies2": [],
-      "providedDependencies2": [
-        {
-          "isPublic": true,
-          "name": "foo",
-          "properties": {}
-        }
-      ],
-      "parameters": {},
       "name": "foo",
       "type": "application",
-      "properties": {}
+      "properties": {},
+      "parameters": {},
+      "requiredDependencies": [],
+      "providedDependencies": [
+        {
+          "name": "foo",
+          "isPublic": true,
+          "properties": {},
+          "parameters": {},
+          "propertiesMetadata": {
+            "metadata": {}
+          },
+          "parametersMetadata": {
+            "metadata": {}
+          },
+          "majorSchemaVersion": 2
+        }
+      ],
+      "propertiesMetadata": {
+        "metadata": {}
+      },
+      "parametersMetadata": {
+        "metadata": {}
+      },
+      "majorSchemaVersion": 2
     }
   ],
-  "resources2": [],
+  "resources": [],
   "parameters": {
     "a": "aaa",
     "b": "bbb",
     "c": "aaa",
     "d": "aaa:bbb"
   },
-  "schemaVersion": "2.0.0",
-  "id": "placeholders-test",
-  "version": "1.0.0"
+  "parametersMetadata": {
+    "metadata": {}
+  },
+  "majorSchemaVersion": 2
 }

@@ -78,6 +78,7 @@ public class Schemas {
         PROVIDED_DEPENDENCY.add("name", UNIQUE_MTA_IDENTIFIER);
         PROVIDED_DEPENDENCY.add("public", BOOLEAN);
         PROVIDED_DEPENDENCY.add("properties", PROPERTIES);
+        PROVIDED_DEPENDENCY.add("parameters", PROPERTIES);
 
         RESOURCE.add("name", UNIQUE_MTA_IDENTIFIER);
         RESOURCE.add("type", STRING);

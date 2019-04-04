@@ -4,11 +4,11 @@ import static com.sap.cloud.lm.sl.common.util.CommonUtil.cast;
 
 import java.util.Map;
 
-import com.sap.cloud.lm.sl.mta.model.v2.DeploymentDescriptor;
+import com.sap.cloud.lm.sl.mta.model.DeploymentDescriptor;
 import com.sap.cloud.lm.sl.mta.resolvers.PlaceholderResolver;
 import com.sap.cloud.lm.sl.mta.resolvers.Resolver;
 import com.sap.cloud.lm.sl.mta.resolvers.ResolverBuilder;
-import com.sap.cloud.lm.sl.mta.resolvers.v3.DescriptorPlaceholderResolver;
+import com.sap.cloud.lm.sl.mta.resolvers.v2.DescriptorPlaceholderResolver;
 import com.sap.cloud.lm.sl.mta.resolvers.v3.DescriptorReferenceResolver;
 
 public class HandlerConstructor extends com.sap.cloud.lm.sl.mta.handlers.v2.HandlerConstructor {
@@ -37,20 +37,18 @@ public class HandlerConstructor extends com.sap.cloud.lm.sl.mta.handlers.v2.Hand
     }
 
     @Override
-    public PlaceholderResolver<? extends DeploymentDescriptor> getDescriptorPlaceholderResolver(DeploymentDescriptor mergedDescriptor,
+    public PlaceholderResolver<DeploymentDescriptor> getDescriptorPlaceholderResolver(DeploymentDescriptor mergedDescriptor,
         ResolverBuilder propertiesResolverBuilder, ResolverBuilder parametersResolverBuilder, Map<String, String> singularToPluralMapping) {
-        com.sap.cloud.lm.sl.mta.model.v3.DeploymentDescriptor mergedDescriptorV3 = cast(mergedDescriptor);
-        return new DescriptorPlaceholderResolver(mergedDescriptorV3, propertiesResolverBuilder, parametersResolverBuilder,
+        return new DescriptorPlaceholderResolver(mergedDescriptor, propertiesResolverBuilder, parametersResolverBuilder,
             singularToPluralMapping);
     }
 
     @Override
-    public Resolver<? extends com.sap.cloud.lm.sl.mta.model.v3.DeploymentDescriptor> getDescriptorReferenceResolver(
-        DeploymentDescriptor mergedDescriptor, ResolverBuilder modulesPropertiesResolverBuilder,
-        ResolverBuilder resourcePropertiesResolverBuilder, ResolverBuilder requiredDepencenciesPropertiesResolverBuilder) {
-        com.sap.cloud.lm.sl.mta.model.v3.DeploymentDescriptor descriptor = cast(mergedDescriptor);
-        return cast(new DescriptorReferenceResolver(descriptor, modulesPropertiesResolverBuilder, resourcePropertiesResolverBuilder,
-            requiredDepencenciesPropertiesResolverBuilder));
+    public Resolver<DeploymentDescriptor> getDescriptorReferenceResolver(DeploymentDescriptor mergedDescriptor,
+        ResolverBuilder modulesPropertiesResolverBuilder, ResolverBuilder resourcePropertiesResolverBuilder,
+        ResolverBuilder requiredDepencenciesPropertiesResolverBuilder) {
+        return new DescriptorReferenceResolver(mergedDescriptor, modulesPropertiesResolverBuilder, resourcePropertiesResolverBuilder,
+            requiredDepencenciesPropertiesResolverBuilder);
     }
 
 }

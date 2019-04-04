@@ -2,14 +2,14 @@ package com.sap.cloud.lm.sl.mta.mergers;
 
 import com.sap.cloud.lm.sl.common.util.MapUtil;
 import com.sap.cloud.lm.sl.mta.handlers.v2.DescriptorHandler;
+import com.sap.cloud.lm.sl.mta.model.DeploymentDescriptor;
 import com.sap.cloud.lm.sl.mta.model.ElementContext;
+import com.sap.cloud.lm.sl.mta.model.Module;
 import com.sap.cloud.lm.sl.mta.model.ModuleType;
 import com.sap.cloud.lm.sl.mta.model.Platform;
+import com.sap.cloud.lm.sl.mta.model.Resource;
 import com.sap.cloud.lm.sl.mta.model.ResourceType;
 import com.sap.cloud.lm.sl.mta.model.Visitor;
-import com.sap.cloud.lm.sl.mta.model.v2.DeploymentDescriptor;
-import com.sap.cloud.lm.sl.mta.model.v2.Module;
-import com.sap.cloud.lm.sl.mta.model.v2.Resource;
 
 public class PlatformMerger extends Visitor {
 

@@ -3,15 +3,12 @@ package com.sap.cloud.lm.sl.mta.serialization.v3;
 import java.util.Arrays;
 import java.util.Map;
 
-import org.junit.runner.RunWith;
-import org.junit.runners.Parameterized;
 import org.junit.runners.Parameterized.Parameters;
 
 import com.sap.cloud.lm.sl.common.util.TestUtil.Expectation;
 import com.sap.cloud.lm.sl.mta.parsers.v3.DeploymentDescriptorParser;
 import com.sap.cloud.lm.sl.mta.parsers.v3.ExtensionDescriptorParser;
 
-@RunWith(value = Parameterized.class)
 public class DescriptorSerializationTest extends com.sap.cloud.lm.sl.mta.serialization.v2.DescriptorSerializationTest {
 
     protected String deploymentDescriptorLocation;

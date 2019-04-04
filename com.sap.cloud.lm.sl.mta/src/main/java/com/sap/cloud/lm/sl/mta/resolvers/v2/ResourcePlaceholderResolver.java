@@ -5,7 +5,7 @@ import java.util.Map;
 
 import com.sap.cloud.lm.sl.common.ContentException;
 import com.sap.cloud.lm.sl.mta.builders.v2.ParametersChainBuilder;
-import com.sap.cloud.lm.sl.mta.model.v2.Resource;
+import com.sap.cloud.lm.sl.mta.model.Resource;
 import com.sap.cloud.lm.sl.mta.resolvers.PlaceholderResolver;
 import com.sap.cloud.lm.sl.mta.resolvers.PropertiesPlaceholderResolver;
 import com.sap.cloud.lm.sl.mta.resolvers.ResolverBuilder;

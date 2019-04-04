@@ -1,0 +1,46 @@
+{
+  "schemaVersion": "2.0.0",
+  "id": "placeholders-test",
+  "version": "1.0.0",
+  "modules": [],
+  "resources": [
+    {
+      "name": "bar",
+      "type": "managed-service",
+      "properties": {},
+      "parameters": {
+        "config": {
+          "instances": [
+            {
+              "credentials": {
+                "password": "bar",
+                "username": "foo"
+              },
+              "name": "default"
+            }
+          ]
+        }
+      },
+      "isActive": true,
+      "isOptional": false,
+      "propertiesMetadata": {
+        "metadata": {}
+      },
+      "parametersMetadata": {
+        "metadata": {}
+      },
+      "requiredDependencies": [],
+      "majorSchemaVersion": 2
+    }
+  ],
+  "parameters": {
+    "credentials": {
+      "password": "bar",
+      "username": "foo"
+    }
+  },
+  "parametersMetadata": {
+    "metadata": {}
+  },
+  "majorSchemaVersion": 2
+}

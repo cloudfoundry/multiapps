@@ -5,8 +5,8 @@ import java.util.Map;
 
 import com.sap.cloud.lm.sl.common.ContentException;
 import com.sap.cloud.lm.sl.mta.builders.v2.ParametersChainBuilder;
-import com.sap.cloud.lm.sl.mta.model.v2.Module;
-import com.sap.cloud.lm.sl.mta.model.v2.ProvidedDependency;
+import com.sap.cloud.lm.sl.mta.model.Module;
+import com.sap.cloud.lm.sl.mta.model.ProvidedDependency;
 import com.sap.cloud.lm.sl.mta.resolvers.PlaceholderResolver;
 import com.sap.cloud.lm.sl.mta.resolvers.PropertiesPlaceholderResolver;
 import com.sap.cloud.lm.sl.mta.resolvers.ResolverBuilder;
@@ -32,6 +32,7 @@ public class ProvidedDependencyPlaceholderResolver extends PlaceholderResolver<P
     @Override
     public ProvidedDependency resolve() throws ContentException {
         providedDependency.setProperties(getResolvedProperties());
+        providedDependency.setParameters(getResolvedParameters());
         return providedDependency;
     }
 
@@ -39,10 +40,16 @@ public class ProvidedDependencyPlaceholderResolver extends PlaceholderResolver<P
         List<Map<String, Object>> parametersChain = getParametersChain();
         return resolve(providedDependency.getProperties(), PropertiesUtil.mergeProperties(parametersChain));
     }
+    
+    protected Map<String, Object> getResolvedParameters() {
+        List<Map<String, Object>> parametersChain = getParametersChain();
+        return resolve(providedDependency.getParameters(), PropertiesUtil.mergeProperties(parametersChain));
+    }
 
     protected List<Map<String, Object>> getParametersChain() {
         String moduleName = module.getName();
         List<Map<String, Object>> parametersChain = parametersChainBuilder.buildModuleChain(moduleName);
+        parametersChain.add(0, providedDependency.getParameters());
         addSingularParametersIfNecessary(parametersChain);
         return parametersChain;
     }

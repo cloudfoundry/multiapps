@@ -9,8 +9,8 @@ import com.sap.cloud.lm.sl.common.ParsingException;
 import com.sap.cloud.lm.sl.common.util.JsonUtil;
 import com.sap.cloud.lm.sl.mta.handlers.ConfigurationParser;
 import com.sap.cloud.lm.sl.mta.handlers.v2.DescriptorParser;
+import com.sap.cloud.lm.sl.mta.model.DeploymentDescriptor;
 import com.sap.cloud.lm.sl.mta.model.Platform;
-import com.sap.cloud.lm.sl.mta.model.v2.DeploymentDescriptor;
 import com.sap.cloud.lm.sl.mta.model.v2.ExtensionDescriptor;
 import com.sap.cloud.lm.sl.mta.util.YamlUtil;
 
@@ -48,7 +48,7 @@ public class MtaTestUtil {
 
     public static List<ExtensionDescriptor> loadExtensionDescriptors(String[] locations, DescriptorParser parser, Class<?> clazz)
         throws ParsingException {
-        List<ExtensionDescriptor> extensionDescriptors = new ArrayList<ExtensionDescriptor>();
+        List<ExtensionDescriptor> extensionDescriptors = new ArrayList<>();
         for (String extensionDescriptorLocation : locations) {
             extensionDescriptors.add(loadExtensionDescriptor(extensionDescriptorLocation, parser, clazz));
         }

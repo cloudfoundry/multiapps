@@ -1,4 +1,4 @@
-_schema-version: 2.0.0
+_schema-version: 2
 ID: placeholders-test
 version: 1.0.0
 
@@ -12,6 +12,15 @@ modules:
       b: bbb
     provides:
       - name: foo
+        parameters:
+          c: ccc
+          d: ${a}
+          e: ${b}
+          f: ${c}
         properties:
-          c: ${a}
-          d: ${b}
+          g: ${a}
+          h: ${b}
+          i: ${c}
+          j: ${d}
+          k: ${e}
+          l: ${f}

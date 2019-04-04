@@ -1,11 +1,12 @@
 {
-  "modules3": [],
-  "resources3": [],
+  "schemaVersion": "3.0.0",
+  "id": "partial-schema-version-test",
+  "version": "1.0.0",
+  "modules": [],
+  "resources": [],
+  "parameters": {},
   "parametersMetadata": {
     "metadata": {}
   },
-  "parameters": {},
-  "schemaVersion": "3.0.0",
-  "id": "partial-schema-version-test",
-  "version": "1.0.0"
+  "majorSchemaVersion": 3
 }

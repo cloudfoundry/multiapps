@@ -3,24 +3,24 @@ package com.sap.cloud.lm.sl.mta.handlers.v2;
 import java.util.List;
 
 import com.sap.cloud.lm.sl.common.util.Pair;
+import com.sap.cloud.lm.sl.mta.model.DeploymentDescriptor;
+import com.sap.cloud.lm.sl.mta.model.Module;
 import com.sap.cloud.lm.sl.mta.model.ModuleType;
 import com.sap.cloud.lm.sl.mta.model.Platform;
+import com.sap.cloud.lm.sl.mta.model.ProvidedDependency;
+import com.sap.cloud.lm.sl.mta.model.RequiredDependency;
+import com.sap.cloud.lm.sl.mta.model.Resource;
 import com.sap.cloud.lm.sl.mta.model.ResourceType;
-import com.sap.cloud.lm.sl.mta.model.v2.DeploymentDescriptor;
 import com.sap.cloud.lm.sl.mta.model.v2.ExtensionDescriptor;
 import com.sap.cloud.lm.sl.mta.model.v2.ExtensionModule;
 import com.sap.cloud.lm.sl.mta.model.v2.ExtensionProvidedDependency;
 import com.sap.cloud.lm.sl.mta.model.v2.ExtensionRequiredDependency;
 import com.sap.cloud.lm.sl.mta.model.v2.ExtensionResource;
-import com.sap.cloud.lm.sl.mta.model.v2.Module;
-import com.sap.cloud.lm.sl.mta.model.v2.ProvidedDependency;
-import com.sap.cloud.lm.sl.mta.model.v2.RequiredDependency;
-import com.sap.cloud.lm.sl.mta.model.v2.Resource;
 
 public class DescriptorHandler {
 
     public RequiredDependency findRequiredDependency(DeploymentDescriptor descriptor, String moduleName, String dependencyName) {
-        for (Module module : descriptor.getModules2()) {
+        for (Module module : descriptor.getModules()) {
             if (module.getName()
                 .equals(moduleName)) {
                 return findRequiredDependency(module, dependencyName);
@@ -40,7 +40,7 @@ public class DescriptorHandler {
     }
 
     public RequiredDependency findRequiredDependency(Module module, String dependencyName) {
-        for (RequiredDependency requiredDependency : module.getRequiredDependencies2()) {
+        for (RequiredDependency requiredDependency : module.getRequiredDependencies()) {
             if (requiredDependency.getName()
                 .equals(dependencyName)) {
                 return requiredDependency;
@@ -97,7 +97,7 @@ public class DescriptorHandler {
     }
 
     public Resource findResource(DeploymentDescriptor descriptor, String resourceName) {
-        for (Resource resource : descriptor.getResources2()) {
+        for (Resource resource : descriptor.getResources()) {
             if (resource.getName()
                 .equals(resourceName)) {
                 return resource;
@@ -117,7 +117,7 @@ public class DescriptorHandler {
     }
 
     public ProvidedDependency findProvidedDependency(DeploymentDescriptor descriptor, String providedDependencyName) {
-        for (Module module : descriptor.getModules2()) {
+        for (Module module : descriptor.getModules()) {
             ProvidedDependency dependency = findProvidedDependency(module, providedDependencyName);
             if (dependency != null) {
                 return dependency;
@@ -137,7 +137,7 @@ public class DescriptorHandler {
     }
 
     public ProvidedDependency findProvidedDependency(Module module, String providedDependencyName) {
-        for (ProvidedDependency providedDependency : module.getProvidedDependencies2()) {
+        for (ProvidedDependency providedDependency : module.getProvidedDependencies()) {
             if (providedDependency.getName()
                 .equals(providedDependencyName)) {
                 return providedDependency;
@@ -167,7 +167,7 @@ public class DescriptorHandler {
     }
 
     public Module findModule(DeploymentDescriptor descriptor, String moduleName) {
-        for (Module module : descriptor.getModules2()) {
+        for (Module module : descriptor.getModules()) {
             if (module.getName()
                 .equals(moduleName)) {
                 return module;
@@ -176,7 +176,7 @@ public class DescriptorHandler {
         return null;
     }
 
-    public List<? extends Module> getModulesForDeployment(DeploymentDescriptor descriptor, String parallelDeploymentProperty,
+    public List<Module> getModulesForDeployment(DeploymentDescriptor descriptor, String parallelDeploymentProperty,
         String dependencyTypeProperty, String hardDependencyType) {
         ModulesSorter moduleSorter = getModuleSorter(descriptor, parallelDeploymentProperty, dependencyTypeProperty, hardDependencyType);
         return moduleSorter.sort();

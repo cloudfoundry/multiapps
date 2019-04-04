@@ -9,9 +9,9 @@ import java.util.Map;
 
 import com.sap.cloud.lm.sl.common.ContentException;
 import com.sap.cloud.lm.sl.mta.handlers.v3.DescriptorHandler;
-import com.sap.cloud.lm.sl.mta.model.v3.DeploymentDescriptor;
-import com.sap.cloud.lm.sl.mta.model.v3.RequiredDependency;
-import com.sap.cloud.lm.sl.mta.model.v3.Resource;
+import com.sap.cloud.lm.sl.mta.model.DeploymentDescriptor;
+import com.sap.cloud.lm.sl.mta.model.RequiredDependency;
+import com.sap.cloud.lm.sl.mta.model.Resource;
 import com.sap.cloud.lm.sl.mta.resolvers.Resolver;
 import com.sap.cloud.lm.sl.mta.resolvers.ResolverBuilder;
 import com.sap.cloud.lm.sl.mta.resolvers.v2.RequiredDependencyReferenceResolver;
@@ -37,13 +37,13 @@ public class ResourceReferenceResolver implements Resolver<Resource> {
     public Resource resolve() throws ContentException {
         resource.setProperties(getResolvedProperties());
         resource.setParameters(getResolvedParameters());
-        resource.setRequiredDependencies3(getResolvedDependencies());
+        resource.setRequiredDependencies(getResolvedDependencies());
         return resource;
     }
 
     private List<RequiredDependency> getResolvedDependencies() {
         List<RequiredDependency> result = new ArrayList<>();
-        for (RequiredDependency requiredDependency : resource.getRequiredDependencies3()) {
+        for (RequiredDependency requiredDependency : resource.getRequiredDependencies()) {
             result.add(resolveRequiredDependency(requiredDependency));
         }
         return result;

@@ -20,17 +20,19 @@ public class DefaultDescriptorValidationRules implements DescriptorValidationRul
     protected final Set<String> emptyParameters = new TreeSet<>();
 
     @Override
-    public void validateProperties(PropertiesContainer propertiesContainer, ElementContext elementContext) throws ContentException {
+    public void validateProperties(ElementContext elementContext, PropertiesContainer propertiesContainer)
+        throws ContentException {
         checkForEmptyFields(propertiesContainer.getProperties(), elementContext, emptyProperties);
     }
 
     @Override
-    public void validateParameters(ParametersContainer parametersContainer, ElementContext elementContext) throws ContentException {
+    public void validateParameters(ElementContext elementContext, ParametersContainer parametersContainer)
+        throws ContentException {
         checkForEmptyFields(parametersContainer.getParameters(), elementContext, emptyParameters);
     }
 
     protected void checkForEmptyFields(Map<String, Object> properties, ElementContext elementContext, Set<String> emptyFields) {
-        for ( Entry<String,Object> property: properties.entrySet()) {
+        for (Entry<String, Object> property : properties.entrySet()) {
             if (property.getValue() == null) {
                 emptyFields.add(getPrefixedName(elementContext.getPrefixedName(), property.getKey()));
             }
@@ -39,11 +41,11 @@ public class DefaultDescriptorValidationRules implements DescriptorValidationRul
 
     @Override
     public void postValidate() throws ContentException {
-        if (emptyProperties.size() != 0) {
+        if (!emptyProperties.isEmpty()) {
             throw new ContentException(Messages.UNRESOLVED_PROPERTIES, emptyProperties);
         }
 
-        if (emptyParameters.size() != 0) {
+        if (!emptyParameters.isEmpty()) {
             throw new ContentException(Messages.UNRESOLVED_PARAMETERS, emptyParameters);
         }
     }

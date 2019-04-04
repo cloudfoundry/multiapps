@@ -6,17 +6,17 @@ import java.util.List;
 import java.util.Map;
 
 import com.sap.cloud.lm.sl.common.ParsingException;
-import com.sap.cloud.lm.sl.mta.model.v2.ProvidedDependency;
-import com.sap.cloud.lm.sl.mta.model.v2.ProvidedDependency.Builder;
+import com.sap.cloud.lm.sl.mta.model.ProvidedDependency;
 import com.sap.cloud.lm.sl.mta.parsers.ModelParser;
 import com.sap.cloud.lm.sl.mta.schema.MapElement;
 
 public class ProvidedDependencyParser extends ModelParser<ProvidedDependency> {
 
     protected static final String PROCESSED_OBJECT_NAME = "MTA provided dependency";
-    
+
     public static final String NAME = "name";
     public static final String PROPERTIES = "properties";
+    public static final String PARAMETERS = "parameters";
     public static final String GROUPS = "groups";
     public static final String PUBLIC = "public";
 
@@ -30,13 +30,16 @@ public class ProvidedDependencyParser extends ModelParser<ProvidedDependency> {
 
     @Override
     public ProvidedDependency parse() throws ParsingException {
-        Builder builder = new Builder();
-        builder.setName(getName());
-        builder.setPublic(isPublic());
-        builder.setProperties(getProperties());
-        return builder.build();
+        return createEntity().setName(getName())
+            .setPublic(isPublic())
+            .setProperties(getProperties())
+            .setParameters(getParameters());
     }
-    
+
+    protected ProvidedDependency createEntity() {
+        return ProvidedDependency.createV2();
+    }
+
     protected String getName() {
         return getStringElement(NAME);
     }
@@ -47,6 +50,10 @@ public class ProvidedDependencyParser extends ModelParser<ProvidedDependency> {
 
     protected Map<String, Object> getProperties() {
         return getMapElement(PROPERTIES);
+    }
+
+    protected Map<String, Object> getParameters() {
+        return getMapElement(PARAMETERS);
     }
 
     protected Boolean isPublic() {

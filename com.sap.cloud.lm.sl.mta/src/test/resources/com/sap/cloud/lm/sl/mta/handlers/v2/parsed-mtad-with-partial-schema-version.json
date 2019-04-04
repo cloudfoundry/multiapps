@@ -1,8 +1,12 @@
 {
-  "modules2": [],
-  "resources2": [],
-  "parameters": {},
   "schemaVersion": "2.0.0",
   "id": "partial-schema-version-test",
-  "version": "1.0.0"
+  "version": "1.0.0",
+  "modules": [],
+  "resources": [],
+  "parameters": {},
+  "parametersMetadata": {
+    "metadata": {}
+  },
+  "majorSchemaVersion": 2
 }

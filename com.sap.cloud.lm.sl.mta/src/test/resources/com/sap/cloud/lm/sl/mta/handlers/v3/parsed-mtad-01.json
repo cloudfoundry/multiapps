@@ -1,8 +1,29 @@
 {
-  "modules3": [
+  "schemaVersion": "3.1.0",
+  "id": "com.sap.mta.sample",
+  "version": "1.2.1-beta+20150403144937853",
+  "modules": [
     {
-      "requiredDependencies3": [
+      "name": "web-server",
+      "type": "com.sap.static-content",
+      "path": "web-server/",
+      "properties": {
+        "docu-url": "http://help.sap.com/saphelp_nw74/en/5c",
+        "default-locale": ""
+      },
+      "parameters": {
+        "domain": "bestprice.sap.com",
+        "version-number": "7.20",
+        "version-tag": "v7.20"
+      },
+      "requiredDependencies": [
         {
+          "name": "internal-odata",
+          "group": "configuration",
+          "properties": {
+            "odata.svc_root": "~{odata.svc_root}"
+          },
+          "parameters": {},
           "propertiesMetadata": {
             "metadata": {
               "odata.svc_root": {
@@ -14,14 +35,14 @@
           "parametersMetadata": {
             "metadata": {}
           },
-          "name": "internal-odata",
-          "group": "configuration",
-          "properties": {
-            "odata.svc_root": "~{odata.svc_root}"
-          },
-          "parameters": {}
+          "majorSchemaVersion": 3
         },
         {
+          "name": "internal-odata-service",
+          "properties": {},
+          "parameters": {
+            "some-parameter": "~{some-parameter}"
+          },
           "propertiesMetadata": {
             "metadata": {}
           },
@@ -33,13 +54,16 @@
               }
             }
           },
-          "name": "internal-odata-service",
-          "properties": {},
-          "parameters": {
-            "some-parameter": "~{some-parameter}"
-          }
+          "majorSchemaVersion": 3
         },
         {
+          "name": "plugin-provider",
+          "list": "plugins",
+          "properties": {
+            "plugin-name": "~{plugin-name}",
+            "plugin-url": "~{plugin-url}"
+          },
+          "parameters": {},
           "propertiesMetadata": {
             "metadata": {
               "plugin-name": {
@@ -51,17 +75,14 @@
           "parametersMetadata": {
             "metadata": {}
           },
-          "name": "plugin-provider",
-          "list": "plugins",
-          "properties": {
-            "plugin-name": "~{plugin-name}",
-            "plugin-url": "~{plugin-url}"
-          },
-          "parameters": {}
+          "majorSchemaVersion": 3
         }
       ],
-      "providedDependencies3": [
+      "providedDependencies": [
         {
+          "name": "web-server",
+          "isPublic": false,
+          "properties": {},
           "parameters": {},
           "propertiesMetadata": {
             "metadata": {}
@@ -69,9 +90,7 @@
           "parametersMetadata": {
             "metadata": {}
           },
-          "isPublic": false,
-          "name": "web-server",
-          "properties": {}
+          "majorSchemaVersion": 3
         }
       ],
       "propertiesMetadata": {
@@ -95,54 +114,49 @@
       "deployedAfter": [
         "pricing"
       ],
-      "path": "web-server/",
-      "parameters": {
-        "domain": "bestprice.sap.com",
-        "version-number": "7.20",
-        "version-tag": "v7.20"
-      },
-      "name": "web-server",
-      "type": "com.sap.static-content",
+      "majorSchemaVersion": 3
+    },
+    {
+      "name": "pricing",
+      "type": "org.nodejs",
       "properties": {
         "docu-url": "http://help.sap.com/saphelp_nw74/en/5c",
         "default-locale": ""
-      }
-    },
-    {
-      "requiredDependencies3": [
+      },
+      "parameters": {
+        "host": "api",
+        "domain": "bestprice.sap.com"
+      },
+      "requiredDependencies": [
         {
-          "propertiesMetadata": {
-            "metadata": {}
-          },
-          "parametersMetadata": {
-            "metadata": {}
-          },
           "name": "pricing-db",
           "group": "pricing-configuration",
           "properties": {},
           "parameters": {
             "custom-property": "custom-property-value"
-          }
-        },
-        {
+          },
           "propertiesMetadata": {
             "metadata": {}
           },
           "parametersMetadata": {
             "metadata": {}
           },
+          "majorSchemaVersion": 3
+        },
+        {
           "name": "pricing-db-service",
           "group": "pricing-configuration",
           "properties": {},
-          "parameters": {}
-        },
-        {
+          "parameters": {},
           "propertiesMetadata": {
             "metadata": {}
           },
           "parametersMetadata": {
             "metadata": {}
           },
+          "majorSchemaVersion": 3
+        },
+        {
           "name": "competitor-data",
           "group": "pricing-configuration",
           "properties": {
@@ -150,11 +164,23 @@
             "application-key": "~{application-key}",
             "secret-key": "~{secret-key}"
           },
-          "parameters": {}
+          "parameters": {},
+          "propertiesMetadata": {
+            "metadata": {}
+          },
+          "parametersMetadata": {
+            "metadata": {}
+          },
+          "majorSchemaVersion": 3
         }
       ],
-      "providedDependencies3": [
+      "providedDependencies": [
         {
+          "name": "internal-odata",
+          "isPublic": true,
+          "properties": {
+            "odata.svc_root": "odata/"
+          },
           "parameters": {},
           "propertiesMetadata": {
             "metadata": {
@@ -167,13 +193,12 @@
           "parametersMetadata": {
             "metadata": {}
           },
-          "isPublic": true,
-          "name": "internal-odata",
-          "properties": {
-            "odata.svc_root": "odata/"
-          }
+          "majorSchemaVersion": 3
         },
         {
+          "name": "pricing",
+          "isPublic": false,
+          "properties": {},
           "parameters": {},
           "propertiesMetadata": {
             "metadata": {}
@@ -181,9 +206,7 @@
           "parametersMetadata": {
             "metadata": {}
           },
-          "isPublic": false,
-          "name": "pricing",
-          "properties": {}
+          "majorSchemaVersion": 3
         }
       ],
       "propertiesMetadata": {
@@ -195,34 +218,20 @@
       "deployedAfter": [
         "pricing-db"
       ],
-      "parameters": {
-        "host": "api",
-        "domain": "bestprice.sap.com"
-      },
-      "name": "pricing",
-      "type": "org.nodejs",
-      "properties": {
-        "docu-url": "http://help.sap.com/saphelp_nw74/en/5c",
-        "default-locale": ""
-      }
+      "majorSchemaVersion": 3
     },
     {
-      "requiredDependencies3": [
+      "name": "pricing-db",
+      "type": "com.sap.hana.hdi",
+      "properties": {
+        "default-locale": ""
+      },
+      "parameters": {},
+      "requiredDependencies": [
         {
-          "propertiesMetadata": {
-            "metadata": {}
-          },
-          "parametersMetadata": {
-            "metadata": {}
-          },
           "name": "pricing-db-service",
           "group": "db-configuration",
           "properties": {},
-          "parameters": {}
-        }
-      ],
-      "providedDependencies3": [
-        {
           "parameters": {},
           "propertiesMetadata": {
             "metadata": {}
@@ -230,9 +239,22 @@
           "parametersMetadata": {
             "metadata": {}
           },
-          "isPublic": false,
+          "majorSchemaVersion": 3
+        }
+      ],
+      "providedDependencies": [
+        {
           "name": "pricing-db",
-          "properties": {}
+          "isPublic": false,
+          "properties": {},
+          "parameters": {},
+          "propertiesMetadata": {
+            "metadata": {}
+          },
+          "parametersMetadata": {
+            "metadata": {}
+          },
+          "majorSchemaVersion": 3
         }
       ],
       "propertiesMetadata": {
@@ -241,32 +263,35 @@
       "parametersMetadata": {
         "metadata": {}
       },
-      "parameters": {},
-      "name": "pricing-db",
-      "type": "com.sap.hana.hdi",
-      "properties": {
-        "default-locale": ""
-      }
+      "majorSchemaVersion": 3
     }
   ],
-  "resources3": [
+  "resources": [
     {
+      "name": "pricing-db-service",
+      "type": "com.sap.hana.hdi-container",
+      "properties": {},
+      "parameters": {},
       "isActive": true,
+      "isOptional": false,
       "propertiesMetadata": {
         "metadata": {}
       },
       "parametersMetadata": {
         "metadata": {}
       },
-      "requiredDependencies3": [],
-      "isOptional": false,
-      "parameters": {},
-      "name": "pricing-db-service",
-      "type": "com.sap.hana.hdi-container",
-      "properties": {}
+      "requiredDependencies": [],
+      "majorSchemaVersion": 3
     },
     {
+      "name": "internal-odata-service",
+      "type": "com.sap.user-provided",
+      "properties": {
+        "some-parameter": "some-parameter-value"
+      },
+      "parameters": {},
       "isActive": true,
+      "isOptional": false,
       "propertiesMetadata": {
         "metadata": {
           "odata.svc_root": {
@@ -278,17 +303,17 @@
       "parametersMetadata": {
         "metadata": {}
       },
-      "requiredDependencies3": [],
-      "isOptional": false,
-      "parameters": {},
-      "name": "internal-odata-service",
-      "type": "com.sap.user-provided",
-      "properties": {
-        "some-parameter": "some-parameter-value"
-      }
+      "requiredDependencies": [],
+      "majorSchemaVersion": 3
     },
     {
+      "name": "competitor-data",
+      "properties": {
+        "url": "https://marketwatch.il/v2/"
+      },
+      "parameters": {},
       "isActive": true,
+      "isOptional": false,
       "propertiesMetadata": {
         "metadata": {
           "url": {
@@ -306,16 +331,23 @@
       "parametersMetadata": {
         "metadata": {}
       },
-      "requiredDependencies3": [],
-      "isOptional": false,
-      "parameters": {},
-      "name": "competitor-data",
-      "properties": {
-        "url": "https://marketwatch.il/v2/"
-      }
+      "requiredDependencies": [],
+      "majorSchemaVersion": 3
     },
     {
+      "name": "plugin-provider",
+      "type": "configuration",
+      "properties": {
+        "plugin-name": "${name}",
+        "plugin-url": "${url}/sources"
+      },
+      "parameters": {
+        "filter": {
+          "type": "com.acme.plugin"
+        }
+      },
       "isActive": true,
+      "isOptional": false,
       "propertiesMetadata": {
         "metadata": {}
       },
@@ -326,21 +358,13 @@
           }
         }
       },
-      "requiredDependencies3": [],
-      "isOptional": false,
-      "parameters": {
-        "filter": {
-          "type": "com.acme.plugin"
-        }
-      },
-      "name": "plugin-provider",
-      "type": "configuration",
-      "properties": {
-        "plugin-name": "${name}",
-        "plugin-url": "${url}/sources"
-      }
+      "requiredDependencies": [],
+      "majorSchemaVersion": 3
     }
   ],
+  "parameters": {
+    "com.sap.releaseMetadataRefGuid": "c6bc22d0-48b4-47d1-9fd4"
+  },
   "parametersMetadata": {
     "metadata": {
       "com.sap.releaseMetadataRefGuid": {
@@ -349,13 +373,5 @@
       }
     }
   },
-  "parameters": {
-    "com.sap.releaseMetadataRefGuid": "c6bc22d0-48b4-47d1-9fd4"
-  },
-  "schemaVersion": "3.1.0",
-  "id": "com.sap.mta.sample",
-  "description": "Deployment descriptor used for testing purposes",
-  "version": "1.2.1-beta+20150403144937853",
-  "provider": "Sunny",
-  "copyright": "Sunny Ltd"
+  "majorSchemaVersion": 3
 }

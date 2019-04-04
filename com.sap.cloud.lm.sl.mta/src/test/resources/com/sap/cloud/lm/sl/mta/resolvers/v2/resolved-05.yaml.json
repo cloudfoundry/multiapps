@@ -1,22 +1,43 @@
 {
-  "modules2": [
+  "schemaVersion": "2.0.0",
+  "id": "com.sap.sample.mta",
+  "version": "0.1.0",
+  "modules": [
     {
-      "requiredDependencies2": [
+      "name": "web",
+      "type": "javascript.nodejs",
+      "properties": {},
+      "parameters": {},
+      "requiredDependencies": [
         {
           "name": "backend1",
           "properties": {},
-          "parameters": {}
+          "parameters": {},
+          "propertiesMetadata": {
+            "metadata": {}
+          },
+          "parametersMetadata": {
+            "metadata": {}
+          },
+          "majorSchemaVersion": 2
         },
         {
           "name": "backend2",
           "properties": {},
-          "parameters": {}
+          "parameters": {},
+          "propertiesMetadata": {
+            "metadata": {}
+          },
+          "parametersMetadata": {
+            "metadata": {}
+          },
+          "majorSchemaVersion": 2
         }
       ],
-      "providedDependencies2": [
+      "providedDependencies": [
         {
-          "isPublic": true,
           "name": "web",
+          "isPublic": true,
           "properties": {
             "name": "web",
             "url": "https://localhost:52030",
@@ -32,40 +53,26 @@
                 "forwardAuthToken": true
               }
             ]
-          }
+          },
+          "parameters": {},
+          "propertiesMetadata": {
+            "metadata": {}
+          },
+          "parametersMetadata": {
+            "metadata": {}
+          },
+          "majorSchemaVersion": 2
         }
       ],
-      "parameters": {},
-      "name": "web",
-      "type": "javascript.nodejs",
-      "properties": {}
+      "propertiesMetadata": {
+        "metadata": {}
+      },
+      "parametersMetadata": {
+        "metadata": {}
+      },
+      "majorSchemaVersion": 2
     },
     {
-      "requiredDependencies2": [
-        {
-          "name": "web",
-          "properties": {},
-          "parameters": {}
-        },
-        {
-          "name": "backend1",
-          "properties": {},
-          "parameters": {}
-        },
-        {
-          "name": "backend2",
-          "properties": {},
-          "parameters": {}
-        }
-      ],
-      "providedDependencies2": [
-        {
-          "isPublic": true,
-          "name": "dep",
-          "properties": {}
-        }
-      ],
-      "parameters": {},
       "name": "dep",
       "type": "javascript.nodejs",
       "properties": {
@@ -85,29 +92,111 @@
           "name": "web",
           "url": "https://localhost:52030"
         }
-      }
+      },
+      "parameters": {},
+      "requiredDependencies": [
+        {
+          "name": "web",
+          "properties": {},
+          "parameters": {},
+          "propertiesMetadata": {
+            "metadata": {}
+          },
+          "parametersMetadata": {
+            "metadata": {}
+          },
+          "majorSchemaVersion": 2
+        },
+        {
+          "name": "backend1",
+          "properties": {},
+          "parameters": {},
+          "propertiesMetadata": {
+            "metadata": {}
+          },
+          "parametersMetadata": {
+            "metadata": {}
+          },
+          "majorSchemaVersion": 2
+        },
+        {
+          "name": "backend2",
+          "properties": {},
+          "parameters": {},
+          "propertiesMetadata": {
+            "metadata": {}
+          },
+          "parametersMetadata": {
+            "metadata": {}
+          },
+          "majorSchemaVersion": 2
+        }
+      ],
+      "providedDependencies": [
+        {
+          "name": "dep",
+          "isPublic": true,
+          "properties": {},
+          "parameters": {},
+          "propertiesMetadata": {
+            "metadata": {}
+          },
+          "parametersMetadata": {
+            "metadata": {}
+          },
+          "majorSchemaVersion": 2
+        }
+      ],
+      "propertiesMetadata": {
+        "metadata": {}
+      },
+      "parametersMetadata": {
+        "metadata": {}
+      },
+      "majorSchemaVersion": 2
     }
   ],
-  "resources2": [
+  "resources": [
     {
-      "parameters": {},
       "name": "backend1",
       "properties": {
         "name": "backend1",
         "url": "https://example.com:51088"
-      }
+      },
+      "parameters": {},
+      "isActive": true,
+      "isOptional": false,
+      "propertiesMetadata": {
+        "metadata": {}
+      },
+      "parametersMetadata": {
+        "metadata": {}
+      },
+      "requiredDependencies": [],
+      "majorSchemaVersion": 2
     },
     {
-      "parameters": {},
       "name": "backend2",
       "properties": {
         "name": "backend2",
         "url": "https://www.ynet.co.il"
-      }
+      },
+      "parameters": {},
+      "isActive": true,
+      "isOptional": false,
+      "propertiesMetadata": {
+        "metadata": {}
+      },
+      "parametersMetadata": {
+        "metadata": {}
+      },
+      "requiredDependencies": [],
+      "majorSchemaVersion": 2
     }
   ],
   "parameters": {},
-  "schemaVersion": "2.0.0",
-  "id": "com.sap.sample.mta",
-  "version": "0.1.0"
+  "parametersMetadata": {
+    "metadata": {}
+  },
+  "majorSchemaVersion": 2
 }

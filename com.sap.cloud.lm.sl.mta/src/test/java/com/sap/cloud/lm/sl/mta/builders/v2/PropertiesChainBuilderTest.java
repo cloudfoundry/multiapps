@@ -16,10 +16,10 @@ import com.sap.cloud.lm.sl.common.util.TestUtil;
 import com.sap.cloud.lm.sl.common.util.TestUtil.Expectation;
 import com.sap.cloud.lm.sl.mta.MtaTestUtil;
 import com.sap.cloud.lm.sl.mta.handlers.v2.DescriptorParser;
+import com.sap.cloud.lm.sl.mta.model.DeploymentDescriptor;
+import com.sap.cloud.lm.sl.mta.model.Module;
 import com.sap.cloud.lm.sl.mta.model.Platform;
-import com.sap.cloud.lm.sl.mta.model.v2.DeploymentDescriptor;
-import com.sap.cloud.lm.sl.mta.model.v2.Module;
-import com.sap.cloud.lm.sl.mta.model.v2.Resource;
+import com.sap.cloud.lm.sl.mta.model.Resource;
 
 @RunWith(Parameterized.class)
 public class PropertiesChainBuilderTest {
@@ -79,8 +79,8 @@ public class PropertiesChainBuilderTest {
 
         DeploymentDescriptor deploymentDescriptor = MtaTestUtil.loadDeploymentDescriptor(deploymentDescriptorLocation, descriptorParser,
             getClass());
-        resourceNames = getResourceNames(deploymentDescriptor.getResources2());
-        moduleNames = getModuleNames(deploymentDescriptor.getModules2());
+        resourceNames = getResourceNames(deploymentDescriptor.getResources());
+        moduleNames = getModuleNames(deploymentDescriptor.getModules());
 
         Platform platform = null;
         if (platformLocation != null) {

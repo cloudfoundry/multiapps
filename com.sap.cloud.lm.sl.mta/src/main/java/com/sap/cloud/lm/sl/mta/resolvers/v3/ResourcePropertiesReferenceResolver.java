@@ -5,8 +5,8 @@ import static com.sap.cloud.lm.sl.mta.resolvers.ReferencePattern.FULLY_QUALIFIED
 import java.util.Map;
 
 import com.sap.cloud.lm.sl.mta.handlers.v3.DescriptorHandler;
-import com.sap.cloud.lm.sl.mta.model.v3.DeploymentDescriptor;
-import com.sap.cloud.lm.sl.mta.model.v3.Resource;
+import com.sap.cloud.lm.sl.mta.model.DeploymentDescriptor;
+import com.sap.cloud.lm.sl.mta.model.Resource;
 import com.sap.cloud.lm.sl.mta.resolvers.ProvidedValuesResolver;
 import com.sap.cloud.lm.sl.mta.resolvers.ReferenceResolver;
 import com.sap.cloud.lm.sl.mta.resolvers.ResolverBuilder;

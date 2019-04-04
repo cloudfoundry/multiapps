@@ -1,32 +1,9 @@
 {
-  "modules2": [
+  "schemaVersion": "2.0.0",
+  "id": "ztana",
+  "version": "1.0.0",
+  "modules": [
     {
-      "requiredDependencies2": [
-        {
-          "name": "test-service",
-          "properties": {
-            "required-dependency-property": "required-property"
-          },
-          "parameters": {
-            "required-dependency-parameter": "required-parameter"
-          }
-        }
-      ],
-      "providedDependencies2": [
-        {
-          "isPublic": false,
-          "name": "providesSomething",
-          "properties": {}
-        },
-        {
-          "isPublic": true,
-          "name": "test-module",
-          "properties": {}
-        }
-      ],
-      "parameters": {
-        "some-parameter": "module-parameter"
-      },
       "name": "test-module",
       "type": "javascript.nodejs",
       "properties": {
@@ -34,11 +11,70 @@
         "health-check-timeout": 180,
         "no-start": true,
         "password": "sensitive_data"
-      }
+      },
+      "parameters": {
+        "some-parameter": "module-parameter"
+      },
+      "requiredDependencies": [
+        {
+          "name": "test-service",
+          "properties": {
+            "required-dependency-property": "required-property"
+          },
+          "parameters": {
+            "required-dependency-parameter": "required-parameter"
+          },
+          "propertiesMetadata": {
+            "metadata": {}
+          },
+          "parametersMetadata": {
+            "metadata": {}
+          },
+          "majorSchemaVersion": 2
+        }
+      ],
+      "providedDependencies": [
+        {
+          "name": "providesSomething",
+          "isPublic": false,
+          "properties": {},
+          "parameters": {},
+          "propertiesMetadata": {
+            "metadata": {}
+          },
+          "parametersMetadata": {
+            "metadata": {}
+          },
+          "majorSchemaVersion": 2
+        },
+        {
+          "name": "test-module",
+          "isPublic": true,
+          "properties": {},
+          "parameters": {},
+          "propertiesMetadata": {
+            "metadata": {}
+          },
+          "parametersMetadata": {
+            "metadata": {}
+          },
+          "majorSchemaVersion": 2
+        }
+      ],
+      "propertiesMetadata": {
+        "metadata": {}
+      },
+      "parametersMetadata": {
+        "metadata": {}
+      },
+      "majorSchemaVersion": 2
     }
   ],
-  "resources2": [
+  "resources": [
     {
+      "name": "test-service",
+      "type": "org.postgresql",
+      "properties": {},
       "parameters": {
         "test-parameter": "resource-parameter",
         "some-parameter-map": [
@@ -48,15 +84,23 @@
           }
         ]
       },
-      "name": "test-service",
-      "type": "org.postgresql",
-      "properties": {}
+      "isActive": true,
+      "isOptional": false,
+      "propertiesMetadata": {
+        "metadata": {}
+      },
+      "parametersMetadata": {
+        "metadata": {}
+      },
+      "requiredDependencies": [],
+      "majorSchemaVersion": 2
     }
   ],
   "parameters": {
     "descriptor-parameter": "some-parameter"
   },
-  "schemaVersion": "2.0.0",
-  "id": "ztana",
-  "version": "1.0.0"
+  "parametersMetadata": {
+    "metadata": {}
+  },
+  "majorSchemaVersion": 2
 }

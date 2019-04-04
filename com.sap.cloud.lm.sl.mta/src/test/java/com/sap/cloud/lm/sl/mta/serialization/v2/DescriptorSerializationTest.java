@@ -13,13 +13,13 @@ import org.junit.runners.Parameterized.Parameters;
 import com.sap.cloud.lm.sl.common.util.Callable;
 import com.sap.cloud.lm.sl.common.util.TestUtil;
 import com.sap.cloud.lm.sl.common.util.TestUtil.Expectation;
-import com.sap.cloud.lm.sl.mta.model.v2.DeploymentDescriptor;
+import com.sap.cloud.lm.sl.mta.model.DeploymentDescriptor;
 import com.sap.cloud.lm.sl.mta.model.v2.ExtensionDescriptor;
 import com.sap.cloud.lm.sl.mta.parsers.v2.DeploymentDescriptorParser;
 import com.sap.cloud.lm.sl.mta.parsers.v2.ExtensionDescriptorParser;
 import com.sap.cloud.lm.sl.mta.util.YamlUtil;
 
-@RunWith(value = Parameterized.class)
+@RunWith(Parameterized.class)
 public class DescriptorSerializationTest {
     
     protected String deploymentDescriptorLocation;

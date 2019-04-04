@@ -10,8 +10,8 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 import com.sap.cloud.lm.sl.mta.builders.v2.ModuleDependenciesCollector;
-import com.sap.cloud.lm.sl.mta.model.v2.DeploymentDescriptor;
-import com.sap.cloud.lm.sl.mta.model.v2.Module;
+import com.sap.cloud.lm.sl.mta.model.DeploymentDescriptor;
+import com.sap.cloud.lm.sl.mta.model.Module;
 
 public class ModulesSorter implements com.sap.cloud.lm.sl.mta.handlers.ModulesSorter {
 
@@ -28,7 +28,7 @@ public class ModulesSorter implements com.sap.cloud.lm.sl.mta.handlers.ModulesSo
         this.hardDependencyType = hardDependencyType;
     }
     
-    public List<? extends Module> sort() {
+    public List<Module> sort() {
         Map<Module, Set<String>> modulesAndDeploymentDependencies = getModulesAndDeploymentDependencies();
         List<Entry<Module, Set<String>>> modulesAndDeploymentDependenciesSorted = modulesAndDeploymentDependencies.entrySet()
             .stream()
@@ -43,7 +43,7 @@ public class ModulesSorter implements com.sap.cloud.lm.sl.mta.handlers.ModulesSo
     
     protected Map<Module, Set<String>> getModulesAndDeploymentDependencies() {
         Map<Module, Set<String>> result = new LinkedHashMap<>();
-        for (Module module : descriptor.getModules2()) {
+        for (Module module : descriptor.getModules()) {
             result.put(module, getDependencies(module));
         }
         return result;

@@ -9,8 +9,8 @@ public interface DescriptorValidationRules {
 
     public void postValidate() throws ContentException;
 
-    public void validateProperties(PropertiesContainer propertiesContainer, ElementContext elementContext) throws ContentException;
+    public void validateProperties(ElementContext elementContext, PropertiesContainer propertiesContainer) throws ContentException;
 
-    public void validateParameters(ParametersContainer parametersContainer, ElementContext elementContext) throws ContentException;
+    public void validateParameters(ElementContext elementContext, ParametersContainer parametersContainer) throws ContentException;
 
 }

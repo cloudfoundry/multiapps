@@ -6,8 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.sap.cloud.lm.sl.common.ParsingException;
-import com.sap.cloud.lm.sl.mta.model.v2.Resource;
-import com.sap.cloud.lm.sl.mta.model.v2.Resource.Builder;
+import com.sap.cloud.lm.sl.mta.model.Resource;
 import com.sap.cloud.lm.sl.mta.parsers.ModelParser;
 import com.sap.cloud.lm.sl.mta.schema.MapElement;
 
@@ -21,7 +20,6 @@ public class ResourceParser extends ModelParser<Resource> {
     public static final String DESCRIPTION = "description";
     public static final String GROUPS = "groups";
     public static final String PROPERTIES = "properties";
-    
 
     public ResourceParser(Map<String, Object> source) {
         this(RESOURCE, source);
@@ -33,15 +31,17 @@ public class ResourceParser extends ModelParser<Resource> {
 
     @Override
     public Resource parse() throws ParsingException {
-        Builder builder = new Builder();
-        builder.setName(getName());
-        builder.setDescription(getDescription());
-        builder.setType(getType());
-        builder.setProperties(getProperties());
-        builder.setParameters(getParameters());
-        return builder.build();
+        return createEntity().setDescription(getDescription())
+            .setName(getName())
+            .setType(getType())
+            .setProperties(getProperties())
+            .setParameters(getParameters());
     }
-    
+
+    protected Resource createEntity() {
+        return Resource.createV2();
+    }
+
     protected String getName() {
         return getStringElement(NAME);
     }

@@ -6,8 +6,8 @@ import java.util.Map;
 
 import com.sap.cloud.lm.sl.common.ContentException;
 import com.sap.cloud.lm.sl.mta.handlers.v2.DescriptorHandler;
-import com.sap.cloud.lm.sl.mta.model.v2.DeploymentDescriptor;
-import com.sap.cloud.lm.sl.mta.model.v2.Module;
+import com.sap.cloud.lm.sl.mta.model.DeploymentDescriptor;
+import com.sap.cloud.lm.sl.mta.model.Module;
 import com.sap.cloud.lm.sl.mta.resolvers.ProvidedValuesResolver;
 import com.sap.cloud.lm.sl.mta.resolvers.ReferenceResolver;
 import com.sap.cloud.lm.sl.mta.resolvers.ResolverBuilder;

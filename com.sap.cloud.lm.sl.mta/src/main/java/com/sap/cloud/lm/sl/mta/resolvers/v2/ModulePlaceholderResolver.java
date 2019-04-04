@@ -6,9 +6,9 @@ import java.util.Map;
 
 import com.sap.cloud.lm.sl.common.ContentException;
 import com.sap.cloud.lm.sl.mta.builders.v2.ParametersChainBuilder;
-import com.sap.cloud.lm.sl.mta.model.v2.Module;
-import com.sap.cloud.lm.sl.mta.model.v2.ProvidedDependency;
-import com.sap.cloud.lm.sl.mta.model.v2.RequiredDependency;
+import com.sap.cloud.lm.sl.mta.model.Module;
+import com.sap.cloud.lm.sl.mta.model.ProvidedDependency;
+import com.sap.cloud.lm.sl.mta.model.RequiredDependency;
 import com.sap.cloud.lm.sl.mta.resolvers.PlaceholderResolver;
 import com.sap.cloud.lm.sl.mta.resolvers.PropertiesPlaceholderResolver;
 import com.sap.cloud.lm.sl.mta.resolvers.ResolverBuilder;
@@ -35,8 +35,8 @@ public class ModulePlaceholderResolver extends PlaceholderResolver<Module> {
         Map<String, Object> mergedParameters = getMergedParameters();
         module.setProperties(getResolvedProperties(mergedParameters));
         module.setParameters(getResolvedParameters(mergedParameters));
-        module.setRequiredDependencies2(getResolvedRequiredDependencies());
-        module.setProvidedDependencies2(getResolvedProvidedDependencies());
+        module.setRequiredDependencies(getResolvedRequiredDependencies());
+        module.setProvidedDependencies(getResolvedProvidedDependencies());
         return module;
     }
 
@@ -58,7 +58,7 @@ public class ModulePlaceholderResolver extends PlaceholderResolver<Module> {
 
     protected List<ProvidedDependency> getResolvedProvidedDependencies() {
         List<ProvidedDependency> resolved = new ArrayList<>();
-        for (ProvidedDependency providedDependency : module.getProvidedDependencies2()) {
+        for (ProvidedDependency providedDependency : module.getProvidedDependencies()) {
             resolved.add(getProvidedDependencyResolver(providedDependency).resolve());
         }
         return resolved;
@@ -71,7 +71,7 @@ public class ModulePlaceholderResolver extends PlaceholderResolver<Module> {
 
     protected List<RequiredDependency> getResolvedRequiredDependencies() {
         List<RequiredDependency> resolved = new ArrayList<>();
-        for (RequiredDependency requiredDependency : module.getRequiredDependencies2()) {
+        for (RequiredDependency requiredDependency : module.getRequiredDependencies()) {
             resolved.add(getRequiredDependencyResolver(requiredDependency).resolve());
         }
         return resolved;

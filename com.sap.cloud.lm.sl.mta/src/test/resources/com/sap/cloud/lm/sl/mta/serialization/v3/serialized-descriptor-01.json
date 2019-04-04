@@ -1,8 +1,29 @@
 {
-  "modules3": [
+  "schemaVersion": "3.1.0",
+  "id": "ztana",
+  "version": "1.0.0",
+  "modules": [
     {
-      "requiredDependencies3": [
+      "name": "ztana",
+      "type": "javascript.nodejs",
+      "properties": {
+        "health-check-type": "none",
+        "health-check-timeout": 180,
+        "no-start": true,
+        "password": "sensitive_data"
+      },
+      "parameters": {
+        "url": "~{default-url}"
+      },
+      "requiredDependencies": [
         {
+          "name": "ztana-service",
+          "properties": {
+            "required-property": "property"
+          },
+          "parameters": {
+            "pass": "secretpass"
+          },
           "propertiesMetadata": {
             "metadata": {
               "required-property": {
@@ -17,17 +38,14 @@
               }
             }
           },
-          "name": "ztana-service",
-          "properties": {
-            "required-property": "property"
-          },
-          "parameters": {
-            "pass": "secretpass"
-          }
+          "majorSchemaVersion": 3
         }
       ],
-      "providedDependencies3": [
+      "providedDependencies": [
         {
+          "name": "ztana",
+          "isPublic": false,
+          "properties": {},
           "parameters": {},
           "propertiesMetadata": {
             "metadata": {}
@@ -35,9 +53,7 @@
           "parametersMetadata": {
             "metadata": {}
           },
-          "isPublic": false,
-          "name": "ztana",
-          "properties": {}
+          "majorSchemaVersion": 3
         }
       ],
       "propertiesMetadata": {
@@ -58,22 +74,27 @@
           }
         }
       },
-      "parameters": {
-        "url": "~{default-url}"
-      },
-      "name": "ztana",
-      "type": "javascript.nodejs",
-      "properties": {
-        "health-check-type": "none",
-        "health-check-timeout": 180,
-        "no-start": true,
-        "password": "sensitive_data"
-      }
+      "majorSchemaVersion": 3
     }
   ],
-  "resources3": [
+  "resources": [
     {
+      "name": "ztana-service",
+      "type": "org.postgresql",
+      "properties": {
+        "test-property": "resource-property",
+        "some-property-map": [
+          {
+            "first-property": "first-property",
+            "second-property": "second-property"
+          }
+        ]
+      },
+      "parameters": {
+        "resource-parameter": "value"
+      },
       "isActive": true,
+      "isOptional": false,
       "propertiesMetadata": {
         "metadata": {
           "test-property": {
@@ -88,24 +109,13 @@
           }
         }
       },
-      "requiredDependencies3": [],
-      "isOptional": false,
-      "parameters": {
-        "resource-parameter": "value"
-      },
-      "name": "ztana-service",
-      "type": "org.postgresql",
-      "properties": {
-        "test-property": "resource-property",
-        "some-property-map": [
-          {
-            "first-property": "first-property",
-            "second-property": "second-property"
-          }
-        ]
-      }
+      "requiredDependencies": [],
+      "majorSchemaVersion": 3
     }
   ],
+  "parameters": {
+    "descriptor-parameter": "true"
+  },
   "parametersMetadata": {
     "metadata": {
       "descriptor-parameter": {
@@ -114,10 +124,5 @@
       }
     }
   },
-  "parameters": {
-    "descriptor-parameter": "true"
-  },
-  "schemaVersion": "3.1.0",
-  "id": "ztana",
-  "version": "1.0.0"
+  "majorSchemaVersion": 3
 }

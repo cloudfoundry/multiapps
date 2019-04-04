@@ -16,17 +16,17 @@ import com.sap.cloud.lm.sl.mta.util.ValidatorUtil;
 public class DefaultDescriptorValidationRules extends com.sap.cloud.lm.sl.mta.validators.v2.DefaultDescriptorValidationRules {
 
     @Override
-    public void validateProperties(PropertiesContainer propertiesContainer, ElementContext elementContext) throws ContentException {
-        PropertiesWithMetadataContainer propertiesMetadataContainer = (PropertiesWithMetadataContainer) propertiesContainer;
-        validateOptionalProperties(propertiesMetadataContainer.getProperties(), propertiesMetadataContainer.getPropertiesMetadata(),
-            elementContext, Constants.PROPERTY_ELEMENT_TYPE_NAME);
+    public void validateProperties(ElementContext elementContext, PropertiesContainer propertiesContainer) throws ContentException {
+        PropertiesWithMetadataContainer propertiesWithMetadata = (PropertiesWithMetadataContainer) propertiesContainer;
+        validateOptionalProperties(propertiesWithMetadata.getProperties(), propertiesWithMetadata.getPropertiesMetadata(), elementContext,
+            Constants.PROPERTY_ELEMENT_TYPE_NAME);
     }
 
     @Override
-    public void validateParameters(ParametersContainer parametersContainer, ElementContext elementContext) throws ContentException {
-        ParametersWithMetadataContainer parametersMetadataContainer = (ParametersWithMetadataContainer) parametersContainer;
-        validateOptionalProperties(parametersMetadataContainer.getParameters(), parametersMetadataContainer.getParametersMetadata(),
-            elementContext, Constants.PARAMETER_ELEMENT_TYPE_NAME);
+    public void validateParameters(ElementContext elementContext, ParametersContainer parametersContainer) throws ContentException {
+        ParametersWithMetadataContainer parametersWithMetadata = (ParametersWithMetadataContainer) parametersContainer;
+        validateOptionalProperties(parametersWithMetadata.getParameters(), parametersWithMetadata.getParametersMetadata(), elementContext,
+            Constants.PARAMETER_ELEMENT_TYPE_NAME);
     }
 
     protected void validateOptionalProperties(Map<String, Object> properties, Metadata metadata, ElementContext elementContext,
@@ -41,10 +41,7 @@ public class DefaultDescriptorValidationRules extends com.sap.cloud.lm.sl.mta.va
 
     protected boolean isPropertyValid(Object property, String propertyName, Metadata metadata) {
         boolean isOptional = metadata.getOptionalMetadata(propertyName);
-        if (!isOptional && property == null) {
-            return false;
-        }
-        return true;
+        return isOptional || property != null;
     }
 
 }

@@ -4,7 +4,7 @@ import java.io.InputStream;
 import java.util.Map;
 
 import com.sap.cloud.lm.sl.common.ParsingException;
-import com.sap.cloud.lm.sl.mta.model.v3.DeploymentDescriptor;
+import com.sap.cloud.lm.sl.mta.model.DeploymentDescriptor;
 import com.sap.cloud.lm.sl.mta.model.v3.ExtensionDescriptor;
 import com.sap.cloud.lm.sl.mta.parsers.v3.DeploymentDescriptorParser;
 import com.sap.cloud.lm.sl.mta.parsers.v3.ExtensionDescriptorParser;

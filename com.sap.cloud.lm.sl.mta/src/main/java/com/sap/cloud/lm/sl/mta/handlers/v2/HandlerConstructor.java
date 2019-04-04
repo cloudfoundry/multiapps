@@ -1,10 +1,8 @@
 package com.sap.cloud.lm.sl.mta.handlers.v2;
 
-import static com.sap.cloud.lm.sl.common.util.CommonUtil.cast;
-
 import java.util.Map;
 
-import com.sap.cloud.lm.sl.mta.model.v2.DeploymentDescriptor;
+import com.sap.cloud.lm.sl.mta.model.DeploymentDescriptor;
 import com.sap.cloud.lm.sl.mta.resolvers.PlaceholderResolver;
 import com.sap.cloud.lm.sl.mta.resolvers.Resolver;
 import com.sap.cloud.lm.sl.mta.resolvers.ResolverBuilder;
@@ -43,18 +41,17 @@ public class HandlerConstructor implements com.sap.cloud.lm.sl.mta.handlers.Hand
     }
 
     @Override
-    public PlaceholderResolver<? extends DeploymentDescriptor> getDescriptorPlaceholderResolver(DeploymentDescriptor mergedDescriptor,
+    public PlaceholderResolver<DeploymentDescriptor> getDescriptorPlaceholderResolver(DeploymentDescriptor mergedDescriptor,
         ResolverBuilder propertiesResolverBuilder, ResolverBuilder parametersResolverBuilder, Map<String, String> singularToPluralMapping) {
-        com.sap.cloud.lm.sl.mta.model.v2.DeploymentDescriptor mergedDescriptorV2 = cast(mergedDescriptor);
-        return new DescriptorPlaceholderResolver(mergedDescriptorV2, propertiesResolverBuilder, parametersResolverBuilder,
+        return new DescriptorPlaceholderResolver(mergedDescriptor, propertiesResolverBuilder, parametersResolverBuilder,
             singularToPluralMapping);
     }
 
     @Override
-    public Resolver<? extends DeploymentDescriptor> getDescriptorReferenceResolver(DeploymentDescriptor mergedDescriptor,
+    public Resolver<DeploymentDescriptor> getDescriptorReferenceResolver(DeploymentDescriptor mergedDescriptor,
         ResolverBuilder modulesPropertiesResolverBuilder, ResolverBuilder resourcePropertiesResolverBuilder,
         ResolverBuilder requiredDepencenciesPropertiesResolverBuilder) {
-        return new DescriptorReferenceResolver((com.sap.cloud.lm.sl.mta.model.v2.DeploymentDescriptor) mergedDescriptor,
-            modulesPropertiesResolverBuilder, requiredDepencenciesPropertiesResolverBuilder);
+        return new DescriptorReferenceResolver(mergedDescriptor, modulesPropertiesResolverBuilder,
+            requiredDepencenciesPropertiesResolverBuilder);
     }
 }

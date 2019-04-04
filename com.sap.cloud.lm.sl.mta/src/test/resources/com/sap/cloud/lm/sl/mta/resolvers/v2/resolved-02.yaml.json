@@ -1,7 +1,14 @@
 {
-  "modules2": [
+  "schemaVersion": "2.0.0",
+  "id": "com.sap.mta.v2.test.config-01",
+  "version": "1.0.0",
+  "modules": [
     {
-      "requiredDependencies2": [
+      "name": "foo",
+      "type": "foo",
+      "properties": {},
+      "parameters": {},
+      "requiredDependencies": [
         {
           "name": "bar",
           "properties": {
@@ -12,7 +19,14 @@
           },
           "parameters": {
             "foo-test2": "foo-test4-value"
-          }
+          },
+          "propertiesMetadata": {
+            "metadata": {}
+          },
+          "parametersMetadata": {
+            "metadata": {}
+          },
+          "majorSchemaVersion": 2
         },
         {
           "name": "baz",
@@ -22,69 +36,128 @@
               "baz-test2": "baz-test2-value"
             }
           },
-          "parameters": {}
+          "parameters": {},
+          "propertiesMetadata": {
+            "metadata": {}
+          },
+          "parametersMetadata": {
+            "metadata": {}
+          },
+          "majorSchemaVersion": 2
         }
       ],
-      "providedDependencies2": [
+      "providedDependencies": [
         {
-          "isPublic": true,
           "name": "foo",
-          "properties": {}
+          "isPublic": true,
+          "properties": {},
+          "parameters": {},
+          "propertiesMetadata": {
+            "metadata": {}
+          },
+          "parametersMetadata": {
+            "metadata": {}
+          },
+          "majorSchemaVersion": 2
         }
       ],
-      "parameters": {},
-      "name": "foo",
-      "type": "foo",
-      "properties": {}
+      "propertiesMetadata": {
+        "metadata": {}
+      },
+      "parametersMetadata": {
+        "metadata": {}
+      },
+      "majorSchemaVersion": 2
     },
     {
-      "requiredDependencies2": [
-        {
-          "name": "baz",
-          "properties": {},
-          "parameters": {}
-        }
-      ],
-      "providedDependencies2": [
-        {
-          "isPublic": true,
-          "name": "bar",
-          "properties": {
-            "bar-test1": "bar-test1-value",
-            "bar-test2": "bar-test2-value",
-            "bar-test3": "bar-test3-value"
-          }
-        },
-        {
-          "isPublic": true,
-          "name": "qux",
-          "properties": {}
-        }
-      ],
-      "parameters": {},
       "name": "qux",
       "type": "qux",
       "properties": {
         "bar-test": "bar-test-value"
-      }
+      },
+      "parameters": {},
+      "requiredDependencies": [
+        {
+          "name": "baz",
+          "properties": {},
+          "parameters": {},
+          "propertiesMetadata": {
+            "metadata": {}
+          },
+          "parametersMetadata": {
+            "metadata": {}
+          },
+          "majorSchemaVersion": 2
+        }
+      ],
+      "providedDependencies": [
+        {
+          "name": "bar",
+          "isPublic": true,
+          "properties": {
+            "bar-test1": "bar-test1-value",
+            "bar-test2": "bar-test2-value",
+            "bar-test3": "bar-test3-value"
+          },
+          "parameters": {},
+          "propertiesMetadata": {
+            "metadata": {}
+          },
+          "parametersMetadata": {
+            "metadata": {}
+          },
+          "majorSchemaVersion": 2
+        },
+        {
+          "name": "qux",
+          "isPublic": true,
+          "properties": {},
+          "parameters": {},
+          "propertiesMetadata": {
+            "metadata": {}
+          },
+          "parametersMetadata": {
+            "metadata": {}
+          },
+          "majorSchemaVersion": 2
+        }
+      ],
+      "propertiesMetadata": {
+        "metadata": {}
+      },
+      "parametersMetadata": {
+        "metadata": {}
+      },
+      "majorSchemaVersion": 2
     }
   ],
-  "resources2": [
+  "resources": [
     {
-      "parameters": {},
       "name": "baz",
       "properties": {
         "baz-test": {
           "baz-test1": "baz-test1-value",
           "baz-test2": "baz-test2-value"
         }
-      }
+      },
+      "parameters": {},
+      "isActive": true,
+      "isOptional": false,
+      "propertiesMetadata": {
+        "metadata": {}
+      },
+      "parametersMetadata": {
+        "metadata": {}
+      },
+      "requiredDependencies": [],
+      "majorSchemaVersion": 2
     }
   ],
   "parameters": {
     "test": "test"
   },
-  "schemaVersion": "2.0.0",
-  "id": "com.sap.mta.v2.test.config-01",
-  "version": "1.0.0"
+  "parametersMetadata": {
+    "metadata": {}
+  },
+  "majorSchemaVersion": 2
 }
