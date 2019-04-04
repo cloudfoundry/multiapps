@@ -8,14 +8,14 @@ import java.util.Map;
 import org.apache.commons.collections4.CollectionUtils;
 
 import com.sap.cloud.lm.sl.mta.handlers.v2.DescriptorHandler;
+import com.sap.cloud.lm.sl.mta.model.DeploymentDescriptor;
+import com.sap.cloud.lm.sl.mta.model.Module;
 import com.sap.cloud.lm.sl.mta.model.ModuleType;
 import com.sap.cloud.lm.sl.mta.model.ParametersContainer;
 import com.sap.cloud.lm.sl.mta.model.Platform;
+import com.sap.cloud.lm.sl.mta.model.RequiredDependency;
+import com.sap.cloud.lm.sl.mta.model.Resource;
 import com.sap.cloud.lm.sl.mta.model.ResourceType;
-import com.sap.cloud.lm.sl.mta.model.v2.DeploymentDescriptor;
-import com.sap.cloud.lm.sl.mta.model.v2.Module;
-import com.sap.cloud.lm.sl.mta.model.v2.RequiredDependency;
-import com.sap.cloud.lm.sl.mta.model.v2.Resource;
 import com.sap.cloud.lm.sl.mta.util.PropertiesUtil;
 
 public class ParametersChainBuilder extends PropertiesChainBuilder {
@@ -38,7 +38,7 @@ public class ParametersChainBuilder extends PropertiesChainBuilder {
         if (module == null) {
             return Collections.emptyList();
         }
-        List<RequiredDependency> dependencies = module.getRequiredDependencies2();
+        List<RequiredDependency> dependencies = module.getRequiredDependencies();
         ModuleType moduleType = getModuleType(module);
         DeploymentDescriptor deploymentDescriptor = descriptor;
         return getParametersList(dependencies, module, moduleType, deploymentDescriptor);

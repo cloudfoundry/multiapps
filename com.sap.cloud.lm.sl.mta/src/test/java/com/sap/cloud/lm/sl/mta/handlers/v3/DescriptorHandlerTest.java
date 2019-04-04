@@ -12,12 +12,11 @@ import org.junit.runners.Parameterized;
 import org.junit.runners.Parameterized.Parameters;
 
 import com.sap.cloud.lm.sl.common.util.Callable;
-import com.sap.cloud.lm.sl.common.util.CommonUtil;
 import com.sap.cloud.lm.sl.common.util.TestUtil;
 import com.sap.cloud.lm.sl.common.util.TestUtil.Expectation;
 import com.sap.cloud.lm.sl.common.util.TestUtil.Expectation.Type;
-import com.sap.cloud.lm.sl.mta.model.v2.DeploymentDescriptor;
-import com.sap.cloud.lm.sl.mta.model.v2.Module;
+import com.sap.cloud.lm.sl.mta.model.DeploymentDescriptor;
+import com.sap.cloud.lm.sl.mta.model.Module;
 
 public class DescriptorHandlerTest extends com.sap.cloud.lm.sl.mta.handlers.v2.DescriptorHandlerTest {
 
@@ -170,8 +169,7 @@ public class DescriptorHandlerTest extends com.sap.cloud.lm.sl.mta.handlers.v2.D
                 private String getDeployedAfterMapString(List<? extends Module> modulles) {
                     Map<String, List<String>> deployedAfterMap = new LinkedHashMap<>();
                     for (Module module : modulles) {
-                        com.sap.cloud.lm.sl.mta.model.v3.Module moduleV3 = CommonUtil.cast(module);
-                        deployedAfterMap.put(moduleV3.getName(), ListUtils.emptyIfNull(moduleV3.getDeployedAfter()));
+                        deployedAfterMap.put(module.getName(), ListUtils.emptyIfNull(module.getDeployedAfter()));
                     }
                     return deployedAfterMap.toString();
                 }

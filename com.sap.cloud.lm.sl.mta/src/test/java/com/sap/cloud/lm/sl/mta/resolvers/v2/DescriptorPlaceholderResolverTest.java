@@ -13,7 +13,7 @@ import org.junit.runners.Parameterized.Parameters;
 import com.sap.cloud.lm.sl.common.util.TestUtil;
 import com.sap.cloud.lm.sl.common.util.TestUtil.Expectation;
 import com.sap.cloud.lm.sl.mta.handlers.DescriptorParserFacade;
-import com.sap.cloud.lm.sl.mta.model.v2.DeploymentDescriptor;
+import com.sap.cloud.lm.sl.mta.model.DeploymentDescriptor;
 import com.sap.cloud.lm.sl.mta.resolvers.ResolverBuilder;
 
 @RunWith(Parameterized.class)
@@ -34,7 +34,7 @@ public class DescriptorPlaceholderResolverTest {
             },
             // (01)
             {
-                "mtad-with-placeholders-in-provides-dependency.yaml", new Expectation(Expectation.Type.RESOURCE, "result-from-placeholders-in-provides-dependency.yaml"),
+                "mtad-with-placeholders-in-provides-dependency.yaml", new Expectation(Expectation.Type.RESOURCE, "result-from-placeholders-in-provides-dependency.json"),
             },
             // (02)
             {
@@ -74,11 +74,11 @@ public class DescriptorPlaceholderResolverTest {
             },
             // (11)
             {
-                "mtad-preservation-of-types.yaml", new Expectation(Expectation.Type.RESOURCE, "result-preservation-of-types.yaml"),
+                "mtad-preservation-of-types.yaml", new Expectation(Expectation.Type.RESOURCE, "result-preservation-of-types.json"),
             },
             // (12)
             {
-                "mtad-with-placeholder-in-a-nested-structure.yaml", new Expectation(Expectation.Type.RESOURCE, "result-from-placeholder-in-a-nested-structure.yaml"),
+                "mtad-with-placeholder-in-a-nested-structure.yaml", new Expectation(Expectation.Type.RESOURCE, "result-from-placeholder-in-a-nested-structure.json"),
             },
             // (13)
             {

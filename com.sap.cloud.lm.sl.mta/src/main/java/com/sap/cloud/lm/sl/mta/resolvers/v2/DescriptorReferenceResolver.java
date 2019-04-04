@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.sap.cloud.lm.sl.common.ContentException;
-import com.sap.cloud.lm.sl.mta.model.v2.DeploymentDescriptor;
-import com.sap.cloud.lm.sl.mta.model.v2.Module;
+import com.sap.cloud.lm.sl.mta.model.DeploymentDescriptor;
+import com.sap.cloud.lm.sl.mta.model.Module;
 import com.sap.cloud.lm.sl.mta.resolvers.Resolver;
 import com.sap.cloud.lm.sl.mta.resolvers.ResolverBuilder;
 
@@ -24,13 +24,13 @@ public class DescriptorReferenceResolver implements Resolver<DeploymentDescripto
 
     @Override
     public DeploymentDescriptor resolve() throws ContentException {
-        descriptor.setModules2(getResolvedModules());
+        descriptor.setModules(getResolvedModules());
         return descriptor;
     }
 
     protected List<Module> getResolvedModules() {
         List<Module> resolvedModules = new ArrayList<>();
-        for (Module module : descriptor.getModules2()) {
+        for (Module module : descriptor.getModules()) {
             resolvedModules.add(createModuleResolver(module).resolve());
         }
         return resolvedModules;

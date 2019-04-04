@@ -7,9 +7,9 @@ import java.util.List;
 import java.util.Map;
 
 import com.sap.cloud.lm.sl.common.ContentException;
-import com.sap.cloud.lm.sl.mta.model.v2.DeploymentDescriptor;
-import com.sap.cloud.lm.sl.mta.model.v2.Module;
-import com.sap.cloud.lm.sl.mta.model.v2.RequiredDependency;
+import com.sap.cloud.lm.sl.mta.model.DeploymentDescriptor;
+import com.sap.cloud.lm.sl.mta.model.Module;
+import com.sap.cloud.lm.sl.mta.model.RequiredDependency;
 import com.sap.cloud.lm.sl.mta.resolvers.Resolver;
 import com.sap.cloud.lm.sl.mta.resolvers.ResolverBuilder;
 
@@ -34,7 +34,7 @@ public class ModuleReferenceResolver implements Resolver<Module> {
     public Module resolve() throws ContentException {
         module.setProperties(getResolvedProperties());
         module.setParameters(getResolvedParameters());
-        module.setRequiredDependencies2(getResolvedDependencies());
+        module.setRequiredDependencies(getResolvedDependencies());
         return module;
     }
 
@@ -52,7 +52,7 @@ public class ModuleReferenceResolver implements Resolver<Module> {
 
     protected List<RequiredDependency> getResolvedDependencies() {
         List<RequiredDependency> result = new ArrayList<>();
-        for (RequiredDependency requiredDependency : module.getRequiredDependencies2()) {
+        for (RequiredDependency requiredDependency : module.getRequiredDependencies()) {
             result.add(resolveRequiredDependency(requiredDependency));
         }
         return result;

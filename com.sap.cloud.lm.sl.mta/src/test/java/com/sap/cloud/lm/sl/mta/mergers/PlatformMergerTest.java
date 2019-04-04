@@ -1,4 +1,4 @@
-package com.sap.cloud.lm.sl.mta.mergers.v2;
+package com.sap.cloud.lm.sl.mta.mergers;
 
 import java.io.InputStream;
 import java.util.Arrays;
@@ -17,12 +17,11 @@ import com.sap.cloud.lm.sl.mta.handlers.ConfigurationParser;
 import com.sap.cloud.lm.sl.mta.handlers.HandlerFactory;
 import com.sap.cloud.lm.sl.mta.handlers.v2.DescriptorHandler;
 import com.sap.cloud.lm.sl.mta.handlers.v2.DescriptorParser;
-import com.sap.cloud.lm.sl.mta.mergers.PlatformMerger;
+import com.sap.cloud.lm.sl.mta.model.DeploymentDescriptor;
 import com.sap.cloud.lm.sl.mta.model.Platform;
-import com.sap.cloud.lm.sl.mta.model.v2.DeploymentDescriptor;
 
 @RunWith(Parameterized.class)
-public class PlatformMegerTest {
+public class PlatformMergerTest {
 
     @Parameters
     public static Collection<Object[]> getParameters() {
@@ -50,7 +49,7 @@ public class PlatformMegerTest {
     private DeploymentDescriptor descriptor;
     private Platform platform;
 
-    public PlatformMegerTest(String deploymentDescriptorLocation, String platformTypesLocation, Expectation expectation) {
+    public PlatformMergerTest(String deploymentDescriptorLocation, String platformTypesLocation, Expectation expectation) {
         this.deploymentDescriptorLocation = deploymentDescriptorLocation;
         this.platformLocation = platformTypesLocation;
         this.expectation = expectation;

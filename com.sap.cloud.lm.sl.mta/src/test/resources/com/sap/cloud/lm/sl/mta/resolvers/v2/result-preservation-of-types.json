@@ -1,0 +1,72 @@
+{
+  "schemaVersion": "2.0.0",
+  "id": "placeholders-test",
+  "version": "1.0.0",
+  "modules": [
+    {
+      "name": "foo",
+      "type": "application",
+      "properties": {
+        "g": true,
+        "h": 3.14,
+        "i": 9999,
+        "j": "dddd",
+        "k": "true:3.14:9999",
+        "l": [
+          123,
+          456,
+          789
+        ],
+        "m": {
+          "baz": "qux",
+          "foo": "bar"
+        },
+        "n": "[123, 456, 789]---{baz\u003dqux, foo\u003dbar}"
+      },
+      "parameters": {},
+      "requiredDependencies": [],
+      "providedDependencies": [
+        {
+          "name": "foo",
+          "isPublic": true,
+          "properties": {},
+          "parameters": {},
+          "propertiesMetadata": {
+            "metadata": {}
+          },
+          "parametersMetadata": {
+            "metadata": {}
+          },
+          "majorSchemaVersion": 2
+        }
+      ],
+      "propertiesMetadata": {
+        "metadata": {}
+      },
+      "parametersMetadata": {
+        "metadata": {}
+      },
+      "majorSchemaVersion": 2
+    }
+  ],
+  "resources": [],
+  "parameters": {
+    "a": true,
+    "c": 9999,
+    "d": "dddd",
+    "e": [
+      123,
+      456,
+      789
+    ],
+    "f": {
+      "baz": "qux",
+      "foo": "bar"
+    },
+    "p": 3.14
+  },
+  "parametersMetadata": {
+    "metadata": {}
+  },
+  "majorSchemaVersion": 2
+}

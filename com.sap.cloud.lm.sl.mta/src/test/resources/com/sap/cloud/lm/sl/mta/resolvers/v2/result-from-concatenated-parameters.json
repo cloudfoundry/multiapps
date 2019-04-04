@@ -1,31 +1,50 @@
 {
-  "modules2": [
+  "schemaVersion": "2.0.0",
+  "id": "placeholders-test",
+  "version": "1.0.0",
+  "modules": [
     {
-      "requiredDependencies2": [],
-      "providedDependencies2": [
-        {
-          "isPublic": true,
-          "name": "foo",
-          "properties": {}
-        }
-      ],
-      "parameters": {
-        "uri": "https://api.cf.sap.corp"
-      },
       "name": "foo",
       "type": "application",
       "properties": {
         "uri": "https://api.cf.sap.corp"
-      }
+      },
+      "parameters": {
+        "uri": "https://api.cf.sap.corp"
+      },
+      "requiredDependencies": [],
+      "providedDependencies": [
+        {
+          "name": "foo",
+          "isPublic": true,
+          "properties": {},
+          "parameters": {},
+          "propertiesMetadata": {
+            "metadata": {}
+          },
+          "parametersMetadata": {
+            "metadata": {}
+          },
+          "majorSchemaVersion": 2
+        }
+      ],
+      "propertiesMetadata": {
+        "metadata": {}
+      },
+      "parametersMetadata": {
+        "metadata": {}
+      },
+      "majorSchemaVersion": 2
     }
   ],
-  "resources2": [],
+  "resources": [],
   "parameters": {
     "domain": "cf.sap.corp",
     "host": "api",
     "schema": "https"
   },
-  "schemaVersion": "2.0.0",
-  "id": "placeholders-test",
-  "version": "1.0.0"
+  "parametersMetadata": {
+    "metadata": {}
+  },
+  "majorSchemaVersion": 2
 }

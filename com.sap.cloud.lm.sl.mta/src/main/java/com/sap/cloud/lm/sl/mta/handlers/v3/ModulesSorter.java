@@ -1,15 +1,13 @@
 package com.sap.cloud.lm.sl.mta.handlers.v3;
 
-import static com.sap.cloud.lm.sl.common.util.CommonUtil.cast;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
 import com.sap.cloud.lm.sl.mta.builders.v2.ModuleDependenciesCollector;
-import com.sap.cloud.lm.sl.mta.model.v2.Module;
-import com.sap.cloud.lm.sl.mta.model.v3.DeploymentDescriptor;
+import com.sap.cloud.lm.sl.mta.model.DeploymentDescriptor;
+import com.sap.cloud.lm.sl.mta.model.Module;
 
 public class ModulesSorter extends com.sap.cloud.lm.sl.mta.handlers.v2.ModulesSorter {
 
@@ -22,9 +20,8 @@ public class ModulesSorter extends com.sap.cloud.lm.sl.mta.handlers.v2.ModulesSo
     }
 
     @Override
-    public List<? extends Module> sort() {
-        DeploymentDescriptor descriptorV3 = cast(descriptor);
-        if (hasDeployedAfter(descriptorV3)) {
+    public List<Module> sort() {
+        if (hasDeployedAfter(descriptor)) {
             return sortUsingDeployedAfter();
         }
         return super.sort();
@@ -40,14 +37,13 @@ public class ModulesSorter extends com.sap.cloud.lm.sl.mta.handlers.v2.ModulesSo
     }
 
     private boolean hasDeployedAfterAttribute(DeploymentDescriptor descriptor) {
-        return descriptor.getModules3()
+        return descriptor.getModules()
             .stream()
             .anyMatch(this::hasDeployedAfterAttribute);
     }
 
     private boolean hasDeployedAfterAttribute(Module module) {
-        com.sap.cloud.lm.sl.mta.model.v3.Module moduleV3 = cast(module);
-        return moduleV3.getDeployedAfter() != null;
+        return module.getDeployedAfter() != null;
     }
 
     @Override
@@ -62,8 +58,7 @@ public class ModulesSorter extends com.sap.cloud.lm.sl.mta.handlers.v2.ModulesSo
     }
 
     protected List<Module> getModules() {
-        DeploymentDescriptor descriptorV3 = cast(descriptor);
-        List<Module> modules = new ArrayList<>(descriptorV3.getModules3());
+        List<Module> modules = new ArrayList<>(descriptor.getModules());
         modules.stream()
             .forEach(this::collectDependencies);
         return modules;
@@ -77,7 +72,7 @@ public class ModulesSorter extends com.sap.cloud.lm.sl.mta.handlers.v2.ModulesSo
         return new com.sap.cloud.lm.sl.mta.builders.v3.ModuleDependenciesCollector(descriptor);
     }
 
-    protected Comparator getModuleComparator() {
+    protected Comparator<Module> getModuleComparator() {
         return new ModuleComparator();
     }
 

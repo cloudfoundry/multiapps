@@ -5,8 +5,7 @@ import static com.sap.cloud.lm.sl.mta.handlers.v2.Schemas.REQUIRED_DEPENDENCY;
 import java.util.Map;
 
 import com.sap.cloud.lm.sl.common.ParsingException;
-import com.sap.cloud.lm.sl.mta.model.v2.RequiredDependency;
-import com.sap.cloud.lm.sl.mta.model.v2.RequiredDependency.Builder;
+import com.sap.cloud.lm.sl.mta.model.RequiredDependency;
 import com.sap.cloud.lm.sl.mta.parsers.ModelParser;
 import com.sap.cloud.lm.sl.mta.schema.MapElement;
 
@@ -30,16 +29,18 @@ public class RequiredDependencyParser extends ModelParser<RequiredDependency> {
 
     @Override
     public RequiredDependency parse() throws ParsingException {
-        Builder builder = new Builder();
-        builder.setName(getName());
-        builder.setGroup(getGroup());
-        builder.setList(getList());
-        builder.setProperties(getProperties());
-        builder.setParameters(getParameters());
-        return builder.build();
+        return createEntity().setGroup(getGroup())
+            .setName(setName())
+            .setList(getList())
+            .setProperties(getProperties())
+            .setParameters(getParameters());
     }
 
-    protected String getName() {
+    protected RequiredDependency createEntity() {
+        return RequiredDependency.createV2();
+    }
+
+    protected String setName() {
         return getStringElement(NAME);
     }
 

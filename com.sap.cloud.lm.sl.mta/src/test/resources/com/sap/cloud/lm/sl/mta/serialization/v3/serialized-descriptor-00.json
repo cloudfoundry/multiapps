@@ -1,58 +1,9 @@
 {
-  "modules3": [
+  "schemaVersion": "3.0.0",
+  "id": "ztana",
+  "version": "1.0.0",
+  "modules": [
     {
-      "requiredDependencies3": [
-        {
-          "propertiesMetadata": {
-            "metadata": {}
-          },
-          "parametersMetadata": {
-            "metadata": {}
-          },
-          "name": "test-service",
-          "properties": {
-            "required-dependency-property": "required-property"
-          },
-          "parameters": {
-            "required-dependency-parameter": "required-parameter"
-          }
-        }
-      ],
-      "providedDependencies3": [
-        {
-          "parameters": {},
-          "propertiesMetadata": {
-            "metadata": {}
-          },
-          "parametersMetadata": {
-            "metadata": {}
-          },
-          "isPublic": false,
-          "name": "providesSomething",
-          "properties": {}
-        },
-        {
-          "parameters": {},
-          "propertiesMetadata": {
-            "metadata": {}
-          },
-          "parametersMetadata": {
-            "metadata": {}
-          },
-          "isPublic": false,
-          "name": "test-module",
-          "properties": {}
-        }
-      ],
-      "propertiesMetadata": {
-        "metadata": {}
-      },
-      "parametersMetadata": {
-        "metadata": {}
-      },
-      "parameters": {
-        "some-parameter": "module-parameter"
-      },
       "name": "test-module",
       "type": "javascript.nodejs",
       "properties": {
@@ -60,20 +11,70 @@
         "health-check-timeout": 180,
         "no-start": true,
         "password": "sensitive_data"
-      }
-    }
-  ],
-  "resources3": [
-    {
-      "isActive": true,
+      },
+      "parameters": {
+        "some-parameter": "module-parameter"
+      },
+      "requiredDependencies": [
+        {
+          "name": "test-service",
+          "properties": {
+            "required-dependency-property": "required-property"
+          },
+          "parameters": {
+            "required-dependency-parameter": "required-parameter"
+          },
+          "propertiesMetadata": {
+            "metadata": {}
+          },
+          "parametersMetadata": {
+            "metadata": {}
+          },
+          "majorSchemaVersion": 3
+        }
+      ],
+      "providedDependencies": [
+        {
+          "name": "providesSomething",
+          "isPublic": false,
+          "properties": {},
+          "parameters": {},
+          "propertiesMetadata": {
+            "metadata": {}
+          },
+          "parametersMetadata": {
+            "metadata": {}
+          },
+          "majorSchemaVersion": 3
+        },
+        {
+          "name": "test-module",
+          "isPublic": false,
+          "properties": {},
+          "parameters": {},
+          "propertiesMetadata": {
+            "metadata": {}
+          },
+          "parametersMetadata": {
+            "metadata": {}
+          },
+          "majorSchemaVersion": 3
+        }
+      ],
       "propertiesMetadata": {
         "metadata": {}
       },
       "parametersMetadata": {
         "metadata": {}
       },
-      "requiredDependencies3": [],
-      "isOptional": false,
+      "majorSchemaVersion": 3
+    }
+  ],
+  "resources": [
+    {
+      "name": "test-service",
+      "type": "org.postgresql",
+      "properties": {},
       "parameters": {
         "test-parameter": "resource-parameter",
         "some-parameter-map": [
@@ -83,18 +84,23 @@
           }
         ]
       },
-      "name": "test-service",
-      "type": "org.postgresql",
-      "properties": {}
+      "isActive": true,
+      "isOptional": false,
+      "propertiesMetadata": {
+        "metadata": {}
+      },
+      "parametersMetadata": {
+        "metadata": {}
+      },
+      "requiredDependencies": [],
+      "majorSchemaVersion": 3
     }
   ],
-  "parametersMetadata": {
-    "metadata": {}
-  },
   "parameters": {
     "descriptor-parameter": "some-parameter"
   },
-  "schemaVersion": "3.0.0",
-  "id": "ztana",
-  "version": "1.0.0"
+  "parametersMetadata": {
+    "metadata": {}
+  },
+  "majorSchemaVersion": 3
 }

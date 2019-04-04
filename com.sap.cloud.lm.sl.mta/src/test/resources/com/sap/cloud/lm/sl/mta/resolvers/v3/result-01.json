@@ -1,23 +1,20 @@
 {
-  "modules3": [
+  "schemaVersion": "3.0.0",
+  "id": "placeholders-test",
+  "version": "1.0.0",
+  "modules": [
     {
-      "requiredDependencies3": [],
-      "providedDependencies3": [
+      "name": "foo",
+      "type": "application",
+      "properties": {},
+      "parameters": {
+        "b": "bbb"
+      },
+      "requiredDependencies": [],
+      "providedDependencies": [
         {
-          "parameters": {
-            "c": "ccc",
-            "d": "aaa",
-            "e": "bbb",
-            "f": "ccc"
-          },
-          "propertiesMetadata": {
-            "metadata": {}
-          },
-          "parametersMetadata": {
-            "metadata": {}
-          },
-          "isPublic": false,
           "name": "foo",
+          "isPublic": false,
           "properties": {
             "g": "aaa",
             "h": "bbb",
@@ -25,31 +22,40 @@
             "j": "aaa",
             "k": "bbb",
             "l": "ccc"
+          },
+          "parameters": {
+            "c": "ccc",
+            "d": "aaa",
+            "e": "bbb",
+            "f": "ccc"
+          },
+          "v3": {
+            "propertiesMetadata": {
+              "metadata": {}
+            },
+            "parametersMetadata": {
+              "metadata": {}
+            }
           }
         }
       ],
-      "propertiesMetadata": {
-        "metadata": {}
-      },
-      "parametersMetadata": {
-        "metadata": {}
-      },
-      "parameters": {
-        "b": "bbb"
-      },
-      "name": "foo",
-      "type": "application",
-      "properties": {}
+      "v3": {
+        "propertiesMetadata": {
+          "metadata": {}
+        },
+        "parametersMetadata": {
+          "metadata": {}
+        }
+      }
     }
   ],
-  "resources3": [],
-  "parametersMetadata": {
-    "metadata": {}
-  },
+  "resources": [],
   "parameters": {
     "a": "aaa"
   },
-  "schemaVersion": "3.0.0",
-  "id": "placeholders-test",
-  "version": "1.0.0"
+  "v3": {
+    "parametersMetadata": {
+      "metadata": {}
+    }
+  }
 }

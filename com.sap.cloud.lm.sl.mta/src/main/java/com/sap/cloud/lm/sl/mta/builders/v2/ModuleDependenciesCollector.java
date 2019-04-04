@@ -1,7 +1,5 @@
 package com.sap.cloud.lm.sl.mta.builders.v2;
 
-import static com.sap.cloud.lm.sl.common.util.CommonUtil.cast;
-
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.LinkedHashSet;
@@ -10,14 +8,14 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 import com.sap.cloud.lm.sl.mta.handlers.v2.DescriptorHandler;
-import com.sap.cloud.lm.sl.mta.model.v2.DeploymentDescriptor;
-import com.sap.cloud.lm.sl.mta.model.v2.Module;
-import com.sap.cloud.lm.sl.mta.model.v2.RequiredDependency;
+import com.sap.cloud.lm.sl.mta.model.DeploymentDescriptor;
+import com.sap.cloud.lm.sl.mta.model.Module;
+import com.sap.cloud.lm.sl.mta.model.RequiredDependency;
 
 public class ModuleDependenciesCollector {
-    
-    private DescriptorHandler handler;
+
     protected DeploymentDescriptor descriptor;
+    private DescriptorHandler handler;
     protected Set<String> seenModules = new HashSet<>();
 
     public ModuleDependenciesCollector(DeploymentDescriptor descriptor, DescriptorHandler handler) {
@@ -26,18 +24,17 @@ public class ModuleDependenciesCollector {
     }
 
     protected List<String> getDependencies(Module module) {
-        Module moduleV2 = cast(module);
-        return moduleV2.getRequiredDependencies2()
+        return module.getRequiredDependencies()
             .stream()
             .map(RequiredDependency::getName)
             .collect(Collectors.toList());
     }
-    
+
     public Set<String> collect(Module module) {
         clearVisitedModules();
         return getDependenciesRecursively(module);
     }
-    
+
     private void clearVisitedModules() {
         seenModules.clear();
     }
@@ -49,11 +46,11 @@ public class ModuleDependenciesCollector {
         markVisited(module);
         return collectDependenciesRecursively(module);
     }
-    
+
     private boolean visited(Module module) {
         return seenModules.contains(module.getName());
     }
-    
+
     private void markVisited(Module module) {
         seenModules.add(module.getName());
     }
@@ -69,9 +66,9 @@ public class ModuleDependenciesCollector {
         }
         return dependencies;
     }
-    
+
     protected Module findModuleSatisfyingDependency(String dependency) {
-        return descriptor.getModules2()
+        return descriptor.getModules()
             .stream()
             .filter(module -> handler.findProvidedDependency(module, dependency) != null)
             .findFirst()

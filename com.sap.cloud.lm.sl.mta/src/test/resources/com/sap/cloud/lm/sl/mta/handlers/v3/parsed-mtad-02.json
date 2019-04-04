@@ -1,8 +1,36 @@
 {
-  "modules3": [
+  "schemaVersion": "3.0.0",
+  "id": "com.sap.xs2.samples.javahelloworld",
+  "version": "0.1.0",
+  "modules": [
     {
-      "requiredDependencies3": [
+      "name": "java-hello-world",
+      "type": "some.type",
+      "path": "somepath/",
+      "properties": {
+        "moduleSensitiveTaggedProperty": "tagged-property",
+        "moduleNormalProperty": "property",
+        "moduleSensitiveProperty": "sensitive-property"
+      },
+      "parameters": {
+        "moduleSensitiveTaggedParameter": "tagged-parameter",
+        "normalParameter": "parameter",
+        "moduleSensitiveParameter": "sensitive-parameter"
+      },
+      "requiredDependencies": [
         {
+          "name": "some-requirement",
+          "group": "destinations",
+          "properties": {
+            "moduleRequiredTaggedSensitiveProperty": "tagged-property",
+            "moduleRequiredNormalProperty": "property",
+            "moduleRequiredSensitiveProperty": "sensitive-property"
+          },
+          "parameters": {
+            "moduleRequiredSensitiveTaggedParameter": "tagged-parameter",
+            "moduleRequiredNormalParameter": "parameter",
+            "moduleRequiredSensitiveParameter": "sensitive-parameter"
+          },
           "propertiesMetadata": {
             "metadata": {
               "moduleRequiredSensitiveProperty": {
@@ -23,22 +51,18 @@
               }
             }
           },
-          "name": "some-requirement",
-          "group": "destinations",
-          "properties": {
-            "moduleRequiredTaggedSensitiveProperty": "tagged-property",
-            "moduleRequiredNormalProperty": "property",
-            "moduleRequiredSensitiveProperty": "sensitive-property"
-          },
-          "parameters": {
-            "moduleRequiredSensitiveTaggedParameter": "tagged-parameter",
-            "moduleRequiredNormalParameter": "parameter",
-            "moduleRequiredSensitiveParameter": "sensitive-parameter"
-          }
+          "majorSchemaVersion": 3
         }
       ],
-      "providedDependencies3": [
+      "providedDependencies": [
         {
+          "name": "some-app",
+          "isPublic": false,
+          "properties": {
+            "moduleProvidedTaggedSensitiveProperty": "sensitive-property",
+            "moduleProvidedNormalProperty": "property",
+            "moduleProvidedSensitiveProperty": "sensitive-property"
+          },
           "parameters": {},
           "propertiesMetadata": {
             "metadata": {
@@ -53,15 +77,12 @@
           "parametersMetadata": {
             "metadata": {}
           },
-          "isPublic": false,
-          "name": "some-app",
-          "properties": {
-            "moduleProvidedTaggedSensitiveProperty": "sensitive-property",
-            "moduleProvidedNormalProperty": "property",
-            "moduleProvidedSensitiveProperty": "sensitive-property"
-          }
+          "majorSchemaVersion": 3
         },
         {
+          "name": "java-hello-world",
+          "isPublic": false,
+          "properties": {},
           "parameters": {},
           "propertiesMetadata": {
             "metadata": {}
@@ -69,9 +90,7 @@
           "parametersMetadata": {
             "metadata": {}
           },
-          "isPublic": false,
-          "name": "java-hello-world",
-          "properties": {}
+          "majorSchemaVersion": 3
         }
       ],
       "propertiesMetadata": {
@@ -94,24 +113,23 @@
           }
         }
       },
-      "path": "somepath/",
-      "parameters": {
-        "moduleSensitiveTaggedParameter": "tagged-parameter",
-        "normalParameter": "parameter",
-        "moduleSensitiveParameter": "sensitive-parameter"
-      },
-      "name": "java-hello-world",
-      "type": "some.type",
-      "properties": {
-        "moduleSensitiveTaggedProperty": "tagged-property",
-        "moduleNormalProperty": "property",
-        "moduleSensitiveProperty": "sensitive-property"
-      }
+      "majorSchemaVersion": 3
     }
   ],
-  "resources3": [
+  "resources": [
     {
+      "name": "some-resource",
+      "properties": {
+        "resourceSensitiveTaggedProperty": "tagged-property",
+        "resourceNormalProperty": "property",
+        "resourceSensitiveProperty": "sensitive-property"
+      },
+      "parameters": {
+        "resourceTaggedSensitiveParameter": "tagged-parameter",
+        "resourceNormalParameter": "parameter"
+      },
       "isActive": true,
+      "isOptional": true,
       "propertiesMetadata": {
         "metadata": {
           "resourceSensitiveProperty": {
@@ -132,34 +150,30 @@
           }
         }
       },
-      "requiredDependencies3": [],
-      "isOptional": true,
-      "parameters": {
-        "resourceTaggedSensitiveParameter": "tagged-parameter",
-        "resourceNormalParameter": "parameter"
-      },
-      "name": "some-resource",
-      "properties": {
-        "resourceSensitiveTaggedProperty": "tagged-property",
-        "resourceNormalProperty": "property",
-        "resourceSensitiveProperty": "sensitive-property"
-      }
+      "requiredDependencies": [],
+      "majorSchemaVersion": 3
     },
     {
+      "name": "some-other-resource",
+      "properties": {},
+      "parameters": {},
       "isActive": true,
+      "isOptional": false,
       "propertiesMetadata": {
         "metadata": {}
       },
       "parametersMetadata": {
         "metadata": {}
       },
-      "requiredDependencies3": [],
-      "isOptional": false,
-      "parameters": {},
-      "name": "some-other-resource",
-      "properties": {}
+      "requiredDependencies": [],
+      "majorSchemaVersion": 3
     }
   ],
+  "parameters": {
+    "deploymendDescriptorSensitiveTaggedParameter": "tagged-parameter",
+    "deploymendDescriptorNormalParameter": "parameter",
+    "deploymentDescriptorSensitiveParameter": "sensitive-parameter"
+  },
   "parametersMetadata": {
     "metadata": {
       "deploymendDescriptorSensitiveTaggedParameter": {
@@ -167,12 +181,5 @@
       }
     }
   },
-  "parameters": {
-    "deploymendDescriptorSensitiveTaggedParameter": "tagged-parameter",
-    "deploymendDescriptorNormalParameter": "parameter",
-    "deploymentDescriptorSensitiveParameter": "sensitive-parameter"
-  },
-  "schemaVersion": "3.0.0",
-  "id": "com.sap.xs2.samples.javahelloworld",
-  "version": "0.1.0"
+  "majorSchemaVersion": 3
 }

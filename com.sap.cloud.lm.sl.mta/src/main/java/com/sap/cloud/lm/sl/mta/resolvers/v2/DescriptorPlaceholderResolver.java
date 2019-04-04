@@ -8,9 +8,9 @@ import java.util.Map;
 import com.sap.cloud.lm.sl.common.ContentException;
 import com.sap.cloud.lm.sl.common.util.ListUtil;
 import com.sap.cloud.lm.sl.mta.builders.v2.ParametersChainBuilder;
-import com.sap.cloud.lm.sl.mta.model.v2.DeploymentDescriptor;
-import com.sap.cloud.lm.sl.mta.model.v2.Module;
-import com.sap.cloud.lm.sl.mta.model.v2.Resource;
+import com.sap.cloud.lm.sl.mta.model.DeploymentDescriptor;
+import com.sap.cloud.lm.sl.mta.model.Module;
+import com.sap.cloud.lm.sl.mta.model.Resource;
 import com.sap.cloud.lm.sl.mta.resolvers.PlaceholderResolver;
 import com.sap.cloud.lm.sl.mta.resolvers.PropertiesPlaceholderResolver;
 import com.sap.cloud.lm.sl.mta.resolvers.ResolverBuilder;
@@ -36,8 +36,8 @@ public class DescriptorPlaceholderResolver extends PlaceholderResolver<Deploymen
 
     @Override
     public DeploymentDescriptor resolve() throws ContentException {
-        deploymentDescriptor.setModules2(ListUtil.upcastUnmodifiable(getResolvedModules()));
-        deploymentDescriptor.setResources2(getResolvedResources());
+        deploymentDescriptor.setModules(ListUtil.upcastUnmodifiable(getResolvedModules()));
+        deploymentDescriptor.setResources(getResolvedResources());
         deploymentDescriptor.setParameters(getResolvedProperties(deploymentDescriptor.getParameters()));
         return deploymentDescriptor;
     }
@@ -56,7 +56,7 @@ public class DescriptorPlaceholderResolver extends PlaceholderResolver<Deploymen
 
     protected List<Resource> getResolvedResources() {
         List<Resource> result = new ArrayList<>();
-        for (Resource resource : deploymentDescriptor.getResources2()) {
+        for (Resource resource : deploymentDescriptor.getResources()) {
             result.add(getResourceResolver(resource).resolve());
         }
         return result;
@@ -67,9 +67,9 @@ public class DescriptorPlaceholderResolver extends PlaceholderResolver<Deploymen
             singularToPluralMapping);
     }
 
-    protected List<? extends Module> getResolvedModules() {
+    protected List<Module> getResolvedModules() {
         List<Module> result = new ArrayList<>();
-        for (Module module : deploymentDescriptor.getModules2()) {
+        for (Module module : deploymentDescriptor.getModules()) {
             result.add(getModuleResolver(module).resolve());
         }
         return result;

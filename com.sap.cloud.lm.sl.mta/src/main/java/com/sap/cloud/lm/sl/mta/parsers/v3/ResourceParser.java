@@ -9,9 +9,8 @@ import java.util.Set;
 
 import com.sap.cloud.lm.sl.common.ParsingException;
 import com.sap.cloud.lm.sl.mta.model.Metadata;
-import com.sap.cloud.lm.sl.mta.model.v3.RequiredDependency;
-import com.sap.cloud.lm.sl.mta.model.v3.Resource;
-import com.sap.cloud.lm.sl.mta.model.v3.Resource.Builder;
+import com.sap.cloud.lm.sl.mta.model.RequiredDependency;
+import com.sap.cloud.lm.sl.mta.model.Resource;
 import com.sap.cloud.lm.sl.mta.parsers.ListParser;
 import com.sap.cloud.lm.sl.mta.schema.MapElement;
 
@@ -35,18 +34,16 @@ public class ResourceParser extends com.sap.cloud.lm.sl.mta.parsers.v2.ResourceP
 
     @Override
     public Resource parse() throws ParsingException {
-        Builder builder = new Builder();
-        builder.setName(getName());
-        builder.setDescription(getDescription());
-        builder.setType(getType());
-        builder.setActive(getActive());
-        builder.setProperties(getProperties());
-        builder.setParameters(getParameters());
-        builder.setPropertiesMetadata(getPropertiesMetadata());
-        builder.setParametersMetadata(getParametersMetadata());
-        builder.setRequiredDependencies3(getRequiredDependencies());
-        builder.setOptional(getOptional());
-        return builder.build();
+        return super.parse().setActive(getActive())
+            .setOptional(getOptional())
+            .setParametersMetadata(getParametersMetadata())
+            .setPropertiesMetadata(getPropertiesMetadata())
+            .setRequiredDependencies(getRequiredDependencies());
+    }
+
+    @Override
+    public Resource createEntity() {
+        return Resource.createV3();
     }
 
     protected Boolean getActive() {
