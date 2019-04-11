@@ -60,4 +60,8 @@ public class Visitor {
 
     }
 
+    public void visit(ElementContext context, Hook hook) {
+
+    }
+
 }

@@ -88,6 +88,7 @@
       "deployedAfter": [
         "pricing"
       ],
+      "hooks": [],
       "majorSchemaVersion": 3
     },
     {
@@ -187,6 +188,7 @@
       "deployedAfter": [
         "pricing-db"
       ],
+      "hooks": [],
       "majorSchemaVersion": 3
     },
     {
@@ -232,6 +234,7 @@
       "parametersMetadata": {
         "metadata": {}
       },
+      "hooks": [],
       "majorSchemaVersion": 3
     }
   ],

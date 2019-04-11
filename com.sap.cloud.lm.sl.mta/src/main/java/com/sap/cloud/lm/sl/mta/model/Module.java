@@ -45,6 +45,8 @@ public class Module extends VersionedEntity
     private Metadata parametersMetadata = Metadata.DEFAULT_METADATA;
     @YamlElement(ModuleParser.DEPLOYED_AFTER)
     private List<String> deployedAfter;
+    @YamlElement(ModuleParser.HOOKS)
+    private List<Hook> hooks = Collections.emptyList();
 
     protected Module(int majorSchemaVersion) {
         super(majorSchemaVersion);
@@ -63,7 +65,14 @@ public class Module extends VersionedEntity
         copy.propertiesMetadata = original.propertiesMetadata;
         copy.parametersMetadata = original.parametersMetadata;
         copy.deployedAfter = original.deployedAfter == null ? null : new ArrayList<>(original.deployedAfter);
+        copy.hooks = copyHooks(original.hooks);
         return copy;
+    }
+
+    private static List<Hook> copyHooks(List<Hook> originalHooks) {
+        return originalHooks.stream()
+            .map(Hook::copyOf)
+            .collect(Collectors.toList());
     }
 
     private static List<RequiredDependency> copyRequiredDependencies(List<RequiredDependency> originals) {
@@ -86,6 +95,7 @@ public class Module extends VersionedEntity
         return new Module(3);
     }
 
+    @Override
     public String getName() {
         return name;
     }
@@ -102,10 +112,12 @@ public class Module extends VersionedEntity
         return description;
     }
 
+    @Override
     public Map<String, Object> getProperties() {
         return properties;
     }
 
+    @Override
     public Map<String, Object> getParameters() {
         return parameters;
     }
@@ -118,11 +130,13 @@ public class Module extends VersionedEntity
         return providedDependencies;
     }
 
+    @Override
     public Metadata getPropertiesMetadata() {
         supportedSince(3);
         return propertiesMetadata;
     }
 
+    @Override
     public Metadata getParametersMetadata() {
         supportedSince(3);
         return parametersMetadata;
@@ -131,6 +145,11 @@ public class Module extends VersionedEntity
     public List<String> getDeployedAfter() {
         supportedSince(3);
         return deployedAfter;
+    }
+
+    public List<Hook> getHooks() {
+        supportedSince(3);
+        return hooks;
     }
 
     public Module setName(String name) {
@@ -153,11 +172,13 @@ public class Module extends VersionedEntity
         return this;
     }
 
+    @Override
     public Module setProperties(Map<String, Object> properties) {
         this.properties = ObjectUtils.defaultIfNull(properties, this.properties);
         return this;
     }
 
+    @Override
     public Module setParameters(Map<String, Object> parameters) {
         this.parameters = ObjectUtils.defaultIfNull(parameters, this.parameters);
         return this;
@@ -173,12 +194,14 @@ public class Module extends VersionedEntity
         return this;
     }
 
+    @Override
     public Module setPropertiesMetadata(Metadata propertiesMetadata) {
         supportedSince(3);
         this.propertiesMetadata = ObjectUtils.defaultIfNull(propertiesMetadata, this.propertiesMetadata);
         return this;
     }
 
+    @Override
     public Module setParametersMetadata(Metadata parametersMetadata) {
         supportedSince(3);
         this.parametersMetadata = ObjectUtils.defaultIfNull(parametersMetadata, this.parametersMetadata);
@@ -188,6 +211,12 @@ public class Module extends VersionedEntity
     public Module setDeployedAfter(List<String> deployedAfter) {
         supportedSince(3);
         this.deployedAfter = ObjectUtils.defaultIfNull(deployedAfter, this.deployedAfter);
+        return this;
+    }
+
+    public Module setHooks(List<Hook> hooks) {
+        supportedSince(3);
+        this.hooks = ObjectUtils.defaultIfNull(hooks, this.hooks);
         return this;
     }
 

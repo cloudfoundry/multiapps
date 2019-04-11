@@ -71,6 +71,38 @@ public class DescriptorParserTest extends com.sap.cloud.lm.sl.mta.handlers.v2.De
                     new Expectation(Expectation.Type.RESOURCE, "parsed-config-with-partial-schema-version.json"),
                 },
             },
+            // (7) Module hooks with correct data:
+            {
+                "mtad-with-module-hooks-with-correct-data.yaml", null,
+                new Expectation[] {
+                    new Expectation(Expectation.Type.RESOURCE, "parsed-mtad-with-hooks-correct-data.json"),
+                    new Expectation(Expectation.Type.SKIP, null),
+                },
+            },
+            // (8) Module hooks with more than one hook phase:
+            {
+                "mtad-with-module-hooks-with-more-hook-phases.yaml", null,
+                new Expectation[] {
+                    new Expectation(Expectation.Type.RESOURCE, "parsed-mtad-with-more-hook-phases.json"),
+                    new Expectation(Expectation.Type.SKIP, null),
+                },
+            },
+            // (9) Module hooks without type:
+            {
+                "mtad-with-module-hooks-without-type.yaml", null,
+                new Expectation[] {
+                    new Expectation(Expectation.Type.EXCEPTION, "Missing required key \"modules#0#hooks#0#type\""),
+                    new Expectation(Expectation.Type.SKIP, null),
+                },
+            },
+            // (10) Module hooks with two hooks:
+            {
+                "mtad-with-module-hooks-with-two-hooks.yaml", null,
+                new Expectation[] {
+                    new Expectation(Expectation.Type.RESOURCE, "parsed-mtad-with-two-hooks.json"),
+                    new Expectation(Expectation.Type.SKIP, null),
+                },
+            },
 // @formatter:on
         });
     }

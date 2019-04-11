@@ -83,6 +83,7 @@
       "parametersMetadata": {
         "metadata": {}
       },
+      "hooks": [],
       "majorSchemaVersion": 2
     },
     {
@@ -144,6 +145,7 @@
       "parametersMetadata": {
         "metadata": {}
       },
+      "hooks": [],
       "majorSchemaVersion": 2
     }
   ],

@@ -1,0 +1,103 @@
+{
+  "schemaVersion": "3.0.0",
+  "id": "com.sap.mta.sample",
+  "version": "1.2.1-beta+20150403144937853",
+  "modules": [
+    {
+      "name": "pricing-db",
+      "type": "com.sap.hana.hdi",
+      "properties": {},
+      "parameters": {},
+      "requiredDependencies": [
+        {
+          "name": "pricing-db-service",
+          "properties": {},
+          "parameters": {},
+          "propertiesMetadata": {
+            "metadata": {}
+          },
+          "parametersMetadata": {
+            "metadata": {}
+          },
+          "majorSchemaVersion": 3
+        }
+      ],
+      "providedDependencies": [
+        {
+          "name": "pricing-db",
+          "isPublic": false,
+          "properties": {},
+          "parameters": {},
+          "propertiesMetadata": {
+            "metadata": {}
+          },
+          "parametersMetadata": {
+            "metadata": {}
+          },
+          "majorSchemaVersion": 3
+        }
+      ],
+      "propertiesMetadata": {
+        "metadata": {}
+      },
+      "parametersMetadata": {
+        "metadata": {}
+      },
+      "hooks": [
+        {
+          "name": "test-hook",
+          "type": "tasks",
+          "phases": [
+            "application.before-stop",
+            "another.test-hook-phase",
+            "foo",
+            "a"
+          ],
+          "parameters": {
+            "task": "test-task",
+            "command": "this is test"
+          },
+          "requiredDependencies": [
+            {
+              "name": "plugin-provider",
+              "properties": {},
+              "parameters": {},
+              "propertiesMetadata": {
+                "metadata": {}
+              },
+              "parametersMetadata": {
+                "metadata": {}
+              },
+              "majorSchemaVersion": 3
+            }
+          ],
+          "majorSchemaVersion": 3
+        }
+      ],
+      "majorSchemaVersion": 3
+    }
+  ],
+  "resources": [
+    {
+      "name": "pricing-db-service",
+      "type": "com.sap.hana.hdi-container",
+      "properties": {},
+      "parameters": {},
+      "isActive": true,
+      "isOptional": false,
+      "propertiesMetadata": {
+        "metadata": {}
+      },
+      "parametersMetadata": {
+        "metadata": {}
+      },
+      "requiredDependencies": [],
+      "majorSchemaVersion": 3
+    }
+  ],
+  "parameters": {},
+  "parametersMetadata": {
+    "metadata": {}
+  },
+  "majorSchemaVersion": 3
+}

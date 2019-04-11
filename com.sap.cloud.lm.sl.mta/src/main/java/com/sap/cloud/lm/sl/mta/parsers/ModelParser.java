@@ -20,7 +20,7 @@ public abstract class ModelParser<T> implements Parser<T> {
     protected String processedObjectName;
     protected Map<String, Object> source;
     protected Map<String, Object> uniqueElementsCache = new HashMap<>();
-    protected Set<? extends Object> usedValues = new HashSet<>();
+    protected Set<String> usedValues = new HashSet<>();
     protected MapElement schema;
 
     public ModelParser(String processedObjectName, MapElement schema, Map<String, Object> source) {
@@ -29,7 +29,7 @@ public abstract class ModelParser<T> implements Parser<T> {
         this.source = source;
     }
 
-    public ModelParser<T> setUsedValues(Set<? extends Object> usedValues) {
+    public ModelParser<T> setUsedValues(Set<String> usedValues) {
         this.usedValues = usedValues;
         return this;
     }

@@ -67,6 +67,7 @@
       "parametersMetadata": {
         "metadata": {}
       },
+      "hooks": [],
       "majorSchemaVersion": 3
     }
   ],
