@@ -11,6 +11,7 @@ public class Schemas extends com.sap.cloud.lm.sl.mta.handlers.v2.Schemas {
     public static final MapElement RESOURCE_REQUIRED_DEPENDENCY = new MapElement();
     public static final MapElement PROVIDED_DEPENDENCY = new MapElement();
     public static final MapElement RESOURCE = new MapElement();
+    public static final MapElement HOOK = new MapElement();
 
     public static final MapElement MTAEXT = new MapElement();
     public static final MapElement EXT_MODULE = new MapElement();
@@ -41,6 +42,13 @@ public class Schemas extends com.sap.cloud.lm.sl.mta.handlers.v2.Schemas {
         MODULE.add("requires", new ListElement(REQUIRED_DEPENDENCY));
         MODULE.add("provides", new ListElement(PROVIDED_DEPENDENCY));
         MODULE.add("deployed-after", new ListElement(STRING));
+        MODULE.add("hooks", new ListElement(HOOK));
+
+        HOOK.add("name", UNIQUE_MTA_IDENTIFIER);
+        HOOK.add("type", STRING_REQUIRED);
+        HOOK.add("phases", new ListElement(STRING_REQUIRED));
+        HOOK.add("parameters", PROPERTIES);
+        HOOK.add("requires", new ListElement(REQUIRED_DEPENDENCY));
 
         REQUIRED_DEPENDENCY.add("name", UNIQUE_MTA_IDENTIFIER);
         REQUIRED_DEPENDENCY.add("group", STRING);

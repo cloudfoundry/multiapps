@@ -1,0 +1,40 @@
+_schema-version: 3.0.0
+ID: com.sap.mta.sample
+version: 1.2.1-beta+20150403144937853
+description: "Deployment descriptor used for testing purposes"
+provider: "Encho"
+copyright: "Encho Ltd"
+
+modules:
+  - name: pricing-db
+    type: com.sap.hana.hdi
+    hooks:
+      - name: test-hook
+        type: tasks
+        phases:
+          - application.before-stop
+          - another.test-hook-phase
+          - foo
+          - a
+        parameters:
+          task: test-task
+          command: 'this is test'
+        requires:
+          - name: plugin-provider
+      - name: foo
+        type: bar
+        phases:
+          - a
+        parameters:
+          qux: quz
+
+resources:
+  - name: plugin-provider
+    type: configuration
+    parameters:
+      filter:
+         type: com.acme.plugin
+    properties:
+      plugin-name: ${name}
+      plugin-url: ${url}/sources
+

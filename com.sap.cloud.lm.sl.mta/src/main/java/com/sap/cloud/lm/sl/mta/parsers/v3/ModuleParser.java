@@ -8,6 +8,8 @@ import java.util.Map;
 import com.sap.cloud.lm.sl.common.ParsingException;
 import com.sap.cloud.lm.sl.mta.model.Metadata;
 import com.sap.cloud.lm.sl.mta.model.Module;
+import com.sap.cloud.lm.sl.mta.model.Hook;
+import com.sap.cloud.lm.sl.mta.parsers.ListParser;
 import com.sap.cloud.lm.sl.mta.schema.MapElement;
 
 public class ModuleParser extends com.sap.cloud.lm.sl.mta.parsers.v2.ModuleParser {
@@ -15,6 +17,7 @@ public class ModuleParser extends com.sap.cloud.lm.sl.mta.parsers.v2.ModuleParse
     public static final String PROPERTIES_METADATA = "properties-metadata";
     public static final String PARAMETERS_METADATA = "parameters-metadata";
     public static final String DEPLOYED_AFTER = "deployed-after";
+    public static final String HOOKS = "hooks";
 
     public ModuleParser(Map<String, Object> source) {
         super(MODULE, source);
@@ -28,7 +31,8 @@ public class ModuleParser extends com.sap.cloud.lm.sl.mta.parsers.v2.ModuleParse
     public Module parse() throws ParsingException {
         return super.parse().setDeployedAfter(getDeployedAfter())
             .setPropertiesMetadata(getPropertiesMetadata())
-            .setParametersMetadata(getParametersMetadata());
+            .setParametersMetadata(getParametersMetadata())
+            .setHooks(getHooks());
     }
 
     @Override
@@ -42,6 +46,16 @@ public class ModuleParser extends com.sap.cloud.lm.sl.mta.parsers.v2.ModuleParse
 
     protected Metadata getParametersMetadata() {
         return getMetadata(PARAMETERS_METADATA, getParameters());
+    }
+
+    protected List<Hook> getHooks() {
+        return getListElement(HOOKS, new ListParser<Hook>() {
+
+            @Override
+            protected Hook parseItem(Map<String, Object> map) {
+                return new HookParser(map).parse();
+            }
+        });
     }
 
     @Override
