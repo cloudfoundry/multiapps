@@ -9,11 +9,9 @@ import java.util.Map;
 import java.util.Set;
 
 import com.sap.cloud.lm.sl.common.ParsingException;
-import com.sap.cloud.lm.sl.common.util.ListUtil;
-import com.sap.cloud.lm.sl.mta.model.v2.ExtensionModule;
-import com.sap.cloud.lm.sl.mta.model.v2.ExtensionModule.Builder;
-import com.sap.cloud.lm.sl.mta.model.v2.ExtensionProvidedDependency;
-import com.sap.cloud.lm.sl.mta.model.v2.ExtensionRequiredDependency;
+import com.sap.cloud.lm.sl.mta.model.ExtensionModule;
+import com.sap.cloud.lm.sl.mta.model.ExtensionProvidedDependency;
+import com.sap.cloud.lm.sl.mta.model.ExtensionRequiredDependency;
 import com.sap.cloud.lm.sl.mta.parsers.ListParser;
 import com.sap.cloud.lm.sl.mta.parsers.ModelParser;
 import com.sap.cloud.lm.sl.mta.schema.MapElement;
@@ -24,8 +22,8 @@ public class ExtensionModuleParser extends ModelParser<ExtensionModule> {
 
     public static final String NAME = "name";
     public static final String PROPERTIES = "properties";
-    public static final String PROVIDES = "provides";
     public static final String PARAMETERS = "parameters";
+    public static final String PROVIDES = "provides";
     public static final String REQUIRES = "requires";
 
     protected Set<String> usedProvidedDependencyNames = Collections.emptySet();
@@ -41,13 +39,15 @@ public class ExtensionModuleParser extends ModelParser<ExtensionModule> {
 
     @Override
     public ExtensionModule parse() throws ParsingException {
-        Builder builder = new Builder();
-        builder.setName(getName());
-        builder.setProperties(getProperties());
-        builder.setParameters(getParameters());
-        builder.setRequiredDependencies2(getExtensionRequiredDependencies2());
-        builder.setProvidedDependencies2(getExtensionProvidedDependencies2());
-        return builder.build();
+        return createEntity().setName(getName())
+            .setProperties(getProperties())
+            .setParameters(getParameters())
+            .setRequiredDependencies(getExtensionRequiredDependencies())
+            .setProvidedDependencies(getExtensionProvidedDependencies());
+    }
+
+    protected ExtensionModule createEntity() {
+        return ExtensionModule.createV2();
     }
 
     protected String getName() throws ParsingException {
@@ -62,7 +62,7 @@ public class ExtensionModuleParser extends ModelParser<ExtensionModule> {
         return getMapElement(PARAMETERS);
     }
 
-    protected List<ExtensionRequiredDependency> getExtensionRequiredDependencies2() {
+    protected List<ExtensionRequiredDependency> getExtensionRequiredDependencies() {
         return getListElement(REQUIRES, new ListParser<ExtensionRequiredDependency>() {
             @Override
             protected ExtensionRequiredDependency parseItem(Map<String, Object> map) {
@@ -75,10 +75,6 @@ public class ExtensionModuleParser extends ModelParser<ExtensionModule> {
     public ExtensionModuleParser setUsedProvidedDependencyNames(Set<String> usedProvidedDependencyNames) {
         this.usedProvidedDependencyNames = usedProvidedDependencyNames;
         return this;
-    }
-    
-    protected List<ExtensionProvidedDependency> getExtensionProvidedDependencies2() {
-        return ListUtil.cast(getExtensionProvidedDependencies());
     }
 
     protected List<ExtensionProvidedDependency> getExtensionProvidedDependencies() {

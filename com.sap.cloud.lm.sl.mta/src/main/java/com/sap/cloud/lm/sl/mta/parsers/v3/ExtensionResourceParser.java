@@ -8,10 +8,10 @@ import java.util.Map;
 import java.util.Set;
 
 import com.sap.cloud.lm.sl.common.ParsingException;
-import com.sap.cloud.lm.sl.mta.model.v3.ExtensionRequiredDependency;
-import com.sap.cloud.lm.sl.mta.model.v3.ExtensionResource;
-import com.sap.cloud.lm.sl.mta.model.v3.ExtensionResource.Builder;
+import com.sap.cloud.lm.sl.mta.model.ExtensionRequiredDependency;
+import com.sap.cloud.lm.sl.mta.model.ExtensionResource;
 import com.sap.cloud.lm.sl.mta.parsers.ListParser;
+import com.sap.cloud.lm.sl.mta.parsers.v2.ExtensionRequiredDependencyParser;
 import com.sap.cloud.lm.sl.mta.schema.MapElement;
 
 public class ExtensionResourceParser extends com.sap.cloud.lm.sl.mta.parsers.v2.ExtensionResourceParser {
@@ -30,13 +30,13 @@ public class ExtensionResourceParser extends com.sap.cloud.lm.sl.mta.parsers.v2.
 
     @Override
     public ExtensionResource parse() throws ParsingException {
-        Builder builder = new Builder();
-        builder.setName(getName());
-        builder.setActive(getActive());
-        builder.setParameters(getParameters());
-        builder.setProperties(getProperties());
-        builder.setRequiredDependencies(getExtensionRequiredDependencies());
-        return builder.build();
+        return super.parse().setActive(getActive())
+            .setRequiredDependencies(getExtensionRequiredDependencies());
+    }
+
+    @Override
+    protected ExtensionResource createEntity() {
+        return ExtensionResource.createV3();
     }
 
     protected Boolean getActive() {

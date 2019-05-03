@@ -1,7 +1,7 @@
 package com.sap.cloud.lm.sl.mta.handlers.v3;
 
 import com.sap.cloud.lm.sl.mta.mergers.v3.ExtensionDescriptorMerger;
-import com.sap.cloud.lm.sl.mta.model.v3.ExtensionDescriptor;
+import com.sap.cloud.lm.sl.mta.model.ExtensionDescriptor;
 
 public class DescriptorMerger extends com.sap.cloud.lm.sl.mta.handlers.v2.DescriptorMerger {
 
@@ -14,8 +14,8 @@ public class DescriptorMerger extends com.sap.cloud.lm.sl.mta.handlers.v2.Descri
     }
 
     @Override
-    public ExtensionDescriptorMerger getExtensionDescriptorMerger(com.sap.cloud.lm.sl.mta.model.v2.ExtensionDescriptor extension) {
-        return new ExtensionDescriptorMerger((ExtensionDescriptor) extension, (DescriptorHandler) handler);
+    public ExtensionDescriptorMerger getExtensionDescriptorMerger(ExtensionDescriptor extension) {
+        return new ExtensionDescriptorMerger(extension, (DescriptorHandler) handler);
     }
 
 }

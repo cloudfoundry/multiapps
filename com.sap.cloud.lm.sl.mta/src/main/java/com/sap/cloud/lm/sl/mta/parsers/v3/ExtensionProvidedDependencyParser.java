@@ -4,9 +4,7 @@ import static com.sap.cloud.lm.sl.mta.handlers.v3.Schemas.EXT_PROVIDED_DEPENDENC
 
 import java.util.Map;
 
-import com.sap.cloud.lm.sl.common.ParsingException;
-import com.sap.cloud.lm.sl.mta.model.v3.ExtensionProvidedDependency;
-import com.sap.cloud.lm.sl.mta.model.v3.ExtensionProvidedDependency.Builder;
+import com.sap.cloud.lm.sl.mta.model.ExtensionProvidedDependency;
 import com.sap.cloud.lm.sl.mta.schema.MapElement;
 
 public class ExtensionProvidedDependencyParser extends com.sap.cloud.lm.sl.mta.parsers.v2.ExtensionProvidedDependencyParser {
@@ -20,11 +18,8 @@ public class ExtensionProvidedDependencyParser extends com.sap.cloud.lm.sl.mta.p
     }
 
     @Override
-    public ExtensionProvidedDependency parse() throws ParsingException {
-        Builder builder = new Builder();
-        builder.setName(getName());
-        builder.setProperties(getProperties());
-        return builder.build();
+    protected ExtensionProvidedDependency createEntity() {
+        return ExtensionProvidedDependency.createV3();
     }
 
 }

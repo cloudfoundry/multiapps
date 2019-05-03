@@ -12,8 +12,8 @@ import org.junit.jupiter.api.Test;
 import com.sap.cloud.lm.sl.common.ContentException;
 import com.sap.cloud.lm.sl.mta.message.Messages;
 import com.sap.cloud.lm.sl.mta.model.DeploymentDescriptor;
+import com.sap.cloud.lm.sl.mta.model.ExtensionDescriptor;
 import com.sap.cloud.lm.sl.mta.model.Version;
-import com.sap.cloud.lm.sl.mta.model.v2.ExtensionDescriptor;
 
 public class SchemaVersionDetectorTest {
 
@@ -72,10 +72,9 @@ public class SchemaVersionDetectorTest {
     }
 
     private ExtensionDescriptor buildExtensionDescriptor(String schemaVersion, String id) {
-        ExtensionDescriptor.Builder builder = new ExtensionDescriptor.Builder();
-        builder.setSchemaVersion(schemaVersion);
-        builder.setId(id);
-        return builder.build();
+        return ExtensionDescriptor.createV2()
+            .setSchemaVersion(schemaVersion)
+            .setId(id);
     }
 
 }

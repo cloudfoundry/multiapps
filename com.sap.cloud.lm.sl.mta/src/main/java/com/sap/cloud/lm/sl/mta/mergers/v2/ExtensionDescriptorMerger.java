@@ -5,17 +5,17 @@ import java.util.Map;
 import com.sap.cloud.lm.sl.mta.handlers.v2.DescriptorHandler;
 import com.sap.cloud.lm.sl.mta.model.DeploymentDescriptor;
 import com.sap.cloud.lm.sl.mta.model.ElementContext;
+import com.sap.cloud.lm.sl.mta.model.ExtensionDescriptor;
+import com.sap.cloud.lm.sl.mta.model.ExtensionModule;
+import com.sap.cloud.lm.sl.mta.model.ExtensionProvidedDependency;
+import com.sap.cloud.lm.sl.mta.model.ExtensionRequiredDependency;
+import com.sap.cloud.lm.sl.mta.model.ExtensionResource;
 import com.sap.cloud.lm.sl.mta.model.Module;
 import com.sap.cloud.lm.sl.mta.model.PropertiesContainer;
 import com.sap.cloud.lm.sl.mta.model.ProvidedDependency;
 import com.sap.cloud.lm.sl.mta.model.RequiredDependency;
 import com.sap.cloud.lm.sl.mta.model.Resource;
 import com.sap.cloud.lm.sl.mta.model.Visitor;
-import com.sap.cloud.lm.sl.mta.model.v2.ExtensionDescriptor;
-import com.sap.cloud.lm.sl.mta.model.v2.ExtensionModule;
-import com.sap.cloud.lm.sl.mta.model.v2.ExtensionProvidedDependency;
-import com.sap.cloud.lm.sl.mta.model.v2.ExtensionRequiredDependency;
-import com.sap.cloud.lm.sl.mta.model.v2.ExtensionResource;
 import com.sap.cloud.lm.sl.mta.util.PropertiesUtil;
 
 public class ExtensionDescriptorMerger extends Visitor {

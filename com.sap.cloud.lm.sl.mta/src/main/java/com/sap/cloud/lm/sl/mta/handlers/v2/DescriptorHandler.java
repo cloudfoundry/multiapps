@@ -4,6 +4,11 @@ import java.util.List;
 
 import com.sap.cloud.lm.sl.common.util.Pair;
 import com.sap.cloud.lm.sl.mta.model.DeploymentDescriptor;
+import com.sap.cloud.lm.sl.mta.model.ExtensionDescriptor;
+import com.sap.cloud.lm.sl.mta.model.ExtensionModule;
+import com.sap.cloud.lm.sl.mta.model.ExtensionProvidedDependency;
+import com.sap.cloud.lm.sl.mta.model.ExtensionRequiredDependency;
+import com.sap.cloud.lm.sl.mta.model.ExtensionResource;
 import com.sap.cloud.lm.sl.mta.model.Module;
 import com.sap.cloud.lm.sl.mta.model.ModuleType;
 import com.sap.cloud.lm.sl.mta.model.Platform;
@@ -11,11 +16,6 @@ import com.sap.cloud.lm.sl.mta.model.ProvidedDependency;
 import com.sap.cloud.lm.sl.mta.model.RequiredDependency;
 import com.sap.cloud.lm.sl.mta.model.Resource;
 import com.sap.cloud.lm.sl.mta.model.ResourceType;
-import com.sap.cloud.lm.sl.mta.model.v2.ExtensionDescriptor;
-import com.sap.cloud.lm.sl.mta.model.v2.ExtensionModule;
-import com.sap.cloud.lm.sl.mta.model.v2.ExtensionProvidedDependency;
-import com.sap.cloud.lm.sl.mta.model.v2.ExtensionRequiredDependency;
-import com.sap.cloud.lm.sl.mta.model.v2.ExtensionResource;
 
 public class DescriptorHandler {
 
@@ -50,7 +50,7 @@ public class DescriptorHandler {
     }
 
     public ExtensionRequiredDependency findRequiredDependency(ExtensionModule module, String dependencyName) {
-        for (ExtensionRequiredDependency requiredDependency : module.getRequiredDependencies2()) {
+        for (ExtensionRequiredDependency requiredDependency : module.getRequiredDependencies()) {
             if (requiredDependency.getName()
                 .equals(dependencyName)) {
                 return requiredDependency;
@@ -127,7 +127,7 @@ public class DescriptorHandler {
     }
 
     public ExtensionProvidedDependency findProvidedDependency(ExtensionDescriptor descriptor, String providedDependencyName) {
-        for (ExtensionModule module : descriptor.getModules2()) {
+        for (ExtensionModule module : descriptor.getModules()) {
             ExtensionProvidedDependency dependency = findProvidedDependency(module, providedDependencyName);
             if (dependency != null) {
                 return dependency;
@@ -147,7 +147,7 @@ public class DescriptorHandler {
     }
 
     public ExtensionProvidedDependency findProvidedDependency(ExtensionModule module, String providedDependencyName) {
-        for (ExtensionProvidedDependency providedDependency : module.getProvidedDependencies2()) {
+        for (ExtensionProvidedDependency providedDependency : module.getProvidedDependencies()) {
             if (providedDependency.getName()
                 .equals(providedDependencyName)) {
                 return providedDependency;
@@ -157,7 +157,7 @@ public class DescriptorHandler {
     }
 
     public ExtensionModule findModule(ExtensionDescriptor descriptor, String moduleName) {
-        for (ExtensionModule module : descriptor.getModules2()) {
+        for (ExtensionModule module : descriptor.getModules()) {
             if (module.getName()
                 .equals(moduleName)) {
                 return module;

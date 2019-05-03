@@ -4,8 +4,8 @@ import java.util.List;
 
 import com.sap.cloud.lm.sl.common.ContentException;
 import com.sap.cloud.lm.sl.mta.model.DeploymentDescriptor;
+import com.sap.cloud.lm.sl.mta.model.ExtensionDescriptor;
 import com.sap.cloud.lm.sl.mta.model.Platform;
-import com.sap.cloud.lm.sl.mta.model.v2.ExtensionDescriptor;
 import com.sap.cloud.lm.sl.mta.validators.DescriptorValidationRules;
 import com.sap.cloud.lm.sl.mta.validators.v2.DefaultDescriptorValidationRules;
 import com.sap.cloud.lm.sl.mta.validators.v2.DeploymentDescriptorValidator;

@@ -1,12 +1,17 @@
 {
-  "description": "new-description",
-  "provider": "new-provider-id",
-  "modules2": [
+  "schemaVersion": "2.0.0",
+  "id": "mta-extension",
+  "parentId": "mta-id",
+  "modules": [
     {
+      "name": "test-module",
+      "properties": {
+        "module-property": "property"
+      },
       "parameters": {
         "module-parameter": "parameter"
       },
-      "requiredDependencies2": [
+      "requiredDependencies": [
         {
           "name": "required-dependency",
           "properties": {
@@ -14,42 +19,38 @@
           },
           "parameters": {
             "required-parameter": "parameter-value"
-          }
+          },
+          "majorSchemaVersion": 2
         }
       ],
-      "providedDependencies2": [
+      "providedDependencies": [
         {
           "name": "provided-dependency",
           "properties": {
             "provided-property": "some-property"
-          }
+          },
+          "parameters": {},
+          "majorSchemaVersion": 2
         }
       ],
-      "name": "test-module",
-      "properties": {
-        "module-property": "property"
-      }
+      "majorSchemaVersion": 2
     }
   ],
-  "resources2": [
+  "resources": [
     {
-      "parameters": {
-        "resource-parameter": "some-resource-parameter"
-      },
       "name": "test-resource",
       "properties": {
         "resource-property": "some-resource-property"
-      }
+      },
+      "parameters": {
+        "resource-parameter": "some-resource-parameter"
+      },
+      "requiredDependencies": [],
+      "majorSchemaVersion": 2
     }
   ],
   "parameters": {
     "descriptor-property": "some-descriptor-property"
   },
-  "schemaVersion": "2.0.0",
-  "id": "mta-extension",
-  "parentId": "mta-id",
-  "deployTargets": [
-    "first-target",
-    "second-target"
-  ]
+  "majorSchemaVersion": 2
 }

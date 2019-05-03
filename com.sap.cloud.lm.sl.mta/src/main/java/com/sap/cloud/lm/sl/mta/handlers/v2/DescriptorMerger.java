@@ -4,7 +4,7 @@ import java.util.List;
 
 import com.sap.cloud.lm.sl.mta.mergers.v2.ExtensionDescriptorMerger;
 import com.sap.cloud.lm.sl.mta.model.DeploymentDescriptor;
-import com.sap.cloud.lm.sl.mta.model.v2.ExtensionDescriptor;
+import com.sap.cloud.lm.sl.mta.model.ExtensionDescriptor;
 
 public class DescriptorMerger {
 

@@ -1,11 +1,7 @@
 _schema-version: 3.1.0
 ID: mta-extension
-description: description # this comment should not affect the resulting descriptor
 extends: mta-id
-provider: provider-id
-target-platforms:
-  - first-target
-  - second-target
+
 modules:
 - name: test-module
   properties:
@@ -16,6 +12,8 @@ modules:
     - name: provided-dependency
       properties:
         provided-property: some-property
+      parameters:
+        provided-parameter: some-parameter
   requires:
     - name: required-dependency
       properties:

@@ -13,7 +13,7 @@ import org.junit.jupiter.api.Test;
 import com.sap.cloud.lm.sl.common.ContentException;
 import com.sap.cloud.lm.sl.mta.message.Messages;
 import com.sap.cloud.lm.sl.mta.model.DeploymentDescriptor;
-import com.sap.cloud.lm.sl.mta.model.v2.ExtensionDescriptor;
+import com.sap.cloud.lm.sl.mta.model.ExtensionDescriptor;
 
 public class ExtensionDescriptorChainBuilderTest {
 
@@ -107,10 +107,9 @@ public class ExtensionDescriptorChainBuilderTest {
     }
 
     private ExtensionDescriptor buildExtensionDescriptor(String id, String parentId) {
-        ExtensionDescriptor.Builder builder = new ExtensionDescriptor.Builder();
-        builder.setParentId(parentId);
-        builder.setId(id);
-        return builder.build();
+        return ExtensionDescriptor.createV2()
+            .setParentId(parentId)
+            .setId(id);
     }
 
 }

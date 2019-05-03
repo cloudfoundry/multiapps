@@ -1,13 +1,11 @@
 package com.sap.cloud.lm.sl.mta.handlers.v3;
 
-import static com.sap.cloud.lm.sl.common.util.CommonUtil.cast;
-
 import com.sap.cloud.lm.sl.mta.model.DeploymentDescriptor;
+import com.sap.cloud.lm.sl.mta.model.ExtensionDescriptor;
+import com.sap.cloud.lm.sl.mta.model.ExtensionRequiredDependency;
+import com.sap.cloud.lm.sl.mta.model.ExtensionResource;
 import com.sap.cloud.lm.sl.mta.model.RequiredDependency;
 import com.sap.cloud.lm.sl.mta.model.Resource;
-import com.sap.cloud.lm.sl.mta.model.v3.ExtensionDescriptor;
-import com.sap.cloud.lm.sl.mta.model.v3.ExtensionRequiredDependency;
-import com.sap.cloud.lm.sl.mta.model.v3.ExtensionResource;
 
 public class DescriptorHandler extends com.sap.cloud.lm.sl.mta.handlers.v2.DescriptorHandler {
 
@@ -27,14 +25,12 @@ public class DescriptorHandler extends com.sap.cloud.lm.sl.mta.handlers.v2.Descr
     }
 
     @Override
-    public ExtensionRequiredDependency findRequiredDependency(com.sap.cloud.lm.sl.mta.model.v2.ExtensionDescriptor descriptor,
-        String consumerName, String dependencyName) {
-        ExtensionRequiredDependency moduleRequiredDependency = cast(super.findRequiredDependency(descriptor, consumerName, dependencyName));
+    public ExtensionRequiredDependency findRequiredDependency(ExtensionDescriptor descriptor, String consumerName, String dependencyName) {
+        ExtensionRequiredDependency moduleRequiredDependency = super.findRequiredDependency(descriptor, consumerName, dependencyName);
         if (moduleRequiredDependency != null) {
             return moduleRequiredDependency;
         }
-        ExtensionDescriptor descriptorV3 = cast(descriptor);
-        for (ExtensionResource resource : descriptorV3.getResources3()) {
+        for (ExtensionResource resource : descriptor.getResources()) {
             if (resource.getName()
                 .equals(consumerName)) {
                 return findRequiredDependency(resource, dependencyName);
@@ -54,7 +50,7 @@ public class DescriptorHandler extends com.sap.cloud.lm.sl.mta.handlers.v2.Descr
     }
 
     public ExtensionRequiredDependency findRequiredDependency(ExtensionResource resource, String dependencyName) {
-        for (ExtensionRequiredDependency requiredDependency : resource.getRequiredDependencies3()) {
+        for (ExtensionRequiredDependency requiredDependency : resource.getRequiredDependencies()) {
             if (requiredDependency.getName()
                 .equals(dependencyName)) {
                 return requiredDependency;

@@ -2,8 +2,8 @@ package com.sap.cloud.lm.sl.mta.handlers.v3;
 
 import com.sap.cloud.lm.sl.mta.handlers.v2.DescriptorHandler;
 import com.sap.cloud.lm.sl.mta.model.DeploymentDescriptor;
+import com.sap.cloud.lm.sl.mta.model.ExtensionDescriptor;
 import com.sap.cloud.lm.sl.mta.model.Platform;
-import com.sap.cloud.lm.sl.mta.model.v3.ExtensionDescriptor;
 import com.sap.cloud.lm.sl.mta.validators.DescriptorValidationRules;
 import com.sap.cloud.lm.sl.mta.validators.v3.DefaultDescriptorValidationRules;
 import com.sap.cloud.lm.sl.mta.validators.v3.DeploymentDescriptorValidator;
@@ -25,10 +25,9 @@ public class DescriptorValidator extends com.sap.cloud.lm.sl.mta.handlers.v2.Des
     }
 
     @Override
-    protected ExtensionDescriptorValidator getExtensionDescriptorValidator(
-        com.sap.cloud.lm.sl.mta.model.v2.ExtensionDescriptor extensionDescriptor, DeploymentDescriptor deploymentDescriptor) {
-        return new ExtensionDescriptorValidator((ExtensionDescriptor) extensionDescriptor, deploymentDescriptor,
-            (DescriptorHandler) handler);
+    protected ExtensionDescriptorValidator getExtensionDescriptorValidator(ExtensionDescriptor extensionDescriptor,
+        DeploymentDescriptor deploymentDescriptor) {
+        return new ExtensionDescriptorValidator(extensionDescriptor, deploymentDescriptor, (DescriptorHandler) handler);
     }
 
     @Override

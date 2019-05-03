@@ -4,8 +4,7 @@ import static com.sap.cloud.lm.sl.mta.handlers.v2.Schemas.EXT_PROVIDED_DEPENDENC
 
 import java.util.Map;
 
-import com.sap.cloud.lm.sl.mta.model.v2.ExtensionProvidedDependency;
-import com.sap.cloud.lm.sl.mta.model.v2.ExtensionProvidedDependency.Builder;
+import com.sap.cloud.lm.sl.mta.model.ExtensionProvidedDependency;
 import com.sap.cloud.lm.sl.mta.parsers.ModelParser;
 import com.sap.cloud.lm.sl.mta.schema.MapElement;
 
@@ -15,6 +14,7 @@ public class ExtensionProvidedDependencyParser extends ModelParser<ExtensionProv
 
     public static final String NAME = "name";
     public static final String PROPERTIES = "properties";
+    public static final String PARAMETERS = "parameters";
 
     public ExtensionProvidedDependencyParser(Map<String, Object> source) {
         this(EXT_PROVIDED_DEPENDENCY, source);
@@ -22,6 +22,17 @@ public class ExtensionProvidedDependencyParser extends ModelParser<ExtensionProv
 
     protected ExtensionProvidedDependencyParser(MapElement schema, Map<String, Object> source) {
         super(PROCESSED_OBJECT_NAME, schema, source);
+    }
+
+    @Override
+    public ExtensionProvidedDependency parse() {
+        return createEntity().setName(getName())
+            .setProperties(getProperties())
+            .setParameters(getParameters());
+    }
+
+    protected ExtensionProvidedDependency createEntity() {
+        return ExtensionProvidedDependency.createV2();
     }
 
     protected String getName() {
@@ -32,12 +43,8 @@ public class ExtensionProvidedDependencyParser extends ModelParser<ExtensionProv
         return getMapElement(PROPERTIES);
     }
 
-    @Override
-    public ExtensionProvidedDependency parse() {
-        Builder builder = new Builder();
-        builder.setName(getName());
-        builder.setProperties(getProperties());
-        return builder.build();
+    protected Map<String, Object> getParameters() {
+        return getMapElement(PARAMETERS);
     }
 
 }
