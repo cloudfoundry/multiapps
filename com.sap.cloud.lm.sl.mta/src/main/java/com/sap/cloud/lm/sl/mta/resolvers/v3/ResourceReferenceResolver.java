@@ -1,6 +1,5 @@
 package com.sap.cloud.lm.sl.mta.resolvers.v3;
 
-import static com.sap.cloud.lm.sl.common.util.CommonUtil.cast;
 import static com.sap.cloud.lm.sl.mta.util.ValidatorUtil.getPrefixedName;
 
 import java.util.ArrayList;
@@ -51,7 +50,7 @@ public class ResourceReferenceResolver implements Resolver<Resource> {
 
     protected RequiredDependency resolveRequiredDependency(RequiredDependency dependency) {
         RequiredDependencyReferenceResolver resolver = createRequiredDependencyResolver(dependency);
-        return cast(resolver.resolve());
+        return resolver.resolve();
     }
 
     protected RequiredDependencyReferenceResolver createRequiredDependencyResolver(RequiredDependency requiredDependency) {

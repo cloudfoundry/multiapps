@@ -1,11 +1,5 @@
 package com.sap.cloud.lm.sl.mta.model;
 
-import com.sap.cloud.lm.sl.mta.model.v2.ExtensionDescriptor;
-import com.sap.cloud.lm.sl.mta.model.v2.ExtensionModule;
-import com.sap.cloud.lm.sl.mta.model.v2.ExtensionProvidedDependency;
-import com.sap.cloud.lm.sl.mta.model.v2.ExtensionRequiredDependency;
-import com.sap.cloud.lm.sl.mta.model.v2.ExtensionResource;
-
 public class Visitor {
 
     public void visit(ElementContext context, DeploymentDescriptor descriptor) {

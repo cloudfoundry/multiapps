@@ -1,11 +1,7 @@
 _schema-version: 3.0.0
 ID: mta-extension
-description: description
 extends: mta-id
-provider: provider-id
-target-platforms:
-  - first-target
-  - second-target
+
 modules:
 - name: test-module
   properties: # this comment should not affect the resulting descriptor
@@ -16,17 +12,27 @@ modules:
     - name: provided-dependency
       properties:
         provided-property: some-property
+      parameters:
+        provided-parameter: some-parameter
   requires:
     - name: required-dependency
       properties:
         required-property: property-value
       parameters:
         required-parameter: parameter-value
+
 resources:
 - name: test-resource
   properties:
     resource-property: some-resource-property
   parameters:
     resource-parameter: some-resource-parameter
+  active: false
+  requires:
+    - name: test-module
+      properties:
+        resource-required-property: foo
+      parameters:
+        resource-required-parameter: bar
 parameters:
   descriptor-property: some-descriptor-property

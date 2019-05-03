@@ -53,9 +53,6 @@ public class Schemas {
         MTAD.add("_schema-version", OBJECT_REQUIRED);
         MTAD.add("ID", NON_UNIQUE_MTA_IDENTIFIER);
         MTAD.add("version", STRING_REQUIRED);
-        MTAD.add("description", STRING);
-        MTAD.add("provider", STRING);
-        MTAD.add("copyright", STRING);
         MTAD.add("modules", new ListElement(MODULE));
         MTAD.add("resources", new ListElement(RESOURCE));
         MTAD.add("parameters", PROPERTIES);
@@ -70,8 +67,8 @@ public class Schemas {
         MODULE.add("provides", new ListElement(PROVIDED_DEPENDENCY));
 
         REQUIRED_DEPENDENCY.add("name", UNIQUE_MTA_IDENTIFIER);
-        REQUIRED_DEPENDENCY.add("group", STRING);
         REQUIRED_DEPENDENCY.add("list", STRING);
+        REQUIRED_DEPENDENCY.add("group", STRING);
         REQUIRED_DEPENDENCY.add("properties", PROPERTIES);
         REQUIRED_DEPENDENCY.add("parameters", PROPERTIES);
 
@@ -88,13 +85,7 @@ public class Schemas {
 
         MTAEXT.add("_schema-version", OBJECT_REQUIRED);
         MTAEXT.add("ID", NON_UNIQUE_MTA_IDENTIFIER);
-        MTAEXT.add("ext_description", STRING);
-        MTAEXT.add("description", STRING);
         MTAEXT.add("extends", STRING_REQUIRED);
-        MTAEXT.add("ext_provider", STRING);
-        MTAEXT.add("provider", STRING);
-        MTAEXT.add("targets", LIST);
-        MTAEXT.add("target-platforms", LIST);
         MTAEXT.add("modules", new ListElement(EXT_MODULE));
         MTAEXT.add("resources", new ListElement(EXT_RESOURCE));
         MTAEXT.add("parameters", PROPERTIES);
@@ -107,6 +98,7 @@ public class Schemas {
 
         EXT_PROVIDED_DEPENDENCY.add("name", UNIQUE_MTA_IDENTIFIER);
         EXT_PROVIDED_DEPENDENCY.add("properties", PROPERTIES);
+        EXT_PROVIDED_DEPENDENCY.add("parameters", PROPERTIES);
 
         EXT_REQUIRED_DEPENDENCY.add("name", UNIQUE_MTA_IDENTIFIER);
         EXT_REQUIRED_DEPENDENCY.add("properties", PROPERTIES);

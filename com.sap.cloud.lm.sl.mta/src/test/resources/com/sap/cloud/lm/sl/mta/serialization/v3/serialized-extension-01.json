@@ -1,15 +1,17 @@
 {
-  "modules3": [
+  "schemaVersion": "3.1.0",
+  "id": "mta-extension",
+  "parentId": "mta-id",
+  "modules": [
     {
-      "providedDependencies3": [
-        {
-          "name": "provided-dependency",
-          "properties": {
-            "provided-property": "some-property"
-          }
-        }
-      ],
-      "requiredDependencies3": [
+      "name": "test-module",
+      "properties": {
+        "module-property": "property"
+      },
+      "parameters": {
+        "module-parameter": "parameter"
+      },
+      "requiredDependencies": [
         {
           "name": "required-dependency",
           "properties": {
@@ -17,37 +19,40 @@
           },
           "parameters": {
             "required-parameter": "parameter-value"
-          }
+          },
+          "majorSchemaVersion": 3
         }
       ],
-      "parameters": {
-        "module-parameter": "parameter"
-      },
-      "name": "test-module",
-      "properties": {
-        "module-property": "property"
-      }
+      "providedDependencies": [
+        {
+          "name": "provided-dependency",
+          "properties": {
+            "provided-property": "some-property"
+          },
+          "parameters": {
+            "provided-parameter": "some-parameter"
+          },
+          "majorSchemaVersion": 3
+        }
+      ],
+      "majorSchemaVersion": 3
     }
   ],
-  "resources3": [
+  "resources": [
     {
-      "requiredDependencies3": [],
-      "parameters": {
-        "resource-parameter": "some-resource-parameter"
-      },
       "name": "test-resource",
       "properties": {
         "resource-property": "some-resource-property"
-      }
+      },
+      "parameters": {
+        "resource-parameter": "some-resource-parameter"
+      },
+      "requiredDependencies": [],
+      "majorSchemaVersion": 3
     }
   ],
-  "description": "description",
-  "provider": "provider-id",
   "parameters": {
     "descriptor-property": "some-descriptor-property"
   },
-  "schemaVersion": "3.1.0",
-  "id": "mta-extension",
-  "parentId": "mta-id",
-  "deployTargets": []
+  "majorSchemaVersion": 3
 }
