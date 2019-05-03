@@ -136,34 +136,6 @@ public class PropertiesUtil {
         return result;
     }
 
-    public static PropertiesContainer asPropertiesProvider(final Map<String, Object> properties) {
-        return new PropertiesContainer() {
-            @Override
-            public Map<String, Object> getProperties() {
-                return properties;
-            }
-
-            @Override
-            public Void setProperties(Map<String, Object> properties) {
-                throw new UnsupportedOperationException();
-            }
-        };
-    }
-
-    public static ParametersContainer asParametersProvider(final Map<String, Object> parameters) {
-        return new ParametersContainer() {
-            @Override
-            public Map<String, Object> getParameters() {
-                return parameters;
-            }
-
-            @Override
-            public Void setParameters(Map<String, Object> parameters) {
-                throw new UnsupportedOperationException();
-            }
-        };
-    }
-
     public static Map<String, Object> mergeExtensionProperties(Map<String, Object> original, Map<String, Object> override) {
         Map<String, Object> result = new TreeMap<>(original);
         for (Entry<String, Object> entry : override.entrySet()) {
