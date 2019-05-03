@@ -5,7 +5,6 @@ import com.sap.cloud.lm.sl.mta.util.ValidatorUtil;
 public class ElementContext {
 
     private VisitableElement visitableElement;
-
     private ElementContext previousElementContext;
 
     public ElementContext(VisitableElement visitableElement, ElementContext previousElementContext) {
@@ -29,16 +28,13 @@ public class ElementContext {
     }
 
     public String getPrefixedName() {
-        return getPrefixedNameInternal();
-    }
-
-    private String getPrefixedNameInternal() {
         if (previousElementContext != null) {
-            String parentPrefix = previousElementContext.getPrefixedNameInternal();
+            String parentPrefix = previousElementContext.getPrefixedName();
             if (parentPrefix != null) {
                 return ValidatorUtil.getPrefixedName(parentPrefix, getVisitableElementName());
             }
         }
         return getVisitableElementName();
     }
+
 }
