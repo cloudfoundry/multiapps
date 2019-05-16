@@ -11,8 +11,8 @@ import org.junit.runners.Parameterized;
 import org.junit.runners.Parameterized.Parameters;
 
 import com.sap.cloud.lm.sl.common.util.Callable;
-import com.sap.cloud.lm.sl.common.util.TestUtil;
-import com.sap.cloud.lm.sl.common.util.TestUtil.Expectation;
+import com.sap.cloud.lm.sl.common.util.Tester;
+import com.sap.cloud.lm.sl.common.util.Tester.Expectation;
 import com.sap.cloud.lm.sl.mta.handlers.ConfigurationParser;
 import com.sap.cloud.lm.sl.mta.handlers.HandlerFactory;
 import com.sap.cloud.lm.sl.mta.handlers.v2.DescriptorHandler;
@@ -23,21 +23,23 @@ import com.sap.cloud.lm.sl.mta.model.Platform;
 @RunWith(Parameterized.class)
 public class PlatformMergerTest {
 
+    private final Tester tester = Tester.forClass(getClass());
+
     @Parameters
     public static Collection<Object[]> getParameters() {
         return Arrays.asList(new Object[][] {
 // @formatter:off
             // (0)
             {
-                "mtad-00.yaml", "platform-00.json", new Expectation(Expectation.Type.RESOURCE, "result-platform-00.json"),
+                "mtad-00.yaml", "platform-00.json", new Expectation(Expectation.Type.JSON, "result-platform-00.json"),
             },
             // (1)
             {
-                "mtad-01.yaml", "platform-01.json", new Expectation(Expectation.Type.RESOURCE, "result-platform-01.json"),
+                "mtad-01.yaml", "platform-01.json", new Expectation(Expectation.Type.JSON, "result-platform-01.json"),
             },
             // (2)
             {
-                "mtad-00.yaml", "platform-02.json", new Expectation(Expectation.Type.RESOURCE, "result-platform-02.json"),
+                "mtad-00.yaml", "platform-02.json", new Expectation(Expectation.Type.JSON, "result-platform-02.json"),
             },
 // @formatter:on
         });
@@ -84,7 +86,7 @@ public class PlatformMergerTest {
     public void testMerge() {
         DescriptorHandler handler = getHandlerFactory().getDescriptorHandler();
         PlatformMerger merger = getPlatformMerger(platform, handler);
-        TestUtil.test(new Callable<DeploymentDescriptor>() {
+        tester.test(new Callable<DeploymentDescriptor>() {
 
             @Override
             public DeploymentDescriptor call() throws Exception {
@@ -92,7 +94,7 @@ public class PlatformMergerTest {
                 return descriptor;
             }
 
-        }, expectation, getClass());
+        }, expectation);
     }
 
     protected HandlerFactory getHandlerFactory() {

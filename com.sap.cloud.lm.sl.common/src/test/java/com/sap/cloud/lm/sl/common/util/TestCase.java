@@ -1,6 +1,6 @@
 package com.sap.cloud.lm.sl.common.util;
 
-import com.sap.cloud.lm.sl.common.util.TestUtil.Expectation;
+import com.sap.cloud.lm.sl.common.util.Tester.Expectation;
 
 public abstract class TestCase<I extends TestInput> {
 

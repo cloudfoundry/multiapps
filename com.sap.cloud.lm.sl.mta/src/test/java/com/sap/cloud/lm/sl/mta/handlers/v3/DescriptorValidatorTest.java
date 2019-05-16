@@ -4,7 +4,7 @@ import java.util.Arrays;
 
 import org.junit.runners.Parameterized.Parameters;
 
-import com.sap.cloud.lm.sl.common.util.TestUtil.Expectation;
+import com.sap.cloud.lm.sl.common.util.Tester.Expectation;
 
 public class DescriptorValidatorTest extends com.sap.cloud.lm.sl.mta.handlers.v2.DescriptorValidatorTest {
 

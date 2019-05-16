@@ -9,11 +9,14 @@ import org.junit.jupiter.params.provider.MethodSource;
 import org.junit.runners.Parameterized.Parameters;
 
 import com.sap.cloud.lm.sl.common.util.TestUtil;
-import com.sap.cloud.lm.sl.common.util.TestUtil.Expectation;
+import com.sap.cloud.lm.sl.common.util.Tester;
+import com.sap.cloud.lm.sl.common.util.Tester.Expectation;
 
 public class PropertiesResolverTest {
 
     protected static final PropertiesResolver testResolver = new PropertiesResolver(null, null, null, "test-", false);
+
+    private final Tester tester = Tester.forClass(getClass());
 
     @Parameters
     public static Stream<Arguments> testResolve() {
@@ -41,9 +44,9 @@ public class PropertiesResolverTest {
     public void testResolve(String modulePropertiesLocation, String parameterExpression, Expectation expectation) {
         Map<String, Object> moduleProperties = TestUtil.getMap(modulePropertiesLocation, getClass());
 
-        TestUtil.test(() -> {
+        tester.test(() -> {
             return testResolver.resolveReferenceInDepth(parameterExpression, moduleProperties);
-        }, expectation, getClass());
+        }, expectation);
     }
 
 }

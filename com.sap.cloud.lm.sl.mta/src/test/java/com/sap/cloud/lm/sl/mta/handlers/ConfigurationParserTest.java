@@ -10,13 +10,14 @@ import org.junit.runners.Parameterized;
 import org.junit.runners.Parameterized.Parameters;
 
 import com.sap.cloud.lm.sl.common.util.Callable;
-import com.sap.cloud.lm.sl.common.util.TestUtil;
-import com.sap.cloud.lm.sl.common.util.TestUtil.Expectation;
-import com.sap.cloud.lm.sl.mta.handlers.ConfigurationParser;
+import com.sap.cloud.lm.sl.common.util.Tester;
+import com.sap.cloud.lm.sl.common.util.Tester.Expectation;
 import com.sap.cloud.lm.sl.mta.model.Platform;
 
 @RunWith(Parameterized.class)
 public class ConfigurationParserTest {
+
+    private final Tester tester = Tester.forClass(getClass());
 
     private final String platformLocation;
     private InputStream platformInputStream;
@@ -31,15 +32,15 @@ public class ConfigurationParserTest {
 // @formatter:off
             // (0) Valid JSON:
             {
-                "/mta/sample/platform-01.json", new Expectation(Expectation.Type.RESOURCE, "platform-01.json.json"),
+                "/mta/sample/platform-01.json", new Expectation(Expectation.Type.JSON, "platform-01.json.json"),
             },
             // (1) Invalid JSON (invalid key 'properties' in resource types):
             {
-                "/mta/sample/platform-02.json", new Expectation(Expectation.Type.RESOURCE, "platform-02.json.json"),
+                "/mta/sample/platform-02.json", new Expectation(Expectation.Type.JSON, "platform-02.json.json"),
             },
             // (3) Valid JSON (containing only a name):
             {
-                "/mta/sample/platform-03.json", new Expectation(Expectation.Type.RESOURCE, "platform-03.json.json"),
+                "/mta/sample/platform-03.json", new Expectation(Expectation.Type.JSON, "platform-03.json.json"),
             },
 // @formatter:on
         });
@@ -59,12 +60,12 @@ public class ConfigurationParserTest {
 
     @Test
     public void testParsePlatformsJson() throws Exception {
-        TestUtil.test(new Callable<Platform>() {
+        tester.test(new Callable<Platform>() {
             @Override
             public Platform call() throws Exception {
                 return parser.parsePlatformJson(platformInputStream);
             }
-        }, expectation, getClass());
+        }, expectation);
     }
 
 }
