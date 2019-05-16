@@ -12,7 +12,8 @@ import org.junit.runners.Parameterized.Parameters;
 
 import com.sap.cloud.lm.sl.common.util.Callable;
 import com.sap.cloud.lm.sl.common.util.TestUtil;
-import com.sap.cloud.lm.sl.common.util.TestUtil.Expectation;
+import com.sap.cloud.lm.sl.common.util.Tester;
+import com.sap.cloud.lm.sl.common.util.Tester.Expectation;
 import com.sap.cloud.lm.sl.mta.model.DeploymentDescriptor;
 import com.sap.cloud.lm.sl.mta.model.Module;
 
@@ -21,7 +22,9 @@ public class DescriptorHandlerTest {
 
     @RunWith(Parameterized.class)
     public static class DeployOrderTest {
-        
+
+        protected final Tester tester = Tester.forClass(getClass());
+
         public static final String PARALLEL_DEPLOYMENTS_PROP = "parallel-deployments";
         public static final String DEPENDENCY_TYPE_PROP = "dependency-type";
         public static final String DEPENDENCY_TYPE_HARD = "hard";
@@ -30,7 +33,7 @@ public class DescriptorHandlerTest {
 
         protected String descriptorLocation;
         protected Expectation expectation;
-        
+
         public DeployOrderTest(String descriptorLocation, Expectation expectation) {
             this.descriptorLocation = descriptorLocation;
             this.expectation = expectation;
@@ -109,11 +112,12 @@ public class DescriptorHandlerTest {
             final DeploymentDescriptor descriptor = getDescriptorParser()
                 .parseDeploymentDescriptorYaml(TestUtil.getResourceAsString(descriptorLocation, getClass()));
 
-            TestUtil.test(new Callable<String>() {
+            tester.test(new Callable<String>() {
 
                 @Override
                 public String call() throws Exception {
-                    return Arrays.toString(getNames(handler.getModulesForDeployment(descriptor, PARALLEL_DEPLOYMENTS_PROP, DEPENDENCY_TYPE_PROP, DEPENDENCY_TYPE_HARD)));
+                    return Arrays.toString(getNames(handler.getModulesForDeployment(descriptor, PARALLEL_DEPLOYMENTS_PROP,
+                        DEPENDENCY_TYPE_PROP, DEPENDENCY_TYPE_HARD)));
                 }
 
                 private String[] getNames(List<? extends Module> modulles) {
@@ -124,9 +128,9 @@ public class DescriptorHandlerTest {
                     return names.toArray(new String[0]);
                 }
 
-            }, expectation, getClass());
+            }, expectation);
         }
-        
+
         protected DescriptorParser getDescriptorParser() {
             return new DescriptorParser();
         }

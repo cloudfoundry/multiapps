@@ -11,8 +11,8 @@ import org.junit.runners.Parameterized;
 import org.junit.runners.Parameterized.Parameters;
 
 import com.sap.cloud.lm.sl.common.util.Callable;
-import com.sap.cloud.lm.sl.common.util.TestUtil;
-import com.sap.cloud.lm.sl.common.util.TestUtil.Expectation;
+import com.sap.cloud.lm.sl.common.util.Tester;
+import com.sap.cloud.lm.sl.common.util.Tester.Expectation;
 import com.sap.cloud.lm.sl.common.util.YamlUtil;
 import com.sap.cloud.lm.sl.mta.model.DeploymentDescriptor;
 import com.sap.cloud.lm.sl.mta.model.ExtensionDescriptor;
@@ -21,7 +21,9 @@ import com.sap.cloud.lm.sl.mta.parsers.v2.ExtensionDescriptorParser;
 
 @RunWith(Parameterized.class)
 public class DescriptorSerializationTest {
-    
+
+    protected final Tester tester = Tester.forClass(getClass());
+
     protected String deploymentDescriptorLocation;
     protected Expectation expectedSerializedDescriptor;
     protected String extensionDescriptorLocation;
@@ -36,8 +38,8 @@ public class DescriptorSerializationTest {
 // @formatter:off
             // (0) Valid deployment and extension descriptors:
             {
-                "mtad-00.yaml", new Expectation(Expectation.Type.RESOURCE, "serialized-descriptor-00.json"),
-                "extension-descriptor-00.mtaext", new Expectation(Expectation.Type.RESOURCE, "serialized-extension-00.json"),
+                "mtad-00.yaml", new Expectation(Expectation.Type.JSON, "serialized-descriptor-00.json"),
+                "extension-descriptor-00.mtaext", new Expectation(Expectation.Type.JSON, "serialized-extension-00.json"),
             }
             // @formatter:on
         });
@@ -56,10 +58,10 @@ public class DescriptorSerializationTest {
         deploymentDescriptorYaml = getClass().getResourceAsStream(deploymentDescriptorLocation);
         extensionDescriptorYaml = getClass().getResourceAsStream(extensionDescriptorLocation);
     }
-    
+
     @Test
     public void testDescriptorSerialization() {
-        TestUtil.test(new Callable<DeploymentDescriptor>() {
+        tester.test(new Callable<DeploymentDescriptor>() {
 
             @Override
             public DeploymentDescriptor call() {
@@ -68,12 +70,12 @@ public class DescriptorSerializationTest {
                 return getDescriptorFromMap(YamlUtil.convertYamlToMap(serializedMap));
             }
 
-        }, expectedSerializedDescriptor, getClass());
+        }, expectedSerializedDescriptor);
     }
 
     @Test
     public void testExtensionSerialization() {
-        TestUtil.test(new Callable<ExtensionDescriptor>() {
+        tester.test(new Callable<ExtensionDescriptor>() {
 
             @Override
             public ExtensionDescriptor call() {
@@ -82,17 +84,17 @@ public class DescriptorSerializationTest {
                 return getExtensionDescriptorFromMap(YamlUtil.convertYamlToMap(serializedMap));
             }
 
-        }, expectedSerializedExtension, getClass());
+        }, expectedSerializedExtension);
     }
 
     private DeploymentDescriptor getDescriptorFromMap(Map<String, Object> yamlMap) {
         return getDescriptorParser(yamlMap).parse();
     }
-    
+
     protected DeploymentDescriptorParser getDescriptorParser(Map<String, Object> yamlMap) {
         return new DeploymentDescriptorParser(yamlMap);
     }
-    
+
     private ExtensionDescriptor getExtensionDescriptorFromMap(Map<String, Object> yamlMap) {
         return getExtensionDescriptorParser(yamlMap).parse();
     }

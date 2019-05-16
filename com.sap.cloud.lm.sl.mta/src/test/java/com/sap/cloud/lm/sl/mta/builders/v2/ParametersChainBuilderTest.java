@@ -9,8 +9,8 @@ import org.junit.Test;
 import org.junit.runners.Parameterized.Parameters;
 
 import com.sap.cloud.lm.sl.common.util.Callable;
-import com.sap.cloud.lm.sl.common.util.TestUtil;
-import com.sap.cloud.lm.sl.common.util.TestUtil.Expectation;
+import com.sap.cloud.lm.sl.common.util.Tester;
+import com.sap.cloud.lm.sl.common.util.Tester.Expectation;
 import com.sap.cloud.lm.sl.mta.handlers.v2.DescriptorParser;
 import com.sap.cloud.lm.sl.mta.model.DeploymentDescriptor;
 import com.sap.cloud.lm.sl.mta.model.Platform;
@@ -25,30 +25,30 @@ public class ParametersChainBuilderTest extends PropertiesChainBuilderTest {
             {
                 "mtad-02.yaml", "platform-04.json",
                 new Expectation[] {
-                    new Expectation(Expectation.Type.RESOURCE, "module-chain-01.json"),
-                    new Expectation(Expectation.Type.RESOURCE, "module-chain-without-dependencies-01.json"),
-                    new Expectation(Expectation.Type.RESOURCE, "resource-chain-04.json"),
-                    new Expectation(Expectation.Type.RESOURCE, "resource-type-chain-01.json"),
+                    new Expectation(Expectation.Type.JSON, "module-chain-01.json"),
+                    new Expectation(Expectation.Type.JSON, "module-chain-without-dependencies-01.json"),
+                    new Expectation(Expectation.Type.JSON, "resource-chain-04.json"),
+                    new Expectation(Expectation.Type.JSON, "resource-type-chain-01.json"),
                 },
             },
             // (1) No module and resource types in the platform:
             {
                 "mtad-02.yaml", "platform-02.json",
                 new Expectation[] {
-                    new Expectation(Expectation.Type.RESOURCE, "module-chain-02.json"),
-                    new Expectation(Expectation.Type.RESOURCE, "module-chain-without-dependencies-02.json"),
-                    new Expectation(Expectation.Type.RESOURCE, "resource-chain-02.json"),
-                    new Expectation(Expectation.Type.RESOURCE, "resource-type-chain-02.json"),
+                    new Expectation(Expectation.Type.JSON, "module-chain-02.json"),
+                    new Expectation(Expectation.Type.JSON, "module-chain-without-dependencies-02.json"),
+                    new Expectation(Expectation.Type.JSON, "resource-chain-02.json"),
+                    new Expectation(Expectation.Type.JSON, "resource-type-chain-02.json"),
                 },
             },
             // (2) Some module and resource types are present in the platform:
             {
                 "mtad-02.yaml", "platform-05.json",
                 new Expectation[] {
-                    new Expectation(Expectation.Type.RESOURCE, "module-chain-03.json"),
-                    new Expectation(Expectation.Type.RESOURCE, "module-chain-without-dependencies-03.json"),
-                    new Expectation(Expectation.Type.RESOURCE, "resource-chain-05.json"),
-                    new Expectation(Expectation.Type.RESOURCE, "resource-type-chain-03.json"),
+                    new Expectation(Expectation.Type.JSON, "module-chain-03.json"),
+                    new Expectation(Expectation.Type.JSON, "module-chain-without-dependencies-03.json"),
+                    new Expectation(Expectation.Type.JSON, "resource-chain-05.json"),
+                    new Expectation(Expectation.Type.JSON, "resource-type-chain-03.json"),
                 },
             },
 // @formatter:on
@@ -71,7 +71,7 @@ public class ParametersChainBuilderTest extends PropertiesChainBuilderTest {
 
     @Test
     public void testBuildResourceTypeChain() {
-        TestUtil.test(new Callable<List<List<Map<String, Object>>>>() {
+        tester.test(new Callable<List<List<Map<String, Object>>>>() {
             @Override
             public List<List<Map<String, Object>>> call() throws Exception {
                 List<List<Map<String, Object>>> resourceTypeChains = new ArrayList<List<Map<String, Object>>>();
@@ -80,7 +80,7 @@ public class ParametersChainBuilderTest extends PropertiesChainBuilderTest {
                 }
                 return resourceTypeChains;
             }
-        }, expectations[3], getClass());
+        }, expectations[3]);
     }
 
 }

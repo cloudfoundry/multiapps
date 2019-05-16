@@ -10,11 +10,14 @@ import org.junit.runners.Parameterized.Parameters;
 
 import com.sap.cloud.lm.sl.common.util.Runnable;
 import com.sap.cloud.lm.sl.common.util.TestUtil;
-import com.sap.cloud.lm.sl.common.util.TestUtil.Expectation;
+import com.sap.cloud.lm.sl.common.util.Tester;
+import com.sap.cloud.lm.sl.common.util.Tester.Expectation;
 import com.sap.cloud.lm.sl.mta.handlers.v2.Schemas;
 
-@RunWith(value = Parameterized.class)
+@RunWith(Parameterized.class)
 public class SchemaValidatorTest {
+
+    private final Tester tester = Tester.forClass(getClass());
 
     private final Element schema;
     private final String file;
@@ -87,7 +90,7 @@ public class SchemaValidatorTest {
 
     @Test
     public void testValidateSchema() throws Exception {
-        TestUtil.test(new Runnable() {
+        tester.test(new Runnable() {
             @Override
             public void run() throws Exception {
                 if (schema instanceof MapElement) {

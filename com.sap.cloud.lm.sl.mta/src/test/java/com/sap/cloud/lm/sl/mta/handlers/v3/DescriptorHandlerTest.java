@@ -13,8 +13,8 @@ import org.junit.runners.Parameterized.Parameters;
 
 import com.sap.cloud.lm.sl.common.util.Callable;
 import com.sap.cloud.lm.sl.common.util.TestUtil;
-import com.sap.cloud.lm.sl.common.util.TestUtil.Expectation;
-import com.sap.cloud.lm.sl.common.util.TestUtil.Expectation.Type;
+import com.sap.cloud.lm.sl.common.util.Tester.Expectation;
+import com.sap.cloud.lm.sl.common.util.Tester.Expectation.Type;
 import com.sap.cloud.lm.sl.mta.model.DeploymentDescriptor;
 import com.sap.cloud.lm.sl.mta.model.Module;
 
@@ -158,7 +158,7 @@ public class DescriptorHandlerTest extends com.sap.cloud.lm.sl.mta.handlers.v2.D
             final DeploymentDescriptor descriptor = getDescriptorParser()
                 .parseDeploymentDescriptorYaml(TestUtil.getResourceAsString(descriptorLocation, getClass()));
 
-            TestUtil.test(new Callable<String>() {
+            tester.test(new Callable<String>() {
 
                 @Override
                 public String call() throws Exception {
@@ -174,7 +174,7 @@ public class DescriptorHandlerTest extends com.sap.cloud.lm.sl.mta.handlers.v2.D
                     return deployedAfterMap.toString();
                 }
 
-            }, expectation, getClass());
+            }, expectation);
         }
 
         @Override

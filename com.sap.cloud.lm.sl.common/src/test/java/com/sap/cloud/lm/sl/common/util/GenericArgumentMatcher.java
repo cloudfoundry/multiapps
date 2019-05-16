@@ -2,6 +2,8 @@ package com.sap.cloud.lm.sl.common.util;
 
 import org.mockito.ArgumentMatcher;
 
+import com.sap.cloud.lm.sl.common.util.JsonUtil;
+
 public class GenericArgumentMatcher<T> extends ArgumentMatcher<T> {
 
     private T expectedObject;

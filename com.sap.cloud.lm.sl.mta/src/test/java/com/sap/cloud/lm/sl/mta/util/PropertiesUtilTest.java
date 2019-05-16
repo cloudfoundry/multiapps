@@ -11,10 +11,13 @@ import org.junit.runners.Parameterized.Parameters;
 import com.sap.cloud.lm.sl.common.util.Callable;
 import com.sap.cloud.lm.sl.common.util.JsonUtil;
 import com.sap.cloud.lm.sl.common.util.TestUtil;
-import com.sap.cloud.lm.sl.common.util.TestUtil.Expectation;
+import com.sap.cloud.lm.sl.common.util.Tester;
+import com.sap.cloud.lm.sl.common.util.Tester.Expectation;
 
 @RunWith(Parameterized.class)
 public class PropertiesUtilTest {
+
+    private final Tester tester = Tester.forClass(getClass());
 
     private Map<String, Object> deploymentDescriptorProperties;
     private Map<String, Object> extensionDescriptorProperties;
@@ -26,15 +29,15 @@ public class PropertiesUtilTest {
 // @formatter:off
             // (0) Merge normal properties maps
             {
-                "deployment-properties-01.json", "extension-properties-01.json", new Expectation(Expectation.Type.RESOURCE, "merged-properties-01.json"), 
+                "deployment-properties-01.json", "extension-properties-01.json", new Expectation(Expectation.Type.JSON, "merged-properties-01.json"), 
             },
             // (1) No changes in the extension => merged properties should be the same
             {
-                "deployment-properties-02.json", "extension-properties-02.json", new Expectation(Expectation.Type.RESOURCE, "merged-properties-02.json"), 
+                "deployment-properties-02.json", "extension-properties-02.json", new Expectation(Expectation.Type.JSON, "merged-properties-02.json"), 
             },
             // (2) Merging of nested maps
             {
-                "deployment-properties-03.json", "extension-properties-03.json", new Expectation(Expectation.Type.RESOURCE, "merged-properties-03.json"), 
+                "deployment-properties-03.json", "extension-properties-03.json", new Expectation(Expectation.Type.JSON, "merged-properties-03.json"), 
             },
             // (3) Scalar parameter cannot be overwritten by a structured parameter
             {
@@ -58,13 +61,13 @@ public class PropertiesUtilTest {
 
     @Test
     public void mergeTest() {
-        TestUtil.test(new Callable<Map<String, Object>>() {
+        tester.test(new Callable<Map<String, Object>>() {
 
             @Override
             public Map<String, Object> call() throws Exception {
                 return PropertiesUtil.mergeExtensionProperties(deploymentDescriptorProperties, extensionDescriptorProperties);
             }
 
-        }, expectation, getClass());
+        }, expectation);
     }
 }

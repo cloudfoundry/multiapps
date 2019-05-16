@@ -10,15 +10,17 @@ import org.junit.runners.Parameterized;
 import org.junit.runners.Parameterized.Parameters;
 
 import com.sap.cloud.lm.sl.common.util.Callable;
-import com.sap.cloud.lm.sl.common.util.TestUtil;
-import com.sap.cloud.lm.sl.common.util.TestUtil.Expectation;
+import com.sap.cloud.lm.sl.common.util.Tester;
+import com.sap.cloud.lm.sl.common.util.Tester.Expectation;
 import com.sap.cloud.lm.sl.mta.MtaTestUtil;
 import com.sap.cloud.lm.sl.mta.model.DeploymentDescriptor;
 import com.sap.cloud.lm.sl.mta.model.ExtensionDescriptor;
 
 @RunWith(Parameterized.class)
 public class DescriptorMergerTest {
-    
+
+    protected final Tester tester = Tester.forClass(getClass());
+
     private final String deploymentDescriptorLocation;
     private final String[] extensionDescriptorLocations;
     private final Expectation expectation;
@@ -35,12 +37,12 @@ public class DescriptorMergerTest {
             // (0) Valid deployment and extension descriptor:
             {
                 "/mta/sample/v2/mtad-01.yaml", new String[] { "/mta/sample/v2/config-01.mtaext", },
-                new Expectation(Expectation.Type.RESOURCE, "/mta/sample/v2/merged-04.yaml.json"),
+                new Expectation(Expectation.Type.JSON, "/mta/sample/v2/merged-04.yaml.json"),
             },
             // (1) Valid deployment and extension descriptors (multiple):
             {
                 "/mta/sample/v2/mtad-01.yaml", new String[] { "/mta/sample/v2/config-01.mtaext", "/mta/sample/v2/config-05.mtaext", },
-                new Expectation(Expectation.Type.RESOURCE, "/mta/sample/v2/merged-05.yaml.json"),
+                new Expectation(Expectation.Type.JSON, "/mta/sample/v2/merged-05.yaml.json"),
             },
 // @formatter:on
         });
@@ -64,7 +66,7 @@ public class DescriptorMergerTest {
 
         merger = createDescriptorMerger();
     }
-    
+
     protected DescriptorMerger createDescriptorMerger() {
         return new DescriptorMerger();
     }
@@ -72,15 +74,15 @@ public class DescriptorMergerTest {
     protected DescriptorParser getDescriptorParser() {
         return new DescriptorParser();
     }
-    
+
     @Test
     public void testMerge() {
-        TestUtil.test(new Callable<DeploymentDescriptor>() {
+        tester.test(new Callable<DeploymentDescriptor>() {
             @Override
             public DeploymentDescriptor call() throws Exception {
                 return merger.merge(deploymentDescriptor, extensionDescriptors);
             }
-        }, expectation, getClass());
+        }, expectation);
     }
 
 }

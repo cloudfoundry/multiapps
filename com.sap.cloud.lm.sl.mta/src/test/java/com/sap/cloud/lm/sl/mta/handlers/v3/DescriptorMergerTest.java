@@ -4,7 +4,7 @@ import java.util.Arrays;
 
 import org.junit.runners.Parameterized.Parameters;
 
-import com.sap.cloud.lm.sl.common.util.TestUtil.Expectation;
+import com.sap.cloud.lm.sl.common.util.Tester.Expectation;
 
 public class DescriptorMergerTest extends com.sap.cloud.lm.sl.mta.handlers.v2.DescriptorMergerTest {
 
@@ -15,12 +15,12 @@ public class DescriptorMergerTest extends com.sap.cloud.lm.sl.mta.handlers.v2.De
             // (0) Valid deployment and extension descriptor:
             {
                 "/mta/sample/v3/mtad-01.yaml", new String[] { "/mta/sample/v3/config-01.mtaext", },
-                new Expectation(Expectation.Type.RESOURCE, "/mta/sample/v3/merged-04.yaml.json"),
+                new Expectation(Expectation.Type.JSON, "/mta/sample/v3/merged-04.yaml.json"),
             },
             // (1) Valid deployment and extension descriptors (multiple):
             {
                 "/mta/sample/v3/mtad-01.yaml", new String[] { "/mta/sample/v3/config-01.mtaext", "/mta/sample/v3/config-05.mtaext", },
-                new Expectation(Expectation.Type.RESOURCE, "/mta/sample/v3/merged-05.yaml.json"),
+                new Expectation(Expectation.Type.JSON, "/mta/sample/v3/merged-05.yaml.json"),
             },
 // @formatter:on
         });

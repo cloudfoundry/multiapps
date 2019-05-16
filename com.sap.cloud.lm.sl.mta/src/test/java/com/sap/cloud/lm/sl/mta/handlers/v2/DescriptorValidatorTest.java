@@ -10,8 +10,8 @@ import org.junit.runners.Parameterized;
 import org.junit.runners.Parameterized.Parameters;
 
 import com.sap.cloud.lm.sl.common.util.Runnable;
-import com.sap.cloud.lm.sl.common.util.TestUtil;
-import com.sap.cloud.lm.sl.common.util.TestUtil.Expectation;
+import com.sap.cloud.lm.sl.common.util.Tester;
+import com.sap.cloud.lm.sl.common.util.Tester.Expectation;
 import com.sap.cloud.lm.sl.mta.MtaTestUtil;
 import com.sap.cloud.lm.sl.mta.model.DeploymentDescriptor;
 import com.sap.cloud.lm.sl.mta.model.ExtensionDescriptor;
@@ -21,6 +21,8 @@ import com.sap.cloud.lm.sl.mta.model.Platform;
 public class DescriptorValidatorTest {
 
     protected static String platformLocation = "/mta/sample/platform-01.json";
+
+    protected final Tester tester = Tester.forClass(getClass());
 
     private final String deploymentDescriptorLocation;
     private final String[] extensionDescriptorLocations;
@@ -213,7 +215,7 @@ public class DescriptorValidatorTest {
 
     @Test
     public void testValidateDeploymentDescriptor() throws Exception {
-        TestUtil.test(new Runnable() {
+        tester.test(new Runnable() {
             @Override
             public void run() throws Exception {
                 validator.validateDeploymentDescriptor(deploymentDescriptor, platform);
@@ -223,7 +225,7 @@ public class DescriptorValidatorTest {
 
     @Test
     public void testValidateExtensionDescriptors() throws Exception {
-        TestUtil.test(new Runnable() {
+        tester.test(new Runnable() {
             @Override
             public void run() throws Exception {
                 validator.validateExtensionDescriptors(extensionDescriptors, deploymentDescriptor);
@@ -234,7 +236,7 @@ public class DescriptorValidatorTest {
 
     @Test
     public void testValidateMergedDescriptor() throws Exception {
-        TestUtil.test(new Runnable() {
+        tester.test(new Runnable() {
             @Override
             public void run() throws Exception {
                 validator.validateMergedDescriptor(mergedDescriptor);

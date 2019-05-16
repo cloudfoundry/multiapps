@@ -10,13 +10,15 @@ import org.junit.runners.Parameterized;
 import org.junit.runners.Parameterized.Parameters;
 
 import com.sap.cloud.lm.sl.common.util.Callable;
-import com.sap.cloud.lm.sl.common.util.TestUtil;
-import com.sap.cloud.lm.sl.common.util.TestUtil.Expectation;
+import com.sap.cloud.lm.sl.common.util.Tester;
+import com.sap.cloud.lm.sl.common.util.Tester.Expectation;
 import com.sap.cloud.lm.sl.mta.model.DeploymentDescriptor;
 import com.sap.cloud.lm.sl.mta.model.ExtensionDescriptor;
 
 @RunWith(Parameterized.class)
 public class DescriptorParserTest {
+
+    protected final Tester tester = Tester.forClass(getClass());
 
     private final String extensionDescriptorsLocation;
     private final String deploymentDescriptorLocation;
@@ -35,8 +37,8 @@ public class DescriptorParserTest {
             {
                 "/mta/sample/v2/mtad-01.yaml", "/mta/sample/v2/config-01.mtaext",
                 new Expectation[] {
-                    new Expectation(Expectation.Type.RESOURCE, "mtad-01.yaml.json"),
-                    new Expectation(Expectation.Type.RESOURCE, "config-01.mtaext.json"),
+                    new Expectation(Expectation.Type.JSON, "mtad-01.yaml.json"),
+                    new Expectation(Expectation.Type.JSON, "config-01.mtaext.json"),
                 },
             },
             // (1) Multiple modules with the same name:
@@ -75,7 +77,7 @@ public class DescriptorParserTest {
             {
                 "/mta/sample/v2/mtad-05.yaml", null,
                 new Expectation[] {
-                    new Expectation(Expectation.Type.RESOURCE, "mtad-01.yaml.json"),
+                    new Expectation(Expectation.Type.JSON, "mtad-01.yaml.json"),
                     new Expectation(Expectation.Type.SKIP, null),
                 },
             },
@@ -107,32 +109,32 @@ public class DescriptorParserTest {
             {
                 "mtad-with-partial-schema-version-major.yaml", "config-with-partial-schema-version-major.mtaext",
                 new Expectation[] {
-                    new Expectation(Expectation.Type.RESOURCE, "parsed-mtad-with-partial-schema-version.json"),
-                    new Expectation(Expectation.Type.RESOURCE, "parsed-config-with-partial-schema-version.json"),
+                    new Expectation(Expectation.Type.JSON, "parsed-mtad-with-partial-schema-version.json"),
+                    new Expectation(Expectation.Type.JSON, "parsed-config-with-partial-schema-version.json"),
                 },
             },
             // (10) Partial schema version support test (double):
             {
                 "mtad-with-partial-schema-version-major.minor.yaml", "config-with-partial-schema-version-major.minor.mtaext",
                 new Expectation[] {
-                    new Expectation(Expectation.Type.RESOURCE, "parsed-mtad-with-partial-schema-version.json"),
-                    new Expectation(Expectation.Type.RESOURCE, "parsed-config-with-partial-schema-version.json"),
+                    new Expectation(Expectation.Type.JSON, "parsed-mtad-with-partial-schema-version.json"),
+                    new Expectation(Expectation.Type.JSON, "parsed-config-with-partial-schema-version.json"),
                 },
             },
             // (11) Partial schema version support test (string):
             {
                 "mtad-with-partial-schema-version-major-quoted.yaml", "config-with-partial-schema-version-major-quoted.mtaext",
                 new Expectation[] {
-                    new Expectation(Expectation.Type.RESOURCE, "parsed-mtad-with-partial-schema-version.json"),
-                    new Expectation(Expectation.Type.RESOURCE, "parsed-config-with-partial-schema-version.json"),
+                    new Expectation(Expectation.Type.JSON, "parsed-mtad-with-partial-schema-version.json"),
+                    new Expectation(Expectation.Type.JSON, "parsed-config-with-partial-schema-version.json"),
                 },
             },
             // (12) Partial schema version support test (string):
             {
                 "mtad-with-partial-schema-version-major.minor-quoted.yaml", "config-with-partial-schema-version-major.minor-quoted.mtaext",
                 new Expectation[] {
-                    new Expectation(Expectation.Type.RESOURCE, "parsed-mtad-with-partial-schema-version.json"),
-                    new Expectation(Expectation.Type.RESOURCE, "parsed-config-with-partial-schema-version.json"),
+                    new Expectation(Expectation.Type.JSON, "parsed-mtad-with-partial-schema-version.json"),
+                    new Expectation(Expectation.Type.JSON, "parsed-config-with-partial-schema-version.json"),
                 },
             },
 // @formatter:on
@@ -162,22 +164,22 @@ public class DescriptorParserTest {
 
     @Test
     public void testParseDeploymentDescriptorYaml() throws Exception {
-        TestUtil.test(new Callable<DeploymentDescriptor>() {
+        tester.test(new Callable<DeploymentDescriptor>() {
             @Override
             public DeploymentDescriptor call() throws Exception {
                 return parser.parseDeploymentDescriptorYaml(deploymentDescriptorYaml);
             }
-        }, expectations[0], getClass());
+        }, expectations[0]);
     }
 
     @Test
     public void testParseExtensionDescriptorYaml() throws Exception {
-        TestUtil.test(new Callable<ExtensionDescriptor>() {
+        tester.test(new Callable<ExtensionDescriptor>() {
             @Override
             public ExtensionDescriptor call() throws Exception {
                 return parser.parseExtensionDescriptorYaml(extensionDescriptorsYaml);
             }
-        }, expectations[1], getClass());
+        }, expectations[1]);
     }
 
 }

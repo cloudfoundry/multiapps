@@ -8,8 +8,8 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
-import com.sap.cloud.lm.sl.common.util.TestUtil;
-import com.sap.cloud.lm.sl.common.util.TestUtil.Expectation;
+import com.sap.cloud.lm.sl.common.util.Tester;
+import com.sap.cloud.lm.sl.common.util.Tester.Expectation;
 import com.sap.cloud.lm.sl.mta.handlers.DescriptorParserFacade;
 import com.sap.cloud.lm.sl.mta.model.DeploymentDescriptor;
 import com.sap.cloud.lm.sl.mta.resolvers.ResolverBuilder;
@@ -18,33 +18,34 @@ public class DescriptorPlaceholderResolverTest {
 
     protected static final String SYSTEM_PARAMETERS_LOCATION = "system-parameters.json";
 
+    protected final Tester tester = Tester.forClass(getClass());
     protected DescriptorPlaceholderResolver resolver;
 
     public static Stream<Arguments> testResolve() {
         return Stream.of(
 // @formatter:off            // (00)
             Arguments.of(
-                "mtad-with-placeholders-in-requires-dependency.yaml", new Expectation(Expectation.Type.RESOURCE, "result-from-placeholders-in-requires-dependency.json")
+                "mtad-with-placeholders-in-requires-dependency.yaml", new Expectation(Expectation.Type.JSON, "result-from-placeholders-in-requires-dependency.json")
             ),
             // (01)
             Arguments.of(
-                "mtad-with-placeholders-in-provides-dependency.yaml", new Expectation(Expectation.Type.RESOURCE, "result-from-placeholders-in-provides-dependency.json")
+                "mtad-with-placeholders-in-provides-dependency.yaml", new Expectation(Expectation.Type.JSON, "result-from-placeholders-in-provides-dependency.json")
             ),
             // (02)
             Arguments.of(
-                "mtad-with-placeholders-in-resource.yaml", new Expectation(Expectation.Type.RESOURCE, "result-from-placeholders-in-resource.json")
+                "mtad-with-placeholders-in-resource.yaml", new Expectation(Expectation.Type.JSON, "result-from-placeholders-in-resource.json")
             ),
             // (03)
             Arguments.of(
-                "mtad-with-placeholders-in-module.yaml", new Expectation(Expectation.Type.RESOURCE, "result-from-placeholders-in-module.json")
+                "mtad-with-placeholders-in-module.yaml", new Expectation(Expectation.Type.JSON, "result-from-placeholders-in-module.json")
             ),
             // (04)
             Arguments.of(
-                "mtad-with-placeholders-in-general-parameters.yaml", new Expectation(Expectation.Type.RESOURCE, "result-from-placeholders-in-general-parameters.json")
+                "mtad-with-placeholders-in-general-parameters.yaml", new Expectation(Expectation.Type.JSON, "result-from-placeholders-in-general-parameters.json")
             ),
             // (05)
             Arguments.of(
-                "mtad-with-concatenated-placeholders.yaml", new Expectation(Expectation.Type.RESOURCE, "result-from-concatenated-parameters.json")
+                "mtad-with-concatenated-placeholders.yaml", new Expectation(Expectation.Type.JSON, "result-from-concatenated-parameters.json")
             ),
             // (06)
             Arguments.of(
@@ -68,11 +69,11 @@ public class DescriptorPlaceholderResolverTest {
             ),
             // (11)
             Arguments.of(
-                "mtad-preservation-of-types.yaml", new Expectation(Expectation.Type.RESOURCE, "result-preservation-of-types.json")
+                "mtad-preservation-of-types.yaml", new Expectation(Expectation.Type.JSON, "result-preservation-of-types.json")
             ),
             // (12)
             Arguments.of(
-                "mtad-with-placeholder-in-a-nested-structure.yaml", new Expectation(Expectation.Type.RESOURCE, "result-from-placeholder-in-a-nested-structure.json")
+                "mtad-with-placeholder-in-a-nested-structure.yaml", new Expectation(Expectation.Type.JSON, "result-from-placeholder-in-a-nested-structure.json")
             ),
             // (13)
             Arguments.of(
@@ -92,11 +93,11 @@ public class DescriptorPlaceholderResolverTest {
             ),
             // (17)
             Arguments.of(
-                "mtad-with-repeating-placeholder.yaml", new Expectation(Expectation.Type.RESOURCE, "result-from-repeating-placeholder.json")
+                "mtad-with-repeating-placeholder.yaml", new Expectation(Expectation.Type.JSON, "result-from-repeating-placeholder.json")
             ),
             // (19)
             Arguments.of(
-                "mtad-with-placeholders-with-depth.yaml", new Expectation(Expectation.Type.RESOURCE, "result-from-placeholders-with-depth.json")
+                "mtad-with-placeholders-with-depth.yaml", new Expectation(Expectation.Type.JSON, "result-from-placeholders-with-depth.json")
             )
 // @formatter:on
         );
@@ -106,13 +107,13 @@ public class DescriptorPlaceholderResolverTest {
         DeploymentDescriptor deploymentDescriptor = parseDeploymentDescriptor(descriptorLocation);
         this.resolver = createDescriptorPlaceholderResolver(deploymentDescriptor);
     }
-        
+
     @ParameterizedTest(name = "{index}: \"{1}.\"")
     @MethodSource
     public void testResolve(String descriptorLocation, Expectation expectation) {
         init(descriptorLocation);
 
-        TestUtil.test(() -> resolver.resolve(), expectation, getClass());
+        tester.test(() -> resolver.resolve(), expectation);
     }
 
     protected DeploymentDescriptor parseDeploymentDescriptor(String descriptorLocation) {
