@@ -16,7 +16,6 @@ public class Messages {
     public static final String UNRESOLVED_RESOURCE_REQUIRED_DEPENDENCY = "Unresolved required dependency \"{0}\" for resource \"{1}\"";
     public static final String UNRESOLVED_PROPERTIES = "Unresolved mandatory properties: {0}";
     public static final String UNRESOLVED_PARAMETERS = "Unresolved mandatory parameters: {0}";
-    public static final String DEPLOY_TARGET_NOT_LISTED = "Deploy target \"{0}\" not listed in extension descriptor chain";
     public static final String UNKNOWN_MODULE_IN_MTAEXT = "Unknown module \"{0}\" in extension descriptor \"{1}\"";
     public static final String UNKNOWN_REQUIRED_DEPENDENCY_IN_MTAEXT = "Unknown required dependency \"{0}\" for module \"{1}\" in extension descriptor \"{2}\"";
     public static final String UNKNOWN_PROVIDED_DEPENDENCY_IN_MTAEXT = "Unknown provided dependency \"{0}\" for module \"{1}\" in extension descriptor \"{2}\"";
@@ -25,7 +24,6 @@ public class Messages {
     public static final String DETECTED_CIRCULAR_REFERENCE = "Circular reference detected in \"{0}\"";
     public static final String CANNOT_FIND_ARCHIVE_ENTRY = "Cannot find archive entry \"{0}\"";
     public static final String ERROR_RETRIEVING_ARCHIVE_ENTRY = "Error while retrieving archive entry \"{0}\"";
-    public static final String INVALID_KEY = "Invalid key \"{0}\"";
     public static final String NULL_VALUE_FOR_KEY = "Null value for key \"{0}\"";
     public static final String MISSING_REQUIRED_KEY = "Missing required key \"{0}\"";
     public static final String NULL_CONTENT = "Null content";
