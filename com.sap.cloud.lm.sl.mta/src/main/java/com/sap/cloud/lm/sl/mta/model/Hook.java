@@ -13,7 +13,12 @@ import com.sap.cloud.lm.sl.mta.parsers.v3.HookParser;
 
 public class Hook extends VersionedEntity implements VisitableElement, NamedElement {
 
-    public Hook(int majorSchemaVersion) {
+    // Required by Jackson.
+    protected Hook() {
+        super(0);
+    }
+
+    protected Hook(int majorSchemaVersion) {
         super(majorSchemaVersion);
     }
 

@@ -22,7 +22,12 @@ public class ExtensionResource extends VersionedEntity implements VisitableEleme
     @YamlElement(ExtensionResourceParser.REQUIRES)
     private List<ExtensionRequiredDependency> requiredDependencies = Collections.emptyList();
 
-    public ExtensionResource(int majorSchemaVersion) {
+    // Required by Jackson.
+    protected ExtensionResource() {
+        super(0);
+    }
+
+    protected ExtensionResource(int majorSchemaVersion) {
         super(majorSchemaVersion);
     }
 

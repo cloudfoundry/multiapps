@@ -1,18 +1,18 @@
-package com.sap.cloud.lm.sl.common.model.json;
+package com.sap.cloud.lm.sl.common.util;
 
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import java.util.Collections;
 import java.util.Map;
 import java.util.TreeMap;
 
 import org.junit.jupiter.api.Test;
 
-import com.google.gson.annotations.JsonAdapter;
 import com.sap.cloud.lm.sl.common.util.JsonUtil;
 import com.sap.cloud.lm.sl.common.util.MapUtil;
 
-public class MapWithNumbersAdapterFactoryTest {
+public class JsonUtilTest {
 
     @Test
     public void test1() throws Exception {
@@ -98,8 +98,13 @@ public class MapWithNumbersAdapterFactoryTest {
 
     private static class Foo {
 
-        @JsonAdapter(MapWithNumbersAdapterFactory.class)
         private Map<String, Map<String, Object>> properties;
+
+        @SuppressWarnings("unused")
+        // Required by Jackson.
+        public Foo() {
+            this(Collections.emptyMap());
+        }
 
         public Foo(Map<String, Map<String, Object>> properties) {
             this.properties = properties;
@@ -113,8 +118,13 @@ public class MapWithNumbersAdapterFactoryTest {
 
     private static class Bar {
 
-        @JsonAdapter(MapWithNumbersAdapterFactory.class)
         private Map<String, Object> properties;
+
+        @SuppressWarnings("unused")
+        // Required by Jackson.
+        public Bar() {
+            this(Collections.emptyMap());
+        }
 
         public Bar(Map<String, Object> properties) {
             this.properties = properties;

@@ -12,7 +12,12 @@ public class ExtensionProvidedDependency extends VersionedEntity
     private Map<String, Object> properties = Collections.emptyMap();
     private Map<String, Object> parameters = Collections.emptyMap();
 
-    public ExtensionProvidedDependency(int majorSchemaVersion) {
+    // Required by Jackson.
+    protected ExtensionProvidedDependency() {
+        super(0);
+    }
+
+    protected ExtensionProvidedDependency(int majorSchemaVersion) {
         super(majorSchemaVersion);
     }
 

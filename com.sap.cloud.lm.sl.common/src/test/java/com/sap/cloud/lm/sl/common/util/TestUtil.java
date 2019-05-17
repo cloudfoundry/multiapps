@@ -12,17 +12,26 @@ import com.sap.cloud.lm.sl.common.ParsingException;
 
 public class TestUtil {
 
-    public static InputStream getResourceAsInputStream(String name, Class<?> resourceClass) {
-        return resourceClass.getResourceAsStream(name);
+    public static InputStream getResourceAsInputStream(String resource, Class<?> resourceClass) {
+        return resourceClass.getResourceAsStream(resource);
     }
 
-    public static String getResourceAsString(String name, Class<?> resourceClass) {
+    public static String getResourceAsStringWithoutCarriageReturns(String resource, Class<?> resourceClass) {
+        String resourceString = getResourceAsString(resource, resourceClass);
+        return removeCarriageReturns(resourceString);
+    }
+
+    public static String getResourceAsString(String resource, Class<?> resourceClass) {
         try {
-            String resource = IOUtils.toString(getResourceAsInputStream(name, resourceClass), StandardCharsets.UTF_8);
-            return resource.replace("\r", "");
+            InputStream resourceStream = getResourceAsInputStream(resource, resourceClass);
+            return IOUtils.toString(resourceStream, StandardCharsets.UTF_8);
         } catch (IOException e) {
             throw new IllegalStateException(e.getMessage(), e);
         }
+    }
+
+    public static String removeCarriageReturns(String string) {
+        return string.replace("\r", "");
     }
 
     public static Map<String, Object> getMap(String file, Class<?> clazz) throws ParsingException {

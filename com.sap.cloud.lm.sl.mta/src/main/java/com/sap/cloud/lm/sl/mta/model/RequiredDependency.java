@@ -6,12 +6,10 @@ import java.util.TreeMap;
 
 import org.apache.commons.lang3.ObjectUtils;
 
-import com.google.gson.annotations.JsonAdapter;
-import com.sap.cloud.lm.sl.common.model.json.MapWithNumbersAdapterFactory;
-import com.sap.cloud.lm.sl.mta.parsers.v3.RequiredDependencyParser;
-import com.sap.cloud.lm.sl.mta.util.MetadataConverter;
 import com.sap.cloud.lm.sl.common.util.yaml.YamlAdapter;
 import com.sap.cloud.lm.sl.common.util.yaml.YamlElement;
+import com.sap.cloud.lm.sl.mta.parsers.v3.RequiredDependencyParser;
+import com.sap.cloud.lm.sl.mta.util.MetadataConverter;
 
 public class RequiredDependency extends VersionedEntity
     implements VisitableElement, NamedElement, PropertiesWithMetadataContainer, ParametersWithMetadataContainer {
@@ -23,10 +21,8 @@ public class RequiredDependency extends VersionedEntity
     @YamlElement(RequiredDependencyParser.GROUP)
     private String group;
     @YamlElement(RequiredDependencyParser.PROPERTIES)
-    @JsonAdapter(MapWithNumbersAdapterFactory.class)
     private Map<String, Object> properties = Collections.emptyMap();
     @YamlElement(RequiredDependencyParser.PARAMETERS)
-    @JsonAdapter(MapWithNumbersAdapterFactory.class)
     private Map<String, Object> parameters = Collections.emptyMap();
     @YamlElement(RequiredDependencyParser.PROPERTIES_METADATA)
     @YamlAdapter(MetadataConverter.class)
@@ -34,6 +30,11 @@ public class RequiredDependency extends VersionedEntity
     @YamlElement(RequiredDependencyParser.PARAMETERS_METADATA)
     @YamlAdapter(MetadataConverter.class)
     private Metadata parametersMetadata = Metadata.DEFAULT_METADATA;
+
+    // Required by Jackson.
+    protected RequiredDependency() {
+        super(0);
+    }
 
     protected RequiredDependency(int majorSchemaVersion) {
         super(majorSchemaVersion);

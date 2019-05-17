@@ -18,6 +18,10 @@ public class Metadata {
 
     public static final Metadata DEFAULT_METADATA = new Metadata(Collections.<String, Map<String, Object>> emptyMap());
 
+    // Required by Jackson.
+    protected Metadata() {
+    }
+
     public Metadata(Map<String, Map<String, Object>> metadata) {
         this.metadata = metadata;
     }
