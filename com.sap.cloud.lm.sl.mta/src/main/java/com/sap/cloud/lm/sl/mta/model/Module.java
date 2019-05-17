@@ -9,12 +9,10 @@ import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.ObjectUtils;
 
-import com.google.gson.annotations.JsonAdapter;
-import com.sap.cloud.lm.sl.common.model.json.MapWithNumbersAdapterFactory;
-import com.sap.cloud.lm.sl.mta.parsers.v3.ModuleParser;
-import com.sap.cloud.lm.sl.mta.util.MetadataConverter;
 import com.sap.cloud.lm.sl.common.util.yaml.YamlAdapter;
 import com.sap.cloud.lm.sl.common.util.yaml.YamlElement;
+import com.sap.cloud.lm.sl.mta.parsers.v3.ModuleParser;
+import com.sap.cloud.lm.sl.mta.util.MetadataConverter;
 
 public class Module extends VersionedEntity
     implements VisitableElement, NamedElement, PropertiesWithMetadataContainer, ParametersWithMetadataContainer {
@@ -28,10 +26,8 @@ public class Module extends VersionedEntity
     @YamlElement(ModuleParser.DESCRIPTION)
     private String description;
     @YamlElement(ModuleParser.PROPERTIES)
-    @JsonAdapter(MapWithNumbersAdapterFactory.class)
     private Map<String, Object> properties = Collections.emptyMap();
     @YamlElement(ModuleParser.PARAMETERS)
-    @JsonAdapter(MapWithNumbersAdapterFactory.class)
     private Map<String, Object> parameters = Collections.emptyMap();
     @YamlElement(ModuleParser.REQUIRES)
     private List<RequiredDependency> requiredDependencies = Collections.emptyList();
@@ -48,6 +44,11 @@ public class Module extends VersionedEntity
     @YamlElement(ModuleParser.HOOKS)
     private List<Hook> hooks = Collections.emptyList();
 
+    // Required by Jackson.
+    protected Module() {
+        super(0);
+    }
+    
     protected Module(int majorSchemaVersion) {
         super(majorSchemaVersion);
     }

@@ -26,6 +26,11 @@ public class ExtensionDescriptor extends VersionedEntity implements Descriptor, 
     @YamlElement(ExtensionDescriptorParser.PARAMETERS)
     private Map<String, Object> parameters = Collections.emptyMap();
 
+    // Required by Jackson.
+    protected ExtensionDescriptor() {
+        super(0);
+    }
+
     protected ExtensionDescriptor(int majorSchemaVersion) {
         super(majorSchemaVersion);
     }

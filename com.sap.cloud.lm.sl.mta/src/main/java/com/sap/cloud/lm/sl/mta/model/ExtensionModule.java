@@ -22,7 +22,12 @@ public class ExtensionModule extends VersionedEntity implements VisitableElement
     @YamlElement(ExtensionModuleParser.PROVIDES)
     private List<ExtensionProvidedDependency> providedDependencies = Collections.emptyList();
 
-    public ExtensionModule(int majorSchemaVersion) {
+    // Required by Jackson.
+    protected ExtensionModule() {
+        super(0);
+    }
+
+    protected ExtensionModule(int majorSchemaVersion) {
         super(majorSchemaVersion);
     }
 

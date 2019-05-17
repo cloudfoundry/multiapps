@@ -8,12 +8,10 @@ import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.ObjectUtils;
 
-import com.google.gson.annotations.JsonAdapter;
-import com.sap.cloud.lm.sl.common.model.json.MapWithNumbersAdapterFactory;
-import com.sap.cloud.lm.sl.mta.parsers.v3.ResourceParser;
-import com.sap.cloud.lm.sl.mta.util.MetadataConverter;
 import com.sap.cloud.lm.sl.common.util.yaml.YamlAdapter;
 import com.sap.cloud.lm.sl.common.util.yaml.YamlElement;
+import com.sap.cloud.lm.sl.mta.parsers.v3.ResourceParser;
+import com.sap.cloud.lm.sl.mta.util.MetadataConverter;
 
 public class Resource extends VersionedEntity
     implements VisitableElement, NamedElement, PropertiesWithMetadataContainer, ParametersWithMetadataContainer {
@@ -25,10 +23,8 @@ public class Resource extends VersionedEntity
     @YamlElement(ResourceParser.DESCRIPTION)
     private String description;
     @YamlElement(ResourceParser.PROPERTIES)
-    @JsonAdapter(MapWithNumbersAdapterFactory.class)
     private Map<String, Object> properties = Collections.emptyMap();
     @YamlElement(ResourceParser.PARAMETERS)
-    @JsonAdapter(MapWithNumbersAdapterFactory.class)
     private Map<String, Object> parameters = Collections.emptyMap();
     @YamlElement(ResourceParser.ACTIVE)
     private boolean isActive = true;
@@ -42,6 +38,11 @@ public class Resource extends VersionedEntity
     private Metadata parametersMetadata = Metadata.DEFAULT_METADATA;
     @YamlElement(ResourceParser.REQUIRES)
     private List<RequiredDependency> requiredDependencies = Collections.emptyList();
+
+    // Required by Jackson.
+    protected Resource() {
+        super(0);
+    }
 
     protected Resource(int majorSchemaVersion) {
         super(majorSchemaVersion);

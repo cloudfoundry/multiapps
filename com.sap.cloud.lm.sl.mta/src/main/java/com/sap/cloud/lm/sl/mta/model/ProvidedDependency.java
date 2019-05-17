@@ -6,10 +6,8 @@ import java.util.TreeMap;
 
 import org.apache.commons.lang3.ObjectUtils;
 
-import com.google.gson.annotations.JsonAdapter;
-import com.sap.cloud.lm.sl.common.model.json.MapWithNumbersAdapterFactory;
-import com.sap.cloud.lm.sl.mta.parsers.v3.ProvidedDependencyParser;
 import com.sap.cloud.lm.sl.common.util.yaml.YamlElement;
+import com.sap.cloud.lm.sl.mta.parsers.v3.ProvidedDependencyParser;
 
 public class ProvidedDependency extends VersionedEntity
     implements VisitableElement, NamedElement, PropertiesWithMetadataContainer, ParametersWithMetadataContainer {
@@ -19,15 +17,18 @@ public class ProvidedDependency extends VersionedEntity
     @YamlElement(ProvidedDependencyParser.PUBLIC)
     private boolean isPublic;
     @YamlElement(ProvidedDependencyParser.PROPERTIES)
-    @JsonAdapter(MapWithNumbersAdapterFactory.class)
     private Map<String, Object> properties = Collections.emptyMap();
     @YamlElement(ProvidedDependencyParser.PARAMETERS)
-    @JsonAdapter(MapWithNumbersAdapterFactory.class)
     private Map<String, Object> parameters = Collections.emptyMap();
     @YamlElement(ProvidedDependencyParser.PROPERTIES_METADATA)
     private Metadata propertiesMetadata = Metadata.DEFAULT_METADATA;
     @YamlElement(ProvidedDependencyParser.PARAMETERS_METADATA)
     private Metadata parametersMetadata = Metadata.DEFAULT_METADATA;
+
+    // Required by Jackson.
+    protected ProvidedDependency() {
+        super(0);
+    }
 
     protected ProvidedDependency(int majorSchemaVersion) {
         super(majorSchemaVersion);

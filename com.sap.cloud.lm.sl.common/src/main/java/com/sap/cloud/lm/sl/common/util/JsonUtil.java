@@ -1,132 +1,154 @@
 package com.sap.cloud.lm.sl.common.util;
 
+import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.lang.reflect.Type;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.JsonSyntaxException;
-import com.google.gson.reflect.TypeToken;
+import org.apache.commons.lang3.StringUtils;
+
+import com.fasterxml.jackson.annotation.JsonAutoDetect.Visibility;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
+import com.fasterxml.jackson.annotation.PropertyAccessor;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.JavaType;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
 import com.sap.cloud.lm.sl.common.ParsingException;
 import com.sap.cloud.lm.sl.common.message.Messages;
-import com.sap.cloud.lm.sl.common.model.json.MapWithNumbersAdapterFactory;
 
 public class JsonUtil {
 
     private static final int MAX_LENGTH = 128;
 
     public static Map<String, Object> convertJsonToMap(InputStream json) throws ParsingException {
-        return convertJsonToMap(json, new TypeToken<Map<String, Object>>() {
-        }.getType());
-    }
-
-    public static <K, V> Map<K, V> convertJsonToMap(InputStream json, Type type) throws ParsingException {
-        return fromJson(json, type, new HashMap<K, V>(), Messages.CANNOT_CONVERT_JSON_STREAM_TO_MAP);
+        return convertJsonToMap(json, new TypeReference<Map<String, Object>>() {
+        });
     }
 
     public static Map<String, Object> convertJsonToMap(String json) throws ParsingException {
-        return convertJsonToMap(json, new TypeToken<Map<String, Object>>() {
-        }.getType());
+        return convertJsonToMap(json, new TypeReference<Map<String, Object>>() {
+        });
     }
 
-    public static <K, V> Map<K, V> convertJsonToMap(String json, Type type) throws ParsingException {
-        return fromJson(json, type, new HashMap<K, V>(), Messages.CANNOT_CONVERT_JSON_STRING_TO_MAP);
+    public static <K, V> Map<K, V> convertJsonToMap(InputStream json, TypeReference<Map<K, V>> typeReference) throws ParsingException {
+        return fromJson(json, typeReference, new HashMap<>(), Messages.CANNOT_CONVERT_JSON_STREAM_TO_MAP);
+    }
+
+    public static <K, V> Map<K, V> convertJsonToMap(String json, TypeReference<Map<K, V>> typeReference) throws ParsingException {
+        return fromJson(json, typeReference, new HashMap<>(), Messages.CANNOT_CONVERT_JSON_STRING_TO_MAP);
     }
 
     public static List<Object> convertJsonToList(InputStream json) throws ParsingException {
-        return convertJsonToList(json, new TypeToken<List<Object>>() {
-        }.getType());
-    }
-
-    public static <T> List<T> convertJsonToList(InputStream json, Type type) throws ParsingException {
-        return fromJson(json, type, new ArrayList<T>(), Messages.CANNOT_CONVERT_JSON_STREAM_TO_LIST);
+        return convertJsonToList(json, new TypeReference<List<Object>>() {
+        });
     }
 
     public static List<Object> convertJsonToList(String json) throws ParsingException {
-        return convertJsonToList(json, new TypeToken<List<Object>>() {
-        }.getType());
+        return convertJsonToList(json, new TypeReference<List<Object>>() {
+        });
     }
 
-    public static <T> List<T> convertJsonToList(String json, Type type) throws ParsingException {
-        return fromJson(json, type, new ArrayList<T>(), Messages.CANNOT_CONVERT_JSON_STRING_TO_LIST);
+    public static <T> List<T> convertJsonToList(InputStream json, TypeReference<List<T>> typeReference) throws ParsingException {
+        return fromJson(json, typeReference, new ArrayList<>(), Messages.CANNOT_CONVERT_JSON_STREAM_TO_LIST);
     }
 
-    private static <T> T fromJson(String json, Type type, T defaultValue, String errorMessage) {
-        if (json == null || json.isEmpty()) {
-            return defaultValue;
-        }
-        try {
-            Gson gson = new GsonBuilder().registerTypeAdapterFactory(new MapWithNumbersAdapterFactory())
-                .create();
-            return gson.fromJson(json, type);
-        } catch (Exception e) {
-            throw new ParsingException(e, errorMessage, json.substring(0, Math.min(json.length(), MAX_LENGTH)));
-        }
+    public static <T> List<T> convertJsonToList(String json, TypeReference<List<T>> typeReference) throws ParsingException {
+        return fromJson(json, typeReference, new ArrayList<>(), Messages.CANNOT_CONVERT_JSON_STRING_TO_LIST);
     }
 
-    private static <T> T fromJson(InputStream json, Type type, T defaultValue, String errorMessage) {
+    private static <T> T fromJson(InputStream json, TypeReference<T> typeReference, T defaultValue, String errorMessage) {
         if (json == null) {
             return defaultValue;
         }
         try {
-            Gson gson = new GsonBuilder().registerTypeAdapterFactory(new MapWithNumbersAdapterFactory())
-                .create();
-            return gson.fromJson(new InputStreamReader(json, StandardCharsets.UTF_8), type);
+            return createObjectMapper().readValue(json, typeReference);
         } catch (Exception e) {
             throw new ParsingException(e, errorMessage, json);
         }
     }
 
-    public static <T> String toJson(T obj, boolean prettyPrinting) {
-        return toJson(obj, prettyPrinting, false, false);
-    }
-
-    public static <T> String toJson(T obj) {
-        return toJson(obj, false);
-    }
-
-    public static <T> String toJson(T obj, boolean prettyPrinting, boolean enableExpose, boolean disableHtmlEscaping) {
-        GsonBuilder builder = new GsonBuilder();
-        if (disableHtmlEscaping) {
-            builder.disableHtmlEscaping();
+    private static <T> T fromJson(String json, TypeReference<T> typeReference, T defaultValue, String errorMessage) {
+        if (StringUtils.isEmpty(json)) {
+            return defaultValue;
         }
-        if (prettyPrinting) {
-            builder.setPrettyPrinting();
-        }
-        if (enableExpose) {
-            builder.excludeFieldsWithoutExposeAnnotation();
-        }
-        return builder.create()
-            .toJson(obj);
-    }
-
-    public static <T> T fromJson(String json, Type type) throws ParsingException {
         try {
-            return new Gson().fromJson(json, type);
-        } catch (JsonSyntaxException e) {
+            return createObjectMapper().readValue(json, typeReference);
+        } catch (Exception e) {
+            throw new ParsingException(e, errorMessage, json.substring(0, Math.min(json.length(), MAX_LENGTH)));
+        }
+    }
+
+    public static byte[] toJsonBinary(Object object) {
+        String jsonString = toJson(object);
+        return jsonString.getBytes(StandardCharsets.UTF_8);
+    }
+
+    public static String toJson(Object object) {
+        return toJson(object, false);
+    }
+
+    public static String toJson(Object object, boolean indentedOutput) {
+        try {
+            return createObjectMapper(indentedOutput).writeValueAsString(object);
+        } catch (JsonProcessingException e) {
+            throw new IllegalArgumentException(e.getMessage(), e);
+        }
+    }
+
+    public static <T> T fromJsonBinary(byte[] json, TypeReference<T> typeReference) {
+        return fromJson(toString(json), typeReference);
+    }
+
+    public static <T> T fromJsonBinary(byte[] json, Class<T> classOfT) {
+        return fromJson(toString(json), classOfT);
+    }
+
+    public static <T> T fromJson(String json, TypeReference<T> typeReference) {
+        ObjectMapper objectMapper = createObjectMapper();
+        JavaType type = objectMapper.getTypeFactory()
+            .constructType(typeReference);
+        return fromJson(objectMapper, json, type);
+    }
+
+    public static <T> T fromJson(String json, Class<T> classOfT) {
+        ObjectMapper objectMapper = createObjectMapper();
+        JavaType type = objectMapper.getTypeFactory()
+            .constructType(classOfT);
+        return fromJson(objectMapper, json, type);
+    }
+
+    private static <T> T fromJson(ObjectMapper objectMapper, String json, JavaType javaType) {
+        try {
+            return objectMapper.readValue(json, javaType);
+        } catch (IOException e) {
             throw new ParsingException(e, Messages.CANNOT_PARSE_JSON_STRING_TO_TYPE, json.substring(0, Math.min(json.length(), MAX_LENGTH)),
-                type.toString());
+                javaType);
         }
     }
 
-    public static byte[] toJsonBinary(Object obj) {
-        return new GsonBuilder().create()
-            .toJson(obj)
-            .getBytes(StandardCharsets.UTF_8);
+    public static ObjectMapper createObjectMapper(boolean indentedOutput) {
+        ObjectMapper objectMapper = createObjectMapper();
+        if (indentedOutput) {
+            objectMapper.enable(SerializationFeature.INDENT_OUTPUT);
+        }
+        return objectMapper;
     }
 
-    public static <T> T fromJsonBinary(byte[] binaryJson, Type type) {
-        try {
-            return new Gson().fromJson(new String(binaryJson, StandardCharsets.UTF_8), type);
-        } catch (JsonSyntaxException e) {
-            throw new ParsingException(e);
-        }
+    public static ObjectMapper createObjectMapper() {
+        return new ObjectMapper().setVisibility(PropertyAccessor.ALL, Visibility.NONE)
+            .setVisibility(PropertyAccessor.FIELD, Visibility.ANY)
+            .setSerializationInclusion(Include.NON_NULL)
+            .disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
+    }
+
+    private static String toString(byte[] binary) {
+        return new String(binary, StandardCharsets.UTF_8);
     }
 
 }

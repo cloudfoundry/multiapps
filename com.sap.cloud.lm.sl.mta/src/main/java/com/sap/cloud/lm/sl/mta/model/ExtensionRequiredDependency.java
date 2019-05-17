@@ -17,7 +17,12 @@ public class ExtensionRequiredDependency extends VersionedEntity implements Visi
     @YamlElement(ExtensionRequiredDependencyParser.PARAMETERS)
     private Map<String, Object> parameters = Collections.emptyMap();
 
-    public ExtensionRequiredDependency(int majorSchemaVersion) {
+    // Required by Jackson.
+    protected ExtensionRequiredDependency() {
+        super(0);
+    }
+
+    protected ExtensionRequiredDependency(int majorSchemaVersion) {
         super(majorSchemaVersion);
     }
 

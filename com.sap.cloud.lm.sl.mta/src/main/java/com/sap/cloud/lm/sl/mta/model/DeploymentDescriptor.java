@@ -8,13 +8,11 @@ import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.ObjectUtils;
 
-import com.google.gson.annotations.JsonAdapter;
-import com.sap.cloud.lm.sl.common.model.json.MapWithNumbersAdapterFactory;
-import com.sap.cloud.lm.sl.mta.parsers.v3.DeploymentDescriptorParser;
-import com.sap.cloud.lm.sl.mta.util.MetadataConverter;
 import com.sap.cloud.lm.sl.common.util.yaml.YamlAdapter;
 import com.sap.cloud.lm.sl.common.util.yaml.YamlElement;
 import com.sap.cloud.lm.sl.common.util.yaml.YamlElementOrder;
+import com.sap.cloud.lm.sl.mta.parsers.v3.DeploymentDescriptorParser;
+import com.sap.cloud.lm.sl.mta.util.MetadataConverter;
 
 @YamlElementOrder({ "schemaVersion", "id", "version", "parameters", "modules", "resources" })
 public class DeploymentDescriptor extends VersionedEntity implements Descriptor, VisitableElement, ParametersWithMetadataContainer {
@@ -30,11 +28,15 @@ public class DeploymentDescriptor extends VersionedEntity implements Descriptor,
     @YamlElement(DeploymentDescriptorParser.RESOURCES)
     private List<Resource> resources = Collections.emptyList();
     @YamlElement(DeploymentDescriptorParser.PARAMETERS)
-    @JsonAdapter(MapWithNumbersAdapterFactory.class)
     private Map<String, Object> parameters = Collections.emptyMap();
     @YamlElement(DeploymentDescriptorParser.PARAMETERS_METADATA)
     @YamlAdapter(MetadataConverter.class)
     private Metadata parametersMetadata = Metadata.DEFAULT_METADATA;
+
+    // Required by Jackson.
+    protected DeploymentDescriptor() {
+        super(0);
+    }
 
     protected DeploymentDescriptor(int majorSchemaVersion) {
         super(majorSchemaVersion);

@@ -47,8 +47,6 @@ public class PropertiesUtilTest {
             {
                 "deployment-properties-05.json", "extension-properties-05.json", new Expectation(Expectation.Type.EXCEPTION, ""),
             }
-            
-            
 // @formatter:on
         });
     }
