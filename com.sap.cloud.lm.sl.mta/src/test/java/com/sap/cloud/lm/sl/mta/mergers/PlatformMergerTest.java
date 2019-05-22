@@ -51,9 +51,9 @@ public class PlatformMergerTest {
     private DeploymentDescriptor descriptor;
     private Platform platform;
 
-    public PlatformMergerTest(String deploymentDescriptorLocation, String platformTypesLocation, Expectation expectation) {
+    public PlatformMergerTest(String deploymentDescriptorLocation, String platformLocation, Expectation expectation) {
         this.deploymentDescriptorLocation = deploymentDescriptorLocation;
-        this.platformLocation = platformTypesLocation;
+        this.platformLocation = platformLocation;
         this.expectation = expectation;
     }
 

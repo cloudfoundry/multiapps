@@ -25,8 +25,8 @@ public class DescriptorValidator {
     }
 
     protected DeploymentDescriptorValidator getDeploymentDescriptorValidator(DeploymentDescriptor deploymentDescriptor,
-        Platform platformType) {
-        return new DeploymentDescriptorValidator(deploymentDescriptor, platformType, handler);
+        Platform platform) {
+        return new DeploymentDescriptorValidator(deploymentDescriptor, platform, handler);
     }
 
     protected ExtensionDescriptorValidator getExtensionDescriptorValidator(ExtensionDescriptor extensionDescriptor,
