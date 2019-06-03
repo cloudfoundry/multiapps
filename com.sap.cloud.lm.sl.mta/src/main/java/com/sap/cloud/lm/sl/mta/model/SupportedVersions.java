@@ -7,12 +7,12 @@ import java.util.Map;
 
 public class SupportedVersions {
 
-    public static final Map<Integer, List<Integer>> SUPPORTED_VERSIONS;
+    private static final Map<Integer, List<Integer>> SUPPORTED_VERSIONS;
 
     static {
         SUPPORTED_VERSIONS = new HashMap<>();
         SUPPORTED_VERSIONS.put(2, Arrays.asList(0, 1, 2));
-        SUPPORTED_VERSIONS.put(3, Arrays.asList(0, 1, 2));
+        SUPPORTED_VERSIONS.put(3, Arrays.asList(0, 1, 2, 3));
     }
 
     public static boolean isSupported(Version schemaVersion) {
