@@ -123,15 +123,16 @@ public class PropertiesUtil {
     }
 
     @SuppressWarnings("unchecked")
-    public static <T> List<T> getAll(List<Map<String, Object>> propertiesList, String single, String plural) {
+    public static <T> List<T> getPluralOrSingular(List<Map<String, Object>> propertiesList, String plural, String single) {
         List<T> result = new ArrayList<>();
-        T value = (T) getPropertyValue(propertiesList, single, null);
         List<T> values = (List<T>) getPropertyValue(propertiesList, plural, null);
-        if (value != null) {
-            result.add(value);
-        }
         if (values != null) {
             result.addAll(values);
+            return result;
+        }
+        T value = (T) getPropertyValue(propertiesList, single, null);
+        if (value != null) {
+            result.add(value);
         }
         return result;
     }
