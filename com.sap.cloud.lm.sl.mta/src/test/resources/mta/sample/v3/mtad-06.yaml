@@ -1,0 +1,26 @@
+_schema-version: 3.0.0
+ID: com.sap.mta.sample
+version: 1.2.1-beta+20150403144937853
+description: "Deployment descriptor used for testing purposes"
+provider: "Sunny"
+copyright: "Sunny Ltd"
+
+modules:
+  - name: pricing-db
+    type: com.sap.hana.hdi
+    requires:
+      - name: pricing-db-service
+    hooks:
+      - name: test-hook
+        type: tasks
+        phases:
+          - application.before-stop
+        parameters:
+          task: test-task
+          command: 'this is test'
+        requires:
+          - name: pricing-db-service
+
+resources:
+  - name: pricing-db-service
+    type: com.sap.hana.hdi-container

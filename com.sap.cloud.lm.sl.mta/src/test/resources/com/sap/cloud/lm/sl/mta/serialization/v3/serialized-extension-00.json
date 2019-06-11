@@ -1,70 +1,61 @@
 {
-  "schemaVersion": "3.0.0",
-  "id": "mta-extension",
-  "parentId": "mta-id",
-  "modules": [
-    {
-      "name": "test-module",
-      "properties": {
-        "module-property": "property"
+  "majorSchemaVersion" : 3,
+  "schemaVersion" : "3.0.0",
+  "id" : "mta-extension",
+  "parentId" : "mta-id",
+  "modules" : [ {
+    "majorSchemaVersion" : 3,
+    "name" : "test-module",
+    "properties" : {
+      "module-property" : "property"
+    },
+    "parameters" : {
+      "module-parameter" : "parameter"
+    },
+    "requiredDependencies" : [ {
+      "majorSchemaVersion" : 3,
+      "name" : "required-dependency",
+      "properties" : {
+        "required-property" : "property-value"
       },
-      "parameters": {
-        "module-parameter": "parameter"
+      "parameters" : {
+        "required-parameter" : "parameter-value"
+      }
+    } ],
+    "providedDependencies" : [ {
+      "majorSchemaVersion" : 3,
+      "name" : "provided-dependency",
+      "properties" : {
+        "provided-property" : "some-property"
       },
-      "requiredDependencies": [
-        {
-          "name": "required-dependency",
-          "properties": {
-            "required-property": "property-value"
-          },
-          "parameters": {
-            "required-parameter": "parameter-value"
-          },
-          "majorSchemaVersion": 3
-        }
-      ],
-      "providedDependencies": [
-        {
-          "name": "provided-dependency",
-          "properties": {
-            "provided-property": "some-property"
-          },
-          "parameters": {
-            "provided-parameter": "some-parameter"
-          },
-          "majorSchemaVersion": 3
-        }
-      ],
-      "majorSchemaVersion": 3
-    }
-  ],
-  "resources": [
-    {
-      "name": "test-resource",
-      "isActive": false,
-      "properties": {
-        "resource-property": "some-resource-property"
+      "parameters" : {
+        "provided-parameter" : "some-parameter"
+      }
+    } ],
+    "hooks" : [ ]
+  } ],
+  "resources" : [ {
+    "majorSchemaVersion" : 3,
+    "name" : "test-resource",
+    "isActive" : false,
+    "properties" : {
+      "resource-property" : "some-resource-property"
+    },
+    "parameters" : {
+      "resource-parameter" : "some-resource-parameter"
+    },
+    "requiredDependencies" : [ {
+      "majorSchemaVersion" : 2,
+      "name" : "test-module",
+      "properties" : {
+        "resource-required-property" : "foo"
       },
-      "parameters": {
-        "resource-parameter": "some-resource-parameter"
-      },
-      "requiredDependencies": [
-        {
-          "name": "test-module",
-          "properties": {
-            "resource-required-property": "foo"
-          },
-          "parameters": {
-            "resource-required-parameter": "bar"
-          },
-          "majorSchemaVersion": 2
-        }
-      ],
-      "majorSchemaVersion": 3
-    }
-  ],
-  "parameters": {
-    "descriptor-property": "some-descriptor-property"
-  },
-  "majorSchemaVersion": 3
+      "parameters" : {
+        "resource-required-parameter" : "bar"
+      }
+    } ]
+  } ],
+  "parameters" : {
+    "descriptor-property" : "some-descriptor-property"
+  }
 }

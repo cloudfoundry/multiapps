@@ -22,6 +22,16 @@ public class DescriptorMergerTest extends com.sap.cloud.lm.sl.mta.handlers.v2.De
                 "/mta/sample/v3/mtad-01.yaml", new String[] { "/mta/sample/v3/config-01.mtaext", "/mta/sample/v3/config-05.mtaext", },
                 new Expectation(Expectation.Type.JSON, "/mta/sample/v3/merged-05.yaml.json"),
             },
+            // (2) Merge hook parameters from deployment and extension descriptor
+            {
+                "/mta/sample/v3/mtad-06.yaml", new String[] { "/mta/sample/v3/config-08.mtaext", },
+                new Expectation(Expectation.Type.JSON, "/mta/sample/v3/merged-06.yaml.json"),
+            },
+            // (3) Merge hook required dependencies from deployment and extension descriptor
+            {
+                "/mta/sample/v3/mtad-06.yaml", new String[] { "/mta/sample/v3/config-09.mtaext", },
+                new Expectation(Expectation.Type.JSON, "/mta/sample/v3/merged-07.yaml.json"),
+            },
 // @formatter:on
         });
     }

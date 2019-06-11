@@ -14,6 +14,7 @@ public class Schemas extends com.sap.cloud.lm.sl.mta.handlers.v2.Schemas {
     public static final MapElement HOOK = new MapElement();
 
     public static final MapElement EXT_RESOURCE = new MapElement();
+    public static final MapElement EXT_HOOK = new MapElement();
 
     static {
         MTAD.add("_schema-version", OBJECT_REQUIRED);
@@ -80,6 +81,10 @@ public class Schemas extends com.sap.cloud.lm.sl.mta.handlers.v2.Schemas {
         EXT_RESOURCE.add("properties", PROPERTIES);
         EXT_RESOURCE.add("parameters", PROPERTIES);
         EXT_RESOURCE.add("requires", new ListElement(EXT_REQUIRED_DEPENDENCY));
+
+        EXT_HOOK.add("name", UNIQUE_MTA_IDENTIFIER);
+        EXT_HOOK.add("parameters", PROPERTIES);
+        EXT_HOOK.add("requires", new ListElement(REQUIRED_DEPENDENCY));
     }
 
 }

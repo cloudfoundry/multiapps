@@ -1,0 +1,92 @@
+{
+  "majorSchemaVersion" : 3,
+  "schemaVersion" : "3.0.0",
+  "id" : "com.sap.mta.sample",
+  "version" : "1.2.1-beta+20150403144937853",
+  "modules" : [ {
+    "majorSchemaVersion" : 3,
+    "name" : "pricing-db",
+    "type" : "com.sap.hana.hdi",
+    "properties" : { },
+    "parameters" : { },
+    "requiredDependencies" : [ {
+      "majorSchemaVersion" : 3,
+      "name" : "pricing-db-service",
+      "properties" : { },
+      "parameters" : { },
+      "propertiesMetadata" : {
+        "metadata" : { }
+      },
+      "parametersMetadata" : {
+        "metadata" : { }
+      }
+    } ],
+    "providedDependencies" : [ {
+      "majorSchemaVersion" : 3,
+      "name" : "pricing-db",
+      "isPublic" : false,
+      "properties" : { },
+      "parameters" : { },
+      "propertiesMetadata" : {
+        "metadata" : { }
+      },
+      "parametersMetadata" : {
+        "metadata" : { }
+      }
+    } ],
+    "propertiesMetadata" : {
+      "metadata" : { }
+    },
+    "parametersMetadata" : {
+      "metadata" : { }
+    },
+    "hooks" : [ {
+      "majorSchemaVersion" : 3,
+      "name" : "test-hook",
+      "type" : "tasks",
+      "phases" : [ "application.before-stop" ],
+      "parameters" : {
+        "command" : "this is test with extension descriptor",
+        "task" : "test-task"
+      },
+      "requiredDependencies" : [ {
+        "majorSchemaVersion" : 3,
+        "name" : "pricing-db-service",
+        "properties" : {
+          "default-url" : "~{url}"
+        },
+        "parameters" : {
+          "execute-url" : "~{url}"
+        },
+        "propertiesMetadata" : {
+          "metadata" : { }
+        },
+        "parametersMetadata" : {
+          "metadata" : { }
+        }
+      } ]
+    } ]
+  } ],
+  "resources" : [ {
+    "majorSchemaVersion" : 3,
+    "name" : "pricing-db-service",
+    "type" : "com.sap.hana.hdi-container",
+    "properties" : {
+      "url" : "example.com"
+    },
+    "parameters" : { },
+    "isActive" : true,
+    "isOptional" : false,
+    "propertiesMetadata" : {
+      "metadata" : { }
+    },
+    "parametersMetadata" : {
+      "metadata" : { }
+    },
+    "requiredDependencies" : [ ]
+  } ],
+  "parameters" : { },
+  "parametersMetadata" : {
+    "metadata" : { }
+  }
+}

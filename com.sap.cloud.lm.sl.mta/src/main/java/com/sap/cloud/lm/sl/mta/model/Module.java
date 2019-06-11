@@ -48,7 +48,7 @@ public class Module extends VersionedEntity
     protected Module() {
         super(0);
     }
-    
+
     protected Module(int majorSchemaVersion) {
         super(majorSchemaVersion);
     }
@@ -229,6 +229,9 @@ public class Module extends VersionedEntity
         }
         for (RequiredDependency requiredDependency : requiredDependencies) {
             requiredDependency.accept(new ElementContext(requiredDependency, context), visitor);
+        }
+        for (Hook hook : hooks) {
+            hook.accept(new ElementContext(hook, context), visitor);
         }
     }
 

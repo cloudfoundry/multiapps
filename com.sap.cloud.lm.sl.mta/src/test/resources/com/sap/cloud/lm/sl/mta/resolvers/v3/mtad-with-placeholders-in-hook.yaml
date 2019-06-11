@@ -1,0 +1,36 @@
+_schema-version: '3'
+ID: placeholders-test
+version: 1.0.0
+
+parameters:
+  default-time: 1000
+  url: example.com
+
+modules:
+  - name: foo
+    type: application
+    parameters:
+      task2-time: 10
+    hooks:
+      - name: test-hook1
+        type: task
+        phases:
+          - application.before-stop.live
+        parameters:
+          name: before-stop-task
+          command: "sleep(${default-time})"
+      - name: test-hook2
+        type: task
+        phases:
+          - application.after-stop.live
+        parameters:
+          name: after-stop-task
+          command: "sleep(${task2-time})"
+        requires:
+          - name: bar
+            parameters:
+              execution-url: ${url}
+              a: aaa
+            properties:
+              b: ${a}
+          

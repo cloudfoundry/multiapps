@@ -1,87 +1,79 @@
 {
-  "schemaVersion": "3.1.0",
-  "id": "com.sap.mta.sample.config-00",
-  "parentId": "com.sap.mta.sample",
-  "modules": [
-    {
-      "name": "web-server",
-      "properties": {
-        "default-locale": "zho"
-      },
-      "parameters": {},
-      "requiredDependencies": [],
-      "providedDependencies": [
-        {
-          "name": "web-server",
-          "properties": {
-            "url": "${default-url}"
-          },
-          "parameters": {},
-          "majorSchemaVersion": 3
-        }
-      ],
-      "majorSchemaVersion": 3
+  "majorSchemaVersion" : 3,
+  "schemaVersion" : "3.1.0",
+  "id" : "com.sap.mta.sample.config-00",
+  "parentId" : "com.sap.mta.sample",
+  "modules" : [ {
+    "majorSchemaVersion" : 3,
+    "name" : "web-server",
+    "properties" : {
+      "default-locale" : "zho"
     },
-    {
-      "name": "pricing",
-      "properties": {
-        "default-locale": "zho"
+    "parameters" : { },
+    "requiredDependencies" : [ ],
+    "providedDependencies" : [ {
+      "majorSchemaVersion" : 3,
+      "name" : "web-server",
+      "properties" : {
+        "url" : "${default-url}"
       },
-      "parameters": {},
-      "requiredDependencies": [
-        {
-          "name": "competitor-data",
-          "properties": {
-            "competitor-name": "Something Ltd."
-          },
-          "parameters": {
-            "app-name": "~{application-key}"
-          },
-          "majorSchemaVersion": 3
-        }
-      ],
-      "providedDependencies": [],
-      "majorSchemaVersion": 3
+      "parameters" : { }
+    } ],
+    "hooks" : [ ]
+  }, {
+    "majorSchemaVersion" : 3,
+    "name" : "pricing",
+    "properties" : {
+      "default-locale" : "zho"
     },
-    {
-      "name": "pricing-db",
-      "properties": {
-        "default-locale": "zho"
+    "parameters" : { },
+    "requiredDependencies" : [ {
+      "majorSchemaVersion" : 3,
+      "name" : "competitor-data",
+      "properties" : {
+        "competitor-name" : "Something Ltd."
       },
-      "parameters": {
-        "no-route": true
-      },
-      "requiredDependencies": [],
-      "providedDependencies": [],
-      "majorSchemaVersion": 3
-    }
-  ],
-  "resources": [
-    {
-      "name": "internal-odata-service",
-      "properties": {},
-      "parameters": {
-        "config": {
-          "username": "technicalUser",
-          "password": "shfzj86g"
-        }
-      },
-      "requiredDependencies": [],
-      "majorSchemaVersion": 3
+      "parameters" : {
+        "app-name" : "~{application-key}"
+      }
+    } ],
+    "providedDependencies" : [ ],
+    "hooks" : [ ]
+  }, {
+    "majorSchemaVersion" : 3,
+    "name" : "pricing-db",
+    "properties" : {
+      "default-locale" : "zho"
     },
-    {
-      "name": "competitor-data",
-      "properties": {
-        "application-key": "25892e17-80f6-415f-9c65-7395632f0223",
-        "secret-key": "cd171f7c-560d-4a62-8d65-16b87419a58c"
-      },
-      "parameters": {},
-      "requiredDependencies": [],
-      "majorSchemaVersion": 3
-    }
-  ],
-  "parameters": {
-    "test3": "test3v"
-  },
-  "majorSchemaVersion": 3
+    "parameters" : {
+      "no-route" : true
+    },
+    "requiredDependencies" : [ ],
+    "providedDependencies" : [ ],
+    "hooks" : [ ]
+  } ],
+  "resources" : [ {
+    "majorSchemaVersion" : 3,
+    "name" : "internal-odata-service",
+    "properties" : { },
+    "parameters" : {
+      "config" : {
+        "username" : "technicalUser",
+        "password" : "shfzj86g"
+      }
+    },
+    "requiredDependencies" : [ ]
+  }, {
+    "majorSchemaVersion" : 3,
+    "name" : "competitor-data",
+    "properties" : {
+      "application-key" : "25892e17-80f6-415f-9c65-7395632f0223",
+      "secret-key" : "cd171f7c-560d-4a62-8d65-16b87419a58c"
+    },
+    "parameters" : { },
+    "requiredDependencies" : [ ]
+  } ],
+  "parameters" : {
+    "test3" : "test3v"
+  }
 }

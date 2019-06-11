@@ -1,56 +1,49 @@
 {
-  "schemaVersion": "2.0.0",
-  "id": "mta-extension",
-  "parentId": "mta-id",
-  "modules": [
-    {
-      "name": "test-module",
-      "properties": {
-        "module-property": "property"
+  "majorSchemaVersion" : 2,
+  "schemaVersion" : "2.0.0",
+  "id" : "mta-extension",
+  "parentId" : "mta-id",
+  "modules" : [ {
+    "majorSchemaVersion" : 2,
+    "name" : "test-module",
+    "properties" : {
+      "module-property" : "property"
+    },
+    "parameters" : {
+      "module-parameter" : "parameter"
+    },
+    "requiredDependencies" : [ {
+      "majorSchemaVersion" : 2,
+      "name" : "required-dependency",
+      "properties" : {
+        "required-property" : "property-value"
       },
-      "parameters": {
-        "module-parameter": "parameter"
+      "parameters" : {
+        "required-parameter" : "parameter-value"
+      }
+    } ],
+    "providedDependencies" : [ {
+      "majorSchemaVersion" : 2,
+      "name" : "provided-dependency",
+      "properties" : {
+        "provided-property" : "some-property"
       },
-      "requiredDependencies": [
-        {
-          "name": "required-dependency",
-          "properties": {
-            "required-property": "property-value"
-          },
-          "parameters": {
-            "required-parameter": "parameter-value"
-          },
-          "majorSchemaVersion": 2
-        }
-      ],
-      "providedDependencies": [
-        {
-          "name": "provided-dependency",
-          "properties": {
-            "provided-property": "some-property"
-          },
-          "parameters": {},
-          "majorSchemaVersion": 2
-        }
-      ],
-      "majorSchemaVersion": 2
-    }
-  ],
-  "resources": [
-    {
-      "name": "test-resource",
-      "properties": {
-        "resource-property": "some-resource-property"
-      },
-      "parameters": {
-        "resource-parameter": "some-resource-parameter"
-      },
-      "requiredDependencies": [],
-      "majorSchemaVersion": 2
-    }
-  ],
-  "parameters": {
-    "descriptor-property": "some-descriptor-property"
-  },
-  "majorSchemaVersion": 2
+      "parameters" : { }
+    } ],
+    "hooks" : [ ]
+  } ],
+  "resources" : [ {
+    "majorSchemaVersion" : 2,
+    "name" : "test-resource",
+    "properties" : {
+      "resource-property" : "some-resource-property"
+    },
+    "parameters" : {
+      "resource-parameter" : "some-resource-parameter"
+    },
+    "requiredDependencies" : [ ]
+  } ],
+  "parameters" : {
+    "descriptor-property" : "some-descriptor-property"
+  }
 }

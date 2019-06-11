@@ -103,17 +103,18 @@ public class DescriptorPlaceholderResolverTest {
         );
     }
 
-    public void init(String descriptorLocation) {
-        DeploymentDescriptor deploymentDescriptor = parseDeploymentDescriptor(descriptorLocation);
-        this.resolver = createDescriptorPlaceholderResolver(deploymentDescriptor);
-    }
 
-    @ParameterizedTest(name = "{index}: \"{1}.\"")
+    @ParameterizedTest
     @MethodSource
     public void testResolve(String descriptorLocation, Expectation expectation) {
         init(descriptorLocation);
 
         tester.test(() -> resolver.resolve(), expectation);
+    }
+
+    public void init(String descriptorLocation) {
+        DeploymentDescriptor deploymentDescriptor = parseDeploymentDescriptor(descriptorLocation);
+        this.resolver = createDescriptorPlaceholderResolver(deploymentDescriptor);
     }
 
     protected DeploymentDescriptor parseDeploymentDescriptor(String descriptorLocation) {

@@ -1,0 +1,21 @@
+_schema-version: 3.0.0
+ID: modify-hook
+extends: com.sap.mta.sample
+
+modules:
+  - name: pricing-db
+    hooks:
+      - name: test-hook
+        parameters:
+          command: 'this is test with extension descriptor'
+        requires:
+          - name: pricing-db-service
+            properties: 
+              default-url: "~{url}"
+            parameters:
+              execute-url: "~{url}"
+            
+resources:
+  - name: pricing-db-service
+    properties:
+      url: example.com

@@ -8,7 +8,7 @@ import com.sap.cloud.lm.sl.mta.model.DeploymentDescriptor;
 import com.sap.cloud.lm.sl.mta.resolvers.PlaceholderResolver;
 import com.sap.cloud.lm.sl.mta.resolvers.Resolver;
 import com.sap.cloud.lm.sl.mta.resolvers.ResolverBuilder;
-import com.sap.cloud.lm.sl.mta.resolvers.v2.DescriptorPlaceholderResolver;
+import com.sap.cloud.lm.sl.mta.resolvers.v3.DescriptorPlaceholderResolver;
 import com.sap.cloud.lm.sl.mta.resolvers.v3.DescriptorReferenceResolver;
 
 public class HandlerConstructor extends com.sap.cloud.lm.sl.mta.handlers.v2.HandlerConstructor {

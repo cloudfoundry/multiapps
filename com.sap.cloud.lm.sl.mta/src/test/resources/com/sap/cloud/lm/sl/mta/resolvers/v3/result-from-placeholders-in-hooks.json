@@ -1,0 +1,80 @@
+{
+  "majorSchemaVersion" : 3,
+  "schemaVersion" : "3.0.0",
+  "id" : "placeholders-test",
+  "version" : "1.0.0",
+  "modules" : [ {
+    "majorSchemaVersion" : 3,
+    "name" : "foo",
+    "type" : "application",
+    "properties" : { },
+    "parameters" : {
+      "task2-time" : 10
+    },
+    "requiredDependencies" : [ ],
+    "providedDependencies" : [ {
+      "majorSchemaVersion" : 3,
+      "name" : "foo",
+      "isPublic" : false,
+      "properties" : { },
+      "parameters" : { },
+      "propertiesMetadata" : {
+        "metadata" : { }
+      },
+      "parametersMetadata" : {
+        "metadata" : { }
+      }
+    } ],
+    "propertiesMetadata" : {
+      "metadata" : { }
+    },
+    "parametersMetadata" : {
+      "metadata" : { }
+    },
+    "hooks" : [ {
+      "majorSchemaVersion" : 3,
+      "name" : "test-hook1",
+      "type" : "task",
+      "phases" : [ "application.before-stop.live" ],
+      "parameters" : {
+        "command" : "sleep(1000)",
+        "name" : "before-stop-task"
+      },
+      "requiredDependencies" : [ ]
+    }, {
+      "majorSchemaVersion" : 3,
+      "name" : "test-hook2",
+      "type" : "task",
+      "phases" : [ "application.after-stop.live" ],
+      "parameters" : {
+        "command" : "sleep(10)",
+        "name" : "after-stop-task"
+      },
+      "requiredDependencies" : [ {
+        "majorSchemaVersion" : 3,
+        "name" : "bar",
+        "properties" : {
+          "b" : "aaa"
+        },
+        "parameters" : {
+          "a" : "aaa",
+          "execution-url" : "example.com"
+        },
+        "propertiesMetadata" : {
+          "metadata" : { }
+        },
+        "parametersMetadata" : {
+          "metadata" : { }
+        }
+      } ]
+    } ]
+  } ],
+  "resources" : [ ],
+  "parameters" : {
+    "default-time" : 1000,
+    "url" : "example.com"
+  },
+  "parametersMetadata" : {
+    "metadata" : { }
+  }
+}
