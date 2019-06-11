@@ -182,5 +182,4 @@ public class DescriptorHandler {
         return moduleSorter.sort();
     }
 
-    
 }

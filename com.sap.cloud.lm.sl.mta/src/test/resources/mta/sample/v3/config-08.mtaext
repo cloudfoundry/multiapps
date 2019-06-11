@@ -1,0 +1,10 @@
+_schema-version: 3.0.0
+ID: modify-hook
+extends: com.sap.mta.sample
+
+modules:
+  - name: pricing-db
+    hooks:
+      - name: test-hook
+        parameters:
+          command: 'this is test with extension descriptor'

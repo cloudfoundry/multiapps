@@ -8,6 +8,7 @@ import org.apache.commons.lang3.ObjectUtils;
 
 import com.sap.cloud.lm.sl.common.util.yaml.YamlElement;
 import com.sap.cloud.lm.sl.mta.parsers.v2.ExtensionModuleParser;
+import com.sap.cloud.lm.sl.mta.parsers.v3.ModuleParser;
 
 public class ExtensionModule extends VersionedEntity implements VisitableElement, NamedElement, PropertiesContainer, ParametersContainer {
 
@@ -21,6 +22,8 @@ public class ExtensionModule extends VersionedEntity implements VisitableElement
     private List<ExtensionRequiredDependency> requiredDependencies = Collections.emptyList();
     @YamlElement(ExtensionModuleParser.PROVIDES)
     private List<ExtensionProvidedDependency> providedDependencies = Collections.emptyList();
+    @YamlElement(ModuleParser.HOOKS)
+    private List<ExtensionHook> hooks = Collections.emptyList();
 
     // Required by Jackson.
     protected ExtensionModule() {
@@ -59,6 +62,10 @@ public class ExtensionModule extends VersionedEntity implements VisitableElement
         return providedDependencies;
     }
 
+    public List<ExtensionHook> getHooks() {
+        return hooks;
+    }
+
     public ExtensionModule setName(String name) {
         this.name = ObjectUtils.defaultIfNull(name, this.name);
         return this;
@@ -81,6 +88,11 @@ public class ExtensionModule extends VersionedEntity implements VisitableElement
 
     public ExtensionModule setProvidedDependencies(List<ExtensionProvidedDependency> providedDependencies) {
         this.providedDependencies = ObjectUtils.defaultIfNull(providedDependencies, this.providedDependencies);
+        return this;
+    }
+
+    public ExtensionModule setHooks(List<ExtensionHook> hooks) {
+        this.hooks = ObjectUtils.defaultIfNull(hooks, this.hooks);
         return this;
     }
 
