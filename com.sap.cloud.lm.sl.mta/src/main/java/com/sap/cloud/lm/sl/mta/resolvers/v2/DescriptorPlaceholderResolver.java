@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import com.sap.cloud.lm.sl.common.ContentException;
 import com.sap.cloud.lm.sl.common.util.ListUtil;
@@ -55,11 +56,10 @@ public class DescriptorPlaceholderResolver extends PlaceholderResolver<Deploymen
     }
 
     protected List<Resource> getResolvedResources() {
-        List<Resource> result = new ArrayList<>();
-        for (Resource resource : deploymentDescriptor.getResources()) {
-            result.add(getResourceResolver(resource).resolve());
-        }
-        return result;
+        return deploymentDescriptor.getResources()
+            .stream()
+            .map(resource -> getResourceResolver(resource).resolve())
+            .collect(Collectors.toList());
     }
 
     protected ModulePlaceholderResolver getModuleResolver(Module module) {
@@ -68,11 +68,10 @@ public class DescriptorPlaceholderResolver extends PlaceholderResolver<Deploymen
     }
 
     protected List<Module> getResolvedModules() {
-        List<Module> result = new ArrayList<>();
-        for (Module module : deploymentDescriptor.getModules()) {
-            result.add(getModuleResolver(module).resolve());
-        }
-        return result;
+        return deploymentDescriptor.getModules()
+            .stream()
+            .map(module -> getModuleResolver(module).resolve())
+            .collect(Collectors.toList());
     }
 
 }

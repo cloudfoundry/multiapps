@@ -4,6 +4,7 @@ import static com.sap.cloud.lm.sl.mta.util.ValidatorUtil.getPrefixedName;
 
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Objects;
 import java.util.Set;
 import java.util.TreeSet;
 
@@ -20,23 +21,21 @@ public class DefaultDescriptorValidationRules implements DescriptorValidationRul
     protected final Set<String> emptyParameters = new TreeSet<>();
 
     @Override
-    public void validateProperties(ElementContext elementContext, PropertiesContainer propertiesContainer)
-        throws ContentException {
+    public void validateProperties(ElementContext elementContext, PropertiesContainer propertiesContainer) throws ContentException {
         checkForEmptyFields(propertiesContainer.getProperties(), elementContext, emptyProperties);
     }
 
     @Override
-    public void validateParameters(ElementContext elementContext, ParametersContainer parametersContainer)
-        throws ContentException {
+    public void validateParameters(ElementContext elementContext, ParametersContainer parametersContainer) throws ContentException {
         checkForEmptyFields(parametersContainer.getParameters(), elementContext, emptyParameters);
     }
 
     protected void checkForEmptyFields(Map<String, Object> properties, ElementContext elementContext, Set<String> emptyFields) {
-        for (Entry<String, Object> property : properties.entrySet()) {
-            if (property.getValue() == null) {
-                emptyFields.add(getPrefixedName(elementContext.getPrefixedName(), property.getKey()));
-            }
-        }
+        properties.entrySet()
+            .stream()
+            .filter(property -> property.getValue() == null)
+            .map(property -> getPrefixedName(elementContext.getPrefixedName(), property.getKey()))
+            .forEach(emptyFields::add);
     }
 
     @Override

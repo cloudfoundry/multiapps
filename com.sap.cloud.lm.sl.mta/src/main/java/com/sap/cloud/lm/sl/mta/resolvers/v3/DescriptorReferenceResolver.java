@@ -1,7 +1,7 @@
 package com.sap.cloud.lm.sl.mta.resolvers.v3;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import com.sap.cloud.lm.sl.common.ContentException;
 import com.sap.cloud.lm.sl.mta.model.DeploymentDescriptor;
@@ -25,11 +25,10 @@ public class DescriptorReferenceResolver extends com.sap.cloud.lm.sl.mta.resolve
     }
 
     private List<Resource> getResolvedResources() {
-        List<Resource> resolvedResources = new ArrayList<>();
-        for (Resource resource : descriptor.getResources()) {
-            resolvedResources.add(createResourceResolver(resource).resolve());
-        }
-        return resolvedResources;
+        return descriptor.getResources()
+            .stream()
+            .map(resource -> createResourceResolver(resource).resolve())
+            .collect(Collectors.toList());
     }
 
     protected ResourceReferenceResolver createResourceResolver(Resource resource) {

@@ -7,7 +7,12 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Objects;
 import java.util.TreeMap;
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
+
+import org.apache.commons.lang3.ObjectUtils;
 
 import com.sap.cloud.lm.sl.common.ContentException;
 import com.sap.cloud.lm.sl.common.util.CommonUtil;
@@ -36,13 +41,10 @@ public class PropertiesUtil {
      * @return A list of properties
      */
     public static List<Map<String, Object>> getPropertiesList(Iterable<PropertiesContainer> providers) {
-        List<Map<String, Object>> result = new ArrayList<>();
-        for (PropertiesContainer provider : providers) {
-            if (provider != null && provider.getProperties() != null) {
-                result.add(provider.getProperties());
-            }
-        }
-        return result;
+        return StreamSupport.stream(providers.spliterator(), false)
+            .filter(provider -> provider != null && provider.getProperties() != null)
+            .map(PropertiesContainer::getProperties)
+            .collect(Collectors.toList());
     }
 
     /**
@@ -64,13 +66,10 @@ public class PropertiesUtil {
      * @return A list of parameters
      */
     public static List<Map<String, Object>> getParametersList(Iterable<ParametersContainer> providers) {
-        List<Map<String, Object>> result = new ArrayList<>();
-        for (ParametersContainer provider : providers) {
-            if (provider != null && provider.getParameters() != null) {
-                result.add(provider.getParameters());
-            }
-        }
-        return result;
+        return StreamSupport.stream(providers.spliterator(), false)
+            .filter(provider -> provider != null && provider.getParameters() != null)
+            .map(ParametersContainer::getParameters)
+            .collect(Collectors.toList());
     }
 
     /**
@@ -93,13 +92,11 @@ public class PropertiesUtil {
     }
 
     public static Object getPropertyValue(List<Map<String, Object>> propertiesList, String key, Object defaultValue) {
-        for (Map<String, Object> properties : propertiesList) {
-            Object value = (properties != null) ? properties.get(key) : null;
-            if (value != null) {
-                return value;
-            }
-        }
-        return defaultValue;
+        return propertiesList.stream()
+            .map(properties -> (properties != null) ? properties.get(key) : null)
+            .filter(Objects::nonNull)
+            .findFirst()
+            .orElse(defaultValue);
     }
 
     @SuppressWarnings("unchecked")

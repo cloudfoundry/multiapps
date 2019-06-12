@@ -1,9 +1,9 @@
 package com.sap.cloud.lm.sl.mta.parsers;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import com.sap.cloud.lm.sl.common.ParsingException;
 import com.sap.cloud.lm.sl.common.util.ListUtil;
@@ -19,11 +19,9 @@ public abstract class ListParser<T> implements Parser<List<T>> {
 
     @Override
     public List<T> parse() throws ParsingException {
-        List<T> result = new ArrayList<>();
-        for (Map<String, Object> item : source) {
-            result.add(parseItem(item));
-        }
-        return Collections.unmodifiableList(result);
+        return Collections.unmodifiableList(source.stream()
+            .map(this::parseItem)
+            .collect(Collectors.toList()));
     }
 
     protected abstract T parseItem(Map<String, Object> map);

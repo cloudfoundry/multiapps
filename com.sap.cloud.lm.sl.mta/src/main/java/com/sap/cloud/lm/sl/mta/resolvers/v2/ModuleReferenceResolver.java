@@ -5,6 +5,8 @@ import static com.sap.cloud.lm.sl.mta.util.ValidatorUtil.getPrefixedName;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 import com.sap.cloud.lm.sl.common.ContentException;
 import com.sap.cloud.lm.sl.mta.model.DeploymentDescriptor;
@@ -51,11 +53,10 @@ public class ModuleReferenceResolver implements Resolver<Module> {
     }
 
     protected List<RequiredDependency> getResolvedDependencies() {
-        List<RequiredDependency> result = new ArrayList<>();
-        for (RequiredDependency requiredDependency : module.getRequiredDependencies()) {
-            result.add(resolveRequiredDependency(requiredDependency));
-        }
-        return result;
+        return module.getRequiredDependencies()
+            .stream()
+            .map(this::resolveRequiredDependency)
+            .collect(Collectors.toList());
     }
 
     protected RequiredDependency resolveRequiredDependency(RequiredDependency dependency) {

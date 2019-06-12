@@ -3,6 +3,7 @@ package com.sap.cloud.lm.sl.common.model.xml;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -31,11 +32,9 @@ public class ListWrapper extends Wrapper {
 
     @Override
     public List<Object> unwrap() {
-        List<Object> result = new ArrayList<>();
-        for (Object element : list) {
-            result.add(unwrap(element));
-        }
-        return result;
+        return list.stream()
+            .map(Wrapper::unwrap)
+            .collect(Collectors.toList());
     }
 
 }

@@ -1,6 +1,7 @@
 package com.sap.cloud.lm.sl.mta.handlers.v2;
 
 import java.util.List;
+import java.util.Objects;
 
 import com.sap.cloud.lm.sl.common.util.Pair;
 import com.sap.cloud.lm.sl.mta.model.DeploymentDescriptor;
@@ -20,43 +21,41 @@ import com.sap.cloud.lm.sl.mta.model.ResourceType;
 public class DescriptorHandler {
 
     public RequiredDependency findRequiredDependency(DeploymentDescriptor descriptor, String moduleName, String dependencyName) {
-        for (Module module : descriptor.getModules()) {
-            if (module.getName()
-                .equals(moduleName)) {
-                return findRequiredDependency(module, dependencyName);
-            }
-        }
-        return null;
+        return descriptor.getModules()
+            .stream()
+            .filter(module -> module.getName()
+                .equals(moduleName))
+            .findFirst()
+            .map(module -> findRequiredDependency(module, dependencyName))
+            .orElse(null);
     }
 
     public ExtensionRequiredDependency findRequiredDependency(ExtensionDescriptor descriptor, String moduleName, String dependencyName) {
-        for (ExtensionModule module : descriptor.getModules()) {
-            if (module.getName()
-                .equals(moduleName)) {
-                return findRequiredDependency(module, dependencyName);
-            }
-        }
-        return null;
+        return descriptor.getModules()
+            .stream()
+            .filter(module -> module.getName()
+                .equals(moduleName))
+            .findFirst()
+            .map(module -> findRequiredDependency(module, dependencyName))
+            .orElse(null);
     }
 
     public RequiredDependency findRequiredDependency(Module module, String dependencyName) {
-        for (RequiredDependency requiredDependency : module.getRequiredDependencies()) {
-            if (requiredDependency.getName()
-                .equals(dependencyName)) {
-                return requiredDependency;
-            }
-        }
-        return null;
+        return module.getRequiredDependencies()
+            .stream()
+            .filter(requiredDependency -> requiredDependency.getName()
+                .equals(dependencyName))
+            .findFirst()
+            .orElse(null);
     }
 
     public ExtensionRequiredDependency findRequiredDependency(ExtensionModule module, String dependencyName) {
-        for (ExtensionRequiredDependency requiredDependency : module.getRequiredDependencies()) {
-            if (requiredDependency.getName()
-                .equals(dependencyName)) {
-                return requiredDependency;
-            }
-        }
-        return null;
+        return module.getRequiredDependencies()
+            .stream()
+            .filter(requiredDependency -> requiredDependency.getName()
+                .equals(dependencyName))
+            .findFirst()
+            .orElse(null);
     }
 
     protected ModulesSorter getModuleSorter(DeploymentDescriptor descriptor, String parallelDeploymentProperty,
@@ -65,23 +64,21 @@ public class DescriptorHandler {
     }
 
     public ResourceType findResourceType(Platform platform, String resourceTypeName) {
-        for (ResourceType resourceType : platform.getResourceTypes()) {
-            if (resourceType.getName()
-                .equals(resourceTypeName)) {
-                return resourceType;
-            }
-        }
-        return null;
+        return platform.getResourceTypes()
+            .stream()
+            .filter(resourceType -> resourceType.getName()
+                .equals(resourceTypeName))
+            .findFirst()
+            .orElse(null);
     }
 
     public ModuleType findModuleType(Platform platform, String moduleTypeName) {
-        for (ModuleType moduleType : platform.getModuleTypes()) {
-            if (moduleType.getName()
-                .equals(moduleTypeName)) {
-                return moduleType;
-            }
-        }
-        return null;
+        return platform.getModuleTypes()
+            .stream()
+            .filter(moduleType -> moduleType.getName()
+                .equals(moduleTypeName))
+            .findFirst()
+            .orElse(null);
     }
 
     public Pair<Resource, ProvidedDependency> findDependency(DeploymentDescriptor descriptor, String dependencyName) {
@@ -97,83 +94,75 @@ public class DescriptorHandler {
     }
 
     public Resource findResource(DeploymentDescriptor descriptor, String resourceName) {
-        for (Resource resource : descriptor.getResources()) {
-            if (resource.getName()
-                .equals(resourceName)) {
-                return resource;
-            }
-        }
-        return null;
+        return descriptor.getResources()
+            .stream()
+            .filter(resource -> resource.getName()
+                .equals(resourceName))
+            .findFirst()
+            .orElse(null);
     }
 
     public ExtensionResource findResource(ExtensionDescriptor descriptor, String resourceName) {
-        for (ExtensionResource resource : descriptor.getResources()) {
-            if (resource.getName()
-                .equals(resourceName)) {
-                return resource;
-            }
-        }
-        return null;
+        return descriptor.getResources()
+            .stream()
+            .filter(resource -> resource.getName()
+                .equals(resourceName))
+            .findFirst()
+            .orElse(null);
     }
 
     public ProvidedDependency findProvidedDependency(DeploymentDescriptor descriptor, String providedDependencyName) {
-        for (Module module : descriptor.getModules()) {
-            ProvidedDependency dependency = findProvidedDependency(module, providedDependencyName);
-            if (dependency != null) {
-                return dependency;
-            }
-        }
-        return null;
+        return descriptor.getModules()
+            .stream()
+            .map(module -> findProvidedDependency(module, providedDependencyName))
+            .filter(Objects::nonNull)
+            .findFirst()
+            .orElse(null);
     }
 
     public ExtensionProvidedDependency findProvidedDependency(ExtensionDescriptor descriptor, String providedDependencyName) {
-        for (ExtensionModule module : descriptor.getModules()) {
-            ExtensionProvidedDependency dependency = findProvidedDependency(module, providedDependencyName);
-            if (dependency != null) {
-                return dependency;
-            }
-        }
-        return null;
+        return descriptor.getModules()
+            .stream()
+            .map(module -> findProvidedDependency(module, providedDependencyName))
+            .filter(Objects::nonNull)
+            .findFirst()
+            .orElse(null);
     }
 
     public ProvidedDependency findProvidedDependency(Module module, String providedDependencyName) {
-        for (ProvidedDependency providedDependency : module.getProvidedDependencies()) {
-            if (providedDependency.getName()
-                .equals(providedDependencyName)) {
-                return providedDependency;
-            }
-        }
-        return null;
+        return module.getProvidedDependencies()
+            .stream()
+            .filter(providedDependency -> providedDependency.getName()
+                .equals(providedDependencyName))
+            .findFirst()
+            .orElse(null);
     }
 
     public ExtensionProvidedDependency findProvidedDependency(ExtensionModule module, String providedDependencyName) {
-        for (ExtensionProvidedDependency providedDependency : module.getProvidedDependencies()) {
-            if (providedDependency.getName()
-                .equals(providedDependencyName)) {
-                return providedDependency;
-            }
-        }
-        return null;
+        return module.getProvidedDependencies()
+            .stream()
+            .filter(providedDependency -> providedDependency.getName()
+                .equals(providedDependencyName))
+            .findFirst()
+            .orElse(null);
     }
 
     public ExtensionModule findModule(ExtensionDescriptor descriptor, String moduleName) {
-        for (ExtensionModule module : descriptor.getModules()) {
-            if (module.getName()
-                .equals(moduleName)) {
-                return module;
-            }
-        }
-        return null;
+        return descriptor.getModules()
+            .stream()
+            .filter(module -> module.getName()
+                .equals(moduleName))
+            .findFirst()
+            .orElse(null);
     }
 
     public Module findModule(DeploymentDescriptor descriptor, String moduleName) {
-        for (Module module : descriptor.getModules()) {
-            if (module.getName()
-                .equals(moduleName)) {
-                return module;
-            }
-        }
-        return null;
+        return descriptor.getModules()
+            .stream()
+            .filter(module -> module.getName()
+                .equals(moduleName))
+            .findFirst()
+            .orElse(null);
     }
 
     public List<Module> getModulesForDeployment(DeploymentDescriptor descriptor, String parallelDeploymentProperty,
@@ -182,5 +171,4 @@ public class DescriptorHandler {
         return moduleSorter.sort();
     }
 
-    
 }
