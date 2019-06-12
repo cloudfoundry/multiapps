@@ -15,13 +15,13 @@ public class DescriptorHandler extends com.sap.cloud.lm.sl.mta.handlers.v2.Descr
         if (moduleRequiredDependency != null) {
             return moduleRequiredDependency;
         }
-        for (Resource resource : descriptor.getResources()) {
-            if (resource.getName()
-                .equals(consumerName)) {
-                return findRequiredDependency(resource, dependencyName);
-            }
-        }
-        return null;
+        return descriptor.getResources()
+            .stream()
+            .filter(resource -> resource.getName()
+                .equals(consumerName))
+            .findFirst()
+            .map(resource -> findRequiredDependency(resource, dependencyName))
+            .orElse(null);
     }
 
     @Override
@@ -30,33 +30,31 @@ public class DescriptorHandler extends com.sap.cloud.lm.sl.mta.handlers.v2.Descr
         if (moduleRequiredDependency != null) {
             return moduleRequiredDependency;
         }
-        for (ExtensionResource resource : descriptor.getResources()) {
-            if (resource.getName()
-                .equals(consumerName)) {
-                return findRequiredDependency(resource, dependencyName);
-            }
-        }
-        return null;
+        return descriptor.getResources()
+            .stream()
+            .filter(resource -> resource.getName()
+                .equals(consumerName))
+            .findFirst()
+            .map(resource -> findRequiredDependency(resource, dependencyName))
+            .orElse(null);
     }
 
     public RequiredDependency findRequiredDependency(Resource resource, String dependencyName) {
-        for (RequiredDependency requiredDependency : resource.getRequiredDependencies()) {
-            if (requiredDependency.getName()
-                .equals(dependencyName)) {
-                return requiredDependency;
-            }
-        }
-        return null;
+        return resource.getRequiredDependencies()
+            .stream()
+            .filter(requiredDependency -> requiredDependency.getName()
+                .equals(dependencyName))
+            .findFirst()
+            .orElse(null);
     }
 
     public ExtensionRequiredDependency findRequiredDependency(ExtensionResource resource, String dependencyName) {
-        for (ExtensionRequiredDependency requiredDependency : resource.getRequiredDependencies()) {
-            if (requiredDependency.getName()
-                .equals(dependencyName)) {
-                return requiredDependency;
-            }
-        }
-        return null;
+        return resource.getRequiredDependencies()
+            .stream()
+            .filter(requiredDependency -> requiredDependency.getName()
+                .equals(dependencyName))
+            .findFirst()
+            .orElse(null);
     }
 
     @Override

@@ -3,6 +3,7 @@ package com.sap.cloud.lm.sl.mta.resolvers.v2;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import com.sap.cloud.lm.sl.common.ContentException;
 import com.sap.cloud.lm.sl.mta.builders.v2.ParametersChainBuilder;
@@ -57,11 +58,10 @@ public class ModulePlaceholderResolver extends PlaceholderResolver<Module> {
     }
 
     protected List<ProvidedDependency> getResolvedProvidedDependencies() {
-        List<ProvidedDependency> resolved = new ArrayList<>();
-        for (ProvidedDependency providedDependency : module.getProvidedDependencies()) {
-            resolved.add(getProvidedDependencyResolver(providedDependency).resolve());
-        }
-        return resolved;
+        return module.getProvidedDependencies()
+            .stream()
+            .map(providedDependency -> getProvidedDependencyResolver(providedDependency).resolve())
+            .collect(Collectors.toList());
     }
 
     protected ProvidedDependencyPlaceholderResolver getProvidedDependencyResolver(ProvidedDependency providedDependency) {
@@ -70,11 +70,10 @@ public class ModulePlaceholderResolver extends PlaceholderResolver<Module> {
     }
 
     protected List<RequiredDependency> getResolvedRequiredDependencies() {
-        List<RequiredDependency> resolved = new ArrayList<>();
-        for (RequiredDependency requiredDependency : module.getRequiredDependencies()) {
-            resolved.add(getRequiredDependencyResolver(requiredDependency).resolve());
-        }
-        return resolved;
+        return module.getRequiredDependencies()
+            .stream()
+            .map(requiredDependency -> getRequiredDependencyResolver(requiredDependency).resolve())
+            .collect(Collectors.toList());
     }
 
     protected RequiredDependencyPlaceholderResolver getRequiredDependencyResolver(RequiredDependency requiredDependency) {

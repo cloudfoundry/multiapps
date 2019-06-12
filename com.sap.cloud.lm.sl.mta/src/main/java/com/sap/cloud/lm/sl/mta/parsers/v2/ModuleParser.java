@@ -113,13 +113,9 @@ public class ModuleParser extends ModelParser<Module> {
 
     protected boolean currentModuleIsProvided(List<ProvidedDependency> providedDependencies) {
         String currentModuleName = getName();
-        for (ProvidedDependency providedDependency : providedDependencies) {
-            if (providedDependency.getName()
-                .equals(currentModuleName)) {
-                return true;
-            }
-        }
-        return false;
+        return providedDependencies.stream()
+            .anyMatch(providedDependency -> providedDependency.getName()
+                .equals(currentModuleName));
     }
 
     protected ProvidedDependency getCurrentModuleAsProvidedDependency() {
