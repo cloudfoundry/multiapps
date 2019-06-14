@@ -18,6 +18,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.ObjectWriter;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.sap.cloud.lm.sl.common.ParsingException;
 import com.sap.cloud.lm.sl.common.message.Messages;
@@ -25,6 +26,14 @@ import com.sap.cloud.lm.sl.common.message.Messages;
 public class JsonUtil {
 
     private static final int MAX_LENGTH = 128;
+    private static final ObjectMapper OBJECT_MAPPER = createObjectMapper();
+
+    private static ObjectMapper createObjectMapper() {
+        return new ObjectMapper().setVisibility(PropertyAccessor.ALL, Visibility.NONE)
+            .setVisibility(PropertyAccessor.FIELD, Visibility.ANY)
+            .setSerializationInclusion(Include.NON_NULL)
+            .disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
+    }
 
     public static Map<String, Object> convertJsonToMap(InputStream json) throws ParsingException {
         return convertJsonToMap(json, new TypeReference<Map<String, Object>>() {
@@ -67,7 +76,7 @@ public class JsonUtil {
             return defaultValue;
         }
         try {
-            return createObjectMapper().readValue(json, typeReference);
+            return getObjectMapper().readValue(json, typeReference);
         } catch (Exception e) {
             throw new ParsingException(e, errorMessage, json);
         }
@@ -78,7 +87,7 @@ public class JsonUtil {
             return defaultValue;
         }
         try {
-            return createObjectMapper().readValue(json, typeReference);
+            return getObjectMapper().readValue(json, typeReference);
         } catch (Exception e) {
             throw new ParsingException(e, errorMessage, json.substring(0, Math.min(json.length(), MAX_LENGTH)));
         }
@@ -95,7 +104,7 @@ public class JsonUtil {
 
     public static String toJson(Object object, boolean indentedOutput) {
         try {
-            return createObjectMapper(indentedOutput).writeValueAsString(object);
+            return getObjectWriter(indentedOutput).writeValueAsString(object);
         } catch (JsonProcessingException e) {
             throw new IllegalArgumentException(e.getMessage(), e);
         }
@@ -110,14 +119,14 @@ public class JsonUtil {
     }
 
     public static <T> T fromJson(String json, TypeReference<T> typeReference) {
-        ObjectMapper objectMapper = createObjectMapper();
+        ObjectMapper objectMapper = getObjectMapper();
         JavaType type = objectMapper.getTypeFactory()
             .constructType(typeReference);
         return fromJson(objectMapper, json, type);
     }
 
     public static <T> T fromJson(String json, Class<T> classOfT) {
-        ObjectMapper objectMapper = createObjectMapper();
+        ObjectMapper objectMapper = getObjectMapper();
         JavaType type = objectMapper.getTypeFactory()
             .constructType(classOfT);
         return fromJson(objectMapper, json, type);
@@ -132,19 +141,16 @@ public class JsonUtil {
         }
     }
 
-    public static ObjectMapper createObjectMapper(boolean indentedOutput) {
-        ObjectMapper objectMapper = createObjectMapper();
+    public static ObjectWriter getObjectWriter(boolean indentedOutput) {
+        ObjectMapper objectMapper = getObjectMapper();
         if (indentedOutput) {
-            objectMapper.enable(SerializationFeature.INDENT_OUTPUT);
+            return objectMapper.writerWithDefaultPrettyPrinter();
         }
-        return objectMapper;
+        return objectMapper.writer();
     }
 
-    public static ObjectMapper createObjectMapper() {
-        return new ObjectMapper().setVisibility(PropertyAccessor.ALL, Visibility.NONE)
-            .setVisibility(PropertyAccessor.FIELD, Visibility.ANY)
-            .setSerializationInclusion(Include.NON_NULL)
-            .disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
+    public static ObjectMapper getObjectMapper() {
+        return OBJECT_MAPPER;
     }
 
     private static String toString(byte[] binary) {
