@@ -1,0 +1,27 @@
+_schema-version: 2
+ID: foo
+version: 1.0.0
+
+parameters:
+  a: \${placeholder}
+  b: \${placeholder}.\${placeholder}
+
+modules:
+  - name: foo
+    type: foo
+    parameters:
+      c: \${placeholder}
+    requires:
+      - name: bar
+        parameters:
+          d: \${placeholder}
+    provides:
+      - name: foo
+        parameters:
+          e: \${placeholder}
+
+resources:
+  - name: bar
+    type: bar
+    parameters:
+      f: \${placeholder}

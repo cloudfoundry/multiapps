@@ -1,0 +1,58 @@
+_schema-version: 3
+ID: foo
+version: 1.0.0
+
+modules:
+  - name: foo
+    type: foo
+    properties:
+      a: \~{qux/abc}
+      b: \~{qux}
+    parameters:
+      c: \~{qux/abc}
+      d: \~{qux}
+    requires:
+      - name: bar
+        properties:
+          e: \~{qux/abc}
+          f: \~{qux}
+        parameters:
+          g: \~{qux/abc}
+          h: \~{qux}
+    provides:
+      - name: foo
+        properties:
+          i: \~{qux/abc}
+          j: \~{qux}
+        parameters:
+          k: \~{qux/abc}
+          l: \~{qux}
+    hooks:
+      - name: baz
+        type: baz
+        parameters:
+          t: \~{qux/abc}
+          u: \~{qux}
+        requires:
+          - name: bar
+            properties:
+              v: \~{qux/abc}
+              w: \~{qux}
+            properties:
+              x: \~{qux/abc}
+              y: \~{qux}
+
+resources:
+  - name: bar
+    type: bar
+    properties:
+      m: \~{qux/abc}
+      n: \~{qux}
+    parameters:
+      o: \~{qux/abc}
+      p: \~{qux}
+
+parameters:
+  q: \~{qux/abc}
+  r: \~{qux}
+  s: \~{qux/abc}.\~{qux}

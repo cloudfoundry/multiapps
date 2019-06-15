@@ -1,0 +1,76 @@
+{
+  "majorSchemaVersion" : 2,
+  "schemaVersion" : "2.0.0",
+  "id" : "foo",
+  "version" : "1.0.0",
+  "modules" : [ {
+    "majorSchemaVersion" : 2,
+    "name" : "foo",
+    "type" : "foo",
+    "properties" : { },
+    "parameters" : {
+      "c" : "${placeholder}"
+    },
+    "requiredDependencies" : [ {
+      "majorSchemaVersion" : 2,
+      "name" : "bar",
+      "properties" : { },
+      "parameters" : {
+        "d" : "${placeholder}"
+      },
+      "propertiesMetadata" : {
+        "metadata" : { }
+      },
+      "parametersMetadata" : {
+        "metadata" : { }
+      }
+    } ],
+    "providedDependencies" : [ {
+      "majorSchemaVersion" : 2,
+      "name" : "foo",
+      "isPublic" : true,
+      "properties" : { },
+      "parameters" : {
+        "e" : "${placeholder}"
+      },
+      "propertiesMetadata" : {
+        "metadata" : { }
+      },
+      "parametersMetadata" : {
+        "metadata" : { }
+      }
+    } ],
+    "propertiesMetadata" : {
+      "metadata" : { }
+    },
+    "parametersMetadata" : {
+      "metadata" : { }
+    },
+    "hooks" : [ ]
+  } ],
+  "resources" : [ {
+    "majorSchemaVersion" : 2,
+    "name" : "bar",
+    "type" : "bar",
+    "properties" : { },
+    "parameters" : {
+      "f" : "${placeholder}"
+    },
+    "isActive" : true,
+    "isOptional" : false,
+    "propertiesMetadata" : {
+      "metadata" : { }
+    },
+    "parametersMetadata" : {
+      "metadata" : { }
+    },
+    "requiredDependencies" : [ ]
+  } ],
+  "parameters" : {
+    "a" : "${placeholder}",
+    "b" : "${placeholder}.${placeholder}"
+  },
+  "parametersMetadata" : {
+    "metadata" : { }
+  }
+}

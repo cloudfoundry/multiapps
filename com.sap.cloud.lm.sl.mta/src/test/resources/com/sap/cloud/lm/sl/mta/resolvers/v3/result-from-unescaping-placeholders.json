@@ -1,0 +1,98 @@
+{
+  "majorSchemaVersion" : 3,
+  "schemaVersion" : "3.0.0",
+  "id" : "foo",
+  "version" : "1.0.0",
+  "modules" : [ {
+    "majorSchemaVersion" : 3,
+    "name" : "foo",
+    "type" : "foo",
+    "properties" : { },
+    "parameters" : {
+      "c" : "${placeholder}"
+    },
+    "requiredDependencies" : [ {
+      "majorSchemaVersion" : 3,
+      "name" : "bar",
+      "properties" : { },
+      "parameters" : {
+        "d" : "${placeholder}"
+      },
+      "propertiesMetadata" : {
+        "metadata" : { }
+      },
+      "parametersMetadata" : {
+        "metadata" : { }
+      }
+    } ],
+    "providedDependencies" : [ {
+      "majorSchemaVersion" : 3,
+      "name" : "foo",
+      "isPublic" : false,
+      "properties" : { },
+      "parameters" : {
+        "e" : "${placeholder}"
+      },
+      "propertiesMetadata" : {
+        "metadata" : { }
+      },
+      "parametersMetadata" : {
+        "metadata" : { }
+      }
+    } ],
+    "propertiesMetadata" : {
+      "metadata" : { }
+    },
+    "parametersMetadata" : {
+      "metadata" : { }
+    },
+    "hooks" : [ {
+      "majorSchemaVersion" : 3,
+      "name" : "baz",
+      "type" : "baz",
+      "phases" : [ ],
+      "parameters" : {
+        "g" : "${placeholder}"
+      },
+      "requiredDependencies" : [ {
+        "majorSchemaVersion" : 3,
+        "name" : "bar",
+        "properties" : { },
+        "parameters" : {
+          "h" : "${placeholder}"
+        },
+        "propertiesMetadata" : {
+          "metadata" : { }
+        },
+        "parametersMetadata" : {
+          "metadata" : { }
+        }
+      } ]
+    } ]
+  } ],
+  "resources" : [ {
+    "majorSchemaVersion" : 3,
+    "name" : "bar",
+    "type" : "bar",
+    "properties" : { },
+    "parameters" : {
+      "f" : "${placeholder}"
+    },
+    "isActive" : true,
+    "isOptional" : false,
+    "propertiesMetadata" : {
+      "metadata" : { }
+    },
+    "parametersMetadata" : {
+      "metadata" : { }
+    },
+    "requiredDependencies" : [ ]
+  } ],
+  "parameters" : {
+    "a" : "${placeholder}",
+    "b" : "${placeholder}.${placeholder}"
+  },
+  "parametersMetadata" : {
+    "metadata" : { }
+  }
+}
