@@ -51,6 +51,10 @@ public class DescriptorReferenceResolverTest {
             // (6) The same reference occurs multiple times in the same property:
             Arguments.of(
                 "mtad-with-repeating-reference.yaml", new Expectation(Expectation.Type.JSON, "result-from-repeating-reference.json")
+            ),
+            // (7)
+            Arguments.of(
+                "mtad-with-escaped-references.yaml", new Expectation(Expectation.Type.JSON, "result-from-escaped-references.json")
             )
 // @formatter:on
         );

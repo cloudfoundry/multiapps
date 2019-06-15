@@ -1,0 +1,117 @@
+{
+  "majorSchemaVersion" : 3,
+  "schemaVersion" : "3.0.0",
+  "id" : "foo",
+  "version" : "1.0.0",
+  "modules" : [ {
+    "majorSchemaVersion" : 3,
+    "name" : "foo",
+    "type" : "foo",
+    "properties" : {
+      "a" : "\\~{qux/abc}",
+      "b" : "\\~{qux}"
+    },
+    "parameters" : {
+      "c" : "\\~{qux/abc}",
+      "d" : "\\~{qux}"
+    },
+    "requiredDependencies" : [ {
+      "majorSchemaVersion" : 3,
+      "name" : "bar",
+      "properties" : {
+        "e" : "\\~{qux/abc}",
+        "f" : "\\~{qux}"
+      },
+      "parameters" : {
+        "g" : "\\~{qux/abc}",
+        "h" : "\\~{qux}"
+      },
+      "propertiesMetadata" : {
+        "metadata" : { }
+      },
+      "parametersMetadata" : {
+        "metadata" : { }
+      }
+    } ],
+    "providedDependencies" : [ {
+      "majorSchemaVersion" : 3,
+      "name" : "foo",
+      "isPublic" : false,
+      "properties" : {
+        "i" : "\\~{qux/abc}",
+        "j" : "\\~{qux}"
+      },
+      "parameters" : {
+        "k" : "\\~{qux/abc}",
+        "l" : "\\~{qux}"
+      },
+      "propertiesMetadata" : {
+        "metadata" : { }
+      },
+      "parametersMetadata" : {
+        "metadata" : { }
+      }
+    } ],
+    "propertiesMetadata" : {
+      "metadata" : { }
+    },
+    "parametersMetadata" : {
+      "metadata" : { }
+    },
+    "hooks" : [ {
+      "majorSchemaVersion" : 3,
+      "name" : "baz",
+      "type" : "baz",
+      "phases" : [ ],
+      "parameters" : {
+        "t" : "\\~{qux/abc}",
+        "u" : "\\~{qux}"
+      },
+      "requiredDependencies" : [ {
+        "majorSchemaVersion" : 3,
+        "name" : "bar",
+        "properties" : {
+          "x" : "\\~{qux/abc}",
+          "y" : "\\~{qux}"
+        },
+        "parameters" : { },
+        "propertiesMetadata" : {
+          "metadata" : { }
+        },
+        "parametersMetadata" : {
+          "metadata" : { }
+        }
+      } ]
+    } ]
+  } ],
+  "resources" : [ {
+    "majorSchemaVersion" : 3,
+    "name" : "bar",
+    "type" : "bar",
+    "properties" : {
+      "m" : "\\~{qux/abc}",
+      "n" : "\\~{qux}"
+    },
+    "parameters" : {
+      "o" : "\\~{qux/abc}",
+      "p" : "\\~{qux}"
+    },
+    "isActive" : true,
+    "isOptional" : false,
+    "propertiesMetadata" : {
+      "metadata" : { }
+    },
+    "parametersMetadata" : {
+      "metadata" : { }
+    },
+    "requiredDependencies" : [ ]
+  } ],
+  "parameters" : {
+    "q" : "\\~{qux/abc}",
+    "r" : "\\~{qux}",
+    "s" : "\\~{qux/abc}.\\~{qux}"
+  },
+  "parametersMetadata" : {
+    "metadata" : { }
+  }
+}

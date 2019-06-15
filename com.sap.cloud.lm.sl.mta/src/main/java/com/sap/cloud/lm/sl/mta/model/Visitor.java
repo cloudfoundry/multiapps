@@ -22,6 +22,10 @@ public class Visitor {
 
     }
 
+    public void visit(ElementContext context, Hook hook) {
+
+    }
+
     public void visit(ElementContext context, ExtensionDescriptor descriptor) {
 
     }
@@ -51,10 +55,6 @@ public class Visitor {
     }
 
     public void visit(ElementContext context, ModuleType moduleType) {
-
-    }
-
-    public void visit(ElementContext context, Hook hook) {
 
     }
 

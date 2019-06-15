@@ -11,7 +11,7 @@ import org.apache.commons.lang3.ObjectUtils;
 import com.sap.cloud.lm.sl.common.util.yaml.YamlElement;
 import com.sap.cloud.lm.sl.mta.parsers.v3.HookParser;
 
-public class Hook extends VersionedEntity implements VisitableElement, NamedElement {
+public class Hook extends VersionedEntity implements VisitableElement, NamedElement, ParametersContainer {
 
     // Required by Jackson.
     protected Hook() {

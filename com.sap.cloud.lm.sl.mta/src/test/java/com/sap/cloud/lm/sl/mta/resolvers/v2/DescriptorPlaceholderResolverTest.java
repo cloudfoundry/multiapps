@@ -16,8 +16,6 @@ import com.sap.cloud.lm.sl.mta.resolvers.ResolverBuilder;
 
 public class DescriptorPlaceholderResolverTest {
 
-    protected static final String SYSTEM_PARAMETERS_LOCATION = "system-parameters.json";
-
     protected final Tester tester = Tester.forClass(getClass());
     protected DescriptorPlaceholderResolver resolver;
 
@@ -95,9 +93,13 @@ public class DescriptorPlaceholderResolverTest {
             Arguments.of(
                 "mtad-with-repeating-placeholder.yaml", new Expectation(Expectation.Type.JSON, "result-from-repeating-placeholder.json")
             ),
-            // (19)
+            // (18)
             Arguments.of(
                 "mtad-with-placeholders-with-depth.yaml", new Expectation(Expectation.Type.JSON, "result-from-placeholders-with-depth.json")
+            ),
+            // (19)
+            Arguments.of(
+                "mtad-with-escaped-placeholders.yaml", new Expectation(Expectation.Type.JSON, "result-from-escaped-placeholders.json")
             )
 // @formatter:on
         );

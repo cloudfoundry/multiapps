@@ -37,6 +37,10 @@ public class DescriptorReferenceResolverTest {
             // (3) Resolve references in hooks:
             Arguments.of(
                 "merged-04.yaml", new Expectation(Expectation.Type.JSON, "resolved-03.yaml.json")
+            ),
+            // (4)
+            Arguments.of(
+                "mtad-with-escaped-references.yaml", new Expectation(Expectation.Type.JSON, "result-from-escaped-references.json")
             )
 // @formatter:on
         );

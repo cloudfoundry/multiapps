@@ -7,7 +7,7 @@ import java.util.regex.Pattern;
 
 public enum ReferencePattern implements ValueMatcher {
 
-    PLACEHOLDER("\\$\\{(.+?)\\}", "${%s}"), SHORT("~\\{(.+?)\\}", "~{%s}"), FULLY_QUALIFIED("~\\{(.+?)/(.+?)\\}", "~{%s/%s}");
+    PLACEHOLDER("(?<!\\\\)\\$\\{(.+?)\\}", "${%s}"), SHORT("(?<!\\\\)~\\{(.+?)\\}", "~{%s}"), FULLY_QUALIFIED("(?<!\\\\)~\\{(.+?)/(.+?)\\}", "~{%s/%s}");
 
     private String pattern;
     private String patternFormat;
