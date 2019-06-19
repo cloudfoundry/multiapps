@@ -45,13 +45,6 @@ mapping:
     
 ## from here on, the information is specified which is used as actual extension 
 
-   # a list of targets to which the MTA shall be deployed to. 
-   # targets can only be specified when extending deployment descriptors and not for extending development descriptors.    
-   targets:
-      type: seq
-      sequence:
-       - type: str
-      
    modules:
       type: seq
       sequence:
