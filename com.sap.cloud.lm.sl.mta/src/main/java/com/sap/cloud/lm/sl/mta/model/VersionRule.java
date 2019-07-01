@@ -2,26 +2,11 @@ package com.sap.cloud.lm.sl.mta.model;
 
 public enum VersionRule {
 
-    SAME_HIGHER(new VersionRuleValidator() {
-        @Override
-        public boolean allows(DeploymentType deploymentType) {
-            return deploymentType != DeploymentType.DOWNGRADE;
-        }
-    }),
+    SAME_HIGHER(VersionRule::isNotDowngrade),
 
-    HIGHER(new VersionRuleValidator() {
-        @Override
-        public boolean allows(DeploymentType deploymentType) {
-            return deploymentType != DeploymentType.DOWNGRADE && deploymentType != DeploymentType.REDEPLOYMENT;
-        }
-    }),
+    HIGHER(VersionRule::isUpgrade),
 
-    ALL(new VersionRuleValidator() {
-        @Override
-        public boolean allows(DeploymentType deploymentType) {
-            return true;
-        }
-    });
+    ALL(VersionRule::isAny);
 
     private interface VersionRuleValidator {
         boolean allows(DeploymentType deploymentType);
@@ -29,7 +14,7 @@ public enum VersionRule {
 
     private VersionRuleValidator versionRuleValidator;
 
-    private VersionRule(VersionRuleValidator versionRuleValidator) {
+    VersionRule(VersionRuleValidator versionRuleValidator) {
         this.versionRuleValidator = versionRuleValidator;
     }
 
@@ -39,5 +24,17 @@ public enum VersionRule {
 
     public static VersionRule value(String caseInsensitiveValue) {
         return VersionRule.valueOf(caseInsensitiveValue.toUpperCase());
+    }
+
+    private static boolean isNotDowngrade(DeploymentType deploymentType) {
+        return deploymentType != DeploymentType.DOWNGRADE;
+    }
+
+    private static boolean isUpgrade(DeploymentType deploymentType) {
+        return isNotDowngrade(deploymentType) && deploymentType != DeploymentType.REDEPLOYMENT;
+    }
+
+    private static boolean isAny(DeploymentType deploymentType) {
+        return true;
     }
 }

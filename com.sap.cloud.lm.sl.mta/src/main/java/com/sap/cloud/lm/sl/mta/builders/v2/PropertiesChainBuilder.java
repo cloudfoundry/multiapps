@@ -78,8 +78,7 @@ public class PropertiesChainBuilder {
 
     protected static List<Map<String, Object>> getPropertiesList(List<RequiredDependency> dependencies, Module module,
         ModuleType moduleType) {
-        List<PropertiesContainer> containers = new ArrayList<>();
-        containers.addAll(dependencies);
+        List<PropertiesContainer> containers = new ArrayList<>(dependencies);
         CollectionUtils.addIgnoreNull(containers, module);
         CollectionUtils.addIgnoreNull(containers, moduleType);
         return PropertiesUtil.getPropertiesList(containers);

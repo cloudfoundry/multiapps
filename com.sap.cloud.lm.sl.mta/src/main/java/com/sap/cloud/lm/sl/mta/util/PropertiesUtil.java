@@ -2,23 +2,22 @@ package com.sap.cloud.lm.sl.mta.util;
 
 import static java.text.MessageFormat.format;
 
-import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Objects;
 import java.util.TreeMap;
+import java.util.Map.Entry;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
-
-import org.apache.commons.lang3.ObjectUtils;
 
 import com.sap.cloud.lm.sl.common.ContentException;
 import com.sap.cloud.lm.sl.common.util.CommonUtil;
 import com.sap.cloud.lm.sl.mta.message.Messages;
 import com.sap.cloud.lm.sl.mta.model.ParametersContainer;
 import com.sap.cloud.lm.sl.mta.model.PropertiesContainer;
+import org.apache.commons.collections4.iterators.ReverseListIterator;
 
 public class PropertiesUtil {
 
@@ -37,7 +36,7 @@ public class PropertiesUtil {
      * Creates a list of properties from objects implementing the PropertiesContainer interface. Properties are added to the list in the
      * same order as the objects containing them are passed to the method! A NullPointerException is NOT thrown even if a container is null!
      * 
-     * @param containers The objects containing the properties
+     * @param providers The objects containing the properties
      * @return A list of properties
      */
     public static List<Map<String, Object>> getPropertiesList(Iterable<PropertiesContainer> providers) {
@@ -51,7 +50,7 @@ public class PropertiesUtil {
      * Creates a list of parameters from objects implementing the ParametersContainer interface. Parameters are added to the list in the
      * same order as the objects containing them are passed to the method! A NullPointerException is NOT thrown even if a container is null!
      * 
-     * @param containers The objects containing the parameters
+     * @param providers The objects containing the parameters
      * @return A list of parameters
      */
     public static List<Map<String, Object>> getParametersList(ParametersContainer... providers) {
@@ -62,7 +61,7 @@ public class PropertiesUtil {
      * Creates a list of parameters from objects implementing the ParametersContainer interface. Parameters are added to the list in the
      * same order as the objects containing them are passed to the method! A NullPointerException is NOT thrown even if a container is null!
      * 
-     * @param containers The objects containing the parameters
+     * @param providers The objects containing the parameters
      * @return A list of parameters
      */
     public static List<Map<String, Object>> getParametersList(Iterable<ParametersContainer> providers) {
@@ -80,10 +79,9 @@ public class PropertiesUtil {
      * @return A single properties map
      */
     public static Map<String, Object> mergeProperties(List<Map<String, Object>> propertiesList) {
+        Iterable<Map<String, Object>> iterableProperties = () -> new ReverseListIterator<>(propertiesList);
         Map<String, Object> result = new TreeMap<>();
-        // Add properties from the original list to the result in reverse order:
-        for (int i = propertiesList.size() - 1; i >= 0; i--) {
-            Map<String, Object> properties = propertiesList.get(i);
+        for (Map<String, Object> properties : iterableProperties) {
             if (properties != null) {
                 result.putAll(properties);
             }

@@ -24,12 +24,7 @@ public abstract class PatternResolver<T> implements Resolver<T> {
     }
 
     protected Map<String, Object> resolve(Map<String, Object> properties, final Map<String, Object> propertyValues, Boolean isStrict) {
-        ProvidedValuesResolver valuesResolver = new ProvidedValuesResolver() {
-            @Override
-            public Map<String, Object> resolveProvidedValues(String irrelevant) {
-                return propertyValues;
-            }
-        };
+        ProvidedValuesResolver valuesResolver = irrelevant -> propertyValues;
         if (isStrict != null) {
             return new PropertiesResolver(properties, valuesResolver, patternToMatch, prefix, isStrict).resolve();
         }

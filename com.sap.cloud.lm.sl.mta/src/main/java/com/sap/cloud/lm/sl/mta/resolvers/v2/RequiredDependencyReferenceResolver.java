@@ -47,12 +47,7 @@ public class RequiredDependencyReferenceResolver extends ReferenceResolver<Requi
 
     @Override
     protected Map<String, Object> resolve(Map<String, Object> properties, final Map<String, Object> propertyValues, Boolean isStrict) {
-        ProvidedValuesResolver valuesResolver = new ProvidedValuesResolver() {
-            @Override
-            public Map<String, Object> resolveProvidedValues(String irrelevant) {
-                return propertyValues;
-            }
-        };
+        ProvidedValuesResolver valuesResolver = irrelevant -> propertyValues;
         return propertiesResolverBuilder.build(properties, valuesResolver, patternToMatch, prefix, isStrict)
             .resolve();
     }

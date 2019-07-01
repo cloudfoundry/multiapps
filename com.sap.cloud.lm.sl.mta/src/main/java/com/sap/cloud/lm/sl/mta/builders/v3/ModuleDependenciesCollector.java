@@ -1,8 +1,8 @@
 package com.sap.cloud.lm.sl.mta.builders.v3;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 import org.apache.commons.collections4.ListUtils;
 
@@ -18,8 +18,7 @@ public class ModuleDependenciesCollector extends com.sap.cloud.lm.sl.mta.builder
     @Override
     public Set<String> collect(Module module) {
         Set<String> collectedDependencies = super.collect(module);
-        List<String> deployedAfter = collectedDependencies.stream()
-            .collect(Collectors.toList());
+        List<String> deployedAfter = new ArrayList<>(collectedDependencies);
         module.setDeployedAfter(deployedAfter);
         return collectedDependencies;
     }

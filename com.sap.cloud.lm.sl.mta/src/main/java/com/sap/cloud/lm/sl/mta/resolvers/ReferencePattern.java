@@ -12,7 +12,7 @@ public enum ReferencePattern implements ValueMatcher {
     private String pattern;
     private String patternFormat;
 
-    private ReferencePattern(String pattern, String patternFormat) {
+    ReferencePattern(String pattern, String patternFormat) {
         this.pattern = pattern;
         this.patternFormat = patternFormat;
     }
