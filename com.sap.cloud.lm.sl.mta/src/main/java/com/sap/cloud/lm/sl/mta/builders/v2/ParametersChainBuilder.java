@@ -60,7 +60,7 @@ public class ParametersChainBuilder extends PropertiesChainBuilder {
             return Collections.emptyList();
         }
         List<Map<String, Object>> resourceTypeChain = Collections.emptyList();
-        if (resource != null && resource.getType() != null) {
+        if (resource.getType() != null) {
             resourceTypeChain = buildResourceTypeChain(resourceName);
         }
         List<Map<String, Object>> resourceChain = PropertiesUtil.getParametersList(resource, descriptor);
@@ -80,8 +80,7 @@ public class ParametersChainBuilder extends PropertiesChainBuilder {
 
     protected static List<Map<String, Object>> getParametersList(List<RequiredDependency> dependencies, Module module,
         ModuleType moduleType, DeploymentDescriptor descriptor) {
-        List<ParametersContainer> containers = new ArrayList<>();
-        containers.addAll(dependencies);
+        List<ParametersContainer> containers = new ArrayList<>(dependencies);
         CollectionUtils.addIgnoreNull(containers, module);
         CollectionUtils.addIgnoreNull(containers, moduleType);
         CollectionUtils.addIgnoreNull(containers, descriptor);

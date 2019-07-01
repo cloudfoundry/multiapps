@@ -1,6 +1,5 @@
 package com.sap.cloud.lm.sl.mta.resolvers.v2;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -45,8 +44,7 @@ public class ModulePlaceholderResolver extends PlaceholderResolver<Module> {
         String moduleName = module.getName();
         List<Map<String, Object>> parametersList = parametersChainBuilder.buildModuleChainWithoutDependencies(moduleName);
         addSingularParametersIfNecessary(parametersList);
-        Map<String, Object> mergedParameters = PropertiesUtil.mergeProperties(parametersList);
-        return mergedParameters;
+        return PropertiesUtil.mergeProperties(parametersList);
     }
 
     protected Map<String, Object> getResolvedProperties(Map<String, Object> mergedParameters) {

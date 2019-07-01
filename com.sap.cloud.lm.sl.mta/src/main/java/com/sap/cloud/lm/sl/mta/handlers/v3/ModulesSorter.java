@@ -1,7 +1,6 @@
 package com.sap.cloud.lm.sl.mta.handlers.v3;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
@@ -53,14 +52,13 @@ public class ModulesSorter extends com.sap.cloud.lm.sl.mta.handlers.v2.ModulesSo
 
     private List<Module> sortUsingDeployedAfter() {
         List<Module> modules = new ArrayList<>(getModules());
-        Collections.sort(modules, getModuleComparator());
+        modules.sort(getModuleComparator());
         return modules;
     }
 
     protected List<Module> getModules() {
         List<Module> modules = new ArrayList<>(descriptor.getModules());
-        modules.stream()
-            .forEach(this::collectDependencies);
+        modules.forEach(this::collectDependencies);
         return modules;
     }
 

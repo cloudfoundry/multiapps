@@ -139,12 +139,7 @@ public class PropertiesResolver implements SimplePropertyVisitor, Resolver<Map<S
         if (referencedProperties == null) {
             return false;
         }
-
-        if (!referencedProperties.containsKey(referenceKey) && !canResolveInDepth) {
-            return false;
-        }
-
-        return true;
+        return referencedProperties.containsKey(referenceKey) || canResolveInDepth;
     }
 
     protected Object resolveReferenceInDepth(String deepReferenceKey, Map<String, Object> referencedProperties) {
@@ -197,7 +192,7 @@ public class PropertiesResolver implements SimplePropertyVisitor, Resolver<Map<S
         if (StringUtils.isNumeric(key)) {
             try {
                 return IterableUtils.get(listOfProperties, Integer.parseInt(key));
-            } catch (IndexOutOfBoundsException e) {
+            } catch (IndexOutOfBoundsException e) { // Intentionally ignored
             }
         }
         

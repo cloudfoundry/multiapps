@@ -1,8 +1,8 @@
 package com.sap.cloud.lm.sl.mta.resolvers.v3;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import com.sap.cloud.lm.sl.common.ContentException;
 import com.sap.cloud.lm.sl.mta.builders.v2.ParametersChainBuilder;
@@ -47,11 +47,10 @@ public class HookPlaceholderResolver extends PlaceholderResolver<Hook> {
     }
 
     private List<RequiredDependency> getResolvedHookDependencies(Hook hook) {
-        List<RequiredDependency> resolvedRequiredDependencies = new ArrayList<>();
-        for (RequiredDependency requiredDependency : hook.getRequiredDependencies()) {
-            resolvedRequiredDependencies.add(getRequiredDependencyResolver(requiredDependency).resolve());
-        }
-        return resolvedRequiredDependencies;
+        return hook.getRequiredDependencies()
+            .stream()
+            .map(requiredDependency -> getRequiredDependencyResolver(requiredDependency).resolve())
+            .collect(Collectors.toList());
     }
 
     protected RequiredDependencyPlaceholderResolver getRequiredDependencyResolver(RequiredDependency requiredDependency) {

@@ -1,6 +1,5 @@
 package com.sap.cloud.lm.sl.mta.handlers.v2;
 
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -29,14 +28,10 @@ public class ModulesSorter implements com.sap.cloud.lm.sl.mta.handlers.ModulesSo
     }
 
     public List<Module> sort() {
-        Map<Module, Set<String>> modulesAndDeploymentDependencies = getModulesAndDeploymentDependencies();
-        List<Entry<Module, Set<String>>> modulesAndDeploymentDependenciesSorted = modulesAndDeploymentDependencies.entrySet()
+        return getModulesAndDeploymentDependencies()
+            .entrySet()
             .stream()
-            .collect(Collectors.toList());
-
-        Collections.sort(modulesAndDeploymentDependenciesSorted, getModuleComparator(dependencyTypeProperty, hardDependencyType));
-
-        return modulesAndDeploymentDependenciesSorted.stream()
+            .sorted(getModuleComparator(dependencyTypeProperty, hardDependencyType))
             .map(Entry::getKey)
             .collect(Collectors.toList());
     }

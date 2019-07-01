@@ -1,8 +1,8 @@
 package com.sap.cloud.lm.sl.mta.resolvers.v3;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import com.sap.cloud.lm.sl.common.ContentException;
 import com.sap.cloud.lm.sl.mta.builders.v2.ParametersChainBuilder;
@@ -25,10 +25,10 @@ public class ModulePlaceholderResolver extends com.sap.cloud.lm.sl.mta.resolvers
     }
 
     private List<Hook> getResolvedHooks() {
-        List<Hook> resolvedHooks = new ArrayList<>();
-        module.getHooks()
-            .forEach(hook -> resolvedHooks.add(getHookPlaceholderResolver(hook).resolve()));
-        return resolvedHooks;
+        return module.getHooks()
+            .stream()
+            .map(hook -> getHookPlaceholderResolver(hook).resolve())
+            .collect(Collectors.toList());
     }
 
     private HookPlaceholderResolver getHookPlaceholderResolver(Hook hook) {

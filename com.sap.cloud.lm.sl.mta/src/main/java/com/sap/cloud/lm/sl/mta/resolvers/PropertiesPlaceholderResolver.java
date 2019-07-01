@@ -13,12 +13,7 @@ public class PropertiesPlaceholderResolver {
     }
 
     public Map<String, Object> resolve(Map<String, Object> properties, final Map<String, Object> replacementValues, String prefix) {
-        ProvidedValuesResolver valuesResolver = new ProvidedValuesResolver() {
-            @Override
-            public Map<String, Object> resolveProvidedValues(String irrelevant) {
-                return replacementValues;
-            }
-        };
+        ProvidedValuesResolver valuesResolver = irrelevant -> replacementValues;
         return propertiesResolverBuilder.build(properties, valuesResolver, PLACEHOLDER, prefix, true)
             .resolve();
     }
