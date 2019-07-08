@@ -1,5 +1,7 @@
 package com.sap.cloud.lm.sl.common.util;
 
+import org.apache.commons.lang3.tuple.Pair;
+
 import java.util.Collections;
 import java.util.Map;
 import java.util.TreeMap;
@@ -61,9 +63,8 @@ public class MapUtil {
     public static <K, V> Map<K, V> of(Pair<K, V>... keysValues) {
         Map<K, V> result = new TreeMap<>();
         for (Pair<K, V> keyValue : keysValues) {
-            result.put(keyValue._1, keyValue._2);
+            result.put(keyValue.getKey(), keyValue.getValue());
         }
         return result;
     }
-
 }
