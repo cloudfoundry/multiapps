@@ -43,7 +43,7 @@ public class DeploymentDescriptorValidator extends Visitor {
     }
 
     protected boolean canBeResolved(String dependency) {
-        return handler.findDependency(descriptor, dependency) != null;
+        return handler.findResource(descriptor, dependency) != null || handler.findProvidedDependency(descriptor, dependency) != null;
     }
     
     @Override

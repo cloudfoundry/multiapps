@@ -3,7 +3,6 @@ package com.sap.cloud.lm.sl.mta.handlers.v2;
 import java.util.List;
 import java.util.Objects;
 
-import com.sap.cloud.lm.sl.common.util.Pair;
 import com.sap.cloud.lm.sl.mta.model.DeploymentDescriptor;
 import com.sap.cloud.lm.sl.mta.model.ExtensionDescriptor;
 import com.sap.cloud.lm.sl.mta.model.ExtensionModule;
@@ -79,18 +78,6 @@ public class DescriptorHandler {
                 .equals(moduleTypeName))
             .findFirst()
             .orElse(null);
-    }
-
-    public Pair<Resource, ProvidedDependency> findDependency(DeploymentDescriptor descriptor, String dependencyName) {
-        Resource resource = findResource(descriptor, dependencyName);
-        if (resource != null) {
-            return new Pair<>(resource, null);
-        }
-        ProvidedDependency providedDependency = findProvidedDependency(descriptor, dependencyName);
-        if (providedDependency != null) {
-            return new Pair<>(null, providedDependency);
-        }
-        return null;
     }
 
     public Resource findResource(DeploymentDescriptor descriptor, String resourceName) {
