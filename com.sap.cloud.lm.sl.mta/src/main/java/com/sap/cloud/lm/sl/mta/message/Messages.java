@@ -26,6 +26,8 @@ public class Messages {
     public static final String ERROR_RETRIEVING_ARCHIVE_ENTRY = "Error while retrieving archive entry \"{0}\"";
     public static final String NULL_VALUE_FOR_KEY = "Null value for key \"{0}\"";
     public static final String MISSING_REQUIRED_KEY = "Missing required key \"{0}\"";
+    public static final String ERROR_EMPTY_DEPLOYMENT_DESCRIPTOR = "Empty deployment descriptor";
+    public static final String ERROR_EMPTY_EXTENSION_DESCRIPTOR = "Empty extension descriptor";
     public static final String NULL_CONTENT = "Null content";
     public static final String INVALID_CONTENT_TYPE = "Invalid content type, expected \"{0}\" but got \"{1}\"";
     public static final String INVALID_TYPE_FOR_KEY = "Invalid type for key \"{0}\", expected \"{1}\" but got \"{2}\"";
