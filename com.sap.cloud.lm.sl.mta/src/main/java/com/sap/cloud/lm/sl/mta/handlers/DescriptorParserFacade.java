@@ -26,6 +26,9 @@ public class DescriptorParserFacade {
     }
 
     private DeploymentDescriptor parseDeploymentDescriptor(Map<String, Object> descriptor) {
+        if (descriptor == null) {
+            throw new ContentException(Messages.ERROR_EMPTY_DEPLOYMENT_DESCRIPTOR);
+        }
         DescriptorParser parser = getDescriptorParser(descriptor);
         return parser.parseDeploymentDescriptor(descriptor);
     }
@@ -41,6 +44,9 @@ public class DescriptorParserFacade {
     }
 
     private ExtensionDescriptor parseExtensionDescriptor(Map<String, Object> descriptor) {
+        if (descriptor == null) {
+            throw new ContentException(Messages.ERROR_EMPTY_EXTENSION_DESCRIPTOR);
+        }
         DescriptorParser parser = getDescriptorParser(descriptor);
         return parser.parseExtensionDescriptor(descriptor);
     }
