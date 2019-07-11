@@ -36,6 +36,8 @@ Our team is developing on the [Eclipse](http://www.eclipse.org/) IDE and we have
 
 #### IntelliJ
 If you're using IntelliJ you can try the [EclipseCodeFormatter](https://github.com/krasa/EclipseCodeFormatter) plugin.
+Just follow the provided formatter manual using the ecplipse formatter file.
+Note: In the "Optimizing Imports" configuration use "Manual configuration" for the import order: java;javax;org;com;
 
 #### NetBeans
 NetBeans also provides such a plugin. Just search for `eclipse formatter` in the [PluginPortal](http://plugins.netbeans.org/PluginPortal/).
