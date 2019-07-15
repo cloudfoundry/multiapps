@@ -3,8 +3,6 @@ package com.sap.cloud.lm.sl.mta.validators.v2;
 import static com.sap.cloud.lm.sl.mta.util.ValidatorUtil.getPrefixedName;
 
 import java.util.Map;
-import java.util.Map.Entry;
-import java.util.Objects;
 import java.util.Set;
 import java.util.TreeSet;
 
