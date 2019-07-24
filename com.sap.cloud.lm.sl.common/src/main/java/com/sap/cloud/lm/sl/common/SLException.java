@@ -10,7 +10,7 @@ public class SLException extends RuntimeException {
     private static final long serialVersionUID = 8047984378256199958L;
 
     public SLException(String message, Object... arguments) {
-        this(null, message, arguments);
+        this(MessageFormat.format(message, arguments));
     }
 
     public SLException(String message) {
