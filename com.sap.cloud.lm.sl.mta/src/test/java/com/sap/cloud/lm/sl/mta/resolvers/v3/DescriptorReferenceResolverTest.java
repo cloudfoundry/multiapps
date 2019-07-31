@@ -56,7 +56,7 @@ public class DescriptorReferenceResolverTest {
 
     public void init(String mergedDescriptorLocation) {
         DeploymentDescriptor mergedDescriptor = MtaTestUtil.loadDeploymentDescriptor(mergedDescriptorLocation, new DescriptorParser(),
-            getClass());
+                                                                                     getClass());
         resolver = new DescriptorReferenceResolver(mergedDescriptor, new ResolverBuilder(), new ResolverBuilder(), new ResolverBuilder());
     }
 

@@ -22,7 +22,7 @@ public class MergedDescriptorValidator extends Visitor {
     protected final Set<String> emptyParameters = new TreeSet<>();
 
     public MergedDescriptorValidator(DeploymentDescriptor mergedDescriptor, DescriptorValidationRules validationRules,
-        DescriptorHandler handler) {
+                                     DescriptorHandler handler) {
         this.mergedDescriptor = mergedDescriptor;
         this.validationRules = validationRules;
         this.handler = handler;

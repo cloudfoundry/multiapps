@@ -20,7 +20,7 @@ public class ModulesSorter implements com.sap.cloud.lm.sl.mta.handlers.ModulesSo
     protected String hardDependencyType;
 
     public ModulesSorter(DeploymentDescriptor descriptor, DescriptorHandler handler, String dependencyTypeProperty,
-        String hardDependencyType) {
+                         String hardDependencyType) {
         this.descriptor = descriptor;
         this.handler = handler;
         this.dependencyTypeProperty = dependencyTypeProperty;
@@ -28,18 +28,17 @@ public class ModulesSorter implements com.sap.cloud.lm.sl.mta.handlers.ModulesSo
     }
 
     public List<Module> sort() {
-        return getModulesAndDeploymentDependencies()
-            .entrySet()
-            .stream()
-            .sorted(getModuleComparator(dependencyTypeProperty, hardDependencyType))
-            .map(Entry::getKey)
-            .collect(Collectors.toList());
+        return getModulesAndDeploymentDependencies().entrySet()
+                                                    .stream()
+                                                    .sorted(getModuleComparator(dependencyTypeProperty, hardDependencyType))
+                                                    .map(Entry::getKey)
+                                                    .collect(Collectors.toList());
     }
 
     protected Map<Module, Set<String>> getModulesAndDeploymentDependencies() {
         return descriptor.getModules()
-            .stream()
-            .collect(LinkedHashMap::new, (map, module) -> map.put(module, getDependencies(module)), Map::putAll);
+                         .stream()
+                         .collect(LinkedHashMap::new, (map, module) -> map.put(module, getDependencies(module)), Map::putAll);
     }
 
     protected Set<String> getDependencies(Module module) {

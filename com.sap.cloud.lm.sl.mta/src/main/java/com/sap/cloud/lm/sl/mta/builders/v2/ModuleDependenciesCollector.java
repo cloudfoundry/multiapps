@@ -25,9 +25,9 @@ public class ModuleDependenciesCollector {
 
     protected List<String> getDependencies(Module module) {
         return module.getRequiredDependencies()
-            .stream()
-            .map(RequiredDependency::getName)
-            .collect(Collectors.toList());
+                     .stream()
+                     .map(RequiredDependency::getName)
+                     .collect(Collectors.toList());
     }
 
     public Set<String> collect(Module module) {
@@ -69,14 +69,14 @@ public class ModuleDependenciesCollector {
 
     protected Module findModuleSatisfyingDependency(String dependency) {
         return descriptor.getModules()
-            .stream()
-            .filter(module -> handler.findProvidedDependency(module, dependency) != null)
-            .findFirst()
-            .orElse(null);
+                         .stream()
+                         .filter(module -> handler.findProvidedDependency(module, dependency) != null)
+                         .findFirst()
+                         .orElse(null);
     }
 
     private boolean notRequiresSelf(Module module, Module requiredModule) {
         return requiredModule != null && !requiredModule.getName()
-            .equals(module.getName());
+                                                        .equals(module.getName());
     }
 }

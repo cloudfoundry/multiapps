@@ -37,11 +37,11 @@ public class HookParser extends ModelParser<Hook> {
     @Override
     public Hook parse() throws ParsingException {
         return Hook.createV3()
-            .setName(getName())
-            .setParameters(getParameters())
-            .setPhases(getPhases())
-            .setRequiredDependencies(getRequiredDependencies())
-            .setType(getType());
+                   .setName(getName())
+                   .setParameters(getParameters())
+                   .setPhases(getPhases())
+                   .setRequiredDependencies(getRequiredDependencies())
+                   .setType(getType());
     }
 
     private String getType() {
@@ -53,7 +53,7 @@ public class HookParser extends ModelParser<Hook> {
             @Override
             protected RequiredDependency parseItem(Map<String, Object> map) {
                 return getRequiredDependencyParser(map).setUsedValues(usedRequiredDependencyNames)
-                    .parse();
+                                                       .parse();
             }
         });
     }

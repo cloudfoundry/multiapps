@@ -41,11 +41,11 @@ public class ExtensionDescriptorParser extends ModelParser<ExtensionDescriptor> 
     @Override
     public ExtensionDescriptor parse() throws ParsingException {
         return createEntity().setSchemaVersion(getSchemaVersion())
-            .setId(getId())
-            .setParentId(getParentId())
-            .setModules(getModules())
-            .setResources(getResources())
-            .setParameters(getParameters());
+                             .setId(getId())
+                             .setParentId(getParentId())
+                             .setModules(getModules())
+                             .setResources(getResources())
+                             .setParameters(getParameters());
     }
 
     protected ExtensionDescriptor createEntity() {
@@ -69,8 +69,8 @@ public class ExtensionDescriptorParser extends ModelParser<ExtensionDescriptor> 
             @Override
             protected ExtensionModule parseItem(Map<String, Object> map) {
                 return getModuleParser(map).setUsedProvidedDependencyNames(usedProvidedDependencyNames)
-                    .setUsedValues(usedModuleNames)
-                    .parse();
+                                           .setUsedValues(usedModuleNames)
+                                           .parse();
             }
         });
     }
@@ -84,7 +84,7 @@ public class ExtensionDescriptorParser extends ModelParser<ExtensionDescriptor> 
             @Override
             protected ExtensionResource parseItem(Map<String, Object> map) {
                 return getResourceParser(map).setUsedValues(usedResourceNames)
-                    .parse();
+                                             .parse();
             }
         });
     }

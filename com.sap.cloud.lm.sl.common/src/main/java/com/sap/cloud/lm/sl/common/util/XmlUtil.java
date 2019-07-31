@@ -84,7 +84,7 @@ public class XmlUtil {
     public static <T> T fromXml(Document xml, Class<T> clazz, URL schemaLocation) throws ParsingException {
         try {
             return getUnmarshaller(getContext(clazz), schemaLocation).unmarshal(xml, clazz)
-                .getValue();
+                                                                     .getValue();
         } catch (SAXException | JAXBException e) {
             handleUnmarshallingException(e, schemaLocation);
             return null;
@@ -161,7 +161,7 @@ public class XmlUtil {
     private static Unmarshaller getValidatingUnmarshaller(JAXBContext context, URL schemaLocation) throws SAXException, JAXBException {
         Unmarshaller unmarshaller = getRegularUnmarshaller(context);
         unmarshaller.setSchema(SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI)
-            .newSchema(schemaLocation));
+                                            .newSchema(schemaLocation));
         return unmarshaller;
     }
 

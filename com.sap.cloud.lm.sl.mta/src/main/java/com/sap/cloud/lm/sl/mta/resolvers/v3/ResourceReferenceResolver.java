@@ -24,7 +24,8 @@ public class ResourceReferenceResolver implements Resolver<Resource> {
     protected final ResolverBuilder requiredDepencenciesPropertiesResolverBuilder;
 
     public ResourceReferenceResolver(DeploymentDescriptor descriptor, Resource resource, String prefix,
-        ResolverBuilder resourcesPropertiesResolverBuilder, ResolverBuilder requiredDepencenciesPropertiesResolverBuilder) {
+                                     ResolverBuilder resourcesPropertiesResolverBuilder,
+                                     ResolverBuilder requiredDepencenciesPropertiesResolverBuilder) {
         this.descriptor = descriptor;
         this.resource = resource;
         this.resourcesPropertiesResolverBuilder = resourcesPropertiesResolverBuilder;
@@ -42,9 +43,9 @@ public class ResourceReferenceResolver implements Resolver<Resource> {
 
     private List<RequiredDependency> getResolvedDependencies() {
         return resource.getRequiredDependencies()
-            .stream()
-            .map(this::resolveRequiredDependency)
-            .collect(Collectors.toList());
+                       .stream()
+                       .map(this::resolveRequiredDependency)
+                       .collect(Collectors.toList());
     }
 
     protected RequiredDependency resolveRequiredDependency(RequiredDependency dependency) {
@@ -53,8 +54,12 @@ public class ResourceReferenceResolver implements Resolver<Resource> {
     }
 
     protected RequiredDependencyReferenceResolver createRequiredDependencyResolver(RequiredDependency requiredDependency) {
-        return new RequiredDependencyReferenceResolver(descriptor, resource, requiredDependency, prefix, new DescriptorHandler(),
-            requiredDepencenciesPropertiesResolverBuilder);
+        return new RequiredDependencyReferenceResolver(descriptor,
+                                                       resource,
+                                                       requiredDependency,
+                                                       prefix,
+                                                       new DescriptorHandler(),
+                                                       requiredDepencenciesPropertiesResolverBuilder);
     }
 
     private Map<String, Object> getResolvedProperties() {

@@ -58,23 +58,24 @@ public class SchemaVersionDetectorTest {
         List<ExtensionDescriptor> extensionDescriptorChain = Arrays.asList(extensionDescriptor1, extensionDescriptor2);
 
         ContentException contentException = assertThrows(ContentException.class,
-            () -> schemaVersionDetector.detect(deploymentDescriptor, extensionDescriptorChain));
-        String expectedMessage = MessageFormat.format(
-            Messages.EXTENSION_DESCRIPTORS_MUST_HAVE_THE_SAME_MAJOR_SCHEMA_VERSION_AS_THE_DEPLOYMENT_DESCRIPTOR_BUT_0_DO_NOT, BAR_ID);
+                                                         () -> schemaVersionDetector.detect(deploymentDescriptor,
+                                                                                            extensionDescriptorChain));
+        String expectedMessage = MessageFormat.format(Messages.EXTENSION_DESCRIPTORS_MUST_HAVE_THE_SAME_MAJOR_SCHEMA_VERSION_AS_THE_DEPLOYMENT_DESCRIPTOR_BUT_0_DO_NOT,
+                                                      BAR_ID);
 
         assertEquals(expectedMessage, contentException.getMessage());
     }
 
     private DeploymentDescriptor buildDeploymentDescriptor(String schemaVersion, String id) {
         return DeploymentDescriptor.createV2()
-            .setSchemaVersion(schemaVersion)
-            .setId(id);
+                                   .setSchemaVersion(schemaVersion)
+                                   .setId(id);
     }
 
     private ExtensionDescriptor buildExtensionDescriptor(String schemaVersion, String id) {
         return ExtensionDescriptor.createV2()
-            .setSchemaVersion(schemaVersion)
-            .setId(id);
+                                  .setSchemaVersion(schemaVersion)
+                                  .setId(id);
     }
 
 }

@@ -25,7 +25,7 @@ public class RequiredDependencyParser extends com.sap.cloud.lm.sl.mta.parsers.v2
     @Override
     public RequiredDependency parse() throws ParsingException {
         return super.parse().setPropertiesMetadata(getPropertiesMetadata())
-            .setParametersMetadata(getParametersMetadata());
+                            .setParametersMetadata(getParametersMetadata());
     }
 
     @Override

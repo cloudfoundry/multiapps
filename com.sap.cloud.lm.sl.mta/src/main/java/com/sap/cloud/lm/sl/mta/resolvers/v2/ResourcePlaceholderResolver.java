@@ -19,7 +19,8 @@ public class ResourcePlaceholderResolver extends PlaceholderResolver<Resource> {
     protected final ResolverBuilder parametersResolverBuilder;
 
     public ResourcePlaceholderResolver(Resource resource, String prefix, ParametersChainBuilder parametersChainBuilder,
-        ResolverBuilder propertiesResolverBuilder, ResolverBuilder parametersResolverBuilder, Map<String, String> singularToPluralMapping) {
+                                       ResolverBuilder propertiesResolverBuilder, ResolverBuilder parametersResolverBuilder,
+                                       Map<String, String> singularToPluralMapping) {
         super(resource.getName(), prefix, singularToPluralMapping);
         this.resource = resource;
         this.parametersChainBuilder = parametersChainBuilder;
@@ -40,12 +41,12 @@ public class ResourcePlaceholderResolver extends PlaceholderResolver<Resource> {
 
     protected Map<String, Object> getResolvedProperties(Map<String, Object> mergedParametersChain) {
         return new PropertiesPlaceholderResolver(propertiesResolverBuilder).resolve(resource.getProperties(), mergedParametersChain,
-            prefix);
+                                                                                    prefix);
     }
 
     protected Map<String, Object> getResolvedParameters(Map<String, Object> mergedParametersChain) {
         return new PropertiesPlaceholderResolver(parametersResolverBuilder).resolve(resource.getParameters(), mergedParametersChain,
-            prefix);
+                                                                                    prefix);
     }
 
 }

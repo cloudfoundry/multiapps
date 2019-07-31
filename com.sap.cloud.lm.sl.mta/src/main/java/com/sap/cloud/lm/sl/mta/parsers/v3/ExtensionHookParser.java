@@ -35,9 +35,9 @@ public class ExtensionHookParser extends ModelParser<ExtensionHook> {
     @Override
     public ExtensionHook parse() throws ParsingException {
         return ExtensionHook.createV3()
-            .setName(getName())
-            .setParameters(getParameters())
-            .setRequiredDependencies(getExtensionRequiredDependencies());
+                            .setName(getName())
+                            .setParameters(getParameters())
+                            .setRequiredDependencies(getExtensionRequiredDependencies());
     }
 
     protected List<ExtensionRequiredDependency> getExtensionRequiredDependencies() {
@@ -45,7 +45,7 @@ public class ExtensionHookParser extends ModelParser<ExtensionHook> {
             @Override
             protected ExtensionRequiredDependency parseItem(Map<String, Object> map) {
                 return getRequiredDependencyParser(map).setUsedValues(usedRequiredDependencyNames)
-                    .parse();
+                                                       .parse();
             }
         });
     }

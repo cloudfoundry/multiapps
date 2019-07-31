@@ -97,7 +97,7 @@ public class DescriptorValidatorTest extends com.sap.cloud.lm.sl.mta.handlers.v2
     }
 
     public DescriptorValidatorTest(String deploymentDescriptorLocation, String[] extensionDescriptorLocations,
-        String mergedDescriptorLocation, Expectation[] expectations) {
+                                   String mergedDescriptorLocation, Expectation[] expectations) {
         super(deploymentDescriptorLocation, extensionDescriptorLocations, mergedDescriptorLocation, expectations);
     }
 

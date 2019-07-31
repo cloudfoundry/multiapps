@@ -36,9 +36,9 @@ public class PlatformParser extends ModelParser<Platform> {
     @Override
     public Platform parse() throws ParsingException {
         return new Platform().setName(getName())
-            .setModuleTypes(getModuleTypes())
-            .setResourceTypes(getResourceTypes())
-            .setParameters(getParameters());
+                             .setModuleTypes(getModuleTypes())
+                             .setResourceTypes(getResourceTypes())
+                             .setParameters(getParameters());
     }
 
     protected String getName() {
@@ -50,7 +50,7 @@ public class PlatformParser extends ModelParser<Platform> {
             @Override
             protected ModuleType parseItem(Map<String, Object> map) {
                 return getModuleTypeParser(map).setUsedValues(usedModuleTypeNames)
-                    .parse();
+                                               .parse();
             }
         });
     }
@@ -64,7 +64,7 @@ public class PlatformParser extends ModelParser<Platform> {
             @Override
             protected ResourceType parseItem(Map<String, Object> map) {
                 return getResourceTypeParser(map).setUsedValues(usedResourceTypeNames)
-                    .parse();
+                                                 .parse();
             }
         });
     }

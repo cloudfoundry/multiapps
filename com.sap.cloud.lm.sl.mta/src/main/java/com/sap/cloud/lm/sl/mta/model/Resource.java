@@ -73,8 +73,8 @@ public class Resource extends VersionedEntity
 
     private static List<RequiredDependency> copyRequiredDependencies(List<RequiredDependency> originals) {
         return originals.stream()
-            .map(RequiredDependency::copyOf)
-            .collect(Collectors.toList());
+                        .map(RequiredDependency::copyOf)
+                        .collect(Collectors.toList());
     }
 
     public String getName() {

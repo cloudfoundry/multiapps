@@ -61,7 +61,6 @@ public class DescriptorReferenceResolverTest {
 
     }
 
-
     @ParameterizedTest
     @MethodSource
     public void testResolve(String mergedDescriptorLocation, Expectation expectation) {
@@ -72,7 +71,7 @@ public class DescriptorReferenceResolverTest {
 
     public void init(String mergedDescriptorLocation) {
         DeploymentDescriptor mergedDescriptor = MtaTestUtil.loadDeploymentDescriptor(mergedDescriptorLocation, new DescriptorParser(),
-            getClass());
+                                                                                     getClass());
         resolver = new DescriptorReferenceResolver(mergedDescriptor, new ResolverBuilder(), new ResolverBuilder());
     }
 

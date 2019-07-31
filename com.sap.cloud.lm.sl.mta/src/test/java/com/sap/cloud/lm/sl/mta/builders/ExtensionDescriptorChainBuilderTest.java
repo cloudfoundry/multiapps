@@ -31,11 +31,11 @@ public class ExtensionDescriptorChainBuilderTest {
         // Shuffle them around:
         List<ExtensionDescriptor> extensionDescriptors = Arrays.asList(extensionDescriptor2, extensionDescriptor3, extensionDescriptor1);
         List<ExtensionDescriptor> expectedExtensionDescriptorChain = Arrays.asList(extensionDescriptor1, extensionDescriptor2,
-            extensionDescriptor3);
+                                                                                   extensionDescriptor3);
 
         ExtensionDescriptorChainBuilder extensionDescriptorChainBuilder = new ExtensionDescriptorChainBuilder();
         List<ExtensionDescriptor> extensionDescriptorChain = extensionDescriptorChainBuilder.build(deploymentDescriptor,
-            extensionDescriptors);
+                                                                                                   extensionDescriptors);
 
         assertEquals(expectedExtensionDescriptorChain, extensionDescriptorChain);
     }
@@ -49,9 +49,10 @@ public class ExtensionDescriptorChainBuilderTest {
 
         ExtensionDescriptorChainBuilder extensionDescriptorChainBuilder = new ExtensionDescriptorChainBuilder();
         ContentException contentException = assertThrows(ContentException.class,
-            () -> extensionDescriptorChainBuilder.build(deploymentDescriptor, extensionDescriptors));
-        String expectedMessage = MessageFormat.format(
-            Messages.CANNOT_BUILD_EXTENSION_DESCRIPTOR_CHAIN_BECAUSE_DESCRIPTORS_0_HAVE_AN_UNKNOWN_PARENT, extensionDescriptor2.getId());
+                                                         () -> extensionDescriptorChainBuilder.build(deploymentDescriptor,
+                                                                                                     extensionDescriptors));
+        String expectedMessage = MessageFormat.format(Messages.CANNOT_BUILD_EXTENSION_DESCRIPTOR_CHAIN_BECAUSE_DESCRIPTORS_0_HAVE_AN_UNKNOWN_PARENT,
+                                                      extensionDescriptor2.getId());
 
         assertEquals(expectedMessage, contentException.getMessage());
     }
@@ -65,9 +66,10 @@ public class ExtensionDescriptorChainBuilderTest {
 
         ExtensionDescriptorChainBuilder extensionDescriptorChainBuilder = new ExtensionDescriptorChainBuilder();
         ContentException contentException = assertThrows(ContentException.class,
-            () -> extensionDescriptorChainBuilder.build(deploymentDescriptor, extensionDescriptors));
+                                                         () -> extensionDescriptorChainBuilder.build(deploymentDescriptor,
+                                                                                                     extensionDescriptors));
         String expectedMessage = MessageFormat.format(Messages.MULTIPLE_EXTENSION_DESCRIPTORS_EXTEND_THE_PARENT_0,
-            deploymentDescriptor.getId());
+                                                      deploymentDescriptor.getId());
 
         assertEquals(expectedMessage, contentException.getMessage());
     }
@@ -82,7 +84,7 @@ public class ExtensionDescriptorChainBuilderTest {
 
         ExtensionDescriptorChainBuilder extensionDescriptorChainBuilder = new ExtensionDescriptorChainBuilder(false);
         List<ExtensionDescriptor> extensionDescriptorChain = extensionDescriptorChainBuilder.build(deploymentDescriptor,
-            extensionDescriptors);
+                                                                                                   extensionDescriptors);
 
         assertEquals(expectedExtensionDescriptorChain, extensionDescriptorChain);
     }
@@ -96,20 +98,20 @@ public class ExtensionDescriptorChainBuilderTest {
 
         ExtensionDescriptorChainBuilder extensionDescriptorChainBuilder = new ExtensionDescriptorChainBuilder(false);
         List<ExtensionDescriptor> extensionDescriptorChain = extensionDescriptorChainBuilder.build(deploymentDescriptor,
-            extensionDescriptors);
+                                                                                                   extensionDescriptors);
 
         assertEquals(Collections.emptyList(), extensionDescriptorChain);
     }
 
     private DeploymentDescriptor buildDeploymentDescriptor(String id) {
         return DeploymentDescriptor.createV2()
-            .setId(id);
+                                   .setId(id);
     }
 
     private ExtensionDescriptor buildExtensionDescriptor(String id, String parentId) {
         return ExtensionDescriptor.createV2()
-            .setParentId(parentId)
-            .setId(id);
+                                  .setParentId(parentId)
+                                  .setId(id);
     }
 
 }

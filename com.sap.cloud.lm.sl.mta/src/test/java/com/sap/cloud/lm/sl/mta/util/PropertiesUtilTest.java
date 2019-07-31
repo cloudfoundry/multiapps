@@ -39,13 +39,15 @@ public class PropertiesUtilTest {
     @ParameterizedTest
     @MethodSource
     public void mergeTest(String deploymentDescriptorPath, String extensionDescriptorPath, Expectation expectation) {
-        Map<String, Object> deploymentDescriptorProperties = JsonUtil
-            .fromJson(TestUtil.getResourceAsString(deploymentDescriptorPath, getClass()), Map.class);
-        Map<String, Object> extensionDescriptorProperties = JsonUtil
-            .fromJson(TestUtil.getResourceAsString(extensionDescriptorPath, getClass()), Map.class);
+        Map<String, Object> deploymentDescriptorProperties = JsonUtil.fromJson(TestUtil.getResourceAsString(deploymentDescriptorPath,
+                                                                                                            getClass()),
+                                                                               Map.class);
+        Map<String, Object> extensionDescriptorProperties = JsonUtil.fromJson(TestUtil.getResourceAsString(extensionDescriptorPath,
+                                                                                                           getClass()),
+                                                                              Map.class);
 
         tester.test(() -> PropertiesUtil.mergeExtensionProperties(deploymentDescriptorProperties, extensionDescriptorProperties),
-            expectation);
+                    expectation);
     }
 
     public static Stream<Arguments> testGetPluralOrSingular() {

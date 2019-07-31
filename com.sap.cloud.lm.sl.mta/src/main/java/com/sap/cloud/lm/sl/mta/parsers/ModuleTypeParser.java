@@ -27,8 +27,8 @@ public class ModuleTypeParser extends ModelParser<ModuleType> {
     @Override
     public ModuleType parse() throws ParsingException {
         return new ModuleType().setName(getName())
-            .setProperties(getProperties())
-            .setParameters(getParameters());
+                               .setProperties(getProperties())
+                               .setParameters(getParameters());
     }
 
     protected String getName() {

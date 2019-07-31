@@ -31,7 +31,7 @@ public class ExtensionResourceParser extends com.sap.cloud.lm.sl.mta.parsers.v2.
     @Override
     public ExtensionResource parse() throws ParsingException {
         return super.parse().setActive(getActive())
-            .setRequiredDependencies(getExtensionRequiredDependencies());
+                            .setRequiredDependencies(getExtensionRequiredDependencies());
     }
 
     @Override

@@ -29,8 +29,8 @@ public class ExtensionResourceParser extends ModelParser<ExtensionResource> {
     @Override
     public ExtensionResource parse() throws ParsingException {
         return createEntity().setName(getName())
-            .setParameters(getParameters())
-            .setProperties(getProperties());
+                             .setParameters(getParameters())
+                             .setProperties(getProperties());
     }
 
     protected ExtensionResource createEntity() {

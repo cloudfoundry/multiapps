@@ -3,9 +3,9 @@ package com.sap.cloud.lm.sl.mta.handlers.v2;
 import java.util.Map;
 
 import com.sap.cloud.lm.sl.mta.schema.Element;
+import com.sap.cloud.lm.sl.mta.schema.Element.ElementBuilder;
 import com.sap.cloud.lm.sl.mta.schema.ListElement;
 import com.sap.cloud.lm.sl.mta.schema.MapElement;
-import com.sap.cloud.lm.sl.mta.schema.Element.ElementBuilder;
 
 public class Schemas {
 
@@ -29,24 +29,24 @@ public class Schemas {
     public static final MapElement RESOURCE_TYPE = new MapElement();
 
     public static final Element OBJECT_REQUIRED = new ElementBuilder().type(Object.class)
-        .required(true)
-        .buildSimple();
+                                                                      .required(true)
+                                                                      .buildSimple();
     public static final Element NON_UNIQUE_MTA_IDENTIFIER = new ElementBuilder().required(true)
-        .pattern(MTA_IDENTIFIER_PATTERN)
-        .maxLength(MTA_IDENTIFIER_MAX_LENGTH)
-        .buildSimple();
+                                                                                .pattern(MTA_IDENTIFIER_PATTERN)
+                                                                                .maxLength(MTA_IDENTIFIER_MAX_LENGTH)
+                                                                                .buildSimple();
     public static final Element STRING_REQUIRED = new ElementBuilder().required(true)
-        .buildSimple();
+                                                                      .buildSimple();
     public static final Element STRING = new ElementBuilder().buildSimple();
     public static final Element UNIQUE_MTA_IDENTIFIER = new ElementBuilder().required(true)
-        .unique(true)
-        .pattern(MTA_IDENTIFIER_PATTERN)
-        .maxLength(MTA_IDENTIFIER_MAX_LENGTH)
-        .buildSimple();
+                                                                            .unique(true)
+                                                                            .pattern(MTA_IDENTIFIER_PATTERN)
+                                                                            .maxLength(MTA_IDENTIFIER_MAX_LENGTH)
+                                                                            .buildSimple();
     public static final Element PROPERTIES = new ElementBuilder().type(Map.class)
-        .buildSimple();
+                                                                 .buildSimple();
     public static final Element BOOLEAN = new ElementBuilder().type(Boolean.class)
-        .buildSimple();
+                                                              .buildSimple();
     public static final ListElement LIST = new ListElement(STRING);
 
     static {

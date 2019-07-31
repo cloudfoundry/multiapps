@@ -22,10 +22,13 @@ public interface HandlerConstructor {
     DescriptorValidator getDescriptorValidator();
 
     PlaceholderResolver<DeploymentDescriptor> getDescriptorPlaceholderResolver(DeploymentDescriptor mergedDescriptor,
-        ResolverBuilder propertiesResolverBuilder, ResolverBuilder parametersResolverBuilder, Map<String, String> singularToPluralMapping);
+                                                                               ResolverBuilder propertiesResolverBuilder,
+                                                                               ResolverBuilder parametersResolverBuilder,
+                                                                               Map<String, String> singularToPluralMapping);
 
     Resolver<DeploymentDescriptor> getDescriptorReferenceResolver(DeploymentDescriptor mergedDescriptor,
-        ResolverBuilder modulesPropertiesResolverBuilder, ResolverBuilder resourcePropertiesResolverBuilder,
-        ResolverBuilder requiredDepencenciesPropertiesResolverBuilder);
+                                                                  ResolverBuilder modulesPropertiesResolverBuilder,
+                                                                  ResolverBuilder resourcePropertiesResolverBuilder,
+                                                                  ResolverBuilder requiredDepencenciesPropertiesResolverBuilder);
 
 }

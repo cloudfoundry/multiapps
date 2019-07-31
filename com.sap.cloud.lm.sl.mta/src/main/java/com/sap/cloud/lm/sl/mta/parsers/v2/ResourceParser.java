@@ -32,10 +32,10 @@ public class ResourceParser extends ModelParser<Resource> {
     @Override
     public Resource parse() throws ParsingException {
         return createEntity().setDescription(getDescription())
-            .setName(getName())
-            .setType(getType())
-            .setProperties(getProperties())
-            .setParameters(getParameters());
+                             .setName(getName())
+                             .setType(getType())
+                             .setProperties(getProperties())
+                             .setParameters(getParameters());
     }
 
     protected Resource createEntity() {

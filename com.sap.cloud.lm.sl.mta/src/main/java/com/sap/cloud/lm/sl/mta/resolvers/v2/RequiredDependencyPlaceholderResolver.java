@@ -21,8 +21,8 @@ public class RequiredDependencyPlaceholderResolver extends PlaceholderResolver<R
     protected final ResolverBuilder parametersResolverBuilder;
 
     public RequiredDependencyPlaceholderResolver(Module module, RequiredDependency requiredDependency, String prefix,
-        ParametersChainBuilder parametersChainBuilder, ResolverBuilder propertiesResolverBuilder, ResolverBuilder parametersResolverBuilder,
-        Map<String, String> singularToPluralMapping) {
+                                                 ParametersChainBuilder parametersChainBuilder, ResolverBuilder propertiesResolverBuilder,
+                                                 ResolverBuilder parametersResolverBuilder, Map<String, String> singularToPluralMapping) {
         super(requiredDependency.getName(), prefix, singularToPluralMapping);
         this.parametersChainBuilder = parametersChainBuilder;
         this.module = module;
@@ -45,12 +45,12 @@ public class RequiredDependencyPlaceholderResolver extends PlaceholderResolver<R
 
     protected Map<String, Object> getResolvedParameters(Map<String, Object> mergedParameters) {
         return new PropertiesPlaceholderResolver(propertiesResolverBuilder).resolve(requiredDependency.getParameters(), mergedParameters,
-            prefix);
+                                                                                    prefix);
     }
 
     protected Map<String, Object> getResolvedProperties(Map<String, Object> mergedParameters) {
         return new PropertiesPlaceholderResolver(parametersResolverBuilder).resolve(requiredDependency.getProperties(), mergedParameters,
-            prefix);
+                                                                                    prefix);
     }
 
 }

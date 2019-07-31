@@ -18,8 +18,8 @@ public class SupportedVersions {
     public static boolean isSupported(Version schemaVersion) {
         int majorSchemaVersion = schemaVersion.getMajor();
         return SUPPORTED_VERSIONS.keySet()
-            .stream()
-            .anyMatch(majorVersion -> majorVersion.equals(majorSchemaVersion));
+                                 .stream()
+                                 .anyMatch(majorVersion -> majorVersion.equals(majorSchemaVersion));
     }
 
     public static boolean isFullySupported(Version schemaVersion) {
@@ -31,8 +31,8 @@ public class SupportedVersions {
         }
 
         return SUPPORTED_VERSIONS.get(majorSchemaVersion)
-            .stream()
-            .anyMatch(minorVersion -> minorVersion.equals(minorSchemaVersion));
+                                 .stream()
+                                 .anyMatch(minorVersion -> minorVersion.equals(minorSchemaVersion));
     }
 
 }

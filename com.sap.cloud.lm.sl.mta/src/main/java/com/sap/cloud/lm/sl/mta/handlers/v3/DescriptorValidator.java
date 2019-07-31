@@ -26,7 +26,7 @@ public class DescriptorValidator extends com.sap.cloud.lm.sl.mta.handlers.v2.Des
 
     @Override
     protected ExtensionDescriptorValidator getExtensionDescriptorValidator(ExtensionDescriptor extensionDescriptor,
-        DeploymentDescriptor deploymentDescriptor) {
+                                                                           DeploymentDescriptor deploymentDescriptor) {
         return new ExtensionDescriptorValidator(extensionDescriptor, deploymentDescriptor, handler);
     }
 

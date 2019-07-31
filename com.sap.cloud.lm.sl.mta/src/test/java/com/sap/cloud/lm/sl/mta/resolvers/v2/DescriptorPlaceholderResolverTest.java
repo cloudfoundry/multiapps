@@ -105,7 +105,6 @@ public class DescriptorPlaceholderResolverTest {
         );
     }
 
-
     @ParameterizedTest
     @MethodSource
     public void testResolve(String descriptorLocation, Expectation expectation) {
@@ -126,7 +125,9 @@ public class DescriptorPlaceholderResolverTest {
     }
 
     protected DescriptorPlaceholderResolver createDescriptorPlaceholderResolver(DeploymentDescriptor deploymentDescriptor) {
-        return new DescriptorPlaceholderResolver(deploymentDescriptor, new ResolverBuilder(), new ResolverBuilder(),
-            Collections.emptyMap());
+        return new DescriptorPlaceholderResolver(deploymentDescriptor,
+                                                 new ResolverBuilder(),
+                                                 new ResolverBuilder(),
+                                                 Collections.emptyMap());
     }
 }

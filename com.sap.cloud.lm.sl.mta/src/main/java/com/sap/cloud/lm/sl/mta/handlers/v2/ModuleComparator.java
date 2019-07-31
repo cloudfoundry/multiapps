@@ -30,8 +30,8 @@ public class ModuleComparator implements Comparator<Entry<Module, Set<String>>> 
 
         if (circularDependencyExists(module1.getName(), module1Dependencies, module2.getName(), module2Dependencies)) {
             if (hardDependencyType.equals(dependencyTypeModule1) && hardDependencyType.equals(dependencyTypeModule2)) {
-                throw new IllegalStateException(
-                    MessageFormat.format(Messages.MULTIPLE_HARD_MODULES_DETECTED, module1.getName(), module2.getName()));
+                throw new IllegalStateException(MessageFormat.format(Messages.MULTIPLE_HARD_MODULES_DETECTED, module1.getName(),
+                                                                     module2.getName()));
             }
             if (hardDependencyType.equals(dependencyTypeModule1)) {
                 return -1;
@@ -51,13 +51,13 @@ public class ModuleComparator implements Comparator<Entry<Module, Set<String>>> 
     }
 
     private boolean circularDependencyExists(String module1Name, Set<String> module1Dependencies, String module2Name,
-        Set<String> module2Dependencies) {
+                                             Set<String> module2Dependencies) {
         return module1Dependencies.contains(module2Name) && module2Dependencies.contains(module1Name);
     }
 
     protected Object getPropertyValue(Module module, String key) {
         return module.getParameters()
-            .get(key);
+                     .get(key);
     }
 
 }

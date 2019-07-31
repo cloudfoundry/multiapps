@@ -19,7 +19,7 @@ public class PartialVersionConverterTest {
     @MethodSource
     public void testConvertWithInvalidVersions(String versionString, String expectedExceptionMessage) {
         SemverException exception = assertThrows(SemverException.class,
-            () -> partialVersionConverter.convertToFullVersionString(versionString));
+                                                 () -> partialVersionConverter.convertToFullVersionString(versionString));
 
         assertEquals(expectedExceptionMessage, exception.getMessage());
     }

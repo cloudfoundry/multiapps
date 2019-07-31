@@ -109,15 +109,15 @@ public class DescriptorHandlerTest {
 
         @Test
         public void testGetSortedModules() throws Exception {
-            final DeploymentDescriptor descriptor = getDescriptorParser()
-                .parseDeploymentDescriptorYaml(TestUtil.getResourceAsString(descriptorLocation, getClass()));
+            final DeploymentDescriptor descriptor = getDescriptorParser().parseDeploymentDescriptorYaml(TestUtil.getResourceAsString(descriptorLocation,
+                                                                                                                                     getClass()));
 
             tester.test(new Callable<String>() {
 
                 @Override
                 public String call() throws Exception {
                     return Arrays.toString(getNames(handler.getModulesForDeployment(descriptor, PARALLEL_DEPLOYMENTS_PROP,
-                        DEPENDENCY_TYPE_PROP, DEPENDENCY_TYPE_HARD)));
+                                                                                    DEPENDENCY_TYPE_PROP, DEPENDENCY_TYPE_HARD)));
                 }
 
                 private String[] getNames(List<? extends Module> modulles) {

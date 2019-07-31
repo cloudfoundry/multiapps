@@ -35,7 +35,7 @@ public class ExtensionModuleParser extends com.sap.cloud.lm.sl.mta.parsers.v2.Ex
             @Override
             protected ExtensionHook parseItem(Map<String, Object> map) {
                 return getHookParse(map).setUsedValues(usedRequiredDependencyNames)
-                    .parse();
+                                        .parse();
             }
         });
     }

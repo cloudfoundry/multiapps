@@ -46,7 +46,7 @@ public class DescriptorSerializationTest {
     }
 
     public DescriptorSerializationTest(String deploymentDescriptorLocation, Expectation expectedSerializedDescriptor,
-        String extensionDescriptorLocation, Expectation expectedSerializedExtension) {
+                                       String extensionDescriptorLocation, Expectation expectedSerializedExtension) {
         this.deploymentDescriptorLocation = deploymentDescriptorLocation;
         this.expectedSerializedDescriptor = expectedSerializedDescriptor;
         this.extensionDescriptorLocation = extensionDescriptorLocation;

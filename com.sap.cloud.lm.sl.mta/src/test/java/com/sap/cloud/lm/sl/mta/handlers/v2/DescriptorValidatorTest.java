@@ -180,7 +180,7 @@ public class DescriptorValidatorTest {
     }
 
     public DescriptorValidatorTest(String deploymentDescriptorLocation, String[] extensionDescriptorLocations,
-        String mergedDescriptorLocation, Expectation[] expectations) {
+                                   String mergedDescriptorLocation, Expectation[] expectations) {
         this.deploymentDescriptorLocation = deploymentDescriptorLocation;
         this.extensionDescriptorLocations = extensionDescriptorLocations;
         this.mergedDescriptorLocation = mergedDescriptorLocation;

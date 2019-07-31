@@ -6,9 +6,9 @@ import java.util.List;
 import java.util.Map;
 
 import com.sap.cloud.lm.sl.common.ParsingException;
+import com.sap.cloud.lm.sl.mta.model.Hook;
 import com.sap.cloud.lm.sl.mta.model.Metadata;
 import com.sap.cloud.lm.sl.mta.model.Module;
-import com.sap.cloud.lm.sl.mta.model.Hook;
 import com.sap.cloud.lm.sl.mta.parsers.ListParser;
 import com.sap.cloud.lm.sl.mta.schema.MapElement;
 
@@ -30,9 +30,9 @@ public class ModuleParser extends com.sap.cloud.lm.sl.mta.parsers.v2.ModuleParse
     @Override
     public Module parse() throws ParsingException {
         return super.parse().setDeployedAfter(getDeployedAfter())
-            .setPropertiesMetadata(getPropertiesMetadata())
-            .setParametersMetadata(getParametersMetadata())
-            .setHooks(getHooks());
+                            .setPropertiesMetadata(getPropertiesMetadata())
+                            .setParametersMetadata(getParametersMetadata())
+                            .setHooks(getHooks());
     }
 
     @Override

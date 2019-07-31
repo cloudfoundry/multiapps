@@ -64,14 +64,14 @@ public class DeploymentDescriptor extends VersionedEntity implements Descriptor,
 
     private static List<Module> copyModules(List<Module> originals) {
         return originals.stream()
-            .map(Module::copyOf)
-            .collect(Collectors.toList());
+                        .map(Module::copyOf)
+                        .collect(Collectors.toList());
     }
 
     private static List<Resource> copyResources(List<Resource> originals) {
         return originals.stream()
-            .map(Resource::copyOf)
-            .collect(Collectors.toList());
+                        .map(Resource::copyOf)
+                        .collect(Collectors.toList());
     }
 
     public String getSchemaVersion() {

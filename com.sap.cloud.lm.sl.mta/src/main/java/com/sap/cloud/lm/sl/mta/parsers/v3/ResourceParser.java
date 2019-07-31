@@ -35,10 +35,10 @@ public class ResourceParser extends com.sap.cloud.lm.sl.mta.parsers.v2.ResourceP
     @Override
     public Resource parse() throws ParsingException {
         return super.parse().setActive(getActive())
-            .setOptional(getOptional())
-            .setParametersMetadata(getParametersMetadata())
-            .setPropertiesMetadata(getPropertiesMetadata())
-            .setRequiredDependencies(getRequiredDependencies());
+                            .setOptional(getOptional())
+                            .setParametersMetadata(getParametersMetadata())
+                            .setPropertiesMetadata(getPropertiesMetadata())
+                            .setRequiredDependencies(getRequiredDependencies());
     }
 
     @Override

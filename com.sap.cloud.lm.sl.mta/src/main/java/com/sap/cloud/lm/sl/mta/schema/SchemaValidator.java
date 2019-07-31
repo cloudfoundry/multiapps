@@ -45,10 +45,10 @@ public class SchemaValidator {
         // Validate existing keys:
         for (String key : map.keySet()) {
             Element element = schema.getMap()
-                .get(key);
+                                    .get(key);
             String elementPrefix = getPrefixedName(prefix, key);
-            if (element == null) { 
-               continue;    
+            if (element == null) {
+                continue;
             }
             Object object = map.get(key);
             validate(object, element, elementPrefix, uniqueValuesMap);
@@ -56,9 +56,9 @@ public class SchemaValidator {
 
         // Check for non-existing required keys:
         for (String key : schema.getMap()
-            .keySet()) {
+                                .keySet()) {
             Element element = schema.getMap()
-                .get(key);
+                                    .get(key);
             if (element.isRequired() && !map.containsKey(key)) {
                 throw new ParsingException(Messages.MISSING_REQUIRED_KEY, getPrefixedName(prefix, key));
             }
@@ -90,8 +90,9 @@ public class SchemaValidator {
 
             String pattern = schema.getPattern();
             if (!value.matches(pattern)) {
-                throw new ParsingException(Messages.INVALID_STRING_VALUE_FOR_KEY, objectName,
-                    MiscUtil.outlineProblematicCharacter(pattern, value));
+                throw new ParsingException(Messages.INVALID_STRING_VALUE_FOR_KEY,
+                                           objectName,
+                                           MiscUtil.outlineProblematicCharacter(pattern, value));
             }
         }
     }
@@ -107,17 +108,20 @@ public class SchemaValidator {
 
     private static void checkType(Object object, Element element, String prefix) {
         if (!element.getType()
-            .isInstance(object)) {
+                    .isInstance(object)) {
             if (!isRootElement(prefix)) {
-                throw new ParsingException(Messages.INVALID_TYPE_FOR_KEY, prefix, element.getType()
-                    .getSimpleName(),
-                    object.getClass()
-                        .getSimpleName());
+                throw new ParsingException(Messages.INVALID_TYPE_FOR_KEY,
+                                           prefix,
+                                           element.getType()
+                                                  .getSimpleName(),
+                                           object.getClass()
+                                                 .getSimpleName());
             }
-            throw new ParsingException(Messages.INVALID_CONTENT_TYPE, element.getType()
-                .getSimpleName(),
-                object.getClass()
-                    .getSimpleName());
+            throw new ParsingException(Messages.INVALID_CONTENT_TYPE,
+                                       element.getType()
+                                              .getSimpleName(),
+                                       object.getClass()
+                                             .getSimpleName());
         }
     }
 

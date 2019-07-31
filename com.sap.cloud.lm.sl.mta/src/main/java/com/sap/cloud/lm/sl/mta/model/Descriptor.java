@@ -10,8 +10,8 @@ public interface Descriptor {
 
     static List<String> getIds(Collection<? extends Descriptor> descriptors) {
         return descriptors.stream()
-            .map(Descriptor::getId)
-            .collect(Collectors.toList());
+                          .map(Descriptor::getId)
+                          .collect(Collectors.toList());
     }
 
 }

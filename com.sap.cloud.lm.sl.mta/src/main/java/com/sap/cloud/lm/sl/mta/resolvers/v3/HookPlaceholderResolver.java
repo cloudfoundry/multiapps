@@ -24,8 +24,8 @@ public class HookPlaceholderResolver extends PlaceholderResolver<Hook> {
     protected final Map<String, Object> mergedParameters;
 
     public HookPlaceholderResolver(Module module, Hook hook, String prefix, ParametersChainBuilder parametersChainBuilder,
-        ResolverBuilder propertiesResolverBuilder, ResolverBuilder parametersResolverBuilder, Map<String, String> singularToPluralMapping,
-        Map<String, Object> mergedParameters) {
+                                   ResolverBuilder propertiesResolverBuilder, ResolverBuilder parametersResolverBuilder,
+                                   Map<String, String> singularToPluralMapping, Map<String, Object> mergedParameters) {
         super(hook.getName(), prefix, singularToPluralMapping);
         this.module = module;
         this.hook = hook;
@@ -48,14 +48,19 @@ public class HookPlaceholderResolver extends PlaceholderResolver<Hook> {
 
     private List<RequiredDependency> getResolvedHookDependencies(Hook hook) {
         return hook.getRequiredDependencies()
-            .stream()
-            .map(requiredDependency -> getRequiredDependencyResolver(requiredDependency).resolve())
-            .collect(Collectors.toList());
+                   .stream()
+                   .map(requiredDependency -> getRequiredDependencyResolver(requiredDependency).resolve())
+                   .collect(Collectors.toList());
     }
 
     protected RequiredDependencyPlaceholderResolver getRequiredDependencyResolver(RequiredDependency requiredDependency) {
-        return new RequiredDependencyPlaceholderResolver(module, requiredDependency, prefix, parametersChainBuilder,
-            propertiesResolverBuilder, parametersResolverBuilder, singularToPluralMapping);
+        return new RequiredDependencyPlaceholderResolver(module,
+                                                         requiredDependency,
+                                                         prefix,
+                                                         parametersChainBuilder,
+                                                         propertiesResolverBuilder,
+                                                         parametersResolverBuilder,
+                                                         singularToPluralMapping);
     }
 
 }

@@ -29,9 +29,9 @@ public class JsonUtil {
 
     private static ObjectMapper createObjectMapper() {
         return new ObjectMapper().setVisibility(PropertyAccessor.ALL, Visibility.NONE)
-            .setVisibility(PropertyAccessor.FIELD, Visibility.ANY)
-            .setSerializationInclusion(Include.NON_NULL)
-            .disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
+                                 .setVisibility(PropertyAccessor.FIELD, Visibility.ANY)
+                                 .setSerializationInclusion(Include.NON_NULL)
+                                 .disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
     }
 
     public static Map<String, Object> convertJsonToMap(InputStream json) throws ParsingException {
@@ -120,14 +120,14 @@ public class JsonUtil {
     public static <T> T fromJson(String json, TypeReference<T> typeReference) {
         ObjectMapper objectMapper = getObjectMapper();
         JavaType type = objectMapper.getTypeFactory()
-            .constructType(typeReference);
+                                    .constructType(typeReference);
         return fromJson(objectMapper, json, type);
     }
 
     public static <T> T fromJson(String json, Class<T> classOfT) {
         ObjectMapper objectMapper = getObjectMapper();
         JavaType type = objectMapper.getTypeFactory()
-            .constructType(classOfT);
+                                    .constructType(classOfT);
         return fromJson(objectMapper, json, type);
     }
 
@@ -135,8 +135,10 @@ public class JsonUtil {
         try {
             return objectMapper.readValue(json, javaType);
         } catch (IOException e) {
-            throw new ParsingException(e, Messages.CANNOT_PARSE_JSON_STRING_TO_TYPE, json.substring(0, Math.min(json.length(), MAX_LENGTH)),
-                javaType);
+            throw new ParsingException(e,
+                                       Messages.CANNOT_PARSE_JSON_STRING_TO_TYPE,
+                                       json.substring(0, Math.min(json.length(), MAX_LENGTH)),
+                                       javaType);
         }
     }
 

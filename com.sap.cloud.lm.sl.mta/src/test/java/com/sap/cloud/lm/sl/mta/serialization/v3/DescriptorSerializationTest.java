@@ -33,7 +33,7 @@ public class DescriptorSerializationTest extends com.sap.cloud.lm.sl.mta.seriali
     }
 
     public DescriptorSerializationTest(String deploymentDescriptorLocation, Expectation expectedSerializedDescriptor,
-        String extensionDescriptorLocation, Expectation expectedSerializedExtension) {
+                                       String extensionDescriptorLocation, Expectation expectedSerializedExtension) {
         super(deploymentDescriptorLocation, expectedSerializedDescriptor, extensionDescriptorLocation, expectedSerializedExtension);
     }
 

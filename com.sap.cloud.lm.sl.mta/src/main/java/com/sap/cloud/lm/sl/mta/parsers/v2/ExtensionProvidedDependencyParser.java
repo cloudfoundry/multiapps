@@ -27,8 +27,8 @@ public class ExtensionProvidedDependencyParser extends ModelParser<ExtensionProv
     @Override
     public ExtensionProvidedDependency parse() {
         return createEntity().setName(getName())
-            .setProperties(getProperties())
-            .setParameters(getParameters());
+                             .setProperties(getProperties())
+                             .setParameters(getParameters());
     }
 
     protected ExtensionProvidedDependency createEntity() {

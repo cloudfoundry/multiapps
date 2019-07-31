@@ -24,14 +24,14 @@ public class TestDataSourceProvider {
 
         // Create the schema for unit testing
         Database liquibaseDb = DatabaseFactory.getInstance()
-            .findCorrectDatabaseImplementation(new JdbcConnection(connection));
+                                              .findCorrectDatabaseImplementation(new JdbcConnection(connection));
         Liquibase lq = new Liquibase(liquibaseChangelogLocation, new ClassLoaderResourceAccessor(), liquibaseDb);
         try {
             lq.update("");
         } catch (MigrationFailedException e) {
             // catch the exception because in PopulateConfigurationRegistrySpaceIdColumnChange liquibase change there is rest call
             if (e.getCause()
-                .getClass() != UnexpectedLiquibaseException.class) {
+                 .getClass() != UnexpectedLiquibaseException.class) {
                 throw e;
             }
         }

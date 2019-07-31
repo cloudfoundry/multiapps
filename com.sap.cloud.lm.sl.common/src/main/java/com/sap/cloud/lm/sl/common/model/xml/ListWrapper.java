@@ -33,8 +33,8 @@ public class ListWrapper extends Wrapper {
     @Override
     public List<Object> unwrap() {
         return list.stream()
-            .map(Wrapper::unwrap)
-            .collect(Collectors.toList());
+                   .map(Wrapper::unwrap)
+                   .collect(Collectors.toList());
     }
 
 }

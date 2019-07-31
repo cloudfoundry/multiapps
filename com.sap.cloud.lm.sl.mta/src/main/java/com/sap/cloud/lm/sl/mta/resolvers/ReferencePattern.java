@@ -7,7 +7,8 @@ import java.util.regex.Pattern;
 
 public enum ReferencePattern implements ValueMatcher {
 
-    PLACEHOLDER("(?<!\\\\)\\$\\{(.+?)\\}", "${%s}"), SHORT("(?<!\\\\)~\\{(.+?)\\}", "~{%s}"), FULLY_QUALIFIED("(?<!\\\\)~\\{(.+?)/(.+?)\\}", "~{%s/%s}");
+    PLACEHOLDER("(?<!\\\\)\\$\\{(.+?)\\}", "${%s}"), SHORT("(?<!\\\\)~\\{(.+?)\\}", "~{%s}"), FULLY_QUALIFIED("(?<!\\\\)~\\{(.+?)/(.+?)\\}",
+        "~{%s/%s}");
 
     private String pattern;
     private String patternFormat;
@@ -20,7 +21,7 @@ public enum ReferencePattern implements ValueMatcher {
     protected boolean hasPropertySetSegment() {
         return FULLY_QUALIFIED.equals(this);
     }
-    
+
     protected boolean hasDepthOfReference() {
         return PLACEHOLDER.equals(this);
     }
@@ -28,7 +29,7 @@ public enum ReferencePattern implements ValueMatcher {
     @Override
     public List<Reference> match(String line) {
         Matcher matcher = Pattern.compile(this.pattern)
-            .matcher(line);
+                                 .matcher(line);
         List<Reference> references = new ArrayList<>();
         while (matcher.find()) {
             String matchedValue = matcher.group(0);

@@ -2,22 +2,23 @@ package com.sap.cloud.lm.sl.mta.util;
 
 import static java.text.MessageFormat.format;
 
-import java.util.Arrays;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Objects;
 import java.util.TreeMap;
-import java.util.Map.Entry;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
+
+import org.apache.commons.collections4.iterators.ReverseListIterator;
 
 import com.sap.cloud.lm.sl.common.ContentException;
 import com.sap.cloud.lm.sl.common.util.CommonUtil;
 import com.sap.cloud.lm.sl.mta.message.Messages;
 import com.sap.cloud.lm.sl.mta.model.ParametersContainer;
 import com.sap.cloud.lm.sl.mta.model.PropertiesContainer;
-import org.apache.commons.collections4.iterators.ReverseListIterator;
 
 public class PropertiesUtil {
 
@@ -41,9 +42,9 @@ public class PropertiesUtil {
      */
     public static List<Map<String, Object>> getPropertiesList(Iterable<PropertiesContainer> providers) {
         return StreamSupport.stream(providers.spliterator(), false)
-            .filter(provider -> provider != null && provider.getProperties() != null)
-            .map(PropertiesContainer::getProperties)
-            .collect(Collectors.toList());
+                            .filter(provider -> provider != null && provider.getProperties() != null)
+                            .map(PropertiesContainer::getProperties)
+                            .collect(Collectors.toList());
     }
 
     /**
@@ -66,9 +67,9 @@ public class PropertiesUtil {
      */
     public static List<Map<String, Object>> getParametersList(Iterable<ParametersContainer> providers) {
         return StreamSupport.stream(providers.spliterator(), false)
-            .filter(provider -> provider != null && provider.getParameters() != null)
-            .map(ParametersContainer::getParameters)
-            .collect(Collectors.toList());
+                            .filter(provider -> provider != null && provider.getParameters() != null)
+                            .map(ParametersContainer::getParameters)
+                            .collect(Collectors.toList());
     }
 
     /**
@@ -91,10 +92,10 @@ public class PropertiesUtil {
 
     public static Object getPropertyValue(List<Map<String, Object>> propertiesList, String key, Object defaultValue) {
         return propertiesList.stream()
-            .map(properties -> (properties != null) ? properties.get(key) : null)
-            .filter(Objects::nonNull)
-            .findFirst()
-            .orElse(defaultValue);
+                             .map(properties -> (properties != null) ? properties.get(key) : null)
+                             .filter(Objects::nonNull)
+                             .findFirst()
+                             .orElse(defaultValue);
     }
 
     @SuppressWarnings("unchecked")
@@ -150,10 +151,11 @@ public class PropertiesUtil {
 
     private static void validateTypes(Object override, Object original) {
         if (isMap(original) ^ isMap(override)) {
-            throw new ContentException(Messages.INCOMPATIBLE_TYPES, override.getClass()
-                .getName(),
-                original.getClass()
-                    .getName());
+            throw new ContentException(Messages.INCOMPATIBLE_TYPES,
+                                       override.getClass()
+                                               .getName(),
+                                       original.getClass()
+                                               .getName());
         }
     }
 

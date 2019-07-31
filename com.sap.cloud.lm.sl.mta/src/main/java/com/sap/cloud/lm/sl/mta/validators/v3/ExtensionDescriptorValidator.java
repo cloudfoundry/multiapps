@@ -21,7 +21,7 @@ import com.sap.cloud.lm.sl.mta.model.PropertiesWithMetadataContainer;
 public class ExtensionDescriptorValidator extends com.sap.cloud.lm.sl.mta.validators.v2.ExtensionDescriptorValidator {
 
     public ExtensionDescriptorValidator(ExtensionDescriptor extensionDescriptor, DeploymentDescriptor deploymentDescriptor,
-        DescriptorHandler handler) {
+                                        DescriptorHandler handler) {
         super(extensionDescriptor, deploymentDescriptor, handler);
     }
 
@@ -29,26 +29,28 @@ public class ExtensionDescriptorValidator extends com.sap.cloud.lm.sl.mta.valida
     protected void validateParameters(ParametersContainer container, ParametersContainer extensionContainer, String containerName) {
         ParametersWithMetadataContainer containerWithMetadata = cast(container);
         validate(containerWithMetadata.getParametersMetadata(), containerWithMetadata.getParameters(), extensionContainer.getParameters(),
-            containerName, Constants.PARAMETER_ELEMENT_TYPE_NAME);
+                 containerName, Constants.PARAMETER_ELEMENT_TYPE_NAME);
     }
 
     @Override
     protected void validateProperties(PropertiesContainer container, PropertiesContainer extensionContainer, String containerName) {
         PropertiesWithMetadataContainer containerWithMetadata = cast(container);
         validate(containerWithMetadata.getPropertiesMetadata(), containerWithMetadata.getProperties(), extensionContainer.getProperties(),
-            containerName, Constants.PROPERTY_ELEMENT_TYPE_NAME);
+                 containerName, Constants.PROPERTY_ELEMENT_TYPE_NAME);
     }
 
     protected void validate(Metadata metadata, Map<String, Object> properties, Map<String, Object> extensionProperties,
-        String containerName, String elementType) {
+                            String containerName, String elementType) {
         for (String propertyName : extensionProperties.keySet()) {
             boolean isOverwritable = metadata.getOverwritableMetadata(propertyName);
             Object value = properties.get(propertyName);
             Object extensionValue = extensionProperties.get(propertyName);
             if (!isOverwritable && extensionValue != null) {
                 if (value == null) {
-                    throw new ContentException(Messages.CANNOT_MODIFY_ELEMENT, elementType, getPrefixedName(containerName, propertyName),
-                        extensionDescriptor.getId());
+                    throw new ContentException(Messages.CANNOT_MODIFY_ELEMENT,
+                                               elementType,
+                                               getPrefixedName(containerName, propertyName),
+                                               extensionDescriptor.getId());
                 }
                 validateModifiableElements(elementType, containerName, extensionDescriptor.getId(), propertyName, extensionValue, value);
             }

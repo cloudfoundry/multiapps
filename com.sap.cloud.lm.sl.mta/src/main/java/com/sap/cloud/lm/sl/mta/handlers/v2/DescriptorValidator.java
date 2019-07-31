@@ -24,18 +24,17 @@ public class DescriptorValidator {
         this.handler = handler;
     }
 
-    protected DeploymentDescriptorValidator getDeploymentDescriptorValidator(DeploymentDescriptor deploymentDescriptor,
-        Platform platform) {
+    protected DeploymentDescriptorValidator getDeploymentDescriptorValidator(DeploymentDescriptor deploymentDescriptor, Platform platform) {
         return new DeploymentDescriptorValidator(deploymentDescriptor, platform, handler);
     }
 
     protected ExtensionDescriptorValidator getExtensionDescriptorValidator(ExtensionDescriptor extensionDescriptor,
-        DeploymentDescriptor deploymentDescriptor) {
+                                                                           DeploymentDescriptor deploymentDescriptor) {
         return new ExtensionDescriptorValidator(extensionDescriptor, deploymentDescriptor, handler);
     }
 
     protected MergedDescriptorValidator getMergedDescriptorValidator(DeploymentDescriptor mergedDescriptor,
-        DescriptorValidationRules validationRules) {
+                                                                     DescriptorValidationRules validationRules) {
         return new MergedDescriptorValidator(mergedDescriptor, validationRules, handler);
     }
 

@@ -9,9 +9,6 @@ import java.util.TreeMap;
 
 import org.junit.jupiter.api.Test;
 
-import com.sap.cloud.lm.sl.common.util.JsonUtil;
-import com.sap.cloud.lm.sl.common.util.MapUtil;
-
 public class JsonUtilTest {
 
     @Test
@@ -24,7 +21,7 @@ public class JsonUtilTest {
         foo = JsonUtil.fromJson(json, Foo.class);
 
         Map<String, Object> actualProperties = (Map<String, Object>) foo.getProperties()
-            .get("test1");
+                                                                        .get("test1");
 
         assertTestProperties(actualProperties);
     }
@@ -42,7 +39,7 @@ public class JsonUtilTest {
 
         @SuppressWarnings("unchecked")
         Map<String, Object> actualProperties = ((Map<String, Object>) bar.getProperties()
-            .get("test1"));
+                                                                         .get("test1"));
 
         assertTestProperties(actualProperties);
     }

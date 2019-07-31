@@ -155,15 +155,15 @@ public class DescriptorHandlerTest extends com.sap.cloud.lm.sl.mta.handlers.v2.D
         @Override
         @Test
         public void testGetSortedModules() throws Exception {
-            final DeploymentDescriptor descriptor = getDescriptorParser()
-                .parseDeploymentDescriptorYaml(TestUtil.getResourceAsString(descriptorLocation, getClass()));
+            final DeploymentDescriptor descriptor = getDescriptorParser().parseDeploymentDescriptorYaml(TestUtil.getResourceAsString(descriptorLocation,
+                                                                                                                                     getClass()));
 
             tester.test(new Callable<String>() {
 
                 @Override
                 public String call() throws Exception {
-                    return getDeployedAfterMapString(
-                        handler.getModulesForDeployment(descriptor, PARALLEL_DEPLOYMENTS_PROP, DEPENDENCY_TYPE_PROP, DEPENDENCY_TYPE_HARD));
+                    return getDeployedAfterMapString(handler.getModulesForDeployment(descriptor, PARALLEL_DEPLOYMENTS_PROP,
+                                                                                     DEPENDENCY_TYPE_PROP, DEPENDENCY_TYPE_HARD));
                 }
 
                 private String getDeployedAfterMapString(List<? extends Module> modulles) {

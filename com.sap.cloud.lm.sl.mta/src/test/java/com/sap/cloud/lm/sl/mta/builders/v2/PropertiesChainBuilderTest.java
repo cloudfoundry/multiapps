@@ -80,7 +80,7 @@ public class PropertiesChainBuilderTest {
         DescriptorParser descriptorParser = getDescriptorParser();
 
         DeploymentDescriptor deploymentDescriptor = MtaTestUtil.loadDeploymentDescriptor(deploymentDescriptorLocation, descriptorParser,
-            getClass());
+                                                                                         getClass());
         resourceNames = getResourceNames(deploymentDescriptor.getResources());
         moduleNames = getModuleNames(deploymentDescriptor.getModules());
 

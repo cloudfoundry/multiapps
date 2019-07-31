@@ -43,7 +43,7 @@ public class MetadataUpdater {
     }
 
     private void addPropertyMetadata(Map<String, Map<String, Object>> metadataMap, String property, String metadataName,
-        Object metadataValue) {
+                                     Object metadataValue) {
         Map<String, Object> metadataForProperty = metadataMap.computeIfAbsent(property, k -> new HashMap<>());
         metadataForProperty.put(metadataName, metadataValue);
     }

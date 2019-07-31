@@ -19,7 +19,7 @@ public abstract class ReferenceResolver<T> extends PatternResolver<T> {
     private DeploymentDescriptor descriptor;
 
     public ReferenceResolver(String objectName, String prefix, DescriptorHandler handler, DeploymentDescriptor descriptor,
-        String consumerName, ReferencePattern patternToMatch) {
+                             String consumerName, ReferencePattern patternToMatch) {
         super(objectName, prefix, patternToMatch);
         this.handler = handler;
         this.consumerName = consumerName;
@@ -37,8 +37,7 @@ public abstract class ReferenceResolver<T> extends PatternResolver<T> {
     }
 
     protected void assertRequiredDependencyExists(String dependencyName) {
-        RequiredDependency requiredDependency = handler.findRequiredDependency(descriptor, consumerName,
-            dependencyName);
+        RequiredDependency requiredDependency = handler.findRequiredDependency(descriptor, consumerName, dependencyName);
         if (requiredDependency == null) {
             throw new ContentException(format(Messages.ILLEGAL_REFERENCES_DETECTED, consumerName, dependencyName));
         }

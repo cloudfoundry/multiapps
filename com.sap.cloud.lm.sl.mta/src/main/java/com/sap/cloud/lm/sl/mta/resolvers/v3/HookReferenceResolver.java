@@ -23,7 +23,7 @@ public class HookReferenceResolver implements Resolver<Hook> {
     protected final ResolverBuilder requiredDepencenciesPropertiesResolverBuilder;
 
     public HookReferenceResolver(Hook hook, DeploymentDescriptor descriptor, Module module, String prefix,
-        ResolverBuilder propertiesResolverBuilder, ResolverBuilder requiredDepencenciesPropertiesResolverBuilder) {
+                                 ResolverBuilder propertiesResolverBuilder, ResolverBuilder requiredDepencenciesPropertiesResolverBuilder) {
         this.hook = hook;
         this.descriptor = descriptor;
         this.module = module;
@@ -49,13 +49,16 @@ public class HookReferenceResolver implements Resolver<Hook> {
 
     private List<RequiredDependency> getResolvedHookDependencies(Hook hook) {
         return hook.getRequiredDependencies()
-            .stream()
-            .map(requiredDependency -> getRequiredDependencyResolver(requiredDependency).resolve())
-            .collect(Collectors.toList());
+                   .stream()
+                   .map(requiredDependency -> getRequiredDependencyResolver(requiredDependency).resolve())
+                   .collect(Collectors.toList());
     }
 
     protected RequiredDependencyReferenceResolver getRequiredDependencyResolver(RequiredDependency requiredDependency) {
-        return new RequiredDependencyReferenceResolver(descriptor, module, requiredDependency, prefix,
-            requiredDepencenciesPropertiesResolverBuilder);
+        return new RequiredDependencyReferenceResolver(descriptor,
+                                                       module,
+                                                       requiredDependency,
+                                                       prefix,
+                                                       requiredDepencenciesPropertiesResolverBuilder);
     }
 }

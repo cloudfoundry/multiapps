@@ -50,13 +50,13 @@ public class ModuleParser extends ModelParser<Module> {
     @Override
     public Module parse() throws ParsingException {
         return createEntity().setName(getDescription())
-            .setName(getName())
-            .setType(getType())
-            .setPath(getPath())
-            .setProperties(getProperties())
-            .setParameters(getParameters())
-            .setProvidedDependencies(getProvidedDependencies())
-            .setRequiredDependencies(getRequiredDependencies());
+                             .setName(getName())
+                             .setType(getType())
+                             .setPath(getPath())
+                             .setProperties(getProperties())
+                             .setParameters(getParameters())
+                             .setProvidedDependencies(getProvidedDependencies())
+                             .setRequiredDependencies(getRequiredDependencies());
     }
 
     protected Module createEntity() {
@@ -92,7 +92,7 @@ public class ModuleParser extends ModelParser<Module> {
             @Override
             protected ProvidedDependency parseItem(Map<String, Object> map) {
                 return getProvidedDependencyParser(map).setUsedValues(usedProvidedDependencyNames)
-                    .parse();
+                                                       .parse();
             }
         });
         return getAllProvidedDependencies(providedDependencies);
@@ -114,15 +114,15 @@ public class ModuleParser extends ModelParser<Module> {
     protected boolean currentModuleIsProvided(List<ProvidedDependency> providedDependencies) {
         String currentModuleName = getName();
         return providedDependencies.stream()
-            .anyMatch(providedDependency -> providedDependency.getName()
-                .equals(currentModuleName));
+                                   .anyMatch(providedDependency -> providedDependency.getName()
+                                                                                     .equals(currentModuleName));
     }
 
     protected ProvidedDependency getCurrentModuleAsProvidedDependency() {
         Map<String, Object> currentModule = new TreeMap<>();
         currentModule.put(NAME, getName());
         return getProvidedDependencyParser(currentModule).setUsedValues(usedProvidedDependencyNames)
-            .parse();
+                                                         .parse();
     }
 
     protected List<RequiredDependency> getRequiredDependencies() {
@@ -130,7 +130,7 @@ public class ModuleParser extends ModelParser<Module> {
             @Override
             protected RequiredDependency parseItem(Map<String, Object> map) {
                 return getRequiredDependencyParser(map).setUsedValues(usedRequiredDependencyNames)
-                    .parse();
+                                                       .parse();
             }
         });
     }

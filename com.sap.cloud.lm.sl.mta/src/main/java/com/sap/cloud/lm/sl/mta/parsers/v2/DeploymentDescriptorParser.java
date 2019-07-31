@@ -40,11 +40,11 @@ public class DeploymentDescriptorParser extends ModelParser<DeploymentDescriptor
     @Override
     public DeploymentDescriptor parse() throws ParsingException {
         return createEntity().setSchemaVersion(getSchemaVersion())
-            .setId(getId())
-            .setVersion(getVersion())
-            .setModules(getModules())
-            .setResources(getResources())
-            .setParameters(getParameters());
+                             .setId(getId())
+                             .setVersion(getVersion())
+                             .setModules(getModules())
+                             .setResources(getResources())
+                             .setParameters(getParameters());
     }
 
     protected DeploymentDescriptor createEntity() {
@@ -68,8 +68,8 @@ public class DeploymentDescriptorParser extends ModelParser<DeploymentDescriptor
             @Override
             protected Module parseItem(Map<String, Object> map) {
                 return getModuleParser(map).setUsedProvidedDependencyNames(usedDependencyNames)
-                    .setUsedValues(usedModuleNames)
-                    .parse();
+                                           .setUsedValues(usedModuleNames)
+                                           .parse();
             }
         });
     }
@@ -83,7 +83,7 @@ public class DeploymentDescriptorParser extends ModelParser<DeploymentDescriptor
             @Override
             protected Resource parseItem(Map<String, Object> map) {
                 return getResourceParser(map).setUsedValues(usedDependencyNames)
-                    .parse();
+                                             .parse();
             }
         });
     }

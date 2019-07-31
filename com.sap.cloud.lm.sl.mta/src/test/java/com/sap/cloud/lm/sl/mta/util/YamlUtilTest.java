@@ -57,7 +57,7 @@ public class YamlUtilTest {
         private void validate(ParsingException parsingException) {
             Throwable cause = parsingException.getCause();
             assertTrue(cause.getMessage()
-                .contains(EXPECTED_EXCEPTION_MESSAGE));
+                            .contains(EXPECTED_EXCEPTION_MESSAGE));
         }
 
     }

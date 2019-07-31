@@ -14,7 +14,8 @@ public class DescriptorReferenceResolver extends com.sap.cloud.lm.sl.mta.resolve
     protected final ResolverBuilder resourcePropertiesResolverBuilder;
 
     public DescriptorReferenceResolver(DeploymentDescriptor descriptor, ResolverBuilder modulesPropertiesResolverBuilder,
-        ResolverBuilder resourcePropertiesResolverBuilder, ResolverBuilder requiredDepencenciesPropertiesResolverBuilder) {
+                                       ResolverBuilder resourcePropertiesResolverBuilder,
+                                       ResolverBuilder requiredDepencenciesPropertiesResolverBuilder) {
         super(descriptor, modulesPropertiesResolverBuilder, requiredDepencenciesPropertiesResolverBuilder);
         this.resourcePropertiesResolverBuilder = resourcePropertiesResolverBuilder;
     }
@@ -27,20 +28,26 @@ public class DescriptorReferenceResolver extends com.sap.cloud.lm.sl.mta.resolve
 
     private List<Resource> getResolvedResources() {
         return descriptor.getResources()
-            .stream()
-            .map(resource -> createResourceResolver(resource).resolve())
-            .collect(Collectors.toList());
+                         .stream()
+                         .map(resource -> createResourceResolver(resource).resolve())
+                         .collect(Collectors.toList());
     }
 
     protected ResourceReferenceResolver createResourceResolver(Resource resource) {
-        return new ResourceReferenceResolver(descriptor, resource, "", resourcePropertiesResolverBuilder,
-            requiredDepencenciesPropertiesResolverBuilder);
+        return new ResourceReferenceResolver(descriptor,
+                                             resource,
+                                             "",
+                                             resourcePropertiesResolverBuilder,
+                                             requiredDepencenciesPropertiesResolverBuilder);
     }
 
     @Override
     protected ModuleReferenceResolver createModuleResolver(Module module) {
-        return new ModuleReferenceResolver(descriptor, module, "", modulesPropertiesResolverBuilder,
-            requiredDepencenciesPropertiesResolverBuilder);
+        return new ModuleReferenceResolver(descriptor,
+                                           module,
+                                           "",
+                                           modulesPropertiesResolverBuilder,
+                                           requiredDepencenciesPropertiesResolverBuilder);
     }
 
 }

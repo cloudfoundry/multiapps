@@ -79,7 +79,7 @@ public class ParametersChainBuilder extends PropertiesChainBuilder {
     }
 
     protected static List<Map<String, Object>> getParametersList(List<RequiredDependency> dependencies, Module module,
-        ModuleType moduleType, DeploymentDescriptor descriptor) {
+                                                                 ModuleType moduleType, DeploymentDescriptor descriptor) {
         List<ParametersContainer> containers = new ArrayList<>(dependencies);
         CollectionUtils.addIgnoreNull(containers, module);
         CollectionUtils.addIgnoreNull(containers, moduleType);

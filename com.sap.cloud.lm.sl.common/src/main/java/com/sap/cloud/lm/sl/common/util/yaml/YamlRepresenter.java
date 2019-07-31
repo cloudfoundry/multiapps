@@ -25,7 +25,7 @@ public class YamlRepresenter extends Representer {
         Set<Property> properties = super.getProperties(type);
         if (type.isAnnotationPresent(YamlElementOrder.class)) {
             List<String> fieldOrder = Arrays.asList(type.getAnnotation(YamlElementOrder.class)
-                .value());
+                                                        .value());
             Set<Property> sortedProperties = new TreeSet<>(new YamlPropertyComparator(fieldOrder));
             sortedProperties.addAll(properties);
             return sortedProperties;
@@ -40,7 +40,8 @@ public class YamlRepresenter extends Representer {
         }
         Field field = getField(javaBean.getClass(), property.getName());
         String nodeName = field.isAnnotationPresent(YamlElement.class) ? field.getAnnotation(YamlElement.class)
-            .value() : property.getName();
+                                                                              .value()
+            : property.getName();
 
         if (field.isAnnotationPresent(YamlAdapter.class)) {
             return getAdaptedTuple(propertyValue, field, nodeName);
@@ -62,7 +63,7 @@ public class YamlRepresenter extends Representer {
     @SuppressWarnings("unchecked")
     private NodeTuple getAdaptedTuple(Object propertyValue, Field field, String nodeName) {
         Class<? extends YamlConverter<?, ?>> converterClass = field.getAnnotation(YamlAdapter.class)
-            .value();
+                                                                   .value();
         try {
             YamlConverter<Object, ?> converter = (YamlConverter<Object, ?>) converterClass.newInstance();
             Object converted = converter.convert(propertyValue);

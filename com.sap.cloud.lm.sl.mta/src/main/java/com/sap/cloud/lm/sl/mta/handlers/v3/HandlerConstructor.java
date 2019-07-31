@@ -37,18 +37,24 @@ public class HandlerConstructor extends com.sap.cloud.lm.sl.mta.handlers.v2.Hand
     }
 
     @Override
-    public PlaceholderResolver<DeploymentDescriptor> getDescriptorPlaceholderResolver(DeploymentDescriptor mergedDescriptor,
-        ResolverBuilder propertiesResolverBuilder, ResolverBuilder parametersResolverBuilder, Map<String, String> singularToPluralMapping) {
-        return new DescriptorPlaceholderResolver(mergedDescriptor, propertiesResolverBuilder, parametersResolverBuilder,
-            singularToPluralMapping);
+    public PlaceholderResolver<DeploymentDescriptor>
+           getDescriptorPlaceholderResolver(DeploymentDescriptor mergedDescriptor, ResolverBuilder propertiesResolverBuilder,
+                                            ResolverBuilder parametersResolverBuilder, Map<String, String> singularToPluralMapping) {
+        return new DescriptorPlaceholderResolver(mergedDescriptor,
+                                                 propertiesResolverBuilder,
+                                                 parametersResolverBuilder,
+                                                 singularToPluralMapping);
     }
 
     @Override
     public Resolver<DeploymentDescriptor> getDescriptorReferenceResolver(DeploymentDescriptor mergedDescriptor,
-        ResolverBuilder modulesPropertiesResolverBuilder, ResolverBuilder resourcePropertiesResolverBuilder,
-        ResolverBuilder requiredDepencenciesPropertiesResolverBuilder) {
-        return new DescriptorReferenceResolver(mergedDescriptor, modulesPropertiesResolverBuilder, resourcePropertiesResolverBuilder,
-            requiredDepencenciesPropertiesResolverBuilder);
+                                                                         ResolverBuilder modulesPropertiesResolverBuilder,
+                                                                         ResolverBuilder resourcePropertiesResolverBuilder,
+                                                                         ResolverBuilder requiredDepencenciesPropertiesResolverBuilder) {
+        return new DescriptorReferenceResolver(mergedDescriptor,
+                                               modulesPropertiesResolverBuilder,
+                                               resourcePropertiesResolverBuilder,
+                                               requiredDepencenciesPropertiesResolverBuilder);
     }
 
 }

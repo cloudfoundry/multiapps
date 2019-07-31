@@ -72,20 +72,20 @@ public class Module extends VersionedEntity
 
     private static List<Hook> copyHooks(List<Hook> originalHooks) {
         return originalHooks.stream()
-            .map(Hook::copyOf)
-            .collect(Collectors.toList());
+                            .map(Hook::copyOf)
+                            .collect(Collectors.toList());
     }
 
     private static List<RequiredDependency> copyRequiredDependencies(List<RequiredDependency> originals) {
         return originals.stream()
-            .map(RequiredDependency::copyOf)
-            .collect(Collectors.toList());
+                        .map(RequiredDependency::copyOf)
+                        .collect(Collectors.toList());
     }
 
     private static List<ProvidedDependency> copyProvidedDependencies(List<ProvidedDependency> originals) {
         return originals.stream()
-            .map(ProvidedDependency::copyOf)
-            .collect(Collectors.toList());
+                        .map(ProvidedDependency::copyOf)
+                        .collect(Collectors.toList());
     }
 
     public static Module createV2() {

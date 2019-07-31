@@ -26,7 +26,7 @@ public class ResourceTypeParser extends ModelParser<ResourceType> {
     @Override
     public ResourceType parse() throws ParsingException {
         return new ResourceType().setName(getName())
-            .setParameters(getParameters());
+                                 .setParameters(getParameters());
     }
 
     protected String getName() {

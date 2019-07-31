@@ -22,7 +22,7 @@ public class ModuleReferenceResolver implements Resolver<Module> {
     protected final ResolverBuilder requiredDepencenciesPropertiesResolverBuilder;
 
     public ModuleReferenceResolver(DeploymentDescriptor descriptor, Module module, String prefix, ResolverBuilder propertiesResolverBuilder,
-        ResolverBuilder requiredDepencenciesPropertiesResolverBuilder) {
+                                   ResolverBuilder requiredDepencenciesPropertiesResolverBuilder) {
         this.descriptor = descriptor;
         this.module = module;
         this.requiredDepencenciesPropertiesResolverBuilder = requiredDepencenciesPropertiesResolverBuilder;
@@ -52,9 +52,9 @@ public class ModuleReferenceResolver implements Resolver<Module> {
 
     protected List<RequiredDependency> getResolvedDependencies() {
         return module.getRequiredDependencies()
-            .stream()
-            .map(this::resolveRequiredDependency)
-            .collect(Collectors.toList());
+                     .stream()
+                     .map(this::resolveRequiredDependency)
+                     .collect(Collectors.toList());
     }
 
     protected RequiredDependency resolveRequiredDependency(RequiredDependency dependency) {
@@ -62,8 +62,11 @@ public class ModuleReferenceResolver implements Resolver<Module> {
     }
 
     protected RequiredDependencyReferenceResolver createRequiredDependencyResolver(RequiredDependency requiredDependency) {
-        return new RequiredDependencyReferenceResolver(descriptor, module, requiredDependency, prefix,
-            requiredDepencenciesPropertiesResolverBuilder);
+        return new RequiredDependencyReferenceResolver(descriptor,
+                                                       module,
+                                                       requiredDependency,
+                                                       prefix,
+                                                       requiredDepencenciesPropertiesResolverBuilder);
     }
 
 }

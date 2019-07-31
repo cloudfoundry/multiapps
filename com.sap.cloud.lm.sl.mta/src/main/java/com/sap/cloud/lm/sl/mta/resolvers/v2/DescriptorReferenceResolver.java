@@ -16,7 +16,7 @@ public class DescriptorReferenceResolver implements Resolver<DeploymentDescripto
     protected final ResolverBuilder requiredDepencenciesPropertiesResolverBuilder;
 
     public DescriptorReferenceResolver(DeploymentDescriptor descriptor, ResolverBuilder modulesPropertiesResolverBuilder,
-        ResolverBuilder requiredDepencenciesPropertiesResolverBuilder) {
+                                       ResolverBuilder requiredDepencenciesPropertiesResolverBuilder) {
         this.descriptor = descriptor;
         this.modulesPropertiesResolverBuilder = modulesPropertiesResolverBuilder;
         this.requiredDepencenciesPropertiesResolverBuilder = requiredDepencenciesPropertiesResolverBuilder;
@@ -30,14 +30,17 @@ public class DescriptorReferenceResolver implements Resolver<DeploymentDescripto
 
     protected List<Module> getResolvedModules() {
         return descriptor.getModules()
-            .stream()
-            .map(module -> createModuleResolver(module).resolve())
-            .collect(Collectors.toList());
+                         .stream()
+                         .map(module -> createModuleResolver(module).resolve())
+                         .collect(Collectors.toList());
     }
 
     protected ModuleReferenceResolver createModuleResolver(Module module) {
-        return new ModuleReferenceResolver(descriptor, module, "", modulesPropertiesResolverBuilder,
-            requiredDepencenciesPropertiesResolverBuilder);
+        return new ModuleReferenceResolver(descriptor,
+                                           module,
+                                           "",
+                                           modulesPropertiesResolverBuilder,
+                                           requiredDepencenciesPropertiesResolverBuilder);
     }
 
 }

@@ -22,7 +22,8 @@ public class ModulePlaceholderResolver extends PlaceholderResolver<Module> {
     protected final ResolverBuilder parametersResolverBuilder;
 
     public ModulePlaceholderResolver(Module module, String prefix, ParametersChainBuilder parametersChainBuilder,
-        ResolverBuilder propertiesResolverBuilder, ResolverBuilder parametersResolverBuilder, Map<String, String> singularToPluralMapping) {
+                                     ResolverBuilder propertiesResolverBuilder, ResolverBuilder parametersResolverBuilder,
+                                     Map<String, String> singularToPluralMapping) {
         super(module.getName(), prefix, singularToPluralMapping);
         this.module = module;
         this.parametersChainBuilder = parametersChainBuilder;
@@ -57,26 +58,35 @@ public class ModulePlaceholderResolver extends PlaceholderResolver<Module> {
 
     protected List<ProvidedDependency> getResolvedProvidedDependencies() {
         return module.getProvidedDependencies()
-            .stream()
-            .map(providedDependency -> getProvidedDependencyResolver(providedDependency).resolve())
-            .collect(Collectors.toList());
+                     .stream()
+                     .map(providedDependency -> getProvidedDependencyResolver(providedDependency).resolve())
+                     .collect(Collectors.toList());
     }
 
     protected ProvidedDependencyPlaceholderResolver getProvidedDependencyResolver(ProvidedDependency providedDependency) {
-        return new ProvidedDependencyPlaceholderResolver(module, providedDependency, prefix, parametersChainBuilder,
-            propertiesResolverBuilder, singularToPluralMapping);
+        return new ProvidedDependencyPlaceholderResolver(module,
+                                                         providedDependency,
+                                                         prefix,
+                                                         parametersChainBuilder,
+                                                         propertiesResolverBuilder,
+                                                         singularToPluralMapping);
     }
 
     protected List<RequiredDependency> getResolvedRequiredDependencies() {
         return module.getRequiredDependencies()
-            .stream()
-            .map(requiredDependency -> getRequiredDependencyResolver(requiredDependency).resolve())
-            .collect(Collectors.toList());
+                     .stream()
+                     .map(requiredDependency -> getRequiredDependencyResolver(requiredDependency).resolve())
+                     .collect(Collectors.toList());
     }
 
     protected RequiredDependencyPlaceholderResolver getRequiredDependencyResolver(RequiredDependency requiredDependency) {
-        return new RequiredDependencyPlaceholderResolver(module, requiredDependency, prefix, parametersChainBuilder,
-            propertiesResolverBuilder, parametersResolverBuilder, singularToPluralMapping);
+        return new RequiredDependencyPlaceholderResolver(module,
+                                                         requiredDependency,
+                                                         prefix,
+                                                         parametersChainBuilder,
+                                                         propertiesResolverBuilder,
+                                                         parametersResolverBuilder,
+                                                         singularToPluralMapping);
     }
 
 }

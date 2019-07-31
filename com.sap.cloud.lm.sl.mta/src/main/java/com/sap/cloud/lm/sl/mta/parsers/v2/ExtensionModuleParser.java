@@ -40,10 +40,10 @@ public class ExtensionModuleParser extends ModelParser<ExtensionModule> {
     @Override
     public ExtensionModule parse() throws ParsingException {
         return createEntity().setName(getName())
-            .setProperties(getProperties())
-            .setParameters(getParameters())
-            .setRequiredDependencies(getExtensionRequiredDependencies())
-            .setProvidedDependencies(getExtensionProvidedDependencies());
+                             .setProperties(getProperties())
+                             .setParameters(getParameters())
+                             .setRequiredDependencies(getExtensionRequiredDependencies())
+                             .setProvidedDependencies(getExtensionProvidedDependencies());
     }
 
     protected ExtensionModule createEntity() {
@@ -67,7 +67,7 @@ public class ExtensionModuleParser extends ModelParser<ExtensionModule> {
             @Override
             protected ExtensionRequiredDependency parseItem(Map<String, Object> map) {
                 return getRequiredDependencyParser(map).setUsedValues(usedRequiredDependencyNames)
-                    .parse();
+                                                       .parse();
             }
         });
     }
@@ -82,7 +82,7 @@ public class ExtensionModuleParser extends ModelParser<ExtensionModule> {
             @Override
             protected ExtensionProvidedDependency parseItem(Map<String, Object> map) {
                 return getProvidedDependencyParser(map).setUsedValues(usedProvidedDependencyNames)
-                    .parse();
+                                                       .parse();
             }
         });
     }

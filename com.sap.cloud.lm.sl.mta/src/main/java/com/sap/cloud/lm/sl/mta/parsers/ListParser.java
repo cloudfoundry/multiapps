@@ -20,8 +20,8 @@ public abstract class ListParser<T> implements Parser<List<T>> {
     @Override
     public List<T> parse() throws ParsingException {
         return Collections.unmodifiableList(source.stream()
-            .map(this::parseItem)
-            .collect(Collectors.toList()));
+                                                  .map(this::parseItem)
+                                                  .collect(Collectors.toList()));
     }
 
     protected abstract T parseItem(Map<String, Object> map);

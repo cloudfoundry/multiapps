@@ -30,10 +30,10 @@ public class RequiredDependencyParser extends ModelParser<RequiredDependency> {
     @Override
     public RequiredDependency parse() throws ParsingException {
         return createEntity().setGroup(getGroup())
-            .setName(setName())
-            .setList(getList())
-            .setProperties(getProperties())
-            .setParameters(getParameters());
+                             .setName(setName())
+                             .setList(getList())
+                             .setProperties(getProperties())
+                             .setParameters(getParameters());
     }
 
     protected RequiredDependency createEntity() {

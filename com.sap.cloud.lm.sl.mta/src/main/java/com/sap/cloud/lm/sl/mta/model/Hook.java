@@ -34,8 +34,8 @@ public class Hook extends VersionedEntity implements VisitableElement, NamedElem
 
     private static List<RequiredDependency> copyRequiredDependencies(List<RequiredDependency> originals) {
         return originals.stream()
-            .map(RequiredDependency::copyOf)
-            .collect(Collectors.toList());
+                        .map(RequiredDependency::copyOf)
+                        .collect(Collectors.toList());
     }
 
     @YamlElement(HookParser.NAME)

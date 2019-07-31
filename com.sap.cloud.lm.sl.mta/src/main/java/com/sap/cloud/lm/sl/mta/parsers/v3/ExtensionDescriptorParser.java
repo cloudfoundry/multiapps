@@ -1,6 +1,6 @@
 package com.sap.cloud.lm.sl.mta.parsers.v3;
 
-import static com.sap.cloud.lm.sl.mta.handlers.v3.Schemas.MTAEXT;
+import static com.sap.cloud.lm.sl.mta.handlers.v2.Schemas.MTAEXT;
 
 import java.util.Map;
 

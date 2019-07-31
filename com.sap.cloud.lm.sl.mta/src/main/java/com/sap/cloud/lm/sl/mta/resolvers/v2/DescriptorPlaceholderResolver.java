@@ -26,7 +26,7 @@ public class DescriptorPlaceholderResolver extends PlaceholderResolver<Deploymen
     protected final ParametersChainBuilder parametersChainBuilder;
 
     public DescriptorPlaceholderResolver(DeploymentDescriptor descriptor, ResolverBuilder propertiesResolverBuilder,
-        ResolverBuilder parametersResolverBuilder, Map<String, String> singularToPluralMapping) {
+                                         ResolverBuilder parametersResolverBuilder, Map<String, String> singularToPluralMapping) {
         super("", "", singularToPluralMapping);
         this.deploymentDescriptor = descriptor;
         this.propertiesResolverBuilder = propertiesResolverBuilder;
@@ -46,31 +46,39 @@ public class DescriptorPlaceholderResolver extends PlaceholderResolver<Deploymen
         List<Map<String, Object>> parametersList = Arrays.asList(deploymentDescriptor.getParameters());
         addSingularParametersIfNecessary(parametersList);
         return new PropertiesPlaceholderResolver(propertiesResolverBuilder).resolve(propertiesToResolve,
-            PropertiesUtil.mergeProperties(parametersList), prefix);
+                                                                                    PropertiesUtil.mergeProperties(parametersList), prefix);
     }
 
     protected ResourcePlaceholderResolver getResourceResolver(Resource resource) {
-        return new ResourcePlaceholderResolver(resource, prefix, parametersChainBuilder, propertiesResolverBuilder,
-            parametersResolverBuilder, singularToPluralMapping);
+        return new ResourcePlaceholderResolver(resource,
+                                               prefix,
+                                               parametersChainBuilder,
+                                               propertiesResolverBuilder,
+                                               parametersResolverBuilder,
+                                               singularToPluralMapping);
     }
 
     protected List<Resource> getResolvedResources() {
         return deploymentDescriptor.getResources()
-            .stream()
-            .map(resource -> getResourceResolver(resource).resolve())
-            .collect(Collectors.toList());
+                                   .stream()
+                                   .map(resource -> getResourceResolver(resource).resolve())
+                                   .collect(Collectors.toList());
     }
 
     protected ModulePlaceholderResolver getModuleResolver(Module module) {
-        return new ModulePlaceholderResolver(module, prefix, parametersChainBuilder, propertiesResolverBuilder, parametersResolverBuilder,
-            singularToPluralMapping);
+        return new ModulePlaceholderResolver(module,
+                                             prefix,
+                                             parametersChainBuilder,
+                                             propertiesResolverBuilder,
+                                             parametersResolverBuilder,
+                                             singularToPluralMapping);
     }
 
     protected List<Module> getResolvedModules() {
         return deploymentDescriptor.getModules()
-            .stream()
-            .map(module -> getModuleResolver(module).resolve())
-            .collect(Collectors.toList());
+                                   .stream()
+                                   .map(module -> getModuleResolver(module).resolve())
+                                   .collect(Collectors.toList());
     }
 
 }

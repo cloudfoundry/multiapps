@@ -28,8 +28,8 @@ public class ExtensionRequiredDependencyParser extends ModelParser<ExtensionRequ
     @Override
     public ExtensionRequiredDependency parse() throws ParsingException {
         return createEntity().setName(getName())
-            .setProperties(getProperties())
-            .setParameters(getParameters());
+                             .setProperties(getProperties())
+                             .setParameters(getParameters());
     }
 
     protected ExtensionRequiredDependency createEntity() {

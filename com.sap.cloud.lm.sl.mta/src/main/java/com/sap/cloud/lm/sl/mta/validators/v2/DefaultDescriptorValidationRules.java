@@ -30,10 +30,10 @@ public class DefaultDescriptorValidationRules implements DescriptorValidationRul
 
     protected void checkForEmptyFields(Map<String, Object> properties, ElementContext elementContext, Set<String> emptyFields) {
         properties.entrySet()
-            .stream()
-            .filter(property -> property.getValue() == null)
-            .map(property -> getPrefixedName(elementContext.getPrefixedName(), property.getKey()))
-            .forEach(emptyFields::add);
+                  .stream()
+                  .filter(property -> property.getValue() == null)
+                  .map(property -> getPrefixedName(elementContext.getPrefixedName(), property.getKey()))
+                  .forEach(emptyFields::add);
     }
 
     @Override

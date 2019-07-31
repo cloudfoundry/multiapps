@@ -30,7 +30,7 @@ public class ExtensionDescriptorMerger extends com.sap.cloud.lm.sl.mta.mergers.v
     @Override
     public void visit(ElementContext context, Hook hook) {
         String moduleContainerName = context.getPreviousElementContext()
-            .getVisitableElementName();
+                                            .getVisitableElementName();
         ExtensionHook extensionHook = handlerV3.findHook(extensionDescriptor, moduleContainerName, hook.getName());
         if (extensionHook != null) {
             merge(hook, extensionHook);
@@ -46,7 +46,7 @@ public class ExtensionDescriptorMerger extends com.sap.cloud.lm.sl.mta.mergers.v
         hook.getRequiredDependencies()
             .forEach(requiredDependency -> {
                 ExtensionRequiredDependency extensionRequiredDependency = handlerV3.findRequiredDependency(extensionHook,
-                    requiredDependency.getName());
+                                                                                                           requiredDependency.getName());
                 if (extensionRequiredDependency != null) {
                     merge(requiredDependency, extensionRequiredDependency);
                 }

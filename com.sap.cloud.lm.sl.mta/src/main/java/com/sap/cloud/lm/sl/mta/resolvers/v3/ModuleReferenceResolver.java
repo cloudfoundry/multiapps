@@ -12,7 +12,7 @@ import com.sap.cloud.lm.sl.mta.resolvers.ResolverBuilder;
 public class ModuleReferenceResolver extends com.sap.cloud.lm.sl.mta.resolvers.v2.ModuleReferenceResolver {
 
     public ModuleReferenceResolver(DeploymentDescriptor descriptor, Module module, String prefix, ResolverBuilder propertiesResolverBuilder,
-        ResolverBuilder requiredDepencenciesPropertiesResolverBuilder) {
+                                   ResolverBuilder requiredDepencenciesPropertiesResolverBuilder) {
         super(descriptor, module, prefix, propertiesResolverBuilder, requiredDepencenciesPropertiesResolverBuilder);
     }
 
@@ -25,14 +25,18 @@ public class ModuleReferenceResolver extends com.sap.cloud.lm.sl.mta.resolvers.v
 
     private List<Hook> getResolvedHooks() {
         return module.getHooks()
-            .stream()
-            .map(hook -> getHookReferenceResolver(hook).resolve())
-            .collect(Collectors.toList());
+                     .stream()
+                     .map(hook -> getHookReferenceResolver(hook).resolve())
+                     .collect(Collectors.toList());
     }
 
     private HookReferenceResolver getHookReferenceResolver(Hook hook) {
-        return new HookReferenceResolver(hook, descriptor, module, prefix, propertiesResolverBuilder,
-            requiredDepencenciesPropertiesResolverBuilder);
+        return new HookReferenceResolver(hook,
+                                         descriptor,
+                                         module,
+                                         prefix,
+                                         propertiesResolverBuilder,
+                                         requiredDepencenciesPropertiesResolverBuilder);
     }
 
 }

@@ -13,7 +13,8 @@ import com.sap.cloud.lm.sl.mta.resolvers.ResolverBuilder;
 public class ModulePlaceholderResolver extends com.sap.cloud.lm.sl.mta.resolvers.v2.ModulePlaceholderResolver {
 
     public ModulePlaceholderResolver(Module module, String prefix, ParametersChainBuilder parametersChainBuilder,
-        ResolverBuilder propertiesResolverBuilder, ResolverBuilder parametersResolverBuilder, Map<String, String> singularToPluralMapping) {
+                                     ResolverBuilder propertiesResolverBuilder, ResolverBuilder parametersResolverBuilder,
+                                     Map<String, String> singularToPluralMapping) {
         super(module, prefix, parametersChainBuilder, propertiesResolverBuilder, parametersResolverBuilder, singularToPluralMapping);
     }
 
@@ -26,14 +27,20 @@ public class ModulePlaceholderResolver extends com.sap.cloud.lm.sl.mta.resolvers
 
     private List<Hook> getResolvedHooks() {
         return module.getHooks()
-            .stream()
-            .map(hook -> getHookPlaceholderResolver(hook).resolve())
-            .collect(Collectors.toList());
+                     .stream()
+                     .map(hook -> getHookPlaceholderResolver(hook).resolve())
+                     .collect(Collectors.toList());
     }
 
     private HookPlaceholderResolver getHookPlaceholderResolver(Hook hook) {
-        return new HookPlaceholderResolver(module, hook, prefix, parametersChainBuilder, propertiesResolverBuilder,
-            parametersResolverBuilder, singularToPluralMapping, getMergedParameters());
+        return new HookPlaceholderResolver(module,
+                                           hook,
+                                           prefix,
+                                           parametersChainBuilder,
+                                           propertiesResolverBuilder,
+                                           parametersResolverBuilder,
+                                           singularToPluralMapping,
+                                           getMergedParameters());
     }
 
 }

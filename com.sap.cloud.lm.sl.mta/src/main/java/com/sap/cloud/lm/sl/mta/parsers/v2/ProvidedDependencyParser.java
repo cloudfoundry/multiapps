@@ -31,9 +31,9 @@ public class ProvidedDependencyParser extends ModelParser<ProvidedDependency> {
     @Override
     public ProvidedDependency parse() throws ParsingException {
         return createEntity().setName(getName())
-            .setPublic(isPublic())
-            .setProperties(getProperties())
-            .setParameters(getParameters());
+                             .setPublic(isPublic())
+                             .setProperties(getProperties())
+                             .setParameters(getParameters());
     }
 
     protected ProvidedDependency createEntity() {

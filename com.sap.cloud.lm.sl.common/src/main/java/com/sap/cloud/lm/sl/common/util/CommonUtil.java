@@ -10,7 +10,7 @@ public class CommonUtil {
             Thread.sleep(millis);
         } catch (InterruptedException e) {
             Thread.currentThread()
-                .interrupt();
+                  .interrupt();
             throw new IllegalStateException("Interrupted!", e);
         }
     }

@@ -1,6 +1,6 @@
 package com.sap.cloud.lm.sl.mta.parsers.v3;
 
-import static com.sap.cloud.lm.sl.mta.handlers.v3.Schemas.EXT_PROVIDED_DEPENDENCY;
+import static com.sap.cloud.lm.sl.mta.handlers.v2.Schemas.EXT_PROVIDED_DEPENDENCY;
 
 import java.util.Map;
 

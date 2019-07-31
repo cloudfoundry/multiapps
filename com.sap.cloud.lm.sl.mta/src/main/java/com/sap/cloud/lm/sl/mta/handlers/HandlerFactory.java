@@ -80,18 +80,21 @@ public class HandlerFactory implements HandlerConstructor {
     }
 
     @Override
-    public PlaceholderResolver<DeploymentDescriptor> getDescriptorPlaceholderResolver(DeploymentDescriptor mergedDescriptor,
-        ResolverBuilder propertiesResolver, ResolverBuilder parametersResolver, Map<String, String> singularToPluralMapping) {
+    public PlaceholderResolver<DeploymentDescriptor>
+           getDescriptorPlaceholderResolver(DeploymentDescriptor mergedDescriptor, ResolverBuilder propertiesResolver,
+                                            ResolverBuilder parametersResolver, Map<String, String> singularToPluralMapping) {
         return getHandlerDelegate().getDescriptorPlaceholderResolver(mergedDescriptor, propertiesResolver, parametersResolver,
-            singularToPluralMapping);
+                                                                     singularToPluralMapping);
     }
 
     @Override
     public Resolver<DeploymentDescriptor> getDescriptorReferenceResolver(DeploymentDescriptor mergedDescriptor,
-        ResolverBuilder modulesPropertiesResolverBuilder, ResolverBuilder resourcePropertiesResolverBuilder,
-        ResolverBuilder requiredDepencenciesPropertiesResolverBuilder) {
+                                                                         ResolverBuilder modulesPropertiesResolverBuilder,
+                                                                         ResolverBuilder resourcePropertiesResolverBuilder,
+                                                                         ResolverBuilder requiredDepencenciesPropertiesResolverBuilder) {
         return getHandlerDelegate().getDescriptorReferenceResolver(mergedDescriptor, modulesPropertiesResolverBuilder,
-            resourcePropertiesResolverBuilder, requiredDepencenciesPropertiesResolverBuilder);
+                                                                   resourcePropertiesResolverBuilder,
+                                                                   requiredDepencenciesPropertiesResolverBuilder);
     }
 
 }

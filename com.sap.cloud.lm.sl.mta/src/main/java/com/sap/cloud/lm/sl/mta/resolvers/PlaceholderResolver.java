@@ -34,7 +34,7 @@ public abstract class PlaceholderResolver<T> extends PatternResolver<T> {
 
     protected boolean shouldAddSingularParameter(String singular, List<Map<String, Object>> parametersList) {
         return parametersList.stream()
-            .noneMatch(parameters -> parameters != null && parameters.containsKey(singular));
+                             .noneMatch(parameters -> parameters != null && parameters.containsKey(singular));
     }
 
     @SuppressWarnings("unchecked")
