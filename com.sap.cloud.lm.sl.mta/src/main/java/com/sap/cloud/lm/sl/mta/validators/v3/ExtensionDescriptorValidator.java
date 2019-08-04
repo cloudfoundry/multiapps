@@ -41,18 +41,16 @@ public class ExtensionDescriptorValidator extends com.sap.cloud.lm.sl.mta.valida
 
     protected void validate(Metadata metadata, Map<String, Object> properties, Map<String, Object> extensionProperties,
                             String containerName, String elementType) {
-        for (String propertyName : extensionProperties.keySet()) {
-            boolean isOverwritable = metadata.getOverwritableMetadata(propertyName);
-            Object value = properties.get(propertyName);
-            Object extensionValue = extensionProperties.get(propertyName);
-            if (!isOverwritable && extensionValue != null) {
+        for (Map.Entry<String, Object> extensionProperty : extensionProperties.entrySet()) {
+            boolean isOverwritable = metadata.getOverwritableMetadata(extensionProperty.getKey());
+            Object value = properties.get(extensionProperty.getKey());
+            if (!isOverwritable && extensionProperty.getValue() != null) {
                 if (value == null) {
-                    throw new ContentException(Messages.CANNOT_MODIFY_ELEMENT,
-                                               elementType,
-                                               getPrefixedName(containerName, propertyName),
-                                               extensionDescriptor.getId());
+                    throw new ContentException(Messages.CANNOT_MODIFY_ELEMENT, elementType, getPrefixedName(containerName,
+                        extensionProperty.getKey()), extensionDescriptor.getId());
                 }
-                validateModifiableElements(elementType, containerName, extensionDescriptor.getId(), propertyName, extensionValue, value);
+                validateModifiableElements(elementType, containerName, extensionDescriptor.getId(), extensionProperty.getKey(),
+                    extensionProperty.getValue(), value);
             }
         }
     }

@@ -31,11 +31,10 @@ public class DefaultDescriptorValidationRules extends com.sap.cloud.lm.sl.mta.va
 
     protected void validateOptionalProperties(Map<String, Object> properties, Metadata metadata, ElementContext elementContext,
                                               String elementType) {
-        for (String propertyName : properties.keySet()) {
-            if (!isPropertyValid(properties.get(propertyName), propertyName, metadata)) {
-                throw new ContentException(Messages.MANDATORY_ELEMENT_HAS_NO_VALUE,
-                                           elementType,
-                                           ValidatorUtil.getPrefixedName(elementContext.getPrefixedName(), propertyName));
+        for (Map.Entry<String, Object> property : properties.entrySet()) {
+            if (!isPropertyValid(property.getValue(), property.getKey(), metadata)) {
+                throw new ContentException(Messages.MANDATORY_ELEMENT_HAS_NO_VALUE, elementType,
+                    ValidatorUtil.getPrefixedName(elementContext.getPrefixedName(), property.getKey()));
             }
         }
     }
