@@ -52,7 +52,8 @@ public class DigestHelper {
             if (Files.isSymbolicLink(filePathInDir)) {
                 continue;
             }
-            if (Files.isDirectory(filePathInDir)) {
+            if (filePathInDir.toFile()
+                .isDirectory()) {
                 md.update(computeDirectoryCheckSumBytes(filePathInDir, algorithm));
             } else {
                 md.update(computeFileCheckSumBytes(filePathInDir, algorithm));

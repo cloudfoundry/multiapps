@@ -87,13 +87,12 @@ public class DeploymentDescriptorValidator extends com.sap.cloud.lm.sl.mta.valid
     }
 
     protected void validate(Metadata metadata, Map<String, Object> properties, String containerName, String elementType) {
-        for (String propertyName : properties.keySet()) {
-            boolean isOverwritable = metadata.getOverwritableMetadata(propertyName);
-            boolean isOptional = metadata.getOptionalMetadata(propertyName);
-            if (properties.get(propertyName) == null && !isOverwritable && !isOptional) {
-                throw new ContentException(Messages.MANDATORY_ELEMENT_HAS_NO_VALUE,
-                                           elementType,
-                                           ValidatorUtil.getPrefixedName(containerName, propertyName));
+        for (Map.Entry<String, Object> property : properties.entrySet()) {
+            boolean isOverwritable = metadata.getOverwritableMetadata(property.getKey());
+            boolean isOptional = metadata.getOptionalMetadata(property.getKey());
+            if (property.getValue() == null && !isOverwritable && !isOptional) {
+                throw new ContentException(Messages.MANDATORY_ELEMENT_HAS_NO_VALUE, elementType,
+                    ValidatorUtil.getPrefixedName(containerName, property.getKey()));
             }
         }
     }
