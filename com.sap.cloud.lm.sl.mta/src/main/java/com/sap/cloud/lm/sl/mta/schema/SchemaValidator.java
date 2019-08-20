@@ -20,11 +20,11 @@ public class SchemaValidator {
     }
 
     public void validate(Map<String, Object> map) throws ParsingException {
-        validate(map, schema, "", new HashMap<String, Set<Object>>());
+        validate(map, schema, "", new HashMap<>());
     }
 
     public void validate(List<Object> list) throws ParsingException {
-        validate(list, schema, "", new HashMap<String, Set<Object>>());
+        validate(list, schema, "", new HashMap<>());
     }
 
     @SuppressWarnings("unchecked")
@@ -35,7 +35,7 @@ public class SchemaValidator {
         if (schema instanceof MapElement) {
             validate((Map<String, Object>) object, (MapElement) schema, prefix, uniqueValuesMap);
         } else if (schema instanceof ListElement) {
-            validate((List<Object>) object, (ListElement) schema, prefix, new HashMap<String, Set<Object>>());
+            validate((List<Object>) object, (ListElement) schema, prefix, new HashMap<>());
         } else {
             validate(object, schema, prefix);
         }
@@ -43,24 +43,23 @@ public class SchemaValidator {
 
     private static void validate(Map<String, Object> map, MapElement schema, String prefix, Map<String, Set<Object>> uniqueValuesMap) {
         // Validate existing keys:
-        for (String key : map.keySet()) {
+        for (Map.Entry<String, Object> entry : map.entrySet()) {
             Element element = schema.getMap()
-                                    .get(key);
-            String elementPrefix = getPrefixedName(prefix, key);
+                                    .get(entry.getKey());
+            String elementPrefix = getPrefixedName(prefix, entry.getKey());
             if (element == null) {
                 continue;
             }
-            Object object = map.get(key);
+            Object object = entry.getValue();
             validate(object, element, elementPrefix, uniqueValuesMap);
         }
 
         // Check for non-existing required keys:
-        for (String key : schema.getMap()
-                                .keySet()) {
-            Element element = schema.getMap()
-                                    .get(key);
-            if (element.isRequired() && !map.containsKey(key)) {
-                throw new ParsingException(Messages.MISSING_REQUIRED_KEY, getPrefixedName(prefix, key));
+        for (Map.Entry<String, Element> entry : schema.getMap()
+                                                      .entrySet()) {
+            Element element = entry.getValue();
+            if (element.isRequired() && !map.containsKey(entry.getKey())) {
+                throw new ParsingException(Messages.MISSING_REQUIRED_KEY, getPrefixedName(prefix, entry.getKey()));
             }
         }
     }

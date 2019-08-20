@@ -44,9 +44,7 @@ public class PropertiesResolverTest {
     public void testResolve(String modulePropertiesLocation, String parameterExpression, Expectation expectation) {
         Map<String, Object> moduleProperties = TestUtil.getMap(modulePropertiesLocation, getClass());
 
-        tester.test(() -> {
-            return testResolver.resolveReferenceInDepth(parameterExpression, moduleProperties);
-        }, expectation);
+        tester.test(() -> testResolver.resolveReferenceInDepth(parameterExpression, moduleProperties), expectation);
     }
 
 }

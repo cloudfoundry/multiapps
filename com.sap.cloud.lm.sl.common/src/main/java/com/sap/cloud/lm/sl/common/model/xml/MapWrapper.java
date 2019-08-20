@@ -27,9 +27,9 @@ public class MapWrapper extends Wrapper {
 
     @SuppressWarnings("unchecked")
     public MapWrapper(Object o) {
-        Map<String, Object> map = o == null ? Collections.<String, Object> emptyMap() : (Map<String, Object>) o;
-        for (String key : map.keySet()) {
-            this.map.add(new Entry(key, wrap(map.get(key))));
+        Map<String, Object> map = o == null ? Collections.emptyMap() : (Map<String, Object>) o;
+        for (Map.Entry<String, Object> entry : map.entrySet()) {
+            this.map.add(new Entry(entry.getKey(), wrap(entry.getValue())));
         }
     }
 
