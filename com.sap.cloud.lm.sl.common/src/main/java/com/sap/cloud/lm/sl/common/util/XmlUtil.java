@@ -31,7 +31,7 @@ import com.sap.cloud.lm.sl.common.message.Messages;
 public class XmlUtil {
 
     private static final String EXTERNAL_GENERAL_ENTITIES_FEATURE = "http://xml.org/sax/features/external-general-entities";
-    private static final String EXTERNAL_PARAMETER__ENTITIES_FEATURE = "http://xml.org/sax/features/external-parameter-entities";
+    private static final String EXTERNAL_PARAMETER_ENTITIES_FEATURE = "http://xml.org/sax/features/external-parameter-entities";
     private static final String DISALLOW_DOCTYPE_DECLARATION_FEATURE = "http://apache.org/xml/features/disallow-doctype-decl";
 
     public static <T> String toXml(T object) throws SLException {
@@ -151,7 +151,7 @@ public class XmlUtil {
         try {
             factory.setFeature(DISALLOW_DOCTYPE_DECLARATION_FEATURE, true);
             factory.setFeature(EXTERNAL_GENERAL_ENTITIES_FEATURE, false);
-            factory.setFeature(EXTERNAL_PARAMETER__ENTITIES_FEATURE, false);
+            factory.setFeature(EXTERNAL_PARAMETER_ENTITIES_FEATURE, false);
             return factory.newDocumentBuilder();
         } catch (ParserConfigurationException e) {
             throw new ParsingException(Messages.COULD_NOT_CREATE_DOCUMENT_BUILDER_FACTORY, e);
