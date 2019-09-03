@@ -2,7 +2,7 @@ package com.sap.cloud.lm.sl.common.util;
 
 import org.mockito.ArgumentMatcher;
 
-public class GenericArgumentMatcher<T> extends ArgumentMatcher<T> {
+public class GenericArgumentMatcher<T> implements ArgumentMatcher<T> {
 
     private T expectedObject;
 
