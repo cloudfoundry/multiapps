@@ -2,9 +2,9 @@ package com.sap.cloud.lm.sl.common.tags;
 
 public interface TaggedObject {
 
-    public String getName();
+    String getName();
 
-    public boolean getMetadataValue();
+    boolean getMetadataValue();
 
-    public String getValue();
+    String getValue();
 }

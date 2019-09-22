@@ -14,6 +14,9 @@ public class DigestHelper {
 
     private static final int BUFFER_SIZE = 4 * 1024;
 
+    private DigestHelper() {
+    }
+
     public static String appendDigests(String digest, String additionalDigest, String digestAlgorithm) throws NoSuchAlgorithmException {
         byte[] fileChecksum = DatatypeConverter.parseHexBinary(digest);
         byte[] additionalFileChecksum = DatatypeConverter.parseHexBinary(additionalDigest);

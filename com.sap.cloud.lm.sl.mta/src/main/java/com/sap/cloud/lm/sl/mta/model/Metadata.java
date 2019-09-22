@@ -16,7 +16,7 @@ public class Metadata {
 
     private Map<String, Map<String, Object>> metadata;
 
-    public static final Metadata DEFAULT_METADATA = new Metadata(Collections.<String, Map<String, Object>> emptyMap());
+    public static final Metadata DEFAULT_METADATA = new Metadata(Collections.emptyMap());
 
     // Required by Jackson.
     protected Metadata() {

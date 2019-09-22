@@ -27,6 +27,9 @@ public class JsonUtil {
     private static final int MAX_LENGTH = 128;
     private static final ObjectMapper OBJECT_MAPPER = createObjectMapper();
 
+    private JsonUtil() {
+    }
+
     private static ObjectMapper createObjectMapper() {
         return new ObjectMapper().setVisibility(PropertyAccessor.ALL, Visibility.NONE)
                                  .setVisibility(PropertyAccessor.FIELD, Visibility.ANY)

@@ -10,11 +10,11 @@ public class NullPropertiesResolverBuilder extends ResolverBuilder {
         return new NullPropertiesResolver(properties);
     }
 
-    private class NullPropertiesResolver extends PropertiesResolver {
+    private static class NullPropertiesResolver extends PropertiesResolver {
 
-        private Map<String, Object> properties = null;
+        private Map<String, Object> properties;
 
-        public NullPropertiesResolver(Map<String, Object> properties) {
+        NullPropertiesResolver(Map<String, Object> properties) {
             this.properties = properties;
         }
 

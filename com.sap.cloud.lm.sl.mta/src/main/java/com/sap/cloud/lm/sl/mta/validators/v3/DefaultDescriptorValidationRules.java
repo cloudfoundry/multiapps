@@ -3,7 +3,7 @@ package com.sap.cloud.lm.sl.mta.validators.v3;
 import java.util.Map;
 
 import com.sap.cloud.lm.sl.common.ContentException;
-import com.sap.cloud.lm.sl.mta.message.Constants;
+import com.sap.cloud.lm.sl.mta.Constants;
 import com.sap.cloud.lm.sl.mta.message.Messages;
 import com.sap.cloud.lm.sl.mta.model.ElementContext;
 import com.sap.cloud.lm.sl.mta.model.Metadata;

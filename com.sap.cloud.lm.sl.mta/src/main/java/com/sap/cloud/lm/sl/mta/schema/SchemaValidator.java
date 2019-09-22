@@ -10,6 +10,7 @@ import java.util.Set;
 import com.sap.cloud.lm.sl.common.ParsingException;
 import com.sap.cloud.lm.sl.common.util.MiscUtil;
 import com.sap.cloud.lm.sl.mta.message.Messages;
+import org.apache.commons.lang3.StringUtils;
 
 public class SchemaValidator {
 
@@ -66,15 +67,14 @@ public class SchemaValidator {
 
     private static void validate(List<Object> list, ListElement schema, String prefix, Map<String, Set<Object>> uniqueValuesMap) {
         Element element = schema.getElement();
-        for (int i = 0; i < list.size(); i++) {
-            String elementPrefix = getPrefixedName(prefix, Integer.toString(i));
-            Object value = list.get(i);
-            validate(value, element, elementPrefix, uniqueValuesMap);
+        int i = 0;
+        for (Object value : list) {
+            validate(value, element, getPrefixedName(prefix, Integer.toString(i++)), uniqueValuesMap);
         }
     }
 
     private static void validate(Object object, Element schema, String objectName) {
-        if (schema.getType() == String.class) {
+        if (schema.getType().equals(String.class)) {
             validateStringElement(object, schema, objectName);
         }
     }
@@ -125,7 +125,7 @@ public class SchemaValidator {
     }
 
     private static boolean isRootElement(String prefix) {
-        return prefix == null || prefix.isEmpty();
+        return StringUtils.isEmpty(prefix);
     }
 
 }

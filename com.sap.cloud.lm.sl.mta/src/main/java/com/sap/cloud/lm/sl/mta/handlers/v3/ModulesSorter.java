@@ -10,7 +10,7 @@ import com.sap.cloud.lm.sl.mta.model.Module;
 
 public class ModulesSorter extends com.sap.cloud.lm.sl.mta.handlers.v2.ModulesSorter {
 
-    String parallelDeploymentsProperty;
+    private String parallelDeploymentsProperty;
 
     public ModulesSorter(DeploymentDescriptor descriptor, DescriptorHandler handler, String dependencyTypeProperty,
                          String hardDependencyType, String parallelDeploymentsProperty) {

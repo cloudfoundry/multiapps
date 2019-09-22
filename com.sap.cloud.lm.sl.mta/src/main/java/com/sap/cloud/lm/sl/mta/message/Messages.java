@@ -2,6 +2,9 @@ package com.sap.cloud.lm.sl.mta.message;
 
 public class Messages {
 
+    private Messages() {
+    }
+
     // Exception messages:
     public static final String ERROR_SIZE_OF_FILE_EXCEEDS_CONFIGURED_MAX_SIZE_LIMIT = "The size \"{0}\" of mta file \"{1}\" exceeds the configured max size limit \"{2}\"";
     public static final String ERROR_RETRIEVING_MTA_MODULE_CONTENT = "Error retrieving content of MTA module \"{0}\"";

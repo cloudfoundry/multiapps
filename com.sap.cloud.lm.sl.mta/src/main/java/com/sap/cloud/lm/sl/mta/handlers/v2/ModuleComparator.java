@@ -37,17 +37,17 @@ public class ModuleComparator implements Comparator<Entry<Module, Set<String>>> 
                 return -1;
             }
             if (hardDependencyType.equals(dependencyTypeModule2)) {
-                return +1;
+                return 1;
             }
-            return +0;
+            return 0;
         }
         if (module1Dependencies.contains(module2.getName())) {
-            return +1;
+            return 1;
         }
         if (module2Dependencies.contains(module1.getName())) {
             return -1;
         }
-        return +0;
+        return 0;
     }
 
     private boolean circularDependencyExists(String module1Name, Set<String> module1Dependencies, String module2Name,

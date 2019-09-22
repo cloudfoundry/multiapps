@@ -1,12 +1,13 @@
 package com.sap.cloud.lm.sl.common.util;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
-import java.util.LinkedHashSet;
 import java.util.List;
 
 public class ListUtil {
+
+    private ListUtil() {
+    }
 
     public static <E> List<E> upcastUnmodifiable(List<? extends E> list) {
         return unmodifiable(list);
@@ -14,10 +15,6 @@ public class ListUtil {
 
     public static <E> List<E> upcast(List<? extends E> list) {
         return list == null ? null : new ArrayList<>(list);
-    }
-
-    public static <E> List<E> castUnmodifiable(List<?> list) {
-        return unmodifiable(ListUtil.<E> cast(list));
     }
 
     @SuppressWarnings("unchecked")
@@ -33,11 +30,6 @@ public class ListUtil {
         if (item == null) {
             return Collections.emptyList();
         }
-        return Arrays.asList(item);
+        return Collections.singletonList(item);
     }
-
-    public static <T> List<T> removeDuplicates(List<T> list) {
-        return new ArrayList<>(new LinkedHashSet<>(list));
-    }
-
 }

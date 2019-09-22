@@ -10,6 +10,9 @@ public class ValidatorUtil {
 
     public static final String DEFAULT_SEPARATOR = "#";
 
+    private ValidatorUtil() {
+    }
+
     public static void validateModifiableElements(String elementType, String elementPrefix, String containerName, String key, Object value,
                                                   Object parentValue)
         throws ContentException {

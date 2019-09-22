@@ -21,7 +21,7 @@ public class YamlRepresenter extends Representer {
     }
 
     @Override
-    protected Set<Property> getProperties(Class<? extends Object> type) {
+    protected Set<Property> getProperties(Class<?> type) {
         Set<Property> properties = super.getProperties(type);
         if (type.isAnnotationPresent(YamlElementOrder.class)) {
             List<String> fieldOrder = Arrays.asList(type.getAnnotation(YamlElementOrder.class)

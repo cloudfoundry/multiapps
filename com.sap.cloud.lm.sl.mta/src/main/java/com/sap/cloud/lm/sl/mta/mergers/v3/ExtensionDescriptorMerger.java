@@ -10,6 +10,7 @@ import com.sap.cloud.lm.sl.mta.model.ExtensionRequiredDependency;
 import com.sap.cloud.lm.sl.mta.model.ExtensionResource;
 import com.sap.cloud.lm.sl.mta.model.Hook;
 import com.sap.cloud.lm.sl.mta.model.Resource;
+import com.sap.cloud.lm.sl.mta.model.RequiredDependency;
 import com.sap.cloud.lm.sl.mta.util.PropertiesUtil;
 
 public class ExtensionDescriptorMerger extends com.sap.cloud.lm.sl.mta.mergers.v2.ExtensionDescriptorMerger {
@@ -43,14 +44,12 @@ public class ExtensionDescriptorMerger extends com.sap.cloud.lm.sl.mta.mergers.v
     }
 
     private void mergeHookRequiredDependencies(Hook hook, ExtensionHook extensionHook) {
-        hook.getRequiredDependencies()
-            .forEach(requiredDependency -> {
-                ExtensionRequiredDependency extensionRequiredDependency = handlerV3.findRequiredDependency(extensionHook,
-                                                                                                           requiredDependency.getName());
-                if (extensionRequiredDependency != null) {
-                    merge(requiredDependency, extensionRequiredDependency);
-                }
-            });
+        for (RequiredDependency requiredDependency : hook.getRequiredDependencies()) {
+            ExtensionRequiredDependency extensionRequiredDependency = handlerV3.findRequiredDependency(extensionHook,
+                                                                                                       requiredDependency.getName());
+            if (extensionRequiredDependency != null) {
+                merge(requiredDependency, extensionRequiredDependency);
+            }
+        }
     }
-
 }

@@ -1,8 +1,9 @@
 package com.sap.cloud.lm.sl.mta;
 
 import java.io.InputStream;
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import com.sap.cloud.lm.sl.common.ParsingException;
 import com.sap.cloud.lm.sl.mta.handlers.ConfigurationParser;
@@ -21,11 +22,9 @@ public class MtaTestUtil {
 
     public static List<ExtensionDescriptor> loadExtensionDescriptors(String[] locations, DescriptorParser parser, Class<?> clazz)
         throws ParsingException {
-        List<ExtensionDescriptor> extensionDescriptors = new ArrayList<>();
-        for (String extensionDescriptorLocation : locations) {
-            extensionDescriptors.add(loadExtensionDescriptor(extensionDescriptorLocation, parser, clazz));
-        }
-        return extensionDescriptors;
+        return Arrays.stream(locations)
+                     .map(extensionDescriptorLocation -> loadExtensionDescriptor(extensionDescriptorLocation, parser, clazz))
+                     .collect(Collectors.toList());
     }
 
     public static ExtensionDescriptor loadExtensionDescriptor(String location, DescriptorParser descriptorParser, Class<?> clazz)
