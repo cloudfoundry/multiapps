@@ -22,8 +22,7 @@ public class TestUtil {
     }
 
     public static String getResourceAsString(String resource, Class<?> resourceClass) {
-        try {
-            InputStream resourceStream = getResourceAsInputStream(resource, resourceClass);
+        try (InputStream resourceStream = getResourceAsInputStream(resource, resourceClass)) {
             return IOUtils.toString(resourceStream, StandardCharsets.UTF_8);
         } catch (IOException e) {
             throw new IllegalStateException(e.getMessage(), e);

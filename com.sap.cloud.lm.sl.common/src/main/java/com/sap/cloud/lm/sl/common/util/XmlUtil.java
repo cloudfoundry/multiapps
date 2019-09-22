@@ -34,6 +34,9 @@ public class XmlUtil {
     private static final String EXTERNAL_PARAMETER_ENTITIES_FEATURE = "http://xml.org/sax/features/external-parameter-entities";
     private static final String DISALLOW_DOCTYPE_DECLARATION_FEATURE = "http://apache.org/xml/features/disallow-doctype-decl";
 
+    private XmlUtil() {
+    }
+
     public static <T> String toXml(T object) throws SLException {
         return toXml(object, false);
     }

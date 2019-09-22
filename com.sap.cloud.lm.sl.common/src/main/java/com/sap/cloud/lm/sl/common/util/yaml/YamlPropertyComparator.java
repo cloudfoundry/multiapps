@@ -7,7 +7,7 @@ import org.yaml.snakeyaml.introspector.Property;
 
 public class YamlPropertyComparator implements Comparator<Property> {
 
-    List<String> fieldOrder;
+    private List<String> fieldOrder;
 
     YamlPropertyComparator(List<String> fieldOrder) {
         this.fieldOrder = fieldOrder;

@@ -6,6 +6,9 @@ import java.net.URL;
 
 public class MiscUtil {
 
+    private MiscUtil() {
+    }
+
     public static URL getURL(String s) throws MalformedURLException {
         return URI.create(s)
                   .toURL();
@@ -25,11 +28,11 @@ public class MiscUtil {
         return outlineCharacter(problematicCharacterIndex, value);
     }
 
-    public static String outlineCharacter(int i, String value) {
+    private static String outlineCharacter(int i, String value) {
         return value.substring(0, i) + "[" + value.charAt(i) + "]" + value.substring(i + 1);
     }
 
-    public static int findProblematicCharacter(String pattern, String value) {
+    private static int findProblematicCharacter(String pattern, String value) {
         for (int i = 0; i < value.length(); i++) {
             if (!value.substring(0, i + 1)
                       .matches(pattern)) {

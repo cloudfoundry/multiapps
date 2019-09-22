@@ -20,6 +20,9 @@ public class YamlUtil {
 
     private static final int EXCEPTION_MESSAGE_YAML_LENGTH_LIMIT = 255;
 
+    private YamlUtil() {
+    }
+
     public static Map<String, Object> convertYamlToMap(InputStream yamlStream) throws ParsingException {
         String yaml = toString(yamlStream);
         return convertYamlToMap(yaml);

@@ -163,6 +163,7 @@ public class PropertiesResolver implements SimplePropertyVisitor, Resolver<Map<S
                 currentProperty = resolveKeyInIterable(keyPart, (Collection<?>) currentProperty, deepReferenceKey);
                 keyPart = "";
             } else if (currentProperty instanceof Map) {
+                @SuppressWarnings("unchecked")
                 Object subProperty = MapUtils.getObject((Map<Object, ?>) currentProperty, keyPart);
                 if (subProperty != null) {
                     currentProperty = subProperty;
@@ -183,9 +184,8 @@ public class PropertiesResolver implements SimplePropertyVisitor, Resolver<Map<S
     private String addOldKeyAsPrefixIfUnresolved(String oldKey, String newKey) {
         if (oldKey.isEmpty()) {
             return newKey;
-        } else {
-            return oldKey + "/" + newKey;
         }
+        return oldKey + "/" + newKey;
     }
 
     private Object resolveKeyInIterable(String key, Collection<?> listOfProperties, String longKey) {

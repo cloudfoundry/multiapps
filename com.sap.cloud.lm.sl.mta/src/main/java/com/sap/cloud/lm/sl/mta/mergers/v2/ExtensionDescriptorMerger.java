@@ -38,10 +38,8 @@ public class ExtensionDescriptorMerger extends Visitor {
 
     @Override
     public void visit(ElementContext context, DeploymentDescriptor descriptor) {
-        DeploymentDescriptor descriptorV2 = descriptor;
-        ExtensionDescriptor extensionDescriptorV2 = extensionDescriptor;
-        descriptorV2.setParameters(PropertiesUtil.mergeExtensionProperties(descriptorV2.getParameters(),
-                                                                           extensionDescriptorV2.getParameters()));
+        descriptor.setParameters(PropertiesUtil.mergeExtensionProperties(descriptor.getParameters(),
+                                                                         extensionDescriptor.getParameters()));
     }
 
     @Override

@@ -5,6 +5,9 @@ import java.util.Map;
 
 public class CommonUtil {
 
+    private CommonUtil() {
+    }
+
     public static void sleep(long millis) {
         try {
             Thread.sleep(millis);

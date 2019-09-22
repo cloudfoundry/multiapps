@@ -20,12 +20,12 @@ public class ModuleComparator implements Comparator<Module> {
                                                                  module2.getName()));
         }
         if (module1DeployedAfter.contains(module2.getName())) {
-            return +1;
+            return 1;
         }
         if (module2DeployedAfter.contains(module1.getName())) {
             return -1;
         }
-        return +0;
+        return 0;
     }
 
     private boolean circularDependencyExists(String module1Name, String module2Name, List<String> module1DeployedAfter,

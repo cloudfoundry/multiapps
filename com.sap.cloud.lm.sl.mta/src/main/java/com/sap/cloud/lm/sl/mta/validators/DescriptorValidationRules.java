@@ -7,10 +7,10 @@ import com.sap.cloud.lm.sl.mta.model.PropertiesContainer;
 
 public interface DescriptorValidationRules {
 
-    public void postValidate() throws ContentException;
+    void postValidate() throws ContentException;
 
-    public void validateProperties(ElementContext elementContext, PropertiesContainer propertiesContainer) throws ContentException;
+    void validateProperties(ElementContext elementContext, PropertiesContainer propertiesContainer) throws ContentException;
 
-    public void validateParameters(ElementContext elementContext, ParametersContainer parametersContainer) throws ContentException;
+    void validateParameters(ElementContext elementContext, ParametersContainer parametersContainer) throws ContentException;
 
 }

@@ -2,6 +2,9 @@ package com.sap.cloud.lm.sl.common.message;
 
 public class Messages {
 
+    private Messages() {
+    }
+
     // Exception messages:
     public static final String CANNOT_CONVERT_JSON_STREAM_TO_MAP = "Error while converting JSON input stream to map";
     public static final String CANNOT_CONVERT_JSON_STRING_TO_MAP = "Error while converting JSON string \"{0}\" to map";

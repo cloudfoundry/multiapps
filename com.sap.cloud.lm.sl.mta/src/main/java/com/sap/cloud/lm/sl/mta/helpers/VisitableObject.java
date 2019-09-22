@@ -31,7 +31,7 @@ public class VisitableObject {
         } else if (value instanceof Map) {
             return acceptInternal(key, (Map<String, ?>) value, visitor);
         } else if (value instanceof String) {
-            return acceptInternal(key, (String) (value), visitor);
+            return acceptInternal(key, (String) value, visitor);
         }
         return value;
     }

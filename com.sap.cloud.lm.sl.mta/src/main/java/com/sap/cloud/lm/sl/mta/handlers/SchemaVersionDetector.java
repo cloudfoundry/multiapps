@@ -1,9 +1,8 @@
 package com.sap.cloud.lm.sl.mta.handlers;
 
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
-import java.util.stream.Collectors;
+import java.util.SortedSet;
+import java.util.TreeSet;
 
 import com.sap.cloud.lm.sl.common.ContentException;
 import com.sap.cloud.lm.sl.mta.message.Messages;
@@ -11,6 +10,7 @@ import com.sap.cloud.lm.sl.mta.model.DeploymentDescriptor;
 import com.sap.cloud.lm.sl.mta.model.Descriptor;
 import com.sap.cloud.lm.sl.mta.model.ExtensionDescriptor;
 import com.sap.cloud.lm.sl.mta.model.Version;
+import org.apache.commons.collections4.ListUtils;
 
 public class SchemaVersionDetector {
 
@@ -32,9 +32,7 @@ public class SchemaVersionDetector {
 
     private List<ExtensionDescriptor> getIncompatibleExtensionDescriptors(DeploymentDescriptor deploymentDescriptor,
                                                                           List<ExtensionDescriptor> extensionDescriptors) {
-        return extensionDescriptors.stream()
-                                   .filter(extensionDescriptor -> !areCompatible(deploymentDescriptor, extensionDescriptor))
-                                   .collect(Collectors.toList());
+        return ListUtils.select(extensionDescriptors, extensionDescriptor -> !areCompatible(deploymentDescriptor, extensionDescriptor));
     }
 
     private boolean areCompatible(DeploymentDescriptor deploymentDescriptor, ExtensionDescriptor extensionDescriptor) {
@@ -48,12 +46,12 @@ public class SchemaVersionDetector {
     }
 
     private Version getMax(DeploymentDescriptor deploymentDescriptor, List<ExtensionDescriptor> extensionDescriptors) {
-        List<Version> allVersions = getVersions(deploymentDescriptor, extensionDescriptors);
-        return Collections.max(allVersions);
+        SortedSet<Version> allVersions = getVersions(deploymentDescriptor, extensionDescriptors);
+        return allVersions.last();
     }
 
-    private List<Version> getVersions(DeploymentDescriptor deploymentDescriptor, List<ExtensionDescriptor> extensionDescriptors) {
-        List<Version> version = new ArrayList<>();
+    private SortedSet<Version> getVersions(DeploymentDescriptor deploymentDescriptor, List<ExtensionDescriptor> extensionDescriptors) {
+        SortedSet<Version> version = new TreeSet<>();
         version.add(Version.parseVersion(deploymentDescriptor.getSchemaVersion()));
         for (ExtensionDescriptor extensionDescriptor : extensionDescriptors) {
             version.add(Version.parseVersion(extensionDescriptor.getSchemaVersion()));

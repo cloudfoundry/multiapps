@@ -2,7 +2,7 @@ package com.sap.cloud.lm.sl.mta.parsers.v2;
 
 import static com.sap.cloud.lm.sl.mta.handlers.v2.Schemas.MODULE;
 
-import java.util.Collections;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -10,7 +10,6 @@ import java.util.Set;
 import java.util.TreeMap;
 
 import com.sap.cloud.lm.sl.common.ParsingException;
-import com.sap.cloud.lm.sl.common.util.ListUtil;
 import com.sap.cloud.lm.sl.mta.model.Module;
 import com.sap.cloud.lm.sl.mta.model.ProvidedDependency;
 import com.sap.cloud.lm.sl.mta.model.RequiredDependency;
@@ -31,7 +30,7 @@ public class ModuleParser extends ModelParser<Module> {
     public static final String REQUIRES = "requires";
     public static final String PROVIDES = "provides";
 
-    protected Set<String> usedProvidedDependencyNames = Collections.emptySet();
+    protected Set<String> usedProvidedDependencyNames = new HashSet<>();
     protected final Set<String> usedRequiredDependencyNames = new HashSet<>();
 
     public ModuleParser(Map<String, Object> source) {
@@ -103,12 +102,11 @@ public class ModuleParser extends ModelParser<Module> {
     }
 
     protected List<ProvidedDependency> getAllProvidedDependencies(List<ProvidedDependency> providedDependencies) {
-        List<ProvidedDependency> result = providedDependencies;
-        if (!currentModuleIsProvided(result)) {
-            result = ListUtil.cast(result);
-            result.add(getCurrentModuleAsProvidedDependency());
+        List<ProvidedDependency> allProvidedDependencies = new ArrayList<>(providedDependencies);
+        if (!currentModuleIsProvided(allProvidedDependencies)) {
+            allProvidedDependencies.add(getCurrentModuleAsProvidedDependency());
         }
-        return result;
+        return allProvidedDependencies;
     }
 
     protected boolean currentModuleIsProvided(List<ProvidedDependency> providedDependencies) {

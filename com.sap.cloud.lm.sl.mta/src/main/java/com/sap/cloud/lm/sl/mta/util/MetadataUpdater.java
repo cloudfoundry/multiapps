@@ -1,11 +1,8 @@
 package com.sap.cloud.lm.sl.mta.util;
 
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
-
-import org.apache.commons.lang3.ObjectUtils;
 
 import com.sap.cloud.lm.sl.common.tags.TaggedObject;
 import com.sap.cloud.lm.sl.mta.model.Metadata;
@@ -19,15 +16,11 @@ public class MetadataUpdater {
     }
 
     public Metadata getUpdatedMetadata(Map<String, Map<String, Object>> metadataMap) {
-        if (properties == null) {
-            return new Metadata(ObjectUtils.defaultIfNull(metadataMap, Collections.<String, Map<String, Object>> emptyMap()));
-        }
         if (metadataMap == null) {
             metadataMap = new LinkedHashMap<>();
         }
-        updateMetadata(metadataMap);
-        if (metadataMap.isEmpty()) {
-            return new Metadata(Collections.<String, Map<String, Object>> emptyMap());
+        if (properties != null) {
+            updateMetadata(metadataMap);
         }
         return new Metadata(metadataMap);
     }
@@ -44,7 +37,7 @@ public class MetadataUpdater {
 
     private void addPropertyMetadata(Map<String, Map<String, Object>> metadataMap, String property, String metadataName,
                                      Object metadataValue) {
-        Map<String, Object> metadataForProperty = metadataMap.computeIfAbsent(property, k -> new HashMap<>());
-        metadataForProperty.put(metadataName, metadataValue);
+        metadataMap.computeIfAbsent(property, k -> new HashMap<>())
+                   .put(metadataName, metadataValue);
     }
 }
