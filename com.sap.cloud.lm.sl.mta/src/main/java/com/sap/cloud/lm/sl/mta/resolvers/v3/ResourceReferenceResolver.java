@@ -21,15 +21,15 @@ public class ResourceReferenceResolver implements Resolver<Resource> {
     protected final Resource resource;
     protected final String prefix;
     protected final ResolverBuilder resourcesPropertiesResolverBuilder;
-    protected final ResolverBuilder requiredDepencenciesPropertiesResolverBuilder;
+    protected final ResolverBuilder requiredDependenciesPropertiesResolverBuilder;
 
     public ResourceReferenceResolver(DeploymentDescriptor descriptor, Resource resource, String prefix,
                                      ResolverBuilder resourcesPropertiesResolverBuilder,
-                                     ResolverBuilder requiredDepencenciesPropertiesResolverBuilder) {
+                                     ResolverBuilder requiredDependenciesPropertiesResolverBuilder) {
         this.descriptor = descriptor;
         this.resource = resource;
         this.resourcesPropertiesResolverBuilder = resourcesPropertiesResolverBuilder;
-        this.requiredDepencenciesPropertiesResolverBuilder = requiredDepencenciesPropertiesResolverBuilder;
+        this.requiredDependenciesPropertiesResolverBuilder = requiredDependenciesPropertiesResolverBuilder;
         this.prefix = getPrefixedName(prefix, resource.getName());
     }
 
@@ -59,7 +59,7 @@ public class ResourceReferenceResolver implements Resolver<Resource> {
                                                        requiredDependency,
                                                        prefix,
                                                        new DescriptorHandler(),
-                                                       requiredDepencenciesPropertiesResolverBuilder);
+                requiredDependenciesPropertiesResolverBuilder);
     }
 
     private Map<String, Object> getResolvedProperties() {

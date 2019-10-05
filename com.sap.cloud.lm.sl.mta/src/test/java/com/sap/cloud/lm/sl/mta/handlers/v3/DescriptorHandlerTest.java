@@ -140,7 +140,7 @@ public class DescriptorHandlerTest extends com.sap.cloud.lm.sl.mta.handlers.v2.D
                 {
                     "mtad-10-deployed-after-with-parallel-deployments.yaml", new Expectation(Type.EXCEPTION, "Modules, \"baz\" and \"foo\", both depend on each others for deployment"),
                 },
-                // (07) Circular transistive dependencies
+                // (07) Circular transitive dependencies
                 {
                     "mtad-11-deployed-after-with-parallel-deployments.yaml", new Expectation(Type.EXCEPTION, "Modules, \"bar\" and \"foo\", both depend on each others for deployment"),
                 },
@@ -166,9 +166,9 @@ public class DescriptorHandlerTest extends com.sap.cloud.lm.sl.mta.handlers.v2.D
                                                                                      DEPENDENCY_TYPE_PROP, DEPENDENCY_TYPE_HARD));
                 }
 
-                private String getDeployedAfterMapString(List<? extends Module> modulles) {
+                private String getDeployedAfterMapString(List<? extends Module> modules) {
                     Map<String, List<String>> deployedAfterMap = new LinkedHashMap<>();
-                    for (Module module : modulles) {
+                    for (Module module : modules) {
                         deployedAfterMap.put(module.getName(), ListUtils.emptyIfNull(module.getDeployedAfter()));
                     }
                     return deployedAfterMap.toString();

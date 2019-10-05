@@ -29,6 +29,6 @@ public interface HandlerConstructor {
     Resolver<DeploymentDescriptor> getDescriptorReferenceResolver(DeploymentDescriptor mergedDescriptor,
                                                                   ResolverBuilder modulesPropertiesResolverBuilder,
                                                                   ResolverBuilder resourcePropertiesResolverBuilder,
-                                                                  ResolverBuilder requiredDepencenciesPropertiesResolverBuilder);
+                                                                  ResolverBuilder requiredDependenciesPropertiesResolverBuilder);
 
 }

@@ -116,8 +116,8 @@ public class ExtensionDescriptorValidator extends Visitor {
                  Constants.PARAMETER_ELEMENT_TYPE_NAME);
     }
 
-    private boolean extendsDeploymentDescriptorElement(String containerName, ExtensionRequiredDependency extenstionRequiredDependency) {
-        return findRequiredDependency(containerName, extenstionRequiredDependency) != null;
+    private boolean extendsDeploymentDescriptorElement(String containerName, ExtensionRequiredDependency extensionRequiredDependency) {
+        return findRequiredDependency(containerName, extensionRequiredDependency) != null;
     }
 
     protected RequiredDependency findRequiredDependency(String containerName, ExtensionRequiredDependency extensionRequiredDependency) {

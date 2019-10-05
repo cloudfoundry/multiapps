@@ -56,9 +56,9 @@ public class PartialVersionConverterTest {
             // Full version with suffix tokens:
             Arguments.of("1.9.0-SHAPSHOT", "1.9.0-SHAPSHOT"),
             // Partial version with suffix tokens:
-            Arguments.of("1.9-SHAPHOT", "1.9.0-SHAPHOT"),
+            Arguments.of("1.9-SHAPSHOT", "1.9.0-SHAPSHOT"),
             // Partial version with suffix tokens:
-            Arguments.of("1-SHAPHOT", "1.0.0-SHAPHOT"),
+            Arguments.of("1-SHAPSHOT", "1.0.0-SHAPSHOT"),
             // Full version with suffix tokens and build information:
             Arguments.of("1.2.0-beta+exp.sha.5114f85", "1.2.0-beta+exp.sha.5114f85"),
             // Partial version with suffix tokens and build information:

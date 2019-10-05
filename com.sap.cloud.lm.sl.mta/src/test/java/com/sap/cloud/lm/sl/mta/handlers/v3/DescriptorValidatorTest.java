@@ -75,7 +75,7 @@ public class DescriptorValidatorTest extends com.sap.cloud.lm.sl.mta.handlers.v2
                     new Expectation(Expectation.Type.EXCEPTION, "The parameter \"web-server#test\" is not optional and has no value."),
                 },
             },
-            // (07) With overwriteable parameter in the descriptor:
+            // (07) With overwritable parameter in the descriptor:
             {
                 "/mta/sample/v3/mtad-04.yaml", new String[] { "/mta/sample/v3/config-06.mtaext" }, null,
                 new Expectation[] {

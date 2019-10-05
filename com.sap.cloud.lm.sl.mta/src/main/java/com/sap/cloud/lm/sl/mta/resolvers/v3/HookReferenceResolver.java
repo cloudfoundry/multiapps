@@ -20,16 +20,16 @@ public class HookReferenceResolver implements Resolver<Hook> {
     protected final Module module;
     protected final String prefix;
     protected final ResolverBuilder propertiesResolverBuilder;
-    protected final ResolverBuilder requiredDepencenciesPropertiesResolverBuilder;
+    protected final ResolverBuilder requiredDependenciesPropertiesResolverBuilder;
 
     public HookReferenceResolver(Hook hook, DeploymentDescriptor descriptor, Module module, String prefix,
-                                 ResolverBuilder propertiesResolverBuilder, ResolverBuilder requiredDepencenciesPropertiesResolverBuilder) {
+                                 ResolverBuilder propertiesResolverBuilder, ResolverBuilder requiredDependenciesPropertiesResolverBuilder) {
         this.hook = hook;
         this.descriptor = descriptor;
         this.module = module;
         this.prefix = prefix;
         this.propertiesResolverBuilder = propertiesResolverBuilder;
-        this.requiredDepencenciesPropertiesResolverBuilder = requiredDepencenciesPropertiesResolverBuilder;
+        this.requiredDependenciesPropertiesResolverBuilder = requiredDependenciesPropertiesResolverBuilder;
     }
 
     @Override
@@ -59,6 +59,6 @@ public class HookReferenceResolver implements Resolver<Hook> {
                                                        module,
                                                        requiredDependency,
                                                        prefix,
-                                                       requiredDepencenciesPropertiesResolverBuilder);
+                requiredDependenciesPropertiesResolverBuilder);
     }
 }

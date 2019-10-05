@@ -12,8 +12,8 @@ import com.sap.cloud.lm.sl.mta.resolvers.ResolverBuilder;
 public class ModuleReferenceResolver extends com.sap.cloud.lm.sl.mta.resolvers.v2.ModuleReferenceResolver {
 
     public ModuleReferenceResolver(DeploymentDescriptor descriptor, Module module, String prefix, ResolverBuilder propertiesResolverBuilder,
-                                   ResolverBuilder requiredDepencenciesPropertiesResolverBuilder) {
-        super(descriptor, module, prefix, propertiesResolverBuilder, requiredDepencenciesPropertiesResolverBuilder);
+                                   ResolverBuilder requiredDependenciesPropertiesResolverBuilder) {
+        super(descriptor, module, prefix, propertiesResolverBuilder, requiredDependenciesPropertiesResolverBuilder);
     }
 
     @Override
@@ -36,7 +36,7 @@ public class ModuleReferenceResolver extends com.sap.cloud.lm.sl.mta.resolvers.v
                                          module,
                                          prefix,
                                          propertiesResolverBuilder,
-                                         requiredDepencenciesPropertiesResolverBuilder);
+                requiredDependenciesPropertiesResolverBuilder);
     }
 
 }

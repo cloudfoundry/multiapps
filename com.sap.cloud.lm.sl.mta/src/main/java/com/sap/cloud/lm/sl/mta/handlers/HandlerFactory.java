@@ -91,10 +91,10 @@ public class HandlerFactory implements HandlerConstructor {
     public Resolver<DeploymentDescriptor> getDescriptorReferenceResolver(DeploymentDescriptor mergedDescriptor,
                                                                          ResolverBuilder modulesPropertiesResolverBuilder,
                                                                          ResolverBuilder resourcePropertiesResolverBuilder,
-                                                                         ResolverBuilder requiredDepencenciesPropertiesResolverBuilder) {
+                                                                         ResolverBuilder requiredDependenciesPropertiesResolverBuilder) {
         return getHandlerDelegate().getDescriptorReferenceResolver(mergedDescriptor, modulesPropertiesResolverBuilder,
                                                                    resourcePropertiesResolverBuilder,
-                                                                   requiredDepencenciesPropertiesResolverBuilder);
+                requiredDependenciesPropertiesResolverBuilder);
     }
 
 }

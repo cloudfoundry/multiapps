@@ -13,13 +13,13 @@ public class DescriptorReferenceResolver implements Resolver<DeploymentDescripto
 
     protected final DeploymentDescriptor descriptor;
     protected final ResolverBuilder modulesPropertiesResolverBuilder;
-    protected final ResolverBuilder requiredDepencenciesPropertiesResolverBuilder;
+    protected final ResolverBuilder requiredDependenciesPropertiesResolverBuilder;
 
     public DescriptorReferenceResolver(DeploymentDescriptor descriptor, ResolverBuilder modulesPropertiesResolverBuilder,
-                                       ResolverBuilder requiredDepencenciesPropertiesResolverBuilder) {
+                                       ResolverBuilder requiredDependenciesPropertiesResolverBuilder) {
         this.descriptor = descriptor;
         this.modulesPropertiesResolverBuilder = modulesPropertiesResolverBuilder;
-        this.requiredDepencenciesPropertiesResolverBuilder = requiredDepencenciesPropertiesResolverBuilder;
+        this.requiredDependenciesPropertiesResolverBuilder = requiredDependenciesPropertiesResolverBuilder;
     }
 
     @Override
@@ -40,7 +40,7 @@ public class DescriptorReferenceResolver implements Resolver<DeploymentDescripto
                                            module,
                                            "",
                                            modulesPropertiesResolverBuilder,
-                                           requiredDepencenciesPropertiesResolverBuilder);
+                requiredDependenciesPropertiesResolverBuilder);
     }
 
 }

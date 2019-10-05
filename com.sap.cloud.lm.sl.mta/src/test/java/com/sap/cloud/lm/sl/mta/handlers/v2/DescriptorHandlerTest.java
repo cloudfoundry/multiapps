@@ -120,9 +120,9 @@ public class DescriptorHandlerTest {
                                                                                     DEPENDENCY_TYPE_PROP, DEPENDENCY_TYPE_HARD)));
                 }
 
-                private String[] getNames(List<? extends Module> modulles) {
+                private String[] getNames(List<? extends Module> modules) {
                     List<String> names = new LinkedList<>();
-                    for (Module module : modulles) {
+                    for (Module module : modules) {
                         names.add(module.getName());
                     }
                     return names.toArray(new String[0]);

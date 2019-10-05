@@ -63,7 +63,7 @@ public class DescriptorParserFacadeTest {
     }
 
     @Test
-    public void testValidParseExtensiontDescriptorWithStream() {
+    public void testValidParseExtensionDescriptorWithStream() {
         InputStream descriptorStream = TestUtil.getResourceAsInputStream(MTAEXT_VALID, getClass());
         ExtensionDescriptor descriptor = parser.parseExtensionDescriptor(descriptorStream);
         assertNotNull(descriptor);

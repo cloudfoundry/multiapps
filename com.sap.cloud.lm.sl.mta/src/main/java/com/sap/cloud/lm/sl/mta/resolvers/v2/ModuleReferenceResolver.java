@@ -19,13 +19,13 @@ public class ModuleReferenceResolver implements Resolver<Module> {
     protected final Module module;
     protected final String prefix;
     protected final ResolverBuilder propertiesResolverBuilder;
-    protected final ResolverBuilder requiredDepencenciesPropertiesResolverBuilder;
+    protected final ResolverBuilder requiredDependenciesPropertiesResolverBuilder;
 
     public ModuleReferenceResolver(DeploymentDescriptor descriptor, Module module, String prefix, ResolverBuilder propertiesResolverBuilder,
-                                   ResolverBuilder requiredDepencenciesPropertiesResolverBuilder) {
+                                   ResolverBuilder requiredDependenciesPropertiesResolverBuilder) {
         this.descriptor = descriptor;
         this.module = module;
-        this.requiredDepencenciesPropertiesResolverBuilder = requiredDepencenciesPropertiesResolverBuilder;
+        this.requiredDependenciesPropertiesResolverBuilder = requiredDependenciesPropertiesResolverBuilder;
         this.prefix = getPrefixedName(prefix, module.getName());
         this.propertiesResolverBuilder = propertiesResolverBuilder;
     }
@@ -66,7 +66,7 @@ public class ModuleReferenceResolver implements Resolver<Module> {
                                                        module,
                                                        requiredDependency,
                                                        prefix,
-                                                       requiredDepencenciesPropertiesResolverBuilder);
+                requiredDependenciesPropertiesResolverBuilder);
     }
 
 }
