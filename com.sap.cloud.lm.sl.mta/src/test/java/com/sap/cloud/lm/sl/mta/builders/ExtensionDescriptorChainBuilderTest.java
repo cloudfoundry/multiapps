@@ -80,7 +80,7 @@ public class ExtensionDescriptorChainBuilderTest {
         ExtensionDescriptor extensionDescriptor1 = buildExtensionDescriptor(BAR_ID, FOO_ID);
         ExtensionDescriptor extensionDescriptor2 = buildExtensionDescriptor(QUX_ID, BAZ_ID);
         List<ExtensionDescriptor> extensionDescriptors = Arrays.asList(extensionDescriptor2, extensionDescriptor1);
-        List<ExtensionDescriptor> expectedExtensionDescriptorChain = Arrays.asList(extensionDescriptor1);
+        List<ExtensionDescriptor> expectedExtensionDescriptorChain = Collections.singletonList(extensionDescriptor1);
 
         ExtensionDescriptorChainBuilder extensionDescriptorChainBuilder = new ExtensionDescriptorChainBuilder(false);
         List<ExtensionDescriptor> extensionDescriptorChain = extensionDescriptorChainBuilder.build(deploymentDescriptor,

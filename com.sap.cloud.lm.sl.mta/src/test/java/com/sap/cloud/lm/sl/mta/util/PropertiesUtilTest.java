@@ -1,9 +1,6 @@
 package com.sap.cloud.lm.sl.mta.util;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Stream;
 
 import org.junit.jupiter.params.ParameterizedTest;
@@ -53,7 +50,7 @@ public class PropertiesUtilTest {
     public static Stream<Arguments> testGetPluralOrSingular() {
         return Stream.of(
 // @formatter:off
-            Arguments.of("host-1", null, new Expectation(Expectation.Type.STRING, Arrays.asList("host-1").toString())),
+            Arguments.of("host-1", null, new Expectation(Expectation.Type.STRING, Collections.singletonList("host-1").toString())),
             Arguments.of(null, Arrays.asList("host-1", "host-2"), new Expectation(Expectation.Type.STRING, Arrays.asList("host-1", "host-2").toString())),
             Arguments.of("host-1", Arrays.asList("host-2", "host-3"), new Expectation(Expectation.Type.STRING, Arrays.asList("host-2", "host-3").toString()))
 // @formatter:on
@@ -68,7 +65,7 @@ public class PropertiesUtilTest {
         Map<String, Object> parameters = new HashMap<>();
         parameters.put(singularKey, singular);
         parameters.put(pluralKey, plural);
-        List<Map<String, Object>> parametersList = Arrays.asList(parameters);
+        List<Map<String, Object>> parametersList = Collections.singletonList(parameters);
 
         tester.test(() -> PropertiesUtil.getPluralOrSingular(parametersList, pluralKey, singularKey), expectation);
 

@@ -16,6 +16,7 @@ import com.sap.cloud.lm.sl.common.util.YamlUtil;
 public class YamlUtilTest {
 
     @Nested
+    static
     class WithValidDescriptor {
 
         private static final String DESCRIPTOR = "mtad.yaml";
@@ -35,6 +36,7 @@ public class YamlUtilTest {
     }
 
     @Nested
+    static
     class WithDescriptorContainingSecurityViolations {
 
         private static final String DESCRIPTOR = "mtad-with-security-violation.yaml";

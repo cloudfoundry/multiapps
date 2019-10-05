@@ -1,6 +1,7 @@
 package com.sap.cloud.lm.sl.mta.resolvers.v2;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -43,7 +44,7 @@ public class DescriptorPlaceholderResolver extends PlaceholderResolver<Deploymen
     }
 
     protected Map<String, Object> getResolvedProperties(Map<String, Object> propertiesToResolve) {
-        List<Map<String, Object>> parametersList = Arrays.asList(deploymentDescriptor.getParameters());
+        List<Map<String, Object>> parametersList = Collections.singletonList(deploymentDescriptor.getParameters());
         addSingularParametersIfNecessary(parametersList);
         return new PropertiesPlaceholderResolver(propertiesResolverBuilder).resolve(propertiesToResolve,
                                                                                     PropertiesUtil.mergeProperties(parametersList), prefix);
