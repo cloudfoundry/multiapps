@@ -4,6 +4,6 @@ import java.util.List;
 
 public interface ValueMatcher {
 
-    public List<Reference> match(String line);
+    List<Reference> match(String line);
 
 }

@@ -20,7 +20,7 @@ public class JsonUtilTest {
 
         foo = JsonUtil.fromJson(json, Foo.class);
 
-        Map<String, Object> actualProperties = (Map<String, Object>) foo.getProperties()
+        Map<String, Object> actualProperties = foo.getProperties()
                                                                         .get("test1");
 
         assertTestProperties(actualProperties);

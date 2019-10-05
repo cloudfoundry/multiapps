@@ -8,11 +8,11 @@ public class MapElement extends Element {
     private final Map<String, Element> map;
 
     public MapElement() {
-        this(new ElementBuilder(), new HashMap<String, Element>());
+        this(new ElementBuilder(), new HashMap<>());
     }
 
     public MapElement(ElementBuilder builder) {
-        this(builder, new HashMap<String, Element>());
+        this(builder, new HashMap<>());
     }
 
     public MapElement(ElementBuilder builder, Map<String, Element> map) {

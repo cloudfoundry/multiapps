@@ -4,10 +4,10 @@ import java.util.List;
 
 public interface AuditableConfiguration {
 
-    public String getConfigurationType();
+    String getConfigurationType();
 
-    public String getConfigurationName();
+    String getConfigurationName();
 
-    public List<ConfigurationIdentifier> getConfigurationIdentifiers();
+    List<ConfigurationIdentifier> getConfigurationIdentifiers();
 
 }

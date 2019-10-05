@@ -16,6 +16,7 @@ public class MetadataUpdater {
     }
 
     public Metadata getUpdatedMetadata(Map<String, Map<String, Object>> metadataMap) {
+
         if (metadataMap == null) {
             metadataMap = new LinkedHashMap<>();
         }

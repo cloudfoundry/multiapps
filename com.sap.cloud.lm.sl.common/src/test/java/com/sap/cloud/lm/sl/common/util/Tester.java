@@ -94,7 +94,7 @@ public class Tester {
     public static class Expectation {
 
         public enum Type {
-            STRING, JSON, EXCEPTION, SKIP;
+            STRING, JSON, EXCEPTION, SKIP
         }
 
         private final Type type;

@@ -97,7 +97,7 @@ public class PropertiesChainBuilderTest {
     }
 
     private List<String> getResourceNames(List<Resource> resources) {
-        List<String> resourceNames = new ArrayList<String>();
+        List<String> resourceNames = new ArrayList<>();
         for (Resource resource : resources) {
             resourceNames.add(resource.getName());
         }
@@ -105,7 +105,7 @@ public class PropertiesChainBuilderTest {
     }
 
     private List<String> getModuleNames(List<Module> modules) {
-        List<String> moduleNames = new ArrayList<String>();
+        List<String> moduleNames = new ArrayList<>();
         for (Module module : modules) {
             moduleNames.add(module.getName());
         }
@@ -113,7 +113,7 @@ public class PropertiesChainBuilderTest {
     }
 
     protected PropertiesChainBuilder createPropertiesChainBuilder(DeploymentDescriptor deploymentDescriptor, Platform platform) {
-        return new PropertiesChainBuilder((DeploymentDescriptor) deploymentDescriptor, (Platform) platform);
+        return new PropertiesChainBuilder(deploymentDescriptor, platform);
     }
 
     @Test
@@ -121,7 +121,7 @@ public class PropertiesChainBuilderTest {
         tester.test(new Callable<List<List<Map<String, Object>>>>() {
             @Override
             public List<List<Map<String, Object>>> call() throws Exception {
-                List<List<Map<String, Object>>> moduleChains = new ArrayList<List<Map<String, Object>>>();
+                List<List<Map<String, Object>>> moduleChains = new ArrayList<>();
                 for (String moduleName : moduleNames) {
                     moduleChains.add(builder.buildModuleChain(moduleName));
                 }
@@ -135,7 +135,7 @@ public class PropertiesChainBuilderTest {
         tester.test(new Callable<List<List<Map<String, Object>>>>() {
             @Override
             public List<List<Map<String, Object>>> call() throws Exception {
-                List<List<Map<String, Object>>> moduleChains = new ArrayList<List<Map<String, Object>>>();
+                List<List<Map<String, Object>>> moduleChains = new ArrayList<>();
                 for (String moduleName : moduleNames) {
                     moduleChains.add(builder.buildModuleChainWithoutDependencies(moduleName));
                 }
@@ -149,7 +149,7 @@ public class PropertiesChainBuilderTest {
         tester.test(new Callable<List<List<Map<String, Object>>>>() {
             @Override
             public List<List<Map<String, Object>>> call() throws Exception {
-                List<List<Map<String, Object>>> resourceChains = new ArrayList<List<Map<String, Object>>>();
+                List<List<Map<String, Object>>> resourceChains = new ArrayList<>();
                 for (String resourceName : resourceNames) {
                     resourceChains.add(builder.buildResourceChain(resourceName));
                 }

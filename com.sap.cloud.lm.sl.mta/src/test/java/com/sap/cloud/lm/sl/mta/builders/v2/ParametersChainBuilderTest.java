@@ -65,7 +65,7 @@ public class ParametersChainBuilderTest extends PropertiesChainBuilderTest {
 
     @Override
     protected PropertiesChainBuilder createPropertiesChainBuilder(DeploymentDescriptor deploymentDescriptor, Platform platform) {
-        return new ParametersChainBuilder((DeploymentDescriptor) deploymentDescriptor, (Platform) platform);
+        return new ParametersChainBuilder(deploymentDescriptor, platform);
     }
 
     @Test
@@ -73,7 +73,7 @@ public class ParametersChainBuilderTest extends PropertiesChainBuilderTest {
         tester.test(new Callable<List<List<Map<String, Object>>>>() {
             @Override
             public List<List<Map<String, Object>>> call() throws Exception {
-                List<List<Map<String, Object>>> resourceTypeChains = new ArrayList<List<Map<String, Object>>>();
+                List<List<Map<String, Object>>> resourceTypeChains = new ArrayList<>();
                 for (String resourceName : resourceNames) {
                     resourceTypeChains.add(builder.buildResourceTypeChain(resourceName));
                 }
