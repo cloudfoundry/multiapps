@@ -215,33 +215,18 @@ public class DescriptorValidatorTest {
 
     @Test
     public void testValidateDeploymentDescriptor() throws Exception {
-        tester.test(new Runnable() {
-            @Override
-            public void run() throws Exception {
-                validator.validateDeploymentDescriptor(deploymentDescriptor, platform);
-            }
-        }, expectations[0]);
+        tester.test(() -> validator.validateDeploymentDescriptor(deploymentDescriptor, platform), expectations[0]);
     }
 
     @Test
     public void testValidateExtensionDescriptors() throws Exception {
-        tester.test(new Runnable() {
-            @Override
-            public void run() throws Exception {
-                validator.validateExtensionDescriptors(extensionDescriptors, deploymentDescriptor);
-            }
-        }, expectations[1]);
+        tester.test(() -> validator.validateExtensionDescriptors(extensionDescriptors, deploymentDescriptor), expectations[1]);
 
     }
 
     @Test
     public void testValidateMergedDescriptor() throws Exception {
-        tester.test(new Runnable() {
-            @Override
-            public void run() throws Exception {
-                validator.validateMergedDescriptor(mergedDescriptor);
-            }
-        }, expectations[2]);
+        tester.test(() -> validator.validateMergedDescriptor(mergedDescriptor), expectations[2]);
     }
 
 }

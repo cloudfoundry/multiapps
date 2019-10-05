@@ -23,7 +23,7 @@ public class ArchiveHandlerTest {
     private static final String SAMPLE_MTAR = "com.sap.mta.sample-1.2.1-beta.mtar";
     private static final String SAMPLE_FLAT_MTAR = "com.sap.mta.sample-1.2.1-beta-flat.mtar";
     private static final long MAX_MTA_DESCRIPTOR_SIZE = 1024 * 1024L;
-    private static final long MAX_MANIFEST_SIZE = 1024 * 1024l;
+    private static final long MAX_MANIFEST_SIZE = 1024 * 1024L;
     private static final long MAX_RESOURCE_FILE_SIZE = 1024 * 1024 * 1024L;
 
     @Test
@@ -39,7 +39,7 @@ public class ArchiveHandlerTest {
 
     @Test(expected = ContentException.class)
     public void testGetManifestExceedsSizeLimit() throws Exception {
-        ArchiveHandler.getManifest(ArchiveHandlerTest.class.getResourceAsStream(SAMPLE_MTAR), 512l);
+        ArchiveHandler.getManifest(ArchiveHandlerTest.class.getResourceAsStream(SAMPLE_MTAR), 512L);
     }
 
     @Test
@@ -51,7 +51,7 @@ public class ArchiveHandlerTest {
 
     @Test(expected = ContentException.class)
     public void testGetDescriptorExceedsSize() throws Exception {
-        ArchiveHandler.getDescriptor(ArchiveHandlerTest.class.getResourceAsStream(SAMPLE_MTAR), 1024l);
+        ArchiveHandler.getDescriptor(ArchiveHandlerTest.class.getResourceAsStream(SAMPLE_MTAR), 1024L);
     }
 
     @Test
@@ -66,7 +66,7 @@ public class ArchiveHandlerTest {
 
     @Test(expected = ContentException.class)
     public void testGetModuleContentExceedsSize() throws Exception {
-        ArchiveHandler.getFileContent(ArchiveHandlerTest.class.getResourceAsStream(SAMPLE_MTAR), "web/web-server.zip", 128l);
+        ArchiveHandler.getFileContent(ArchiveHandlerTest.class.getResourceAsStream(SAMPLE_MTAR), "web/web-server.zip", 128L);
     }
 
     @Test
