@@ -59,7 +59,7 @@ public class ResourceReferenceResolver implements Resolver<Resource> {
                                                        requiredDependency,
                                                        prefix,
                                                        new DescriptorHandler(),
-                requiredDependenciesPropertiesResolverBuilder);
+                                                       requiredDependenciesPropertiesResolverBuilder);
     }
 
     private Map<String, Object> getResolvedProperties() {

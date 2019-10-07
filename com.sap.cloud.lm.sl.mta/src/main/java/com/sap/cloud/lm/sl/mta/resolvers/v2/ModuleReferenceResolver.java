@@ -66,7 +66,7 @@ public class ModuleReferenceResolver implements Resolver<Module> {
                                                        module,
                                                        requiredDependency,
                                                        prefix,
-                requiredDependenciesPropertiesResolverBuilder);
+                                                       requiredDependenciesPropertiesResolverBuilder);
     }
 
 }

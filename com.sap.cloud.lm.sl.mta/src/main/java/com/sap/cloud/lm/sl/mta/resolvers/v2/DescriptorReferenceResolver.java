@@ -40,7 +40,7 @@ public class DescriptorReferenceResolver implements Resolver<DeploymentDescripto
                                            module,
                                            "",
                                            modulesPropertiesResolverBuilder,
-                requiredDependenciesPropertiesResolverBuilder);
+                                           requiredDependenciesPropertiesResolverBuilder);
     }
 
 }

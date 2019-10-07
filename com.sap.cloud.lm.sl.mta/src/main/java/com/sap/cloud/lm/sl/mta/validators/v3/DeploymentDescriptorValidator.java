@@ -5,8 +5,8 @@ import static com.sap.cloud.lm.sl.common.util.CommonUtil.cast;
 import java.util.Map;
 
 import com.sap.cloud.lm.sl.common.ContentException;
-import com.sap.cloud.lm.sl.mta.handlers.v2.DescriptorHandler;
 import com.sap.cloud.lm.sl.mta.Constants;
+import com.sap.cloud.lm.sl.mta.handlers.v2.DescriptorHandler;
 import com.sap.cloud.lm.sl.mta.message.Messages;
 import com.sap.cloud.lm.sl.mta.model.DeploymentDescriptor;
 import com.sap.cloud.lm.sl.mta.model.ElementContext;
@@ -91,8 +91,9 @@ public class DeploymentDescriptorValidator extends com.sap.cloud.lm.sl.mta.valid
             boolean isOverwritable = metadata.getOverwritableMetadata(property.getKey());
             boolean isOptional = metadata.getOptionalMetadata(property.getKey());
             if (property.getValue() == null && !isOverwritable && !isOptional) {
-                throw new ContentException(Messages.MANDATORY_ELEMENT_HAS_NO_VALUE, elementType,
-                    ValidatorUtil.getPrefixedName(containerName, property.getKey()));
+                throw new ContentException(Messages.MANDATORY_ELEMENT_HAS_NO_VALUE,
+                                           elementType,
+                                           ValidatorUtil.getPrefixedName(containerName, property.getKey()));
             }
         }
     }

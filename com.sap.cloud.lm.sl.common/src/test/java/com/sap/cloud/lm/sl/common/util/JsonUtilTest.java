@@ -21,7 +21,7 @@ public class JsonUtilTest {
         foo = JsonUtil.fromJson(json, Foo.class);
 
         Map<String, Object> actualProperties = foo.getProperties()
-                                                                        .get("test1");
+                                                  .get("test1");
 
         assertTestProperties(actualProperties);
     }

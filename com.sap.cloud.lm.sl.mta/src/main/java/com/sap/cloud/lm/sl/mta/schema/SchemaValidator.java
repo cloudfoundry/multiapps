@@ -7,10 +7,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.apache.commons.lang3.StringUtils;
+
 import com.sap.cloud.lm.sl.common.ParsingException;
 import com.sap.cloud.lm.sl.common.util.MiscUtil;
 import com.sap.cloud.lm.sl.mta.message.Messages;
-import org.apache.commons.lang3.StringUtils;
 
 public class SchemaValidator {
 
@@ -74,7 +75,8 @@ public class SchemaValidator {
     }
 
     private static void validate(Object object, Element schema, String objectName) {
-        if (schema.getType().equals(String.class)) {
+        if (schema.getType()
+                  .equals(String.class)) {
             validateStringElement(object, schema, objectName);
         }
     }

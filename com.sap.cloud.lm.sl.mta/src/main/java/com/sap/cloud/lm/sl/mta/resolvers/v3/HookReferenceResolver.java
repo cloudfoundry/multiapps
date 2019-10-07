@@ -59,6 +59,6 @@ public class HookReferenceResolver implements Resolver<Hook> {
                                                        module,
                                                        requiredDependency,
                                                        prefix,
-                requiredDependenciesPropertiesResolverBuilder);
+                                                       requiredDependenciesPropertiesResolverBuilder);
     }
 }

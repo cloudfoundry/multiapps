@@ -56,7 +56,7 @@ public class DigestHelper {
                 continue;
             }
             if (filePathInDir.toFile()
-                .isDirectory()) {
+                             .isDirectory()) {
                 md.update(computeDirectoryCheckSumBytes(filePathInDir, algorithm));
             } else {
                 md.update(computeFileCheckSumBytes(filePathInDir, algorithm));

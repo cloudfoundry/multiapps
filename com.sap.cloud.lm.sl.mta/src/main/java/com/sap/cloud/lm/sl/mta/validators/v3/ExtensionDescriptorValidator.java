@@ -7,8 +7,8 @@ import static com.sap.cloud.lm.sl.mta.util.ValidatorUtil.validateModifiableEleme
 import java.util.Map;
 
 import com.sap.cloud.lm.sl.common.ContentException;
-import com.sap.cloud.lm.sl.mta.handlers.v2.DescriptorHandler;
 import com.sap.cloud.lm.sl.mta.Constants;
+import com.sap.cloud.lm.sl.mta.handlers.v2.DescriptorHandler;
 import com.sap.cloud.lm.sl.mta.message.Messages;
 import com.sap.cloud.lm.sl.mta.model.DeploymentDescriptor;
 import com.sap.cloud.lm.sl.mta.model.ExtensionDescriptor;
@@ -46,11 +46,13 @@ public class ExtensionDescriptorValidator extends com.sap.cloud.lm.sl.mta.valida
             Object value = properties.get(extensionProperty.getKey());
             if (!isOverwritable && extensionProperty.getValue() != null) {
                 if (value == null) {
-                    throw new ContentException(Messages.CANNOT_MODIFY_ELEMENT, elementType, getPrefixedName(containerName,
-                        extensionProperty.getKey()), extensionDescriptor.getId());
+                    throw new ContentException(Messages.CANNOT_MODIFY_ELEMENT,
+                                               elementType,
+                                               getPrefixedName(containerName, extensionProperty.getKey()),
+                                               extensionDescriptor.getId());
                 }
                 validateModifiableElements(elementType, containerName, extensionDescriptor.getId(), extensionProperty.getKey(),
-                    extensionProperty.getValue(), value);
+                                           extensionProperty.getValue(), value);
             }
         }
     }

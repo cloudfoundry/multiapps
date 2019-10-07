@@ -94,7 +94,7 @@ public class HandlerFactory implements HandlerConstructor {
                                                                          ResolverBuilder requiredDependenciesPropertiesResolverBuilder) {
         return getHandlerDelegate().getDescriptorReferenceResolver(mergedDescriptor, modulesPropertiesResolverBuilder,
                                                                    resourcePropertiesResolverBuilder,
-                requiredDependenciesPropertiesResolverBuilder);
+                                                                   requiredDependenciesPropertiesResolverBuilder);
     }
 
 }

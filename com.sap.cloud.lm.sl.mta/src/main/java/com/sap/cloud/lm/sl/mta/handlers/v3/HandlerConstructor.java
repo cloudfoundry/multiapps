@@ -54,7 +54,7 @@ public class HandlerConstructor extends com.sap.cloud.lm.sl.mta.handlers.v2.Hand
         return new DescriptorReferenceResolver(mergedDescriptor,
                                                modulesPropertiesResolverBuilder,
                                                resourcePropertiesResolverBuilder,
-                requiredDependenciesPropertiesResolverBuilder);
+                                               requiredDependenciesPropertiesResolverBuilder);
     }
 
 }

@@ -33,8 +33,9 @@ public class DefaultDescriptorValidationRules extends com.sap.cloud.lm.sl.mta.va
                                               String elementType) {
         for (Map.Entry<String, Object> property : properties.entrySet()) {
             if (!isPropertyValid(property.getValue(), property.getKey(), metadata)) {
-                throw new ContentException(Messages.MANDATORY_ELEMENT_HAS_NO_VALUE, elementType,
-                    ValidatorUtil.getPrefixedName(elementContext.getPrefixedName(), property.getKey()));
+                throw new ContentException(Messages.MANDATORY_ELEMENT_HAS_NO_VALUE,
+                                           elementType,
+                                           ValidatorUtil.getPrefixedName(elementContext.getPrefixedName(), property.getKey()));
             }
         }
     }

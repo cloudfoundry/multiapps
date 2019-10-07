@@ -16,8 +16,7 @@ import com.sap.cloud.lm.sl.common.util.YamlUtil;
 public class YamlUtilTest {
 
     @Nested
-    static
-    class WithValidDescriptor {
+    static class WithValidDescriptor {
 
         private static final String DESCRIPTOR = "mtad.yaml";
 
@@ -36,8 +35,7 @@ public class YamlUtilTest {
     }
 
     @Nested
-    static
-    class WithDescriptorContainingSecurityViolations {
+    static class WithDescriptorContainingSecurityViolations {
 
         private static final String DESCRIPTOR = "mtad-with-security-violation.yaml";
         private static final String EXPECTED_EXCEPTION_MESSAGE = "could not determine a constructor for the tag tag:yaml.org,2002:javax.script.ScriptEngineManager";

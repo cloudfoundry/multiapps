@@ -9,8 +9,8 @@ import com.sap.cloud.lm.sl.mta.model.ExtensionHook;
 import com.sap.cloud.lm.sl.mta.model.ExtensionRequiredDependency;
 import com.sap.cloud.lm.sl.mta.model.ExtensionResource;
 import com.sap.cloud.lm.sl.mta.model.Hook;
-import com.sap.cloud.lm.sl.mta.model.Resource;
 import com.sap.cloud.lm.sl.mta.model.RequiredDependency;
+import com.sap.cloud.lm.sl.mta.model.Resource;
 import com.sap.cloud.lm.sl.mta.util.PropertiesUtil;
 
 public class ExtensionDescriptorMerger extends com.sap.cloud.lm.sl.mta.mergers.v2.ExtensionDescriptorMerger {

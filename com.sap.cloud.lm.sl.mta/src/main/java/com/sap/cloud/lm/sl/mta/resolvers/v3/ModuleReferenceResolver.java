@@ -36,7 +36,7 @@ public class ModuleReferenceResolver extends com.sap.cloud.lm.sl.mta.resolvers.v
                                          module,
                                          prefix,
                                          propertiesResolverBuilder,
-                requiredDependenciesPropertiesResolverBuilder);
+                                         requiredDependenciesPropertiesResolverBuilder);
     }
 
 }
