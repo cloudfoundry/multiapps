@@ -67,7 +67,7 @@ public class ModulesSorter extends com.sap.cloud.lm.sl.mta.handlers.v2.ModulesSo
     }
 
     private ModuleDependenciesCollector getDependenciesCollectorSupportingDeployedAfter() {
-        return new com.sap.cloud.lm.sl.mta.builders.v3.ModuleDependenciesCollector(descriptor);
+        return new com.sap.cloud.lm.sl.mta.builders.v3.ModuleDependenciesCollector(descriptor, handler);
     }
 
     protected Comparator<Module> getModuleComparator() {
