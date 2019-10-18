@@ -14,7 +14,7 @@ import com.sap.cloud.lm.sl.mta.parsers.v3.ResourceParser;
 import com.sap.cloud.lm.sl.mta.util.MetadataConverter;
 
 public class Resource extends VersionedEntity
-    implements VisitableElement, NamedElement, PropertiesWithMetadataContainer, ParametersWithMetadataContainer {
+    implements VisitableElement, NamedParametersContainer, PropertiesWithMetadataContainer, ParametersWithMetadataContainer {
 
     @YamlElement(ResourceParser.NAME)
     private String name;

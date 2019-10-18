@@ -15,7 +15,7 @@ import com.sap.cloud.lm.sl.mta.parsers.v3.ModuleParser;
 import com.sap.cloud.lm.sl.mta.util.MetadataConverter;
 
 public class Module extends VersionedEntity
-    implements VisitableElement, NamedElement, PropertiesWithMetadataContainer, ParametersWithMetadataContainer {
+    implements VisitableElement, NamedParametersContainer, PropertiesWithMetadataContainer, ParametersWithMetadataContainer {
 
     @YamlElement(ModuleParser.NAME)
     private String name;
