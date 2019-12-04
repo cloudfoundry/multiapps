@@ -23,11 +23,11 @@ public class ConfigurationParser {
         this.platformValidator = platformsValidator;
     }
 
-    public Platform parsePlatformJson(String json) throws ParsingException {
+    public Platform parsePlatformJson(String json) {
         return parsePlatform(JsonUtil.convertJsonToMap(json));
     }
 
-    public Platform parsePlatformJson(InputStream json) throws ParsingException {
+    public Platform parsePlatformJson(InputStream json) {
         // TODO: Java 9 - Remove the second variable (https://blogs.oracle.com/darcy/more-concise-try-with-resources-statements-in-jdk-9).
         try (InputStream closableJson = json) {
             return parsePlatform(JsonUtil.convertJsonToMap(closableJson));

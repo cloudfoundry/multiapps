@@ -5,14 +5,13 @@ import static java.text.MessageFormat.format;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.ListIterator;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Objects;
 import java.util.TreeMap;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
-
-import org.apache.commons.collections4.iterators.ReverseListIterator;
 
 import com.sap.cloud.lm.sl.common.ContentException;
 import com.sap.cloud.lm.sl.common.util.CommonUtil;
@@ -80,9 +79,9 @@ public class PropertiesUtil {
      * @return A single properties map
      */
     public static Map<String, Object> mergeProperties(List<Map<String, Object>> propertiesList) {
-        Iterable<Map<String, Object>> iterableProperties = () -> new ReverseListIterator<>(propertiesList);
         Map<String, Object> result = new TreeMap<>();
-        for (Map<String, Object> properties : iterableProperties) {
+        for (ListIterator<Map<String, Object>> it = propertiesList.listIterator(propertiesList.size()); it.hasPrevious();) {
+            Map<String, Object> properties = it.previous();
             if (properties != null) {
                 result.putAll(properties);
             }

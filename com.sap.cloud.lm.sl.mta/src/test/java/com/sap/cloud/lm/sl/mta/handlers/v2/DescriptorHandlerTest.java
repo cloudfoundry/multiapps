@@ -1,7 +1,6 @@
 package com.sap.cloud.lm.sl.mta.handlers.v2;
 
 import java.util.Arrays;
-import java.util.LinkedList;
 import java.util.List;
 
 import org.junit.Test;
@@ -108,24 +107,22 @@ public class DescriptorHandlerTest {
         }
 
         @Test
-        public void testGetSortedModules() throws Exception {
+        public void testGetSortedModules() {
             final DeploymentDescriptor descriptor = getDescriptorParser().parseDeploymentDescriptorYaml(TestUtil.getResourceAsString(descriptorLocation,
                                                                                                                                      getClass()));
 
             tester.test(new Callable<String>() {
 
                 @Override
-                public String call() throws Exception {
+                public String call() {
                     return Arrays.toString(getNames(handler.getModulesForDeployment(descriptor, PARALLEL_DEPLOYMENTS_PROP,
                                                                                     DEPENDENCY_TYPE_PROP, DEPENDENCY_TYPE_HARD)));
                 }
 
                 private String[] getNames(List<? extends Module> modules) {
-                    List<String> names = new LinkedList<>();
-                    for (Module module : modules) {
-                        names.add(module.getName());
-                    }
-                    return names.toArray(new String[0]);
+                    return modules.stream()
+                                  .map(Module::getName)
+                                  .toArray(String[]::new);
                 }
 
             }, expectation);
