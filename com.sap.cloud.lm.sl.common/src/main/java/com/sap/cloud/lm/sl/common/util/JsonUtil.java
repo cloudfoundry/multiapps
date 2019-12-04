@@ -37,39 +37,39 @@ public class JsonUtil {
                                  .disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
     }
 
-    public static Map<String, Object> convertJsonToMap(InputStream json) throws ParsingException {
+    public static Map<String, Object> convertJsonToMap(InputStream json) {
         return convertJsonToMap(json, new TypeReference<Map<String, Object>>() {
         });
     }
 
-    public static Map<String, Object> convertJsonToMap(String json) throws ParsingException {
+    public static Map<String, Object> convertJsonToMap(String json) {
         return convertJsonToMap(json, new TypeReference<Map<String, Object>>() {
         });
     }
 
-    public static <K, V> Map<K, V> convertJsonToMap(InputStream json, TypeReference<Map<K, V>> typeReference) throws ParsingException {
+    public static <K, V> Map<K, V> convertJsonToMap(InputStream json, TypeReference<Map<K, V>> typeReference) {
         return fromJson(json, typeReference, new HashMap<>(), Messages.CANNOT_CONVERT_JSON_STREAM_TO_MAP);
     }
 
-    public static <K, V> Map<K, V> convertJsonToMap(String json, TypeReference<Map<K, V>> typeReference) throws ParsingException {
+    public static <K, V> Map<K, V> convertJsonToMap(String json, TypeReference<Map<K, V>> typeReference) {
         return fromJson(json, typeReference, new HashMap<>(), Messages.CANNOT_CONVERT_JSON_STRING_TO_MAP);
     }
 
-    public static List<Object> convertJsonToList(InputStream json) throws ParsingException {
+    public static List<Object> convertJsonToList(InputStream json) {
         return convertJsonToList(json, new TypeReference<List<Object>>() {
         });
     }
 
-    public static List<Object> convertJsonToList(String json) throws ParsingException {
+    public static List<Object> convertJsonToList(String json) {
         return convertJsonToList(json, new TypeReference<List<Object>>() {
         });
     }
 
-    public static <T> List<T> convertJsonToList(InputStream json, TypeReference<List<T>> typeReference) throws ParsingException {
+    public static <T> List<T> convertJsonToList(InputStream json, TypeReference<List<T>> typeReference) {
         return fromJson(json, typeReference, new ArrayList<>(), Messages.CANNOT_CONVERT_JSON_STREAM_TO_LIST);
     }
 
-    public static <T> List<T> convertJsonToList(String json, TypeReference<List<T>> typeReference) throws ParsingException {
+    public static <T> List<T> convertJsonToList(String json, TypeReference<List<T>> typeReference) {
         return fromJson(json, typeReference, new ArrayList<>(), Messages.CANNOT_CONVERT_JSON_STRING_TO_LIST);
     }
 
@@ -79,7 +79,7 @@ public class JsonUtil {
         }
         try {
             return getObjectMapper().readValue(json, typeReference);
-        } catch (Exception e) {
+        } catch (IOException e) {
             throw new ParsingException(e, errorMessage, json);
         }
     }
@@ -90,7 +90,7 @@ public class JsonUtil {
         }
         try {
             return getObjectMapper().readValue(json, typeReference);
-        } catch (Exception e) {
+        } catch (IOException e) {
             throw new ParsingException(e, errorMessage, json.substring(0, Math.min(json.length(), MAX_LENGTH)));
         }
     }
