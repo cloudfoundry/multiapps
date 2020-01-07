@@ -28,7 +28,14 @@
       },
       "parameters" : { }
     } ],
-    "providedDependencies" : [ ],
+    "providedDependencies" : [ {
+      "majorSchemaVersion" : 2,
+      "name" : "internal-odata",
+      "properties" : { },
+      "parameters" : {
+        "name" : "My Name"
+      }
+    } ],
     "hooks" : [ ]
   }, {
     "majorSchemaVersion" : 2,

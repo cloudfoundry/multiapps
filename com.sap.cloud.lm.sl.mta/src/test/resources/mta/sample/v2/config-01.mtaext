@@ -13,6 +13,10 @@ modules:
   - name: pricing
     properties:
       default-locale: *default-locale
+    provides:
+      - name: internal-odata
+        parameters:
+          name: My Name
     requires:
       - name: competitor-data
         properties:
