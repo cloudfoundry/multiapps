@@ -96,6 +96,8 @@ public class ExtensionDescriptorMerger extends Visitor {
 
     protected void merge(ProvidedDependency providedDependency, ExtensionProvidedDependency extension) {
         providedDependency.setProperties(mergeProperties(providedDependency, extension));
+        providedDependency.setParameters(PropertiesUtil.mergeExtensionProperties(providedDependency.getParameters(),
+                                                                                 extension.getParameters()));
     }
 
 }

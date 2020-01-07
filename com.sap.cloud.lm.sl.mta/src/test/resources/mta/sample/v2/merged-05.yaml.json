@@ -153,7 +153,9 @@
           "properties": {
             "odata.svc_root": "odata/"
           },
-          "parameters": {},
+          "parameters": {
+          	"name": "My Name"
+          },
           "propertiesMetadata": {
             "metadata": {}
           },
