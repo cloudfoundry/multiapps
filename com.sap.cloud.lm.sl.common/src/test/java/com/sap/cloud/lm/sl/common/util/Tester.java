@@ -71,7 +71,7 @@ public class Tester {
     }
 
     private Object toJsonObject(Object object) {
-        String json = JsonUtil.toJson(object);
+        String json = toJson(object);
         return JsonUtil.fromJson(json, Object.class);
     }
 
