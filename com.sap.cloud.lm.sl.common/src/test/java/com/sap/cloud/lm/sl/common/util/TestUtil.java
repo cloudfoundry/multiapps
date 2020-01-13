@@ -30,7 +30,7 @@ public class TestUtil {
     }
 
     public static String removeCarriageReturns(String string) {
-        return string.replace("\r", "");
+        return string.replaceAll("\\r|\\\\r", "");
     }
 
     public static Map<String, Object> getMap(String file, Class<?> clazz) throws ParsingException {
