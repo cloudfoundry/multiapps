@@ -17,7 +17,9 @@
         <mockito.version>3.2.0</mockito.version>
         <sonar.core.codeCoveragePlugin>jacoco</sonar.core.codeCoveragePlugin>
         <sonar.dynamicAnalysis>reuseReports</sonar.dynamicAnalysis>
-        <sonar.jacoco.reportPath>target/jacoco.exec</sonar.jacoco.reportPath>
+        <jacoco.aggregate.path>target/site/jacoco-aggregate/jacoco.xml</jacoco.aggregate.path>
+        <jacoco.report.path>target/site/jacoco/jacoco.xml</jacoco.report.path>
+        <sonar.coverage.jacoco.xmlReportPaths>${jacoco.report.path},${jacoco.aggregate.path}</sonar.coverage.jacoco.xmlReportPaths>
         <commons-lang3.version>3.8.1</commons-lang3.version>
         <commons-collections4.version>4.2</commons-collections4.version>
         <commons-io.version>2.6</commons-io.version>
@@ -109,14 +111,26 @@
                 <version>0.8.5</version>
                 <executions>
                     <execution>
+                        <id>prepare-agent</id>
                         <goals>
                             <goal>prepare-agent</goal>
                         </goals>
                     </execution>
+                    <execution>
+                        <id>report</id>
+                        <goals>
+                            <goal>report</goal>
+                        </goals>
+                        <phase>verify</phase>
+                    </execution>
+                    <execution>
+                        <id>report-aggregate</id>
+                        <goals>
+                            <goal>report-aggregate</goal>
+                        </goals>
+                        <phase>verify</phase>
+                    </execution>
                 </executions>
-                <configuration>
-                    <destFile>${sonar.jacoco.reportPath}</destFile>
-                </configuration>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
