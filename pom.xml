@@ -22,7 +22,7 @@
         <commons-collections4.version>4.2</commons-collections4.version>
         <commons-io.version>2.6</commons-io.version>
         <liquibase.version>3.6.1</liquibase.version>
-        <spring.version>5.1.2.RELEASE</spring.version>
+        <spring.version>5.2.3.RELEASE</spring.version>
         <slf4j.version>1.7.25</slf4j.version>
         <snakeyaml.version>1.23</snakeyaml.version>
         <semver4j.version>2.2.0</semver4j.version>
