@@ -92,8 +92,13 @@ public class DescriptorHandlerTest extends com.sap.cloud.lm.sl.mta.handlers.v2.D
                 },
                 // (14) The deployed-after attribute is used, therefore requires section is not used:
                 {
-                    "mtad-05-deployed-after.yaml", new Expectation("[baz, bar, foo, qux]"),
+                    "mtad-deployed-after.yaml", new Expectation("[baz, bar, foo, qux]"),
                 },
+                // TODO: Enable this test as part of LMCROSSITXSADEPLOY-1935.
+                // (15) The deployed-after attribute is used, therefore requires section is not used. Test whether comparator handles transitive relations:
+//                {
+//                    "mtad-deployed-after-transitive-relations.yaml", new Expectation("[qux, foo, bar, baz]"),
+//                },
 // @formatter:on
             });
         }
