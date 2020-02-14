@@ -19,8 +19,8 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
+import com.sap.cloud.lm.sl.common.Messages;
 import com.sap.cloud.lm.sl.common.ParsingException;
-import com.sap.cloud.lm.sl.common.message.Messages;
 
 public class JsonUtil {
 

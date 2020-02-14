@@ -12,7 +12,7 @@ import org.apache.commons.io.IOUtils;
 
 import com.sap.cloud.lm.sl.common.ContentException;
 import com.sap.cloud.lm.sl.common.SLException;
-import com.sap.cloud.lm.sl.mta.message.Messages;
+import com.sap.cloud.lm.sl.mta.Messages;
 
 public class ArchiveHandler {
 

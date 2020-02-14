@@ -1,4 +1,4 @@
-package com.sap.cloud.lm.sl.mta.message;
+package com.sap.cloud.lm.sl.mta;
 
 public class Messages {
 
