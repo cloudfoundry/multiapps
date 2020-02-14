@@ -36,7 +36,7 @@ public class DescriptorPlaceholderResolver extends PlaceholderResolver<Deploymen
 
     @Override
     public DeploymentDescriptor resolve() throws ContentException {
-        deploymentDescriptor.setModules(ListUtil.upcastUnmodifiable(getResolvedModules()));
+        deploymentDescriptor.setModules(getResolvedModules());
         deploymentDescriptor.setResources(getResolvedResources());
         deploymentDescriptor.setParameters(getResolvedProperties(deploymentDescriptor.getParameters()));
         return deploymentDescriptor;

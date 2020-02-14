@@ -10,10 +10,6 @@ public class MapUtil {
     private MapUtil() {
     }
 
-    public static <K, V> Map<K, V> upcast(Map<? extends K, ? extends V> map) {
-        return map == null ? null : new TreeMap<>(map);
-    }
-
     @SuppressWarnings("unchecked")
     public static <K, V> Map<K, V> cast(Map<?, ?> map) {
         return map == null ? null : new TreeMap<>((Map<? extends K, ? extends V>) map);
