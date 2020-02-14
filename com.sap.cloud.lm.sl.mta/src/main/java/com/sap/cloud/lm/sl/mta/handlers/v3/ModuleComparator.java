@@ -6,7 +6,7 @@ import java.util.List;
 
 import org.apache.commons.collections4.ListUtils;
 
-import com.sap.cloud.lm.sl.mta.message.Messages;
+import com.sap.cloud.lm.sl.mta.Messages;
 import com.sap.cloud.lm.sl.mta.model.Module;
 
 public class ModuleComparator implements Comparator<Module> {

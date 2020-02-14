@@ -8,7 +8,7 @@ import java.util.stream.Collectors;
 import org.apache.commons.collections4.CollectionUtils;
 
 import com.sap.cloud.lm.sl.common.ContentException;
-import com.sap.cloud.lm.sl.mta.message.Messages;
+import com.sap.cloud.lm.sl.mta.Messages;
 import com.sap.cloud.lm.sl.mta.model.DeploymentDescriptor;
 import com.sap.cloud.lm.sl.mta.model.Descriptor;
 import com.sap.cloud.lm.sl.mta.model.ExtensionDescriptor;

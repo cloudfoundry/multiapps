@@ -1,4 +1,4 @@
-package com.sap.cloud.lm.sl.common.message;
+package com.sap.cloud.lm.sl.common;
 
 public class Messages {
 

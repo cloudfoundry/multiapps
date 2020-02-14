@@ -11,7 +11,7 @@ import org.apache.commons.lang3.StringUtils;
 
 import com.sap.cloud.lm.sl.common.ParsingException;
 import com.sap.cloud.lm.sl.common.util.MiscUtil;
-import com.sap.cloud.lm.sl.mta.message.Messages;
+import com.sap.cloud.lm.sl.mta.Messages;
 
 public class SchemaValidator {
 

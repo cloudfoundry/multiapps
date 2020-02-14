@@ -5,7 +5,7 @@ import java.util.Comparator;
 import java.util.Map.Entry;
 import java.util.Set;
 
-import com.sap.cloud.lm.sl.mta.message.Messages;
+import com.sap.cloud.lm.sl.mta.Messages;
 import com.sap.cloud.lm.sl.mta.model.Module;
 
 public class ModuleComparator implements Comparator<Entry<Module, Set<String>>> {

@@ -8,7 +8,7 @@ import java.util.Map;
 import java.util.Set;
 
 import com.sap.cloud.lm.sl.common.ParsingException;
-import com.sap.cloud.lm.sl.mta.message.Messages;
+import com.sap.cloud.lm.sl.mta.Messages;
 import com.sap.cloud.lm.sl.mta.model.Metadata;
 import com.sap.cloud.lm.sl.mta.model.Version;
 import com.sap.cloud.lm.sl.mta.schema.Element;

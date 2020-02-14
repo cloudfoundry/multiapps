@@ -2,7 +2,7 @@ package com.sap.cloud.lm.sl.mta.model;
 
 import java.text.MessageFormat;
 
-import com.sap.cloud.lm.sl.mta.message.Messages;
+import com.sap.cloud.lm.sl.mta.Messages;
 
 public class VersionedEntity {
 

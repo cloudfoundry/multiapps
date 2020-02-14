@@ -3,7 +3,7 @@ package com.sap.cloud.lm.sl.mta.model;
 import java.text.MessageFormat;
 
 import com.sap.cloud.lm.sl.common.ParsingException;
-import com.sap.cloud.lm.sl.mta.message.Messages;
+import com.sap.cloud.lm.sl.mta.Messages;
 import com.sap.cloud.lm.sl.mta.parsers.PartialVersionConverter;
 import com.vdurmont.semver4j.Semver;
 import com.vdurmont.semver4j.Semver.SemverType;

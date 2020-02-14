@@ -15,7 +15,7 @@ import java.util.stream.StreamSupport;
 
 import com.sap.cloud.lm.sl.common.ContentException;
 import com.sap.cloud.lm.sl.common.util.CommonUtil;
-import com.sap.cloud.lm.sl.mta.message.Messages;
+import com.sap.cloud.lm.sl.mta.Messages;
 import com.sap.cloud.lm.sl.mta.model.ParametersContainer;
 import com.sap.cloud.lm.sl.mta.model.PropertiesContainer;
 

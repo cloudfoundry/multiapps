@@ -15,9 +15,9 @@ import org.apache.commons.collections4.MapUtils;
 import org.apache.commons.lang3.StringUtils;
 
 import com.sap.cloud.lm.sl.common.ContentException;
+import com.sap.cloud.lm.sl.mta.Messages;
 import com.sap.cloud.lm.sl.mta.helpers.SimplePropertyVisitor;
 import com.sap.cloud.lm.sl.mta.helpers.VisitableObject;
-import com.sap.cloud.lm.sl.mta.message.Messages;
 
 public class PropertiesResolver implements SimplePropertyVisitor, Resolver<Map<String, Object>> {
 
