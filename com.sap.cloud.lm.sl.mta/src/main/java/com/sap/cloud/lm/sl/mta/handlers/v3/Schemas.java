@@ -13,6 +13,10 @@ public class Schemas extends com.sap.cloud.lm.sl.mta.handlers.v2.Schemas {
     public static final MapElement RESOURCE = new MapElement();
     public static final MapElement HOOK = new MapElement();
 
+    public static final MapElement MTAEXT = new MapElement();
+    public static final MapElement EXT_MODULE = new MapElement();
+    public static final MapElement EXT_REQUIRED_DEPENDENCY = new MapElement();
+    public static final MapElement EXT_PROVIDED_DEPENDENCY = new MapElement();
     public static final MapElement EXT_RESOURCE = new MapElement();
     public static final MapElement EXT_HOOK = new MapElement();
 
@@ -75,6 +79,27 @@ public class Schemas extends com.sap.cloud.lm.sl.mta.handlers.v2.Schemas {
         RESOURCE.add("properties-metadata", PROPERTIES);
         RESOURCE.add("parameters-metadata", PROPERTIES);
         RESOURCE.add("requires", new ListElement(RESOURCE_REQUIRED_DEPENDENCY));
+
+        MTAEXT.add("_schema-version", OBJECT_REQUIRED);
+        MTAEXT.add("ID", NON_UNIQUE_MTA_IDENTIFIER);
+        MTAEXT.add("extends", STRING_REQUIRED);
+        MTAEXT.add("modules", new ListElement(EXT_MODULE));
+        MTAEXT.add("resources", new ListElement(EXT_RESOURCE));
+        MTAEXT.add("parameters", PROPERTIES);
+
+        EXT_MODULE.add("name", UNIQUE_MTA_IDENTIFIER);
+        EXT_MODULE.add("properties", PROPERTIES);
+        EXT_MODULE.add("parameters", PROPERTIES);
+        EXT_MODULE.add("requires", new ListElement(EXT_REQUIRED_DEPENDENCY));
+        EXT_MODULE.add("provides", new ListElement(EXT_PROVIDED_DEPENDENCY));
+
+        EXT_PROVIDED_DEPENDENCY.add("name", UNIQUE_MTA_IDENTIFIER);
+        EXT_PROVIDED_DEPENDENCY.add("properties", PROPERTIES);
+        EXT_PROVIDED_DEPENDENCY.add("parameters", PROPERTIES);
+
+        EXT_REQUIRED_DEPENDENCY.add("name", UNIQUE_MTA_IDENTIFIER);
+        EXT_REQUIRED_DEPENDENCY.add("properties", PROPERTIES);
+        EXT_REQUIRED_DEPENDENCY.add("parameters", PROPERTIES);
 
         EXT_RESOURCE.add("name", UNIQUE_MTA_IDENTIFIER);
         EXT_RESOURCE.add("active", BOOLEAN);
