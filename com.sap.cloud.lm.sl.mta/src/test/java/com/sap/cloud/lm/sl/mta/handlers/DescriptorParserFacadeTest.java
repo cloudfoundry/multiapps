@@ -6,6 +6,7 @@ import static org.junit.jupiter.api.Assertions.fail;
 
 import java.io.InputStream;
 import java.text.MessageFormat;
+import java.util.Map;
 
 import org.junit.Test;
 
@@ -21,6 +22,7 @@ public class DescriptorParserFacadeTest {
     private static final String DESCRIPTOR_EMPTY = "empty.yaml";
     private static final String MTAEXT_VALID = "config-valid.mtaext";
     private static final String DESCRIPTOR_MISSING_SCHEMA = "mtad-missing-schema.yaml";
+    private static final String INVALID_RESOURCES_MTAEXT = "config-invalid-resources.mtaext";
 
     private static final String SCHEMA_VERSION_KEY = "_schema-version";
 
@@ -67,6 +69,18 @@ public class DescriptorParserFacadeTest {
         InputStream descriptorStream = TestUtil.getResourceAsInputStream(MTAEXT_VALID, getClass());
         ExtensionDescriptor descriptor = parser.parseExtensionDescriptor(descriptorStream);
         assertNotNull(descriptor);
+    }
+
+    @Test
+    public void testInvalidResourcesInExtensionDescriptor() {
+        InputStream descriptorStream = TestUtil.getResourceAsInputStream(INVALID_RESOURCES_MTAEXT, getClass());
+        try {
+            parser.parseExtensionDescriptor(descriptorStream);
+            fail("Expected exception");
+        } catch (ContentException e) {
+            assertEquals(MessageFormat.format(Messages.INVALID_TYPE_FOR_KEY, "resources#0#requires#0", Map.class.getSimpleName(),
+                         String.class.getSimpleName()), e.getMessage());
+        }
     }
 
     @Test
