@@ -20,7 +20,7 @@
         <jacoco.aggregate.path>target/site/jacoco-aggregate/jacoco.xml</jacoco.aggregate.path>
         <jacoco.report.path>target/site/jacoco/jacoco.xml</jacoco.report.path>
         <sonar.coverage.jacoco.xmlReportPaths>${jacoco.report.path},${jacoco.aggregate.path}</sonar.coverage.jacoco.xmlReportPaths>
-        <commons-lang3.version>3.8.1</commons-lang3.version>
+        <commons-lang3.version>3.9</commons-lang3.version>
         <commons-collections4.version>4.2</commons-collections4.version>
         <commons-io.version>2.6</commons-io.version>
         <liquibase.version>3.6.1</liquibase.version>

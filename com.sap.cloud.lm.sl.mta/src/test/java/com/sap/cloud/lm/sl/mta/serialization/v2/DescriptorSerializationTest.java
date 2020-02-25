@@ -10,7 +10,6 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import org.junit.runners.Parameterized.Parameters;
 
-import com.sap.cloud.lm.sl.common.util.Callable;
 import com.sap.cloud.lm.sl.common.util.Tester;
 import com.sap.cloud.lm.sl.common.util.Tester.Expectation;
 import com.sap.cloud.lm.sl.common.util.YamlUtil;
@@ -61,29 +60,19 @@ public class DescriptorSerializationTest {
 
     @Test
     public void testDescriptorSerialization() {
-        tester.test(new Callable<DeploymentDescriptor>() {
-
-            @Override
-            public DeploymentDescriptor call() {
-                Map<String, Object> map = YamlUtil.convertYamlToMap(deploymentDescriptorYaml);
-                String serializedMap = YamlUtil.convertToYaml(getDescriptorFromMap(map));
-                return getDescriptorFromMap(YamlUtil.convertYamlToMap(serializedMap));
-            }
-
+        tester.test(() -> {
+            Map<String, Object> map = YamlUtil.convertYamlToMap(deploymentDescriptorYaml);
+            String serializedMap = YamlUtil.convertToYaml(getDescriptorFromMap(map));
+            return getDescriptorFromMap(YamlUtil.convertYamlToMap(serializedMap));
         }, expectedSerializedDescriptor);
     }
 
     @Test
     public void testExtensionSerialization() {
-        tester.test(new Callable<ExtensionDescriptor>() {
-
-            @Override
-            public ExtensionDescriptor call() {
-                Map<String, Object> map = YamlUtil.convertYamlToMap(extensionDescriptorYaml);
-                String serializedMap = YamlUtil.convertToYaml(getExtensionDescriptorFromMap(map));
-                return getExtensionDescriptorFromMap(YamlUtil.convertYamlToMap(serializedMap));
-            }
-
+        tester.test(() -> {
+            Map<String, Object> map = YamlUtil.convertYamlToMap(extensionDescriptorYaml);
+            String serializedMap = YamlUtil.convertToYaml(getExtensionDescriptorFromMap(map));
+            return getExtensionDescriptorFromMap(YamlUtil.convertYamlToMap(serializedMap));
         }, expectedSerializedExtension);
     }
 

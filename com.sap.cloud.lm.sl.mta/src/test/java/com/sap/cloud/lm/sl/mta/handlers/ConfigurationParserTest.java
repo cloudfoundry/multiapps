@@ -9,10 +9,8 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import org.junit.runners.Parameterized.Parameters;
 
-import com.sap.cloud.lm.sl.common.util.Callable;
 import com.sap.cloud.lm.sl.common.util.Tester;
 import com.sap.cloud.lm.sl.common.util.Tester.Expectation;
-import com.sap.cloud.lm.sl.mta.model.Platform;
 
 @RunWith(Parameterized.class)
 public class ConfigurationParserTest {
@@ -60,12 +58,7 @@ public class ConfigurationParserTest {
 
     @Test
     public void testParsePlatformsJson() throws Exception {
-        tester.test(new Callable<Platform>() {
-            @Override
-            public Platform call() throws Exception {
-                return parser.parsePlatformJson(platformInputStream);
-            }
-        }, expectation);
+        tester.test(() -> parser.parsePlatformJson(platformInputStream), expectation);
     }
 
 }

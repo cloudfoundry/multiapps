@@ -9,7 +9,6 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import org.junit.runners.Parameterized.Parameters;
 
-import com.sap.cloud.lm.sl.common.util.Callable;
 import com.sap.cloud.lm.sl.common.util.TestUtil;
 import com.sap.cloud.lm.sl.common.util.Tester;
 import com.sap.cloud.lm.sl.common.util.Tester.Expectation;
@@ -108,24 +107,19 @@ public class DescriptorHandlerTest {
 
         @Test
         public void testGetSortedModules() {
-            final DeploymentDescriptor descriptor = getDescriptorParser().parseDeploymentDescriptorYaml(TestUtil.getResourceAsString(descriptorLocation,
-                                                                                                                                     getClass()));
+            DeploymentDescriptor descriptor = getDescriptorParser().parseDeploymentDescriptorYaml(TestUtil.getResourceAsString(descriptorLocation,
+                                                                                                                               getClass()));
 
-            tester.test(new Callable<String>() {
-
-                @Override
-                public String call() {
-                    return Arrays.toString(getNames(handler.getModulesForDeployment(descriptor, PARALLEL_DEPLOYMENTS_PROP,
-                                                                                    DEPENDENCY_TYPE_PROP, DEPENDENCY_TYPE_HARD)));
-                }
-
-                private String[] getNames(List<? extends Module> modules) {
-                    return modules.stream()
-                                  .map(Module::getName)
-                                  .toArray(String[]::new);
-                }
-
+            tester.test(() -> {
+                return Arrays.toString(getNames(handler.getModulesForDeployment(descriptor, PARALLEL_DEPLOYMENTS_PROP, DEPENDENCY_TYPE_PROP,
+                                                                                DEPENDENCY_TYPE_HARD)));
             }, expectation);
+        }
+
+        private String[] getNames(List<? extends Module> modules) {
+            return modules.stream()
+                          .map(Module::getName)
+                          .toArray(String[]::new);
         }
 
         protected DescriptorParser getDescriptorParser() {

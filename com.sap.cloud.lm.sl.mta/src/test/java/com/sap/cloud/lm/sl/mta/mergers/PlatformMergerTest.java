@@ -10,7 +10,6 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import org.junit.runners.Parameterized.Parameters;
 
-import com.sap.cloud.lm.sl.common.util.Callable;
 import com.sap.cloud.lm.sl.common.util.Tester;
 import com.sap.cloud.lm.sl.common.util.Tester.Expectation;
 import com.sap.cloud.lm.sl.mta.handlers.ConfigurationParser;
@@ -86,14 +85,9 @@ public class PlatformMergerTest {
     public void testMerge() {
         DescriptorHandler handler = getHandlerFactory().getDescriptorHandler();
         PlatformMerger merger = getPlatformMerger(platform, handler);
-        tester.test(new Callable<DeploymentDescriptor>() {
-
-            @Override
-            public DeploymentDescriptor call() throws Exception {
-                merger.mergeInto(descriptor);
-                return descriptor;
-            }
-
+        tester.test(() -> {
+            merger.mergeInto(descriptor);
+            return descriptor;
         }, expectation);
     }
 

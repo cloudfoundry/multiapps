@@ -8,7 +8,6 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import org.junit.runners.Parameterized.Parameters;
 
-import com.sap.cloud.lm.sl.common.util.Runnable;
 import com.sap.cloud.lm.sl.common.util.TestUtil;
 import com.sap.cloud.lm.sl.common.util.Tester;
 import com.sap.cloud.lm.sl.common.util.Tester.Expectation;
@@ -90,14 +89,11 @@ public class SchemaValidatorTest {
 
     @Test
     public void testValidateSchema() throws Exception {
-        tester.test(new Runnable() {
-            @Override
-            public void run() throws Exception {
-                if (schema instanceof MapElement) {
-                    validator.validate(TestUtil.getMap(file, getClass()));
-                } else if (schema instanceof ListElement) {
-                    validator.validate(TestUtil.getList(file, getClass()));
-                }
+        tester.test(() -> {
+            if (schema instanceof MapElement) {
+                validator.validate(TestUtil.getMap(file, getClass()));
+            } else if (schema instanceof ListElement) {
+                validator.validate(TestUtil.getList(file, getClass()));
             }
         }, expectation);
     }

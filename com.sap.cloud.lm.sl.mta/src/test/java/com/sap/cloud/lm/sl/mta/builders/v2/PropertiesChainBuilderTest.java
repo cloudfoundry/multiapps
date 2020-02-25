@@ -11,7 +11,6 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import org.junit.runners.Parameterized.Parameters;
 
-import com.sap.cloud.lm.sl.common.util.Callable;
 import com.sap.cloud.lm.sl.common.util.Tester;
 import com.sap.cloud.lm.sl.common.util.Tester.Expectation;
 import com.sap.cloud.lm.sl.mta.MtaTestUtil;
@@ -118,43 +117,34 @@ public class PropertiesChainBuilderTest {
 
     @Test
     public void testBuildModuleChain() {
-        tester.test(new Callable<List<List<Map<String, Object>>>>() {
-            @Override
-            public List<List<Map<String, Object>>> call() throws Exception {
-                List<List<Map<String, Object>>> moduleChains = new ArrayList<>();
-                for (String moduleName : moduleNames) {
-                    moduleChains.add(builder.buildModuleChain(moduleName));
-                }
-                return moduleChains;
+        tester.test(() -> {
+            List<List<Map<String, Object>>> moduleChains = new ArrayList<>();
+            for (String moduleName : moduleNames) {
+                moduleChains.add(builder.buildModuleChain(moduleName));
             }
+            return moduleChains;
         }, expectations[0]);
     }
 
     @Test
     public void testBuildModuleChainWithoutDependencies() {
-        tester.test(new Callable<List<List<Map<String, Object>>>>() {
-            @Override
-            public List<List<Map<String, Object>>> call() throws Exception {
-                List<List<Map<String, Object>>> moduleChains = new ArrayList<>();
-                for (String moduleName : moduleNames) {
-                    moduleChains.add(builder.buildModuleChainWithoutDependencies(moduleName));
-                }
-                return moduleChains;
+        tester.test(() -> {
+            List<List<Map<String, Object>>> moduleChains = new ArrayList<>();
+            for (String moduleName : moduleNames) {
+                moduleChains.add(builder.buildModuleChainWithoutDependencies(moduleName));
             }
+            return moduleChains;
         }, expectations[1]);
     }
 
     @Test
     public void testBuildResourceChain() {
-        tester.test(new Callable<List<List<Map<String, Object>>>>() {
-            @Override
-            public List<List<Map<String, Object>>> call() throws Exception {
-                List<List<Map<String, Object>>> resourceChains = new ArrayList<>();
-                for (String resourceName : resourceNames) {
-                    resourceChains.add(builder.buildResourceChain(resourceName));
-                }
-                return resourceChains;
+        tester.test(() -> {
+            List<List<Map<String, Object>>> resourceChains = new ArrayList<>();
+            for (String resourceName : resourceNames) {
+                resourceChains.add(builder.buildResourceChain(resourceName));
             }
+            return resourceChains;
         }, expectations[2]);
     }
 
