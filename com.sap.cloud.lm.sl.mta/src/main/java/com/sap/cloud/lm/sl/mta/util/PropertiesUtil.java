@@ -14,7 +14,7 @@ import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
 import com.sap.cloud.lm.sl.common.ContentException;
-import com.sap.cloud.lm.sl.common.util.CommonUtil;
+import com.sap.cloud.lm.sl.common.util.MiscUtil;
 import com.sap.cloud.lm.sl.mta.Messages;
 import com.sap.cloud.lm.sl.mta.model.ParametersContainer;
 import com.sap.cloud.lm.sl.mta.model.PropertiesContainer;
@@ -141,8 +141,8 @@ public class PropertiesUtil {
                 continue;
             }
             validateTypes(entry.getValue(), originalObject);
-            Map<String, Object> originalMap = CommonUtil.cast(originalObject);
-            Map<String, Object> overrideMap = CommonUtil.cast(entry.getValue());
+            Map<String, Object> originalMap = MiscUtil.cast(originalObject);
+            Map<String, Object> overrideMap = MiscUtil.cast(entry.getValue());
             result.put(entry.getKey(), mergeExtensionProperties(originalMap, overrideMap));
         }
         return result;

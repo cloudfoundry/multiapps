@@ -3,7 +3,7 @@ package com.sap.cloud.lm.sl.mta.util;
 import org.apache.commons.lang3.StringUtils;
 
 import com.sap.cloud.lm.sl.common.ContentException;
-import com.sap.cloud.lm.sl.common.util.CommonUtil;
+import com.sap.cloud.lm.sl.common.util.MiscUtil;
 import com.sap.cloud.lm.sl.mta.Messages;
 
 public class ValidatorUtil {
@@ -16,7 +16,7 @@ public class ValidatorUtil {
     public static void validateModifiableElements(String elementType, String elementPrefix, String containerName, String key, Object value,
                                                   Object parentValue)
         throws ContentException {
-        if (!CommonUtil.isNullOrEmpty(parentValue) && !parentValue.equals(value)) {
+        if (!MiscUtil.isNullOrEmpty(parentValue) && !parentValue.equals(value)) {
             throw new ContentException(Messages.CANNOT_MODIFY_ELEMENT, elementType, getPrefixedName(elementPrefix, key), containerName);
         }
     }
