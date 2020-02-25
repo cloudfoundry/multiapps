@@ -3,8 +3,6 @@ package com.sap.cloud.lm.sl.common.util;
 import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URL;
-import java.util.Collection;
-import java.util.Map;
 
 public class MiscUtil {
 
@@ -52,23 +50,6 @@ public class MiscUtil {
                   .interrupt();
             throw new IllegalStateException("Interrupted!", e);
         }
-    }
-
-    public static boolean isNullOrEmpty(Object value) {
-        return value == null || MiscUtil.isEmpty(value);
-    }
-
-    public static boolean isEmpty(Object value) {
-        if (value instanceof Collection<?>) {
-            return ((Collection<?>) value).isEmpty();
-        }
-        if (value instanceof Map<?, ?>) {
-            return ((Map<?, ?>) value).isEmpty();
-        }
-        if (value instanceof String) {
-            return ((String) value).isEmpty();
-        }
-        return false;
     }
 
     public static void replaceAll(StringBuilder builder, String original, String replacement) {

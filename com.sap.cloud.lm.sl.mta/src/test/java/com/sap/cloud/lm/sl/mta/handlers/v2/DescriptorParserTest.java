@@ -9,11 +9,8 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import org.junit.runners.Parameterized.Parameters;
 
-import com.sap.cloud.lm.sl.common.util.Callable;
 import com.sap.cloud.lm.sl.common.util.Tester;
 import com.sap.cloud.lm.sl.common.util.Tester.Expectation;
-import com.sap.cloud.lm.sl.mta.model.DeploymentDescriptor;
-import com.sap.cloud.lm.sl.mta.model.ExtensionDescriptor;
 
 @RunWith(Parameterized.class)
 public class DescriptorParserTest {
@@ -164,22 +161,12 @@ public class DescriptorParserTest {
 
     @Test
     public void testParseDeploymentDescriptorYaml() throws Exception {
-        tester.test(new Callable<DeploymentDescriptor>() {
-            @Override
-            public DeploymentDescriptor call() throws Exception {
-                return parser.parseDeploymentDescriptorYaml(deploymentDescriptorYaml);
-            }
-        }, expectations[0]);
+        tester.test(() -> parser.parseDeploymentDescriptorYaml(deploymentDescriptorYaml), expectations[0]);
     }
 
     @Test
     public void testParseExtensionDescriptorYaml() throws Exception {
-        tester.test(new Callable<ExtensionDescriptor>() {
-            @Override
-            public ExtensionDescriptor call() throws Exception {
-                return parser.parseExtensionDescriptorYaml(extensionDescriptorsYaml);
-            }
-        }, expectations[1]);
+        tester.test(() -> parser.parseExtensionDescriptorYaml(extensionDescriptorsYaml), expectations[1]);
     }
 
 }

@@ -11,7 +11,6 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import org.junit.runners.Parameterized.Parameters;
 
-import com.sap.cloud.lm.sl.common.util.Callable;
 import com.sap.cloud.lm.sl.common.util.TestUtil;
 import com.sap.cloud.lm.sl.common.util.Tester.Expectation;
 import com.sap.cloud.lm.sl.common.util.Tester.Expectation.Type;
@@ -160,26 +159,21 @@ public class DescriptorHandlerTest extends com.sap.cloud.lm.sl.mta.handlers.v2.D
         @Override
         @Test
         public void testGetSortedModules() {
-            final DeploymentDescriptor descriptor = getDescriptorParser().parseDeploymentDescriptorYaml(TestUtil.getResourceAsString(descriptorLocation,
+            DeploymentDescriptor descriptor = getDescriptorParser().parseDeploymentDescriptorYaml(TestUtil.getResourceAsString(descriptorLocation,
                                                                                                                                      getClass()));
 
-            tester.test(new Callable<String>() {
-
-                @Override
-                public String call() {
-                    return getDeployedAfterMapString(handler.getModulesForDeployment(descriptor, PARALLEL_DEPLOYMENTS_PROP,
-                                                                                     DEPENDENCY_TYPE_PROP, DEPENDENCY_TYPE_HARD));
-                }
-
-                private String getDeployedAfterMapString(List<? extends Module> modules) {
-                    Map<String, List<String>> deployedAfterMap = new LinkedHashMap<>();
-                    for (Module module : modules) {
-                        deployedAfterMap.put(module.getName(), ListUtils.emptyIfNull(module.getDeployedAfter()));
-                    }
-                    return deployedAfterMap.toString();
-                }
-
+            tester.test(() -> {
+                return getDeployedAfterMapString(handler.getModulesForDeployment(descriptor, PARALLEL_DEPLOYMENTS_PROP,
+                                                                                 DEPENDENCY_TYPE_PROP, DEPENDENCY_TYPE_HARD));
             }, expectation);
+        }
+
+        private String getDeployedAfterMapString(List<? extends Module> modules) {
+            Map<String, List<String>> deployedAfterMap = new LinkedHashMap<>();
+            for (Module module : modules) {
+                deployedAfterMap.put(module.getName(), ListUtils.emptyIfNull(module.getDeployedAfter()));
+            }
+            return deployedAfterMap.toString();
         }
 
         @Override

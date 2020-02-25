@@ -8,6 +8,9 @@ import static org.junit.Assert.fail;
 
 import java.util.Objects;
 
+import org.apache.commons.lang3.Functions.FailableCallable;
+import org.apache.commons.lang3.Functions.FailableRunnable;
+
 public class Tester {
 
     private final Class<?> testedClass;
@@ -16,11 +19,11 @@ public class Tester {
         this.testedClass = testedClass;
     }
 
-    public void test(Runnable runnable, Expectation expectation) {
+    public <E extends Exception> void test(FailableRunnable<E> runnable, Expectation expectation) {
         test(toCallable(runnable), expectation);
     }
 
-    public void test(Callable<?> callable, Expectation expectation) {
+    public <E extends Exception> void test(FailableCallable<?, E> callable, Expectation expectation) {
         if (expectation.shouldSkipTest()) {
             return;
         }
@@ -80,7 +83,7 @@ public class Tester {
         return TestUtil.removeCarriageReturns(json);
     }
 
-    private static Callable<Void> toCallable(Runnable runnable) {
+    private static <E extends Exception> FailableCallable<Void, E> toCallable(FailableRunnable<E> runnable) {
         return () -> {
             runnable.run();
             return null;

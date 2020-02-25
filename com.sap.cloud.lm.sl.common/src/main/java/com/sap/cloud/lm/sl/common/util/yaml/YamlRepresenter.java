@@ -6,13 +6,12 @@ import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
 
+import org.apache.commons.lang3.ObjectUtils;
 import org.yaml.snakeyaml.introspector.BeanAccess;
 import org.yaml.snakeyaml.introspector.Property;
 import org.yaml.snakeyaml.nodes.NodeTuple;
 import org.yaml.snakeyaml.nodes.Tag;
 import org.yaml.snakeyaml.representer.Representer;
-
-import com.sap.cloud.lm.sl.common.util.MiscUtil;
 
 public class YamlRepresenter extends Representer {
 
@@ -35,7 +34,7 @@ public class YamlRepresenter extends Representer {
 
     @Override
     protected NodeTuple representJavaBeanProperty(Object javaBean, Property property, Object propertyValue, Tag customTag) {
-        if (MiscUtil.isNullOrEmpty(propertyValue)) {
+        if (ObjectUtils.isEmpty(propertyValue)) {
             return null;
         }
         Field field = getField(javaBean.getClass(), property.getName());
