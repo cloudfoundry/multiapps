@@ -1,12 +1,12 @@
 package com.sap.cloud.lm.sl.mta.validators.v3;
 
-import static com.sap.cloud.lm.sl.common.util.CommonUtil.cast;
 import static com.sap.cloud.lm.sl.mta.util.ValidatorUtil.getPrefixedName;
 import static com.sap.cloud.lm.sl.mta.util.ValidatorUtil.validateModifiableElements;
 
 import java.util.Map;
 
 import com.sap.cloud.lm.sl.common.ContentException;
+import com.sap.cloud.lm.sl.common.util.MiscUtil;
 import com.sap.cloud.lm.sl.mta.Constants;
 import com.sap.cloud.lm.sl.mta.Messages;
 import com.sap.cloud.lm.sl.mta.handlers.v2.DescriptorHandler;
@@ -27,14 +27,14 @@ public class ExtensionDescriptorValidator extends com.sap.cloud.lm.sl.mta.valida
 
     @Override
     protected void validateParameters(ParametersContainer container, ParametersContainer extensionContainer, String containerName) {
-        ParametersWithMetadataContainer containerWithMetadata = cast(container);
+        ParametersWithMetadataContainer containerWithMetadata = MiscUtil.cast(container);
         validate(containerWithMetadata.getParametersMetadata(), containerWithMetadata.getParameters(), extensionContainer.getParameters(),
                  containerName, Constants.PARAMETER_ELEMENT_TYPE_NAME);
     }
 
     @Override
     protected void validateProperties(PropertiesContainer container, PropertiesContainer extensionContainer, String containerName) {
-        PropertiesWithMetadataContainer containerWithMetadata = cast(container);
+        PropertiesWithMetadataContainer containerWithMetadata = MiscUtil.cast(container);
         validate(containerWithMetadata.getPropertiesMetadata(), containerWithMetadata.getProperties(), extensionContainer.getProperties(),
                  containerName, Constants.PROPERTY_ELEMENT_TYPE_NAME);
     }

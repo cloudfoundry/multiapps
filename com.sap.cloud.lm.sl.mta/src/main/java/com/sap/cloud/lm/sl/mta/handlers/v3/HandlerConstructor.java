@@ -1,9 +1,8 @@
 package com.sap.cloud.lm.sl.mta.handlers.v3;
 
-import static com.sap.cloud.lm.sl.common.util.CommonUtil.cast;
-
 import java.util.Map;
 
+import com.sap.cloud.lm.sl.common.util.MiscUtil;
 import com.sap.cloud.lm.sl.mta.model.DeploymentDescriptor;
 import com.sap.cloud.lm.sl.mta.resolvers.PlaceholderResolver;
 import com.sap.cloud.lm.sl.mta.resolvers.Resolver;
@@ -31,7 +30,7 @@ public class HandlerConstructor extends com.sap.cloud.lm.sl.mta.handlers.v2.Hand
     @Override
     public DescriptorHandler getDescriptorHandler() {
         if (this.handler != null) {
-            return cast(this.handler);
+            return MiscUtil.cast(this.handler);
         }
         return new DescriptorHandler();
     }
