@@ -1,10 +1,13 @@
-target/
+.idea/*
 bin/
+target/
 .project
 .classpath
 .settings
+**/.factorypath
+*.iml
+*.zip
+*.war
 *.log
 .pmd
 .DS_Store
-*.iml
-.idea/*
