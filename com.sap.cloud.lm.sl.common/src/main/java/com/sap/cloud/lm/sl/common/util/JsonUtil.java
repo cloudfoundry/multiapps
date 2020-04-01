@@ -19,7 +19,6 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
-import com.fasterxml.jackson.datatype.guava.GuavaModule;
 import com.sap.cloud.lm.sl.common.Messages;
 import com.sap.cloud.lm.sl.common.ParsingException;
 
@@ -35,8 +34,7 @@ public class JsonUtil {
         return new ObjectMapper().setVisibility(PropertyAccessor.ALL, Visibility.NONE)
                                  .setVisibility(PropertyAccessor.FIELD, Visibility.ANY)
                                  .setSerializationInclusion(Include.NON_NULL)
-                                 .disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES)
-                                 .registerModule(new GuavaModule());
+                                 .disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
     }
 
     public static Map<String, Object> convertJsonToMap(InputStream json) {
