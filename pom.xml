@@ -29,6 +29,7 @@
         <snakeyaml.version>1.25</snakeyaml.version>
         <semver4j.version>2.2.0</semver4j.version>
         <jackson.version>2.10.2</jackson.version>
+        <immutables.version>2.8.3</immutables.version>
     </properties>
     <modules>
         <module>com.sap.cloud.lm.sl.common</module>
@@ -99,7 +100,7 @@
                         <autoDetectProxySettings>true</autoDetectProxySettings>
                         <forceCheckAllDependencies>true</forceCheckAllDependencies>
                         <forceUpdate>true</forceUpdate>
-                        <productVersion>cf</productVersion>     
+                        <productVersion>cf</productVersion>
                     </configuration>
                 </plugin>
             </plugins>
@@ -144,6 +145,13 @@
     </build>
 
     <dependencies>
+        <!-- https://mvnrepository.com/artifact/org.immutables/value -->
+        <dependency>
+            <groupId>org.immutables</groupId>
+            <artifactId>value</artifactId>
+            <version>${immutables.version}</version>
+            <scope>provided</scope>
+        </dependency>
         <!-- https://mvnrepository.com/artifact/org.junit.jupiter/junit-jupiter-api -->
         <dependency>
             <groupId>org.junit.jupiter</groupId>
