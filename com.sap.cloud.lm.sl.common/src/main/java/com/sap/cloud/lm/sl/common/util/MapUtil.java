@@ -5,6 +5,9 @@ import java.util.TreeMap;
 
 import org.apache.commons.lang3.tuple.Pair;
 
+import com.sap.cloud.lm.sl.common.Messages;
+import com.sap.cloud.lm.sl.common.ContentException;
+
 public class MapUtil {
 
     private MapUtil() {
@@ -53,5 +56,19 @@ public class MapUtil {
             result.put(keyValue.getKey(), keyValue.getValue());
         }
         return result;
+    }
+    
+    public static boolean parseBooleanFlag(final Map<String, Object> parameters, String flagName, boolean defaultValue) throws ContentException {
+        Object flagValue = parameters.get(flagName);
+        
+        if (flagValue == null) {
+            return defaultValue;
+        }
+
+        if (!(flagValue instanceof Boolean)) {
+            throw new ContentException(Messages.COULD_NOT_PARSE_BOOLEAN_FLAG, flagName);
+        }
+        
+        return ((Boolean) flagValue).booleanValue();
     }
 }
