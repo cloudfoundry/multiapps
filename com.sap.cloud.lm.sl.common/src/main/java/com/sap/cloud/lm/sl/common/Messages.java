@@ -20,6 +20,7 @@ public class Messages {
     public static final String UNABLE_TO_MARSHAL_OBJECT = "An unexpected error occurred while marshalling the object";
     public static final String ERROR_PARSING_YAML_STREAM = "Error while parsing YAML stream: {0}";
     public static final String ERROR_PARSING_YAML_STRING = "Error while parsing YAML string: %n%s%n%s";
+    public static final String COULD_NOT_PARSE_BOOLEAN_FLAG = "Cannot parse \"{0}\" flag - expected a boolean format.";
     // Audit log messages:
 
     // ERROR log messages:
