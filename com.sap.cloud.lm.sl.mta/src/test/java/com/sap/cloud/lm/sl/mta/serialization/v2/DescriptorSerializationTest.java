@@ -12,7 +12,7 @@ import org.junit.runners.Parameterized.Parameters;
 
 import com.sap.cloud.lm.sl.common.util.Tester;
 import com.sap.cloud.lm.sl.common.util.Tester.Expectation;
-import com.sap.cloud.lm.sl.common.util.YamlUtil;
+import com.sap.cloud.lm.sl.common.util.YamlParser;
 import com.sap.cloud.lm.sl.mta.model.DeploymentDescriptor;
 import com.sap.cloud.lm.sl.mta.model.ExtensionDescriptor;
 import com.sap.cloud.lm.sl.mta.parsers.v2.DeploymentDescriptorParser;
@@ -61,18 +61,20 @@ public class DescriptorSerializationTest {
     @Test
     public void testDescriptorSerialization() {
         tester.test(() -> {
-            Map<String, Object> map = YamlUtil.convertYamlToMap(deploymentDescriptorYaml);
-            String serializedMap = YamlUtil.convertToYaml(getDescriptorFromMap(map));
-            return getDescriptorFromMap(YamlUtil.convertYamlToMap(serializedMap));
+            YamlParser yamlParser = new YamlParser();
+            Map<String, Object> map = yamlParser.convertYamlToMap(deploymentDescriptorYaml);
+            String serializedMap = yamlParser.convertToYaml(getDescriptorFromMap(map));
+            return getDescriptorFromMap(yamlParser.convertYamlToMap(serializedMap));
         }, expectedSerializedDescriptor);
     }
 
     @Test
     public void testExtensionSerialization() {
         tester.test(() -> {
-            Map<String, Object> map = YamlUtil.convertYamlToMap(extensionDescriptorYaml);
-            String serializedMap = YamlUtil.convertToYaml(getExtensionDescriptorFromMap(map));
-            return getExtensionDescriptorFromMap(YamlUtil.convertYamlToMap(serializedMap));
+            YamlParser yamlParser = new YamlParser();
+            Map<String, Object> map = yamlParser.convertYamlToMap(extensionDescriptorYaml);
+            String serializedMap = yamlParser.convertToYaml(getExtensionDescriptorFromMap(map));
+            return getExtensionDescriptorFromMap(yamlParser.convertYamlToMap(serializedMap));
         }, expectedSerializedExtension);
     }
 

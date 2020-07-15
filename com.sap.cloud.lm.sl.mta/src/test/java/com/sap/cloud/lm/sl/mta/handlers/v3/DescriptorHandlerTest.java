@@ -14,6 +14,7 @@ import org.junit.runners.Parameterized.Parameters;
 import com.sap.cloud.lm.sl.common.util.TestUtil;
 import com.sap.cloud.lm.sl.common.util.Tester.Expectation;
 import com.sap.cloud.lm.sl.common.util.Tester.Expectation.Type;
+import com.sap.cloud.lm.sl.common.util.YamlParser;
 import com.sap.cloud.lm.sl.mta.model.DeploymentDescriptor;
 import com.sap.cloud.lm.sl.mta.model.Module;
 
@@ -159,8 +160,9 @@ public class DescriptorHandlerTest extends com.sap.cloud.lm.sl.mta.handlers.v2.D
         @Override
         @Test
         public void testGetSortedModules() {
-            DeploymentDescriptor descriptor = getDescriptorParser().parseDeploymentDescriptorYaml(TestUtil.getResourceAsString(descriptorLocation,
-                                                                                                                                     getClass()));
+            String deploymentDescriptorYaml = TestUtil.getResourceAsString(descriptorLocation, getClass());
+            Map<String, Object> deploymentDescriptorMap = new YamlParser().convertYamlToMap(deploymentDescriptorYaml);
+            DeploymentDescriptor descriptor = getDescriptorParser().parseDeploymentDescriptor(deploymentDescriptorMap);
 
             tester.test(() -> {
                 return getDeployedAfterMapString(handler.getModulesForDeployment(descriptor, PARALLEL_DEPLOYMENTS_PROP,
