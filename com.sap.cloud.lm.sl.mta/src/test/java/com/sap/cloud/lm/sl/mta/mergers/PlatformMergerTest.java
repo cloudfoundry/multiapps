@@ -3,6 +3,7 @@ package com.sap.cloud.lm.sl.mta.mergers;
 import java.io.InputStream;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Map;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -12,6 +13,7 @@ import org.junit.runners.Parameterized.Parameters;
 
 import com.sap.cloud.lm.sl.common.util.Tester;
 import com.sap.cloud.lm.sl.common.util.Tester.Expectation;
+import com.sap.cloud.lm.sl.common.util.YamlParser;
 import com.sap.cloud.lm.sl.mta.handlers.ConfigurationParser;
 import com.sap.cloud.lm.sl.mta.handlers.HandlerFactory;
 import com.sap.cloud.lm.sl.mta.handlers.v2.DescriptorHandler;
@@ -65,18 +67,19 @@ public class PlatformMergerTest {
     }
 
     @Before
-    public void prepare() throws Exception {
+    public void prepare() {
         loadDeploymentDescriptor();
         loadPlatform();
     }
 
-    private void loadDeploymentDescriptor() throws Exception {
+    private void loadDeploymentDescriptor() {
         DescriptorParser parser = getHandlerFactory().getDescriptorParser();
         InputStream deploymentDescriptorYaml = getClass().getResourceAsStream(deploymentDescriptorLocation);
-        this.descriptor = parser.parseDeploymentDescriptorYaml(deploymentDescriptorYaml);
+        Map<String, Object> deploymentDescriptorMap = new YamlParser().convertYamlToMap(deploymentDescriptorYaml);
+        this.descriptor = parser.parseDeploymentDescriptor(deploymentDescriptorMap);
     }
 
-    private void loadPlatform() throws Exception {
+    private void loadPlatform() {
         InputStream platformJson = getClass().getResourceAsStream(platformLocation);
         this.platform = new ConfigurationParser().parsePlatformJson(platformJson);
     }

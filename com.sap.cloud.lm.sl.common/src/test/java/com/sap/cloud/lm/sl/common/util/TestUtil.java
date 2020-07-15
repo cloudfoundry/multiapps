@@ -35,7 +35,8 @@ public class TestUtil {
 
     public static Map<String, Object> getMap(String file, Class<?> clazz) throws ParsingException {
         if (isYAMLFile(file)) {
-            return YamlUtil.convertYamlToMap(clazz.getResourceAsStream(file));
+            YamlParser yamlParser = new YamlParser();
+            return yamlParser.convertYamlToMap(clazz.getResourceAsStream(file));
         }
         if (isJSONFile(file)) {
             return JsonUtil.convertJsonToMap(clazz.getResourceAsStream(file));
@@ -45,7 +46,8 @@ public class TestUtil {
 
     public static List<Object> getList(String file, Class<?> clazz) throws ParsingException {
         if (isYAMLFile(file)) {
-            return YamlUtil.convertYamlToList(clazz.getResourceAsStream(file));
+            YamlParser yamlParser = new YamlParser();
+            return yamlParser.convertYamlToList(clazz.getResourceAsStream(file));
         }
         if (isJSONFile(file)) {
             return JsonUtil.convertJsonToList(clazz.getResourceAsStream(file));

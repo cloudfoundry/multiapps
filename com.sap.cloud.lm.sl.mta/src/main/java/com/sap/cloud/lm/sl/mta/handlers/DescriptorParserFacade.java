@@ -4,7 +4,7 @@ import java.io.InputStream;
 import java.util.Map;
 
 import com.sap.cloud.lm.sl.common.ContentException;
-import com.sap.cloud.lm.sl.common.util.YamlUtil;
+import com.sap.cloud.lm.sl.common.util.YamlParser;
 import com.sap.cloud.lm.sl.mta.Messages;
 import com.sap.cloud.lm.sl.mta.handlers.v2.DescriptorParser;
 import com.sap.cloud.lm.sl.mta.model.DeploymentDescriptor;
@@ -14,14 +14,23 @@ import com.sap.cloud.lm.sl.mta.model.Version;
 public class DescriptorParserFacade {
 
     private static final String SCHEMA_VERSION_KEY = "_schema-version";
+    private final YamlParser yamlParser;
+
+    public DescriptorParserFacade() {
+        this(new YamlParser());
+    }
+
+    public DescriptorParserFacade(YamlParser yamlParser) {
+        this.yamlParser = yamlParser;
+    }
 
     public DeploymentDescriptor parseDeploymentDescriptor(InputStream yaml) {
-        Map<String, Object> descriptor = YamlUtil.convertYamlToMap(yaml);
+        Map<String, Object> descriptor = yamlParser.convertYamlToMap(yaml);
         return parseDeploymentDescriptor(descriptor);
     }
 
     public DeploymentDescriptor parseDeploymentDescriptor(String yaml) {
-        Map<String, Object> descriptor = YamlUtil.convertYamlToMap(yaml);
+        Map<String, Object> descriptor = yamlParser.convertYamlToMap(yaml);
         return parseDeploymentDescriptor(descriptor);
     }
 
@@ -34,12 +43,12 @@ public class DescriptorParserFacade {
     }
 
     public ExtensionDescriptor parseExtensionDescriptor(InputStream yaml) {
-        Map<String, Object> descriptor = YamlUtil.convertYamlToMap(yaml);
+        Map<String, Object> descriptor = yamlParser.convertYamlToMap(yaml);
         return parseExtensionDescriptor(descriptor);
     }
 
     public ExtensionDescriptor parseExtensionDescriptor(String yaml) {
-        Map<String, Object> descriptor = YamlUtil.convertYamlToMap(yaml);
+        Map<String, Object> descriptor = yamlParser.convertYamlToMap(yaml);
         return parseExtensionDescriptor(descriptor);
     }
 

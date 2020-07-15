@@ -2,6 +2,7 @@ package com.sap.cloud.lm.sl.mta.handlers.v2;
 
 import java.io.InputStream;
 import java.util.Arrays;
+import java.util.Map;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -11,6 +12,7 @@ import org.junit.runners.Parameterized.Parameters;
 
 import com.sap.cloud.lm.sl.common.util.Tester;
 import com.sap.cloud.lm.sl.common.util.Tester.Expectation;
+import com.sap.cloud.lm.sl.common.util.YamlParser;
 
 @RunWith(Parameterized.class)
 public class DescriptorParserTest {
@@ -145,7 +147,7 @@ public class DescriptorParserTest {
     }
 
     @Before
-    public void setUp() throws Exception {
+    public void setUp() {
         if (extensionDescriptorsLocation != null) {
             extensionDescriptorsYaml = getClass().getResourceAsStream(extensionDescriptorsLocation);
         }
@@ -160,13 +162,19 @@ public class DescriptorParserTest {
     }
 
     @Test
-    public void testParseDeploymentDescriptorYaml() throws Exception {
-        tester.test(() -> parser.parseDeploymentDescriptorYaml(deploymentDescriptorYaml), expectations[0]);
+    public void testParseDeploymentDescriptorYaml() {
+        tester.test(() -> {
+            Map<String, Object> deploymentDescriptorMap = new YamlParser().convertYamlToMap(deploymentDescriptorYaml);
+            return parser.parseDeploymentDescriptor(deploymentDescriptorMap);
+        }, expectations[0]);
     }
 
     @Test
-    public void testParseExtensionDescriptorYaml() throws Exception {
-        tester.test(() -> parser.parseExtensionDescriptorYaml(extensionDescriptorsYaml), expectations[1]);
+    public void testParseExtensionDescriptorYaml() {
+        tester.test(() -> {
+            Map<String, Object> extensionDescriptorMap = new YamlParser().convertYamlToMap(extensionDescriptorsYaml);
+            return parser.parseExtensionDescriptor(extensionDescriptorMap);
+        }, expectations[1]);
     }
 
 }
