@@ -6,7 +6,6 @@ target/
 .settings
 **/.factorypath
 *.iml
-*.zip
 *.war
 *.log
 .pmd
