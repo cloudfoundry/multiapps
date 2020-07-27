@@ -9,16 +9,14 @@ import org.cloudfoundry.multiapps.common.util.Tester.Expectation;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
-import org.junit.runners.Parameterized.Parameters;
 
-public class PropertiesResolverTest {
+class PropertiesResolverTest {
 
     protected static final PropertiesResolver testResolver = new PropertiesResolver(null, null, null, "test-", false);
 
     private final Tester tester = Tester.forClass(getClass());
 
-    @Parameters
-    public static Stream<Arguments> testResolve() {
+    static Stream<Arguments> testResolve() {
         return Stream.of(
         // @formatter:off
             Arguments.of("moduleProperties.yaml", "test-map/a-list/1", new Expectation("second-item")),
@@ -40,7 +38,7 @@ public class PropertiesResolverTest {
 
     @ParameterizedTest
     @MethodSource
-    public void testResolve(String modulePropertiesLocation, String parameterExpression, Expectation expectation) {
+    void testResolve(String modulePropertiesLocation, String parameterExpression, Expectation expectation) {
         Map<String, Object> moduleProperties = TestUtil.getMap(modulePropertiesLocation, getClass());
 
         tester.test(() -> testResolver.resolveReferenceInDepth(parameterExpression, moduleProperties), expectation);

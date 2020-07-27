@@ -14,7 +14,7 @@ import org.cloudfoundry.multiapps.mta.model.DeploymentDescriptor;
 import org.cloudfoundry.multiapps.mta.model.ExtensionDescriptor;
 import org.junit.jupiter.api.Test;
 
-public class ExtensionDescriptorChainBuilderTest {
+class ExtensionDescriptorChainBuilderTest {
 
     private static final String FOO_ID = "foo";
     private static final String BAR_ID = "bar";
@@ -22,7 +22,7 @@ public class ExtensionDescriptorChainBuilderTest {
     private static final String QUX_ID = "qux";
 
     @Test
-    public void testBuild() {
+    void testBuild() {
         DeploymentDescriptor deploymentDescriptor = buildDeploymentDescriptor(FOO_ID);
         ExtensionDescriptor extensionDescriptor1 = buildExtensionDescriptor(BAR_ID, FOO_ID);
         ExtensionDescriptor extensionDescriptor2 = buildExtensionDescriptor(BAZ_ID, BAR_ID);
@@ -40,7 +40,7 @@ public class ExtensionDescriptorChainBuilderTest {
     }
 
     @Test
-    public void testBuildWithDescriptorWithUnknownParent() {
+    void testBuildWithDescriptorWithUnknownParent() {
         DeploymentDescriptor deploymentDescriptor = buildDeploymentDescriptor(FOO_ID);
         ExtensionDescriptor extensionDescriptor1 = buildExtensionDescriptor(BAR_ID, FOO_ID);
         ExtensionDescriptor extensionDescriptor2 = buildExtensionDescriptor(QUX_ID, BAZ_ID);
@@ -57,7 +57,7 @@ public class ExtensionDescriptorChainBuilderTest {
     }
 
     @Test
-    public void testBuildWithMultipleDescriptorsExtendingTheSameParent() {
+    void testBuildWithMultipleDescriptorsExtendingTheSameParent() {
         DeploymentDescriptor deploymentDescriptor = buildDeploymentDescriptor(FOO_ID);
         ExtensionDescriptor extensionDescriptor1 = buildExtensionDescriptor(BAR_ID, FOO_ID);
         ExtensionDescriptor extensionDescriptor2 = buildExtensionDescriptor(QUX_ID, FOO_ID);
@@ -74,7 +74,7 @@ public class ExtensionDescriptorChainBuilderTest {
     }
 
     @Test
-    public void testLaxBuildWithDescriptorsWithUnknownParents() {
+    void testLaxBuildWithDescriptorsWithUnknownParents() {
         DeploymentDescriptor deploymentDescriptor = buildDeploymentDescriptor(FOO_ID);
         ExtensionDescriptor extensionDescriptor1 = buildExtensionDescriptor(BAR_ID, FOO_ID);
         ExtensionDescriptor extensionDescriptor2 = buildExtensionDescriptor(QUX_ID, BAZ_ID);
@@ -89,7 +89,7 @@ public class ExtensionDescriptorChainBuilderTest {
     }
 
     @Test
-    public void testLaxBuildWithMultipleDescriptorsExtendingTheSameParent() {
+    void testLaxBuildWithMultipleDescriptorsExtendingTheSameParent() {
         DeploymentDescriptor deploymentDescriptor = buildDeploymentDescriptor(FOO_ID);
         ExtensionDescriptor extensionDescriptor1 = buildExtensionDescriptor(BAR_ID, BAZ_ID);
         ExtensionDescriptor extensionDescriptor2 = buildExtensionDescriptor(QUX_ID, BAZ_ID);

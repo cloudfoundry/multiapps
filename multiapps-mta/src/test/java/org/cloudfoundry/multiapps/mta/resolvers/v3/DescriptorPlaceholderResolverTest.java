@@ -13,14 +13,14 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
-public class DescriptorPlaceholderResolverTest {
+class DescriptorPlaceholderResolverTest {
 
     protected static final String SYSTEM_PARAMETERS_LOCATION = "system-parameters.json";
 
     protected final Tester tester = Tester.forClass(getClass());
     protected DescriptorPlaceholderResolver resolver;
 
-    public static Stream<Arguments> testResolve() {
+    static Stream<Arguments> testResolve() {
         return Stream.of(
 // @formatter:off            
             // (00) mtad-with-placeholders-in-hooks
@@ -37,13 +37,13 @@ public class DescriptorPlaceholderResolverTest {
 
     @ParameterizedTest
     @MethodSource
-    public void testResolve(String descriptorLocation, Expectation expectation) {
+    void testResolve(String descriptorLocation, Expectation expectation) {
         init(descriptorLocation);
 
         tester.test(() -> resolver.resolve(), expectation);
     }
 
-    public void init(String descriptorLocation) {
+    private void init(String descriptorLocation) {
         DeploymentDescriptor deploymentDescriptor = parseDeploymentDescriptor(descriptorLocation);
         this.resolver = createDescriptorPlaceholderResolver(deploymentDescriptor);
     }

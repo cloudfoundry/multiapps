@@ -10,7 +10,7 @@ import java.util.Map;
 import org.cloudfoundry.multiapps.common.ContentException;
 import org.junit.jupiter.api.Test;
 
-public class MapUtilTest {
+class MapUtilTest {
 
     public static final Map<String, Object> testParameters = new HashMap<String, Object>() {
         {
@@ -23,7 +23,7 @@ public class MapUtilTest {
     };
 
     @Test
-    public void testParseBooleanFlag() {
+    void testParseBooleanFlag() {
         assertTrue(MapUtil.parseBooleanFlag(testParameters, "trueFlag", true));
         assertTrue(MapUtil.parseBooleanFlag(testParameters, "trueFlag", false));
         assertTrue(MapUtil.parseBooleanFlag(testParameters, "notPresentFlag", true));

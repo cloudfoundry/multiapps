@@ -9,10 +9,10 @@ import java.util.TreeMap;
 
 import org.junit.jupiter.api.Test;
 
-public class JsonUtilTest {
+class JsonUtilTest {
 
     @Test
-    public void test1() throws Exception {
+    void test1() throws Exception {
         Foo foo = new Foo(MapUtil.asMap("test1", createTestProperties()));
 
         String json = JsonUtil.toJson(foo, true);
@@ -27,7 +27,7 @@ public class JsonUtilTest {
     }
 
     @Test
-    public void test2() throws Exception {
+    void test2() throws Exception {
         Map<String, Object> properties = new TreeMap<>();
         properties.put("test1", createTestProperties());
         Bar bar = new Bar(properties);
@@ -45,7 +45,7 @@ public class JsonUtilTest {
     }
 
     @Test
-    public void test3() throws Exception {
+    void test3() throws Exception {
         String json = JsonUtil.toJson(createTestProperties(), true);
         System.out.println(json);
 
@@ -55,7 +55,7 @@ public class JsonUtilTest {
     }
 
     @Test
-    public void testWithNullMap() {
+    void testWithNullMap() {
         Foo foo = new Foo(null);
 
         String fooJson = JsonUtil.toJson(foo);

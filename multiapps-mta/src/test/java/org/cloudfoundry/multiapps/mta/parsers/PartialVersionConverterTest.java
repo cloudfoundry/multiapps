@@ -11,20 +11,20 @@ import org.junit.jupiter.params.provider.MethodSource;
 
 import com.vdurmont.semver4j.SemverException;
 
-public class PartialVersionConverterTest {
+class PartialVersionConverterTest {
 
     private final PartialVersionConverter partialVersionConverter = new PartialVersionConverter();
 
     @ParameterizedTest
     @MethodSource
-    public void testConvertWithInvalidVersions(String versionString, String expectedExceptionMessage) {
+    void testConvertWithInvalidVersions(String versionString, String expectedExceptionMessage) {
         SemverException exception = assertThrows(SemverException.class,
                                                  () -> partialVersionConverter.convertToFullVersionString(versionString));
 
         assertEquals(expectedExceptionMessage, exception.getMessage());
     }
 
-    public static Stream<Arguments> testConvertWithInvalidVersions() {
+    static Stream<Arguments> testConvertWithInvalidVersions() {
         return Stream.of(
 // @formatter:off
             Arguments.of("1.0.0-beta+", "The build cannot be empty."),
@@ -38,13 +38,13 @@ public class PartialVersionConverterTest {
 
     @ParameterizedTest
     @MethodSource
-    public void testConvertWithValidVersions(String versionString, String expectedResult) {
+    void testConvertWithValidVersions(String versionString, String expectedResult) {
         String fullVersionString = partialVersionConverter.convertToFullVersionString(versionString);
 
         assertEquals(expectedResult, fullVersionString);
     }
 
-    public static Stream<Arguments> testConvertWithValidVersions() {
+    static Stream<Arguments> testConvertWithValidVersions() {
         return Stream.of(
 // @formatter:off
             // Full version:

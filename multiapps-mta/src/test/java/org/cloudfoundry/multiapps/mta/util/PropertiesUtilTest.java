@@ -15,11 +15,11 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
-public class PropertiesUtilTest {
+class PropertiesUtilTest {
 
     private final Tester tester = Tester.forClass(getClass());
 
-    public static Stream<Arguments> mergeTest() {
+    static Stream<Arguments> mergeTest() {
         return Stream.of(
 // @formatter:off
             // (0) Merge normal properties maps
@@ -38,7 +38,7 @@ public class PropertiesUtilTest {
 
     @ParameterizedTest
     @MethodSource
-    public void mergeTest(String deploymentDescriptorPath, String extensionDescriptorPath, Expectation expectation) {
+    void mergeTest(String deploymentDescriptorPath, String extensionDescriptorPath, Expectation expectation) {
         Map<String, Object> deploymentDescriptorProperties = JsonUtil.convertJsonToMap(TestUtil.getResourceAsString(deploymentDescriptorPath,
                                                                                                                     getClass()));
         Map<String, Object> extensionDescriptorProperties = JsonUtil.convertJsonToMap(TestUtil.getResourceAsString(extensionDescriptorPath,
@@ -48,7 +48,7 @@ public class PropertiesUtilTest {
                     expectation);
     }
 
-    public static Stream<Arguments> testGetPluralOrSingular() {
+    static Stream<Arguments> testGetPluralOrSingular() {
         return Stream.of(
 // @formatter:off
             Arguments.of("host-1", null, new Expectation(Expectation.Type.STRING, Collections.singletonList("host-1").toString())),
@@ -60,7 +60,7 @@ public class PropertiesUtilTest {
 
     @ParameterizedTest
     @MethodSource
-    public void testGetPluralOrSingular(String singular, List<String> plural, Expectation expectation) {
+    void testGetPluralOrSingular(String singular, List<String> plural, Expectation expectation) {
         String singularKey = "host";
         String pluralKey = "hosts";
         Map<String, Object> parameters = new HashMap<>();
