@@ -191,10 +191,10 @@ public class PropertiesResolver implements SimplePropertyVisitor, Resolver<Map<S
         if (StringUtils.isNumeric(key)) {
             try {
                 return IterableUtils.get(listOfProperties, Integer.parseInt(key));
-            } catch (IndexOutOfBoundsException e) { // Intentionally ignored
+            } catch (IndexOutOfBoundsException e) {
+                throw new ContentException(e, Messages.UNABLE_TO_RESOLVE, getPrefixedName(prefix, longKey));
             }
         }
-
         throw new ContentException(Messages.UNABLE_TO_RESOLVE, getPrefixedName(prefix, longKey));
     }
 

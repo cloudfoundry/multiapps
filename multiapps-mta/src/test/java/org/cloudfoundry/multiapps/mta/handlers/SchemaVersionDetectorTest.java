@@ -14,7 +14,7 @@ import org.cloudfoundry.multiapps.mta.model.ExtensionDescriptor;
 import org.cloudfoundry.multiapps.mta.model.Version;
 import org.junit.jupiter.api.Test;
 
-public class SchemaVersionDetectorTest {
+class SchemaVersionDetectorTest {
 
     private static final String FOO_ID = "foo";
     private static final String BAR_ID = "bar";
@@ -26,7 +26,7 @@ public class SchemaVersionDetectorTest {
     private final SchemaVersionDetector schemaVersionDetector = new SchemaVersionDetector();
 
     @Test
-    public void testDetectWithCompatibleSchemaVersions() {
+    void testDetectWithCompatibleSchemaVersions() {
         DeploymentDescriptor deploymentDescriptor = buildDeploymentDescriptor(SCHEMA_VERSION_2_0, FOO_ID);
         ExtensionDescriptor extensionDescriptor1 = buildExtensionDescriptor(SCHEMA_VERSION_2_1, BAR_ID);
         ExtensionDescriptor extensionDescriptor2 = buildExtensionDescriptor(SCHEMA_VERSION_2_0, BAZ_ID);
@@ -38,7 +38,7 @@ public class SchemaVersionDetectorTest {
     }
 
     @Test
-    public void testDetectWithSameSchemaVersions() {
+    void testDetectWithSameSchemaVersions() {
         DeploymentDescriptor deploymentDescriptor = buildDeploymentDescriptor(SCHEMA_VERSION_2_0, FOO_ID);
         ExtensionDescriptor extensionDescriptor1 = buildExtensionDescriptor(SCHEMA_VERSION_2_0, BAR_ID);
         ExtensionDescriptor extensionDescriptor2 = buildExtensionDescriptor(SCHEMA_VERSION_2_0, BAZ_ID);
@@ -50,7 +50,7 @@ public class SchemaVersionDetectorTest {
     }
 
     @Test
-    public void testDetectWithIncompatibleSchemaVersions() {
+    void testDetectWithIncompatibleSchemaVersions() {
         DeploymentDescriptor deploymentDescriptor = buildDeploymentDescriptor(SCHEMA_VERSION_2_0, FOO_ID);
         ExtensionDescriptor extensionDescriptor1 = buildExtensionDescriptor(SCHEMA_VERSION_1_0, BAR_ID);
         ExtensionDescriptor extensionDescriptor2 = buildExtensionDescriptor(SCHEMA_VERSION_2_0, BAZ_ID);

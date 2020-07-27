@@ -12,13 +12,13 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
-public class DescriptorReferenceResolverTest {
+class DescriptorReferenceResolverTest {
 
     private final Tester tester = Tester.forClass(getClass());
 
     private DescriptorReferenceResolver resolver;
 
-    public static Stream<Arguments> testResolve() {
+    static Stream<Arguments> testResolve() {
         return Stream.of(
 // @formatter:off
             // (0) Resolve references in resources:
@@ -47,13 +47,13 @@ public class DescriptorReferenceResolverTest {
 
     @ParameterizedTest
     @MethodSource
-    public void testResolve(String mergedDescriptorLocation, Expectation expectation) {
+    void testResolve(String mergedDescriptorLocation, Expectation expectation) {
         init(mergedDescriptorLocation);
 
         tester.test(() -> resolver.resolve(), expectation);
     }
 
-    public void init(String mergedDescriptorLocation) {
+    private void init(String mergedDescriptorLocation) {
         DeploymentDescriptor mergedDescriptor = MtaTestUtil.loadDeploymentDescriptor(mergedDescriptorLocation, new DescriptorParser(),
                                                                                      getClass());
         resolver = new DescriptorReferenceResolver(mergedDescriptor, new ResolverBuilder(), new ResolverBuilder(), new ResolverBuilder());

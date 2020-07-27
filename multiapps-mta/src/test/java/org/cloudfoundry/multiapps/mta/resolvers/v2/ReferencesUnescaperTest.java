@@ -17,7 +17,7 @@ public class ReferencesUnescaperTest {
     private Tester tester = Tester.forClass(getClass());
     private ReferencesUnescaper referencesUnescaper = new ReferencesUnescaper();
 
-    public static Stream<Arguments> testUnescaping() {
+    static Stream<Arguments> testUnescaping() {
         return Stream.of(
 // @formatter:off
             Arguments.of("mtad-with-escaped-placeholders.yaml", new Expectation(Expectation.Type.JSON, "result-from-unescaping-placeholders.json")),
@@ -28,7 +28,7 @@ public class ReferencesUnescaperTest {
 
     @ParameterizedTest
     @MethodSource
-    public void testUnescaping(String descriptorResource, Expectation expectation) {
+    void testUnescaping(String descriptorResource, Expectation expectation) {
         DeploymentDescriptor descriptor = parseDeploymentDescriptor(descriptorResource);
         tester.test(() -> {
             referencesUnescaper.unescapeReferences(descriptor);

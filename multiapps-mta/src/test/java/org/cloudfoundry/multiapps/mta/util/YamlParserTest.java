@@ -12,24 +12,23 @@ import org.cloudfoundry.multiapps.common.util.YamlParser;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
-
 public class YamlParserTest {
 
+    private YamlParser yamlParser = new YamlParser();
+
     @Nested
-    static class WithValidDescriptor {
+    class WithValidDescriptor {
 
         private static final String DESCRIPTOR = "mtad.yaml";
 
         @Test
-        public void testWithStream() {
-            YamlParser yamlParser = new YamlParser();
+        void testWithStream() {
             InputStream descriptorStream = TestUtil.getResourceAsInputStream(DESCRIPTOR, getClass());
             assertNotNull(yamlParser.convertYamlToMap(descriptorStream));
         }
 
         @Test
-        public void testWithString() {
-            YamlParser yamlParser = new YamlParser();
+        void testWithString() {
             String descriptorString = TestUtil.getResourceAsString(DESCRIPTOR, getClass());
             assertNotNull(yamlParser.convertYamlToMap(descriptorString));
         }
@@ -37,22 +36,20 @@ public class YamlParserTest {
     }
 
     @Nested
-    static class WithDescriptorContainingSecurityViolations {
+    class WithDescriptorContainingSecurityViolations {
 
         private static final String DESCRIPTOR = "mtad-with-security-violation.yaml";
         private static final String EXPECTED_EXCEPTION_MESSAGE = "could not determine a constructor for the tag tag:yaml.org,2002:javax.script.ScriptEngineManager";
 
         @Test
-        public void testWithStream() {
-            YamlParser yamlParser = new YamlParser();
+        void testWithStream() {
             InputStream descriptorStream = TestUtil.getResourceAsInputStream(DESCRIPTOR, getClass());
             ParsingException parsingException = assertThrows(ParsingException.class, () -> yamlParser.convertYamlToMap(descriptorStream));
             validate(parsingException);
         }
 
         @Test
-        public void testWithString() {
-            YamlParser yamlParser = new YamlParser();
+        void testWithString() {
             String descriptorString = TestUtil.getResourceAsString(DESCRIPTOR, getClass());
             ParsingException parsingException = assertThrows(ParsingException.class, () -> yamlParser.convertYamlToMap(descriptorString));
             validate(parsingException);
