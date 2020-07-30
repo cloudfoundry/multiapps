@@ -1,9 +1,9 @@
 package org.cloudfoundry.multiapps.mta.builders.v2;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Stream;
 
 import org.cloudfoundry.multiapps.common.util.Tester;
 import org.cloudfoundry.multiapps.common.util.Tester.Expectation;
@@ -13,98 +13,103 @@ import org.cloudfoundry.multiapps.mta.model.DeploymentDescriptor;
 import org.cloudfoundry.multiapps.mta.model.Module;
 import org.cloudfoundry.multiapps.mta.model.Platform;
 import org.cloudfoundry.multiapps.mta.model.Resource;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.Parameterized;
-import org.junit.runners.Parameterized.Parameters;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 
-@RunWith(Parameterized.class)
 public class PropertiesChainBuilderTest {
 
     protected final Tester tester = Tester.forClass(getClass());
 
-    protected final String deploymentDescriptorLocation;
-    protected final String platformLocation;
-    protected final Expectation[] expectations;
-
-    protected PropertiesChainBuilder builder;
-    protected List<String> moduleNames;
-    protected List<String> resourceNames;
-
-    @Parameters
-    public static Iterable<Object[]> getParameters() {
-        return Arrays.asList(new Object[][] {
-// @formatter:off
-            // (0) All module and resource types are present in the platform:
-            {
-                "mtad-01.yaml", "platform-01.json",
-                new Expectation[] {
-                    new Expectation(Expectation.Type.JSON, "module-chain-04.json"),
-                    new Expectation(Expectation.Type.JSON, "module-chain-without-dependencies-04.json"),
-                    new Expectation(Expectation.Type.JSON, "resource-chain-01.json"),
-                },
-            },
-            // (1) No module and resource types in the platform:
-            {
-                "mtad-01.yaml", "platform-02.json",
-                new Expectation[] {
-                    new Expectation(Expectation.Type.JSON, "module-chain-05.json"),
-                    new Expectation(Expectation.Type.JSON, "module-chain-without-dependencies-05.json"),
-                    new Expectation(Expectation.Type.JSON, "resource-chain-06.json"),
-                },
-            },
-            // (2) Some module and resource types are present in the platform:
-            {
-                "mtad-01.yaml", "platform-03.json",
-                new Expectation[] {
-                    new Expectation(Expectation.Type.JSON, "module-chain-06.json"),
-                    new Expectation(Expectation.Type.JSON, "module-chain-without-dependencies-06.json"),
-                    new Expectation(Expectation.Type.JSON, "resource-chain-03.json"),
-                },
-            },
-// @formatter:on
-        });
+    static Stream<Arguments> testBuildModuleChain() {
+        return Stream.of(Arguments.of("mtad-01.yaml", "platform-01.json", new Expectation(Expectation.Type.JSON, "module-chain-04.json")),
+                         Arguments.of("mtad-01.yaml", "platform-02.json", new Expectation(Expectation.Type.JSON, "module-chain-05.json")),
+                         Arguments.of("mtad-01.yaml", "platform-03.json", new Expectation(Expectation.Type.JSON, "module-chain-06.json")));
     }
 
-    public PropertiesChainBuilderTest(String deploymentDescriptorLocation, String platformLocation, Expectation[] expectations) {
-        this.deploymentDescriptorLocation = deploymentDescriptorLocation;
-        this.platformLocation = platformLocation;
-        this.expectations = expectations;
+    static Stream<Arguments> testBuildModuleChainWithoutDependencies() {
+        return Stream.of(Arguments.of("mtad-01.yaml", "platform-01.json",
+                                      new Expectation(Expectation.Type.JSON, "module-chain-without-dependencies-04.json")),
+                         Arguments.of("mtad-01.yaml", "platform-02.json",
+                                      new Expectation(Expectation.Type.JSON, "module-chain-without-dependencies-05.json")),
+                         Arguments.of("mtad-01.yaml", "platform-03.json",
+                                      new Expectation(Expectation.Type.JSON, "module-chain-without-dependencies-06.json")));
     }
 
-    @Before
-    public void setUp() throws Exception {
-        DescriptorParser descriptorParser = getDescriptorParser();
-
-        DeploymentDescriptor deploymentDescriptor = MtaTestUtil.loadDeploymentDescriptor(deploymentDescriptorLocation, descriptorParser,
-                                                                                         getClass());
-        resourceNames = getResourceNames(deploymentDescriptor.getResources());
-        moduleNames = getModuleNames(deploymentDescriptor.getModules());
-
-        Platform platform = null;
-        if (platformLocation != null) {
-            platform = MtaTestUtil.loadPlatform(platformLocation, getClass());
-        }
-
-        builder = createPropertiesChainBuilder(deploymentDescriptor, platform);
+    static Stream<Arguments> testBuildResourceChain() {
+        return Stream.of(Arguments.of("mtad-01.yaml", "platform-01.json", new Expectation(Expectation.Type.JSON, "resource-chain-01.json")),
+                         Arguments.of("mtad-01.yaml", "platform-02.json", new Expectation(Expectation.Type.JSON, "resource-chain-06.json")),
+                         Arguments.of("mtad-01.yaml", "platform-03.json",
+                                      new Expectation(Expectation.Type.JSON, "resource-chain-03.json")));
     }
 
-    protected DescriptorParser getDescriptorParser() {
-        return new DescriptorParser();
+    @ParameterizedTest
+    @MethodSource
+    void testBuildModuleChain(String deploymentDescriptorLocation, String platformLocation, Expectation expectation) {
+        DeploymentDescriptor deploymentDescriptor = parseDeploymentDescriptor(deploymentDescriptorLocation);
+        Platform platform = parsePlatform(platformLocation);
+
+        PropertiesChainBuilder builder = createPropertiesChainBuilder(deploymentDescriptor, platform);
+        tester.test(() -> {
+            List<List<Map<String, Object>>> moduleChains = new ArrayList<>();
+            for (String moduleName : getModuleNames(deploymentDescriptor)) {
+                moduleChains.add(builder.buildModuleChain(moduleName));
+            }
+            return moduleChains;
+        }, expectation);
     }
 
-    private List<String> getResourceNames(List<Resource> resources) {
+    @ParameterizedTest
+    @MethodSource
+    void testBuildModuleChainWithoutDependencies(String deploymentDescriptorLocation, String platformLocation, Expectation expectation) {
+        DeploymentDescriptor deploymentDescriptor = parseDeploymentDescriptor(deploymentDescriptorLocation);
+        Platform platform = parsePlatform(platformLocation);
+
+        PropertiesChainBuilder builder = createPropertiesChainBuilder(deploymentDescriptor, platform);
+        tester.test(() -> {
+            List<List<Map<String, Object>>> moduleChains = new ArrayList<>();
+            for (String moduleName : getModuleNames(deploymentDescriptor)) {
+                moduleChains.add(builder.buildModuleChainWithoutDependencies(moduleName));
+            }
+            return moduleChains;
+        }, expectation);
+    }
+
+    @ParameterizedTest
+    @MethodSource
+    void testBuildResourceChain(String deploymentDescriptorLocation, String platformLocation, Expectation expectation) {
+        DeploymentDescriptor deploymentDescriptor = parseDeploymentDescriptor(deploymentDescriptorLocation);
+        Platform platform = parsePlatform(platformLocation);
+
+        PropertiesChainBuilder builder = createPropertiesChainBuilder(deploymentDescriptor, platform);
+        tester.test(() -> {
+            List<List<Map<String, Object>>> resourceChains = new ArrayList<>();
+            for (String resourceName : getResourceNames(deploymentDescriptor)) {
+                resourceChains.add(builder.buildResourceChain(resourceName));
+            }
+            return resourceChains;
+        }, expectation);
+    }
+
+    protected DeploymentDescriptor parseDeploymentDescriptor(String deploymentDescriptorLocation) {
+        return MtaTestUtil.loadDeploymentDescriptor(deploymentDescriptorLocation, createDescriptorParser(), getClass());
+    }
+
+    protected Platform parsePlatform(String platformLocation) {
+        return MtaTestUtil.loadPlatform(platformLocation, getClass());
+    }
+
+    protected List<String> getResourceNames(DeploymentDescriptor deploymentDescriptor) {
         List<String> resourceNames = new ArrayList<>();
-        for (Resource resource : resources) {
+        for (Resource resource : deploymentDescriptor.getResources()) {
             resourceNames.add(resource.getName());
         }
         return resourceNames;
     }
 
-    private List<String> getModuleNames(List<Module> modules) {
+    protected List<String> getModuleNames(DeploymentDescriptor deploymentDescriptor) {
         List<String> moduleNames = new ArrayList<>();
-        for (Module module : modules) {
+        for (Module module : deploymentDescriptor.getModules()) {
             moduleNames.add(module.getName());
         }
         return moduleNames;
@@ -114,44 +119,8 @@ public class PropertiesChainBuilderTest {
         return new PropertiesChainBuilder(deploymentDescriptor, platform);
     }
 
-    @Test
-    public void testBuildModuleChain() {
-        tester.test(() -> {
-            List<List<Map<String, Object>>> moduleChains = new ArrayList<>();
-            for (String moduleName : moduleNames) {
-                moduleChains.add(builder.buildModuleChain(moduleName));
-            }
-            return moduleChains;
-        }, expectations[0]);
-    }
-
-    @Test
-    public void testBuildModuleChainWithoutDependencies() {
-        tester.test(() -> {
-            List<List<Map<String, Object>>> moduleChains = new ArrayList<>();
-            for (String moduleName : moduleNames) {
-                moduleChains.add(builder.buildModuleChainWithoutDependencies(moduleName));
-            }
-            return moduleChains;
-        }, expectations[1]);
-    }
-
-    @Test
-    public void testBuildResourceChain() {
-        tester.test(() -> {
-            List<List<Map<String, Object>>> resourceChains = new ArrayList<>();
-            for (String resourceName : resourceNames) {
-                resourceChains.add(builder.buildResourceChain(resourceName));
-            }
-            return resourceChains;
-        }, expectations[2]);
-    }
-
-    @Test(expected = UnsupportedOperationException.class)
-    public void testBuildResourceTypeChain() {
-        for (String resourceName : resourceNames) {
-            builder.buildResourceTypeChain(resourceName);
-        }
+    protected DescriptorParser createDescriptorParser() {
+        return new DescriptorParser();
     }
 
 }

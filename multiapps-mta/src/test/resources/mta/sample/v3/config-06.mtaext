@@ -1,5 +1,5 @@
 _schema-version: "3"
-ID: com.sap.mta.sample.v3.config-05
+ID: com.sap.mta.sample.v3.config-06
 extends: com.sap.mta.sample.v3
 
 targets: [CF-PROD]

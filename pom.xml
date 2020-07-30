@@ -85,6 +85,11 @@
                     <artifactId>maven-surefire-plugin</artifactId>
                     <version>2.22.2</version>
                     <configuration>
+                        <!-- Surefire excludes nested classes by default, so we need to explicitly specify that nothing should 
+                            be excluded. -->
+                        <excludes>
+                            <exclude />
+                        </excludes>
                         <runOrder>random</runOrder>
                     </configuration>
                 </plugin>
@@ -179,13 +184,6 @@
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-engine</artifactId>
-            <version>${junit.version}</version>
-            <scope>test</scope>
-        </dependency>
-        <!-- https://mvnrepository.com/artifact/org.junit.vintage/junit-vintage-engine -->
-        <dependency>
-            <groupId>org.junit.vintage</groupId>
-            <artifactId>junit-vintage-engine</artifactId>
             <version>${junit.version}</version>
             <scope>test</scope>
         </dependency>
