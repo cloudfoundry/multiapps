@@ -13,9 +13,9 @@ import org.cloudfoundry.multiapps.common.util.TestUtil;
 import org.cloudfoundry.multiapps.mta.Messages;
 import org.cloudfoundry.multiapps.mta.model.DeploymentDescriptor;
 import org.cloudfoundry.multiapps.mta.model.ExtensionDescriptor;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-public class DescriptorParserFacadeTest {
+class DescriptorParserFacadeTest {
 
     private static final String MTAD_VALID = "mtad-valid.yaml";
     private static final String DESCRIPTOR_EMPTY = "empty.yaml";
@@ -25,24 +25,24 @@ public class DescriptorParserFacadeTest {
 
     private static final String SCHEMA_VERSION_KEY = "_schema-version";
 
-    DescriptorParserFacade parser = new DescriptorParserFacade();
+    private final DescriptorParserFacade parser = new DescriptorParserFacade();
 
     @Test
-    public void testValidParseDeploymentDescriptorWithStream() {
+    void testValidParseDeploymentDescriptorWithStream() {
         InputStream descriptorStream = TestUtil.getResourceAsInputStream(MTAD_VALID, getClass());
         DeploymentDescriptor descriptor = parser.parseDeploymentDescriptor(descriptorStream);
         assertNotNull(descriptor);
     }
 
     @Test
-    public void testValidParseDeploymentDescriptorWithString() {
+    void testValidParseDeploymentDescriptorWithString() {
         String descriptorString = TestUtil.getResourceAsString(MTAD_VALID, getClass());
         DeploymentDescriptor descriptor = parser.parseDeploymentDescriptor(descriptorString);
         assertNotNull(descriptor);
     }
 
     @Test
-    public void testEmptyParseDeploymentDescriptorWithStream() {
+    void testEmptyParseDeploymentDescriptorWithStream() {
         InputStream descriptorStream = TestUtil.getResourceAsInputStream(DESCRIPTOR_EMPTY, getClass());
         try {
             parser.parseDeploymentDescriptor(descriptorStream);
@@ -53,7 +53,7 @@ public class DescriptorParserFacadeTest {
     }
 
     @Test
-    public void testMissingSchemaParseDeploymentDescriptorWithStream() {
+    void testMissingSchemaParseDeploymentDescriptorWithStream() {
         InputStream descriptorStream = TestUtil.getResourceAsInputStream(DESCRIPTOR_MISSING_SCHEMA, getClass());
         try {
             parser.parseDeploymentDescriptor(descriptorStream);
@@ -64,33 +64,34 @@ public class DescriptorParserFacadeTest {
     }
 
     @Test
-    public void testValidParseExtensionDescriptorWithStream() {
+    void testValidParseExtensionDescriptorWithStream() {
         InputStream descriptorStream = TestUtil.getResourceAsInputStream(MTAEXT_VALID, getClass());
         ExtensionDescriptor descriptor = parser.parseExtensionDescriptor(descriptorStream);
         assertNotNull(descriptor);
     }
 
     @Test
-    public void testInvalidResourcesInExtensionDescriptor() {
+    void testInvalidResourcesInExtensionDescriptor() {
         InputStream descriptorStream = TestUtil.getResourceAsInputStream(INVALID_RESOURCES_MTAEXT, getClass());
         try {
             parser.parseExtensionDescriptor(descriptorStream);
             fail("Expected exception");
         } catch (ContentException e) {
             assertEquals(MessageFormat.format(Messages.INVALID_TYPE_FOR_KEY, "resources#0#requires#0", Map.class.getSimpleName(),
-                         String.class.getSimpleName()), e.getMessage());
+                                              String.class.getSimpleName()),
+                         e.getMessage());
         }
     }
 
     @Test
-    public void testValidParseExtensionDescriptorWithString() {
+    void testValidParseExtensionDescriptorWithString() {
         String descriptorString = TestUtil.getResourceAsString(MTAEXT_VALID, getClass());
         ExtensionDescriptor descriptor = parser.parseExtensionDescriptor(descriptorString);
         assertNotNull(descriptor);
     }
 
     @Test
-    public void testEmptyParseExtensionDescriptorWithString() {
+    void testEmptyParseExtensionDescriptorWithString() {
         InputStream descriptorStream = TestUtil.getResourceAsInputStream(DESCRIPTOR_EMPTY, getClass());
         try {
             parser.parseExtensionDescriptor(descriptorStream);

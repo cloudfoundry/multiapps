@@ -1,93 +1,61 @@
 package org.cloudfoundry.multiapps.mta.schema;
 
-import java.util.Arrays;
+import java.util.stream.Stream;
 
 import org.cloudfoundry.multiapps.common.util.TestUtil;
 import org.cloudfoundry.multiapps.common.util.Tester;
 import org.cloudfoundry.multiapps.common.util.Tester.Expectation;
 import org.cloudfoundry.multiapps.mta.handlers.v2.Schemas;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.Parameterized;
-import org.junit.runners.Parameterized.Parameters;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 
-@RunWith(Parameterized.class)
 public class SchemaValidatorTest {
 
     private final Tester tester = Tester.forClass(getClass());
 
-    private final Element schema;
-    private final String file;
-    private final Expectation expectation;
-
-    private SchemaValidator validator;
-
-    @Parameters
-    public static Iterable<Object[]> data1() {
-        return Arrays.asList(new Object[][] {
-// @formatter:off
-            // (00) Valid extension descriptor:
-            {
-                "/mta/sample/v2/config-01-v2.mtaext", Schemas.MTAEXT, new Expectation(null),
-            },
-            // (01) Valid deployment descriptor:
-            {
-                "/mta/sample/v2/mtad-01-v2.yaml", Schemas.MTAD, new Expectation(null),
-            },
-            // (02) Valid platform JSON:
-            {
-                "/mta/sample/platform-01.json", Schemas.PLATFORM, new Expectation(null),
-            },
-            // (03) Deployment descriptor is missing a required key:
-            {
-                "mtad-03.yaml", Schemas.MTAD, new Expectation(Expectation.Type.EXCEPTION, "Missing required key \"ID\""),
-            },
-            // (04) Deployment descriptor module has invalid content for requires dependency:
-            {
-                "mtad-04.yaml", Schemas.MTAD, new Expectation(Expectation.Type.EXCEPTION, "Invalid type for key \"modules#0#requires\", expected \"List\" but got \"String\""),
-            },
-            // (05) Deployment descriptor has an invalid ID:
-            {
-                "mtad-06.yaml", Schemas.MTAD, new Expectation(Expectation.Type.EXCEPTION, "Invalid value for key \"ID\", matching failed at \"com[/]sap/mta/sample\""),
-            },
-            // (06) Deployment descriptor has a too long ID:
-            {
-                "mtad-07.yaml", Schemas.MTAD, new Expectation(Expectation.Type.EXCEPTION, "Invalid value for key \"ID\", maximum length is 128"),
-            },
-            // (07) Deployment descriptor provided dependency has an invalid name:
-            {
-                "mtad-08.yaml", Schemas.MTAD, new Expectation(Expectation.Type.EXCEPTION, "Invalid value for key \"modules#0#provides#0#name\", matching failed at \"internal-od[@]ta\""),
-            },
-            // (08) Deployment descriptor module has an invalid name:
-            {
-                "mtad-09.yaml", Schemas.MTAD, new Expectation(Expectation.Type.EXCEPTION, "Invalid value for key \"modules#0#name\", matching failed at \"web[ ]server\""),
-            },
-            // (09) Deployment descriptor module provides public has String, but not a Boolean value:
-            {
-                "mtad-10.yaml", org.cloudfoundry.multiapps.mta.handlers.v2.Schemas.MTAD, new Expectation(Expectation.Type.EXCEPTION, "Invalid type for key \"modules#0#provides#0#public\", expected \"Boolean\" but got \"String\""),
-            },
-            // (10) Null content:
-            {
-                null, Schemas.MTAD, new Expectation(Expectation.Type.EXCEPTION, "Null content"),
-            },
-// @formatter:on
-        });
+    static Stream<Arguments> testValidateSchema() {
+        return Stream.of(
+                         // Valid extension descriptor:
+                         Arguments.of("/mta/sample/v2/config-01-v2.mtaext", Schemas.MTAEXT, new Expectation(null)),
+                         // Valid deployment descriptor:
+                         Arguments.of("/mta/sample/v2/mtad-01-v2.yaml", Schemas.MTAD, new Expectation(null)),
+                         // Valid platform JSON:
+                         Arguments.of("/mta/sample/platform-01.json", Schemas.PLATFORM, new Expectation(null)),
+                         // Deployment descriptor is missing a required key:
+                         Arguments.of("mtad-03.yaml", Schemas.MTAD,
+                                      new Expectation(Expectation.Type.EXCEPTION, "Missing required key \"ID\"")),
+                         // Deployment descriptor module has invalid content for requires dependency:
+                         Arguments.of("mtad-04.yaml", Schemas.MTAD,
+                                      new Expectation(Expectation.Type.EXCEPTION,
+                                                      "Invalid type for key \"modules#0#requires\", expected \"List\" but got \"String\"")),
+                         // Deployment descriptor has an invalid ID:
+                         Arguments.of("mtad-06.yaml", Schemas.MTAD,
+                                      new Expectation(Expectation.Type.EXCEPTION,
+                                                      "Invalid value for key \"ID\", matching failed at \"com[/]sap/mta/sample\"")),
+                         // Deployment descriptor has a too long ID:
+                         Arguments.of("mtad-07.yaml", Schemas.MTAD,
+                                      new Expectation(Expectation.Type.EXCEPTION, "Invalid value for key \"ID\", maximum length is 128")),
+                         // Deployment descriptor provided dependency has an invalid name:
+                         Arguments.of("mtad-08.yaml", Schemas.MTAD,
+                                      new Expectation(Expectation.Type.EXCEPTION,
+                                                      "Invalid value for key \"modules#0#provides#0#name\", matching failed at \"internal-od[@]ta\"")),
+                         // Deployment descriptor module has an invalid name:
+                         Arguments.of("mtad-09.yaml", Schemas.MTAD,
+                                      new Expectation(Expectation.Type.EXCEPTION,
+                                                      "Invalid value for key \"modules#0#name\", matching failed at \"web[ ]server\"")),
+                         // Deployment descriptor module provides public has String, but not a Boolean value:
+                         Arguments.of("mtad-10.yaml", org.cloudfoundry.multiapps.mta.handlers.v2.Schemas.MTAD,
+                                      new Expectation(Expectation.Type.EXCEPTION,
+                                                      "Invalid type for key \"modules#0#provides#0#public\", expected \"Boolean\" but got \"String\"")),
+                         // Null content:
+                         Arguments.of(null, Schemas.MTAD, new Expectation(Expectation.Type.EXCEPTION, "Null content")));
     }
 
-    public SchemaValidatorTest(String file, Element schema, Expectation expectation) {
-        this.schema = schema;
-        this.file = file;
-        this.expectation = expectation;
-    }
-
-    @Before
-    public void setUp() throws Exception {
-        validator = new SchemaValidator(schema);
-    }
-
-    @Test
-    public void testValidateSchema() throws Exception {
+    @ParameterizedTest
+    @MethodSource
+    void testValidateSchema(String file, Element schema, Expectation expectation) throws Exception {
+        SchemaValidator validator = new SchemaValidator(schema);
         tester.test(() -> {
             if (schema instanceof MapElement) {
                 validator.validate(TestUtil.getMap(file, getClass()));

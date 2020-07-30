@@ -1,10 +1,8 @@
 package org.cloudfoundry.multiapps.common.util;
 
-import static org.hamcrest.CoreMatchers.containsString;
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import java.util.Objects;
 
@@ -36,7 +34,7 @@ public class Tester {
     }
 
     private void validateSuccess(Expectation expectation, Object result) {
-        assertTrue("Expected an exception, but the test finished successfully!", expectation.expectsSuccess());
+        assertTrue(expectation.expectsSuccess(), "Expected an exception, but the test finished successfully!");
 
         if (expectation.type == Expectation.Type.STRING) {
             String expected = expectation.expectation;
@@ -61,7 +59,8 @@ public class Tester {
             e.printStackTrace();
             fail("Test failed: " + e.toString());
         }
-        assertThat("Exception's message doesn't match up!", e.getMessage(), containsString(expectation.expectation));
+        String exceptionMessage = e.getMessage();
+        assertTrue(exceptionMessage.contains(expectation.expectation), "Exception's message doesn't match up!");
     }
 
     private Object loadResourceAsJsonObject(String resource) {
