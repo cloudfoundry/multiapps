@@ -22,17 +22,12 @@ class DescriptorPlaceholderResolverTest {
 
     static Stream<Arguments> testResolve() {
         return Stream.of(
-// @formatter:off            
-            // (00) mtad-with-placeholders-in-hooks
-            Arguments.of(
-                "mtad-with-placeholders-in-hook.yaml", new Expectation(Expectation.Type.JSON, "result-from-placeholders-in-hooks.json")
-            ),
-            // (01)
-            Arguments.of(
-                "mtad-with-escaped-placeholders.yaml", new Expectation(Expectation.Type.JSON, "result-from-escaped-placeholders.json")
-            )
-// @formatter:on
-        );
+                         // (00) mtad-with-placeholders-in-hooks
+                         Arguments.of("mtad-with-placeholders-in-hook.yaml",
+                                      new Expectation(Expectation.Type.JSON, "result-from-placeholders-in-hooks.json")),
+                         // (01)
+                         Arguments.of("mtad-with-escaped-placeholders.yaml",
+                                      new Expectation(Expectation.Type.JSON, "result-from-escaped-placeholders.json")));
     }
 
     @ParameterizedTest

@@ -1,95 +1,70 @@
 package org.cloudfoundry.multiapps.mta.serialization.v2;
 
 import java.io.InputStream;
-import java.util.Arrays;
 import java.util.Map;
+import java.util.stream.Stream;
 
 import org.cloudfoundry.multiapps.common.util.Tester;
-import org.cloudfoundry.multiapps.common.util.YamlParser;
 import org.cloudfoundry.multiapps.common.util.Tester.Expectation;
+import org.cloudfoundry.multiapps.common.util.YamlParser;
 import org.cloudfoundry.multiapps.mta.model.DeploymentDescriptor;
 import org.cloudfoundry.multiapps.mta.model.ExtensionDescriptor;
 import org.cloudfoundry.multiapps.mta.parsers.v2.DeploymentDescriptorParser;
 import org.cloudfoundry.multiapps.mta.parsers.v2.ExtensionDescriptorParser;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.Parameterized;
-import org.junit.runners.Parameterized.Parameters;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 
-@RunWith(Parameterized.class)
 public class DescriptorSerializationTest {
 
     protected final Tester tester = Tester.forClass(getClass());
 
-    protected String deploymentDescriptorLocation;
-    protected Expectation expectedSerializedDescriptor;
-    protected String extensionDescriptorLocation;
-    protected Expectation expectedSerializedExtension;
-
-    private InputStream deploymentDescriptorYaml;
-    private InputStream extensionDescriptorYaml;
-
-    @Parameters
-    public static Iterable<Object[]> getParameters() {
-        return Arrays.asList(new Object[][] {
-// @formatter:off
-            // (0) Valid deployment and extension descriptors:
-            {
-                "mtad-00.yaml", new Expectation(Expectation.Type.JSON, "serialized-descriptor-00.json"),
-                "extension-descriptor-00.mtaext", new Expectation(Expectation.Type.JSON, "serialized-extension-00.json"),
-            }
-            // @formatter:on
-        });
+    static Stream<Arguments> testDeploymentDescriptorSerialization() {
+        return Stream.of(Arguments.of("mtad-00.yaml", new Expectation(Expectation.Type.JSON, "serialized-descriptor-00.json")));
     }
 
-    public DescriptorSerializationTest(String deploymentDescriptorLocation, Expectation expectedSerializedDescriptor,
-                                       String extensionDescriptorLocation, Expectation expectedSerializedExtension) {
-        this.deploymentDescriptorLocation = deploymentDescriptorLocation;
-        this.expectedSerializedDescriptor = expectedSerializedDescriptor;
-        this.extensionDescriptorLocation = extensionDescriptorLocation;
-        this.expectedSerializedExtension = expectedSerializedExtension;
+    static Stream<Arguments> testExtensionDescriptorSerialization() {
+        return Stream.of(Arguments.of("extension-descriptor-00.mtaext",
+                                      new Expectation(Expectation.Type.JSON, "serialized-extension-00.json")));
     }
 
-    @Before
-    public void setUp() {
-        deploymentDescriptorYaml = getClass().getResourceAsStream(deploymentDescriptorLocation);
-        extensionDescriptorYaml = getClass().getResourceAsStream(extensionDescriptorLocation);
-    }
-
-    @Test
-    public void testDescriptorSerialization() {
+    @ParameterizedTest
+    @MethodSource
+    void testDeploymentDescriptorSerialization(String deploymentDescriptorLocation, Expectation expectation) {
+        InputStream deploymentDescriptorYaml = getClass().getResourceAsStream(deploymentDescriptorLocation);
         tester.test(() -> {
             YamlParser yamlParser = new YamlParser();
             Map<String, Object> map = yamlParser.convertYamlToMap(deploymentDescriptorYaml);
-            String serializedMap = yamlParser.convertToYaml(getDescriptorFromMap(map));
-            return getDescriptorFromMap(yamlParser.convertYamlToMap(serializedMap));
-        }, expectedSerializedDescriptor);
+            String serializedMap = yamlParser.convertToYaml(parseDeploymentDescriptor(map));
+            return parseDeploymentDescriptor(yamlParser.convertYamlToMap(serializedMap));
+        }, expectation);
     }
 
-    @Test
-    public void testExtensionSerialization() {
+    @ParameterizedTest
+    @MethodSource
+    void testExtensionDescriptorSerialization(String extensionDescriptorLocation, Expectation expectation) {
+        InputStream extensionDescriptorYaml = getClass().getResourceAsStream(extensionDescriptorLocation);
         tester.test(() -> {
             YamlParser yamlParser = new YamlParser();
             Map<String, Object> map = yamlParser.convertYamlToMap(extensionDescriptorYaml);
-            String serializedMap = yamlParser.convertToYaml(getExtensionDescriptorFromMap(map));
-            return getExtensionDescriptorFromMap(yamlParser.convertYamlToMap(serializedMap));
-        }, expectedSerializedExtension);
+            String serializedMap = yamlParser.convertToYaml(parseExtensionDescriptor(map));
+            return parseExtensionDescriptor(yamlParser.convertYamlToMap(serializedMap));
+        }, expectation);
     }
 
-    private DeploymentDescriptor getDescriptorFromMap(Map<String, Object> yamlMap) {
-        return getDescriptorParser(yamlMap).parse();
+    private DeploymentDescriptor parseDeploymentDescriptor(Map<String, Object> yamlMap) {
+        return createDeploymentDescriptorParser(yamlMap).parse();
     }
 
-    protected DeploymentDescriptorParser getDescriptorParser(Map<String, Object> yamlMap) {
+    private ExtensionDescriptor parseExtensionDescriptor(Map<String, Object> yamlMap) {
+        return createExtensionDescriptorParser(yamlMap).parse();
+    }
+
+    protected DeploymentDescriptorParser createDeploymentDescriptorParser(Map<String, Object> yamlMap) {
         return new DeploymentDescriptorParser(yamlMap);
     }
 
-    private ExtensionDescriptor getExtensionDescriptorFromMap(Map<String, Object> yamlMap) {
-        return getExtensionDescriptorParser(yamlMap).parse();
-    }
-
-    protected ExtensionDescriptorParser getExtensionDescriptorParser(Map<String, Object> yamlMap) {
+    protected ExtensionDescriptorParser createExtensionDescriptorParser(Map<String, Object> yamlMap) {
         return new ExtensionDescriptorParser(yamlMap);
     }
 
