@@ -18,14 +18,12 @@ import org.cloudfoundry.multiapps.mta.resolvers.ResolverBuilder;
 
 public interface HandlerFactory {
 
-    static final Integer HIGHEST_VERSION_INPUT = Integer.MAX_VALUE;
 
     static HandlerFactory forSchemaVersion(int majorSchemaVersion) {
         switch (majorSchemaVersion) {
             case 1:
             case 2:
                 return new HandlerFactoryV2();
-            case Integer.MAX_VALUE: // HandlerFactory.MAX_VERSION_SUPPORTED_INPUT
             case 3:
                 return new HandlerFactoryV3();
             default:
