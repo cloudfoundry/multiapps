@@ -11,7 +11,6 @@ import org.cloudfoundry.multiapps.mta.model.DeploymentDescriptor;
 import org.cloudfoundry.multiapps.mta.model.ExtensionDescriptor;
 import org.cloudfoundry.multiapps.mta.model.Version;
 
-
 public class DescriptorParserFacade {
 
     private static final String SCHEMA_VERSION_KEY = "_schema-version";
@@ -75,7 +74,7 @@ public class DescriptorParserFacade {
     }
 
     private DescriptorParser getDescriptorParser(Version schemaVersion) {
-        HandlerFactory handlerFactory = new HandlerFactory(schemaVersion.getMajor());
+        HandlerFactory handlerFactory = HandlerFactory.forSchemaVersion(schemaVersion.getMajor());
         return handlerFactory.getDescriptorParser();
     }
 

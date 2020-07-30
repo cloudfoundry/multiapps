@@ -2,7 +2,6 @@ package org.cloudfoundry.multiapps.mta.handlers.v3;
 
 import java.util.Map;
 
-import org.cloudfoundry.multiapps.common.util.MiscUtil;
 import org.cloudfoundry.multiapps.mta.model.DeploymentDescriptor;
 import org.cloudfoundry.multiapps.mta.resolvers.PlaceholderResolver;
 import org.cloudfoundry.multiapps.mta.resolvers.Resolver;
@@ -10,11 +9,21 @@ import org.cloudfoundry.multiapps.mta.resolvers.ResolverBuilder;
 import org.cloudfoundry.multiapps.mta.resolvers.v3.DescriptorPlaceholderResolver;
 import org.cloudfoundry.multiapps.mta.resolvers.v3.DescriptorReferenceResolver;
 
-public class HandlerConstructor extends org.cloudfoundry.multiapps.mta.handlers.v2.HandlerConstructor {
+public class HandlerFactoryV3 implements org.cloudfoundry.multiapps.mta.handlers.HandlerFactory {
+
+    @Override
+    public int getMajorSchemaVersion() {
+        return 3;
+    }
 
     @Override
     public DescriptorParser getDescriptorParser() {
         return new DescriptorParser();
+    }
+
+    @Override
+    public DescriptorHandler getDescriptorHandler() {
+        return new DescriptorHandler();
     }
 
     @Override
@@ -25,14 +34,6 @@ public class HandlerConstructor extends org.cloudfoundry.multiapps.mta.handlers.
     @Override
     public DescriptorValidator getDescriptorValidator() {
         return new DescriptorValidator();
-    }
-
-    @Override
-    public DescriptorHandler getDescriptorHandler() {
-        if (this.handler != null) {
-            return MiscUtil.cast(this.handler);
-        }
-        return new DescriptorHandler();
     }
 
     @Override
