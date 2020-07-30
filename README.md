@@ -6,10 +6,10 @@ Provides common components like parsers, validators and utilities for [Multi-Tar
 
 # Components
 
-## com.sap.cloud.lm.sl.common
+## multiapps-common
 Contains different utilities and exception types.
 
-## com.sap.cloud.lm.sl.mta
+## multiapps-mta
 Contains [MTA](https://www.sap.com/documents/2016/06/e2f618e4-757c-0010-82c7-eda71af511fa.html) model objects for different specification versions, parsers and validators. 
 
 # Building
@@ -29,5 +29,5 @@ $ mvn clean install
 * [How to develop, test and contribute to MultiApps](CONTRIBUTING.md#do-you-want-to-contribute-to-the-code-base)
 
 # License
-Copyright (c) 2017 SAP SE or an SAP affiliate company. All rights reserved.
+Copyright (c) 2020 SAP SE or an SAP affiliate company. All rights reserved.
 This file is licensed under the Apache Software License, v. 2 except as noted otherwise in the [LICENSE](https://github.com/cloudfoundry-incubator/multiapps/blob/master/LICENSE) file.
