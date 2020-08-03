@@ -16,11 +16,14 @@ public class ModuleDependenciesCollector {
 
     protected DeploymentDescriptor descriptor;
     private DescriptorHandler handler;
-    protected Set<String> seenModules = new HashSet<>();
 
     public ModuleDependenciesCollector(DeploymentDescriptor descriptor, DescriptorHandler handler) {
         this.descriptor = descriptor;
         this.handler = handler;
+    }
+    public Set<String> collect(Module module) {
+        Set<String> seenModules = new HashSet<>();
+        return getDependenciesRecursively(module, seenModules);
     }
 
     protected List<String> getDependencies(Module module) {
@@ -30,38 +33,22 @@ public class ModuleDependenciesCollector {
                      .collect(Collectors.toList());
     }
 
-    public Set<String> collect(Module module) {
-        clearVisitedModules();
-        return getDependenciesRecursively(module);
-    }
 
-    private void clearVisitedModules() {
-        seenModules.clear();
-    }
-
-    private Set<String> getDependenciesRecursively(Module module) {
-        if (visited(module)) {
+    private Set<String> getDependenciesRecursively(Module module, Set<String> seenModules) {
+        if (seenModules.contains(module.getName())) {
             return Collections.emptySet();
         }
-        markVisited(module);
-        return collectDependenciesRecursively(module);
-    }
-
-    private boolean visited(Module module) {
-        return seenModules.contains(module.getName());
-    }
-
-    private void markVisited(Module module) {
         seenModules.add(module.getName());
+        return collectDependenciesRecursively(module, seenModules);
     }
 
-    private Set<String> collectDependenciesRecursively(Module module) {
+    private Set<String> collectDependenciesRecursively(Module module, Set<String> seenModules) {
         Set<String> dependencies = new LinkedHashSet<>();
         for (String dependency : getDependencies(module)) {
             Module moduleProvidingDependency = findModuleSatisfyingDependency(dependency);
             if (notRequiresSelf(module, moduleProvidingDependency)) {
                 dependencies.add(moduleProvidingDependency.getName());
-                dependencies.addAll(getDependenciesRecursively(moduleProvidingDependency));
+                dependencies.addAll(getDependenciesRecursively(moduleProvidingDependency, seenModules));
             }
         }
         return dependencies;
