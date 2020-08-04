@@ -10,13 +10,13 @@ import org.cloudfoundry.multiapps.mta.model.Module;
 
 public class ModuleDependenciesCollector extends org.cloudfoundry.multiapps.mta.builders.v2.ModuleDependenciesCollector {
 
-    public ModuleDependenciesCollector(DeploymentDescriptor descriptor) {
-        super(descriptor, null);
+    public ModuleDependenciesCollector() {
+        super(null);
     }
 
     @Override
-    public Set<String> collect(Module module) {
-        Set<String> collectedDependencies = super.collect(module);
+    public Set<String> collect(DeploymentDescriptor descriptor, Module module) {
+        Set<String> collectedDependencies = super.collect(descriptor, module);
         List<String> deployedAfter = new ArrayList<>(collectedDependencies);
         module.setDeployedAfter(deployedAfter);
         return collectedDependencies;
@@ -28,7 +28,7 @@ public class ModuleDependenciesCollector extends org.cloudfoundry.multiapps.mta.
     }
 
     @Override
-    protected Module findModuleSatisfyingDependency(String dependency) {
+    protected Module findModuleSatisfyingDependency(DeploymentDescriptor descriptor, String dependency) {
         return descriptor.getModules()
                          .stream()
                          .filter(module -> module.getName()

@@ -46,8 +46,8 @@ public class ModulesSorter extends org.cloudfoundry.multiapps.mta.handlers.v2.Mo
     }
 
     @Override
-    protected ModuleDependenciesCollector getDependenciesCollector() {
-        return new ModuleDependenciesCollector(descriptor, handler);
+    protected ModuleDependenciesCollector createModuleDependenciesCollector() {
+        return new ModuleDependenciesCollector(handler);
     }
 
     private List<Module> sortUsingDeployedAfter() {
@@ -63,11 +63,11 @@ public class ModulesSorter extends org.cloudfoundry.multiapps.mta.handlers.v2.Mo
     }
 
     protected void collectDependencies(Module module) {
-        getDependenciesCollectorSupportingDeployedAfter().collect(module);
+        getDependenciesCollectorSupportingDeployedAfter().collect(descriptor, module);
     }
 
     private ModuleDependenciesCollector getDependenciesCollectorSupportingDeployedAfter() {
-        return new org.cloudfoundry.multiapps.mta.builders.v3.ModuleDependenciesCollector(descriptor);
+        return new org.cloudfoundry.multiapps.mta.builders.v3.ModuleDependenciesCollector();
     }
 
     protected Comparator<Module> getModuleComparator() {
