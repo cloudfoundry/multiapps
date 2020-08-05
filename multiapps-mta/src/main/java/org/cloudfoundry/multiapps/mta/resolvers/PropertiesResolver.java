@@ -1,7 +1,5 @@
 package org.cloudfoundry.multiapps.mta.resolvers;
 
-import static org.cloudfoundry.multiapps.mta.util.ValidatorUtil.getPrefixedName;
-
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
@@ -17,6 +15,7 @@ import org.cloudfoundry.multiapps.common.ContentException;
 import org.cloudfoundry.multiapps.mta.Messages;
 import org.cloudfoundry.multiapps.mta.helpers.SimplePropertyVisitor;
 import org.cloudfoundry.multiapps.mta.helpers.VisitableObject;
+import org.cloudfoundry.multiapps.mta.util.NameUtil;
 
 public class PropertiesResolver implements SimplePropertyVisitor, Resolver<Map<String, Object>> {
 
@@ -101,7 +100,7 @@ public class PropertiesResolver implements SimplePropertyVisitor, Resolver<Map<S
     protected Object resolveReferenceInContext(String key, Reference reference) {
         boolean resolutionContextWasCreated = false;
         if (resolutionContext == null) {
-            resolutionContext = new ResolutionContext(getPrefixedName(prefix, key));
+            resolutionContext = new ResolutionContext(NameUtil.getPrefixedName(prefix, key));
             resolutionContextWasCreated = true;
         }
         Object resolvedValue = resolveReference(reference);
@@ -118,7 +117,7 @@ public class PropertiesResolver implements SimplePropertyVisitor, Resolver<Map<S
         boolean canResolveInDepth = referencePattern.hasDepthOfReference() && referenceKey.contains("/");
         if (!referenceResolutionIsPossible(referenceKey, replacementValues, canResolveInDepth)) {
             if (isStrict) {
-                throw new ContentException(Messages.UNABLE_TO_RESOLVE, getPrefixedName(prefix, referenceKey));
+                throw new ContentException(Messages.UNABLE_TO_RESOLVE, NameUtil.getPrefixedName(prefix, referenceKey));
             }
             return null;
         }
@@ -147,7 +146,7 @@ public class PropertiesResolver implements SimplePropertyVisitor, Resolver<Map<S
 
         if (!referencePartsMatcher.find()) {
             if (isStrict) {
-                throw new ContentException(Messages.UNABLE_TO_RESOLVE, getPrefixedName(prefix, deepReferenceKey));
+                throw new ContentException(Messages.UNABLE_TO_RESOLVE, NameUtil.getPrefixedName(prefix, deepReferenceKey));
             }
             return null;
         }
@@ -169,12 +168,12 @@ public class PropertiesResolver implements SimplePropertyVisitor, Resolver<Map<S
                     keyPart = "";
                 }
             } else {
-                throw new ContentException(Messages.UNABLE_TO_RESOLVE, getPrefixedName(prefix, deepReferenceKey));
+                throw new ContentException(Messages.UNABLE_TO_RESOLVE, NameUtil.getPrefixedName(prefix, deepReferenceKey));
             }
         }
 
         if (!keyPart.isEmpty()) {
-            throw new ContentException(Messages.UNABLE_TO_RESOLVE, getPrefixedName(prefix, deepReferenceKey));
+            throw new ContentException(Messages.UNABLE_TO_RESOLVE, NameUtil.getPrefixedName(prefix, deepReferenceKey));
         }
 
         return currentProperty;
@@ -192,15 +191,15 @@ public class PropertiesResolver implements SimplePropertyVisitor, Resolver<Map<S
             try {
                 return IterableUtils.get(listOfProperties, Integer.parseInt(key));
             } catch (IndexOutOfBoundsException e) {
-                throw new ContentException(e, Messages.UNABLE_TO_RESOLVE, getPrefixedName(prefix, longKey));
+                throw new ContentException(e, Messages.UNABLE_TO_RESOLVE, NameUtil.getPrefixedName(prefix, longKey));
             }
         }
-        throw new ContentException(Messages.UNABLE_TO_RESOLVE, getPrefixedName(prefix, longKey));
+        throw new ContentException(Messages.UNABLE_TO_RESOLVE, NameUtil.getPrefixedName(prefix, longKey));
     }
 
     private String getReferencedPropertyKeyWithSuffix(Reference reference) {
         if (reference.getDependencyName() != null) {
-            return getPrefixedName(reference.getDependencyName(), reference.getKey());
+            return NameUtil.getPrefixedName(reference.getDependencyName(), reference.getKey());
         }
         return reference.getKey();
     }

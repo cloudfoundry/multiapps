@@ -20,7 +20,7 @@ import org.cloudfoundry.multiapps.mta.model.PropertiesWithMetadataContainer;
 import org.cloudfoundry.multiapps.mta.model.ProvidedDependency;
 import org.cloudfoundry.multiapps.mta.model.RequiredDependency;
 import org.cloudfoundry.multiapps.mta.model.Resource;
-import org.cloudfoundry.multiapps.mta.util.ValidatorUtil;
+import org.cloudfoundry.multiapps.mta.util.NameUtil;
 
 public class DeploymentDescriptorValidator extends org.cloudfoundry.multiapps.mta.validators.v2.DeploymentDescriptorValidator {
 
@@ -92,7 +92,7 @@ public class DeploymentDescriptorValidator extends org.cloudfoundry.multiapps.mt
             if (property.getValue() == null && !isOverwritable && !isOptional) {
                 throw new ContentException(Messages.MANDATORY_ELEMENT_HAS_NO_VALUE,
                                            elementType,
-                                           ValidatorUtil.getPrefixedName(containerName, property.getKey()));
+                                           NameUtil.getPrefixedName(containerName, property.getKey()));
             }
         }
     }

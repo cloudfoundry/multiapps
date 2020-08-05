@@ -1,10 +1,9 @@
 package org.cloudfoundry.multiapps.mta.resolvers;
 
-import static org.cloudfoundry.multiapps.mta.util.ValidatorUtil.getPrefixedName;
-
 import java.util.Map;
 
 import org.cloudfoundry.multiapps.common.ContentException;
+import org.cloudfoundry.multiapps.mta.util.NameUtil;
 
 public abstract class PatternResolver<T> implements Resolver<T> {
 
@@ -12,7 +11,7 @@ public abstract class PatternResolver<T> implements Resolver<T> {
     protected final ReferencePattern patternToMatch;
 
     public PatternResolver(String objectName, String prefix, ReferencePattern placeholderPattern) {
-        this.prefix = getPrefixedName(prefix, objectName);
+        this.prefix = NameUtil.getPrefixedName(prefix, objectName);
         patternToMatch = placeholderPattern;
     }
 

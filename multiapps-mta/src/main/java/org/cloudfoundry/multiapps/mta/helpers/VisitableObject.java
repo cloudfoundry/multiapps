@@ -1,12 +1,12 @@
 package org.cloudfoundry.multiapps.mta.helpers;
 
-import static org.cloudfoundry.multiapps.mta.util.ValidatorUtil.getPrefixedName;
-
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
+
+import org.cloudfoundry.multiapps.mta.util.NameUtil;
 
 public class VisitableObject {
 
@@ -39,7 +39,7 @@ public class VisitableObject {
     private Object acceptInternal(String key, Map<String, ?> value, SimplePropertyVisitor visitor) {
         Map<String, Object> result = new TreeMap<>();
         for (Map.Entry<String, ?> entry : value.entrySet()) {
-            result.put(entry.getKey(), accept(getPrefixedName(key, entry.getKey()), entry.getValue(), visitor));
+            result.put(entry.getKey(), accept(NameUtil.getPrefixedName(key, entry.getKey()), entry.getValue(), visitor));
         }
         return result;
     }
@@ -48,7 +48,7 @@ public class VisitableObject {
         List<Object> result = new ArrayList<>();
         int i = 0;
         for (Object element : value) {
-            result.add(accept(getPrefixedName(key, Integer.toString(i++)), element, visitor));
+            result.add(accept(NameUtil.getPrefixedName(key, Integer.toString(i++)), element, visitor));
         }
         return result;
     }

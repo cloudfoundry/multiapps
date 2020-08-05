@@ -1,7 +1,5 @@
 package org.cloudfoundry.multiapps.mta.validators.v2;
 
-import static org.cloudfoundry.multiapps.mta.util.ValidatorUtil.getPrefixedName;
-
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
@@ -11,6 +9,7 @@ import org.cloudfoundry.multiapps.mta.Messages;
 import org.cloudfoundry.multiapps.mta.model.ElementContext;
 import org.cloudfoundry.multiapps.mta.model.ParametersContainer;
 import org.cloudfoundry.multiapps.mta.model.PropertiesContainer;
+import org.cloudfoundry.multiapps.mta.util.NameUtil;
 import org.cloudfoundry.multiapps.mta.validators.DescriptorValidationRules;
 
 public class DefaultDescriptorValidationRules implements DescriptorValidationRules {
@@ -32,7 +31,7 @@ public class DefaultDescriptorValidationRules implements DescriptorValidationRul
         properties.entrySet()
                   .stream()
                   .filter(property -> property.getValue() == null)
-                  .map(property -> getPrefixedName(elementContext.getPrefixedName(), property.getKey()))
+                  .map(property -> NameUtil.getPrefixedName(elementContext.getPrefixedName(), property.getKey()))
                   .forEach(emptyFields::add);
     }
 

@@ -11,7 +11,7 @@ import org.cloudfoundry.multiapps.mta.model.ParametersContainer;
 import org.cloudfoundry.multiapps.mta.model.ParametersWithMetadataContainer;
 import org.cloudfoundry.multiapps.mta.model.PropertiesContainer;
 import org.cloudfoundry.multiapps.mta.model.PropertiesWithMetadataContainer;
-import org.cloudfoundry.multiapps.mta.util.ValidatorUtil;
+import org.cloudfoundry.multiapps.mta.util.NameUtil;
 
 public class DefaultDescriptorValidationRules extends org.cloudfoundry.multiapps.mta.validators.v2.DefaultDescriptorValidationRules {
 
@@ -35,7 +35,7 @@ public class DefaultDescriptorValidationRules extends org.cloudfoundry.multiapps
             if (!isPropertyValid(property.getValue(), property.getKey(), metadata)) {
                 throw new ContentException(Messages.MANDATORY_ELEMENT_HAS_NO_VALUE,
                                            elementType,
-                                           ValidatorUtil.getPrefixedName(elementContext.getPrefixedName(), property.getKey()));
+                                           NameUtil.getPrefixedName(elementContext.getPrefixedName(), property.getKey()));
             }
         }
     }

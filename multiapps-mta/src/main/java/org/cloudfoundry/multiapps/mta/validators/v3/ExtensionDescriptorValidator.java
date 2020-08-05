@@ -1,8 +1,5 @@
 package org.cloudfoundry.multiapps.mta.validators.v3;
 
-import static org.cloudfoundry.multiapps.mta.util.ValidatorUtil.getPrefixedName;
-import static org.cloudfoundry.multiapps.mta.util.ValidatorUtil.validateModifiableElements;
-
 import java.util.Map;
 
 import org.cloudfoundry.multiapps.common.ContentException;
@@ -17,6 +14,7 @@ import org.cloudfoundry.multiapps.mta.model.ParametersContainer;
 import org.cloudfoundry.multiapps.mta.model.ParametersWithMetadataContainer;
 import org.cloudfoundry.multiapps.mta.model.PropertiesContainer;
 import org.cloudfoundry.multiapps.mta.model.PropertiesWithMetadataContainer;
+import org.cloudfoundry.multiapps.mta.util.NameUtil;
 
 public class ExtensionDescriptorValidator extends org.cloudfoundry.multiapps.mta.validators.v2.ExtensionDescriptorValidator {
 
@@ -48,7 +46,7 @@ public class ExtensionDescriptorValidator extends org.cloudfoundry.multiapps.mta
                 if (value == null) {
                     throw new ContentException(Messages.CANNOT_MODIFY_ELEMENT,
                                                elementType,
-                                               getPrefixedName(containerName, extensionProperty.getKey()),
+                                               NameUtil.getPrefixedName(containerName, extensionProperty.getKey()),
                                                extensionDescriptor.getId());
                 }
                 validateModifiableElements(elementType, containerName, extensionDescriptor.getId(), extensionProperty.getKey(),

@@ -1,7 +1,5 @@
 package org.cloudfoundry.multiapps.mta.resolvers.v2;
 
-import static org.cloudfoundry.multiapps.mta.util.ValidatorUtil.getPrefixedName;
-
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -12,6 +10,7 @@ import org.cloudfoundry.multiapps.mta.model.Module;
 import org.cloudfoundry.multiapps.mta.model.RequiredDependency;
 import org.cloudfoundry.multiapps.mta.resolvers.Resolver;
 import org.cloudfoundry.multiapps.mta.resolvers.ResolverBuilder;
+import org.cloudfoundry.multiapps.mta.util.NameUtil;
 
 public class ModuleReferenceResolver implements Resolver<Module> {
 
@@ -26,7 +25,7 @@ public class ModuleReferenceResolver implements Resolver<Module> {
         this.descriptor = descriptor;
         this.module = module;
         this.requiredDependenciesPropertiesResolverBuilder = requiredDependenciesPropertiesResolverBuilder;
-        this.prefix = getPrefixedName(prefix, module.getName());
+        this.prefix = NameUtil.getPrefixedName(prefix, module.getName());
         this.propertiesResolverBuilder = propertiesResolverBuilder;
     }
 

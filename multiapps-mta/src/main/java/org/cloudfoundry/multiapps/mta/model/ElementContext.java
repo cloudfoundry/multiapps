@@ -1,6 +1,6 @@
 package org.cloudfoundry.multiapps.mta.model;
 
-import org.cloudfoundry.multiapps.mta.util.ValidatorUtil;
+import org.cloudfoundry.multiapps.mta.util.NameUtil;
 
 public class ElementContext {
 
@@ -31,7 +31,7 @@ public class ElementContext {
         if (previousElementContext != null) {
             String parentPrefix = previousElementContext.getPrefixedName();
             if (parentPrefix != null) {
-                return ValidatorUtil.getPrefixedName(parentPrefix, getVisitableElementName());
+                return NameUtil.getPrefixedName(parentPrefix, getVisitableElementName());
             }
         }
         return getVisitableElementName();

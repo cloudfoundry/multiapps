@@ -1,10 +1,9 @@
 package org.cloudfoundry.multiapps.mta.validators.v2;
 
-import static org.cloudfoundry.multiapps.mta.util.ValidatorUtil.validateModifiableElements;
-
 import java.util.Map;
 import java.util.Map.Entry;
 
+import org.apache.commons.lang3.ObjectUtils;
 import org.cloudfoundry.multiapps.common.ContentException;
 import org.cloudfoundry.multiapps.mta.Constants;
 import org.cloudfoundry.multiapps.mta.Messages;
@@ -25,6 +24,7 @@ import org.cloudfoundry.multiapps.mta.model.RequiredDependency;
 import org.cloudfoundry.multiapps.mta.model.Resource;
 import org.cloudfoundry.multiapps.mta.model.VisitableElement;
 import org.cloudfoundry.multiapps.mta.model.Visitor;
+import org.cloudfoundry.multiapps.mta.util.NameUtil;
 
 public class ExtensionDescriptorValidator extends Visitor {
 
@@ -89,6 +89,17 @@ public class ExtensionDescriptorValidator extends Visitor {
             Object parentValue = properties.get(propertyName);
             Object value = extensionProperty.getValue();
             validateModifiableElements(elementType, containerName, extensionDescriptor.getId(), propertyName, value, parentValue);
+        }
+    }
+
+    protected void validateModifiableElements(String elementType, String elementPrefix, String containerName, String key, Object value,
+                                              Object parentValue)
+        throws ContentException {
+        if (!ObjectUtils.isEmpty(parentValue) && !parentValue.equals(value)) {
+            throw new ContentException(Messages.CANNOT_MODIFY_ELEMENT,
+                                       elementType,
+                                       NameUtil.getPrefixedName(elementPrefix, key),
+                                       containerName);
         }
     }
 

@@ -1,7 +1,5 @@
 package org.cloudfoundry.multiapps.mta.schema;
 
-import static org.cloudfoundry.multiapps.mta.util.ValidatorUtil.getPrefixedName;
-
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -11,6 +9,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.cloudfoundry.multiapps.common.ParsingException;
 import org.cloudfoundry.multiapps.common.util.MiscUtil;
 import org.cloudfoundry.multiapps.mta.Messages;
+import org.cloudfoundry.multiapps.mta.util.NameUtil;
 
 public class SchemaValidator {
 
@@ -47,7 +46,7 @@ public class SchemaValidator {
         for (Map.Entry<String, Object> entry : map.entrySet()) {
             Element element = schema.getMap()
                                     .get(entry.getKey());
-            String elementPrefix = getPrefixedName(prefix, entry.getKey());
+            String elementPrefix = NameUtil.getPrefixedName(prefix, entry.getKey());
             if (element == null) {
                 continue;
             }
@@ -60,7 +59,7 @@ public class SchemaValidator {
                                                       .entrySet()) {
             Element element = entry.getValue();
             if (element.isRequired() && !map.containsKey(entry.getKey())) {
-                throw new ParsingException(Messages.MISSING_REQUIRED_KEY, getPrefixedName(prefix, entry.getKey()));
+                throw new ParsingException(Messages.MISSING_REQUIRED_KEY, NameUtil.getPrefixedName(prefix, entry.getKey()));
             }
         }
     }
@@ -69,7 +68,7 @@ public class SchemaValidator {
         Element element = schema.getElement();
         int i = 0;
         for (Object value : list) {
-            validate(value, element, getPrefixedName(prefix, Integer.toString(i++)), uniqueValuesMap);
+            validate(value, element, NameUtil.getPrefixedName(prefix, Integer.toString(i++)), uniqueValuesMap);
         }
     }
 
