@@ -7,8 +7,8 @@ import static org.junit.jupiter.api.Assertions.fail;
 import java.text.MessageFormat;
 import java.util.Objects;
 
-import org.apache.commons.lang3.Functions.FailableCallable;
-import org.apache.commons.lang3.Functions.FailableRunnable;
+import org.apache.commons.lang3.function.FailableCallable;
+import org.apache.commons.lang3.function.FailableRunnable;
 
 public class Tester {
 
