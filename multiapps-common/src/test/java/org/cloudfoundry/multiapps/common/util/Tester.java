@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
 
+import java.text.MessageFormat;
 import java.util.Objects;
 
 import org.apache.commons.lang3.Functions.FailableCallable;
@@ -60,7 +61,9 @@ public class Tester {
             fail("Test failed: " + e.toString());
         }
         String exceptionMessage = e.getMessage();
-        assertTrue(exceptionMessage.contains(expectation.expectation), "Exception's message doesn't match up!");
+        assertTrue(exceptionMessage.contains(expectation.expectation),
+                   MessageFormat.format("Exception's message doesn't match up! Expected [{0}] to contain [{1}]!", expectation.expectation,
+                                        exceptionMessage));
     }
 
     private Object loadResourceAsJsonObject(String resource) {
