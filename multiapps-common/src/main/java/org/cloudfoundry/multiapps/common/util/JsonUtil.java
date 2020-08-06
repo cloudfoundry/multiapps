@@ -80,7 +80,7 @@ public class JsonUtil {
         try {
             return getObjectMapper().readValue(json, typeReference);
         } catch (IOException e) {
-            throw new ParsingException(e, errorMessage, json);
+            throw new ParsingException(e, errorMessage + ": " + e.getMessage(), json);
         }
     }
 
@@ -91,7 +91,7 @@ public class JsonUtil {
         try {
             return getObjectMapper().readValue(json, typeReference);
         } catch (IOException e) {
-            throw new ParsingException(e, errorMessage, json.substring(0, Math.min(json.length(), MAX_LENGTH)));
+            throw new ParsingException(e, errorMessage + ": " + e.getMessage(), json.substring(0, Math.min(json.length(), MAX_LENGTH)));
         }
     }
 
