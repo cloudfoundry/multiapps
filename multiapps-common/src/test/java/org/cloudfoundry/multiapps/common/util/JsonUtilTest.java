@@ -3,13 +3,46 @@ package org.cloudfoundry.multiapps.common.util;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import java.io.InputStream;
+import java.nio.charset.Charset;
 import java.util.Collections;
 import java.util.Map;
 import java.util.TreeMap;
 
+import org.apache.commons.io.IOUtils;
+import org.cloudfoundry.multiapps.common.Messages;
+import org.cloudfoundry.multiapps.common.ParsingException;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 class JsonUtilTest {
+
+    @Test
+    void testConvertJsonToMapWithInvalidJsonInputStream() {
+        String invalidJson = "{]";
+        InputStream invalidJsonInputStream = IOUtils.toInputStream(invalidJson, Charset.defaultCharset());
+
+        ParsingException resultException = Assertions.assertThrows(ParsingException.class,
+                                                                   () -> JsonUtil.convertJsonToMap(invalidJsonInputStream));
+
+        String expectedMessage = Messages.CANNOT_CONVERT_JSON_STREAM_TO_MAP + ": " + resultException.getCause()
+                                                                                                    .getMessage();
+        ParsingException expectedException = new ParsingException(resultException.getCause(), expectedMessage, invalidJsonInputStream);
+        Assertions.assertEquals(expectedException.getMessage(), resultException.getMessage());
+    }
+
+    @Test
+    void testConvertJsonToMapWithInvalidJsonString() {
+        String invalidJson = "{]";
+
+        ParsingException resultException = Assertions.assertThrows(ParsingException.class, () -> JsonUtil.convertJsonToMap(invalidJson));
+
+        String expectedMessage = Messages.CANNOT_CONVERT_JSON_STRING_TO_MAP + ": " + resultException.getCause()
+                                                                                                    .getMessage();
+
+        ParsingException expectedException = new ParsingException(resultException.getCause(), expectedMessage, invalidJson);
+        Assertions.assertEquals(expectedException.getMessage(), resultException.getMessage());
+    }
 
     @Test
     void test1() throws Exception {
