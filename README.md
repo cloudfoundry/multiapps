@@ -13,6 +13,9 @@ Contains different utilities and exception types.
 Contains [MTA](https://www.sap.com/documents/2016/06/e2f618e4-757c-0010-82c7-eda71af511fa.html) model objects for different specification versions, parsers and validators. 
 
 # Building
+
+*WARNING* : with [Issue 117](https://github.com/cloudfoundry-incubator/multiapps-cli-plugin/issues/117) the master branch of this repository as well as other artifacts will be renamed. Adaptation to any CI/CD infrastructure & scritps will be required.
+
 ## Build tools
 All components are built with Java 8 and [Apache Maven](http://maven.apache.org/), version `3.3.9` or newer. 
 
