@@ -25,9 +25,10 @@ class JsonUtilTest {
         ParsingException resultException = Assertions.assertThrows(ParsingException.class,
                                                                    () -> JsonUtil.convertJsonToMap(invalidJsonInputStream));
 
-        String expectedMessage = Messages.CANNOT_CONVERT_JSON_STREAM_TO_MAP + ": " + resultException.getCause()
-                                                                                                    .getMessage();
-        ParsingException expectedException = new ParsingException(resultException.getCause(), expectedMessage, invalidJsonInputStream);
+        String errorMessage = resultException.getCause()
+                                             .getMessage();
+        ParsingException expectedException = new ParsingException(resultException.getCause(), Messages.CANNOT_CONVERT_JSON_STREAM_TO_MAP,
+                                                                  errorMessage, invalidJsonInputStream);
         Assertions.assertEquals(expectedException.getMessage(), resultException.getMessage());
     }
 
@@ -37,10 +38,11 @@ class JsonUtilTest {
 
         ParsingException resultException = Assertions.assertThrows(ParsingException.class, () -> JsonUtil.convertJsonToMap(invalidJson));
 
-        String expectedMessage = Messages.CANNOT_CONVERT_JSON_STRING_TO_MAP + ": " + resultException.getCause()
-                                                                                                    .getMessage();
+        String errorMessage = resultException.getCause()
+                                             .getMessage();
 
-        ParsingException expectedException = new ParsingException(resultException.getCause(), expectedMessage, invalidJson);
+        ParsingException expectedException = new ParsingException(resultException.getCause(), Messages.CANNOT_CONVERT_JSON_STRING_TO_MAP,
+                                                                  errorMessage, invalidJson);
         Assertions.assertEquals(expectedException.getMessage(), resultException.getMessage());
     }
 
