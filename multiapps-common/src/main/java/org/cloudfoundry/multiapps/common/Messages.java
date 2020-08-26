@@ -6,10 +6,10 @@ public class Messages {
     }
 
     // Exception messages:
-    public static final String CANNOT_CONVERT_JSON_STREAM_TO_MAP = "Error while converting JSON input stream to map";
-    public static final String CANNOT_CONVERT_JSON_STRING_TO_MAP = "Error while converting JSON string \"{0}\" to map";
-    public static final String CANNOT_CONVERT_JSON_STREAM_TO_LIST = "Error while converting JSON input stream to list";
-    public static final String CANNOT_CONVERT_JSON_STRING_TO_LIST = "Error while converting JSON string \"{0}\" to list";
+    public static final String CANNOT_CONVERT_JSON_STREAM_TO_MAP = "Error while converting JSON input stream to map: {0}";
+    public static final String CANNOT_CONVERT_JSON_STRING_TO_MAP = "Error while converting JSON string \"{0}\" to map: {1}";
+    public static final String CANNOT_CONVERT_JSON_STREAM_TO_LIST = "Error while converting JSON input stream to list: {0}";
+    public static final String CANNOT_CONVERT_JSON_STRING_TO_LIST = "Error while converting JSON string \"{0}\" to list: {1}";
     public static final String CANNOT_PARSE_JSON_STRING_TO_TYPE = "Error while parsing JSON string \"{0}\" to type \"{1}\" ";
     public static final String COULD_NOT_CREATE_DOCUMENT_BUILDER_FACTORY = "Could not create document builder factory";
     public static final String CANNOT_PARSE_XML_STREAM = "Error while parsing XML input stream";
