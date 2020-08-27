@@ -31,8 +31,8 @@
         </dependency>
         <dependency>
             <groupId>org.cloudfoundry.multiapps</groupId>
-            <artifactId>multiapps-common</artifactId>
-            <type>test-jar</type>
+            <artifactId>multiapps-common-test</artifactId>
+            <scope>test</scope>
         </dependency>
     </dependencies>
 </project>

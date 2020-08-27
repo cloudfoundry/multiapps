@@ -2,7 +2,7 @@ package org.cloudfoundry.multiapps.mta.resolvers.v3;
 
 import java.util.stream.Stream;
 
-import org.cloudfoundry.multiapps.common.util.Tester.Expectation;
+import org.cloudfoundry.multiapps.common.test.Tester.Expectation;
 import org.junit.jupiter.params.provider.Arguments;
 
 public class ReferencesUnescaperTest extends org.cloudfoundry.multiapps.mta.resolvers.v2.ReferencesUnescaperTest {

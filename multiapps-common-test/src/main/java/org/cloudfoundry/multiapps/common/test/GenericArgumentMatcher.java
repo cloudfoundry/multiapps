@@ -1,5 +1,6 @@
-package org.cloudfoundry.multiapps.common.util;
+package org.cloudfoundry.multiapps.common.test;
 
+import org.cloudfoundry.multiapps.common.util.JsonUtil;
 import org.mockito.ArgumentMatcher;
 
 public class GenericArgumentMatcher<T> implements ArgumentMatcher<T> {

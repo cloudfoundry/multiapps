@@ -1,4 +1,4 @@
-package org.cloudfoundry.multiapps.common.util;
+package org.cloudfoundry.multiapps.common.test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -9,6 +9,7 @@ import java.util.Objects;
 
 import org.apache.commons.lang3.function.FailableCallable;
 import org.apache.commons.lang3.function.FailableRunnable;
+import org.cloudfoundry.multiapps.common.util.JsonUtil;
 
 public class Tester {
 

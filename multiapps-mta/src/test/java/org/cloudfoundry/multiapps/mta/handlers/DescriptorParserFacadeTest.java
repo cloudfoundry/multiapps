@@ -9,7 +9,7 @@ import java.text.MessageFormat;
 import java.util.Map;
 
 import org.cloudfoundry.multiapps.common.ContentException;
-import org.cloudfoundry.multiapps.common.util.TestUtil;
+import org.cloudfoundry.multiapps.common.test.TestUtil;
 import org.cloudfoundry.multiapps.mta.Messages;
 import org.cloudfoundry.multiapps.mta.model.DeploymentDescriptor;
 import org.cloudfoundry.multiapps.mta.model.ExtensionDescriptor;

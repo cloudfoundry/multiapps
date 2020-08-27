@@ -7,7 +7,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import java.io.InputStream;
 
 import org.cloudfoundry.multiapps.common.ParsingException;
-import org.cloudfoundry.multiapps.common.util.TestUtil;
+import org.cloudfoundry.multiapps.common.test.TestUtil;
 import org.cloudfoundry.multiapps.common.util.YamlParser;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;

@@ -2,8 +2,8 @@ package org.cloudfoundry.multiapps.mta.resolvers.v2;
 
 import java.util.stream.Stream;
 
-import org.cloudfoundry.multiapps.common.util.Tester;
-import org.cloudfoundry.multiapps.common.util.Tester.Expectation;
+import org.cloudfoundry.multiapps.common.test.Tester;
+import org.cloudfoundry.multiapps.common.test.Tester.Expectation;
 import org.cloudfoundry.multiapps.mta.MtaTestUtil;
 import org.cloudfoundry.multiapps.mta.handlers.v2.DescriptorParser;
 import org.cloudfoundry.multiapps.mta.model.DeploymentDescriptor;
