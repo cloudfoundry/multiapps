@@ -33,6 +33,7 @@
     <modules>
         <module>multiapps-common</module>
         <module>multiapps-mta</module>
+        <module>multiapps-common-test</module>
     </modules>
 
     <organization>
@@ -203,6 +204,26 @@
 
     <dependencyManagement>
         <dependencies>
+            <!-- https://mvnrepository.com/artifact/org.junit.jupiter/junit-jupiter-api -->
+            <dependency>
+                <groupId>org.junit.jupiter</groupId>
+                <artifactId>junit-jupiter-api</artifactId>
+                <version>${junit.version}</version>
+                <scope>test</scope>
+            </dependency>
+            <!-- https://mvnrepository.com/artifact/org.junit.jupiter/junit-jupiter-params -->
+            <dependency>
+                <groupId>org.junit.jupiter</groupId>
+                <artifactId>junit-jupiter-params</artifactId>
+                <version>${junit.version}</version>
+                <scope>test</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.mockito</groupId>
+                <artifactId>mockito-core</artifactId>
+                <version>${mockito.version}</version>
+                <scope>test</scope>
+            </dependency>
             <!-- TODO: Compilation with Java 11 won't work without this. Remove it once we fully migrate to Java 11. -->
             <dependency>
                 <groupId>javax.xml.bind</groupId>
@@ -267,9 +288,8 @@
             </dependency>
             <dependency>
                 <groupId>org.cloudfoundry.multiapps</groupId>
-                <artifactId>multiapps-common</artifactId>
+                <artifactId>multiapps-common-test</artifactId>
                 <version>${project.version}</version>
-                <type>test-jar</type>
                 <scope>test</scope>
             </dependency>
         </dependencies>

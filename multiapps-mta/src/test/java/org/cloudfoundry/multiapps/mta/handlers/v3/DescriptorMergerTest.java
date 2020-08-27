@@ -2,7 +2,7 @@ package org.cloudfoundry.multiapps.mta.handlers.v3;
 
 import java.util.stream.Stream;
 
-import org.cloudfoundry.multiapps.common.util.Tester.Expectation;
+import org.cloudfoundry.multiapps.common.test.Tester.Expectation;
 import org.junit.jupiter.params.provider.Arguments;
 
 public class DescriptorMergerTest extends org.cloudfoundry.multiapps.mta.handlers.v2.DescriptorMergerTest {

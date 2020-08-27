@@ -3,7 +3,7 @@ package org.cloudfoundry.multiapps.mta.serialization.v3;
 import java.util.Map;
 import java.util.stream.Stream;
 
-import org.cloudfoundry.multiapps.common.util.Tester.Expectation;
+import org.cloudfoundry.multiapps.common.test.Tester.Expectation;
 import org.cloudfoundry.multiapps.mta.parsers.v3.DeploymentDescriptorParser;
 import org.cloudfoundry.multiapps.mta.parsers.v3.ExtensionDescriptorParser;
 import org.junit.jupiter.params.provider.Arguments;
