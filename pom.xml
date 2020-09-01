@@ -12,28 +12,29 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <junit.version>5.6.2</junit.version>
-        <junit.platform.version>1.6.2</junit.platform.version>
-        <mockito.version>3.4.6</mockito.version>
         <sonar.core.codeCoveragePlugin>jacoco</sonar.core.codeCoveragePlugin>
         <sonar.dynamicAnalysis>reuseReports</sonar.dynamicAnalysis>
         <jacoco.aggregate.path>target/site/jacoco-aggregate/jacoco.xml</jacoco.aggregate.path>
         <jacoco.report.path>target/site/jacoco/jacoco.xml</jacoco.report.path>
         <sonar.coverage.jacoco.xmlReportPaths>${jacoco.report.path},${jacoco.aggregate.path}</sonar.coverage.jacoco.xmlReportPaths>
+        <junit.version>5.6.2</junit.version>
+        <junit.platform.version>1.6.2</junit.platform.version>
+        <mockito.version>3.5.7</mockito.version>
         <commons-lang3.version>3.11</commons-lang3.version>
         <commons-collections4.version>4.4</commons-collections4.version>
         <commons-io.version>2.7</commons-io.version>
-        <slf4j.version>1.7.25</slf4j.version>
+        <slf4j.version>1.7.30</slf4j.version>
         <snakeyaml.version>1.26</snakeyaml.version>
         <semver4j.version>3.1.0</semver4j.version>
         <jackson.version>2.11.2</jackson.version>
         <immutables.version>2.8.8</immutables.version>
-        <javax.xml.bind.version>2.3.0</javax.xml.bind.version> <!-- TODO: Compilation with Java 11 won't work without this. Remove it once we fully migrate to Java 11. -->
+        <javax.xml.bind.version>2.3.0</javax.xml.bind.version>
     </properties>
+
     <modules>
         <module>multiapps-common</module>
-        <module>multiapps-mta</module>
         <module>multiapps-common-test</module>
+        <module>multiapps-mta</module>
     </modules>
 
     <organization>
@@ -159,51 +160,47 @@
     </build>
 
     <dependencies>
-        <!-- https://mvnrepository.com/artifact/org.immutables/value -->
         <dependency>
             <groupId>org.immutables</groupId>
             <artifactId>value</artifactId>
-            <version>${immutables.version}</version>
             <scope>provided</scope>
         </dependency>
-        <!-- https://mvnrepository.com/artifact/org.junit.jupiter/junit-jupiter-api -->
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-api</artifactId>
-            <version>${junit.version}</version>
             <scope>test</scope>
         </dependency>
-        <!-- https://mvnrepository.com/artifact/org.junit.jupiter/junit-jupiter-params -->
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-params</artifactId>
-            <version>${junit.version}</version>
             <scope>test</scope>
         </dependency>
-        <!-- https://mvnrepository.com/artifact/org.junit.platform/junit-platform-launcher -->
         <dependency>
             <groupId>org.junit.platform</groupId>
             <artifactId>junit-platform-launcher</artifactId>
-            <version>${junit.platform.version}</version>
             <scope>test</scope>
         </dependency>
-        <!-- https://mvnrepository.com/artifact/org.junit.jupiter/junit-jupiter-engine -->
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-engine</artifactId>
-            <version>${junit.version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.mockito</groupId>
             <artifactId>mockito-core</artifactId>
-            <version>${mockito.version}</version>
             <scope>test</scope>
         </dependency>
     </dependencies>
 
     <dependencyManagement>
         <dependencies>
+            <!-- https://mvnrepository.com/artifact/org.immutables/value -->
+            <dependency>
+                <groupId>org.immutables</groupId>
+                <artifactId>value</artifactId>
+                <version>${immutables.version}</version>
+                <scope>provided</scope>
+            </dependency>
             <!-- https://mvnrepository.com/artifact/org.junit.jupiter/junit-jupiter-api -->
             <dependency>
                 <groupId>org.junit.jupiter</groupId>
@@ -218,38 +215,55 @@
                 <version>${junit.version}</version>
                 <scope>test</scope>
             </dependency>
+            <!-- https://mvnrepository.com/artifact/org.junit.platform/junit-platform-launcher -->
+            <dependency>
+                <groupId>org.junit.platform</groupId>
+                <artifactId>junit-platform-launcher</artifactId>
+                <version>${junit.platform.version}</version>
+                <scope>test</scope>
+            </dependency>
+            <!-- https://mvnrepository.com/artifact/org.junit.jupiter/junit-jupiter-engine -->
+            <dependency>
+                <groupId>org.junit.jupiter</groupId>
+                <artifactId>junit-jupiter-engine</artifactId>
+                <version>${junit.version}</version>
+                <scope>test</scope>
+            </dependency>
+            <!-- https://mvnrepository.com/artifact/org.mockito/mockito-core -->
             <dependency>
                 <groupId>org.mockito</groupId>
                 <artifactId>mockito-core</artifactId>
                 <version>${mockito.version}</version>
                 <scope>test</scope>
             </dependency>
-            <!-- TODO: Compilation with Java 11 won't work without this. Remove it once we fully migrate to Java 11. -->
+            <!-- https://mvnrepository.com/artifact/javax.xml.bind/jaxb-api -->
             <dependency>
                 <groupId>javax.xml.bind</groupId>
                 <artifactId>jaxb-api</artifactId>
                 <version>${javax.xml.bind.version}</version>
-                <scope>provided</scope>
+                <scope>provided</scope> <!-- TODO: Remove this after we migrate to Java 11. -->
             </dependency>
-            <!-- TODO: Compilation with Java 11 won't work without this. Remove it once we fully migrate to Java 11. -->
+            <!-- https://mvnrepository.com/artifact/com.sun.xml.bind/jaxb-core -->
             <dependency>
                 <groupId>com.sun.xml.bind</groupId>
                 <artifactId>jaxb-core</artifactId>
                 <version>${javax.xml.bind.version}</version>
-                <scope>provided</scope>
+                <scope>provided</scope> <!-- TODO: Remove this after we migrate to Java 11. -->
             </dependency>
-            <!-- TODO: Compilation with Java 11 won't work without this. Remove it once we fully migrate to Java 11. -->
+            <!-- https://mvnrepository.com/artifact/com.sun.xml.bind/jaxb-impl -->
             <dependency>
                 <groupId>com.sun.xml.bind</groupId>
                 <artifactId>jaxb-impl</artifactId>
                 <version>${javax.xml.bind.version}</version>
-                <scope>provided</scope>
+                <scope>provided</scope> <!-- TODO: Remove this after we migrate to Java 11. -->
             </dependency>
+            <!-- https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-databind -->
             <dependency>
                 <groupId>com.fasterxml.jackson.core</groupId>
                 <artifactId>jackson-databind</artifactId>
                 <version>${jackson.version}</version>
             </dependency>
+            <!-- https://mvnrepository.com/artifact/org.apache.commons/commons-lang3 -->
             <dependency>
                 <groupId>org.apache.commons</groupId>
                 <artifactId>commons-lang3</artifactId>
@@ -261,21 +275,25 @@
                 <artifactId>commons-collections4</artifactId>
                 <version>${commons-collections4.version}</version>
             </dependency>
+            <!-- https://mvnrepository.com/artifact/org.slf4j/slf4j-api -->
             <dependency>
                 <groupId>org.slf4j</groupId>
                 <artifactId>slf4j-api</artifactId>
                 <version>${slf4j.version}</version>
             </dependency>
+            <!-- https://mvnrepository.com/artifact/commons-io/commons-io -->
             <dependency>
                 <groupId>commons-io</groupId>
                 <artifactId>commons-io</artifactId>
                 <version>${commons-io.version}</version>
             </dependency>
+            <!-- https://mvnrepository.com/artifact/org.yaml/snakeyaml -->
             <dependency>
                 <groupId>org.yaml</groupId>
                 <artifactId>snakeyaml</artifactId>
                 <version>${snakeyaml.version}</version>
             </dependency>
+            <!-- https://mvnrepository.com/artifact/com.vdurmont/semver4j -->
             <dependency>
                 <groupId>com.vdurmont</groupId>
                 <artifactId>semver4j</artifactId>
