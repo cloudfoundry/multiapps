@@ -83,7 +83,7 @@ public class XmlUtil {
         return fromXml(xml, clazz, null);
     }
 
-    public static <T> T fromXml(Document xml, Class<T> clazz, URL schemaLocation) throws ParsingException {
+    private static <T> T fromXml(Document xml, Class<T> clazz, URL schemaLocation) throws ParsingException {
         try {
             return getUnmarshaller(getContext(clazz), schemaLocation).unmarshal(xml, clazz)
                                                                      .getValue();
