@@ -21,6 +21,7 @@ public class Messages {
     public static final String ERROR_PARSING_YAML_STREAM = "Error while parsing YAML stream: {0}";
     public static final String ERROR_PARSING_YAML_STRING = "Error while parsing YAML string: %n%s%n%s";
     public static final String COULD_NOT_PARSE_BOOLEAN_FLAG = "Cannot parse \"{0}\" flag - expected a boolean format.";
+    public static final String COULD_NOT_CONSTRUCT_YAML_CONVERTER_0_BECAUSE_OF_1 = "Could not construct YAML converter \"{0}\": {1}";
     // Audit log messages:
 
     // ERROR log messages:

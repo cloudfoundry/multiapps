@@ -27,9 +27,8 @@ public class ConfigurationParser {
     }
 
     public Platform parsePlatformJson(InputStream json) {
-        // TODO: Java 9 - Remove the second variable (https://blogs.oracle.com/darcy/more-concise-try-with-resources-statements-in-jdk-9).
-        try (InputStream closableJson = json) {
-            return parsePlatform(JsonUtil.convertJsonToMap(closableJson));
+        try (json) {
+            return parsePlatform(JsonUtil.convertJsonToMap(json));
         } catch (IOException e) {
             throw new IllegalStateException(e.getMessage(), e);
         }
