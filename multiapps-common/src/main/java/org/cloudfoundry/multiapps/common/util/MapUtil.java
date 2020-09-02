@@ -3,7 +3,6 @@ package org.cloudfoundry.multiapps.common.util;
 import java.util.Map;
 import java.util.TreeMap;
 
-import org.apache.commons.lang3.tuple.Pair;
 import org.cloudfoundry.multiapps.common.ContentException;
 import org.cloudfoundry.multiapps.common.Messages;
 
@@ -41,25 +40,10 @@ public class MapUtil {
         return result;
     }
 
-    public static <K, V> Map<K, V> asMap(K key, V value) {
-        Map<K, V> result = new TreeMap<>();
-        result.put(key, value);
-        return result;
-    }
-
-    // Use this method until adoption of Java 9
-    @SafeVarargs
-    public static <K, V> Map<K, V> of(Pair<K, V>... keysValues) {
-        Map<K, V> result = new TreeMap<>();
-        for (Pair<K, V> keyValue : keysValues) {
-            result.put(keyValue.getKey(), keyValue.getValue());
-        }
-        return result;
-    }
-    
-    public static boolean parseBooleanFlag(final Map<String, Object> parameters, String flagName, boolean defaultValue) throws ContentException {
+    public static boolean parseBooleanFlag(final Map<String, Object> parameters, String flagName, boolean defaultValue)
+        throws ContentException {
         Object flagValue = parameters.get(flagName);
-        
+
         if (flagValue == null) {
             return defaultValue;
         }
@@ -67,7 +51,7 @@ public class MapUtil {
         if (!(flagValue instanceof Boolean)) {
             throw new ContentException(Messages.COULD_NOT_PARSE_BOOLEAN_FLAG, flagName);
         }
-        
+
         return ((Boolean) flagValue).booleanValue();
     }
 }

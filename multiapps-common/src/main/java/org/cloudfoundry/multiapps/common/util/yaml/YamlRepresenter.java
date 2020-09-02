@@ -1,12 +1,15 @@
 package org.cloudfoundry.multiapps.common.util.yaml;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
+import java.text.MessageFormat;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
 
 import org.apache.commons.lang3.ObjectUtils;
+import org.cloudfoundry.multiapps.common.Messages;
 import org.yaml.snakeyaml.introspector.BeanAccess;
 import org.yaml.snakeyaml.introspector.Property;
 import org.yaml.snakeyaml.nodes.NodeTuple;
@@ -64,11 +67,15 @@ public class YamlRepresenter extends Representer {
         Class<? extends YamlConverter<?, ?>> converterClass = field.getAnnotation(YamlAdapter.class)
                                                                    .value();
         try {
-            YamlConverter<Object, ?> converter = (YamlConverter<Object, ?>) converterClass.newInstance();
+            YamlConverter<Object, ?> converter = (YamlConverter<Object, ?>) converterClass.getDeclaredConstructor()
+                                                                                          .newInstance();
             Object converted = converter.convert(propertyValue);
             return new NodeTuple(representData(nodeName), represent(converted));
-        } catch (InstantiationException | IllegalAccessException e) {
-            throw new IllegalStateException(e);
+        } catch (IllegalAccessException | IllegalArgumentException | InstantiationException | InvocationTargetException
+            | NoSuchMethodException | SecurityException e) {
+            throw new IllegalStateException(MessageFormat.format(Messages.COULD_NOT_CONSTRUCT_YAML_CONVERTER_0_BECAUSE_OF_1,
+                                                                 converterClass.getName(), e.getMessage()),
+                                            e);
         }
     }
 }

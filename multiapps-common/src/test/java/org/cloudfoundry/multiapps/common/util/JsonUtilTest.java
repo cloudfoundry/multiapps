@@ -48,7 +48,7 @@ class JsonUtilTest {
 
     @Test
     void test1() throws Exception {
-        Foo foo = new Foo(MapUtil.asMap("test1", createTestProperties()));
+        Foo foo = new Foo(Map.of("test1", createTestProperties()));
 
         String json = JsonUtil.toJson(foo, true);
         System.out.println(json);
