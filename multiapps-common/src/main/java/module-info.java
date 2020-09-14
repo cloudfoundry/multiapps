@@ -14,6 +14,7 @@ open module org.cloudfoundry.multiapps.common {
     requires org.apache.commons.io;
     requires org.apache.commons.lang3;
 
+    requires static java.compiler;
     requires static org.immutables.value;
 
 }
