@@ -9,4 +9,7 @@ open module org.cloudfoundry.multiapps.common.test {
     requires org.apache.commons.io;
     requires org.junit.jupiter.api;
 
+    requires static java.compiler;
+    requires static org.immutables.value;
+
 }
