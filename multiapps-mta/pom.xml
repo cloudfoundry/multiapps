@@ -3,7 +3,6 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>multiapps-mta</artifactId>
-    <packaging>jar</packaging>
     <name>MultiApps MTA Model and Parsers</name>
 
     <parent>
