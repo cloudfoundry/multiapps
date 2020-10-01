@@ -3,7 +3,6 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>multiapps-common-test</artifactId>
-    <packaging>jar</packaging>
     <name>MultiApps Common Test</name>
 
     <parent>
