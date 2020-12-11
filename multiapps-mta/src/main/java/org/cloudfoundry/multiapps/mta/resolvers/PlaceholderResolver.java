@@ -1,6 +1,7 @@
 package org.cloudfoundry.multiapps.mta.resolvers;
 
 import static org.cloudfoundry.multiapps.mta.resolvers.ReferencePattern.PLACEHOLDER;
+import org.cloudfoundry.multiapps.common.ContentException;
 
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -42,10 +43,17 @@ public abstract class PlaceholderResolver<T> extends PatternResolver<T> {
         List<Object> pluralValue = null;
         for (Map<String, Object> parameters : parametersList) {
             if (parameters != null && parameters.containsKey(plural)) {
+                validateList(parameters.get(plural), plural);
                 pluralValue = (List<Object>) parameters.get(plural);
             }
         }
         return pluralValue == null ? null : pluralValue.get(0);
     }
 
+    private void validateList(Object toValidate, String plural) {
+        if (!(toValidate instanceof List)) {
+            throw new ContentException("Invalid type provided for " + plural
+                + " : Expected a list of elements but another type was provided");
+        }
+    }
 }

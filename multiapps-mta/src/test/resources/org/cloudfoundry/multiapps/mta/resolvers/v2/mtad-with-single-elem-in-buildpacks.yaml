@@ -1,0 +1,10 @@
+_schema-version: "3.1.0"
+ID: anatz
+version: 2.0.1
+
+modules:
+- name: test
+  parameters:
+    buildpacks: random-buildpack
+  type: javascript.nodejs
+

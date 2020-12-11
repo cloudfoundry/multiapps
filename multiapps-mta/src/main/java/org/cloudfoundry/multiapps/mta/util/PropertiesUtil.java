@@ -2,29 +2,22 @@ package org.cloudfoundry.multiapps.mta.util;
 
 import static java.text.MessageFormat.format;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.ListIterator;
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.Objects;
-import java.util.TreeMap;
-import java.util.stream.Collectors;
-import java.util.stream.StreamSupport;
-
 import org.cloudfoundry.multiapps.common.ContentException;
 import org.cloudfoundry.multiapps.common.util.MiscUtil;
 import org.cloudfoundry.multiapps.mta.Messages;
 import org.cloudfoundry.multiapps.mta.model.ParametersContainer;
 import org.cloudfoundry.multiapps.mta.model.PropertiesContainer;
 
+import java.util.*;
+import java.util.Map.Entry;
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 public class PropertiesUtil {
 
     /**
      * Creates a list of properties from objects implementing the PropertiesContainer interface. Properties are added to the list in the
      * same order as the objects containing them are passed to the method! A NullPointerException is NOT thrown even if a container is null!
-     * 
+     *
      * @param containers The objects containing the properties
      * @return A list of properties
      */
@@ -35,7 +28,7 @@ public class PropertiesUtil {
     /**
      * Creates a list of properties from objects implementing the PropertiesContainer interface. Properties are added to the list in the
      * same order as the objects containing them are passed to the method! A NullPointerException is NOT thrown even if a container is null!
-     * 
+     *
      * @param providers The objects containing the properties
      * @return A list of properties
      */
@@ -49,7 +42,7 @@ public class PropertiesUtil {
     /**
      * Creates a list of parameters from objects implementing the ParametersContainer interface. Parameters are added to the list in the
      * same order as the objects containing them are passed to the method! A NullPointerException is NOT thrown even if a container is null!
-     * 
+     *
      * @param providers The objects containing the parameters
      * @return A list of parameters
      */
@@ -60,7 +53,7 @@ public class PropertiesUtil {
     /**
      * Creates a list of parameters from objects implementing the ParametersContainer interface. Parameters are added to the list in the
      * same order as the objects containing them are passed to the method! A NullPointerException is NOT thrown even if a container is null!
-     * 
+     *
      * @param providers The objects containing the parameters
      * @return A list of parameters
      */
@@ -74,7 +67,7 @@ public class PropertiesUtil {
     /**
      * Merges a list of property maps into a single map. If a property is seen more than once in the list, the value that is nearer to the
      * start of the list is put in the resulting map.
-     * 
+     *
      * @param propertiesList The list of property maps
      * @return A single properties map
      */
@@ -120,14 +113,16 @@ public class PropertiesUtil {
     @SuppressWarnings("unchecked")
     public static <T> List<T> getPluralOrSingular(List<Map<String, Object>> propertiesList, String plural, String single) {
         List<T> result = new ArrayList<>();
-        List<T> values = (List<T>) getPropertyValue(propertiesList, plural, null);
-        if (values != null) {
-            result.addAll(values);
+        Object pluralValues = getPropertyValue(propertiesList, plural, null);
+        if (pluralValues != null) {
+            validateList(pluralValues, plural);
+            result.addAll((List<T>) pluralValues);
             return result;
         }
-        T value = (T) getPropertyValue(propertiesList, single, null);
-        if (value != null) {
-            result.add(value);
+        Object singleValue = getPropertyValue(propertiesList, single, null);
+        if (singleValue != null) {
+            result.add((T) singleValue);
+            return result;
         }
         return result;
     }
@@ -167,5 +162,12 @@ public class PropertiesUtil {
 
     private static boolean isMap(Object o) {
         return o instanceof Map;
+    }
+
+    protected static void validateList(Object toValidate, String plural) {
+        if (!(toValidate instanceof List)) {
+            throw new ContentException("Invalid type provided for \"" + plural
+                + "\": Expected a list of elements but another type was provided");
+        }
     }
 }
