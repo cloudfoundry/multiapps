@@ -11,14 +11,14 @@ import java.io.InputStream;
 import java.util.Map;
 
 public class ModulePlaceholderResolverTest {
-    protected final Tester tester = Tester.forClass(getClass());
-    protected ModulePlaceholderResolver resolver;
+    private final Tester tester = Tester.forClass(getClass());
+    private ModulePlaceholderResolver resolver;
 
     @Test
     void testResolve() {
         String descriptorLocation = "mtad-with-single-elem-in-buildpacks.yaml";
         Tester.Expectation expectation = new Tester.Expectation(Tester.Expectation.Type.EXCEPTION,
-                                                                "Invalid type provided for buildpacks : Expected a list of elements but another type was provided");
+                                                                "Invalid type provided for \"buildpacks\": Expected a list of elements but another type was provided");
         init(descriptorLocation);
 
         tester.test(() -> resolver.resolve(), expectation);

@@ -8,10 +8,17 @@ import org.cloudfoundry.multiapps.mta.Messages;
 import org.cloudfoundry.multiapps.mta.model.ParametersContainer;
 import org.cloudfoundry.multiapps.mta.model.PropertiesContainer;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.ListIterator;
+import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Objects;
+import java.util.TreeMap;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
+
 public class PropertiesUtil {
 
     /**
@@ -110,7 +117,6 @@ public class PropertiesUtil {
         return parameters != null && parameters.containsKey(parameterName);
     }
 
-    @SuppressWarnings("unchecked")
     public static <T> List<T> getPluralOrSingular(List<Map<String, Object>> propertiesList, String plural, String single) {
         List<T> result = new ArrayList<>();
         Object pluralValues = getPropertyValue(propertiesList, plural, null);
@@ -122,7 +128,6 @@ public class PropertiesUtil {
         Object singleValue = getPropertyValue(propertiesList, single, null);
         if (singleValue != null) {
             result.add((T) singleValue);
-            return result;
         }
         return result;
     }
@@ -166,8 +171,7 @@ public class PropertiesUtil {
 
     protected static void validateList(Object toValidate, String plural) {
         if (!(toValidate instanceof List)) {
-            throw new ContentException("Invalid type provided for \"" + plural
-                + "\": Expected a list of elements but another type was provided");
+            throw new ContentException(Messages.DIFFERENT_TYPE_PROVIDED_INSTEAD_OF_LIST, plural);
         }
     }
 }

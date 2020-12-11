@@ -77,4 +77,44 @@ class PropertiesUtilTest {
         tester.test(() -> PropertiesUtil.getPluralOrSingular(parametersList, pluralKey, singularKey), expectation);
 
     }
+
+    static Stream<Arguments> testParsingGetPluralOrSingular() {
+        return Stream.of(
+                         // formatter:off
+                         Arguments.of("buildpack", "random-buildpack", "buildpacks", "some-buildpacks",
+                                      new Expectation(Expectation.Type.EXCEPTION,
+                                                      "Invalid type provided for \"buildpacks\": Expected a list of elements but another type was provided")),
+
+                         Arguments.of("host", "random-host", "hosts", "some-hosts",
+                                      new Expectation(Expectation.Type.EXCEPTION,
+                                                      "Invalid type provided for \"hosts\": Expected a list of elements but another type was provided")),
+
+                         Arguments.of("idle-host", "random-idle-host", "idle-hosts", "some-idle-hosts",
+                                      new Expectation(Expectation.Type.EXCEPTION,
+                                                      "Invalid type provided for \"idle-hosts\": Expected a list of elements but another type was provided")),
+
+                         Arguments.of("domain", "random-domain", "domains", "some-domains",
+                                      new Expectation(Expectation.Type.EXCEPTION,
+                                                      "Invalid type provided for \"domains\": Expected a list of elements but another type was provided")),
+
+                         Arguments.of("idle-domain", "random-idle-domain", "idle-domains", "some-idle-domains",
+                                      new Expectation(Expectation.Type.EXCEPTION,
+                                                      "Invalid type provided for \"idle-domains\": Expected a list of elements but another type was provided")));
+        // formatter:on
+    }
+
+    @ParameterizedTest
+    @MethodSource("testParsingGetPluralOrSingular")
+    void testParsingGetPluralOrSingular(String singularKey, String singularValue, String pluralKey, String pluralValue,
+                                        Expectation expectation) {
+        List<Map<String, Object>> listOfParameters = getParameterList(singularKey, singularValue, pluralKey, pluralValue);
+        tester.test(() -> PropertiesUtil.getPluralOrSingular(listOfParameters, pluralKey, singularKey), expectation);
+    }
+
+    private List<Map<String, Object>> getParameterList(String singularKey, String singularValue, String pluralKey, String pluralValue) {
+        Map<String, Object> parameters = new HashMap<>();
+        parameters.put(singularKey, singularValue);
+        parameters.put(pluralKey, pluralValue);
+        return Collections.singletonList(parameters);
+    }
 }

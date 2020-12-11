@@ -2,6 +2,7 @@ package org.cloudfoundry.multiapps.mta.resolvers;
 
 import static org.cloudfoundry.multiapps.mta.resolvers.ReferencePattern.PLACEHOLDER;
 import org.cloudfoundry.multiapps.common.ContentException;
+import org.cloudfoundry.multiapps.mta.Messages;
 
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -52,8 +53,7 @@ public abstract class PlaceholderResolver<T> extends PatternResolver<T> {
 
     private void validateList(Object toValidate, String plural) {
         if (!(toValidate instanceof List)) {
-            throw new ContentException("Invalid type provided for " + plural
-                + " : Expected a list of elements but another type was provided");
+            throw new ContentException(Messages.DIFFERENT_TYPE_PROVIDED_INSTEAD_OF_LIST, plural);
         }
     }
 }
