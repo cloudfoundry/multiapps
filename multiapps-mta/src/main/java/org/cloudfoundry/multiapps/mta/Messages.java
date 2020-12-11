@@ -49,6 +49,7 @@ public class Messages {
     public static final String MANDATORY_ELEMENT_HAS_NO_VALUE = "The {0} \"{1}\" is not optional and has no value.";
     public static final String INCOMPATIBLE_TYPES = "Type {0} is not compatible with type {1}";
     public static final String ENTITIES_FROM_CLASS_0_WITH_SCHEMA_VERSION_1_DO_NOT_SUPPORT_THIS_OPERATION_AT_LEAST_2_IS_REQUIRED = "Entities from class \"{0}\" with schema version \"{1}\" do not support this operation. At least \"{2}\" is required.";
+    public static final String DIFFERENT_TYPE_PROVIDED_INSTEAD_OF_LIST = "Invalid type provided for \"{0}\": Expected a list of elements but another type was provided";
 
     // Audit log messages:
 
