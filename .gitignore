@@ -6,3 +6,5 @@ bin/
 *.log
 .pmd
 .DS_Store
+.idea/
+*.iml
