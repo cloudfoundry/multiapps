@@ -185,6 +185,7 @@
                         <autoDetectProxySettings>true</autoDetectProxySettings>
                         <forceCheckAllDependencies>true</forceCheckAllDependencies>
                         <forceUpdate>true</forceUpdate>
+                        <productVersion>onprem</productVersion>
                     </configuration>
                 </plugin>
             </plugins>
