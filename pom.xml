@@ -19,7 +19,7 @@
         <mockito.version>3.5.13</mockito.version>
         <commons-lang3.version>3.11</commons-lang3.version>
         <commons-collections4.version>4.4</commons-collections4.version>
-        <commons-io.version>2.8.0</commons-io.version>
+        <commons-io.version>2.11.0</commons-io.version>
         <slf4j.version>1.7.30</slf4j.version>
         <snakeyaml.version>1.27</snakeyaml.version>
         <semver4j.version>3.1.0</semver4j.version>
@@ -94,7 +94,7 @@
                         <!-- Surefire excludes nested classes by default, so we need to explicitly specify that nothing should 
                             be excluded. -->
                         <excludes>
-                            <exclude />
+                            <exclude/>
                         </excludes>
                         <runOrder>random</runOrder>
                     </configuration>
