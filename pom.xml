@@ -27,7 +27,7 @@
         <jaxb-api.version>2.3.3</jaxb-api.version>
         <jaxb-core.version>2.3.0</jaxb-core.version>
         <jaxb-impl.version>2.3.3</jaxb-impl.version>
-        <jackson.version>2.11.2</jackson.version>
+        <jackson.version>2.12.4</jackson.version>
     </properties>
 
     <modules>
@@ -94,7 +94,7 @@
                         <!-- Surefire excludes nested classes by default, so we need to explicitly specify that nothing should 
                             be excluded. -->
                         <excludes>
-                            <exclude />
+                            <exclude/>
                         </excludes>
                         <runOrder>random</runOrder>
                     </configuration>
