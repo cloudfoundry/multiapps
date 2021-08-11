@@ -10,6 +10,7 @@ open module org.cloudfoundry.multiapps.common {
     requires transitive org.yaml.snakeyaml;
 
     requires com.fasterxml.jackson.annotation;
+    requires com.fasterxml.jackson.datatype.jsr310;
     requires java.xml.bind;
     requires org.apache.commons.io;
     requires org.apache.commons.lang3;
