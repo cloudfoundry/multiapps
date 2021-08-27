@@ -103,6 +103,7 @@ public class Schemas extends org.cloudfoundry.multiapps.mta.handlers.v2.Schemas 
 
         EXT_RESOURCE.add("name", UNIQUE_MTA_IDENTIFIER);
         EXT_RESOURCE.add("active", BOOLEAN);
+        EXT_RESOURCE.add("optional", BOOLEAN);
         EXT_RESOURCE.add("properties", PROPERTIES);
         EXT_RESOURCE.add("parameters", PROPERTIES);
         EXT_RESOURCE.add("requires", new ListElement(EXT_REQUIRED_DEPENDENCY));
