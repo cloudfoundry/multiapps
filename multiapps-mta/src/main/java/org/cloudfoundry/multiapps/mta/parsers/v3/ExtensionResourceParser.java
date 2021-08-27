@@ -17,6 +17,7 @@ import org.cloudfoundry.multiapps.mta.schema.MapElement;
 public class ExtensionResourceParser extends org.cloudfoundry.multiapps.mta.parsers.v2.ExtensionResourceParser {
 
     public static final String ACTIVE = "active";
+    public static final String OPTIONAL = "optional";
     public static final String REQUIRES = "requires";
     protected final Set<String> usedRequiredDependencyNames = new HashSet<>();
 
@@ -31,6 +32,7 @@ public class ExtensionResourceParser extends org.cloudfoundry.multiapps.mta.pars
     @Override
     public ExtensionResource parse() throws ParsingException {
         return super.parse().setActive(getActive())
+                            .setOptional(getOptional())
                             .setRequiredDependencies(getExtensionRequiredDependencies());
     }
 
@@ -41,6 +43,10 @@ public class ExtensionResourceParser extends org.cloudfoundry.multiapps.mta.pars
 
     protected Boolean getActive() {
         return getBooleanElement(ACTIVE);
+    }
+
+    protected Boolean getOptional() {
+        return getBooleanElement(OPTIONAL);
     }
 
     protected List<ExtensionRequiredDependency> getExtensionRequiredDependencies() {

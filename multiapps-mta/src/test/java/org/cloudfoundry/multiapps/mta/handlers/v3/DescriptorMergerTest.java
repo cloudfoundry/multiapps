@@ -21,7 +21,10 @@ public class DescriptorMergerTest extends org.cloudfoundry.multiapps.mta.handler
                                       new Expectation(Expectation.Type.JSON, "/mta/sample/v3/merged-06.yaml.json")),
                          // Merge hook required dependencies from deployment and extension descriptor:
                          Arguments.of("/mta/sample/v3/mtad-06.yaml", new String[] { "/mta/sample/v3/config-09.mtaext", },
-                                      new Expectation(Expectation.Type.JSON, "/mta/sample/v3/merged-07.yaml.json")));
+                                      new Expectation(Expectation.Type.JSON, "/mta/sample/v3/merged-07.yaml.json")),
+                         // Merge optional resources
+                         Arguments.of("/mta/sample/v3/mtad-07.yaml", new String[] { "/mta/sample/v3/config-10.mtaext", },
+                                 new Expectation(Expectation.Type.JSON, "/mta/sample/v3/merged-08.yaml.json")));
     }
 
     @Override

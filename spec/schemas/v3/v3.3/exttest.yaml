@@ -35,6 +35,7 @@ modules:
 resources:
  - name: plugins
    active: false
+   optional: false
    requires:
     - name: scheduler_api
       parameters:
