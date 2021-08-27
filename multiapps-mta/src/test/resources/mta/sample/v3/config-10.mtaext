@@ -1,0 +1,13 @@
+_schema-version: 3.0.0
+ID: com.sap.mta.sample.ext
+extends: com.sap.mta.sample
+
+resources:
+  - name: pricing-db-service
+    optional: true
+
+  - name: selling-db-service
+    optional: false
+
+  - name: providing-db-service
+    optional: true

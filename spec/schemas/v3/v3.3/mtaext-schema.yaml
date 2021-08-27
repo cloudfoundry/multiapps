@@ -112,6 +112,7 @@ mapping:
             parameters: *parameters
             includes: *includes
             active: {type: bool, default: true}
+            optional: {type: bool, default: false}
             requires:
                type: seq
                sequence:

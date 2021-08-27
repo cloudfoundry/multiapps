@@ -24,6 +24,7 @@ public class ExtensionDescriptorMerger extends org.cloudfoundry.multiapps.mta.me
     @Override
     public void merge(Resource resource, ExtensionResource extension) {
         resource.setActive(ObjectUtils.defaultIfNull(extension.isActive(), resource.isActive()));
+        resource.setOptional(ObjectUtils.defaultIfNull(extension.isOptional(), resource.isOptional()));
         super.merge(resource, extension);
     }
 

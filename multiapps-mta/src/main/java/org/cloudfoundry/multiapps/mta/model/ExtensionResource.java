@@ -14,6 +14,8 @@ public class ExtensionResource extends VersionedEntity implements VisitableEleme
     private String name;
     @YamlElement(ExtensionResourceParser.ACTIVE)
     private Boolean isActive;
+    @YamlElement(ExtensionResourceParser.OPTIONAL)
+    private Boolean isOptional;
     @YamlElement(ExtensionResourceParser.PROPERTIES)
     private Map<String, Object> properties = Collections.emptyMap();
     @YamlElement(ExtensionResourceParser.PARAMETERS)
@@ -47,6 +49,11 @@ public class ExtensionResource extends VersionedEntity implements VisitableEleme
         return isActive;
     }
 
+    public Boolean isOptional() {
+        supportedSince(3);
+        return isOptional;
+    }
+
     public Map<String, Object> getProperties() {
         return properties;
     }
@@ -68,6 +75,12 @@ public class ExtensionResource extends VersionedEntity implements VisitableEleme
     public ExtensionResource setActive(Boolean isActive) {
         supportedSince(3);
         this.isActive = ObjectUtils.defaultIfNull(isActive, this.isActive);
+        return this;
+    }
+
+    public ExtensionResource setOptional(Boolean isOptional) {
+        supportedSince(3);
+        this.isOptional = ObjectUtils.defaultIfNull(isOptional, this.isOptional);
         return this;
     }
 
