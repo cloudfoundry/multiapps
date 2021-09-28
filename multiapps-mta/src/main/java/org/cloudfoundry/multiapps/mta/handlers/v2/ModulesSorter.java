@@ -37,14 +37,11 @@ public class ModulesSorter implements org.cloudfoundry.multiapps.mta.handlers.Mo
 
     protected Map<Module, Set<String>> getModulesAndDeploymentDependencies() {
         ModuleDependenciesCollector moduleDependenciesCollector = new ModuleDependenciesCollector(handler);
-        return descriptor.getModules()
-                         .stream()
-                         .collect(LinkedHashMap::new,
-                                  (map, module) -> map.put(module, moduleDependenciesCollector.collect(descriptor, module)), Map::putAll);
-    }
-
-    protected ModuleDependenciesCollector createModuleDependenciesCollector() {
-        return new ModuleDependenciesCollector(handler);
+        var result = new LinkedHashMap<Module, Set<String>>();
+        for (var module : descriptor.getModules()) {
+            result.put(module, moduleDependenciesCollector.collect(descriptor, module));
+        }
+        return result;
     }
 
     protected Comparator<Entry<Module, Set<String>>> getModuleComparator(String dependencyTypeProperty, String hardDependencyType) {

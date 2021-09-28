@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
-import org.cloudfoundry.multiapps.mta.builders.v2.ModuleDependenciesCollector;
 import org.cloudfoundry.multiapps.mta.model.DeploymentDescriptor;
 import org.cloudfoundry.multiapps.mta.model.Module;
 
@@ -45,29 +44,10 @@ public class ModulesSorter extends org.cloudfoundry.multiapps.mta.handlers.v2.Mo
         return module.getDeployedAfter() != null;
     }
 
-    @Override
-    protected ModuleDependenciesCollector createModuleDependenciesCollector() {
-        return new ModuleDependenciesCollector(handler);
-    }
-
     private List<Module> sortUsingDeployedAfter() {
-        List<Module> modules = new ArrayList<>(getModules());
+        List<Module> modules = new ArrayList<>(descriptor.getModules());
         modules.sort(getModuleComparator());
         return modules;
-    }
-
-    protected List<Module> getModules() {
-        List<Module> modules = new ArrayList<>(descriptor.getModules());
-        modules.forEach(this::collectDependencies);
-        return modules;
-    }
-
-    protected void collectDependencies(Module module) {
-        getDependenciesCollectorSupportingDeployedAfter().collect(descriptor, module);
-    }
-
-    private ModuleDependenciesCollector getDependenciesCollectorSupportingDeployedAfter() {
-        return new org.cloudfoundry.multiapps.mta.builders.v3.ModuleDependenciesCollector();
     }
 
     protected Comparator<Module> getModuleComparator() {
