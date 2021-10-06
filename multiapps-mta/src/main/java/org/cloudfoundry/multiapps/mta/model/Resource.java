@@ -13,7 +13,7 @@ import org.cloudfoundry.multiapps.mta.parsers.v3.ResourceParser;
 import org.cloudfoundry.multiapps.mta.util.MetadataConverter;
 
 public class Resource extends VersionedEntity
-    implements VisitableElement, NamedParametersContainer, PropertiesWithMetadataContainer, ParametersWithMetadataContainer {
+    implements VisitableElement, NamedParametersContainer, NamedElement, PropertiesWithMetadataContainer, ParametersWithMetadataContainer {
 
     @YamlElement(ResourceParser.NAME)
     private String name;
@@ -37,6 +37,8 @@ public class Resource extends VersionedEntity
     private Metadata parametersMetadata = Metadata.DEFAULT_METADATA;
     @YamlElement(ResourceParser.REQUIRES)
     private List<RequiredDependency> requiredDependencies = Collections.emptyList();
+    @YamlElement(ResourceParser.PROCESSED_AFTER)
+    private List<String> processedAfter;
 
     // Required by Jackson.
     protected Resource() {
@@ -76,6 +78,7 @@ public class Resource extends VersionedEntity
                         .collect(Collectors.toList());
     }
 
+    @Override
     public String getName() {
         return name;
     }
@@ -94,6 +97,10 @@ public class Resource extends VersionedEntity
 
     public Map<String, Object> getParameters() {
         return parameters;
+    }
+
+    public List<String> getProcessedAfter() {
+        return processedAfter;
     }
 
     public boolean isActive() {
@@ -143,6 +150,11 @@ public class Resource extends VersionedEntity
 
     public Resource setParameters(Map<String, Object> parameters) {
         this.parameters = ObjectUtils.defaultIfNull(parameters, this.parameters);
+        return this;
+    }
+
+    public Resource setProcessAfter(List<String> processedAfter) {
+        this.processedAfter = ObjectUtils.defaultIfNull(processedAfter, this.processedAfter);
         return this;
     }
 

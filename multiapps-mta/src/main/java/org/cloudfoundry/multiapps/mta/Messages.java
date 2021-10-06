@@ -44,6 +44,7 @@ public class Messages {
     public static final String COULD_NOT_FIND_REQUIRED_PROPERTY = "Could not find required property \"{0}\"";
     public static final String MULTIPLE_HARD_MODULES_DETECTED = "Modules, \"{0}\" and \"{1}\", have hard circular dependencies";
     public static final String CIRCULAR_DEPLOYMENT_DEPENDENCIES_DETECTED = "Modules, \"{0}\" and \"{1}\", both depend on each others for deployment";
+    public static final String CIRCULAR_RESOURCE_DEPENDENCIES_DETECTED = "Resources, \"{0}\" and \"{1}\", both depend on each others for processing";
     public static final String ILLEGAL_REFERENCES_DETECTED = "Module \"{0}\" does not contain a required dependency for \"{1}\", but contains references to its properties";
     public static final String COULD_NOT_FIND_ELEMENT_IN_SCHEMA = "Could not find element \"{0}\" in schema for {1}";
     public static final String MANDATORY_ELEMENT_HAS_NO_VALUE = "The {0} \"{1}\" is not optional and has no value.";
