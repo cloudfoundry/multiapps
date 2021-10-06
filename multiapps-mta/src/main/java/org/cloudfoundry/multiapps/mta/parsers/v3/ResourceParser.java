@@ -76,5 +76,4 @@ public class ResourceParser extends org.cloudfoundry.multiapps.mta.parsers.v2.Re
     protected RequiredDependencyParser getRequiredDependencyParser(Map<String, Object> source) {
         return new RequiredDependencyParser(source);
     }
-
 }
