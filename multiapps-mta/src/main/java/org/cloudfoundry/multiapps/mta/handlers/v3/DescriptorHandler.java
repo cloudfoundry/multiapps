@@ -9,6 +9,9 @@ import org.cloudfoundry.multiapps.mta.model.ExtensionResource;
 import org.cloudfoundry.multiapps.mta.model.RequiredDependency;
 import org.cloudfoundry.multiapps.mta.model.Resource;
 
+import java.util.Collection;
+import java.util.List;
+
 public class DescriptorHandler extends org.cloudfoundry.multiapps.mta.handlers.v2.DescriptorHandler {
 
     @Override
@@ -69,14 +72,14 @@ public class DescriptorHandler extends org.cloudfoundry.multiapps.mta.handlers.v
     }
 
     @Override
-    protected org.cloudfoundry.multiapps.mta.handlers.v2.ModulesSorter getModuleSorter(DeploymentDescriptor descriptor,
-                                                                                String parallelDeploymentProperty,
-                                                                                String dependencyTypeProperty, String hardDependencyType) {
+    protected org.cloudfoundry.multiapps.mta.handlers.v2.ModulesSorter
+              getModuleSorter(DeploymentDescriptor descriptor, String parallelDeploymentProperty, String dependencyTypeProperty,
+                              String hardDependencyType) {
         return new org.cloudfoundry.multiapps.mta.handlers.v3.ModulesSorter(descriptor,
-                                                                     this,
-                                                                     dependencyTypeProperty,
-                                                                     hardDependencyType,
-                                                                     parallelDeploymentProperty);
+                                                                            this,
+                                                                            dependencyTypeProperty,
+                                                                            hardDependencyType,
+                                                                            parallelDeploymentProperty);
     }
 
     public ExtensionHook findHook(ExtensionDescriptor extensionDescriptor, String moduleName, String hookName) {
@@ -92,4 +95,9 @@ public class DescriptorHandler extends org.cloudfoundry.multiapps.mta.handlers.v
                      .orElse(null);
     }
 
+    public Collection<List<Resource>> getResourcesForProcessing(DeploymentDescriptor descriptor) {
+        ResourceBatchCalculator batchCalculator = new ResourceBatchCalculator(descriptor);
+        return batchCalculator.groupResourcesByWeight(descriptor.getResources())
+                              .values();
+    }
 }

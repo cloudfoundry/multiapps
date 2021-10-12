@@ -1,9 +1,11 @@
 {
+  "majorSchemaVersion": 2,
   "schemaVersion": "2.0.0",
   "id": "ztana",
   "version": "1.0.0",
   "modules": [
     {
+      "majorSchemaVersion": 2,
       "name": "test-module",
       "type": "javascript.nodejs",
       "properties": {
@@ -17,6 +19,7 @@
       },
       "requiredDependencies": [
         {
+          "majorSchemaVersion": 2,
           "name": "test-service",
           "properties": {
             "required-dependency-property": "required-property"
@@ -29,12 +32,12 @@
           },
           "parametersMetadata": {
             "metadata": {}
-          },
-          "majorSchemaVersion": 2
+          }
         }
       ],
       "providedDependencies": [
         {
+          "majorSchemaVersion": 2,
           "name": "providesSomething",
           "isPublic": false,
           "properties": {},
@@ -44,10 +47,10 @@
           },
           "parametersMetadata": {
             "metadata": {}
-          },
-          "majorSchemaVersion": 2
+          }
         },
         {
+          "majorSchemaVersion": 2,
           "name": "test-module",
           "isPublic": true,
           "properties": {},
@@ -57,8 +60,7 @@
           },
           "parametersMetadata": {
             "metadata": {}
-          },
-          "majorSchemaVersion": 2
+          }
         }
       ],
       "propertiesMetadata": {
@@ -67,12 +69,12 @@
       "parametersMetadata": {
         "metadata": {}
       },
-      "hooks": [],
-      "majorSchemaVersion": 2
+      "hooks": []
     }
   ],
   "resources": [
     {
+      "majorSchemaVersion": 2,
       "name": "test-service",
       "type": "org.postgresql",
       "properties": {},
@@ -93,8 +95,7 @@
       "parametersMetadata": {
         "metadata": {}
       },
-      "requiredDependencies": [],
-      "majorSchemaVersion": 2
+      "requiredDependencies": []
     }
   ],
   "parameters": {
@@ -102,6 +103,5 @@
   },
   "parametersMetadata": {
     "metadata": {}
-  },
-  "majorSchemaVersion": 2
+  }
 }

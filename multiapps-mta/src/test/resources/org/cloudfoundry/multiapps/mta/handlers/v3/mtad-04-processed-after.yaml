@@ -1,0 +1,30 @@
+_schema-version: 3.0.0
+ID: multiple-anatz
+version: 3.0.0
+
+modules:
+  - name: multiple-anatz
+    type: staticfile
+    path: ../buildresults.zip
+resources:
+  - name: serviceA
+    type: org.cloudfoundry.managed-service
+    parameters:
+      service: auditlog
+      service-plan: standard
+  - name: serviceB
+    type: org.cloudfoundry.managed-service
+    parameters:
+      service: auditlog
+      service-plan: standard
+  - name: serviceC
+    type: org.cloudfoundry.managed-service
+    parameters:
+      service: auditlog
+      service-plan: standard
+    processed-after: []
+  - name: serviceD
+    type: org.cloudfoundry.managed-service
+    parameters:
+      service: auditlog
+      service-plan: standard

@@ -1,9 +1,11 @@
 {
+  "majorSchemaVersion": 3,
   "schemaVersion": "3.0.0",
   "id": "ztana",
-  "version": "1.0.0",
+  "version": "3.0.0",
   "modules": [
     {
+      "majorSchemaVersion": 3,
       "name": "test-module",
       "type": "javascript.nodejs",
       "properties": {
@@ -17,6 +19,7 @@
       },
       "requiredDependencies": [
         {
+          "majorSchemaVersion": 3,
           "name": "test-service",
           "properties": {
             "required-dependency-property": "required-property"
@@ -29,12 +32,12 @@
           },
           "parametersMetadata": {
             "metadata": {}
-          },
-          "majorSchemaVersion": 3
+          }
         }
       ],
       "providedDependencies": [
         {
+          "majorSchemaVersion": 3,
           "name": "providesSomething",
           "isPublic": false,
           "properties": {},
@@ -44,10 +47,10 @@
           },
           "parametersMetadata": {
             "metadata": {}
-          },
-          "majorSchemaVersion": 3
+          }
         },
         {
+          "majorSchemaVersion": 3,
           "name": "test-module",
           "isPublic": false,
           "properties": {},
@@ -57,8 +60,7 @@
           },
           "parametersMetadata": {
             "metadata": {}
-          },
-          "majorSchemaVersion": 3
+          }
         }
       ],
       "propertiesMetadata": {
@@ -67,13 +69,37 @@
       "parametersMetadata": {
         "metadata": {}
       },
-      "hooks": [],
-      "majorSchemaVersion": 3
+      "hooks": []
     }
   ],
   "resources": [
     {
-      "name": "test-service",
+      "majorSchemaVersion": 3,
+      "name": "test-service1",
+      "type": "org.postgresql",
+      "properties": {},
+      "parameters": {
+        "test-parameter": "resource-parameter",
+        "some-parameter-map": [
+          {
+            "first-parameter": "first-parameter",
+            "second-parameter": "second-parameter"
+          }
+        ]
+      },
+      "isActive": true,
+      "isOptional": false,
+      "propertiesMetadata": {
+        "metadata": {}
+      },
+      "parametersMetadata": {
+        "metadata": {}
+      },
+      "requiredDependencies": []
+    },
+    {
+      "majorSchemaVersion": 3,
+      "name": "test-service2",
       "type": "org.postgresql",
       "properties": {},
       "parameters": {
@@ -94,7 +120,9 @@
         "metadata": {}
       },
       "requiredDependencies": [],
-      "majorSchemaVersion": 3
+      "processedAfter": [
+        "test-service1"
+      ]
     }
   ],
   "parameters": {
@@ -102,6 +130,5 @@
   },
   "parametersMetadata": {
     "metadata": {}
-  },
-  "majorSchemaVersion": 3
+  }
 }

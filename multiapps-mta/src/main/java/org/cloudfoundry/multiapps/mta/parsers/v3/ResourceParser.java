@@ -21,6 +21,7 @@ public class ResourceParser extends org.cloudfoundry.multiapps.mta.parsers.v2.Re
     public static final String PARAMETERS_METADATA = "parameters-metadata";
     public static final String REQUIRES = "requires";
     public static final String OPTIONAL = "optional";
+    public static final String PROCESSED_AFTER = "processed-after";
 
     protected final Set<String> usedRequiredDependencyNames = new HashSet<>();
 
@@ -38,7 +39,8 @@ public class ResourceParser extends org.cloudfoundry.multiapps.mta.parsers.v2.Re
                             .setOptional(getOptional())
                             .setParametersMetadata(getParametersMetadata())
                             .setPropertiesMetadata(getPropertiesMetadata())
-                            .setRequiredDependencies(getRequiredDependencies());
+                            .setRequiredDependencies(getRequiredDependencies())
+                            .setProcessAfter(getProcessedAfter());
     }
 
     @Override
@@ -75,5 +77,9 @@ public class ResourceParser extends org.cloudfoundry.multiapps.mta.parsers.v2.Re
 
     protected RequiredDependencyParser getRequiredDependencyParser(Map<String, Object> source) {
         return new RequiredDependencyParser(source);
+    }
+
+    protected List<String> getProcessedAfter() {
+        return getListElement(PROCESSED_AFTER);
     }
 }

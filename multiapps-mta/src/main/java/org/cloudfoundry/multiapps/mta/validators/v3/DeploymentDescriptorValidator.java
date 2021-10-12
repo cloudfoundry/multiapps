@@ -1,7 +1,9 @@
 package org.cloudfoundry.multiapps.mta.validators.v3;
 
+import java.text.MessageFormat;
 import java.util.Map;
 
+import org.apache.commons.collections4.CollectionUtils;
 import org.cloudfoundry.multiapps.common.ContentException;
 import org.cloudfoundry.multiapps.common.util.MiscUtil;
 import org.cloudfoundry.multiapps.mta.Constants;
@@ -53,6 +55,8 @@ public class DeploymentDescriptorValidator extends org.cloudfoundry.multiapps.mt
         super.visit(context, resource);
         validateParameters(resource, resource.getName());
         validateProperties(resource, resource.getName());
+        checkForCircularDependency(resource, resource.getName(), descriptor.getResources()
+                                                                           .size());
     }
 
     @Override
@@ -71,6 +75,40 @@ public class DeploymentDescriptorValidator extends org.cloudfoundry.multiapps.mt
     public void visit(ElementContext context, ProvidedDependency providedDependency) throws ContentException {
         super.visit(context, providedDependency);
         validateProperties(providedDependency, providedDependency.getName());
+    }
+
+    private void checkForCircularDependency(Resource resource, String resourceName, int initialDependencyCount) {
+        if (!hasDependentResources(resource) || initialDependencyCount == 0) {
+            return;
+        }
+        for (String dependentResourceName : resource.getProcessedAfter()) {
+            checkIfResourceExists(dependentResourceName);
+            Resource dependentResource = handler.findResource(descriptor, dependentResourceName);
+            if (isSelfRequired(resource)) {
+                throw new IllegalStateException(MessageFormat.format(Messages.SELF_REQUIRED_RESOURCE, resource.getName()));
+            }
+            if (hasDependentResources(dependentResource) && dependentResource.getProcessedAfter()
+                                                                             .contains(resourceName)) {
+                throw new IllegalStateException(MessageFormat.format(Messages.CIRCULAR_RESOURCE_DEPENDENCIES_DETECTED,
+                                                                     dependentResource.getName(), resourceName));
+            }
+            checkForCircularDependency(dependentResource, resourceName, initialDependencyCount - 1);
+        }
+    }
+
+    private boolean hasDependentResources(Resource resource) {
+        return !CollectionUtils.isEmpty(resource.getProcessedAfter());
+    }
+
+    private boolean isSelfRequired(Resource resource) {
+        return resource.getProcessedAfter()
+                       .contains(resource.getName());
+    }
+
+    private void checkIfResourceExists(String resourceName) {
+        if (handler.findResource(descriptor, resourceName) == null) {
+            throw new ContentException(MessageFormat.format(Messages.RESOURCE_DOES_NOT_EXIST, resourceName));
+        }
     }
 
     protected void validateParameters(ParametersContainer container, String containerName) {
