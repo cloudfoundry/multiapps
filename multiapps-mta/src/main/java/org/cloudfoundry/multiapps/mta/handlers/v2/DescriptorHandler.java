@@ -157,5 +157,4 @@ public class DescriptorHandler {
         ModulesSorter moduleSorter = getModuleSorter(descriptor, parallelDeploymentProperty, dependencyTypeProperty, hardDependencyType);
         return moduleSorter.sort();
     }
-
 }

@@ -20,7 +20,6 @@ public class ResourceParser extends ModelParser<Resource> {
     public static final String DESCRIPTION = "description";
     public static final String GROUPS = "groups";
     public static final String PROPERTIES = "properties";
-    public static final String PROCESSED_AFTER = "processed-after";
 
     public ResourceParser(Map<String, Object> source) {
         this(RESOURCE, source);
@@ -36,8 +35,7 @@ public class ResourceParser extends ModelParser<Resource> {
                              .setName(getName())
                              .setType(getType())
                              .setProperties(getProperties())
-                             .setParameters(getParameters())
-                             .setProcessAfter(getProcessedAfter());
+                             .setParameters(getParameters());
     }
 
     protected Resource createEntity() {
@@ -66,9 +64,5 @@ public class ResourceParser extends ModelParser<Resource> {
 
     protected Map<String, Object> getParameters() {
         return getMapElement(PARAMETERS);
-    }
-
-    protected List<String> getProcessedAfter() {
-        return getListElement(PROCESSED_AFTER);
     }
 }

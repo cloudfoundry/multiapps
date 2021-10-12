@@ -1,0 +1,32 @@
+_schema-version: 3
+ID: com.sap.mta.test
+version: 1.0.0
+
+modules:
+  - name: bar
+    type: bar
+resources:
+  - name: serviceA
+    type: org.cloudfoundry.managed-service
+    parameters:
+      service: auditlog
+      service-plan: standard
+    processed-after: [serviceB, serviceC, serviceD]
+  - name: serviceB
+    type: org.cloudfoundry.managed-service
+    parameters:
+      service: auditlog
+      service-plan: standard
+    processed-after: [serviceD]
+  - name: serviceC
+    type: org.cloudfoundry.managed-service
+    parameters:
+      service: auditlog
+      service-plan: standard
+    processed-after: []
+  - name: serviceD
+    type: org.cloudfoundry.managed-service
+    parameters:
+      service: auditlog
+      service-plan: standard
+    processed-after: [serviceC]

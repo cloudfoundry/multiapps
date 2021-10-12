@@ -1,13 +1,13 @@
 _schema-version: 3.0.0
 ID: ztana
-version: 1.0.0
+version: 3.0.0
 
 modules:
-  - name: test-module
+  - name: test-module # this comment should not affect the resulting descriptor
     type: javascript.nodejs
     properties:
       health-check-type: none
-      health-check-timeout: 180 # this comment should not affect the resulting descriptor
+      health-check-timeout: 180
       no-start: true
       password: sensitive_data
     parameters:
@@ -23,13 +23,21 @@ modules:
         public: false
 
 resources:
-  - name: test-service
+  - name: test-service1
     type: org.postgresql
     parameters:
       test-parameter: resource-parameter
       some-parameter-map:
         - first-parameter: first-parameter
           second-parameter: second-parameter
+  - name: test-service2
+    type: org.postgresql
+    parameters:
+      test-parameter: resource-parameter
+      some-parameter-map:
+        - first-parameter: first-parameter
+          second-parameter: second-parameter
+    processed-after: [ test-service1 ]
 
 parameters:
   descriptor-parameter: some-parameter

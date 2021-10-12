@@ -69,6 +69,7 @@ public class Resource extends VersionedEntity
         copy.propertiesMetadata = original.propertiesMetadata;
         copy.parametersMetadata = original.parametersMetadata;
         copy.requiredDependencies = copyRequiredDependencies(original.requiredDependencies);
+        copy.processedAfter = original.processedAfter;
         return copy;
     }
 
@@ -100,6 +101,7 @@ public class Resource extends VersionedEntity
     }
 
     public List<String> getProcessedAfter() {
+        supportedSince(3);
         return processedAfter;
     }
 
@@ -154,6 +156,7 @@ public class Resource extends VersionedEntity
     }
 
     public Resource setProcessAfter(List<String> processedAfter) {
+        supportedSince(3);
         this.processedAfter = ObjectUtils.defaultIfNull(processedAfter, this.processedAfter);
         return this;
     }
