@@ -10,6 +10,8 @@ import org.cloudfoundry.multiapps.mta.handlers.v2.DescriptorMerger;
 import org.cloudfoundry.multiapps.mta.handlers.v2.DescriptorParser;
 import org.cloudfoundry.multiapps.mta.handlers.v2.DescriptorValidator;
 import org.cloudfoundry.multiapps.mta.handlers.v2.HandlerFactoryV2;
+import org.cloudfoundry.multiapps.mta.handlers.v2.ResourceBatchCalculator;
+import org.cloudfoundry.multiapps.mta.handlers.v2.SelectiveDeployChecker;
 import org.cloudfoundry.multiapps.mta.handlers.v3.HandlerFactoryV3;
 import org.cloudfoundry.multiapps.mta.model.DeploymentDescriptor;
 import org.cloudfoundry.multiapps.mta.resolvers.PlaceholderResolver;
@@ -17,7 +19,6 @@ import org.cloudfoundry.multiapps.mta.resolvers.Resolver;
 import org.cloudfoundry.multiapps.mta.resolvers.ResolverBuilder;
 
 public interface HandlerFactory {
-
 
     static HandlerFactory forSchemaVersion(int majorSchemaVersion) {
         switch (majorSchemaVersion) {
@@ -50,4 +51,7 @@ public interface HandlerFactory {
                                                                   ResolverBuilder resourcePropertiesResolverBuilder,
                                                                   ResolverBuilder requiredDependenciesPropertiesResolverBuilder);
 
+    ResourceBatchCalculator getResourceBatchCalculator(DeploymentDescriptor deploymentDescriptor);
+
+    SelectiveDeployChecker getSelectiveDeployChecker();
 }

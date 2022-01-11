@@ -57,4 +57,13 @@ public class HandlerFactoryV3 implements org.cloudfoundry.multiapps.mta.handlers
                                                requiredDependenciesPropertiesResolverBuilder);
     }
 
+    @Override
+    public ResourceBatchCalculator getResourceBatchCalculator(DeploymentDescriptor descriptor) {
+        return new ResourceBatchCalculator(descriptor);
+    }
+
+    @Override
+    public SelectiveDeployChecker getSelectiveDeployChecker() {
+        return new SelectiveDeployChecker();
+    }
 }
