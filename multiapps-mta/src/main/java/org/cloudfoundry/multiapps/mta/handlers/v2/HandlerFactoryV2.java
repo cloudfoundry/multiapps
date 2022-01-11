@@ -57,4 +57,13 @@ public class HandlerFactoryV2 implements HandlerFactory {
                                                requiredDependenciesPropertiesResolverBuilder);
     }
 
+    @Override
+    public ResourceBatchCalculator getResourceBatchCalculator(DeploymentDescriptor descriptor) {
+        return new ResourceBatchCalculator();
+    }
+
+    @Override
+    public SelectiveDeployChecker getSelectiveDeployChecker() {
+        return new SelectiveDeployChecker();
+    }
 }

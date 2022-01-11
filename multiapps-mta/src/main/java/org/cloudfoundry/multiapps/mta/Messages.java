@@ -53,6 +53,7 @@ public class Messages {
     public static final String INCOMPATIBLE_TYPES = "Type {0} is not compatible with type {1}";
     public static final String ENTITIES_FROM_CLASS_0_WITH_SCHEMA_VERSION_1_DO_NOT_SUPPORT_THIS_OPERATION_AT_LEAST_2_IS_REQUIRED = "Entities from class \"{0}\" with schema version \"{1}\" do not support this operation. At least \"{2}\" is required.";
     public static final String DIFFERENT_TYPE_PROVIDED_INSTEAD_OF_LIST = "Invalid type provided for \"{0}\": Expected a list of elements but another type was provided";
+    public static final String INAPPROPRIATE_USE_OF_SELECTIVE_DEPLOY = "Cannot use selective deploy on resource \"{0}\" since it's dependent resources are not included for selective deploy.";
 
     // Audit log messages:
 

@@ -1,7 +1,6 @@
 package org.cloudfoundry.multiapps.mta.handlers.v3;
 
 import org.apache.commons.collections4.CollectionUtils;
-import org.cloudfoundry.multiapps.mta.handlers.v3.DescriptorHandler;
 import org.cloudfoundry.multiapps.mta.model.DeploymentDescriptor;
 import org.cloudfoundry.multiapps.mta.model.Resource;
 
@@ -10,7 +9,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
-public class ResourceBatchCalculator {
+public class ResourceBatchCalculator extends org.cloudfoundry.multiapps.mta.handlers.v2.ResourceBatchCalculator {
 
     private final DeploymentDescriptor deploymentDescriptor;
     private DescriptorHandler descriptorHandler;
@@ -19,6 +18,7 @@ public class ResourceBatchCalculator {
         this.deploymentDescriptor = deploymentDescriptor;
     }
 
+    @Override
     public Map<Integer, List<Resource>> groupResourcesByWeight(List<Resource> resources) {
         Map<Integer, List<Resource>> result = new TreeMap<>();
         initializeDescriptorHandler();
