@@ -63,7 +63,8 @@ public class HandlerFactoryV2 implements HandlerFactory {
     }
 
     @Override
-    public SelectiveDeployChecker getSelectiveDeployChecker() {
+    public SelectiveDeployChecker getSelectiveDeployChecker(DeploymentDescriptor deploymentDescriptor,
+                                                            DescriptorHandler descriptorHandler) {
         return new SelectiveDeployChecker();
     }
 }

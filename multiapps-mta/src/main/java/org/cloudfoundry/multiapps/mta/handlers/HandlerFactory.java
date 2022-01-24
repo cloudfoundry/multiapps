@@ -53,5 +53,5 @@ public interface HandlerFactory {
 
     ResourceBatchCalculator getResourceBatchCalculator(DeploymentDescriptor deploymentDescriptor);
 
-    SelectiveDeployChecker getSelectiveDeployChecker();
+    SelectiveDeployChecker getSelectiveDeployChecker(DeploymentDescriptor deploymentDescriptor, DescriptorHandler descriptorHandler);
 }

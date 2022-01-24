@@ -63,7 +63,9 @@ public class HandlerFactoryV3 implements org.cloudfoundry.multiapps.mta.handlers
     }
 
     @Override
-    public SelectiveDeployChecker getSelectiveDeployChecker() {
-        return new SelectiveDeployChecker();
+    public SelectiveDeployChecker
+           getSelectiveDeployChecker(DeploymentDescriptor deploymentDescriptor,
+                                     org.cloudfoundry.multiapps.mta.handlers.v2.DescriptorHandler descriptorHandler) {
+        return new SelectiveDeployChecker(deploymentDescriptor, descriptorHandler);
     }
 }
