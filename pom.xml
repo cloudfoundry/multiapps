@@ -27,7 +27,7 @@
         <jaxb-api.version>2.3.3</jaxb-api.version>
         <jaxb-core.version>2.3.0.1</jaxb-core.version>
         <jaxb-impl.version>2.3.4</jaxb-impl.version>
-        <jackson.version>2.12.4</jackson.version>
+        <jackson.version>2.13.1</jackson.version>
     </properties>
 
     <modules>
