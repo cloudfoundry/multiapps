@@ -27,10 +27,6 @@ public class DescriptorHandlerTest extends com.sap.cloud.lm.sl.mta.handlers.v2.D
             super(descriptorLocation, expectation);
         }
 
-        protected DescriptorHandler getDescriptorHandler() {
-            return new DescriptorHandler();
-        }
-
         @Parameters
         public static Iterable<Object[]> getParameters() {
             return Arrays.asList(new Object[][] {
@@ -99,6 +95,10 @@ public class DescriptorHandlerTest extends com.sap.cloud.lm.sl.mta.handlers.v2.D
             });
         }
 
+        protected DescriptorHandler getDescriptorHandler() {
+            return new DescriptorHandler();
+        }
+
         @Override
         protected DescriptorParser getDescriptorParser() {
             return new DescriptorParser();
@@ -111,10 +111,6 @@ public class DescriptorHandlerTest extends com.sap.cloud.lm.sl.mta.handlers.v2.D
 
         public DeployOrderParallelTest(String descriptorLocation, Expectation expectation) {
             super(descriptorLocation, expectation);
-        }
-
-        protected DescriptorHandler getDescriptorHandler() {
-            return new DescriptorHandler();
         }
 
         @Parameters
@@ -153,18 +149,22 @@ public class DescriptorHandlerTest extends com.sap.cloud.lm.sl.mta.handlers.v2.D
             });
         }
 
+        protected DescriptorHandler getDescriptorHandler() {
+            return new DescriptorHandler();
+        }
+
         @Override
         @Test
         public void testGetSortedModules() throws Exception {
-            final DeploymentDescriptor descriptor = getDescriptorParser()
-                .parseDeploymentDescriptorYaml(TestUtil.getResourceAsString(descriptorLocation, getClass()));
+            final DeploymentDescriptor descriptor = getDescriptorParser().parseDeploymentDescriptorYaml(TestUtil.getResourceAsString(descriptorLocation,
+                                                                                                                                     getClass()));
 
             TestUtil.test(new Callable<String>() {
 
                 @Override
                 public String call() throws Exception {
-                    return getDeployedAfterMapString(
-                        handler.getModulesForDeployment(descriptor, PARALLEL_DEPLOYMENTS_PROP, DEPENDENCY_TYPE_PROP, DEPENDENCY_TYPE_HARD));
+                    return getDeployedAfterMapString(handler.getModulesForDeployment(descriptor, PARALLEL_DEPLOYMENTS_PROP,
+                                                                                     DEPENDENCY_TYPE_PROP, DEPENDENCY_TYPE_HARD));
                 }
 
                 private String getDeployedAfterMapString(List<? extends Module> modulles) {

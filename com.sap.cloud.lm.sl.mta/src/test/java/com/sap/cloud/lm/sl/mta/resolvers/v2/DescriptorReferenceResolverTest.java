@@ -25,6 +25,11 @@ public class DescriptorReferenceResolverTest {
     private DeploymentDescriptor mergedDescriptor;
     private DescriptorReferenceResolver resolver;
 
+    public DescriptorReferenceResolverTest(String mergedDescriptorLocation, Expectation expectation) {
+        this.mergedDescriptorLocation = mergedDescriptorLocation;
+        this.expectation = expectation;
+    }
+
     @Parameters
     public static Iterable<Object[]> getParameters() {
         return Arrays.asList(new Object[][] {
@@ -61,15 +66,10 @@ public class DescriptorReferenceResolverTest {
         });
     }
 
-    public DescriptorReferenceResolverTest(String mergedDescriptorLocation, Expectation expectation) {
-        this.mergedDescriptorLocation = mergedDescriptorLocation;
-        this.expectation = expectation;
-    }
-
     @Before
     public void setUp() throws Exception {
         mergedDescriptor = (DeploymentDescriptor) MtaTestUtil.loadDeploymentDescriptor(mergedDescriptorLocation, new DescriptorParser(),
-            getClass());
+                                                                                       getClass());
         resolver = new DescriptorReferenceResolver(mergedDescriptor, new ResolverBuilder(), new ResolverBuilder());
     }
 

@@ -27,21 +27,21 @@ public class ResourceType implements VisitableElement, NamedElement, ParametersC
         return name;
     }
 
+    public void setName(String name) {
+        this.name = name;
+    }
+
     public String getResourceManager() {
         return resourceManager;
+    }
+
+    public void setResourceManager(String resourceManager) {
+        this.resourceManager = resourceManager;
     }
 
     @Override
     public Map<String, Object> getParameters() {
         return MapUtil.unmodifiable(parameters);
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public void setResourceManager(String resourceManager) {
-        this.resourceManager = resourceManager;
     }
 
     @Override

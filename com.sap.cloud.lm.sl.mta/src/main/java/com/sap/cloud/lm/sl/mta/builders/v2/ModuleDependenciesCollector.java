@@ -15,10 +15,10 @@ import com.sap.cloud.lm.sl.mta.model.v2.Module;
 import com.sap.cloud.lm.sl.mta.model.v2.RequiredDependency;
 
 public class ModuleDependenciesCollector {
-    
-    private DescriptorHandler handler;
+
     protected DeploymentDescriptor descriptor;
     protected Set<String> seenModules = new HashSet<>();
+    private DescriptorHandler handler;
 
     public ModuleDependenciesCollector(DeploymentDescriptor descriptor, DescriptorHandler handler) {
         this.descriptor = descriptor;
@@ -28,16 +28,16 @@ public class ModuleDependenciesCollector {
     protected List<String> getDependencies(Module module) {
         Module moduleV2 = cast(module);
         return moduleV2.getRequiredDependencies2()
-            .stream()
-            .map(RequiredDependency::getName)
-            .collect(Collectors.toList());
+                       .stream()
+                       .map(RequiredDependency::getName)
+                       .collect(Collectors.toList());
     }
-    
+
     public Set<String> collect(Module module) {
         clearVisitedModules();
         return getDependenciesRecursively(module);
     }
-    
+
     private void clearVisitedModules() {
         seenModules.clear();
     }
@@ -49,11 +49,11 @@ public class ModuleDependenciesCollector {
         markVisited(module);
         return collectDependenciesRecursively(module);
     }
-    
+
     private boolean visited(Module module) {
         return seenModules.contains(module.getName());
     }
-    
+
     private void markVisited(Module module) {
         seenModules.add(module.getName());
     }
@@ -69,17 +69,17 @@ public class ModuleDependenciesCollector {
         }
         return dependencies;
     }
-    
+
     protected Module findModuleSatisfyingDependency(String dependency) {
         return descriptor.getModules2()
-            .stream()
-            .filter(module -> handler.findProvidedDependency(module, dependency) != null)
-            .findFirst()
-            .orElse(null);
+                         .stream()
+                         .filter(module -> handler.findProvidedDependency(module, dependency) != null)
+                         .findFirst()
+                         .orElse(null);
     }
 
     private boolean notRequiresSelf(Module module, Module requiredModule) {
         return requiredModule != null && !requiredModule.getName()
-            .equals(module.getName());
+                                                        .equals(module.getName());
     }
 }

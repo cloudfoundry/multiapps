@@ -22,8 +22,8 @@ public class RequiredDependencyPlaceholderResolver extends PlaceholderResolver<R
     protected final ResolverBuilder parametersResolverBuilder;
 
     public RequiredDependencyPlaceholderResolver(Module module, RequiredDependency requiredDependency, String prefix,
-        ParametersChainBuilder parametersChainBuilder, SystemParameters systemParameters, ResolverBuilder propertiesResolverBuilder,
-        ResolverBuilder parametersResolverBuilder) {
+                                                 ParametersChainBuilder parametersChainBuilder, SystemParameters systemParameters,
+                                                 ResolverBuilder propertiesResolverBuilder, ResolverBuilder parametersResolverBuilder) {
         super(requiredDependency.getName(), prefix, systemParameters);
         this.parametersChainBuilder = parametersChainBuilder;
         this.module = module;
@@ -39,7 +39,7 @@ public class RequiredDependencyPlaceholderResolver extends PlaceholderResolver<R
         parametersChain.add(0, requiredDependency.getParameters());
         addSingularParametersIfNecessary(parametersChain);
         parametersChain.add(getFullSystemParameters(systemParameters.getModuleParameters()
-            .get(moduleName)));
+                                                                    .get(moduleName)));
         Map<String, Object> mergedParameters = PropertiesUtil.mergeProperties(parametersChain);
         requiredDependency.setParameters(getResolvedParameters(mergedParameters));
         requiredDependency.setProperties(getResolvedProperties(mergedParameters));
@@ -48,12 +48,12 @@ public class RequiredDependencyPlaceholderResolver extends PlaceholderResolver<R
 
     protected Map<String, Object> getResolvedParameters(Map<String, Object> mergedParameters) {
         return new PropertiesPlaceholderResolver(propertiesResolverBuilder).resolve(requiredDependency.getParameters(), mergedParameters,
-            prefix);
+                                                                                    prefix);
     }
 
     protected Map<String, Object> getResolvedProperties(Map<String, Object> mergedParameters) {
         return new PropertiesPlaceholderResolver(parametersResolverBuilder).resolve(requiredDependency.getProperties(), mergedParameters,
-            prefix);
+                                                                                    prefix);
     }
 
 }

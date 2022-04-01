@@ -40,30 +40,13 @@ public class Resource extends com.sap.cloud.lm.sl.mta.model.v2.Resource
         return isActive;
     }
 
+    public void setActive(Boolean isActive) {
+        this.isActive = isActive;
+    }
+
     @Override
     public Metadata getPropertiesMetadata() {
         return propertiesMetadata;
-    }
-
-    @Override
-    public Metadata getParametersMetadata() {
-        return parametersMetadata;
-    }
-
-    public List<RequiredDependency> getRequiredDependencies3() {
-        return ListUtil.upcastUnmodifiable(getRequiredDependencies());
-    }
-
-    protected List<? extends RequiredDependency> getRequiredDependencies() {
-        return requiredDependencies3;
-    }
-
-    public boolean isOptional() {
-        return isOptional;
-    }
-
-    public void setActive(Boolean isActive) {
-        this.isActive = isActive;
     }
 
     @Override
@@ -72,16 +55,33 @@ public class Resource extends com.sap.cloud.lm.sl.mta.model.v2.Resource
     }
 
     @Override
+    public Metadata getParametersMetadata() {
+        return parametersMetadata;
+    }
+
+    @Override
     public void setParametersMetadata(Metadata parametersMetadata) {
         this.parametersMetadata = parametersMetadata;
+    }
+
+    public List<RequiredDependency> getRequiredDependencies3() {
+        return ListUtil.upcastUnmodifiable(getRequiredDependencies());
     }
 
     public void setRequiredDependencies3(List<RequiredDependency> requiredDependencies) {
         setRequiredDependencies(requiredDependencies);
     }
 
+    protected List<? extends RequiredDependency> getRequiredDependencies() {
+        return requiredDependencies3;
+    }
+
     protected void setRequiredDependencies(List<? extends RequiredDependency> requiredDependencies) {
         this.requiredDependencies3 = ListUtil.cast(requiredDependencies);
+    }
+
+    public boolean isOptional() {
+        return isOptional;
     }
 
     public void setOptional(boolean isOptional) {
@@ -131,8 +131,7 @@ public class Resource extends com.sap.cloud.lm.sl.mta.model.v2.Resource
             result.setParameters(ObjectUtils.defaultIfNull(parameters, Collections.<String, Object> emptyMap()));
             result.setPropertiesMetadata(ObjectUtils.defaultIfNull(propertiesMetadata, Metadata.DEFAULT_METADATA));
             result.setParametersMetadata(ObjectUtils.defaultIfNull(parametersMetadata, Metadata.DEFAULT_METADATA));
-            result.setRequiredDependencies3(
-                ObjectUtils.defaultIfNull(requiredDependencies3, Collections.<RequiredDependency> emptyList()));
+            result.setRequiredDependencies3(ObjectUtils.defaultIfNull(requiredDependencies3, Collections.<RequiredDependency> emptyList()));
             result.setOptional(ObjectUtils.defaultIfNull(isOptional, false));
             return result;
         }

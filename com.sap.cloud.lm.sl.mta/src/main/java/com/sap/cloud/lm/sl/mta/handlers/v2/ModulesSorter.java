@@ -21,26 +21,26 @@ public class ModulesSorter implements com.sap.cloud.lm.sl.mta.handlers.ModulesSo
     protected String hardDependencyType;
 
     public ModulesSorter(DeploymentDescriptor descriptor, DescriptorHandler handler, String dependencyTypeProperty,
-        String hardDependencyType) {
+                         String hardDependencyType) {
         this.descriptor = descriptor;
         this.handler = handler;
         this.dependencyTypeProperty = dependencyTypeProperty;
         this.hardDependencyType = hardDependencyType;
     }
-    
+
     public List<? extends Module> sort() {
         Map<Module, Set<String>> modulesAndDeploymentDependencies = getModulesAndDeploymentDependencies();
         List<Entry<Module, Set<String>>> modulesAndDeploymentDependenciesSorted = modulesAndDeploymentDependencies.entrySet()
-            .stream()
-            .collect(Collectors.toList());
+                                                                                                                  .stream()
+                                                                                                                  .collect(Collectors.toList());
 
         Collections.sort(modulesAndDeploymentDependenciesSorted, getModuleComparator(dependencyTypeProperty, hardDependencyType));
 
         return modulesAndDeploymentDependenciesSorted.stream()
-            .map(Entry::getKey)
-            .collect(Collectors.toList());
+                                                     .map(Entry::getKey)
+                                                     .collect(Collectors.toList());
     }
-    
+
     protected Map<Module, Set<String>> getModulesAndDeploymentDependencies() {
         Map<Module, Set<String>> result = new LinkedHashMap<>();
         for (Module module : descriptor.getModules2()) {
@@ -48,11 +48,11 @@ public class ModulesSorter implements com.sap.cloud.lm.sl.mta.handlers.ModulesSo
         }
         return result;
     }
-    
+
     protected Set<String> getDependencies(Module module) {
         return getDependenciesCollector().collect(module);
     }
-    
+
     protected ModuleDependenciesCollector getDependenciesCollector() {
         return new ModuleDependenciesCollector(descriptor, handler);
     }

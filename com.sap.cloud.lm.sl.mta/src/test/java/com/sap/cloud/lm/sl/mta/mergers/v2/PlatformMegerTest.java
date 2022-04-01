@@ -23,6 +23,17 @@ import com.sap.cloud.lm.sl.mta.model.v2.Platform;
 @RunWith(Parameterized.class)
 public class PlatformMegerTest {
 
+    private String deploymentDescriptorLocation;
+    private String platformLocation;
+    private Expectation expectation;
+    private DeploymentDescriptor descriptor;
+    private Platform platform;
+    public PlatformMegerTest(String deploymentDescriptorLocation, String platformTypesLocation, Expectation expectation) {
+        this.deploymentDescriptorLocation = deploymentDescriptorLocation;
+        this.platformLocation = platformTypesLocation;
+        this.expectation = expectation;
+    }
+
     @Parameters
     public static Collection<Object[]> getParameters() {
         return Arrays.asList(new Object[][] {
@@ -41,18 +52,6 @@ public class PlatformMegerTest {
             },
 // @formatter:on
         });
-    }
-
-    private String deploymentDescriptorLocation;
-    private String platformLocation;
-    private Expectation expectation;
-    private DeploymentDescriptor descriptor;
-    private Platform platform;
-
-    public PlatformMegerTest(String deploymentDescriptorLocation, String platformTypesLocation, Expectation expectation) {
-        this.deploymentDescriptorLocation = deploymentDescriptorLocation;
-        this.platformLocation = platformTypesLocation;
-        this.expectation = expectation;
     }
 
     protected int getMajorVersion() {

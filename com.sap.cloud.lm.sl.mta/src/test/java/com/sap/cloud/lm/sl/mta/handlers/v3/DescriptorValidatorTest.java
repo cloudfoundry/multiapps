@@ -9,6 +9,11 @@ import com.sap.cloud.lm.sl.common.util.TestUtil.Expectation;
 
 public class DescriptorValidatorTest extends com.sap.cloud.lm.sl.mta.handlers.v2.DescriptorValidatorTest {
 
+    public DescriptorValidatorTest(String deploymentDescriptorLocation, String[] extensionDescriptorLocations,
+                                   String mergedDescriptorLocation, Expectation[] expectations) {
+        super(deploymentDescriptorLocation, extensionDescriptorLocations, mergedDescriptorLocation, expectations);
+    }
+
     @BeforeClass
     public static void setPlatformsInformation() {
         platformLocation = "/mta/sample/v3/platform-01.json";
@@ -100,11 +105,6 @@ public class DescriptorValidatorTest extends com.sap.cloud.lm.sl.mta.handlers.v2
             },
 // @formatter:on
         });
-    }
-
-    public DescriptorValidatorTest(String deploymentDescriptorLocation, String[] extensionDescriptorLocations,
-        String mergedDescriptorLocation, Expectation[] expectations) {
-        super(deploymentDescriptorLocation, extensionDescriptorLocations, mergedDescriptorLocation, expectations);
     }
 
     @Override

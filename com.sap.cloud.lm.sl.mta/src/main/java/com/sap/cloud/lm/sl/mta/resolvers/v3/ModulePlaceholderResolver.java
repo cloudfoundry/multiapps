@@ -15,7 +15,8 @@ public class ModulePlaceholderResolver extends com.sap.cloud.lm.sl.mta.resolvers
     protected final Module module3;
 
     public ModulePlaceholderResolver(Module module, String prefix, ParametersChainBuilder parametersChainBuilder,
-        SystemParameters systemParameters, ResolverBuilder propertiesResolverBuilder, ResolverBuilder parametersResolverBuilder) {
+                                     SystemParameters systemParameters, ResolverBuilder propertiesResolverBuilder,
+                                     ResolverBuilder parametersResolverBuilder) {
         super(module, prefix, parametersChainBuilder, systemParameters, propertiesResolverBuilder, parametersResolverBuilder);
         this.module3 = module;
     }
@@ -39,7 +40,11 @@ public class ModulePlaceholderResolver extends com.sap.cloud.lm.sl.mta.resolvers
     }
 
     protected ProvidedDependencyPlaceholderResolver getProvidedDependencyResolver(ProvidedDependency providedDependency) {
-        return new ProvidedDependencyPlaceholderResolver(module3, providedDependency, prefix, parametersChainBuilder, systemParameters,
-            propertiesResolverBuilder);
+        return new ProvidedDependencyPlaceholderResolver(module3,
+                                                         providedDependency,
+                                                         prefix,
+                                                         parametersChainBuilder,
+                                                         systemParameters,
+                                                         propertiesResolverBuilder);
     }
 }

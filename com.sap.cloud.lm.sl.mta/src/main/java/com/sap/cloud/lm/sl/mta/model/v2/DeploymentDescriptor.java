@@ -53,20 +53,40 @@ public class DeploymentDescriptor implements Descriptor, VisitableElement, Prope
         return id;
     }
 
+    public void setId(String id) {
+        this.id = id;
+    }
+
     public List<Module> getModules2() {
         return ListUtil.upcastUnmodifiable(getModules());
+    }
+
+    public void setModules2(List<Module> modules) {
+        setModules(modules);
     }
 
     protected List<? extends Module> getModules() {
         return modules2;
     }
 
+    protected void setModules(List<? extends Module> modules) {
+        this.modules2 = ListUtil.cast(modules);
+    }
+
     public List<Resource> getResources2() {
         return ListUtil.upcastUnmodifiable(getResources());
     }
 
+    public void setResources2(List<Resource> resources) {
+        setResources(resources);
+    }
+
     protected List<? extends Resource> getResources() {
         return resources2;
+    }
+
+    protected void setResources(List<? extends Resource> resources) {
+        this.resources2 = ListUtil.cast(resources);
     }
 
     @Override
@@ -75,29 +95,13 @@ public class DeploymentDescriptor implements Descriptor, VisitableElement, Prope
     }
 
     @Override
-    public Map<String, Object> getParameters() {
-        return MapUtil.unmodifiable(parameters);
-    }
-
-    public void setModules2(List<Module> modules) {
-        setModules(modules);
-    }
-
-    protected void setModules(List<? extends Module> modules) {
-        this.modules2 = ListUtil.cast(modules);
-    }
-
-    public void setResources2(List<Resource> resources) {
-        setResources(resources);
-    }
-
-    protected void setResources(List<? extends Resource> resources) {
-        this.resources2 = ListUtil.cast(resources);
+    public void setProperties(Map<String, Object> properties) {
+        throw new UnsupportedOperationException();
     }
 
     @Override
-    public void setProperties(Map<String, Object> properties) {
-        throw new UnsupportedOperationException();
+    public Map<String, Object> getParameters() {
+        return MapUtil.unmodifiable(parameters);
     }
 
     @Override
@@ -140,6 +144,46 @@ public class DeploymentDescriptor implements Descriptor, VisitableElement, Prope
         }
         result.setResources2(clonedResources);
         return result.build();
+    }
+
+    public String getProvider() {
+        return provider;
+    }
+
+    public void setProvider(String provider) {
+        this.provider = provider;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String getVersion() {
+        return version;
+    }
+
+    public void setVersion(String version) {
+        this.version = version;
+    }
+
+    public String getCopyright() {
+        return copyright;
+    }
+
+    public void setCopyright(String copyright) {
+        this.copyright = copyright;
+    }
+
+    public String getSchemaVersion() {
+        return schemaVersion;
+    }
+
+    public void setSchemaVersion(String schemaVersion) {
+        this.schemaVersion = schemaVersion;
     }
 
     public static class Builder {
@@ -216,50 +260,6 @@ public class DeploymentDescriptor implements Descriptor, VisitableElement, Prope
             throw new UnsupportedOperationException();
         }
 
-    }
-
-    public String getProvider() {
-        return provider;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public String getVersion() {
-        return version;
-    }
-
-    public String getCopyright() {
-        return copyright;
-    }
-
-    public String getSchemaVersion() {
-        return schemaVersion;
-    }
-
-    public void setSchemaVersion(String schemaVersion) {
-        this.schemaVersion = schemaVersion;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public void setVersion(String version) {
-        this.version = version;
-    }
-
-    public void setProvider(String provider) {
-        this.provider = provider;
-    }
-
-    public void setCopyright(String copyright) {
-        this.copyright = copyright;
     }
 
 }

@@ -23,10 +23,6 @@ public enum VersionRule {
         }
     });
 
-    private interface VersionRuleValidator {
-        boolean allows(DeploymentType deploymentType);
-    }
-
     private VersionRuleValidator versionRuleValidator;
 
     private VersionRule(VersionRuleValidator versionRuleValidator) {
@@ -35,6 +31,10 @@ public enum VersionRule {
 
     public boolean allows(DeploymentType deploymentType) {
         return versionRuleValidator.allows(deploymentType);
+    }
+
+    private interface VersionRuleValidator {
+        boolean allows(DeploymentType deploymentType);
     }
 
 }

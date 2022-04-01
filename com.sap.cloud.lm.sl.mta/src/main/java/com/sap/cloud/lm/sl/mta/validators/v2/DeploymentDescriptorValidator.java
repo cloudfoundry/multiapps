@@ -24,7 +24,7 @@ public class DeploymentDescriptorValidator extends Visitor {
         this.platformType = platformType;
         this.handler = handler;
     }
-    
+
     public void validate() throws ContentException {
         descriptor.accept(this);
     }
@@ -32,7 +32,7 @@ public class DeploymentDescriptorValidator extends Visitor {
     @Override
     public void visit(ElementContext context, RequiredDependency requiredDependency) throws ContentException {
         VisitableElement previousElement = context.getPreviousElementContext()
-            .getVisitableElement();
+                                                  .getVisitableElement();
         validate((NamedElement) previousElement, requiredDependency.getName());
     }
 
@@ -45,22 +45,22 @@ public class DeploymentDescriptorValidator extends Visitor {
     protected boolean canBeResolved(String dependency) {
         return handler.findDependency(descriptor, dependency) != null;
     }
-    
+
     @Override
     public void visit(ElementContext context, Resource resource) throws ContentException {
         if (isService(resource) && !isSupported(resource) && !isOptional(resource)) {
             throw new ContentException(Messages.UNSUPPORTED_RESOURCE_TYPE, resource.getType(), platformType.getName());
         }
     }
-    
+
     protected boolean isService(Resource resource) {
         return resource.getType() != null;
     }
-    
+
     protected boolean isSupported(Resource resource) {
         return handler.findResourceType(platformType, resource.getType()) != null;
     }
-    
+
     @Override
     public void visit(ElementContext context, Module module) throws ContentException {
         if (!isSupported(module)) {
@@ -68,13 +68,13 @@ public class DeploymentDescriptorValidator extends Visitor {
         }
         validateRequiredDependencies(module);
     }
-    
+
     protected boolean isSupported(Module module) {
         return handler.findModuleType(platformType, module.getType()) != null;
     }
-    
+
     protected void validateRequiredDependencies(Module module) {
-        //Do nothing!
+        // Do nothing!
     }
 
     protected boolean isOptional(Resource resource) {

@@ -13,12 +13,11 @@ import com.sap.cloud.lm.sl.mta.schema.MapElement;
 
 public class ProvidedDependencyParser extends ModelParser<ProvidedDependency> {
 
-    protected static final String PROCESSED_OBJECT_NAME = "MTA provided dependency";
-    
     public static final String NAME = "name";
     public static final String PROPERTIES = "properties";
     public static final String GROUPS = "groups";
     public static final String PUBLIC = "public";
+    protected static final String PROCESSED_OBJECT_NAME = "MTA provided dependency";
 
     public ProvidedDependencyParser(Map<String, Object> source) {
         this(PROVIDED_DEPENDENCY, source);
@@ -36,7 +35,7 @@ public class ProvidedDependencyParser extends ModelParser<ProvidedDependency> {
         builder.setProperties(getProperties());
         return builder.build();
     }
-    
+
     protected String getName() {
         return getStringElement(NAME);
     }

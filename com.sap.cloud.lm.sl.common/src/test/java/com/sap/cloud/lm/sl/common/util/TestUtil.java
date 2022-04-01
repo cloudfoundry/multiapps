@@ -14,38 +14,6 @@ import org.apache.commons.io.IOUtils;
 
 public class TestUtil {
 
-    public static class Expectation {
-
-        public enum Type {
-            DIRECT, RESOURCE, EXCEPTION, SKIP,
-        }
-
-        private final Type type;
-        private final String expectation;
-
-        public Expectation(String expectation) {
-            this(Type.DIRECT, expectation);
-        }
-
-        public Expectation(Type type, String expectation) {
-            this.type = type;
-            this.expectation = expectation;
-        }
-
-        private boolean expectsSuccess() {
-            return type == Type.DIRECT || type == Type.RESOURCE;
-        }
-
-        private boolean expectsFailure() {
-            return type == Type.EXCEPTION;
-        }
-
-        private boolean shouldSkipTest() {
-            return type == Type.SKIP;
-        }
-
-    }
-
     public static InputStream getResourceAsInputStream(String name, Class<?> resourceClass) {
         return resourceClass.getResourceAsStream(name);
     }
@@ -68,7 +36,7 @@ public class TestUtil {
     }
 
     public static <T> void test(Callable<T> callable, Expectation expectation, Class<?> resourceClass,
-        JsonSerializationOptions serializationOptions) {
+                                JsonSerializationOptions serializationOptions) {
         if (expectation.shouldSkipTest()) {
             return;
         }
@@ -88,7 +56,7 @@ public class TestUtil {
     }
 
     private static void validateResult(Expectation expectation, Object result, Class<?> resourceClass,
-        JsonSerializationOptions serializationOptions) {
+                                       JsonSerializationOptions serializationOptions) {
         assertTrue("Expected an exception, but the test finished successfully!", expectation.expectsSuccess());
         String resultAsString = getResultAsString(result, expectation, serializationOptions);
         Object expectedResult = getExpectedResult(expectation, resourceClass);
@@ -122,6 +90,37 @@ public class TestUtil {
             fail(e.toString());
         }
         assertThat("Exception's message doesn't match up!", e.getMessage(), containsString(expectation.expectation));
+    }
+
+    public static class Expectation {
+
+        private final Type type;
+        private final String expectation;
+        public Expectation(String expectation) {
+            this(Type.DIRECT, expectation);
+        }
+
+        public Expectation(Type type, String expectation) {
+            this.type = type;
+            this.expectation = expectation;
+        }
+
+        private boolean expectsSuccess() {
+            return type == Type.DIRECT || type == Type.RESOURCE;
+        }
+
+        private boolean expectsFailure() {
+            return type == Type.EXCEPTION;
+        }
+
+        private boolean shouldSkipTest() {
+            return type == Type.SKIP;
+        }
+
+        public enum Type {
+            DIRECT, RESOURCE, EXCEPTION, SKIP,
+        }
+
     }
 
     public static class JsonSerializationOptions {

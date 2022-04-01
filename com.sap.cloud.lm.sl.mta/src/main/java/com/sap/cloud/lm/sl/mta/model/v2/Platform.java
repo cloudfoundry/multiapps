@@ -18,7 +18,6 @@ import com.sap.cloud.lm.sl.mta.model.Visitor;
 
 public class Platform implements VisitableElement, NamedElement, PropertiesContainer, ParametersContainer {
 
-    
     private Map<String, Object> parameters;
     private List<ModuleType> moduleTypes2;
     private List<ResourceType> resourceTypes2;
@@ -45,36 +44,36 @@ public class Platform implements VisitableElement, NamedElement, PropertiesConta
         this.description = description;
     }
 
-    public void setResourceTypes2(List<ResourceType> resourceTypes) {
-        setResourceTypes(resourceTypes);
-    }
-
-    protected void setResourceTypes(List<? extends com.sap.cloud.lm.sl.mta.model.v2.ResourceType> resourceTypes) {
-        this.resourceTypes2 = ListUtil.cast(resourceTypes);
-    }
-
     public List<ResourceType> getResourceTypes2() {
         return ListUtil.upcastUnmodifiable(getResourceTypes());
+    }
+
+    public void setResourceTypes2(List<ResourceType> resourceTypes) {
+        setResourceTypes(resourceTypes);
     }
 
     protected List<? extends ResourceType> getResourceTypes() {
         return resourceTypes2;
     }
 
-    public void setModuleTypes2(List<ModuleType> moduleTypes) {
-        setModuleTypes(moduleTypes);
-    }
-
-    protected void setModuleTypes(List<? extends com.sap.cloud.lm.sl.mta.model.v2.ModuleType> moduleTypes) {
-        this.moduleTypes2 = ListUtil.cast(moduleTypes);
+    protected void setResourceTypes(List<? extends com.sap.cloud.lm.sl.mta.model.v2.ResourceType> resourceTypes) {
+        this.resourceTypes2 = ListUtil.cast(resourceTypes);
     }
 
     public List<ModuleType> getModuleTypes2() {
         return ListUtil.upcastUnmodifiable(getModuleTypes());
     }
 
+    public void setModuleTypes2(List<ModuleType> moduleTypes) {
+        setModuleTypes(moduleTypes);
+    }
+
     protected List<? extends ModuleType> getModuleTypes() {
         return moduleTypes2;
+    }
+
+    protected void setModuleTypes(List<? extends com.sap.cloud.lm.sl.mta.model.v2.ModuleType> moduleTypes) {
+        this.moduleTypes2 = ListUtil.cast(moduleTypes);
     }
 
     @Override
@@ -83,13 +82,13 @@ public class Platform implements VisitableElement, NamedElement, PropertiesConta
     }
 
     @Override
-    public Map<String, Object> getParameters() {
-        return MapUtil.unmodifiable(parameters);
+    public void setProperties(Map<String, Object> properties) {
+        throw new UnsupportedOperationException();
     }
 
     @Override
-    public void setProperties(Map<String, Object> properties) {
-        throw new UnsupportedOperationException();
+    public Map<String, Object> getParameters() {
+        return MapUtil.unmodifiable(parameters);
     }
 
     @Override

@@ -42,22 +42,29 @@ public class HandlerConstructor extends com.sap.cloud.lm.sl.mta.handlers.v2.Hand
     }
 
     @Override
-    public PlaceholderResolver<? extends DeploymentDescriptor> getDescriptorPlaceholderResolver(final DeploymentDescriptor mergedDescriptor,
-        Platform platform, SystemParameters systemParameters, ResolverBuilder propertiesResolverBuilder,
-        ResolverBuilder parametersResolverBuilder) {
+    public PlaceholderResolver<? extends DeploymentDescriptor>
+           getDescriptorPlaceholderResolver(final DeploymentDescriptor mergedDescriptor, Platform platform,
+                                            SystemParameters systemParameters, ResolverBuilder propertiesResolverBuilder,
+                                            ResolverBuilder parametersResolverBuilder) {
         com.sap.cloud.lm.sl.mta.model.v3.DeploymentDescriptor mergedDescriptorV3 = cast(mergedDescriptor);
         com.sap.cloud.lm.sl.mta.model.v2.Platform platformV2 = cast(platform);
-        return new DescriptorPlaceholderResolver(mergedDescriptorV3, platformV2, systemParameters, propertiesResolverBuilder,
-            parametersResolverBuilder);
+        return new DescriptorPlaceholderResolver(mergedDescriptorV3,
+                                                 platformV2,
+                                                 systemParameters,
+                                                 propertiesResolverBuilder,
+                                                 parametersResolverBuilder);
     }
 
     @Override
-    public Resolver<? extends com.sap.cloud.lm.sl.mta.model.v3.DeploymentDescriptor> getDescriptorReferenceResolver(
-        DeploymentDescriptor mergedDescriptor, ResolverBuilder modulesPropertiesResolverBuilder,
-        ResolverBuilder resourcePropertiesResolverBuilder, ResolverBuilder requiredDepencenciesPropertiesResolverBuilder) {
+    public Resolver<? extends com.sap.cloud.lm.sl.mta.model.v3.DeploymentDescriptor>
+           getDescriptorReferenceResolver(DeploymentDescriptor mergedDescriptor, ResolverBuilder modulesPropertiesResolverBuilder,
+                                          ResolverBuilder resourcePropertiesResolverBuilder,
+                                          ResolverBuilder requiredDepencenciesPropertiesResolverBuilder) {
         com.sap.cloud.lm.sl.mta.model.v3.DeploymentDescriptor descriptor = cast(mergedDescriptor);
-        return cast(new DescriptorReferenceResolver(descriptor, modulesPropertiesResolverBuilder, resourcePropertiesResolverBuilder,
-            requiredDepencenciesPropertiesResolverBuilder));
+        return cast(new DescriptorReferenceResolver(descriptor,
+                                                    modulesPropertiesResolverBuilder,
+                                                    resourcePropertiesResolverBuilder,
+                                                    requiredDepencenciesPropertiesResolverBuilder));
     }
 
 }

@@ -16,7 +16,7 @@ public class ModulesSorter extends com.sap.cloud.lm.sl.mta.handlers.v2.ModulesSo
     String parallelDeploymentsProperty;
 
     public ModulesSorter(DeploymentDescriptor descriptor, DescriptorHandler handler, String dependencyTypeProperty,
-        String hardDependencyType, String parallelDeploymentsProperty) {
+                         String hardDependencyType, String parallelDeploymentsProperty) {
         super(descriptor, handler, dependencyTypeProperty, hardDependencyType);
         this.parallelDeploymentsProperty = parallelDeploymentsProperty;
     }
@@ -36,13 +36,13 @@ public class ModulesSorter extends com.sap.cloud.lm.sl.mta.handlers.v2.ModulesSo
 
     private boolean isParallelDeploymentsEnabled(DeploymentDescriptor descriptor) {
         return (Boolean) descriptor.getParameters()
-            .getOrDefault(parallelDeploymentsProperty, false);
+                                   .getOrDefault(parallelDeploymentsProperty, false);
     }
 
     private boolean hasDeployedAfterAttribute(DeploymentDescriptor descriptor) {
         return descriptor.getModules3()
-            .stream()
-            .anyMatch(this::hasDeployedAfterAttribute);
+                         .stream()
+                         .anyMatch(this::hasDeployedAfterAttribute);
     }
 
     private boolean hasDeployedAfterAttribute(Module module) {
@@ -65,7 +65,7 @@ public class ModulesSorter extends com.sap.cloud.lm.sl.mta.handlers.v2.ModulesSo
         DeploymentDescriptor descriptorV3 = cast(descriptor);
         List<Module> modules = new ArrayList<>(descriptorV3.getModules3());
         modules.stream()
-            .forEach(this::collectDependencies);
+               .forEach(this::collectDependencies);
         return modules;
     }
 

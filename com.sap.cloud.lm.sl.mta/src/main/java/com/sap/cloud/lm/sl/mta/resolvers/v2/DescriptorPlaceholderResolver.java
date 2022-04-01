@@ -28,7 +28,7 @@ public class DescriptorPlaceholderResolver extends PlaceholderResolver<Deploymen
     protected final ParametersChainBuilder parametersChainBuilder;
 
     public DescriptorPlaceholderResolver(DeploymentDescriptor descriptor, Platform platform, SystemParameters systemParameters,
-        ResolverBuilder propertiesResolverBuilder, ResolverBuilder parametersResolverBuilder) {
+                                         ResolverBuilder propertiesResolverBuilder, ResolverBuilder parametersResolverBuilder) {
         super("", "", systemParameters);
         this.deploymentDescriptor = descriptor;
         this.platform = platform;
@@ -47,15 +47,20 @@ public class DescriptorPlaceholderResolver extends PlaceholderResolver<Deploymen
 
     protected Map<String, Object> getResolvedProperties(Map<String, Object> propertiesToResolve) {
         List<Map<String, Object>> parametersList = PropertiesUtil.getParametersList(platform,
-            PropertiesUtil.asParametersProvider(systemParameters.getGeneralParameters()));
+                                                                                    PropertiesUtil.asParametersProvider(systemParameters.getGeneralParameters()));
         addSingularParametersIfNecessary(parametersList);
         return new PropertiesPlaceholderResolver(propertiesResolverBuilder) //
-            .resolve(propertiesToResolve, PropertiesUtil.mergeProperties(parametersList), prefix);
+                                                                           .resolve(propertiesToResolve,
+                                                                                    PropertiesUtil.mergeProperties(parametersList), prefix);
     }
 
     protected ResourcePlaceholderResolver getResourceResolver(Resource resource) {
-        return new ResourcePlaceholderResolver(resource, prefix, parametersChainBuilder, systemParameters, propertiesResolverBuilder,
-            parametersResolverBuilder);
+        return new ResourcePlaceholderResolver(resource,
+                                               prefix,
+                                               parametersChainBuilder,
+                                               systemParameters,
+                                               propertiesResolverBuilder,
+                                               parametersResolverBuilder);
     }
 
     protected List<Resource> getResolvedResources() {
@@ -67,8 +72,12 @@ public class DescriptorPlaceholderResolver extends PlaceholderResolver<Deploymen
     }
 
     protected ModulePlaceholderResolver getModuleResolver(Module module) {
-        return new ModulePlaceholderResolver(module, prefix, parametersChainBuilder, systemParameters, propertiesResolverBuilder,
-            parametersResolverBuilder);
+        return new ModulePlaceholderResolver(module,
+                                             prefix,
+                                             parametersChainBuilder,
+                                             systemParameters,
+                                             propertiesResolverBuilder,
+                                             parametersResolverBuilder);
     }
 
     protected List<? extends Module> getResolvedModules() {

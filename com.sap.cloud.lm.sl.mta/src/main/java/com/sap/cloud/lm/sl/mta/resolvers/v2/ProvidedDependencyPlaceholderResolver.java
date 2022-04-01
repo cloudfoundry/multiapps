@@ -21,7 +21,8 @@ public class ProvidedDependencyPlaceholderResolver extends PlaceholderResolver<P
     protected final ResolverBuilder propertiesResolverBuilder;
 
     public ProvidedDependencyPlaceholderResolver(Module module, ProvidedDependency providedDependency, String prefix,
-        ParametersChainBuilder parametersChainBuilder, SystemParameters systemParameters, ResolverBuilder propertiesResolverBuilder) {
+                                                 ParametersChainBuilder parametersChainBuilder, SystemParameters systemParameters,
+                                                 ResolverBuilder propertiesResolverBuilder) {
         super(providedDependency.getName(), prefix, systemParameters);
         this.parametersChainBuilder = parametersChainBuilder;
         this.module = module;
@@ -45,7 +46,7 @@ public class ProvidedDependencyPlaceholderResolver extends PlaceholderResolver<P
         List<Map<String, Object>> parametersChain = parametersChainBuilder.buildModuleChain(moduleName);
         addSingularParametersIfNecessary(parametersChain);
         parametersChain.add(getFullSystemParameters(systemParameters.getModuleParameters()
-            .get(moduleName)));
+                                                                    .get(moduleName)));
         return parametersChain;
     }
 

@@ -34,7 +34,7 @@ public class ExtensionDescriptorValidator extends Visitor {
     protected final DescriptorHandler handler;
 
     public ExtensionDescriptorValidator(ExtensionDescriptor extensionDescriptor, DeploymentDescriptor deploymentDescriptor,
-        DescriptorHandler handler) {
+                                        DescriptorHandler handler) {
         this.extensionDescriptor = extensionDescriptor;
         this.deploymentDescriptor = deploymentDescriptor;
         this.handler = handler;
@@ -50,10 +50,12 @@ public class ExtensionDescriptorValidator extends Visitor {
     @Override
     public void visit(ElementContext context, ExtensionRequiredDependency extensionRequiredDependency) throws ContentException {
         String containerName = context.getPreviousElementContext()
-            .getVisitableElementName();
+                                      .getVisitableElementName();
         if (!extendsDeploymentDescriptorElement(containerName, extensionRequiredDependency)) {
-            throw new ContentException(Messages.UNKNOWN_REQUIRED_DEPENDENCY_IN_MTAEXT, extensionRequiredDependency.getName(), containerName,
-                extensionDescriptor.getId());
+            throw new ContentException(Messages.UNKNOWN_REQUIRED_DEPENDENCY_IN_MTAEXT,
+                                       extensionRequiredDependency.getName(),
+                                       containerName,
+                                       extensionDescriptor.getId());
         }
         RequiredDependency parentContainer = findRequiredDependency(containerName, extensionRequiredDependency);
         validateProperties(parentContainer, extensionRequiredDependency, extensionRequiredDependency.getName());
@@ -61,7 +63,7 @@ public class ExtensionDescriptorValidator extends Visitor {
     }
 
     protected void validateProperties(final PropertiesContainer parentContainer, final PropertiesContainer extensionContainer,
-        final String containerName) {
+                                      final String containerName) {
         validate(parentContainer.getProperties(), extensionContainer.getProperties(), containerName, Constants.PROPERTY_ELEMENT_TYPE_NAME);
     }
 
@@ -85,8 +87,8 @@ public class ExtensionDescriptorValidator extends Visitor {
     }
 
     protected void validate(Map<String, Object> properties, Map<String, Object> extensionProperties, String containerName,
-        String elementType) {
-        for (Entry<String,Object> extensionProperty: extensionProperties.entrySet()) {
+                            String elementType) {
+        for (Entry<String, Object> extensionProperty : extensionProperties.entrySet()) {
             String propertyName = extensionProperty.getKey();
             Object parentValue = properties.get(propertyName);
             Object value = extensionProperty.getValue();
@@ -114,9 +116,9 @@ public class ExtensionDescriptorValidator extends Visitor {
     }
 
     protected void validateParameters(ParametersContainer parametersContainer, ParametersContainer extensionParametersContainer,
-        String containerName) {
+                                      String containerName) {
         validate(parametersContainer.getParameters(), extensionParametersContainer.getParameters(), containerName,
-            Constants.PARAMETER_ELEMENT_TYPE_NAME);
+                 Constants.PARAMETER_ELEMENT_TYPE_NAME);
     }
 
     private boolean extendsDeploymentDescriptorElement(String containerName, ExtensionRequiredDependency extenstionRequiredDependency) {
@@ -124,27 +126,28 @@ public class ExtensionDescriptorValidator extends Visitor {
     }
 
     protected RequiredDependency findRequiredDependency(String containerName, ExtensionRequiredDependency extensionRequiredDependency) {
-        return handler.findRequiredDependency(deploymentDescriptor, containerName,
-            extensionRequiredDependency.getName());
+        return handler.findRequiredDependency(deploymentDescriptor, containerName, extensionRequiredDependency.getName());
     }
-    
+
     @Override
     public void visit(ElementContext context, ExtensionProvidedDependency extensionProvidedDependency) throws ContentException {
         VisitableElement container = context.getPreviousElementContext()
-            .getVisitableElement();
+                                            .getVisitableElement();
         if (!extendsDeploymentDescriptorElement(extensionProvidedDependency)) {
             String containerName = container instanceof NamedElement ? ((NamedElement) container).getName() : "";
-            throw new ContentException(Messages.UNKNOWN_PROVIDED_DEPENDENCY_IN_MTAEXT, extensionProvidedDependency.getName(), containerName,
-                extensionDescriptor.getId());
+            throw new ContentException(Messages.UNKNOWN_PROVIDED_DEPENDENCY_IN_MTAEXT,
+                                       extensionProvidedDependency.getName(),
+                                       containerName,
+                                       extensionDescriptor.getId());
         }
         validateProperties(findProvidedDependency(extensionProvidedDependency), extensionProvidedDependency,
-            extensionProvidedDependency.getName());
+                           extensionProvidedDependency.getName());
     }
-    
+
     private boolean extendsDeploymentDescriptorElement(ExtensionProvidedDependency extensionProvidedDependency) {
         return findProvidedDependency(extensionProvidedDependency) != null;
     }
-    
+
     protected ProvidedDependency findProvidedDependency(ExtensionProvidedDependency extensionProvidedDependency) {
         return handler.findProvidedDependency(deploymentDescriptor, extensionProvidedDependency.getName());
     }

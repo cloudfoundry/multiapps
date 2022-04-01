@@ -10,15 +10,15 @@ public class GenericArgumentMatcher<T> extends ArgumentMatcher<T> {
         this.expectedObject = expectedObject;
     }
 
+    public static <T> GenericArgumentMatcher<T> forObject(T expectedObject) {
+        return new GenericArgumentMatcher<>(expectedObject);
+    }
+
     @Override
     public boolean matches(Object actualObject) {
         String actualJson = JsonUtil.toJson(actualObject);
         String expectedJson = JsonUtil.toJson(expectedObject);
         return expectedJson.equals(actualJson);
-    }
-
-    public static <T> GenericArgumentMatcher<T> forObject(T expectedObject) {
-        return new GenericArgumentMatcher<>(expectedObject);
     }
 
 }

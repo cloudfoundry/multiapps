@@ -63,7 +63,7 @@ public class JsonUtil {
         }
         try {
             Gson gson = new GsonBuilder().registerTypeAdapterFactory(new MapWithNumbersAdapterFactory())
-                .create();
+                                         .create();
             return gson.fromJson(json, type);
         } catch (Exception e) {
             throw new ParsingException(e, errorMessage, json.substring(0, Math.min(json.length(), MAX_LENGTH)));
@@ -76,7 +76,7 @@ public class JsonUtil {
         }
         try {
             Gson gson = new GsonBuilder().registerTypeAdapterFactory(new MapWithNumbersAdapterFactory())
-                .create();
+                                         .create();
             return gson.fromJson(new InputStreamReader(json, StandardCharsets.UTF_8), type);
         } catch (Exception e) {
             throw new ParsingException(e, errorMessage, json);
@@ -103,22 +103,24 @@ public class JsonUtil {
             builder.excludeFieldsWithoutExposeAnnotation();
         }
         return builder.create()
-            .toJson(obj);
+                      .toJson(obj);
     }
 
     public static <T> T fromJson(String json, Type type) throws ParsingException {
         try {
             return new Gson().fromJson(json, type);
         } catch (JsonSyntaxException e) {
-            throw new ParsingException(e, Messages.CANNOT_PARSE_JSON_STRING_TO_TYPE, json.substring(0, Math.min(json.length(), MAX_LENGTH)),
-                type.toString());
+            throw new ParsingException(e,
+                                       Messages.CANNOT_PARSE_JSON_STRING_TO_TYPE,
+                                       json.substring(0, Math.min(json.length(), MAX_LENGTH)),
+                                       type.toString());
         }
     }
 
     public static <T> byte[] toBinaryJson(Object obj) {
         return new GsonBuilder().create()
-            .toJson(obj)
-            .getBytes(StandardCharsets.UTF_8);
+                                .toJson(obj)
+                                .getBytes(StandardCharsets.UTF_8);
     }
 
     public static <T> T fromBinaryJson(byte[] binaryJson, Class<T> classOfT) {

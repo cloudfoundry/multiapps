@@ -25,17 +25,17 @@ public class DescriptorValidator {
     }
 
     protected DeploymentDescriptorValidator getDeploymentDescriptorValidator(DeploymentDescriptor deploymentDescriptor,
-        Platform platformType) {
+                                                                             Platform platformType) {
         return new DeploymentDescriptorValidator(deploymentDescriptor, platformType, handler);
     }
 
     protected ExtensionDescriptorValidator getExtensionDescriptorValidator(ExtensionDescriptor extensionDescriptor,
-        DeploymentDescriptor deploymentDescriptor) {
+                                                                           DeploymentDescriptor deploymentDescriptor) {
         return new ExtensionDescriptorValidator(extensionDescriptor, deploymentDescriptor, handler);
     }
 
     protected MergedDescriptorValidator getMergedDescriptorValidator(DeploymentDescriptor mergedDescriptor,
-        DescriptorValidationRules validationRules) {
+                                                                     DescriptorValidationRules validationRules) {
         return new MergedDescriptorValidator(mergedDescriptor, validationRules, handler);
     }
 

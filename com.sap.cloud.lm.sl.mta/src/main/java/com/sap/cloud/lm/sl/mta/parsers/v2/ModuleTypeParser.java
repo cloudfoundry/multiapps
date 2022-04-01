@@ -12,12 +12,11 @@ import com.sap.cloud.lm.sl.mta.schema.MapElement;
 
 public class ModuleTypeParser extends ModelParser<ModuleType> {
 
-    protected static final String PROCESSED_OBJECT_NAME = "MTA module type";
-
     public static final String NAME = "name";
     public static final String DEPLOYER = "deployer";
     public static final String PROPERTIES = "properties";
     public static final String PARAMETERS = "parameters";
+    protected static final String PROCESSED_OBJECT_NAME = "MTA module type";
 
     public ModuleTypeParser(Map<String, Object> source) {
         this(MODULE_TYPE, source);

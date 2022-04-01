@@ -7,16 +7,14 @@ import org.apache.commons.lang3.ObjectUtils;
 
 public class Metadata {
 
+    public static final Metadata DEFAULT_METADATA = new Metadata(Collections.<String, Map<String, Object>> emptyMap());
     private static final boolean DEFAULT_OPTIONAL_VALUE = false;
     private static final boolean DEFAULT_OVERWRITABLE_VALUE = true;
     private static final boolean DEFAULT_SENSITIVE_VALUE = false;
     private static final String OVERWRITABLE = "overwritable";
     private static final String OPTIONAL = "optional";
     private static final String SENSITIVE = "sensitive";
-
     private Map<String, Map<String, Object>> metadata;
-
-    public static final Metadata DEFAULT_METADATA = new Metadata(Collections.<String, Map<String, Object>> emptyMap());
 
     public Metadata(Map<String, Map<String, Object>> metadata) {
         this.metadata = metadata;

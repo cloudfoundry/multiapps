@@ -32,31 +32,17 @@ public class DeploymentDescriptor extends com.sap.cloud.lm.sl.mta.model.v2.Deplo
     }
 
     @Override
-    public void setParametersMetadata(Metadata metadata) {
-        parametersMetadata = metadata;
-    }
-
-    @Override
     public Metadata getParametersMetadata() {
         return parametersMetadata;
     }
 
+    @Override
+    public void setParametersMetadata(Metadata metadata) {
+        parametersMetadata = metadata;
+    }
+
     public List<Module> getModules3() {
         return ListUtil.upcastUnmodifiable(getModules());
-    }
-
-    @Override
-    protected List<? extends Module> getModules() {
-        return modules3;
-    }
-
-    public List<Resource> getResources3() {
-        return ListUtil.upcastUnmodifiable(getResources());
-    }
-
-    @Override
-    protected List<? extends Resource> getResources() {
-        return resources3;
     }
 
     public void setModules3(List<Module> modules) {
@@ -64,12 +50,26 @@ public class DeploymentDescriptor extends com.sap.cloud.lm.sl.mta.model.v2.Deplo
     }
 
     @Override
+    protected List<? extends Module> getModules() {
+        return modules3;
+    }
+
+    @Override
     protected void setModules(List<? extends com.sap.cloud.lm.sl.mta.model.v2.Module> modules) {
         this.modules3 = ListUtil.cast(modules);
     }
 
+    public List<Resource> getResources3() {
+        return ListUtil.upcastUnmodifiable(getResources());
+    }
+
     public void setResources3(List<Resource> resources) {
         setResources(resources);
+    }
+
+    @Override
+    protected List<? extends Resource> getResources() {
+        return resources3;
     }
 
     @Override

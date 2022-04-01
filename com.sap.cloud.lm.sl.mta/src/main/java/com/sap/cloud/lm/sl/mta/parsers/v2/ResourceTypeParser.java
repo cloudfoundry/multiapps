@@ -12,12 +12,11 @@ import com.sap.cloud.lm.sl.mta.schema.MapElement;
 
 public class ResourceTypeParser extends ModelParser<ResourceType> {
 
-    protected static final String PROCESSED_OBJECT_NAME = "MTA resource type";
-
     public static final String NAME = "name";
     public static final String PROPERTIES = "properties";
     public static final String PARAMETERS = "parameters";
     public static final String RESOURCE_MANAGER = "resource-manager";
+    protected static final String PROCESSED_OBJECT_NAME = "MTA resource type";
 
     public ResourceTypeParser(Map<String, Object> source) {
         this(RESOURCE_TYPE, source);

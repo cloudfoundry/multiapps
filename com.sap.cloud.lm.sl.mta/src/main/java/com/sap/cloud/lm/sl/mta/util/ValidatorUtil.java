@@ -11,7 +11,8 @@ public class ValidatorUtil {
     public static final String DEFAULT_SEPARATOR = "#";
 
     public static void validateModifiableElements(String elementType, String elementPrefix, String containerName, String key, Object value,
-        Object parentValue) throws ContentException {
+                                                  Object parentValue)
+        throws ContentException {
         if (!CommonUtil.isNullOrEmpty(parentValue) && !parentValue.equals(value)) {
             throw new ContentException(Messages.CANNOT_MODIFY_ELEMENT, elementType, getPrefixedName(elementPrefix, key), containerName);
         }

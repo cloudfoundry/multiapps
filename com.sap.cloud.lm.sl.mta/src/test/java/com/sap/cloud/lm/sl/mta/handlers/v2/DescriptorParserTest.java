@@ -17,7 +17,7 @@ import com.sap.cloud.lm.sl.mta.model.v2.ExtensionDescriptor;
 
 @RunWith(value = Parameterized.class)
 public class DescriptorParserTest {
-    
+
     private final String extensionDescriptorsLocation;
     private final String deploymentDescriptorLocation;
     private final Expectation[] expectations;
@@ -26,6 +26,12 @@ public class DescriptorParserTest {
     private InputStream deploymentDescriptorYaml;
 
     private DescriptorParser parser;
+
+    public DescriptorParserTest(String deploymentDescriptorLocation, String extensionDescriptorLocation, Expectation[] expectation) {
+        this.extensionDescriptorsLocation = extensionDescriptorLocation;
+        this.deploymentDescriptorLocation = deploymentDescriptorLocation;
+        this.expectations = expectation;
+    }
 
     @Parameters
     public static Iterable<Object[]> getParameters() {
@@ -139,12 +145,6 @@ public class DescriptorParserTest {
         });
     }
 
-    public DescriptorParserTest(String deploymentDescriptorLocation, String extensionDescriptorLocation, Expectation[] expectation) {
-        this.extensionDescriptorsLocation = extensionDescriptorLocation;
-        this.deploymentDescriptorLocation = deploymentDescriptorLocation;
-        this.expectations = expectation;
-    }
-    
     @Before
     public void setUp() throws Exception {
         if (extensionDescriptorsLocation != null) {
@@ -179,5 +179,5 @@ public class DescriptorParserTest {
             }
         }, expectations[1], getClass());
     }
-    
+
 }

@@ -34,64 +34,62 @@ public class ExtensionModule implements VisitableElement, NamedElement, Properti
     protected ExtensionModule() {
 
     }
-    
+
     public String getName() {
         return name;
     }
-    
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
     public Map<String, Object> getProperties() {
         return MapUtil.unmodifiable(properties);
     }
-    
+
+    public void setProperties(Map<String, Object> properties) {
+        this.properties = new LinkedHashMap<>(properties);
+    }
+
     @Override
     public Map<String, Object> getParameters() {
         return MapUtil.unmodifiable(parameters);
+    }
+
+    @Override
+    public void setParameters(Map<String, Object> parameters) {
+        this.parameters = new LinkedHashMap<>(parameters);
     }
 
     public List<ExtensionRequiredDependency> getRequiredDependencies2() {
         return ListUtil.upcastUnmodifiable(getRequiredDependencies());
     }
 
+    public void setRequiredDependencies2(List<ExtensionRequiredDependency> requiredDependencies) {
+        setRequiredDependencies(requiredDependencies);
+    }
+
     protected List<? extends ExtensionRequiredDependency> getRequiredDependencies() {
         return requiredDependencies2;
+    }
+
+    protected void setRequiredDependencies(List<? extends ExtensionRequiredDependency> requiredDependencies) {
+        this.requiredDependencies2 = ListUtil.cast(requiredDependencies);
     }
 
     public List<ExtensionProvidedDependency> getProvidedDependencies2() {
         return ListUtil.upcastUnmodifiable(getProvidedDependencies());
     }
 
-    protected List<? extends ExtensionProvidedDependency> getProvidedDependencies() {
-        return providedDependencies2;
-    }
-    
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public void setProperties(Map<String, Object> properties) {
-        this.properties = new LinkedHashMap<>(properties);
-    }
-    
-    @Override
-    public void setParameters(Map<String, Object> parameters) {
-        this.parameters = new LinkedHashMap<>(parameters);
-    }
-
-    public void setRequiredDependencies2(List<ExtensionRequiredDependency> requiredDependencies) {
-        setRequiredDependencies(requiredDependencies);
-    }
-
-    protected void setRequiredDependencies(
-        List<? extends ExtensionRequiredDependency> requiredDependencies) {
-        this.requiredDependencies2 = ListUtil.cast(requiredDependencies);
-    }
-
     public void setProvidedDependencies2(List<ExtensionProvidedDependency> providedDependencies) {
         setProvidedDependencies(providedDependencies);
     }
 
-    protected void setProvidedDependencies(
-        List<? extends ExtensionProvidedDependency> providedDependencies) {
+    protected List<? extends ExtensionProvidedDependency> getProvidedDependencies() {
+        return providedDependencies2;
+    }
+
+    protected void setProvidedDependencies(List<? extends ExtensionProvidedDependency> providedDependencies) {
         this.providedDependencies2 = ListUtil.cast(providedDependencies);
     }
 
@@ -101,7 +99,7 @@ public class ExtensionModule implements VisitableElement, NamedElement, Properti
         for (ExtensionProvidedDependency providedDependency : getProvidedDependencies()) {
             providedDependency.accept(new ElementContext(providedDependency, context), visitor);
         }
-        
+
         for (ExtensionRequiredDependency requiredDependency : getRequiredDependencies()) {
             requiredDependency.accept(new ElementContext(requiredDependency, context), visitor);
         }
@@ -118,8 +116,10 @@ public class ExtensionModule implements VisitableElement, NamedElement, Properti
         public ExtensionModule build() {
             ExtensionModule result = new ExtensionModule();
             result.setName(name);
-            result.setProvidedDependencies2(ObjectUtils.defaultIfNull(providedDependencies2, Collections.<ExtensionProvidedDependency> emptyList()));
-            result.setRequiredDependencies2(ObjectUtils.defaultIfNull(requiredDependencies2, Collections.<ExtensionRequiredDependency> emptyList()));
+            result.setProvidedDependencies2(ObjectUtils.defaultIfNull(providedDependencies2,
+                                                                      Collections.<ExtensionProvidedDependency> emptyList()));
+            result.setRequiredDependencies2(ObjectUtils.defaultIfNull(requiredDependencies2,
+                                                                      Collections.<ExtensionRequiredDependency> emptyList()));
             result.setProperties(ObjectUtils.defaultIfNull(properties, Collections.<String, Object> emptyMap()));
             result.setParameters(ObjectUtils.defaultIfNull(parameters, Collections.<String, Object> emptyMap()));
             return result;
@@ -128,11 +128,11 @@ public class ExtensionModule implements VisitableElement, NamedElement, Properti
         public void setName(String name) {
             this.name = name;
         }
-        
+
         public void setProperties(Map<String, Object> properties) {
             this.properties = properties;
         }
-        
+
         public void setParameters(Map<String, Object> parameters) {
             this.parameters = parameters;
         }
@@ -141,8 +141,7 @@ public class ExtensionModule implements VisitableElement, NamedElement, Properti
             setProvidedDependencies(providedDependencies);
         }
 
-        protected void setProvidedDependencies(
-            List<? extends ExtensionProvidedDependency> providedDependencies) {
+        protected void setProvidedDependencies(List<? extends ExtensionProvidedDependency> providedDependencies) {
             this.providedDependencies2 = ListUtil.cast(providedDependencies);
         }
 
@@ -150,8 +149,7 @@ public class ExtensionModule implements VisitableElement, NamedElement, Properti
             setRequiredDependencies(requiredDependencies);
         }
 
-        protected void setRequiredDependencies(
-            List<? extends ExtensionRequiredDependency> requiredDependencies) {
+        protected void setRequiredDependencies(List<? extends ExtensionRequiredDependency> requiredDependencies) {
             this.requiredDependencies2 = ListUtil.cast(requiredDependencies);
         }
 

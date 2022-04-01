@@ -26,12 +26,12 @@ public class PropertiesResolver implements SimplePropertyVisitor, Resolver<Map<S
     }
 
     public PropertiesResolver(Map<String, Object> properties, ProvidedValuesResolver valuesResolver, ReferencePattern referencePattern,
-        String prefix) {
+                              String prefix) {
         this(properties, valuesResolver, referencePattern, prefix, true);
     }
 
     public PropertiesResolver(Map<String, Object> properties, ProvidedValuesResolver valuesResolver, ReferencePattern referencePattern,
-        String prefix, boolean isStrict) {
+                              String prefix, boolean isStrict) {
         this.properties = properties;
         this.prefix = prefix;
         this.referencePattern = referencePattern;
@@ -88,8 +88,8 @@ public class PropertiesResolver implements SimplePropertyVisitor, Resolver<Map<S
 
     private boolean isSimpleReference(String value, List<Reference> references) {
         return references.size() == 1 && value.length() == references.get(0)
-            .getMatchedPattern()
-            .length();
+                                                                     .getMatchedPattern()
+                                                                     .length();
     }
 
     protected Object resolveReferenceInContext(String key, Reference reference) {

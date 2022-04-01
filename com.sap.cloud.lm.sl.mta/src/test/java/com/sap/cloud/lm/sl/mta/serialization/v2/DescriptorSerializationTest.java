@@ -21,7 +21,7 @@ import com.sap.cloud.lm.sl.mta.util.YamlUtil;
 
 @RunWith(value = Parameterized.class)
 public class DescriptorSerializationTest {
-    
+
     protected String deploymentDescriptorLocation;
     protected Expectation expectedSerializedDescriptor;
     protected String extensionDescriptorLocation;
@@ -29,6 +29,14 @@ public class DescriptorSerializationTest {
 
     private InputStream deploymentDescriptorYaml;
     private InputStream extensionDescriptorYaml;
+
+    public DescriptorSerializationTest(String deploymentDescriptorLocation, Expectation expectedSerializedDescriptor,
+                                       String extensionDescriptorLocation, Expectation expectedSerializedExtension) {
+        this.deploymentDescriptorLocation = deploymentDescriptorLocation;
+        this.expectedSerializedDescriptor = expectedSerializedDescriptor;
+        this.extensionDescriptorLocation = extensionDescriptorLocation;
+        this.expectedSerializedExtension = expectedSerializedExtension;
+    }
 
     @Parameters
     public static Iterable<Object[]> getParameters() {
@@ -43,20 +51,12 @@ public class DescriptorSerializationTest {
         });
     }
 
-    public DescriptorSerializationTest(String deploymentDescriptorLocation, Expectation expectedSerializedDescriptor,
-        String extensionDescriptorLocation, Expectation expectedSerializedExtension) {
-        this.deploymentDescriptorLocation = deploymentDescriptorLocation;
-        this.expectedSerializedDescriptor = expectedSerializedDescriptor;
-        this.extensionDescriptorLocation = extensionDescriptorLocation;
-        this.expectedSerializedExtension = expectedSerializedExtension;
-    }
-
     @Before
     public void setUp() {
         deploymentDescriptorYaml = getClass().getResourceAsStream(deploymentDescriptorLocation);
         extensionDescriptorYaml = getClass().getResourceAsStream(extensionDescriptorLocation);
     }
-    
+
     @Test
     public void testDescriptorSerialization() {
         TestUtil.test(new Callable<DeploymentDescriptor>() {
@@ -88,11 +88,11 @@ public class DescriptorSerializationTest {
     private DeploymentDescriptor getDescriptorFromMap(Map<String, Object> yamlMap) {
         return getDescriptorParser(yamlMap).parse();
     }
-    
+
     protected DeploymentDescriptorParser getDescriptorParser(Map<String, Object> yamlMap) {
         return new DeploymentDescriptorParser(yamlMap);
     }
-    
+
     private ExtensionDescriptor getExtensionDescriptorFromMap(Map<String, Object> yamlMap) {
         return getExtensionDescriptorParser(yamlMap).parse();
     }

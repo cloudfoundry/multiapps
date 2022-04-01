@@ -35,7 +35,15 @@ public class ProvidedDependency implements VisitableElement, NamedElement, Prope
         return name;
     }
 
+    public void setName(String name) {
+        this.name = name;
+    }
+
     public List<String> getGroups() {
+        throw new UnsupportedOperationException();
+    }
+
+    public void setGroups(List<String> groups) {
         throw new UnsupportedOperationException();
     }
 
@@ -44,25 +52,17 @@ public class ProvidedDependency implements VisitableElement, NamedElement, Prope
         return MapUtil.unmodifiable(properties);
     }
 
+    @Override
+    public void setProperties(Map<String, Object> properties) {
+        this.properties = new LinkedHashMap<>(properties);
+    }
+
     public boolean isPublic() {
         return isPublic;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
     public void setPublic(boolean isPublic) {
         this.isPublic = isPublic;
-    }
-
-    public void setGroups(List<String> groups) {
-        throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public void setProperties(Map<String, Object> properties) {
-        this.properties = new LinkedHashMap<>(properties);
     }
 
     @Override

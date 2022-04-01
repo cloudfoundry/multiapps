@@ -7,10 +7,10 @@ import java.util.Map;
 
 import com.sap.cloud.lm.sl.common.ParsingException;
 import com.sap.cloud.lm.sl.common.util.ListUtil;
-import com.sap.cloud.lm.sl.mta.model.v3.Platform;
 import com.sap.cloud.lm.sl.mta.model.v3.ModuleType;
-import com.sap.cloud.lm.sl.mta.model.v3.ResourceType;
+import com.sap.cloud.lm.sl.mta.model.v3.Platform;
 import com.sap.cloud.lm.sl.mta.model.v3.Platform.Builder;
+import com.sap.cloud.lm.sl.mta.model.v3.ResourceType;
 import com.sap.cloud.lm.sl.mta.schema.MapElement;
 
 public class PlatformParser extends com.sap.cloud.lm.sl.mta.parsers.v2.PlatformParser {

@@ -19,22 +19,23 @@ public class DefaultDescriptorValidationRules extends com.sap.cloud.lm.sl.mta.va
     public void validateProperties(PropertiesContainer propertiesContainer, ElementContext elementContext) throws ContentException {
         PropertiesWithMetadataContainer propertiesMetadataContainer = (PropertiesWithMetadataContainer) propertiesContainer;
         validateOptionalProperties(propertiesMetadataContainer.getProperties(), propertiesMetadataContainer.getPropertiesMetadata(),
-            elementContext, Constants.PROPERTY_ELEMENT_TYPE_NAME);
+                                   elementContext, Constants.PROPERTY_ELEMENT_TYPE_NAME);
     }
 
     @Override
     public void validateParameters(ParametersContainer parametersContainer, ElementContext elementContext) throws ContentException {
         ParametersWithMetadataContainer parametersMetadataContainer = (ParametersWithMetadataContainer) parametersContainer;
         validateOptionalProperties(parametersMetadataContainer.getParameters(), parametersMetadataContainer.getParametersMetadata(),
-            elementContext, Constants.PARAMETER_ELEMENT_TYPE_NAME);
+                                   elementContext, Constants.PARAMETER_ELEMENT_TYPE_NAME);
     }
 
     protected void validateOptionalProperties(Map<String, Object> properties, Metadata metadata, ElementContext elementContext,
-        String elementType) {
+                                              String elementType) {
         for (String propertyName : properties.keySet()) {
             if (!isPropertyValid(properties.get(propertyName), propertyName, metadata)) {
-                throw new ContentException(Messages.MANDATORY_ELEMENT_HAS_NO_VALUE, elementType,
-                    ValidatorUtil.getPrefixedName(elementContext.getPrefixedName(), propertyName));
+                throw new ContentException(Messages.MANDATORY_ELEMENT_HAS_NO_VALUE,
+                                           elementType,
+                                           ValidatorUtil.getPrefixedName(elementContext.getPrefixedName(), propertyName));
             }
         }
     }

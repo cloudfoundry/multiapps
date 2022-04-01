@@ -19,6 +19,15 @@ public class Version implements Comparable<Version> {
         this.version = version;
     }
 
+    public static Version parseVersion(String versionString) {
+        try {
+            String fullVersionString = PARTIAL_VERSION_CONVERTER.convertToFullVersionString(versionString);
+            return new Version(new Semver(fullVersionString, SemverType.NPM));
+        } catch (SemverException e) {
+            throw new ParsingException(e, Messages.UNABLE_TO_PARSE_VERSION, versionString);
+        }
+    }
+
     public int getMajor() {
         return version.getMajor();
     }
@@ -37,15 +46,6 @@ public class Version implements Comparable<Version> {
 
     public String[] getSuffixTokens() {
         return version.getSuffixTokens();
-    }
-
-    public static Version parseVersion(String versionString) {
-        try {
-            String fullVersionString = PARTIAL_VERSION_CONVERTER.convertToFullVersionString(versionString);
-            return new Version(new Semver(fullVersionString, SemverType.NPM));
-        } catch (SemverException e) {
-            throw new ParsingException(e, Messages.UNABLE_TO_PARSE_VERSION, versionString);
-        }
     }
 
     @Override

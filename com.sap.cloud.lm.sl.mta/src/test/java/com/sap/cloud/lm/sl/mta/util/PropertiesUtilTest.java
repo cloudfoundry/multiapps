@@ -20,21 +20,27 @@ public class PropertiesUtilTest {
     private Map<String, Object> extensionDescriptorProperties;
     private Expectation expectation;
 
+    public PropertiesUtilTest(String deploymentDescriptorPath, String extensionDescriptorPath, Expectation expectation) throws Exception {
+        deploymentDescriptorProperties = JsonUtil.fromJson(TestUtil.getResourceAsString(deploymentDescriptorPath, getClass()), Map.class);
+        extensionDescriptorProperties = JsonUtil.fromJson(TestUtil.getResourceAsString(extensionDescriptorPath, getClass()), Map.class);
+        this.expectation = expectation;
+    }
+
     @Parameters
     public static Iterable<Object[]> getParameters() {
         return Arrays.asList(new Object[][] {
 // @formatter:off
             // (0) Merge normal properties maps
             {
-                "deployment-properties-01.json", "extension-properties-01.json", new Expectation(Expectation.Type.RESOURCE, "merged-properties-01.json"), 
+                "deployment-properties-01.json", "extension-properties-01.json", new Expectation(Expectation.Type.RESOURCE, "merged-properties-01.json"),
             },
             // (1) No changes in the extension => merged properties should be the same
             {
-                "deployment-properties-02.json", "extension-properties-02.json", new Expectation(Expectation.Type.RESOURCE, "merged-properties-02.json"), 
+                "deployment-properties-02.json", "extension-properties-02.json", new Expectation(Expectation.Type.RESOURCE, "merged-properties-02.json"),
             },
             // (2) Merging of nested maps
             {
-                "deployment-properties-03.json", "extension-properties-03.json", new Expectation(Expectation.Type.RESOURCE, "merged-properties-03.json"), 
+                "deployment-properties-03.json", "extension-properties-03.json", new Expectation(Expectation.Type.RESOURCE, "merged-properties-03.json"),
             },
             // (3) Scalar parameter cannot be overwritten by a structured parameter
             {
@@ -44,16 +50,10 @@ public class PropertiesUtilTest {
             {
                 "deployment-properties-05.json", "extension-properties-05.json", new Expectation(Expectation.Type.EXCEPTION, ""),
             }
-            
-            
+
+
 // @formatter:on
         });
-    }
-
-    public PropertiesUtilTest(String deploymentDescriptorPath, String extensionDescriptorPath, Expectation expectation) throws Exception {
-        deploymentDescriptorProperties = JsonUtil.fromJson(TestUtil.getResourceAsString(deploymentDescriptorPath, getClass()), Map.class);
-        extensionDescriptorProperties = JsonUtil.fromJson(TestUtil.getResourceAsString(extensionDescriptorPath, getClass()), Map.class);
-        this.expectation = expectation;
     }
 
     @Test

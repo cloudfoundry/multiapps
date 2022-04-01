@@ -19,7 +19,6 @@ import com.sap.cloud.lm.sl.mta.schema.MapElement;
 
 public class ExtensionDescriptorParser extends ModelParser<ExtensionDescriptor> {
 
-    protected static final String PROCESSED_OBJECT_NAME = "MTA extension descriptor";
     public static final String ID = "ID";
     public static final String EXT_DESCRIPTION = "ext_description";
     public static final String EXTENDS = "extends";
@@ -33,7 +32,7 @@ public class ExtensionDescriptorParser extends ModelParser<ExtensionDescriptor> 
     public static final String SCHEMA_VERSION = "_schema-version";
     public static final String PARAMETERS = "parameters";
     public static final String DEPLOY_TARGETS = "targets";
-
+    protected static final String PROCESSED_OBJECT_NAME = "MTA extension descriptor";
     protected final Set<String> usedModuleNames = new HashSet<>();
     protected final Set<String> usedProvidedDependencyNames = new HashSet<>();
     protected final Set<String> usedResourceNames = new HashSet<>();
@@ -122,8 +121,8 @@ public class ExtensionDescriptorParser extends ModelParser<ExtensionDescriptor> 
             @Override
             protected ExtensionModule parseItem(Map<String, Object> map) {
                 return getModuleParser(map).setUsedProvidedDependencyNames(usedProvidedDependencyNames)
-                    .setUsedValues(usedModuleNames)
-                    .parse();
+                                           .setUsedValues(usedModuleNames)
+                                           .parse();
             }
         });
     }
@@ -145,7 +144,7 @@ public class ExtensionDescriptorParser extends ModelParser<ExtensionDescriptor> 
             @Override
             protected ExtensionResource parseItem(Map<String, Object> map) {
                 return getResourceParser(map).setUsedValues(usedResourceNames)
-                    .parse();
+                                             .parse();
             }
         });
     }

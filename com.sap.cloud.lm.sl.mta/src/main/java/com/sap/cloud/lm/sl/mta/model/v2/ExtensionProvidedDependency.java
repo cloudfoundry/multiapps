@@ -17,34 +17,8 @@ public class ExtensionProvidedDependency implements VisitableElement, NamedEleme
 
     private String name;
     private Map<String, Object> properties;
-    
+
     protected ExtensionProvidedDependency() {
-
-    }
-    
-    public void setName(String name) {
-        this.name = name;
-    }
-    
-    public static class Builder {
-        
-        protected String name;
-        protected Map<String, Object> properties;
-
-        public ExtensionProvidedDependency build() {
-            ExtensionProvidedDependency result = new ExtensionProvidedDependency();
-            result.setName(name);
-            result.setProperties(ObjectUtils.defaultIfNull(properties, Collections.<String, Object> emptyMap()));
-            return result;
-        }
-        
-        public void setName(String name) {
-            this.name = name;
-        }
-        
-        public void setProperties(Map<String, Object> properties) {
-            this.properties = properties;
-        }
 
     }
 
@@ -63,8 +37,34 @@ public class ExtensionProvidedDependency implements VisitableElement, NamedEleme
         return name;
     }
 
+    public void setName(String name) {
+        this.name = name;
+    }
+
     @Override
     public void accept(ElementContext context, Visitor visitor) {
         visitor.visit(context, this);
+    }
+
+    public static class Builder {
+
+        protected String name;
+        protected Map<String, Object> properties;
+
+        public ExtensionProvidedDependency build() {
+            ExtensionProvidedDependency result = new ExtensionProvidedDependency();
+            result.setName(name);
+            result.setProperties(ObjectUtils.defaultIfNull(properties, Collections.<String, Object> emptyMap()));
+            return result;
+        }
+
+        public void setName(String name) {
+            this.name = name;
+        }
+
+        public void setProperties(Map<String, Object> properties) {
+            this.properties = properties;
+        }
+
     }
 }

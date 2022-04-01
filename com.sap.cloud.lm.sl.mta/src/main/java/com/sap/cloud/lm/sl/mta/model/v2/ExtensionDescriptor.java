@@ -61,66 +61,19 @@ public class ExtensionDescriptor implements Descriptor, VisitableElement, Proper
     }
 
     /**
-     * @deprecated Use {@link #getProvider()} instead.
-     */
-    @Deprecated
-    public String getExtensionProvider() {
-        return getProvider();
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public String getProvider() {
-        return provider;
-    }
-
-    @Override
-    public String getId() {
-        return id;
-    }
-    
-    public String getParentId() {
-        return parentId;
-    }
-
-    public String getSchemaVersion() {
-        return schemaVersion;
-    }
-    
-    public List<ExtensionModule> getModules2() {
-        return ListUtil.upcastUnmodifiable(getModules());
-    }
-
-    public List<? extends ExtensionModule> getModules() {
-        return modules2;
-    }
-
-    public List<ExtensionResource> getResources2() {
-        return ListUtil.upcastUnmodifiable(getResources());
-    }
-
-    public List<? extends ExtensionResource> getResources() {
-        return resources2;
-    }
-
-    @Override
-    public Map<String, Object> getProperties() {
-        throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public Map<String, Object> getParameters() {
-        return MapUtil.unmodifiable(parameters);
-    }
-
-    /**
      * @deprecated Use {@link #setDescription(String)} instead.
      */
     @Deprecated
     public void setExtensionDescription(String extensionDescription) {
         setDescription(extensionDescription);
+    }
+
+    /**
+     * @deprecated Use {@link #getProvider()} instead.
+     */
+    @Deprecated
+    public String getExtensionProvider() {
+        return getProvider();
     }
 
     /**
@@ -131,44 +84,82 @@ public class ExtensionDescriptor implements Descriptor, VisitableElement, Proper
         setProvider(extensionProvider);
     }
 
-    public void setSchemaVersion(String schemaVersion) {
-        this.schemaVersion = schemaVersion;
-    }
-
-    public void setId(String id) {
-        this.id = id;
+    public String getDescription() {
+        return description;
     }
 
     public void setDescription(String description) {
         this.description = description;
     }
 
-    public void setParentId(String parentId) {
-        this.parentId = parentId;
+    public String getProvider() {
+        return provider;
     }
 
     public void setProvider(String provider) {
         this.provider = provider;
     }
 
-    public void setDeployTargets(List<String> targetPlatforms) {
-        this.deployTargets = new ArrayList<>(targetPlatforms);
+    @Override
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getParentId() {
+        return parentId;
+    }
+
+    public void setParentId(String parentId) {
+        this.parentId = parentId;
+    }
+
+    public String getSchemaVersion() {
+        return schemaVersion;
+    }
+
+    public void setSchemaVersion(String schemaVersion) {
+        this.schemaVersion = schemaVersion;
+    }
+
+    public List<ExtensionModule> getModules2() {
+        return ListUtil.upcastUnmodifiable(getModules());
     }
 
     public void setModules2(List<ExtensionModule> modules) {
         setModules(modules);
     }
 
+    public List<? extends ExtensionModule> getModules() {
+        return modules2;
+    }
+
     protected void setModules(List<? extends ExtensionModule> modules) {
         this.modules2 = ListUtil.cast(modules);
+    }
+
+    public List<ExtensionResource> getResources2() {
+        return ListUtil.upcastUnmodifiable(getResources());
     }
 
     public void setResources2(List<ExtensionResource> resources) {
         setResources(resources);
     }
 
+    public List<? extends ExtensionResource> getResources() {
+        return resources2;
+    }
+
     protected void setResources(List<? extends ExtensionResource> resources) {
         this.resources2 = ListUtil.cast(resources);
+    }
+
+    @Override
+    public Map<String, Object> getProperties() {
+        throw new UnsupportedOperationException();
     }
 
     @Override
@@ -177,14 +168,23 @@ public class ExtensionDescriptor implements Descriptor, VisitableElement, Proper
     }
 
     @Override
+    public Map<String, Object> getParameters() {
+        return MapUtil.unmodifiable(parameters);
+    }
+
+    @Override
     public void setParameters(Map<String, Object> parameters) {
         this.parameters = new LinkedHashMap<>(parameters);
     }
-    
+
+    public void setDeployTargets(List<String> targetPlatforms) {
+        this.deployTargets = new ArrayList<>(targetPlatforms);
+    }
+
     public void accept(Visitor visitor) {
         accept(new ElementContext(this, null), visitor);
     }
-    
+
     @Override
     public void accept(ElementContext context, Visitor visitor) {
         visitor.visit(context, this);
@@ -252,7 +252,6 @@ public class ExtensionDescriptor implements Descriptor, VisitableElement, Proper
             this.description = description;
         }
 
-
         public void setParentId(String parentId) {
             this.parentId = parentId;
         }
@@ -260,7 +259,6 @@ public class ExtensionDescriptor implements Descriptor, VisitableElement, Proper
         public void setProvider(String provider) {
             this.provider = provider;
         }
-
 
         public void setDeployTargets(List<String> deployTargets) {
             this.deployTargets = deployTargets;

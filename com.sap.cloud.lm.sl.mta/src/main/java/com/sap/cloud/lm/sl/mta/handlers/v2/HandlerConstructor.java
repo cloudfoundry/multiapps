@@ -11,8 +11,8 @@ import com.sap.cloud.lm.sl.mta.resolvers.ResolverBuilder;
 import com.sap.cloud.lm.sl.mta.resolvers.v2.DescriptorPlaceholderResolver;
 import com.sap.cloud.lm.sl.mta.resolvers.v2.DescriptorReferenceResolver;
 
-public class HandlerConstructor implements com.sap.cloud.lm.sl.mta.handlers.HandlerConstructor{
-    
+public class HandlerConstructor implements com.sap.cloud.lm.sl.mta.handlers.HandlerConstructor {
+
     protected DescriptorHandler handler;
 
     public HandlerConstructor() {
@@ -31,7 +31,7 @@ public class HandlerConstructor implements com.sap.cloud.lm.sl.mta.handlers.Hand
         }
         return new DescriptorHandler();
     }
-    
+
     @Override
     public ConfigurationParser getConfigurationParser() {
         return new ConfigurationParser();
@@ -48,20 +48,26 @@ public class HandlerConstructor implements com.sap.cloud.lm.sl.mta.handlers.Hand
     }
 
     @Override
-    public PlaceholderResolver<? extends DeploymentDescriptor> getDescriptorPlaceholderResolver(final DeploymentDescriptor mergedDescriptor,
-        Platform platform, SystemParameters systemParameters, ResolverBuilder propertiesResolverBuilder,
-        ResolverBuilder parametersResolverBuilder) {
+    public PlaceholderResolver<? extends DeploymentDescriptor>
+           getDescriptorPlaceholderResolver(final DeploymentDescriptor mergedDescriptor, Platform platform,
+                                            SystemParameters systemParameters, ResolverBuilder propertiesResolverBuilder,
+                                            ResolverBuilder parametersResolverBuilder) {
         com.sap.cloud.lm.sl.mta.model.v2.DeploymentDescriptor mergedDescriptorV2 = cast(mergedDescriptor);
         com.sap.cloud.lm.sl.mta.model.v2.Platform platformV2 = cast(platform);
-        return new DescriptorPlaceholderResolver(mergedDescriptorV2, platformV2, systemParameters, propertiesResolverBuilder,
-            parametersResolverBuilder);
+        return new DescriptorPlaceholderResolver(mergedDescriptorV2,
+                                                 platformV2,
+                                                 systemParameters,
+                                                 propertiesResolverBuilder,
+                                                 parametersResolverBuilder);
     }
 
     @Override
-    public Resolver<? extends DeploymentDescriptor> getDescriptorReferenceResolver(DeploymentDescriptor mergedDescriptor,
-        ResolverBuilder modulesPropertiesResolverBuilder, ResolverBuilder resourcePropertiesResolverBuilder,
-        ResolverBuilder requiredDepencenciesPropertiesResolverBuilder) {
+    public Resolver<? extends DeploymentDescriptor>
+           getDescriptorReferenceResolver(DeploymentDescriptor mergedDescriptor, ResolverBuilder modulesPropertiesResolverBuilder,
+                                          ResolverBuilder resourcePropertiesResolverBuilder,
+                                          ResolverBuilder requiredDepencenciesPropertiesResolverBuilder) {
         return new DescriptorReferenceResolver((com.sap.cloud.lm.sl.mta.model.v2.DeploymentDescriptor) mergedDescriptor,
-            modulesPropertiesResolverBuilder, requiredDepencenciesPropertiesResolverBuilder);
+                                               modulesPropertiesResolverBuilder,
+                                               requiredDepencenciesPropertiesResolverBuilder);
     }
 }

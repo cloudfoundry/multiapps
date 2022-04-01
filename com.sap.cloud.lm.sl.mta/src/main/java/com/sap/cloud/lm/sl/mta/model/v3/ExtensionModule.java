@@ -24,27 +24,22 @@ public class ExtensionModule extends com.sap.cloud.lm.sl.mta.model.v2.ExtensionM
         return ListUtil.upcastUnmodifiable(getRequiredDependencies());
     }
 
-    protected List<? extends ExtensionRequiredDependency> getRequiredDependencies() {
-        return requiredDependencies3;
-    }
-
-    public List<ExtensionProvidedDependency> getProvidedDependencies3() {
-        return ListUtil.upcastUnmodifiable(getProvidedDependencies());
-    }
-
-    @Override
-    protected List<? extends ExtensionProvidedDependency> getProvidedDependencies() {
-        return providedDependencies3;
-    }
-
     public void setRequiredDependencies3(List<ExtensionRequiredDependency> requiredDependencies) {
         setRequiredDependencies(requiredDependencies);
     }
 
+    protected List<? extends ExtensionRequiredDependency> getRequiredDependencies() {
+        return requiredDependencies3;
+    }
+
     @Override
-    protected void setRequiredDependencies(
-        List<? extends com.sap.cloud.lm.sl.mta.model.v2.ExtensionRequiredDependency> requiredDependencies) {
+    protected void
+              setRequiredDependencies(List<? extends com.sap.cloud.lm.sl.mta.model.v2.ExtensionRequiredDependency> requiredDependencies) {
         this.requiredDependencies3 = ListUtil.cast(requiredDependencies);
+    }
+
+    public List<ExtensionProvidedDependency> getProvidedDependencies3() {
+        return ListUtil.upcastUnmodifiable(getProvidedDependencies());
     }
 
     public void setProvidedDependencies3(List<ExtensionProvidedDependency> providedDependencies) {
@@ -52,8 +47,13 @@ public class ExtensionModule extends com.sap.cloud.lm.sl.mta.model.v2.ExtensionM
     }
 
     @Override
-    protected void setProvidedDependencies(
-        List<? extends com.sap.cloud.lm.sl.mta.model.v2.ExtensionProvidedDependency> providedDependencies) {
+    protected List<? extends ExtensionProvidedDependency> getProvidedDependencies() {
+        return providedDependencies3;
+    }
+
+    @Override
+    protected void
+              setProvidedDependencies(List<? extends com.sap.cloud.lm.sl.mta.model.v2.ExtensionProvidedDependency> providedDependencies) {
         this.providedDependencies3 = ListUtil.cast(providedDependencies);
     }
 
@@ -66,8 +66,10 @@ public class ExtensionModule extends com.sap.cloud.lm.sl.mta.model.v2.ExtensionM
         public ExtensionModule build() {
             ExtensionModule result = new ExtensionModule();
             result.setName(name);
-            result.setProvidedDependencies3(ObjectUtils.defaultIfNull(providedDependencies3, Collections.<ExtensionProvidedDependency> emptyList()));
-            result.setRequiredDependencies3(ObjectUtils.defaultIfNull(requiredDependencies3, Collections.<ExtensionRequiredDependency> emptyList()));
+            result.setProvidedDependencies3(ObjectUtils.defaultIfNull(providedDependencies3,
+                                                                      Collections.<ExtensionProvidedDependency> emptyList()));
+            result.setRequiredDependencies3(ObjectUtils.defaultIfNull(requiredDependencies3,
+                                                                      Collections.<ExtensionRequiredDependency> emptyList()));
             result.setProperties(ObjectUtils.defaultIfNull(properties, Collections.<String, Object> emptyMap()));
             result.setParameters(ObjectUtils.defaultIfNull(parameters, Collections.<String, Object> emptyMap()));
             return result;
@@ -78,8 +80,8 @@ public class ExtensionModule extends com.sap.cloud.lm.sl.mta.model.v2.ExtensionM
         }
 
         @Override
-        protected void setProvidedDependencies(
-            List<? extends com.sap.cloud.lm.sl.mta.model.v2.ExtensionProvidedDependency> providedDependencies) {
+        protected void
+                  setProvidedDependencies(List<? extends com.sap.cloud.lm.sl.mta.model.v2.ExtensionProvidedDependency> providedDependencies) {
             this.providedDependencies3 = ListUtil.cast(providedDependencies);
         }
 
@@ -87,8 +89,8 @@ public class ExtensionModule extends com.sap.cloud.lm.sl.mta.model.v2.ExtensionM
             setRequiredDependencies(requiredDependencies);
         }
 
-        protected void setRequiredDependencies(
-            List<? extends com.sap.cloud.lm.sl.mta.model.v2.ExtensionRequiredDependency> requiredDependencies) {
+        protected void
+                  setRequiredDependencies(List<? extends com.sap.cloud.lm.sl.mta.model.v2.ExtensionRequiredDependency> requiredDependencies) {
             this.requiredDependencies3 = ListUtil.cast(requiredDependencies);
         }
 

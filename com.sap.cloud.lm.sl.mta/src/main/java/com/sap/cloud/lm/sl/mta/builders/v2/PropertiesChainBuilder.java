@@ -38,6 +38,15 @@ public class PropertiesChainBuilder {
         this(descriptor, null, new DescriptorHandler());
     }
 
+    protected static List<Map<String, Object>> getPropertiesList(List<RequiredDependency> dependencies, Module module,
+                                                                 ModuleType moduleType) {
+        List<PropertiesContainer> containers = new ArrayList<>();
+        containers.addAll(dependencies);
+        CollectionUtils.addIgnoreNull(containers, module);
+        CollectionUtils.addIgnoreNull(containers, moduleType);
+        return PropertiesUtil.getPropertiesList(containers);
+    }
+
     public List<Map<String, Object>> buildModuleChain(String moduleName) {
         Module module = handler.findModule(descriptor, moduleName);
         if (module == null) {
@@ -74,15 +83,6 @@ public class PropertiesChainBuilder {
             return Collections.emptyList();
         }
         return PropertiesUtil.getPropertiesList(resource);
-    }
-
-    protected static List<Map<String, Object>> getPropertiesList(List<RequiredDependency> dependencies, Module module,
-        ModuleType moduleType) {
-        List<PropertiesContainer> containers = new ArrayList<>();
-        containers.addAll(dependencies);
-        CollectionUtils.addIgnoreNull(containers, module);
-        CollectionUtils.addIgnoreNull(containers, moduleType);
-        return PropertiesUtil.getPropertiesList(containers);
     }
 
 }

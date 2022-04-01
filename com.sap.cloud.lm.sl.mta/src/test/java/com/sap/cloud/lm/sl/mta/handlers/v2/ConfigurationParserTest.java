@@ -18,12 +18,15 @@ import com.sap.cloud.lm.sl.mta.model.v2.Platform;
 public class ConfigurationParserTest {
 
     private final String platformLocation;
-    private InputStream platformInputStream;
-
     private final Expectation expectation;
-
+    private InputStream platformInputStream;
     private ConfigurationParser parser;
-    
+
+    public ConfigurationParserTest(String platformsLocation, Expectation expectation) {
+        this.platformLocation = platformsLocation;
+        this.expectation = expectation;
+    }
+
     @Parameters
     public static Iterable<Object[]> getParameters() {
         return Arrays.asList(new Object[][] {
@@ -44,11 +47,6 @@ public class ConfigurationParserTest {
         });
     }
 
-    public ConfigurationParserTest(String platformsLocation, Expectation expectation) {
-        this.platformLocation = platformsLocation;
-        this.expectation = expectation;
-    }
-    
     @Before
     public void setUp() throws Exception {
         if (platformLocation != null) {
@@ -60,7 +58,7 @@ public class ConfigurationParserTest {
     protected ConfigurationParser createConfigurationParser() {
         return new ConfigurationParser();
     }
-    
+
     @Test
     public void testParsePlatformsJson() throws Exception {
         TestUtil.test(new Callable<Platform>() {

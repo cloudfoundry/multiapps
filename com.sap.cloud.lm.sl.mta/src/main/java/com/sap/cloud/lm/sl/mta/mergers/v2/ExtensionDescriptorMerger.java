@@ -40,16 +40,16 @@ public class ExtensionDescriptorMerger extends Visitor {
     public void visit(ElementContext context, DeploymentDescriptor descriptor) {
         DeploymentDescriptor descriptorV2 = descriptor;
         ExtensionDescriptor extensionDescriptorV2 = extensionDescriptor;
-        descriptorV2
-            .setParameters(PropertiesUtil.mergeExtensionProperties(descriptorV2.getParameters(), extensionDescriptorV2.getParameters()));
+        descriptorV2.setParameters(PropertiesUtil.mergeExtensionProperties(descriptorV2.getParameters(),
+                                                                           extensionDescriptorV2.getParameters()));
     }
 
     @Override
     public void visit(ElementContext context, RequiredDependency requiredDependency) {
         String containerName = context.getPreviousElementContext()
-            .getVisitableElementName();
+                                      .getVisitableElementName();
         ExtensionRequiredDependency extension = handler.findRequiredDependency(extensionDescriptor, containerName,
-            requiredDependency.getName());
+                                                                               requiredDependency.getName());
         if (extension != null) {
             merge(requiredDependency, extension);
         }
@@ -72,10 +72,10 @@ public class ExtensionDescriptorMerger extends Visitor {
     }
 
     protected void merge(RequiredDependency requiredDependency, ExtensionRequiredDependency extension) {
-        requiredDependency
-            .setParameters(PropertiesUtil.mergeExtensionProperties(requiredDependency.getParameters(), extension.getParameters()));
-        requiredDependency
-            .setProperties(PropertiesUtil.mergeExtensionProperties(requiredDependency.getProperties(), extension.getProperties()));
+        requiredDependency.setParameters(PropertiesUtil.mergeExtensionProperties(requiredDependency.getParameters(),
+                                                                                 extension.getParameters()));
+        requiredDependency.setProperties(PropertiesUtil.mergeExtensionProperties(requiredDependency.getProperties(),
+                                                                                 extension.getProperties()));
     }
 
     public DeploymentDescriptor merge(DeploymentDescriptor descriptor) {

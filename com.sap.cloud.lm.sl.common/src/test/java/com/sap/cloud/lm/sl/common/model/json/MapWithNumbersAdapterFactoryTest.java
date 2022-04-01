@@ -24,7 +24,7 @@ public class MapWithNumbersAdapterFactoryTest {
         foo = JsonUtil.fromJson(json, Foo.class);
 
         Map<String, Object> actualProperties = (Map<String, Object>) foo.getProperties()
-            .get("test1");
+                                                                        .get("test1");
 
         assertTestProperties(actualProperties);
     }
@@ -42,7 +42,7 @@ public class MapWithNumbersAdapterFactoryTest {
 
         @SuppressWarnings("unchecked")
         Map<String, Object> actualProperties = ((Map<String, Object>) bar.getProperties()
-            .get("test1"));
+                                                                         .get("test1"));
 
         assertTestProperties(actualProperties);
     }

@@ -17,7 +17,7 @@ public class ResourcePropertiesReferenceResolver extends ReferenceResolver<Map<S
     protected ResolverBuilder propertiesResolverBuilder;
 
     public ResourcePropertiesReferenceResolver(DeploymentDescriptor descriptor, Resource resource, Map<String, Object> properties,
-        String prefix, ResolverBuilder propertiesResolverBuilder) {
+                                               String prefix, ResolverBuilder propertiesResolverBuilder) {
         super("", prefix, new DescriptorHandler(), descriptor, resource.getName(), FULLY_QUALIFIED);
         this.properties = properties;
         this.propertiesResolverBuilder = propertiesResolverBuilder;
@@ -26,6 +26,6 @@ public class ResourcePropertiesReferenceResolver extends ReferenceResolver<Map<S
     @Override
     public Map<String, Object> resolve() {
         return propertiesResolverBuilder.build(properties, this, patternToMatch, prefix, true)
-            .resolve();
+                                        .resolve();
     }
 }
