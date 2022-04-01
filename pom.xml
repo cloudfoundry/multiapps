@@ -21,7 +21,7 @@
         <sonar.jacoco.reportPath>target/jacoco.exec</sonar.jacoco.reportPath>
         <commons-lang3.version>3.8.1</commons-lang3.version>
         <commons-collections4.version>4.2</commons-collections4.version>
-        <commons-io.version>2.6</commons-io.version>
+        <commons-io.version>2.11.0</commons-io.version>
         <liquibase.version>3.6.1</liquibase.version>
         <spring.version>5.3.0</spring.version>
         <jax-rs.version>2.0.1</jax-rs.version>
