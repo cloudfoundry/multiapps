@@ -24,7 +24,7 @@ public enum ReferencePattern implements ValueMatcher {
     @Override
     public List<Reference> match(String line) {
         Matcher matcher = Pattern.compile(this.pattern)
-            .matcher(line);
+                                 .matcher(line);
         List<Reference> references = new ArrayList<>();
         while (matcher.find()) {
             String matchedValue = matcher.group(0);

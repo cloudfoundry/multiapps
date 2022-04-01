@@ -39,7 +39,7 @@ public abstract class ModelParser<T> implements Parser<T> {
         // Double, which is why the type of possiblyPartialSchemaVersion needs to be Object.
         Object schemaVersion = getElement(key);
         return Version.parseVersion(schemaVersion.toString())
-            .toString();
+                      .toString();
     }
 
     protected String getStringElement(String key) {
@@ -52,7 +52,7 @@ public abstract class ModelParser<T> implements Parser<T> {
 
     protected Object getElement(String key) {
         Element element = schema.getMap()
-            .get(key);
+                                .get(key);
         if (element == null) {
             throw new ParsingException(Messages.COULD_NOT_FIND_ELEMENT_IN_SCHEMA, key, processedObjectName);
         }
@@ -79,7 +79,7 @@ public abstract class ModelParser<T> implements Parser<T> {
             uniqueElementsCache.put(key, getRequiredUniqueValue(key));
         }
         return uniqueElementsCache.get(key)
-            .toString();
+                                  .toString();
     }
 
     @SuppressWarnings("unchecked")
@@ -92,7 +92,7 @@ public abstract class ModelParser<T> implements Parser<T> {
         Object list = source.get(key);
         if (list != null) {
             return builder.setSource(((List<Object>) list))
-                .parse();
+                          .parse();
         }
         return Collections.emptyList();
     }

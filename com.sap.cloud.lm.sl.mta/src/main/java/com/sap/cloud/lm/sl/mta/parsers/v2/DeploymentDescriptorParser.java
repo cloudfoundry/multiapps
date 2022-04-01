@@ -19,8 +19,6 @@ import com.sap.cloud.lm.sl.mta.schema.MapElement;
 
 public class DeploymentDescriptorParser extends ModelParser<DeploymentDescriptor> {
 
-    protected static final String PROCESSED_OBJECT_NAME = "MTA deployment descriptor";
-
     public static final String PARAMETERS = "parameters";
     public static final String ID = "ID";
     public static final String DESCRIPTION = "description";
@@ -31,7 +29,7 @@ public class DeploymentDescriptorParser extends ModelParser<DeploymentDescriptor
     public static final String RESOURCES = "resources";
     public static final String PROPERTIES = "properties";
     public static final String SCHEMA_VERSION = "_schema-version";
-
+    protected static final String PROCESSED_OBJECT_NAME = "MTA deployment descriptor";
     protected final Set<String> usedModuleNames = new HashSet<>();
     protected final Set<String> usedDependencyNames = new HashSet<>();
 
@@ -63,8 +61,8 @@ public class DeploymentDescriptorParser extends ModelParser<DeploymentDescriptor
             @Override
             protected Module parseItem(Map<String, Object> map) {
                 return getModuleParser(map).setUsedProvidedDependencyNames(usedDependencyNames)
-                    .setUsedValues(usedModuleNames)
-                    .parse();
+                                           .setUsedValues(usedModuleNames)
+                                           .parse();
             }
         });
     }
@@ -74,11 +72,11 @@ public class DeploymentDescriptorParser extends ModelParser<DeploymentDescriptor
             @Override
             protected Resource parseItem(Map<String, Object> map) {
                 return getResourceParser(map).setUsedValues(usedDependencyNames)
-                    .parse();
+                                             .parse();
             }
         });
     }
-    
+
     protected String getSchemaVersion() {
         return getSchemaVersion(SCHEMA_VERSION);
     }
@@ -118,7 +116,6 @@ public class DeploymentDescriptorParser extends ModelParser<DeploymentDescriptor
     protected Map<String, Object> getParameters() {
         return getMapElement(PARAMETERS);
     }
-    
 
     protected List<Module> getModules2() {
         return ListUtil.cast(getModules());
@@ -127,5 +124,5 @@ public class DeploymentDescriptorParser extends ModelParser<DeploymentDescriptor
     protected List<Resource> getResources2() {
         return ListUtil.cast(getResources());
     }
-    
+
 }

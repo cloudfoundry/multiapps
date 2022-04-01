@@ -13,7 +13,7 @@ import com.sap.cloud.lm.sl.mta.schema.SchemaValidator;
 public class ConfigurationParser {
 
     protected final SchemaValidator platformValidator;
-    
+
     public ConfigurationParser() {
         this(new SchemaValidator(Schemas.PLATFORM));
     }
@@ -29,7 +29,7 @@ public class ConfigurationParser {
     public Platform parsePlatformJson(String json) throws ParsingException {
         return parsePlatform(JsonUtil.convertJsonToMap(json));
     }
-    
+
     public Platform parsePlatformJson2(InputStream json) throws ParsingException {
         return parsePlatformJson(json);
     }
@@ -42,12 +42,12 @@ public class ConfigurationParser {
             throw new IllegalStateException(e.getMessage(), e);
         }
     }
-    
+
     private Platform parsePlatform(Map<String, Object> source) {
         platformValidator.validate(source);
         return getPlatformParser(source).parse();
     }
-    
+
     protected PlatformParser getPlatformParser(Map<String, Object> source) {
         return new PlatformParser(source);
     }

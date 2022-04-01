@@ -21,7 +21,6 @@ import com.sap.cloud.lm.sl.mta.util.YamlElement;
 
 public class Module implements VisitableElement, NamedElement, PropertiesContainer, ParametersContainer {
 
-    
     @YamlElement(ModuleParser.PATH)
     private String path;
     @YamlElement(ModuleParser.REQUIRES)
@@ -47,12 +46,24 @@ public class Module implements VisitableElement, NamedElement, PropertiesContain
         return name;
     }
 
+    public void setName(String name) {
+        this.name = name;
+    }
+
     public String getType() {
         return type;
     }
 
+    public void setType(String type) {
+        this.type = type;
+    }
+
     public String getDescription() {
         return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     @Override
@@ -60,65 +71,53 @@ public class Module implements VisitableElement, NamedElement, PropertiesContain
         return MapUtil.unmodifiable(properties);
     }
 
-    public List<RequiredDependency> getRequiredDependencies2() {
-        return ListUtil.upcastUnmodifiable(getRequiredDependencies());
-    }
-
-    protected List<? extends RequiredDependency> getRequiredDependencies() {
-        return requiredDependencies2;
-    }
-
-    public List<ProvidedDependency> getProvidedDependencies2() {
-        return ListUtil.upcastUnmodifiable(getProvidedDependencies());
-    }
-
-    protected List<? extends ProvidedDependency> getProvidedDependencies() {
-        return providedDependencies2;
-    }
-
-    public String getPath() {
-        return path;
-    }
-
-    @Override
-    public Map<String, Object> getParameters() {
-        return MapUtil.unmodifiable(parameters);
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public void setType(String type) {
-        this.type = type;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
     public void setProperties(Map<String, Object> properties) {
         this.properties = new LinkedHashMap<>(properties);
+    }
+
+    public List<RequiredDependency> getRequiredDependencies2() {
+        return ListUtil.upcastUnmodifiable(getRequiredDependencies());
     }
 
     public void setRequiredDependencies2(List<RequiredDependency> requiredDependencies) {
         setRequiredDependencies(requiredDependencies);
     }
 
+    protected List<? extends RequiredDependency> getRequiredDependencies() {
+        return requiredDependencies2;
+    }
+
     protected void setRequiredDependencies(List<? extends RequiredDependency> requiredDependencies) {
         this.requiredDependencies2 = ListUtil.cast(requiredDependencies);
+    }
+
+    public List<ProvidedDependency> getProvidedDependencies2() {
+        return ListUtil.upcastUnmodifiable(getProvidedDependencies());
     }
 
     public void setProvidedDependencies2(List<ProvidedDependency> providedDependencies) {
         setProvidedDependencies(providedDependencies);
     }
 
+    protected List<? extends ProvidedDependency> getProvidedDependencies() {
+        return providedDependencies2;
+    }
+
     protected void setProvidedDependencies(List<? extends ProvidedDependency> providedDependencies) {
         this.providedDependencies2 = ListUtil.cast(providedDependencies);
     }
 
+    public String getPath() {
+        return path;
+    }
+
     public void setPath(String path) {
         this.path = path;
+    }
+
+    @Override
+    public Map<String, Object> getParameters() {
+        return MapUtil.unmodifiable(parameters);
     }
 
     @Override

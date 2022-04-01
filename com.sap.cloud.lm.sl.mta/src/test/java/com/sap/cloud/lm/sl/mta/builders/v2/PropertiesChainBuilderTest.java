@@ -33,6 +33,12 @@ public class PropertiesChainBuilderTest {
     protected List<String> moduleNames;
     protected List<String> resourceNames;
 
+    public PropertiesChainBuilderTest(String deploymentDescriptorLocation, String platformLocation, Expectation[] expectations) {
+        this.deploymentDescriptorLocation = deploymentDescriptorLocation;
+        this.platformLocation = platformLocation;
+        this.expectations = expectations;
+    }
+
     @Parameters
     public static Iterable<Object[]> getParameters() {
         return Arrays.asList(new Object[][] {
@@ -68,18 +74,12 @@ public class PropertiesChainBuilderTest {
         });
     }
 
-    public PropertiesChainBuilderTest(String deploymentDescriptorLocation, String platformLocation, Expectation[] expectations) {
-        this.deploymentDescriptorLocation = deploymentDescriptorLocation;
-        this.platformLocation = platformLocation;
-        this.expectations = expectations;
-    }
-
     @Before
     public void setUp() throws Exception {
         DescriptorParser descriptorParser = getDescriptorParser();
 
         DeploymentDescriptor deploymentDescriptor = MtaTestUtil.loadDeploymentDescriptor(deploymentDescriptorLocation, descriptorParser,
-            getClass());
+                                                                                         getClass());
         resourceNames = getResourceNames(deploymentDescriptor.getResources2());
         moduleNames = getModuleNames(deploymentDescriptor.getModules2());
 

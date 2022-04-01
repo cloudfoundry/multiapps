@@ -13,15 +13,13 @@ import com.sap.cloud.lm.sl.mta.schema.MapElement;
 
 public class ResourceParser extends ModelParser<Resource> {
 
-    protected static final String PROCESSED_OBJECT_NAME = "MTA resource";
-
     public static final String PARAMETERS = "parameters";
     public static final String NAME = "name";
     public static final String TYPE = "type";
     public static final String DESCRIPTION = "description";
     public static final String GROUPS = "groups";
     public static final String PROPERTIES = "properties";
-    
+    protected static final String PROCESSED_OBJECT_NAME = "MTA resource";
 
     public ResourceParser(Map<String, Object> source) {
         this(RESOURCE, source);
@@ -41,7 +39,7 @@ public class ResourceParser extends ModelParser<Resource> {
         builder.setParameters(getParameters());
         return builder.build();
     }
-    
+
     protected String getName() {
         return getStringElement(NAME);
     }

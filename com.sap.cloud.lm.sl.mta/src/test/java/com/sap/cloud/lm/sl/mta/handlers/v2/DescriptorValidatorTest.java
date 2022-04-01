@@ -34,7 +34,15 @@ public class DescriptorValidatorTest {
     private Platform platform;
 
     private DescriptorValidator validator;
-    
+
+    public DescriptorValidatorTest(String deploymentDescriptorLocation, String[] extensionDescriptorLocations,
+                                   String mergedDescriptorLocation, Expectation[] expectations) {
+        this.deploymentDescriptorLocation = deploymentDescriptorLocation;
+        this.extensionDescriptorLocations = extensionDescriptorLocations;
+        this.mergedDescriptorLocation = mergedDescriptorLocation;
+        this.expectations = expectations;
+    }
+
     @BeforeClass
     public static void setTargetsInformation() {
         platformLocation = "/mta/sample/v2/platform-01.json";
@@ -183,14 +191,6 @@ public class DescriptorValidatorTest {
         });
     }
 
-    public DescriptorValidatorTest(String deploymentDescriptorLocation, String[] extensionDescriptorLocations,
-        String mergedDescriptorLocation, Expectation[] expectations) {
-        this.deploymentDescriptorLocation = deploymentDescriptorLocation;
-        this.extensionDescriptorLocations = extensionDescriptorLocations;
-        this.mergedDescriptorLocation = mergedDescriptorLocation;
-        this.expectations = expectations;
-    }
-    
     @Before
     public void setUp() throws Exception {
         DescriptorParser descriptorParser = getDescriptorParser();
@@ -222,7 +222,7 @@ public class DescriptorValidatorTest {
     protected DescriptorValidator createValidator() {
         return new DescriptorValidator();
     }
-    
+
     @Test
     public void testValidateDeploymentDescriptor() throws Exception {
         TestUtil.test(new Runnable() {
@@ -253,5 +253,5 @@ public class DescriptorValidatorTest {
             }
         }, expectations[2]);
     }
-    
+
 }

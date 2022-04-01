@@ -33,22 +33,22 @@ public class ExtensionResource implements VisitableElement, NamedElement, Proper
         return name;
     }
 
+    public void setName(String name) {
+        this.name = name;
+    }
+
     @Override
     public Map<String, Object> getProperties() {
         return MapUtil.unmodifiable(properties);
     }
 
+    public void setProperties(Map<String, Object> properties) {
+        this.properties = new LinkedHashMap<>(properties);
+    }
+
     @Override
     public Map<String, Object> getParameters() {
         return MapUtil.unmodifiable(parameters);
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public void setProperties(Map<String, Object> properties) {
-        this.properties = new LinkedHashMap<>(properties);
     }
 
     @Override

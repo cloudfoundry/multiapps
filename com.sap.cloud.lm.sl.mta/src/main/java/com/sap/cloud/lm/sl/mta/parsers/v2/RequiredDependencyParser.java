@@ -12,13 +12,12 @@ import com.sap.cloud.lm.sl.mta.schema.MapElement;
 
 public class RequiredDependencyParser extends ModelParser<RequiredDependency> {
 
-    protected static final String PROCESSED_OBJECT_NAME = "MTA required dependency";
-
     public static final String NAME = "name";
     public static final String PROPERTIES = "properties";
     public static final String PARAMETERS = "parameters";
     public static final String GROUP = "group";
     public static final String LIST = "list";
+    protected static final String PROCESSED_OBJECT_NAME = "MTA required dependency";
 
     public RequiredDependencyParser(Map<String, Object> source) {
         this(REQUIRED_DEPENDENCY, source);

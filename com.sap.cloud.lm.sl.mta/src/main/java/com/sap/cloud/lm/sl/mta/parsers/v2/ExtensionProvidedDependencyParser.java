@@ -11,10 +11,9 @@ import com.sap.cloud.lm.sl.mta.schema.MapElement;
 
 public class ExtensionProvidedDependencyParser extends ModelParser<ExtensionProvidedDependency> {
 
-    protected static final String PROCESSED_OBJECT_NAME = "MTA extension provided dependency";
-
     public static final String NAME = "name";
     public static final String PROPERTIES = "properties";
+    protected static final String PROCESSED_OBJECT_NAME = "MTA extension provided dependency";
 
     public ExtensionProvidedDependencyParser(Map<String, Object> source) {
         this(EXT_PROVIDED_DEPENDENCY, source);

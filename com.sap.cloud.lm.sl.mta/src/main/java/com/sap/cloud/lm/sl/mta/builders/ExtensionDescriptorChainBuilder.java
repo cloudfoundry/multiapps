@@ -32,7 +32,7 @@ public class ExtensionDescriptorChainBuilder {
     }
 
     private List<ExtensionDescriptor> build(DeploymentDescriptor deploymentDescriptor,
-        Map<String, ExtensionDescriptor> extensionDescriptorsPerParent) {
+                                            Map<String, ExtensionDescriptor> extensionDescriptorsPerParent) {
         List<ExtensionDescriptor> chain = new ArrayList<>();
         Descriptor currentDescriptor = deploymentDescriptor;
         while (currentDescriptor != null) {
@@ -42,23 +42,23 @@ public class ExtensionDescriptorChainBuilder {
         }
         if (!extensionDescriptorsPerParent.isEmpty() && isStrict) {
             throw new ContentException(Messages.CANNOT_BUILD_EXTENSION_DESCRIPTOR_CHAIN_BECAUSE_DESCRIPTORS_0_HAVE_AN_UNKNOWN_PARENT,
-                String.join(",", Descriptor.getIds(extensionDescriptorsPerParent.values())));
+                                       String.join(",", Descriptor.getIds(extensionDescriptorsPerParent.values())));
         }
         return chain;
     }
 
     private Map<String, ExtensionDescriptor> getExtensionDescriptorsPerParent(List<ExtensionDescriptor> extensionDescriptors) {
         Map<String, List<ExtensionDescriptor>> extensionDescriptorsPerParent = extensionDescriptors.stream()
-            .collect(Collectors.groupingBy(ExtensionDescriptor::getParentId));
+                                                                                                   .collect(Collectors.groupingBy(ExtensionDescriptor::getParentId));
         return prune(extensionDescriptorsPerParent);
     }
 
     private Map<String, ExtensionDescriptor> prune(Map<String, List<ExtensionDescriptor>> extensionDescriptorsPerParent) {
         validateSingleExtensionDescriptorPerParent(extensionDescriptorsPerParent);
         return extensionDescriptorsPerParent.entrySet()
-            .stream()
-            .collect(Collectors.toMap(Map.Entry::getKey, entry -> entry.getValue()
-                .get(0)));
+                                            .stream()
+                                            .collect(Collectors.toMap(Map.Entry::getKey, entry -> entry.getValue()
+                                                                                                       .get(0)));
     }
 
     private void validateSingleExtensionDescriptorPerParent(Map<String, List<ExtensionDescriptor>> extensionDescriptorsPerParent) {

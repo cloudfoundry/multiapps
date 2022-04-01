@@ -47,6 +47,7 @@ public class HandlerFactory implements HandlerConstructor {
                 throw new UnsupportedOperationException(format(Messages.UNSUPPORTED_VERSION, majorVersion));
         }
     }
+
     protected void initV2Delegates() {
         handlerDelegate = new com.sap.cloud.lm.sl.mta.handlers.v2.HandlerConstructor();
     }
@@ -85,18 +86,22 @@ public class HandlerFactory implements HandlerConstructor {
     }
 
     @Override
-    public PlaceholderResolver<? extends DeploymentDescriptor> getDescriptorPlaceholderResolver(final DeploymentDescriptor mergedDescriptor,
-        Platform platform, SystemParameters systemParameters, ResolverBuilder propertiesResolver, ResolverBuilder parametersResolver) {
-        return getHandlerDelegate().getDescriptorPlaceholderResolver(mergedDescriptor, platform, systemParameters,
-            propertiesResolver, parametersResolver);
+    public PlaceholderResolver<? extends DeploymentDescriptor>
+           getDescriptorPlaceholderResolver(final DeploymentDescriptor mergedDescriptor, Platform platform,
+                                            SystemParameters systemParameters, ResolverBuilder propertiesResolver,
+                                            ResolverBuilder parametersResolver) {
+        return getHandlerDelegate().getDescriptorPlaceholderResolver(mergedDescriptor, platform, systemParameters, propertiesResolver,
+                                                                     parametersResolver);
     }
 
     @Override
-    public Resolver<? extends DeploymentDescriptor> getDescriptorReferenceResolver(final DeploymentDescriptor mergedDescriptor,
-        ResolverBuilder modulesPropertiesResolverBuilder, ResolverBuilder resourcePropertiesResolverBuilder,
-        ResolverBuilder requiredDepencenciesPropertiesResolverBuilder) {
+    public Resolver<? extends DeploymentDescriptor>
+           getDescriptorReferenceResolver(final DeploymentDescriptor mergedDescriptor, ResolverBuilder modulesPropertiesResolverBuilder,
+                                          ResolverBuilder resourcePropertiesResolverBuilder,
+                                          ResolverBuilder requiredDepencenciesPropertiesResolverBuilder) {
         return getHandlerDelegate().getDescriptorReferenceResolver(mergedDescriptor, modulesPropertiesResolverBuilder,
-            resourcePropertiesResolverBuilder, requiredDepencenciesPropertiesResolverBuilder);
+                                                                   resourcePropertiesResolverBuilder,
+                                                                   requiredDepencenciesPropertiesResolverBuilder);
     }
 
 }

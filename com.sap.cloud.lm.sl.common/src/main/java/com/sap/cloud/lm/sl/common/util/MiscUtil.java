@@ -8,7 +8,7 @@ public class MiscUtil {
 
     public static URL getURL(String s) throws MalformedURLException {
         return URI.create(s)
-            .toURL();
+                  .toURL();
     }
 
     /**
@@ -32,7 +32,7 @@ public class MiscUtil {
     public static int findProblematicCharacter(String pattern, String value) {
         for (int i = 0; i < value.length(); i++) {
             if (!value.substring(0, i + 1)
-                .matches(pattern)) {
+                      .matches(pattern)) {
                 return i;
             }
         }

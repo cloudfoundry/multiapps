@@ -36,23 +36,23 @@ public class ProvidedDependency extends com.sap.cloud.lm.sl.mta.model.v2.Provide
     }
 
     @Override
-    public Metadata getPropertiesMetadata() {
-        return propertiesMetadata;
-    }
-
-    @Override
-    public Metadata getParametersMetadata() {
-        return parametersMetadata;
-    }
-
-    @Override
     public void setParameters(Map<String, Object> parameters) {
         this.parameters = parameters;
     }
 
     @Override
+    public Metadata getPropertiesMetadata() {
+        return propertiesMetadata;
+    }
+
+    @Override
     public void setPropertiesMetadata(Metadata metadata) {
         this.propertiesMetadata = metadata;
+    }
+
+    @Override
+    public Metadata getParametersMetadata() {
+        return parametersMetadata;
     }
 
     @Override

@@ -20,7 +20,7 @@ public class YamlPropertyComparator implements Comparator<Property> {
         }
         if (!fieldOrder.contains(o1.getName()) && !fieldOrder.contains(o2.getName())) {
             return o1.getName()
-                .compareTo(o2.getName());
+                     .compareTo(o2.getName());
         }
         if (fieldOrder.contains(o1.getName())) {
             return -1;

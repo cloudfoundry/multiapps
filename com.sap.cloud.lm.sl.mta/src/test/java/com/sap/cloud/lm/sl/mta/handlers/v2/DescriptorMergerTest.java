@@ -18,7 +18,7 @@ import com.sap.cloud.lm.sl.mta.model.v2.ExtensionDescriptor;
 
 @RunWith(Parameterized.class)
 public class DescriptorMergerTest {
-    
+
     private final String deploymentDescriptorLocation;
     private final String[] extensionDescriptorLocations;
     private final Expectation expectation;
@@ -27,6 +27,12 @@ public class DescriptorMergerTest {
     private List<ExtensionDescriptor> extensionDescriptors;
 
     private DescriptorMerger merger;
+
+    public DescriptorMergerTest(String deploymentDescriptorLocation, String[] extensionDescriptorLocations, Expectation expectation) {
+        this.deploymentDescriptorLocation = deploymentDescriptorLocation;
+        this.extensionDescriptorLocations = extensionDescriptorLocations;
+        this.expectation = expectation;
+    }
 
     @Parameters
     public static Iterable<Object[]> getParameters() {
@@ -46,12 +52,6 @@ public class DescriptorMergerTest {
         });
     }
 
-    public DescriptorMergerTest(String deploymentDescriptorLocation, String[] extensionDescriptorLocations, Expectation expectation) {
-        this.deploymentDescriptorLocation = deploymentDescriptorLocation;
-        this.extensionDescriptorLocations = extensionDescriptorLocations;
-        this.expectation = expectation;
-    }
-
     @Before
     public void setUp() throws Exception {
         DescriptorParser descriptorParser = getDescriptorParser();
@@ -64,7 +64,7 @@ public class DescriptorMergerTest {
 
         merger = createDescriptorMerger();
     }
-    
+
     protected DescriptorMerger createDescriptorMerger() {
         return new DescriptorMerger();
     }
@@ -72,7 +72,7 @@ public class DescriptorMergerTest {
     protected DescriptorParser getDescriptorParser() {
         return new DescriptorParser();
     }
-    
+
     @Test
     public void testMerge() {
         TestUtil.test(new Callable<DeploymentDescriptor>() {

@@ -17,7 +17,7 @@ public class SystemParameters {
     private final Map<String, String> singularPluralMapping;
 
     public SystemParameters(Map<String, Object> generalParameters, Map<String, Map<String, Object>> moduleParameters,
-        Map<String, Map<String, Object>> resourceParameters, Map<String, String> singularPluralMapping) {
+                            Map<String, Map<String, Object>> resourceParameters, Map<String, String> singularPluralMapping) {
         this.generalParameters = generalParameters;
         this.moduleParameters = moduleParameters;
         this.resourceParameters = resourceParameters;

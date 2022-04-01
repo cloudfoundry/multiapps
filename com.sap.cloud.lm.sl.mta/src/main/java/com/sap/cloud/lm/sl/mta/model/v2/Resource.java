@@ -40,15 +40,31 @@ public class Resource implements VisitableElement, NamedElement, PropertiesConta
         return name;
     }
 
+    public void setName(String name) {
+        this.name = name;
+    }
+
     public String getType() {
         return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 
     public String getDescription() {
         return description;
     }
- 
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
     public List<String> getGroups() {
+        throw new UnsupportedOperationException();
+    }
+
+    public void setGroups(List<String> groups) {
         throw new UnsupportedOperationException();
     }
 
@@ -56,37 +72,21 @@ public class Resource implements VisitableElement, NamedElement, PropertiesConta
     public Map<String, Object> getProperties() {
         return MapUtil.unmodifiable(properties);
     }
-    
+
+    public void setProperties(Map<String, Object> properties) {
+        this.properties = new LinkedHashMap<>(properties);
+    }
+
     @Override
     public Map<String, Object> getParameters() {
         return MapUtil.unmodifiable(parameters);
-    }
-    
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public void setType(String type) {
-        this.type = type;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public void setGroups(List<String> groups) {
-        throw new UnsupportedOperationException();
-    }
-    
-    public void setProperties(Map<String, Object> properties) {
-        this.properties = new LinkedHashMap<>(properties);
     }
 
     @Override
     public void setParameters(Map<String, Object> parameters) {
         this.parameters = new LinkedHashMap<>(parameters);
     }
-    
+
     @Override
     public void accept(ElementContext context, Visitor visitor) {
         visitor.visit(context, this);
@@ -136,7 +136,7 @@ public class Resource implements VisitableElement, NamedElement, PropertiesConta
         public void setGroups(List<String> groups) {
             throw new UnsupportedOperationException();
         }
-        
+
         public void setProperties(Map<String, Object> properties) {
             this.properties = properties;
         }
@@ -144,7 +144,7 @@ public class Resource implements VisitableElement, NamedElement, PropertiesConta
         public void setParameters(Map<String, Object> parameters) {
             this.parameters = parameters;
         }
-        
+
     }
 
 }

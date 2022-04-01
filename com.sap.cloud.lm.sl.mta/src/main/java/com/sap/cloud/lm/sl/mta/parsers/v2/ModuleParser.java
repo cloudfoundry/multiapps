@@ -21,8 +21,6 @@ import com.sap.cloud.lm.sl.mta.schema.MapElement;
 
 public class ModuleParser extends ModelParser<Module> {
 
-    protected static final String PROCESSED_OBJECT_NAME = "MTA module";
-
     public static final String PATH = "path";
     public static final String PARAMETERS = "parameters";
     public static final String NAME = "name";
@@ -31,9 +29,9 @@ public class ModuleParser extends ModelParser<Module> {
     public static final String PROPERTIES = "properties";
     public static final String REQUIRES = "requires";
     public static final String PROVIDES = "provides";
-    
-    protected Set<String> usedProvidedDependencyNames = Collections.emptySet();
+    protected static final String PROCESSED_OBJECT_NAME = "MTA module";
     protected final Set<String> usedRequiredDependencyNames = new HashSet<>();
+    protected Set<String> usedProvidedDependencyNames = Collections.emptySet();
 
     public ModuleParser(Map<String, Object> source) {
         this(MODULE, source);
@@ -85,17 +83,18 @@ public class ModuleParser extends ModelParser<Module> {
     protected Map<String, Object> getParameters() {
         return getMapElement(PARAMETERS);
     }
+
     protected List<ProvidedDependency> getProvidedDependencies2() {
         List<ProvidedDependency> providedDependencies = ListUtil.cast(getProvidedDependencies());
         return getAllProvidedDependencies(providedDependencies);
     }
-    
+
     protected List<ProvidedDependency> getProvidedDependencies() {
         return getListElement(PROVIDES, new ListParser<ProvidedDependency>() {
             @Override
             protected ProvidedDependency parseItem(Map<String, Object> map) {
                 return getProvidedDependencyParser(map).setUsedValues(usedProvidedDependencyNames)
-                    .parse();
+                                                       .parse();
             }
         });
     }
@@ -117,7 +116,7 @@ public class ModuleParser extends ModelParser<Module> {
         String currentModuleName = getName();
         for (ProvidedDependency providedDependency : providedDependencies) {
             if (providedDependency.getName()
-                .equals(currentModuleName)) {
+                                  .equals(currentModuleName)) {
                 return true;
             }
         }
@@ -128,7 +127,7 @@ public class ModuleParser extends ModelParser<Module> {
         Map<String, Object> currentModule = new TreeMap<>();
         currentModule.put(NAME, getName());
         return getProvidedDependencyParser(currentModule).setUsedValues(usedProvidedDependencyNames)
-            .parse();
+                                                         .parse();
     }
 
     protected List<RequiredDependency> getRequiredDependencies2() {
@@ -136,7 +135,7 @@ public class ModuleParser extends ModelParser<Module> {
             @Override
             protected RequiredDependency parseItem(Map<String, Object> map) {
                 return getRequiredDependencyParser(map).setUsedValues(usedRequiredDependencyNames)
-                    .parse();
+                                                       .parse();
             }
         });
     }

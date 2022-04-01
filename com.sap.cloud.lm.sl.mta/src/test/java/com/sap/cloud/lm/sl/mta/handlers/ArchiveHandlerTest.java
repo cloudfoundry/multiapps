@@ -45,7 +45,7 @@ public class ArchiveHandlerTest {
     @Test
     public void testGetDescriptor() throws Exception {
         String descriptor = ArchiveHandler.getDescriptor(ArchiveHandlerTest.class.getResourceAsStream(SAMPLE_MTAR),
-            MAX_MTA_DESCRIPTOR_SIZE);
+                                                         MAX_MTA_DESCRIPTOR_SIZE);
         assertTrue(descriptor.contains("com.sap.mta.sample"));
     }
 
@@ -57,7 +57,7 @@ public class ArchiveHandlerTest {
     @Test
     public void testGetModuleContent() throws Exception {
         byte[] moduleContent = ArchiveHandler.getFileContent(ArchiveHandlerTest.class.getResourceAsStream(SAMPLE_MTAR),
-            "web/web-server.zip", 2 * 1024 * 1024);
+                                                             "web/web-server.zip", 2 * 1024 * 1024);
 
         InputStream entryStream = getEntryStream(moduleContent, "readme.txt");
         String readmeContent = IOUtils.toString(entryStream, StandardCharsets.UTF_8);
@@ -83,7 +83,7 @@ public class ArchiveHandlerTest {
     @Test
     public void testGetDescriptorFlat() throws Exception {
         String descriptor = ArchiveHandler.getDescriptor(ArchiveHandlerTest.class.getResourceAsStream(SAMPLE_FLAT_MTAR),
-            MAX_MTA_DESCRIPTOR_SIZE);
+                                                         MAX_MTA_DESCRIPTOR_SIZE);
         assertTrue(descriptor.contains("com.sap.mta.sample"));
     }
 
@@ -94,7 +94,7 @@ public class ArchiveHandlerTest {
             ZipInputStream zis = (ZipInputStream) is;
             for (ZipEntry e; (e = zis.getNextEntry()) != null;) {
                 if (e.getName()
-                    .equals("web/readme.txt")) {
+                     .equals("web/readme.txt")) {
                     String readmeContent = IOUtils.toString(zis, StandardCharsets.UTF_8);
                     assertEquals("App router code will be packaged in this archive", readmeContent);
                 }
@@ -106,7 +106,7 @@ public class ArchiveHandlerTest {
         ZipInputStream zis = new ZipInputStream(new ByteArrayInputStream(content));
         for (ZipEntry e; (e = zis.getNextEntry()) != null;) {
             if (e.getName()
-                .equals(entryName)) {
+                 .equals(entryName)) {
                 return zis;
             }
         }

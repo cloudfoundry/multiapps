@@ -24,12 +24,14 @@ public interface HandlerConstructor {
 
     DescriptorValidator getDescriptorValidator();
 
-    PlaceholderResolver<? extends DeploymentDescriptor> getDescriptorPlaceholderResolver(DeploymentDescriptor mergedDescriptor,
-        Platform platform, SystemParameters systemParameters, ResolverBuilder propertiesResolverBuilder,
-        ResolverBuilder parametersResolverBuilder);
+    PlaceholderResolver<? extends DeploymentDescriptor>
+                       getDescriptorPlaceholderResolver(DeploymentDescriptor mergedDescriptor, Platform platform,
+                                                        SystemParameters systemParameters, ResolverBuilder propertiesResolverBuilder,
+                                                        ResolverBuilder parametersResolverBuilder);
 
     Resolver<? extends DeploymentDescriptor> getDescriptorReferenceResolver(DeploymentDescriptor mergedDescriptor,
-        ResolverBuilder modulesPropertiesResolverBuilder, ResolverBuilder resourcePropertiesResolverBuilder,
-        ResolverBuilder requiredDepencenciesPropertiesResolverBuilder);
+                                                                            ResolverBuilder modulesPropertiesResolverBuilder,
+                                                                            ResolverBuilder resourcePropertiesResolverBuilder,
+                                                                            ResolverBuilder requiredDepencenciesPropertiesResolverBuilder);
 
 }

@@ -17,7 +17,8 @@ public class ProvidedDependencyPlaceholderResolver extends com.sap.cloud.lm.sl.m
     protected final ProvidedDependency providedDependency3;
 
     public ProvidedDependencyPlaceholderResolver(Module module, ProvidedDependency providedDependency, String prefix,
-        ParametersChainBuilder parametersChainBuilder, SystemParameters systemParameters, ResolverBuilder propertiesResolverBuilder) {
+                                                 ParametersChainBuilder parametersChainBuilder, SystemParameters systemParameters,
+                                                 ResolverBuilder propertiesResolverBuilder) {
         super(module, providedDependency, prefix, parametersChainBuilder, systemParameters, propertiesResolverBuilder);
         this.providedDependency3 = providedDependency;
     }

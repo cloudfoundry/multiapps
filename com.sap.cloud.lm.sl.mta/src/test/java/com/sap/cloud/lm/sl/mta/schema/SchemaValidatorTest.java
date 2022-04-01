@@ -23,6 +23,12 @@ public class SchemaValidatorTest {
 
     private SchemaValidator validator;
 
+    public SchemaValidatorTest(String file, Element schema, Expectation expectation) {
+        this.schema = schema;
+        this.file = file;
+        this.expectation = expectation;
+    }
+
     @Parameters
     public static Iterable<Object[]> data1() {
         return Arrays.asList(new Object[][] {
@@ -73,12 +79,6 @@ public class SchemaValidatorTest {
             },
 // @formatter:on
         });
-    }
-
-    public SchemaValidatorTest(String file, Element schema, Expectation expectation) {
-        this.schema = schema;
-        this.file = file;
-        this.expectation = expectation;
     }
 
     @Before

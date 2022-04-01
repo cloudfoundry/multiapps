@@ -16,14 +16,19 @@ import com.sap.cloud.lm.sl.mta.handlers.v2.DescriptorHandler;
 import com.sap.cloud.lm.sl.mta.handlers.v2.DescriptorParser;
 import com.sap.cloud.lm.sl.mta.handlers.v2.DescriptorValidator;
 
-
 @RunWith(value = Parameterized.class)
 public class HandlerFactoryTest {
 
-    private int majorVersion;
-
     @Rule
     public ExpectedException expectedException = ExpectedException.none();
+    private int majorVersion;
+
+    public HandlerFactoryTest(int majorVersion, String expectedExceptionMessage) {
+        if (expectedExceptionMessage != null) {
+            expectedException.expectMessage(expectedExceptionMessage);
+        }
+        this.majorVersion = majorVersion;
+    }
 
     @Parameters
     public static Iterable<Object[]> getParameters() {
@@ -43,13 +48,6 @@ public class HandlerFactoryTest {
             },
 // @formatter:on
         });
-    }
-
-    public HandlerFactoryTest(int majorVersion, String expectedExceptionMessage) {
-        if (expectedExceptionMessage != null) {
-            expectedException.expectMessage(expectedExceptionMessage);
-        }
-        this.majorVersion = majorVersion;
     }
 
     @Test
@@ -78,7 +76,6 @@ public class HandlerFactoryTest {
         }
     }
 
-    
     @Test
     public void testGetDescriptorParser() {
         DescriptorParser handler = new HandlerFactory(majorVersion).getDescriptorParser();

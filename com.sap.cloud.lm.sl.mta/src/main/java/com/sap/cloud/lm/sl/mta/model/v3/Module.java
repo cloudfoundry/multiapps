@@ -41,13 +41,13 @@ public class Module extends com.sap.cloud.lm.sl.mta.model.v2.Module
     }
 
     @Override
-    public Metadata getParametersMetadata() {
-        return parametersMetadata;
+    public void setPropertiesMetadata(Metadata propertiesMetadata) {
+        this.propertiesMetadata = propertiesMetadata;
     }
 
     @Override
-    public void setPropertiesMetadata(Metadata propertiesMetadata) {
-        this.propertiesMetadata = propertiesMetadata;
+    public Metadata getParametersMetadata() {
+        return parametersMetadata;
     }
 
     @Override
@@ -59,26 +59,13 @@ public class Module extends com.sap.cloud.lm.sl.mta.model.v2.Module
         return ListUtil.upcastUnmodifiable(getRequiredDependencies());
     }
 
+    public void setRequiredDependencies3(List<RequiredDependency> requiredDependencies) {
+        setRequiredDependencies(requiredDependencies);
+    }
+
     @Override
     protected List<? extends RequiredDependency> getRequiredDependencies() {
         return requiredDependencies3;
-    }
-
-    public List<ProvidedDependency> getProvidedDependencies3() {
-        return ListUtil.upcastUnmodifiable(getProvidedDependencies());
-    }
-
-    @Override
-    protected List<? extends ProvidedDependency> getProvidedDependencies() {
-        return providedDependencies3;
-    }
-
-    public List<String> getDeployedAfter() {
-        return deployedAfter;
-    }
-
-    public void setRequiredDependencies3(List<RequiredDependency> requiredDependencies) {
-        setRequiredDependencies(requiredDependencies);
     }
 
     @Override
@@ -86,13 +73,26 @@ public class Module extends com.sap.cloud.lm.sl.mta.model.v2.Module
         this.requiredDependencies3 = ListUtil.cast(requiredDependencies);
     }
 
+    public List<ProvidedDependency> getProvidedDependencies3() {
+        return ListUtil.upcastUnmodifiable(getProvidedDependencies());
+    }
+
     public void setProvidedDependencies3(List<ProvidedDependency> providedDependencies) {
         setProvidedDependencies(providedDependencies);
     }
 
     @Override
+    protected List<? extends ProvidedDependency> getProvidedDependencies() {
+        return providedDependencies3;
+    }
+
+    @Override
     protected void setProvidedDependencies(List<? extends com.sap.cloud.lm.sl.mta.model.v2.ProvidedDependency> providedDependencies) {
         this.providedDependencies3 = ListUtil.cast(providedDependencies);
+    }
+
+    public List<String> getDeployedAfter() {
+        return deployedAfter;
     }
 
     public void setDeployedAfter(List<String> deployedAfter) {

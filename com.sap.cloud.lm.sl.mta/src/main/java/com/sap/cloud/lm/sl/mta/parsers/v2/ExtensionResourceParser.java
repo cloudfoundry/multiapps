@@ -12,12 +12,11 @@ import com.sap.cloud.lm.sl.mta.schema.MapElement;
 
 public class ExtensionResourceParser extends ModelParser<ExtensionResource> {
 
-    protected static final String PROCESSED_OBJECT_NAME = "MTA extension resource";
-
     public static final String NAME = "name";
     public static final String TYPE = "type";
     public static final String PROPERTIES = "properties";
     public static final String PARAMETERS = "parameters";
+    protected static final String PROCESSED_OBJECT_NAME = "MTA extension resource";
 
     public ExtensionResourceParser(Map<String, Object> source) {
         this(EXT_RESOURCE, source);

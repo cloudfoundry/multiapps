@@ -22,7 +22,7 @@ public class ModuleDependenciesCollector extends com.sap.cloud.lm.sl.mta.builder
         Set<String> collectedDependencies = super.collect(module);
         com.sap.cloud.lm.sl.mta.model.v3.Module moduleV3 = cast(module);
         List<String> deployedAfter = collectedDependencies.stream()
-            .collect(Collectors.toList());
+                                                          .collect(Collectors.toList());
         moduleV3.setDeployedAfter(deployedAfter);
         return collectedDependencies;
     }
@@ -36,10 +36,10 @@ public class ModuleDependenciesCollector extends com.sap.cloud.lm.sl.mta.builder
     @Override
     protected Module findModuleSatisfyingDependency(String dependency) {
         return descriptor.getModules2()
-            .stream()
-            .filter(module -> module.getName()
-                .equals(dependency))
-            .findFirst()
-            .orElse(null);
+                         .stream()
+                         .filter(module -> module.getName()
+                                                 .equals(dependency))
+                         .findFirst()
+                         .orElse(null);
     }
 }

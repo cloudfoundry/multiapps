@@ -31,6 +31,12 @@ public class DescriptorPlaceholderResolverTest {
 
     protected DescriptorPlaceholderResolver resolver;
 
+    public DescriptorPlaceholderResolverTest(String deploymentDescriptorLocation, String platformLocation, Expectation expectation) {
+        this.deploymentDescriptorLocation = deploymentDescriptorLocation;
+        this.platformLocation = platformLocation;
+        this.expectation = expectation;
+    }
+
     @Parameters
     public static Iterable<Object[]> getParameters() {
         return Arrays.asList(new Object[][] {
@@ -105,7 +111,7 @@ public class DescriptorPlaceholderResolverTest {
             },
             // (17) Global mta parameters to be resolved in lower scopes
             {
-                "mtad-18.yaml",  "platform-1.json", new Expectation(Expectation.Type.RESOURCE, "result-16.json"),  
+                "mtad-18.yaml",  "platform-1.json", new Expectation(Expectation.Type.RESOURCE, "result-16.json"),
             },
             // (18) The same placeholder occurs multiple times in the same parameter:
             {
@@ -113,12 +119,6 @@ public class DescriptorPlaceholderResolverTest {
             },
 // @formatter:on
         });
-    }
-
-    public DescriptorPlaceholderResolverTest(String deploymentDescriptorLocation, String platformLocation, Expectation expectation) {
-        this.deploymentDescriptorLocation = deploymentDescriptorLocation;
-        this.platformLocation = platformLocation;
-        this.expectation = expectation;
     }
 
     @Before
@@ -132,15 +132,18 @@ public class DescriptorPlaceholderResolverTest {
         Platform platform = getPlatform(configurationParser);
 
         SystemParameters systemParameters = JsonUtil.fromJson(TestUtil.getResourceAsString(SYSTEM_PARAMETERS_LOCATION, getClass()),
-            SystemParameters.class);
+                                                              SystemParameters.class);
 
         resolver = getDescriptorPlaceholderResolver(deploymentDescriptor, platform, systemParameters);
     }
 
     protected DescriptorPlaceholderResolver getDescriptorPlaceholderResolver(DeploymentDescriptor deploymentDescriptor, Platform platform,
-        SystemParameters systemParameters) {
-        return new DescriptorPlaceholderResolver(deploymentDescriptor, platform, systemParameters, new ResolverBuilder(),
-            new ResolverBuilder());
+                                                                             SystemParameters systemParameters) {
+        return new DescriptorPlaceholderResolver(deploymentDescriptor,
+                                                 platform,
+                                                 systemParameters,
+                                                 new ResolverBuilder(),
+                                                 new ResolverBuilder());
     }
 
     protected Platform getPlatform(ConfigurationParser configurationParser) {

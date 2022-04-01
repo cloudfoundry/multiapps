@@ -6,12 +6,12 @@ import java.util.stream.Collectors;
 
 public interface Descriptor {
 
-    String getId();
-
     static List<String> getIds(Collection<? extends Descriptor> descriptors) {
         return descriptors.stream()
-            .map(Descriptor::getId)
-            .collect(Collectors.toList());
+                          .map(Descriptor::getId)
+                          .collect(Collectors.toList());
     }
+
+    String getId();
 
 }

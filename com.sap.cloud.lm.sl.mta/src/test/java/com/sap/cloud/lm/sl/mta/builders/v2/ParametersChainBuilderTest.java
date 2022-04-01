@@ -18,6 +18,10 @@ import com.sap.cloud.lm.sl.mta.model.v2.Platform;
 
 public class ParametersChainBuilderTest extends PropertiesChainBuilderTest {
 
+    public ParametersChainBuilderTest(String deploymentDescriptorLocation, String platformLocation, Expectation[] expectations) {
+        super(deploymentDescriptorLocation, platformLocation, expectations);
+    }
+
     @Parameters
     public static Iterable<Object[]> getParameters() {
         return Arrays.asList(new Object[][] {
@@ -56,10 +60,6 @@ public class ParametersChainBuilderTest extends PropertiesChainBuilderTest {
         });
     }
 
-    public ParametersChainBuilderTest(String deploymentDescriptorLocation, String platformLocation, Expectation[] expectations) {
-        super(deploymentDescriptorLocation, platformLocation, expectations);
-    }
-
     @Override
     protected ConfigurationParser getConfigurationParser() {
         return new ConfigurationParser();
@@ -74,7 +74,7 @@ public class ParametersChainBuilderTest extends PropertiesChainBuilderTest {
     protected PropertiesChainBuilder createPropertiesChainBuilder(DeploymentDescriptor deploymentDescriptor, Platform platform) {
         return new ParametersChainBuilder((DeploymentDescriptor) deploymentDescriptor, (Platform) platform);
     }
-    
+
     @Test
     public void testBuildResourceTypeChain() {
         TestUtil.test(new Callable<List<List<Map<String, Object>>>>() {

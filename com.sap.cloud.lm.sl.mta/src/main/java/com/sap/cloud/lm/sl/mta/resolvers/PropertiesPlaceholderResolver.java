@@ -20,7 +20,7 @@ public class PropertiesPlaceholderResolver {
             }
         };
         return propertiesResolverBuilder.build(properties, valuesResolver, PLACEHOLDER, prefix, true)
-            .resolve();
+                                        .resolve();
     }
 
 }

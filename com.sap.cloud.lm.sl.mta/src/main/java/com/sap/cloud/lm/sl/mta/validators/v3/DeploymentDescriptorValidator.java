@@ -81,13 +81,13 @@ public class DeploymentDescriptorValidator extends com.sap.cloud.lm.sl.mta.valid
     protected void validateParameters(ParametersContainer container, String containerName) {
         ParametersWithMetadataContainer containerWithMetadata = cast(container);
         validate(containerWithMetadata.getParametersMetadata(), containerWithMetadata.getParameters(), containerName,
-            Constants.PARAMETER_ELEMENT_TYPE_NAME);
+                 Constants.PARAMETER_ELEMENT_TYPE_NAME);
     }
 
     protected void validateProperties(PropertiesContainer container, String containerName) {
         PropertiesWithMetadataContainer containerWithMetadata = cast(container);
         validate(containerWithMetadata.getPropertiesMetadata(), containerWithMetadata.getProperties(), containerName,
-            Constants.PARAMETER_ELEMENT_TYPE_NAME);
+                 Constants.PARAMETER_ELEMENT_TYPE_NAME);
     }
 
     protected void validate(Metadata metadata, Map<String, Object> properties, String containerName, String elementType) {
@@ -95,8 +95,9 @@ public class DeploymentDescriptorValidator extends com.sap.cloud.lm.sl.mta.valid
             boolean isOverwritable = metadata.getOverwritableMetadata(propertyName);
             boolean isOptional = metadata.getOptionalMetadata(propertyName);
             if (properties.get(propertyName) == null && !isOverwritable && !isOptional) {
-                throw new ContentException(Messages.MANDATORY_ELEMENT_HAS_NO_VALUE, elementType,
-                    ValidatorUtil.getPrefixedName(containerName, propertyName));
+                throw new ContentException(Messages.MANDATORY_ELEMENT_HAS_NO_VALUE,
+                                           elementType,
+                                           ValidatorUtil.getPrefixedName(containerName, propertyName));
             }
         }
     }

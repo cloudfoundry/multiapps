@@ -15,15 +15,6 @@ public class PartialVersionConverterTest {
 
     private final PartialVersionConverter partialVersionConverter = new PartialVersionConverter();
 
-    @ParameterizedTest
-    @MethodSource
-    public void testConvertWithInvalidVersions(String versionString, String expectedExceptionMessage) {
-        SemverException exception = assertThrows(SemverException.class,
-            () -> partialVersionConverter.convertToFullVersionString(versionString));
-
-        assertEquals(expectedExceptionMessage, exception.getMessage());
-    }
-
     public static Stream<Arguments> testConvertWithInvalidVersions() {
         return Stream.of(
 // @formatter:off
@@ -34,14 +25,6 @@ public class PartialVersionConverterTest {
             Arguments.of("[ 2.0, 2.1 ]", "Invalid version (no major version): [ 2.0, 2.1 ]")
 // @formatter:on
         );
-    }
-
-    @ParameterizedTest
-    @MethodSource
-    public void testConvertWithValidVersions(String versionString, String expectedResult) {
-        String fullVersionString = partialVersionConverter.convertToFullVersionString(versionString);
-
-        assertEquals(expectedResult, fullVersionString);
     }
 
     public static Stream<Arguments> testConvertWithValidVersions() {
@@ -67,6 +50,23 @@ public class PartialVersionConverterTest {
             Arguments.of("1-beta+exp.sha.5114f85", "1.0.0-beta+exp.sha.5114f85")
 // @formatter:on
         );
+    }
+
+    @ParameterizedTest
+    @MethodSource
+    public void testConvertWithInvalidVersions(String versionString, String expectedExceptionMessage) {
+        SemverException exception = assertThrows(SemverException.class,
+                                                 () -> partialVersionConverter.convertToFullVersionString(versionString));
+
+        assertEquals(expectedExceptionMessage, exception.getMessage());
+    }
+
+    @ParameterizedTest
+    @MethodSource
+    public void testConvertWithValidVersions(String versionString, String expectedResult) {
+        String fullVersionString = partialVersionConverter.convertToFullVersionString(versionString);
+
+        assertEquals(expectedResult, fullVersionString);
     }
 
 }

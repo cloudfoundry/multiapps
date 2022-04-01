@@ -11,6 +11,10 @@ import com.sap.cloud.lm.sl.common.util.TestUtil.Expectation;
 @RunWith(Parameterized.class)
 public class DescriptorParserTest extends com.sap.cloud.lm.sl.mta.handlers.v2.DescriptorParserTest {
 
+    public DescriptorParserTest(String deploymentDescriptorLocation, String extensionDescriptorLocation, Expectation[] expectations) {
+        super(deploymentDescriptorLocation, extensionDescriptorLocation, expectations);
+    }
+
     @Parameters
     public static Iterable<Object[]> getParameters() {
         return Arrays.asList(new Object[][] {
@@ -73,10 +77,6 @@ public class DescriptorParserTest extends com.sap.cloud.lm.sl.mta.handlers.v2.De
             },
 // @formatter:on
         });
-    }
-
-    public DescriptorParserTest(String deploymentDescriptorLocation, String extensionDescriptorLocation, Expectation[] expectations) {
-        super(deploymentDescriptorLocation, extensionDescriptorLocation, expectations);
     }
 
     @Override

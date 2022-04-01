@@ -5,8 +5,8 @@ import java.util.Map;
 public class NullPropertiesResolverBuilder extends ResolverBuilder {
 
     @Override
-    public PropertiesResolver build(Map<String, Object> properties, ProvidedValuesResolver valuesResolver,
-        ReferencePattern patternToMatch, String prefix, Boolean isStrict) {
+    public PropertiesResolver build(Map<String, Object> properties, ProvidedValuesResolver valuesResolver, ReferencePattern patternToMatch,
+                                    String prefix, Boolean isStrict) {
         return new NullPropertiesResolver(properties);
     }
 

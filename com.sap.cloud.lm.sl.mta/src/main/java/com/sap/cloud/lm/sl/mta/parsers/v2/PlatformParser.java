@@ -19,8 +19,6 @@ import com.sap.cloud.lm.sl.mta.schema.MapElement;
 
 public class PlatformParser extends ModelParser<Platform> {
 
-    protected static final String PROCESSED_OBJECT_NAME = "MTA platform type";
-
     public static final String PARAMETERS = "parameters";
     public static final String NAME = "name";
     public static final String DESCRIPTION = "description";
@@ -28,7 +26,7 @@ public class PlatformParser extends ModelParser<Platform> {
     public static final String MODULE_TYPES = "module-types";
     public static final String PROPERTIES = "properties";
     public static final String RESOURCE_TYPES = "resource-types";
-
+    protected static final String PROCESSED_OBJECT_NAME = "MTA platform type";
     protected final Set<String> usedModuleTypeNames = new HashSet<>();
     protected final Set<String> usedResourceTypeNames = new HashSet<>();
 
@@ -72,7 +70,7 @@ public class PlatformParser extends ModelParser<Platform> {
             @Override
             protected ModuleType parseItem(Map<String, Object> map) {
                 return getModuleTypeParser(map).setUsedValues(usedModuleTypeNames)
-                    .parse();
+                                               .parse();
             }
         });
     }
@@ -84,13 +82,13 @@ public class PlatformParser extends ModelParser<Platform> {
     protected List<ResourceType> getResourceTypes2() {
         return ListUtil.cast(getResourceTypes());
     }
-    
+
     protected List<ResourceType> getResourceTypes() {
         return getListElement(RESOURCE_TYPES, new ListParser<ResourceType>() {
             @Override
             protected ResourceType parseItem(Map<String, Object> map) {
                 return getResourceTypeParser(map).setUsedValues(usedResourceTypeNames)
-                    .parse();
+                                                 .parse();
             }
         });
     }

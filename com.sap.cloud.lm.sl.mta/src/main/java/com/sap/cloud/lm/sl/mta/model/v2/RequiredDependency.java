@@ -38,12 +38,24 @@ public class RequiredDependency implements VisitableElement, NamedElement, Prope
         return name;
     }
 
+    public void setName(String name) {
+        this.name = name;
+    }
+
     public String getGroup() {
         return group;
     }
 
+    public void setGroup(String group) {
+        this.group = group;
+    }
+
     public String getList() {
         return list;
+    }
+
+    public void setList(String list) {
+        this.list = list;
     }
 
     @Override
@@ -52,25 +64,13 @@ public class RequiredDependency implements VisitableElement, NamedElement, Prope
     }
 
     @Override
-    public Map<String, Object> getParameters() {
-        return MapUtil.unmodifiable(parameters);
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public void setGroup(String group) {
-        this.group = group;
-    }
-
-    public void setList(String list) {
-        this.list = list;
+    public void setProperties(Map<String, Object> properties) {
+        this.properties = new LinkedHashMap<>(properties);
     }
 
     @Override
-    public void setProperties(Map<String, Object> properties) {
-        this.properties = new LinkedHashMap<>(properties);
+    public Map<String, Object> getParameters() {
+        return MapUtil.unmodifiable(parameters);
     }
 
     @Override
@@ -81,6 +81,16 @@ public class RequiredDependency implements VisitableElement, NamedElement, Prope
     @Override
     public void accept(ElementContext context, Visitor visitor) {
         visitor.visit(context, this);
+    }
+
+    public RequiredDependency copyOf() {
+        Builder result = new Builder();
+        result.setName(getName());
+        result.setGroup(getGroup());
+        result.setList(getList());
+        result.setProperties(getProperties());
+        result.setParameters(getParameters());
+        return result.build();
     }
 
     public static class Builder {
@@ -121,16 +131,6 @@ public class RequiredDependency implements VisitableElement, NamedElement, Prope
             this.parameters = parameters;
         }
 
-    }
-
-    public RequiredDependency copyOf() {
-        Builder result = new Builder();
-        result.setName(getName());
-        result.setGroup(getGroup());
-        result.setList(getList());
-        result.setProperties(getProperties());
-        result.setParameters(getParameters());
-        return result.build();
     }
 
 }

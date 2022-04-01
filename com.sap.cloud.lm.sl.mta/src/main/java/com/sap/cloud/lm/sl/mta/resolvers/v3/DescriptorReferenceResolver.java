@@ -15,7 +15,8 @@ public class DescriptorReferenceResolver extends com.sap.cloud.lm.sl.mta.resolve
     protected final ResolverBuilder resourcePropertiesResolverBuilder;
 
     public DescriptorReferenceResolver(DeploymentDescriptor descriptor, ResolverBuilder modulesPropertiesResolverBuilder,
-        ResolverBuilder resourcePropertiesResolverBuilder, ResolverBuilder requiredDepencenciesPropertiesResolverBuilder) {
+                                       ResolverBuilder resourcePropertiesResolverBuilder,
+                                       ResolverBuilder requiredDepencenciesPropertiesResolverBuilder) {
         super(descriptor, modulesPropertiesResolverBuilder, requiredDepencenciesPropertiesResolverBuilder);
         this.resourcePropertiesResolverBuilder = resourcePropertiesResolverBuilder;
     }
@@ -39,8 +40,11 @@ public class DescriptorReferenceResolver extends com.sap.cloud.lm.sl.mta.resolve
     }
 
     protected ResourceReferenceResolver createResourceResolver(Resource resource) {
-        return new ResourceReferenceResolver(getDescriptor(), resource, "", resourcePropertiesResolverBuilder,
-            requiredDepencenciesPropertiesResolverBuilder);
+        return new ResourceReferenceResolver(getDescriptor(),
+                                             resource,
+                                             "",
+                                             resourcePropertiesResolverBuilder,
+                                             requiredDepencenciesPropertiesResolverBuilder);
     }
 
 }

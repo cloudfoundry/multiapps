@@ -9,9 +9,9 @@ import com.sap.cloud.lm.sl.common.ParsingException;
 import com.sap.cloud.lm.sl.common.util.ListUtil;
 import com.sap.cloud.lm.sl.mta.model.Metadata;
 import com.sap.cloud.lm.sl.mta.model.v3.DeploymentDescriptor;
+import com.sap.cloud.lm.sl.mta.model.v3.DeploymentDescriptor.Builder;
 import com.sap.cloud.lm.sl.mta.model.v3.Module;
 import com.sap.cloud.lm.sl.mta.model.v3.Resource;
-import com.sap.cloud.lm.sl.mta.model.v3.DeploymentDescriptor.Builder;
 import com.sap.cloud.lm.sl.mta.schema.MapElement;
 
 public class DeploymentDescriptorParser extends com.sap.cloud.lm.sl.mta.parsers.v2.DeploymentDescriptorParser {

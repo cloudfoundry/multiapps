@@ -16,6 +16,10 @@ import com.sap.cloud.lm.sl.mta.resolvers.ResolverBuilder;
 @RunWith(value = Parameterized.class)
 public class DescriptorPlaceholderResolverTest extends com.sap.cloud.lm.sl.mta.resolvers.v2.DescriptorPlaceholderResolverTest {
 
+    public DescriptorPlaceholderResolverTest(String deploymentDescriptorLocation, String platformLocation, Expectation expectation) {
+        super(deploymentDescriptorLocation, platformLocation, expectation);
+    }
+
     @Parameters
     public static Iterable<Object[]> getParameters() {
         return Arrays.asList(new Object[][] {
@@ -28,16 +32,15 @@ public class DescriptorPlaceholderResolverTest extends com.sap.cloud.lm.sl.mta.r
         });
     }
 
-    public DescriptorPlaceholderResolverTest(String deploymentDescriptorLocation, String platformLocation, Expectation expectation) {
-        super(deploymentDescriptorLocation, platformLocation, expectation);
-    }
-
     @Override
-    protected DescriptorPlaceholderResolver getDescriptorPlaceholderResolver(
-        com.sap.cloud.lm.sl.mta.model.v2.DeploymentDescriptor deploymentDescriptor, com.sap.cloud.lm.sl.mta.model.v2.Platform platform,
-        SystemParameters systemParameters) {
-        return new DescriptorPlaceholderResolver((DeploymentDescriptor) deploymentDescriptor, platform, systemParameters,
-            new ResolverBuilder(), new ResolverBuilder());
+    protected DescriptorPlaceholderResolver
+              getDescriptorPlaceholderResolver(com.sap.cloud.lm.sl.mta.model.v2.DeploymentDescriptor deploymentDescriptor,
+                                               com.sap.cloud.lm.sl.mta.model.v2.Platform platform, SystemParameters systemParameters) {
+        return new DescriptorPlaceholderResolver((DeploymentDescriptor) deploymentDescriptor,
+                                                 platform,
+                                                 systemParameters,
+                                                 new ResolverBuilder(),
+                                                 new ResolverBuilder());
     }
 
     @Override

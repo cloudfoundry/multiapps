@@ -19,12 +19,12 @@ public class RequiredDependencyReferenceResolver extends ReferenceResolver<Requi
     protected final ResolverBuilder propertiesResolverBuilder;
 
     public RequiredDependencyReferenceResolver(DeploymentDescriptor descriptor, NamedElement container, RequiredDependency dependency,
-        String prefix, ResolverBuilder propertiesResolverBuilder) {
+                                               String prefix, ResolverBuilder propertiesResolverBuilder) {
         this(descriptor, container, dependency, prefix, new DescriptorHandler(), propertiesResolverBuilder);
     }
 
     public RequiredDependencyReferenceResolver(DeploymentDescriptor descriptor, NamedElement container, RequiredDependency dependency,
-        String prefix, DescriptorHandler handler, ResolverBuilder propertiesResolverBuilder) {
+                                               String prefix, DescriptorHandler handler, ResolverBuilder propertiesResolverBuilder) {
         super(dependency.getName(), prefix, handler, descriptor, container.getName(), SHORT);
         this.dependency = dependency;
         this.propertiesResolverBuilder = propertiesResolverBuilder;
@@ -54,7 +54,7 @@ public class RequiredDependencyReferenceResolver extends ReferenceResolver<Requi
             }
         };
         return propertiesResolverBuilder.build(properties, valuesResolver, patternToMatch, prefix, isStrict)
-            .resolve();
+                                        .resolve();
     }
 
 }

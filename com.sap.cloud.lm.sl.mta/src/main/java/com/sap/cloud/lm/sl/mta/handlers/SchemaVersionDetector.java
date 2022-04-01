@@ -21,21 +21,20 @@ public class SchemaVersionDetector {
     }
 
     private void validateSchemaVersionCompatibility(DeploymentDescriptor deploymentDescriptor,
-        List<ExtensionDescriptor> extensionDescriptorChain) {
+                                                    List<ExtensionDescriptor> extensionDescriptorChain) {
         List<ExtensionDescriptor> incompatibleExtensionDescriptors = getIncompatibleExtensionDescriptors(deploymentDescriptor,
-            extensionDescriptorChain);
+                                                                                                         extensionDescriptorChain);
         if (!incompatibleExtensionDescriptors.isEmpty()) {
-            throw new ContentException(
-                Messages.EXTENSION_DESCRIPTORS_MUST_HAVE_THE_SAME_MAJOR_SCHEMA_VERSION_AS_THE_DEPLOYMENT_DESCRIPTOR_BUT_0_DO_NOT,
-                String.join(",", Descriptor.getIds(incompatibleExtensionDescriptors)));
+            throw new ContentException(Messages.EXTENSION_DESCRIPTORS_MUST_HAVE_THE_SAME_MAJOR_SCHEMA_VERSION_AS_THE_DEPLOYMENT_DESCRIPTOR_BUT_0_DO_NOT,
+                                       String.join(",", Descriptor.getIds(incompatibleExtensionDescriptors)));
         }
     }
 
     private List<ExtensionDescriptor> getIncompatibleExtensionDescriptors(DeploymentDescriptor deploymentDescriptor,
-        List<ExtensionDescriptor> extensionDescriptors) {
+                                                                          List<ExtensionDescriptor> extensionDescriptors) {
         return extensionDescriptors.stream()
-            .filter(extensionDescriptor -> !areCompatible(deploymentDescriptor, extensionDescriptor))
-            .collect(Collectors.toList());
+                                   .filter(extensionDescriptor -> !areCompatible(deploymentDescriptor, extensionDescriptor))
+                                   .collect(Collectors.toList());
     }
 
     private boolean areCompatible(DeploymentDescriptor deploymentDescriptor, ExtensionDescriptor extensionDescriptor) {

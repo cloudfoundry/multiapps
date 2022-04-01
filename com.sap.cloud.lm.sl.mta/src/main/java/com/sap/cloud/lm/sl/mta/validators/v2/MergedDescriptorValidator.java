@@ -22,13 +22,13 @@ public class MergedDescriptorValidator extends Visitor {
     protected final Set<String> emptyParameters = new TreeSet<>();
 
     public MergedDescriptorValidator(DeploymentDescriptor mergedDescriptor, DescriptorValidationRules validationRules,
-        DescriptorHandler handler) {
+                                     DescriptorHandler handler) {
         this.mergedDescriptor = mergedDescriptor;
         this.validationRules = validationRules;
         this.handler = handler;
 
     }
-    
+
     public void validate() throws ContentException {
         mergedDescriptor.accept(this);
         validationRules.postValidate();
@@ -61,5 +61,5 @@ public class MergedDescriptorValidator extends Visitor {
     public void visit(ElementContext context, ProvidedDependency providedDependency) {
         validationRules.validateProperties(providedDependency, context);
     }
-    
+
 }

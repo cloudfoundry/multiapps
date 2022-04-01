@@ -19,14 +19,6 @@ public class SchemaValidator {
         this.schema = schema;
     }
 
-    public void validate(Map<String, Object> map) throws ParsingException {
-        validate(map, schema, "", new HashMap<String, Set<Object>>());
-    }
-
-    public void validate(List<Object> list) throws ParsingException {
-        validate(list, schema, "", new HashMap<String, Set<Object>>());
-    }
-
     @SuppressWarnings("unchecked")
     private static void validate(Object object, Element schema, String prefix, Map<String, Set<Object>> uniqueValuesMap) {
         checkNull(object, prefix);
@@ -45,10 +37,10 @@ public class SchemaValidator {
         // Validate existing keys:
         for (String key : map.keySet()) {
             Element element = schema.getMap()
-                .get(key);
+                                    .get(key);
             String elementPrefix = getPrefixedName(prefix, key);
-            if (element == null) { 
-               continue;    
+            if (element == null) {
+                continue;
             }
             Object object = map.get(key);
             validate(object, element, elementPrefix, uniqueValuesMap);
@@ -56,9 +48,9 @@ public class SchemaValidator {
 
         // Check for non-existing required keys:
         for (String key : schema.getMap()
-            .keySet()) {
+                                .keySet()) {
             Element element = schema.getMap()
-                .get(key);
+                                    .get(key);
             if (element.isRequired() && !map.containsKey(key)) {
                 throw new ParsingException(Messages.MISSING_REQUIRED_KEY, getPrefixedName(prefix, key));
             }
@@ -90,8 +82,9 @@ public class SchemaValidator {
 
             String pattern = schema.getPattern();
             if (!value.matches(pattern)) {
-                throw new ParsingException(Messages.INVALID_STRING_VALUE_FOR_KEY, objectName,
-                    MiscUtil.outlineProblematicCharacter(pattern, value));
+                throw new ParsingException(Messages.INVALID_STRING_VALUE_FOR_KEY,
+                                           objectName,
+                                           MiscUtil.outlineProblematicCharacter(pattern, value));
             }
         }
     }
@@ -107,22 +100,33 @@ public class SchemaValidator {
 
     private static void checkType(Object object, Element element, String prefix) {
         if (!element.getType()
-            .isInstance(object)) {
+                    .isInstance(object)) {
             if (!isRootElement(prefix)) {
-                throw new ParsingException(Messages.INVALID_TYPE_FOR_KEY, prefix, element.getType()
-                    .getSimpleName(),
-                    object.getClass()
-                        .getSimpleName());
+                throw new ParsingException(Messages.INVALID_TYPE_FOR_KEY,
+                                           prefix,
+                                           element.getType()
+                                                  .getSimpleName(),
+                                           object.getClass()
+                                                 .getSimpleName());
             }
-            throw new ParsingException(Messages.INVALID_CONTENT_TYPE, element.getType()
-                .getSimpleName(),
-                object.getClass()
-                    .getSimpleName());
+            throw new ParsingException(Messages.INVALID_CONTENT_TYPE,
+                                       element.getType()
+                                              .getSimpleName(),
+                                       object.getClass()
+                                             .getSimpleName());
         }
     }
 
     private static boolean isRootElement(String prefix) {
         return prefix == null || prefix.isEmpty();
+    }
+
+    public void validate(Map<String, Object> map) throws ParsingException {
+        validate(map, schema, "", new HashMap<String, Set<Object>>());
+    }
+
+    public void validate(List<Object> list) throws ParsingException {
+        validate(list, schema, "", new HashMap<String, Set<Object>>());
     }
 
 }

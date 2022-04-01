@@ -17,6 +17,11 @@ public class DescriptorSerializationTest extends com.sap.cloud.lm.sl.mta.seriali
     protected String deploymentDescriptorLocation;
     protected String serializedDescriptorLocation;
 
+    public DescriptorSerializationTest(String deploymentDescriptorLocation, Expectation expectedSerializedDescriptor,
+                                       String extensionDescriptorLocation, Expectation expectedSerializedExtension) {
+        super(deploymentDescriptorLocation, expectedSerializedDescriptor, extensionDescriptorLocation, expectedSerializedExtension);
+    }
+
     @Parameters
     public static Iterable<Object[]> getParameters() {
         return Arrays.asList(new Object[][] {
@@ -33,11 +38,6 @@ public class DescriptorSerializationTest extends com.sap.cloud.lm.sl.mta.seriali
             },
 // @formatter:on
         });
-    }
-
-    public DescriptorSerializationTest(String deploymentDescriptorLocation, Expectation expectedSerializedDescriptor,
-        String extensionDescriptorLocation, Expectation expectedSerializedExtension) {
-        super(deploymentDescriptorLocation, expectedSerializedDescriptor, extensionDescriptorLocation, expectedSerializedExtension);
     }
 
     @Override

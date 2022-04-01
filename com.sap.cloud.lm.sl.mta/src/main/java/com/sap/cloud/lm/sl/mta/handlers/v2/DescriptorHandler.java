@@ -22,7 +22,7 @@ public class DescriptorHandler {
     public RequiredDependency findRequiredDependency(DeploymentDescriptor descriptor, String moduleName, String dependencyName) {
         for (Module module : descriptor.getModules2()) {
             if (module.getName()
-                .equals(moduleName)) {
+                      .equals(moduleName)) {
                 return findRequiredDependency(module, dependencyName);
             }
         }
@@ -32,7 +32,7 @@ public class DescriptorHandler {
     public ExtensionRequiredDependency findRequiredDependency(ExtensionDescriptor descriptor, String moduleName, String dependencyName) {
         for (ExtensionModule module : descriptor.getModules()) {
             if (module.getName()
-                .equals(moduleName)) {
+                      .equals(moduleName)) {
                 return findRequiredDependency(module, dependencyName);
             }
         }
@@ -42,7 +42,7 @@ public class DescriptorHandler {
     public RequiredDependency findRequiredDependency(Module module, String dependencyName) {
         for (RequiredDependency requiredDependency : module.getRequiredDependencies2()) {
             if (requiredDependency.getName()
-                .equals(dependencyName)) {
+                                  .equals(dependencyName)) {
                 return requiredDependency;
             }
         }
@@ -52,7 +52,7 @@ public class DescriptorHandler {
     public ExtensionRequiredDependency findRequiredDependency(ExtensionModule module, String dependencyName) {
         for (ExtensionRequiredDependency requiredDependency : module.getRequiredDependencies2()) {
             if (requiredDependency.getName()
-                .equals(dependencyName)) {
+                                  .equals(dependencyName)) {
                 return requiredDependency;
             }
         }
@@ -60,14 +60,14 @@ public class DescriptorHandler {
     }
 
     protected ModulesSorter getModuleSorter(DeploymentDescriptor descriptor, String parallelDeploymentProperty,
-        String dependencyTypeProperty, String hardDependencyType) {
+                                            String dependencyTypeProperty, String hardDependencyType) {
         return new ModulesSorter(descriptor, this, dependencyTypeProperty, hardDependencyType);
     }
 
     public ResourceType findResourceType(Platform platform, String resourceTypeName) {
         for (ResourceType resourceType : platform.getResourceTypes2()) {
             if (resourceType.getName()
-                .equals(resourceTypeName)) {
+                            .equals(resourceTypeName)) {
                 return resourceType;
             }
         }
@@ -77,7 +77,7 @@ public class DescriptorHandler {
     public ModuleType findModuleType(Platform platform, String moduleTypeName) {
         for (ModuleType moduleType : platform.getModuleTypes2()) {
             if (moduleType.getName()
-                .equals(moduleTypeName)) {
+                          .equals(moduleTypeName)) {
                 return moduleType;
             }
         }
@@ -99,7 +99,7 @@ public class DescriptorHandler {
     public Resource findResource(DeploymentDescriptor descriptor, String resourceName) {
         for (Resource resource : descriptor.getResources2()) {
             if (resource.getName()
-                .equals(resourceName)) {
+                        .equals(resourceName)) {
                 return resource;
             }
         }
@@ -109,7 +109,7 @@ public class DescriptorHandler {
     public ExtensionResource findResource(ExtensionDescriptor descriptor, String resourceName) {
         for (ExtensionResource resource : descriptor.getResources()) {
             if (resource.getName()
-                .equals(resourceName)) {
+                        .equals(resourceName)) {
                 return resource;
             }
         }
@@ -139,7 +139,7 @@ public class DescriptorHandler {
     public ProvidedDependency findProvidedDependency(Module module, String providedDependencyName) {
         for (ProvidedDependency providedDependency : module.getProvidedDependencies2()) {
             if (providedDependency.getName()
-                .equals(providedDependencyName)) {
+                                  .equals(providedDependencyName)) {
                 return providedDependency;
             }
         }
@@ -149,7 +149,7 @@ public class DescriptorHandler {
     public ExtensionProvidedDependency findProvidedDependency(ExtensionModule module, String providedDependencyName) {
         for (ExtensionProvidedDependency providedDependency : module.getProvidedDependencies2()) {
             if (providedDependency.getName()
-                .equals(providedDependencyName)) {
+                                  .equals(providedDependencyName)) {
                 return providedDependency;
             }
         }
@@ -159,7 +159,7 @@ public class DescriptorHandler {
     public ExtensionModule findModule(ExtensionDescriptor descriptor, String moduleName) {
         for (ExtensionModule module : descriptor.getModules2()) {
             if (module.getName()
-                .equals(moduleName)) {
+                      .equals(moduleName)) {
                 return module;
             }
         }
@@ -169,7 +169,7 @@ public class DescriptorHandler {
     public Module findModule(DeploymentDescriptor descriptor, String moduleName) {
         for (Module module : descriptor.getModules2()) {
             if (module.getName()
-                .equals(moduleName)) {
+                      .equals(moduleName)) {
                 return module;
             }
         }
@@ -177,10 +177,9 @@ public class DescriptorHandler {
     }
 
     public List<? extends Module> getModulesForDeployment(DeploymentDescriptor descriptor, String parallelDeploymentProperty,
-        String dependencyTypeProperty, String hardDependencyType) {
+                                                          String dependencyTypeProperty, String hardDependencyType) {
         ModulesSorter moduleSorter = getModuleSorter(descriptor, parallelDeploymentProperty, dependencyTypeProperty, hardDependencyType);
         return moduleSorter.sort();
     }
 
-    
 }

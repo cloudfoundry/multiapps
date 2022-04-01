@@ -8,6 +8,10 @@ import com.sap.cloud.lm.sl.common.util.TestUtil.Expectation;
 
 public class DescriptorMergerTest extends com.sap.cloud.lm.sl.mta.handlers.v2.DescriptorMergerTest {
 
+    public DescriptorMergerTest(String deploymentDescriptorLocation, String[] extensionDescriptorLocations, Expectation expectation) {
+        super(deploymentDescriptorLocation, extensionDescriptorLocations, expectation);
+    }
+
     @Parameters
     public static Iterable<Object[]> getParameters() {
         return Arrays.asList(new Object[][] {
@@ -24,10 +28,6 @@ public class DescriptorMergerTest extends com.sap.cloud.lm.sl.mta.handlers.v2.De
             },
 // @formatter:on
         });
-    }
-
-    public DescriptorMergerTest(String deploymentDescriptorLocation, String[] extensionDescriptorLocations, Expectation expectation) {
-        super(deploymentDescriptorLocation, extensionDescriptorLocations, expectation);
     }
 
     @Override

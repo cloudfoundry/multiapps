@@ -47,7 +47,7 @@ public class ArchiveHandler {
             ZipInputStream zis = new ZipInputStream(is);
             for (ZipEntry e; (e = zis.getNextEntry()) != null;) {
                 if (e.getName()
-                    .equals(entryName)) {
+                     .equals(entryName)) {
                     validateZipEntrySize(e, maxEntrySize);
                     return zis;
                 }
@@ -60,8 +60,10 @@ public class ArchiveHandler {
 
     private static void validateZipEntrySize(ZipEntry zipEntry, long maxEntrySize) {
         if (zipEntry.getSize() > maxEntrySize) {
-            throw new ContentException(Messages.ERROR_SIZE_OF_FILE_EXCEEDS_CONFIGURED_MAX_SIZE_LIMIT, zipEntry.getSize(),
-                zipEntry.getName(), maxEntrySize);
+            throw new ContentException(Messages.ERROR_SIZE_OF_FILE_EXCEEDS_CONFIGURED_MAX_SIZE_LIMIT,
+                                       zipEntry.getSize(),
+                                       zipEntry.getName(),
+                                       maxEntrySize);
         }
     }
 }

@@ -20,14 +20,12 @@ import com.sap.cloud.lm.sl.mta.schema.MapElement;
 
 public class ExtensionModuleParser extends ModelParser<ExtensionModule> {
 
-    protected static final String PROCESSED_OBJECT_NAME = "MTA extension module";
-
     public static final String NAME = "name";
     public static final String PROPERTIES = "properties";
     public static final String PROVIDES = "provides";
     public static final String PARAMETERS = "parameters";
     public static final String REQUIRES = "requires";
-
+    protected static final String PROCESSED_OBJECT_NAME = "MTA extension module";
     protected Set<String> usedProvidedDependencyNames = Collections.emptySet();
     protected Set<String> usedRequiredDependencyNames = new HashSet<>();
 
@@ -67,7 +65,7 @@ public class ExtensionModuleParser extends ModelParser<ExtensionModule> {
             @Override
             protected ExtensionRequiredDependency parseItem(Map<String, Object> map) {
                 return getRequiredDependencyParser(map).setUsedValues(usedRequiredDependencyNames)
-                    .parse();
+                                                       .parse();
             }
         });
     }
@@ -76,7 +74,7 @@ public class ExtensionModuleParser extends ModelParser<ExtensionModule> {
         this.usedProvidedDependencyNames = usedProvidedDependencyNames;
         return this;
     }
-    
+
     protected List<ExtensionProvidedDependency> getExtensionProvidedDependencies2() {
         return ListUtil.cast(getExtensionProvidedDependencies());
     }
@@ -86,7 +84,7 @@ public class ExtensionModuleParser extends ModelParser<ExtensionModule> {
             @Override
             protected ExtensionProvidedDependency parseItem(Map<String, Object> map) {
                 return getProvidedDependencyParser(map).setUsedValues(usedProvidedDependencyNames)
-                    .parse();
+                                                       .parse();
             }
         });
     }

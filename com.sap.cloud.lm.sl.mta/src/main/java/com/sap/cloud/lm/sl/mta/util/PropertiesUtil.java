@@ -183,10 +183,11 @@ public class PropertiesUtil {
 
     private static void validateTypes(Object override, Object original) {
         if (isMap(original) ^ isMap(override)) {
-            throw new ContentException(Messages.INCOMPATIBLE_TYPES, override.getClass()
-                .getName(),
-                original.getClass()
-                    .getName());
+            throw new ContentException(Messages.INCOMPATIBLE_TYPES,
+                                       override.getClass()
+                                               .getName(),
+                                       original.getClass()
+                                               .getName());
         }
     }
 

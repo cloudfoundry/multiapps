@@ -32,6 +32,16 @@ public class ParametersChainBuilder extends PropertiesChainBuilder {
         super(descriptor, platform, handler);
     }
 
+    protected static List<Map<String, Object>> getParametersList(List<RequiredDependency> dependencies, Module module,
+                                                                 ModuleType moduleType, DeploymentDescriptor descriptor) {
+        List<ParametersContainer> containers = new ArrayList<>();
+        containers.addAll(dependencies);
+        CollectionUtils.addIgnoreNull(containers, module);
+        CollectionUtils.addIgnoreNull(containers, moduleType);
+        CollectionUtils.addIgnoreNull(containers, descriptor);
+        return PropertiesUtil.getParametersList(containers);
+    }
+
     @Override
     public List<Map<String, Object>> buildModuleChain(String moduleName) {
         Module module = handler.findModule(descriptor, moduleName);
@@ -80,16 +90,6 @@ public class ParametersChainBuilder extends PropertiesChainBuilder {
         ParametersContainer resourceType = getResourceType(resource);
         DeploymentDescriptor deploymentDescriptor = descriptor;
         return PropertiesUtil.getParametersList(resourceType, deploymentDescriptor);
-    }
-
-    protected static List<Map<String, Object>> getParametersList(List<RequiredDependency> dependencies, Module module,
-        ModuleType moduleType, DeploymentDescriptor descriptor) {
-        List<ParametersContainer> containers = new ArrayList<>();
-        containers.addAll(dependencies);
-        CollectionUtils.addIgnoreNull(containers, module);
-        CollectionUtils.addIgnoreNull(containers, moduleType);
-        CollectionUtils.addIgnoreNull(containers, descriptor);
-        return PropertiesUtil.getParametersList(containers);
     }
 
     protected ResourceType getResourceType(Resource resource) {

@@ -29,8 +29,16 @@ public class ModuleType implements VisitableElement, NamedElement, PropertiesCon
         return name;
     }
 
+    public void setName(String name) {
+        this.name = name;
+    }
+
     public String getDeployer() {
         return deployer;
+    }
+
+    public void setDeployer(String deployer) {
+        this.deployer = deployer;
     }
 
     @Override
@@ -38,21 +46,13 @@ public class ModuleType implements VisitableElement, NamedElement, PropertiesCon
         return MapUtil.unmodifiable(properties);
     }
 
+    public void setProperties(Map<String, Object> properties) {
+        this.properties = new LinkedHashMap<>(properties);
+    }
+
     @Override
     public Map<String, Object> getParameters() {
         return MapUtil.unmodifiable(parameters);
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public void setDeployer(String deployer) {
-        this.deployer = deployer;
-    }
-
-    public void setProperties(Map<String, Object> properties) {
-        this.properties = new LinkedHashMap<>(properties);
     }
 
     @Override

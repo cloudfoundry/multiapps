@@ -26,22 +26,13 @@ public class ExtensionDescriptor extends com.sap.cloud.lm.sl.mta.model.v2.Extens
         return ListUtil.upcastUnmodifiable(getModules());
     }
 
+    public void setModules3(List<ExtensionModule> modules) {
+        setModules(modules);
+    }
+
     @Override
     public List<? extends ExtensionModule> getModules() {
         return modules3;
-    }
-
-    public List<ExtensionResource> getResources3() {
-        return ListUtil.upcastUnmodifiable(getResources());
-    }
-
-    @Override
-    public List<? extends ExtensionResource> getResources() {
-        return resources3;
-    }
-
-    public void setModules3(List<ExtensionModule> modules) {
-        setModules(modules);
     }
 
     @Override
@@ -49,8 +40,17 @@ public class ExtensionDescriptor extends com.sap.cloud.lm.sl.mta.model.v2.Extens
         this.modules3 = ListUtil.cast(modules);
     }
 
+    public List<ExtensionResource> getResources3() {
+        return ListUtil.upcastUnmodifiable(getResources());
+    }
+
     public void setResources3(List<ExtensionResource> resources) {
         setResources(resources);
+    }
+
+    @Override
+    public List<? extends ExtensionResource> getResources() {
+        return resources3;
     }
 
     @Override
