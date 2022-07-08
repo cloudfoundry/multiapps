@@ -2,12 +2,6 @@ package org.cloudfoundry.multiapps.mta.util;
 
 import static java.text.MessageFormat.format;
 
-import org.cloudfoundry.multiapps.common.ContentException;
-import org.cloudfoundry.multiapps.common.util.MiscUtil;
-import org.cloudfoundry.multiapps.mta.Messages;
-import org.cloudfoundry.multiapps.mta.model.ParametersContainer;
-import org.cloudfoundry.multiapps.mta.model.PropertiesContainer;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -18,6 +12,12 @@ import java.util.Objects;
 import java.util.TreeMap;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
+
+import org.cloudfoundry.multiapps.common.ContentException;
+import org.cloudfoundry.multiapps.common.util.MiscUtil;
+import org.cloudfoundry.multiapps.mta.Messages;
+import org.cloudfoundry.multiapps.mta.model.ParametersContainer;
+import org.cloudfoundry.multiapps.mta.model.PropertiesContainer;
 
 public class PropertiesUtil {
 
