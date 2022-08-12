@@ -174,6 +174,10 @@ public class JsonUtil {
         }
     }
 
+    public static <T> T fromJsonBinary(byte[] json, TypeReference<T> typeReference) {
+        return fromJson(toString(json), JsonSerializationStrategy.DEFAULT, typeReference);
+    }
+
     public static <T> T fromJsonBinary(byte[] json, JsonSerializationStrategy jsonSerializationStrategy, TypeReference<T> typeReference) {
         return fromJson(toString(json), jsonSerializationStrategy, typeReference);
     }
