@@ -360,7 +360,10 @@
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-javadoc-plugin</artifactId>
                         <configuration>
-                            <additionalparam>-Xdoclint:none</additionalparam>
+                            <doclint>none</doclint>
+                            <!--TODO remove once the javadoc generation is stable-->
+                            <!--Added because failing javadoc generation blocks the deploy to nexus-->
+                            <failOnError>false</failOnError>
                         </configuration>
                         <executions>
                             <execution>
