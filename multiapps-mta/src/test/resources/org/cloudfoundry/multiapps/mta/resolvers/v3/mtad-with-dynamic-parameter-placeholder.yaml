@@ -1,0 +1,17 @@
+_schema-version: 3
+ID: foo
+version: 1.0.0
+
+modules:
+  - name: foo
+    type: foo
+    requires:
+      - name: bar
+
+
+resources:
+  - name: bar
+    type: bar
+    properties:
+      my-service-guid: ${service-guid}
+

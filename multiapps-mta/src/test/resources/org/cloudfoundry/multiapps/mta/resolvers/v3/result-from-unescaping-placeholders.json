@@ -86,7 +86,8 @@
     "parametersMetadata" : {
       "metadata" : { }
     },
-    "requiredDependencies" : [ ]
+    "requiredDependencies" : [ ],
+    "processedAfter" : [ ]
   } ],
   "parameters" : {
     "a" : "${placeholder}",

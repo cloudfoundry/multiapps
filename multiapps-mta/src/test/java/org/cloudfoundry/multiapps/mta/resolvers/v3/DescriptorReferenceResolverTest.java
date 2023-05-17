@@ -1,5 +1,6 @@
 package org.cloudfoundry.multiapps.mta.resolvers.v3;
 
+import java.util.Collections;
 import java.util.stream.Stream;
 
 import org.cloudfoundry.multiapps.common.test.Tester;
@@ -45,7 +46,11 @@ class DescriptorReferenceResolverTest {
     private void init(String mergedDescriptorLocation) {
         DeploymentDescriptor mergedDescriptor = MtaTestUtil.loadDeploymentDescriptor(mergedDescriptorLocation, new DescriptorParser(),
                                                                                      getClass());
-        resolver = new DescriptorReferenceResolver(mergedDescriptor, new ResolverBuilder(), new ResolverBuilder(), new ResolverBuilder());
+        resolver = new DescriptorReferenceResolver(mergedDescriptor,
+                                                   new ResolverBuilder(),
+                                                   new ResolverBuilder(),
+                                                   new ResolverBuilder(),
+                                                   Collections.emptySet());
     }
 
 }

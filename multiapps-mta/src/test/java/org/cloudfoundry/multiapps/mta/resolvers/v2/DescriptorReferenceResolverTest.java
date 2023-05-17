@@ -1,5 +1,6 @@
 package org.cloudfoundry.multiapps.mta.resolvers.v2;
 
+import java.util.Collections;
 import java.util.stream.Stream;
 
 import org.cloudfoundry.multiapps.common.test.Tester;
@@ -27,7 +28,7 @@ class DescriptorReferenceResolverTest {
                          // (2) Test alternative grouping of properties when there is no corresponding requires dependency:
                          Arguments.of("merged-05.yaml",
                                       new Expectation(Expectation.Type.EXCEPTION,
-                                                      "Module \"foo\" does not contain a required dependency for \"bar\", but contains references to its properties")),
+                                                      "Module/Resource \"foo\" does not contain a required dependency for \"bar\", but contains references to its properties")),
                          // (3) Attempt to resolve references to non-existing properties:
                          Arguments.of("merged-03.yaml",
                                       new Expectation(Expectation.Type.EXCEPTION, "Unable to resolve \"foo#baz#non-existing\"")),
@@ -54,7 +55,7 @@ class DescriptorReferenceResolverTest {
     private void init(String mergedDescriptorLocation) {
         DeploymentDescriptor mergedDescriptor = MtaTestUtil.loadDeploymentDescriptor(mergedDescriptorLocation, new DescriptorParser(),
                                                                                      getClass());
-        resolver = new DescriptorReferenceResolver(mergedDescriptor, new ResolverBuilder(), new ResolverBuilder());
+        resolver = new DescriptorReferenceResolver(mergedDescriptor, new ResolverBuilder(), new ResolverBuilder(), Collections.emptySet());
     }
 
 }

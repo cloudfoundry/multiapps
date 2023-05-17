@@ -1,14 +1,15 @@
 package org.cloudfoundry.multiapps.mta.resolvers.v2;
 
+import java.io.InputStream;
+import java.util.Collections;
+import java.util.Map;
+
 import org.cloudfoundry.multiapps.common.test.Tester;
 import org.cloudfoundry.multiapps.mta.builders.v2.ParametersChainBuilder;
 import org.cloudfoundry.multiapps.mta.handlers.DescriptorParserFacade;
 import org.cloudfoundry.multiapps.mta.model.DeploymentDescriptor;
 import org.cloudfoundry.multiapps.mta.resolvers.ResolverBuilder;
 import org.junit.jupiter.api.Test;
-
-import java.io.InputStream;
-import java.util.Map;
 
 public class ModulePlaceholderResolverTest {
     private final Tester tester = Tester.forClass(getClass());
@@ -42,6 +43,7 @@ public class ModulePlaceholderResolverTest {
                                              new ParametersChainBuilder(deploymentDescriptor),
                                              new ResolverBuilder(),
                                              new ResolverBuilder(),
-                                             Map.of("buildpack", "buildpacks"));
+                                             Map.of("buildpack", "buildpacks"),
+                                             Collections.emptySet());
     }
 }

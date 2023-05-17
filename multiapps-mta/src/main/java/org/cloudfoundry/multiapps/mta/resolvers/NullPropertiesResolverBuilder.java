@@ -1,12 +1,13 @@
 package org.cloudfoundry.multiapps.mta.resolvers;
 
 import java.util.Map;
+import java.util.Set;
 
 public class NullPropertiesResolverBuilder extends ResolverBuilder {
 
     @Override
     public PropertiesResolver build(Map<String, Object> properties, ProvidedValuesResolver valuesResolver, ReferencePattern patternToMatch,
-                                    String prefix, Boolean isStrict) {
+                                    String prefix, Boolean isStrict, Set<String> dynamicResolvableParameters) {
         return new NullPropertiesResolver(properties);
     }
 

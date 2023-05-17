@@ -1,6 +1,7 @@
 package org.cloudfoundry.multiapps.mta.resolvers.v2;
 
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.cloudfoundry.multiapps.common.ContentException;
@@ -14,12 +15,15 @@ public class DescriptorReferenceResolver implements Resolver<DeploymentDescripto
     protected final DeploymentDescriptor descriptor;
     protected final ResolverBuilder modulesPropertiesResolverBuilder;
     protected final ResolverBuilder requiredDependenciesPropertiesResolverBuilder;
+    protected final Set<String> dynamicResolvableParameters;
 
     public DescriptorReferenceResolver(DeploymentDescriptor descriptor, ResolverBuilder modulesPropertiesResolverBuilder,
-                                       ResolverBuilder requiredDependenciesPropertiesResolverBuilder) {
+                                       ResolverBuilder requiredDependenciesPropertiesResolverBuilder,
+                                       Set<String> dynamicResolvableParameters) {
         this.descriptor = descriptor;
         this.modulesPropertiesResolverBuilder = modulesPropertiesResolverBuilder;
         this.requiredDependenciesPropertiesResolverBuilder = requiredDependenciesPropertiesResolverBuilder;
+        this.dynamicResolvableParameters = dynamicResolvableParameters;
     }
 
     @Override
@@ -40,7 +44,8 @@ public class DescriptorReferenceResolver implements Resolver<DeploymentDescripto
                                            module,
                                            "",
                                            modulesPropertiesResolverBuilder,
-                                           requiredDependenciesPropertiesResolverBuilder);
+                                           requiredDependenciesPropertiesResolverBuilder,
+                                           dynamicResolvableParameters);
     }
 
 }

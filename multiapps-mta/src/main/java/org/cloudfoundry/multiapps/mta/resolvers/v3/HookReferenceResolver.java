@@ -2,6 +2,7 @@ package org.cloudfoundry.multiapps.mta.resolvers.v3;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.cloudfoundry.multiapps.mta.model.DeploymentDescriptor;
@@ -21,15 +22,18 @@ public class HookReferenceResolver implements Resolver<Hook> {
     protected final String prefix;
     protected final ResolverBuilder propertiesResolverBuilder;
     protected final ResolverBuilder requiredDependenciesPropertiesResolverBuilder;
+    protected final Set<String> dynamicResolvableParameters;
 
     public HookReferenceResolver(Hook hook, DeploymentDescriptor descriptor, Module module, String prefix,
-                                 ResolverBuilder propertiesResolverBuilder, ResolverBuilder requiredDependenciesPropertiesResolverBuilder) {
+                                 ResolverBuilder propertiesResolverBuilder, ResolverBuilder requiredDependenciesPropertiesResolverBuilder,
+                                 Set<String> dynamicResolvableParameters) {
         this.hook = hook;
         this.descriptor = descriptor;
         this.module = module;
         this.prefix = prefix;
         this.propertiesResolverBuilder = propertiesResolverBuilder;
         this.requiredDependenciesPropertiesResolverBuilder = requiredDependenciesPropertiesResolverBuilder;
+        this.dynamicResolvableParameters = dynamicResolvableParameters;
     }
 
     @Override
@@ -44,7 +48,12 @@ public class HookReferenceResolver implements Resolver<Hook> {
     }
 
     protected ModulePropertiesReferenceResolver createModulePropertiesReferenceResolver(Map<String, Object> properties) {
-        return new ModulePropertiesReferenceResolver(descriptor, module, properties, prefix, propertiesResolverBuilder);
+        return new ModulePropertiesReferenceResolver(descriptor,
+                                                     module,
+                                                     properties,
+                                                     prefix,
+                                                     propertiesResolverBuilder,
+                                                     dynamicResolvableParameters);
     }
 
     private List<RequiredDependency> getResolvedHookDependencies(Hook hook) {
@@ -59,6 +68,7 @@ public class HookReferenceResolver implements Resolver<Hook> {
                                                        module,
                                                        requiredDependency,
                                                        prefix,
-                                                       requiredDependenciesPropertiesResolverBuilder);
+                                                       requiredDependenciesPropertiesResolverBuilder,
+                                                       dynamicResolvableParameters);
     }
 }

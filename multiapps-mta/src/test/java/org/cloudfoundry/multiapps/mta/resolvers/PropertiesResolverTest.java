@@ -1,5 +1,6 @@
 package org.cloudfoundry.multiapps.mta.resolvers;
 
+import java.util.Collections;
 import java.util.Map;
 import java.util.stream.Stream;
 
@@ -12,7 +13,12 @@ import org.junit.jupiter.params.provider.MethodSource;
 
 class PropertiesResolverTest {
 
-    protected static final PropertiesResolver testResolver = new PropertiesResolver(null, null, null, "test-", false);
+    protected static final PropertiesResolver testResolver = new PropertiesResolver(null,
+                                                                                    null,
+                                                                                    null,
+                                                                                    "test-",
+                                                                                    false,
+                                                                                    Collections.emptySet());
 
     private final Tester tester = Tester.forClass(getClass());
 
@@ -41,7 +47,7 @@ class PropertiesResolverTest {
     void testResolve(String modulePropertiesLocation, String parameterExpression, Expectation expectation) {
         Map<String, Object> moduleProperties = TestUtil.getMap(modulePropertiesLocation, getClass());
 
-        tester.test(() -> testResolver.resolveReferenceInDepth(parameterExpression, moduleProperties), expectation);
+        tester.test(() -> testResolver.resolveReferenceInDepth(new Reference(null, parameterExpression), moduleProperties), expectation);
     }
 
 }

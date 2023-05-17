@@ -3,6 +3,7 @@ package org.cloudfoundry.multiapps.mta.resolvers;
 import static java.text.MessageFormat.format;
 
 import java.util.Map;
+import java.util.Set;
 
 import org.cloudfoundry.multiapps.common.ContentException;
 import org.cloudfoundry.multiapps.mta.Messages;
@@ -19,8 +20,8 @@ public abstract class ReferenceResolver<T> extends PatternResolver<T> {
     private DeploymentDescriptor descriptor;
 
     public ReferenceResolver(String objectName, String prefix, DescriptorHandler handler, DeploymentDescriptor descriptor,
-                             String consumerName, ReferencePattern patternToMatch) {
-        super(objectName, prefix, patternToMatch);
+                             String consumerName, ReferencePattern patternToMatch, Set<String> dynamicResolvableParameters) {
+        super(objectName, prefix, patternToMatch, dynamicResolvableParameters);
         this.handler = handler;
         this.consumerName = consumerName;
         this.descriptor = descriptor;

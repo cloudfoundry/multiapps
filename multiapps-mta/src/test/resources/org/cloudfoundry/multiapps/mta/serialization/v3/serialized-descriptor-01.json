@@ -1,129 +1,120 @@
 {
-  "schemaVersion": "3.1.0",
-  "id": "ztana",
-  "version": "1.0.0",
-  "modules": [
-    {
-      "name": "ztana",
-      "type": "javascript.nodejs",
-      "properties": {
-        "health-check-type": "none",
-        "health-check-timeout": 180,
-        "no-start": true,
-        "password": "sensitive_data"
+  "majorSchemaVersion" : 3,
+  "schemaVersion" : "3.1.0",
+  "id" : "ztana",
+  "version" : "1.0.0",
+  "modules" : [ {
+    "majorSchemaVersion" : 3,
+    "name" : "ztana",
+    "type" : "javascript.nodejs",
+    "properties" : {
+      "health-check-type" : "none",
+      "health-check-timeout" : 180,
+      "no-start" : true,
+      "password" : "sensitive_data"
+    },
+    "parameters" : {
+      "url" : "~{default-url}"
+    },
+    "requiredDependencies" : [ {
+      "majorSchemaVersion" : 3,
+      "name" : "ztana-service",
+      "properties" : {
+        "required-property" : "property"
       },
-      "parameters": {
-        "url": "~{default-url}"
+      "parameters" : {
+        "pass" : "secretpass"
       },
-      "requiredDependencies": [
-        {
-          "name": "ztana-service",
-          "properties": {
-            "required-property": "property"
-          },
-          "parameters": {
-            "pass": "secretpass"
-          },
-          "propertiesMetadata": {
-            "metadata": {
-              "required-property": {
-                "sensitive": true
-              }
-            }
-          },
-          "parametersMetadata": {
-            "metadata": {
-              "pass": {
-                "sensitive": true
-              }
-            }
-          },
-          "majorSchemaVersion": 3
-        }
-      ],
-      "providedDependencies": [
-        {
-          "name": "ztana",
-          "isPublic": false,
-          "properties": {},
-          "parameters": {},
-          "propertiesMetadata": {
-            "metadata": {}
-          },
-          "parametersMetadata": {
-            "metadata": {}
-          },
-          "majorSchemaVersion": 3
-        }
-      ],
-      "propertiesMetadata": {
-        "metadata": {
-          "password": {
-            "overwritable": true,
-            "sensitive": true
-          },
-          "health-check-type": {
-            "sensitive": true
+      "propertiesMetadata" : {
+        "metadata" : {
+          "required-property" : {
+            "sensitive" : true
           }
         }
       },
-      "parametersMetadata": {
-        "metadata": {
-          "url": {
-            "sensitive": true
+      "parametersMetadata" : {
+        "metadata" : {
+          "pass" : {
+            "sensitive" : true
           }
         }
+      }
+    } ],
+    "providedDependencies" : [ {
+      "majorSchemaVersion" : 3,
+      "name" : "ztana",
+      "isPublic" : false,
+      "properties" : { },
+      "parameters" : { },
+      "propertiesMetadata" : {
+        "metadata" : { }
       },
-      "hooks": [],
-      "majorSchemaVersion": 3
-    }
-  ],
-  "resources": [
-    {
-      "name": "ztana-service",
-      "type": "org.postgresql",
-      "properties": {
-        "test-property": "resource-property",
-        "some-property-map": [
-          {
-            "first-property": "first-property",
-            "second-property": "second-property"
-          }
-        ]
-      },
-      "parameters": {
-        "resource-parameter": "value"
-      },
-      "isActive": true,
-      "isOptional": false,
-      "propertiesMetadata": {
-        "metadata": {
-          "test-property": {
-            "sensitive": true
-          }
+      "parametersMetadata" : {
+        "metadata" : { }
+      }
+    } ],
+    "propertiesMetadata" : {
+      "metadata" : {
+        "password" : {
+          "overwritable" : true,
+          "sensitive" : true
+        },
+        "health-check-type" : {
+          "sensitive" : true
         }
-      },
-      "parametersMetadata": {
-        "metadata": {
-          "resource-parameter": {
-            "sensitive": true
-          }
+      }
+    },
+    "parametersMetadata" : {
+      "metadata" : {
+        "url" : {
+          "sensitive" : true
         }
-      },
-      "requiredDependencies": [],
-      "majorSchemaVersion": 3
-    }
-  ],
-  "parameters": {
-    "descriptor-parameter": "true"
+      }
+    },
+    "hooks" : [ ]
+  } ],
+  "resources" : [ {
+    "majorSchemaVersion" : 3,
+    "name" : "ztana-service",
+    "type" : "org.postgresql",
+    "properties" : {
+      "test-property" : "resource-property",
+      "some-property-map" : [ {
+        "first-property" : "first-property",
+        "second-property" : "second-property"
+      } ]
+    },
+    "parameters" : {
+      "resource-parameter" : "value"
+    },
+    "isActive" : true,
+    "isOptional" : false,
+    "propertiesMetadata" : {
+      "metadata" : {
+        "test-property" : {
+          "sensitive" : true
+        }
+      }
+    },
+    "parametersMetadata" : {
+      "metadata" : {
+        "resource-parameter" : {
+          "sensitive" : true
+        }
+      }
+    },
+    "requiredDependencies" : [ ],
+    "processedAfter" : [ ]
+  } ],
+  "parameters" : {
+    "descriptor-parameter" : "true"
   },
-  "parametersMetadata": {
-    "metadata": {
-      "descriptor-parameter": {
-        "overwritable": true,
-        "sensitive": true
+  "parametersMetadata" : {
+    "metadata" : {
+      "descriptor-parameter" : {
+        "overwritable" : true,
+        "sensitive" : true
       }
     }
-  },
-  "majorSchemaVersion": 3
+  }
 }

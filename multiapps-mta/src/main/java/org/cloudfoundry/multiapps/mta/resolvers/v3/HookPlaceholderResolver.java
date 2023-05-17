@@ -2,6 +2,7 @@ package org.cloudfoundry.multiapps.mta.resolvers.v3;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.cloudfoundry.multiapps.common.ContentException;
@@ -25,8 +26,9 @@ public class HookPlaceholderResolver extends PlaceholderResolver<Hook> {
 
     public HookPlaceholderResolver(Module module, Hook hook, String prefix, ParametersChainBuilder parametersChainBuilder,
                                    ResolverBuilder propertiesResolverBuilder, ResolverBuilder parametersResolverBuilder,
-                                   Map<String, String> singularToPluralMapping, Map<String, Object> mergedParameters) {
-        super(hook.getName(), prefix, singularToPluralMapping);
+                                   Map<String, String> singularToPluralMapping, Map<String, Object> mergedParameters,
+                                   Set<String> dynamicResolvableParameters) {
+        super(hook.getName(), prefix, singularToPluralMapping, dynamicResolvableParameters);
         this.module = module;
         this.hook = hook;
         this.parametersChainBuilder = parametersChainBuilder;
@@ -43,7 +45,8 @@ public class HookPlaceholderResolver extends PlaceholderResolver<Hook> {
     }
 
     private Map<String, Object> getResolvedHookParameters(Hook hook, Map<String, Object> mergedParameters) {
-        return new PropertiesPlaceholderResolver(parametersResolverBuilder).resolve(hook.getParameters(), mergedParameters, prefix);
+        return new PropertiesPlaceholderResolver(parametersResolverBuilder, dynamicResolvableParameters).resolve(hook.getParameters(),
+                                                                                                              mergedParameters, prefix);
     }
 
     private List<RequiredDependency> getResolvedHookDependencies(Hook hook) {
@@ -60,7 +63,8 @@ public class HookPlaceholderResolver extends PlaceholderResolver<Hook> {
                                                          parametersChainBuilder,
                                                          propertiesResolverBuilder,
                                                          parametersResolverBuilder,
-                                                         singularToPluralMapping);
+                                                         singularToPluralMapping,
+                                                         dynamicResolvableParameters);
     }
 
 }

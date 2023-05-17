@@ -1,6 +1,7 @@
 package org.cloudfoundry.multiapps.mta.handlers.v3;
 
 import java.util.Map;
+import java.util.Set;
 
 import org.cloudfoundry.multiapps.mta.model.DeploymentDescriptor;
 import org.cloudfoundry.multiapps.mta.resolvers.PlaceholderResolver;
@@ -39,22 +40,26 @@ public class HandlerFactoryV3 implements org.cloudfoundry.multiapps.mta.handlers
     @Override
     public PlaceholderResolver<DeploymentDescriptor>
            getDescriptorPlaceholderResolver(DeploymentDescriptor mergedDescriptor, ResolverBuilder propertiesResolverBuilder,
-                                            ResolverBuilder parametersResolverBuilder, Map<String, String> singularToPluralMapping) {
+                                            ResolverBuilder parametersResolverBuilder, Map<String, String> singularToPluralMapping,
+                                            Set<String> dynamicResolvableParameters) {
         return new DescriptorPlaceholderResolver(mergedDescriptor,
                                                  propertiesResolverBuilder,
                                                  parametersResolverBuilder,
-                                                 singularToPluralMapping);
+                                                 singularToPluralMapping,
+                                                 dynamicResolvableParameters);
     }
 
     @Override
     public Resolver<DeploymentDescriptor> getDescriptorReferenceResolver(DeploymentDescriptor mergedDescriptor,
                                                                          ResolverBuilder modulesPropertiesResolverBuilder,
                                                                          ResolverBuilder resourcePropertiesResolverBuilder,
-                                                                         ResolverBuilder requiredDependenciesPropertiesResolverBuilder) {
+                                                                         ResolverBuilder requiredDependenciesPropertiesResolverBuilder,
+                                                                         Set<String> dynamicResolvableParameters) {
         return new DescriptorReferenceResolver(mergedDescriptor,
                                                modulesPropertiesResolverBuilder,
                                                resourcePropertiesResolverBuilder,
-                                               requiredDependenciesPropertiesResolverBuilder);
+                                               requiredDependenciesPropertiesResolverBuilder,
+                                               dynamicResolvableParameters);
     }
 
     @Override

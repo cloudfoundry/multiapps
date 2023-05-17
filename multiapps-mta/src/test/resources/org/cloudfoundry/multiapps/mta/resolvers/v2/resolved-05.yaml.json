@@ -1,204 +1,183 @@
 {
-  "schemaVersion": "2.0.0",
-  "id": "com.sap.sample.mta",
-  "version": "0.1.0",
-  "modules": [
-    {
-      "name": "web",
-      "type": "javascript.nodejs",
-      "properties": {},
-      "parameters": {},
-      "requiredDependencies": [
-        {
-          "name": "backend1",
-          "properties": {},
-          "parameters": {},
-          "propertiesMetadata": {
-            "metadata": {}
-          },
-          "parametersMetadata": {
-            "metadata": {}
-          },
-          "majorSchemaVersion": 2
-        },
-        {
-          "name": "backend2",
-          "properties": {},
-          "parameters": {},
-          "propertiesMetadata": {
-            "metadata": {}
-          },
-          "parametersMetadata": {
-            "metadata": {}
-          },
-          "majorSchemaVersion": 2
-        }
-      ],
-      "providedDependencies": [
-        {
-          "name": "web",
-          "isPublic": true,
-          "properties": {
-            "name": "web",
-            "url": "https://localhost:52030",
-            "destinations": [
-              {
-                "name": "backend1",
-                "url": "~{backend1/url}",
-                "forwardAuthToken": true
-              },
-              {
-                "name": "backend2",
-                "url": "~{backend2/url}",
-                "forwardAuthToken": true
-              }
-            ]
-          },
-          "parameters": {},
-          "propertiesMetadata": {
-            "metadata": {}
-          },
-          "parametersMetadata": {
-            "metadata": {}
-          },
-          "majorSchemaVersion": 2
-        }
-      ],
-      "propertiesMetadata": {
-        "metadata": {}
+  "majorSchemaVersion" : 2,
+  "schemaVersion" : "2.0.0",
+  "id" : "com.sap.sample.mta",
+  "version" : "0.1.0",
+  "modules" : [ {
+    "majorSchemaVersion" : 2,
+    "name" : "web",
+    "type" : "javascript.nodejs",
+    "properties" : { },
+    "parameters" : { },
+    "requiredDependencies" : [ {
+      "majorSchemaVersion" : 2,
+      "name" : "backend1",
+      "properties" : { },
+      "parameters" : { },
+      "propertiesMetadata" : {
+        "metadata" : { }
       },
-      "parametersMetadata": {
-        "metadata": {}
+      "parametersMetadata" : {
+        "metadata" : { }
+      }
+    }, {
+      "majorSchemaVersion" : 2,
+      "name" : "backend2",
+      "properties" : { },
+      "parameters" : { },
+      "propertiesMetadata" : {
+        "metadata" : { }
       },
-      "hooks": [],
-      "majorSchemaVersion": 2
+      "parametersMetadata" : {
+        "metadata" : { }
+      }
+    } ],
+    "providedDependencies" : [ {
+      "majorSchemaVersion" : 2,
+      "name" : "web",
+      "isPublic" : true,
+      "properties" : {
+        "name" : "web",
+        "url" : "https://localhost:52030",
+        "destinations" : [ {
+          "name" : "backend1",
+          "url" : "~{backend1/url}",
+          "forwardAuthToken" : true
+        }, {
+          "name" : "backend2",
+          "url" : "~{backend2/url}",
+          "forwardAuthToken" : true
+        } ]
+      },
+      "parameters" : { },
+      "propertiesMetadata" : {
+        "metadata" : { }
+      },
+      "parametersMetadata" : {
+        "metadata" : { }
+      }
+    } ],
+    "propertiesMetadata" : {
+      "metadata" : { }
     },
-    {
-      "name": "dep",
-      "type": "javascript.nodejs",
-      "properties": {
-        "DEPLOY_DETAILS": {
-          "destinations": [
-            {
-              "forwardAuthToken": true,
-              "name": "backend1",
-              "url": "https://example.com:51088"
-            },
-            {
-              "forwardAuthToken": true,
-              "name": "backend2",
-              "url": "https://www.ynet.co.il"
-            }
-          ],
-          "name": "web",
-          "url": "https://localhost:52030"
-        }
-      },
-      "parameters": {},
-      "requiredDependencies": [
-        {
-          "name": "web",
-          "properties": {},
-          "parameters": {},
-          "propertiesMetadata": {
-            "metadata": {}
-          },
-          "parametersMetadata": {
-            "metadata": {}
-          },
-          "majorSchemaVersion": 2
-        },
-        {
-          "name": "backend1",
-          "properties": {},
-          "parameters": {},
-          "propertiesMetadata": {
-            "metadata": {}
-          },
-          "parametersMetadata": {
-            "metadata": {}
-          },
-          "majorSchemaVersion": 2
-        },
-        {
-          "name": "backend2",
-          "properties": {},
-          "parameters": {},
-          "propertiesMetadata": {
-            "metadata": {}
-          },
-          "parametersMetadata": {
-            "metadata": {}
-          },
-          "majorSchemaVersion": 2
-        }
-      ],
-      "providedDependencies": [
-        {
-          "name": "dep",
-          "isPublic": true,
-          "properties": {},
-          "parameters": {},
-          "propertiesMetadata": {
-            "metadata": {}
-          },
-          "parametersMetadata": {
-            "metadata": {}
-          },
-          "majorSchemaVersion": 2
-        }
-      ],
-      "propertiesMetadata": {
-        "metadata": {}
-      },
-      "parametersMetadata": {
-        "metadata": {}
-      },
-      "hooks": [],
-      "majorSchemaVersion": 2
-    }
-  ],
-  "resources": [
-    {
-      "name": "backend1",
-      "properties": {
-        "name": "backend1",
-        "url": "https://example.com:51088"
-      },
-      "parameters": {},
-      "isActive": true,
-      "isOptional": false,
-      "propertiesMetadata": {
-        "metadata": {}
-      },
-      "parametersMetadata": {
-        "metadata": {}
-      },
-      "requiredDependencies": [],
-      "majorSchemaVersion": 2
+    "parametersMetadata" : {
+      "metadata" : { }
     },
-    {
-      "name": "backend2",
-      "properties": {
-        "name": "backend2",
-        "url": "https://www.ynet.co.il"
+    "hooks" : [ ]
+  }, {
+    "majorSchemaVersion" : 2,
+    "name" : "dep",
+    "type" : "javascript.nodejs",
+    "properties" : {
+      "DEPLOY_DETAILS" : {
+        "destinations" : [ {
+          "forwardAuthToken" : true,
+          "name" : "backend1",
+          "url" : "https://example.com:51088"
+        }, {
+          "forwardAuthToken" : true,
+          "name" : "backend2",
+          "url" : "https://www.ynet.co.il"
+        } ],
+        "name" : "web",
+        "url" : "https://localhost:52030"
+      }
+    },
+    "parameters" : { },
+    "requiredDependencies" : [ {
+      "majorSchemaVersion" : 2,
+      "name" : "web",
+      "properties" : { },
+      "parameters" : { },
+      "propertiesMetadata" : {
+        "metadata" : { }
       },
-      "parameters": {},
-      "isActive": true,
-      "isOptional": false,
-      "propertiesMetadata": {
-        "metadata": {}
+      "parametersMetadata" : {
+        "metadata" : { }
+      }
+    }, {
+      "majorSchemaVersion" : 2,
+      "name" : "backend1",
+      "properties" : { },
+      "parameters" : { },
+      "propertiesMetadata" : {
+        "metadata" : { }
       },
-      "parametersMetadata": {
-        "metadata": {}
+      "parametersMetadata" : {
+        "metadata" : { }
+      }
+    }, {
+      "majorSchemaVersion" : 2,
+      "name" : "backend2",
+      "properties" : { },
+      "parameters" : { },
+      "propertiesMetadata" : {
+        "metadata" : { }
       },
-      "requiredDependencies": [],
-      "majorSchemaVersion": 2
-    }
-  ],
-  "parameters": {},
-  "parametersMetadata": {
-    "metadata": {}
-  },
-  "majorSchemaVersion": 2
+      "parametersMetadata" : {
+        "metadata" : { }
+      }
+    } ],
+    "providedDependencies" : [ {
+      "majorSchemaVersion" : 2,
+      "name" : "dep",
+      "isPublic" : true,
+      "properties" : { },
+      "parameters" : { },
+      "propertiesMetadata" : {
+        "metadata" : { }
+      },
+      "parametersMetadata" : {
+        "metadata" : { }
+      }
+    } ],
+    "propertiesMetadata" : {
+      "metadata" : { }
+    },
+    "parametersMetadata" : {
+      "metadata" : { }
+    },
+    "hooks" : [ ]
+  } ],
+  "resources" : [ {
+    "majorSchemaVersion" : 2,
+    "name" : "backend1",
+    "properties" : {
+      "name" : "backend1",
+      "url" : "https://example.com:51088"
+    },
+    "parameters" : { },
+    "isActive" : true,
+    "isOptional" : false,
+    "propertiesMetadata" : {
+      "metadata" : { }
+    },
+    "parametersMetadata" : {
+      "metadata" : { }
+    },
+    "requiredDependencies" : [ ],
+    "processedAfter" : [ ]
+  }, {
+    "majorSchemaVersion" : 2,
+    "name" : "backend2",
+    "properties" : {
+      "name" : "backend2",
+      "url" : "https://www.ynet.co.il"
+    },
+    "parameters" : { },
+    "isActive" : true,
+    "isOptional" : false,
+    "propertiesMetadata" : {
+      "metadata" : { }
+    },
+    "parametersMetadata" : {
+      "metadata" : { }
+    },
+    "requiredDependencies" : [ ],
+    "processedAfter" : [ ]
+  } ],
+  "parameters" : { },
+  "parametersMetadata" : {
+    "metadata" : { }
+  }
 }
