@@ -1,117 +1,107 @@
 {
-  "schemaVersion": "3.1.0",
-  "id": "com.sap.mta.v2.test.config-01",
-  "version": "1.0.0",
-  "modules": [
-    {
-      "name": "qux",
-      "type": "qux",
-      "properties": {
-        "bar-test": "bar-test-value",
-        "baz-test2": "bar-test2-value.bar-test2-reference-bar-test1-reference.bar-test1-value.baz-test3.reference"
+  "majorSchemaVersion" : 3,
+  "schemaVersion" : "3.1.0",
+  "id" : "com.sap.mta.v2.test.config-01",
+  "version" : "1.0.0",
+  "modules" : [ {
+    "majorSchemaVersion" : 3,
+    "name" : "qux",
+    "type" : "qux",
+    "properties" : {
+      "bar-test" : "bar-test-value",
+      "baz-test2" : "bar-test2-value.bar-test2-reference-bar-test1-reference.bar-test1-value.baz-test3.reference"
+    },
+    "parameters" : { },
+    "requiredDependencies" : [ {
+      "majorSchemaVersion" : 3,
+      "name" : "baz",
+      "properties" : {
+        "baz-test3" : "bar-test2-value.bar-test2-reference-bar-test1-reference.bar-test1-value.baz-test3-reference",
+        "baz-test4" : "baz-test/baz-test4-value.baz-test/baz-test4-reference"
       },
-      "parameters": {},
-      "requiredDependencies": [
-        {
-          "name": "baz",
-          "properties": {
-            "baz-test3": "bar-test2-value.bar-test2-reference-bar-test1-reference.bar-test1-value.baz-test3-reference",
-            "baz-test4": "baz-test/baz-test4-value.baz-test/baz-test4-reference"
-          },
-          "parameters": {},
-          "propertiesMetadata": {
-            "metadata": {}
-          },
-          "parametersMetadata": {
-            "metadata": {}
-          },
-          "majorSchemaVersion": 3
-        }
-      ],
-      "providedDependencies": [
-        {
-          "name": "bar",
-          "isPublic": false,
-          "properties": {
-            "bar-test1": "bar-test1-value",
-            "bar-test2": "bar-test2-value",
-            "bar-test3": "bar-test3-value"
-          },
-          "parameters": {},
-          "propertiesMetadata": {
-            "metadata": {}
-          },
-          "parametersMetadata": {
-            "metadata": {}
-          },
-          "majorSchemaVersion": 3
-        },
-        {
-          "name": "qux",
-          "isPublic": false,
-          "properties": {},
-          "parameters": {},
-          "propertiesMetadata": {
-            "metadata": {}
-          },
-          "parametersMetadata": {
-            "metadata": {}
-          },
-          "majorSchemaVersion": 3
-        }
-      ],
-      "propertiesMetadata": {
-        "metadata": {}
+      "parameters" : { },
+      "propertiesMetadata" : {
+        "metadata" : { }
       },
-      "parametersMetadata": {
-        "metadata": {}
+      "parametersMetadata" : {
+        "metadata" : { }
+      }
+    } ],
+    "providedDependencies" : [ {
+      "majorSchemaVersion" : 3,
+      "name" : "bar",
+      "isPublic" : false,
+      "properties" : {
+        "bar-test1" : "bar-test1-value",
+        "bar-test2" : "bar-test2-value",
+        "bar-test3" : "bar-test3-value"
       },
-      "hooks": [],
-      "majorSchemaVersion": 3
-    }
-  ],
-  "resources": [
-    {
-      "name": "baz",
-      "properties": {
-        "baz-test": {
-          "baz-test1": "bar-test1-value.bar-test1-reference",
-          "baz-test2": "baz-test2-value"
-        },
-        "baz-test/baz-test4": "baz-test/baz-test4-value",
-        "baz-test3": "bar-test2-value.bar-test2-reference-bar-test1-reference.bar-test1-value"
+      "parameters" : { },
+      "propertiesMetadata" : {
+        "metadata" : { }
       },
-      "parameters": {},
-      "isActive": true,
-      "isOptional": false,
-      "propertiesMetadata": {
-        "metadata": {}
+      "parametersMetadata" : {
+        "metadata" : { }
+      }
+    }, {
+      "majorSchemaVersion" : 3,
+      "name" : "qux",
+      "isPublic" : false,
+      "properties" : { },
+      "parameters" : { },
+      "propertiesMetadata" : {
+        "metadata" : { }
       },
-      "parametersMetadata": {
-        "metadata": {}
+      "parametersMetadata" : {
+        "metadata" : { }
+      }
+    } ],
+    "propertiesMetadata" : {
+      "metadata" : { }
+    },
+    "parametersMetadata" : {
+      "metadata" : { }
+    },
+    "hooks" : [ ]
+  } ],
+  "resources" : [ {
+    "majorSchemaVersion" : 3,
+    "name" : "baz",
+    "properties" : {
+      "baz-test" : {
+        "baz-test1" : "bar-test1-value.bar-test1-reference",
+        "baz-test2" : "baz-test2-value"
       },
-      "requiredDependencies": [
-        {
-          "name": "bar",
-          "properties": {},
-          "parameters": {},
-          "propertiesMetadata": {
-            "metadata": {}
-          },
-          "parametersMetadata": {
-            "metadata": {}
-          },
-          "majorSchemaVersion": 3
-        }
-      ],
-      "majorSchemaVersion": 3
-    }
-  ],
-  "parameters": {
-    "test": "~{bar/bar-test3}"
+      "baz-test/baz-test4" : "baz-test/baz-test4-value",
+      "baz-test3" : "bar-test2-value.bar-test2-reference-bar-test1-reference.bar-test1-value"
+    },
+    "parameters" : { },
+    "isActive" : true,
+    "isOptional" : false,
+    "propertiesMetadata" : {
+      "metadata" : { }
+    },
+    "parametersMetadata" : {
+      "metadata" : { }
+    },
+    "requiredDependencies" : [ {
+      "majorSchemaVersion" : 3,
+      "name" : "bar",
+      "properties" : { },
+      "parameters" : { },
+      "propertiesMetadata" : {
+        "metadata" : { }
+      },
+      "parametersMetadata" : {
+        "metadata" : { }
+      }
+    } ],
+    "processedAfter" : [ ]
+  } ],
+  "parameters" : {
+    "test" : "~{bar/bar-test3}"
   },
-  "parametersMetadata": {
-    "metadata": {}
-  },
-  "majorSchemaVersion": 3
+  "parametersMetadata" : {
+    "metadata" : { }
+  }
 }

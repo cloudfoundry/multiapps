@@ -2,6 +2,7 @@ package org.cloudfoundry.multiapps.mta.resolvers.v3;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.cloudfoundry.multiapps.common.ContentException;
@@ -21,15 +22,17 @@ public class ResourceReferenceResolver implements Resolver<Resource> {
     protected final String prefix;
     protected final ResolverBuilder resourcesPropertiesResolverBuilder;
     protected final ResolverBuilder requiredDependenciesPropertiesResolverBuilder;
+    protected final Set<String> dynamicResolvableParameters;
 
     public ResourceReferenceResolver(DeploymentDescriptor descriptor, Resource resource, String prefix,
                                      ResolverBuilder resourcesPropertiesResolverBuilder,
-                                     ResolverBuilder requiredDependenciesPropertiesResolverBuilder) {
+                                     ResolverBuilder requiredDependenciesPropertiesResolverBuilder, Set<String> dynamicResolvableParameters) {
         this.descriptor = descriptor;
         this.resource = resource;
         this.resourcesPropertiesResolverBuilder = resourcesPropertiesResolverBuilder;
         this.requiredDependenciesPropertiesResolverBuilder = requiredDependenciesPropertiesResolverBuilder;
         this.prefix = NameUtil.getPrefixedName(prefix, resource.getName());
+        this.dynamicResolvableParameters = dynamicResolvableParameters;
     }
 
     @Override
@@ -58,7 +61,8 @@ public class ResourceReferenceResolver implements Resolver<Resource> {
                                                        requiredDependency,
                                                        prefix,
                                                        new DescriptorHandler(),
-                                                       requiredDependenciesPropertiesResolverBuilder);
+                                                       requiredDependenciesPropertiesResolverBuilder,
+                                                       dynamicResolvableParameters);
     }
 
     private Map<String, Object> getResolvedProperties() {
@@ -70,7 +74,12 @@ public class ResourceReferenceResolver implements Resolver<Resource> {
     }
 
     protected ResourcePropertiesReferenceResolver createResourcePropertiesReferenceResolver(Map<String, Object> properties) {
-        return new ResourcePropertiesReferenceResolver(descriptor, resource, properties, prefix, resourcesPropertiesResolverBuilder);
+        return new ResourcePropertiesReferenceResolver(descriptor,
+                                                       resource,
+                                                       properties,
+                                                       prefix,
+                                                       resourcesPropertiesResolverBuilder,
+                                                       dynamicResolvableParameters);
     }
 
 }

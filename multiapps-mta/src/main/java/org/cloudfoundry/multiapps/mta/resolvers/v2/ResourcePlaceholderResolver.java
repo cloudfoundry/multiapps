@@ -2,6 +2,7 @@ package org.cloudfoundry.multiapps.mta.resolvers.v2;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.cloudfoundry.multiapps.common.ContentException;
 import org.cloudfoundry.multiapps.mta.builders.v2.ParametersChainBuilder;
@@ -20,8 +21,8 @@ public class ResourcePlaceholderResolver extends PlaceholderResolver<Resource> {
 
     public ResourcePlaceholderResolver(Resource resource, String prefix, ParametersChainBuilder parametersChainBuilder,
                                        ResolverBuilder propertiesResolverBuilder, ResolverBuilder parametersResolverBuilder,
-                                       Map<String, String> singularToPluralMapping) {
-        super(resource.getName(), prefix, singularToPluralMapping);
+                                       Map<String, String> singularToPluralMapping, Set<String> dynamicResolvableParameters) {
+        super(resource.getName(), prefix, singularToPluralMapping, dynamicResolvableParameters);
         this.resource = resource;
         this.parametersChainBuilder = parametersChainBuilder;
         this.propertiesResolverBuilder = propertiesResolverBuilder;
@@ -40,13 +41,15 @@ public class ResourcePlaceholderResolver extends PlaceholderResolver<Resource> {
     }
 
     protected Map<String, Object> getResolvedProperties(Map<String, Object> mergedParametersChain) {
-        return new PropertiesPlaceholderResolver(propertiesResolverBuilder).resolve(resource.getProperties(), mergedParametersChain,
-                                                                                    prefix);
+        return new PropertiesPlaceholderResolver(propertiesResolverBuilder, dynamicResolvableParameters).resolve(resource.getProperties(),
+                                                                                                              mergedParametersChain,
+                                                                                                              prefix);
     }
 
     protected Map<String, Object> getResolvedParameters(Map<String, Object> mergedParametersChain) {
-        return new PropertiesPlaceholderResolver(parametersResolverBuilder).resolve(resource.getParameters(), mergedParametersChain,
-                                                                                    prefix);
+        return new PropertiesPlaceholderResolver(parametersResolverBuilder, dynamicResolvableParameters).resolve(resource.getParameters(),
+                                                                                                              mergedParametersChain,
+                                                                                                              prefix);
     }
 
 }

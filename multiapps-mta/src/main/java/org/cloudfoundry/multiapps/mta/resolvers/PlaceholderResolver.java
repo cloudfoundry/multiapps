@@ -1,19 +1,22 @@
 package org.cloudfoundry.multiapps.mta.resolvers;
 
 import static org.cloudfoundry.multiapps.mta.resolvers.ReferencePattern.PLACEHOLDER;
-import org.cloudfoundry.multiapps.common.ContentException;
-import org.cloudfoundry.multiapps.mta.Messages;
 
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+
+import org.cloudfoundry.multiapps.common.ContentException;
+import org.cloudfoundry.multiapps.mta.Messages;
 
 public abstract class PlaceholderResolver<T> extends PatternResolver<T> {
 
     protected final Map<String, String> singularToPluralMapping;
 
-    public PlaceholderResolver(String objectName, String prefix, Map<String, String> singularToPluralMapping) {
-        super(objectName, prefix, PLACEHOLDER);
+    public PlaceholderResolver(String objectName, String prefix, Map<String, String> singularToPluralMapping,
+                               Set<String> dynamicResolvableParameters) {
+        super(objectName, prefix, PLACEHOLDER, dynamicResolvableParameters);
         this.singularToPluralMapping = singularToPluralMapping;
     }
 

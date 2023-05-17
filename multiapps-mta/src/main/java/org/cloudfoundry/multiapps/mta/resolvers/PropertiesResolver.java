@@ -1,5 +1,6 @@
 package org.cloudfoundry.multiapps.mta.resolvers;
 
+import java.text.MessageFormat;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
@@ -15,6 +16,7 @@ import org.cloudfoundry.multiapps.common.ContentException;
 import org.cloudfoundry.multiapps.mta.Messages;
 import org.cloudfoundry.multiapps.mta.helpers.SimplePropertyVisitor;
 import org.cloudfoundry.multiapps.mta.helpers.VisitableObject;
+import org.cloudfoundry.multiapps.mta.util.DynamicParameterUtil;
 import org.cloudfoundry.multiapps.mta.util.NameUtil;
 
 public class PropertiesResolver implements SimplePropertyVisitor, Resolver<Map<String, Object>> {
@@ -25,23 +27,25 @@ public class PropertiesResolver implements SimplePropertyVisitor, Resolver<Map<S
     private ReferencePattern referencePattern;
     private boolean isStrict;
     private ResolutionContext resolutionContext;
+    private Set<String> dynamicResolvableParameters;
 
     public PropertiesResolver() {
         // do nothing
     }
 
     public PropertiesResolver(Map<String, Object> properties, ProvidedValuesResolver valuesResolver, ReferencePattern referencePattern,
-                              String prefix) {
-        this(properties, valuesResolver, referencePattern, prefix, true);
+                              String prefix, Set<String> dynamicResolvableParameters) {
+        this(properties, valuesResolver, referencePattern, prefix, true, dynamicResolvableParameters);
     }
 
     public PropertiesResolver(Map<String, Object> properties, ProvidedValuesResolver valuesResolver, ReferencePattern referencePattern,
-                              String prefix, boolean isStrict) {
+                              String prefix, boolean isStrict, Set<String> dynamicResolvableParameters) {
         this.properties = properties;
         this.prefix = prefix;
         this.referencePattern = referencePattern;
         this.isStrict = isStrict;
         this.valuesResolver = valuesResolver;
+        this.dynamicResolvableParameters = dynamicResolvableParameters;
     }
 
     @SuppressWarnings("unchecked")
@@ -116,16 +120,13 @@ public class PropertiesResolver implements SimplePropertyVisitor, Resolver<Map<S
 
         boolean canResolveInDepth = referencePattern.hasDepthOfReference() && referenceKey.contains("/");
         if (!referenceResolutionIsPossible(referenceKey, replacementValues, canResolveInDepth)) {
-            if (isStrict) {
-                throw new ContentException(Messages.UNABLE_TO_RESOLVE, NameUtil.getPrefixedName(prefix, referenceKey));
-            }
-            return null;
+            return getObjectForLateResolveIfPresent(reference);
         }
         // always try to resolve as a flat reference first
         Object referencedProperty = replacementValues.get(referenceKey);
 
         if (referencedProperty == null && canResolveInDepth) {
-            referencedProperty = resolveReferenceInDepth(referenceKey, replacementValues);
+            referencedProperty = resolveReferenceInDepth(reference, replacementValues);
         }
 
         String referencedPropertyKeyWithSuffix = getReferencedPropertyKeyWithSuffix(reference);
@@ -140,15 +141,24 @@ public class PropertiesResolver implements SimplePropertyVisitor, Resolver<Map<S
         return referencedProperties.containsKey(referenceKey) || canResolveInDepth;
     }
 
-    protected Object resolveReferenceInDepth(String deepReferenceKey, Map<String, Object> referencedProperties) {
+    private Object getObjectForLateResolveIfPresent(Reference reference) {
+        String referenceKey = reference.getKey();
+        if (isStrict && !dynamicResolvableParameters.contains(referenceKey)) {
+            throw new ContentException(Messages.UNABLE_TO_RESOLVE, NameUtil.getPrefixedName(prefix, referenceKey));
+        }
+        if (dynamicResolvableParameters.contains(referenceKey) && prefix != null) {
+            return MessageFormat.format(DynamicParameterUtil.PATTERN_FOR_DYNAMIC_PARAMETERS, prefix, reference.getKey());
+        }
+        return null;
+    }
+
+    protected Object resolveReferenceInDepth(Reference reference, Map<String, Object> referencedProperties) {
+        String deepReferenceKey = reference.getKey();
         Matcher referencePartsMatcher = Pattern.compile("([^/]+)/?")
                                                .matcher(deepReferenceKey);
 
         if (!referencePartsMatcher.find()) {
-            if (isStrict) {
-                throw new ContentException(Messages.UNABLE_TO_RESOLVE, NameUtil.getPrefixedName(prefix, deepReferenceKey));
-            }
-            return null;
+            return getObjectForLateResolveIfPresent(reference);
         }
 
         Object currentProperty = referencedProperties.get(referencePartsMatcher.group(1));

@@ -1,107 +1,97 @@
 {
-  "majorSchemaVersion": 2,
-  "schemaVersion": "2.0.0",
-  "id": "ztana",
-  "version": "1.0.0",
-  "modules": [
-    {
-      "majorSchemaVersion": 2,
-      "name": "test-module",
-      "type": "javascript.nodejs",
-      "properties": {
-        "health-check-type": "none",
-        "health-check-timeout": 180,
-        "no-start": true,
-        "password": "sensitive_data"
+  "majorSchemaVersion" : 2,
+  "schemaVersion" : "2.0.0",
+  "id" : "ztana",
+  "version" : "1.0.0",
+  "modules" : [ {
+    "majorSchemaVersion" : 2,
+    "name" : "test-module",
+    "type" : "javascript.nodejs",
+    "properties" : {
+      "health-check-type" : "none",
+      "health-check-timeout" : 180,
+      "no-start" : true,
+      "password" : "sensitive_data"
+    },
+    "parameters" : {
+      "some-parameter" : "module-parameter"
+    },
+    "requiredDependencies" : [ {
+      "majorSchemaVersion" : 2,
+      "name" : "test-service",
+      "properties" : {
+        "required-dependency-property" : "required-property"
       },
-      "parameters": {
-        "some-parameter": "module-parameter"
+      "parameters" : {
+        "required-dependency-parameter" : "required-parameter"
       },
-      "requiredDependencies": [
-        {
-          "majorSchemaVersion": 2,
-          "name": "test-service",
-          "properties": {
-            "required-dependency-property": "required-property"
-          },
-          "parameters": {
-            "required-dependency-parameter": "required-parameter"
-          },
-          "propertiesMetadata": {
-            "metadata": {}
-          },
-          "parametersMetadata": {
-            "metadata": {}
-          }
-        }
-      ],
-      "providedDependencies": [
-        {
-          "majorSchemaVersion": 2,
-          "name": "providesSomething",
-          "isPublic": false,
-          "properties": {},
-          "parameters": {},
-          "propertiesMetadata": {
-            "metadata": {}
-          },
-          "parametersMetadata": {
-            "metadata": {}
-          }
-        },
-        {
-          "majorSchemaVersion": 2,
-          "name": "test-module",
-          "isPublic": true,
-          "properties": {},
-          "parameters": {},
-          "propertiesMetadata": {
-            "metadata": {}
-          },
-          "parametersMetadata": {
-            "metadata": {}
-          }
-        }
-      ],
-      "propertiesMetadata": {
-        "metadata": {}
+      "propertiesMetadata" : {
+        "metadata" : { }
       },
-      "parametersMetadata": {
-        "metadata": {}
+      "parametersMetadata" : {
+        "metadata" : { }
+      }
+    } ],
+    "providedDependencies" : [ {
+      "majorSchemaVersion" : 2,
+      "name" : "providesSomething",
+      "isPublic" : false,
+      "properties" : { },
+      "parameters" : { },
+      "propertiesMetadata" : {
+        "metadata" : { }
       },
-      "hooks": []
-    }
-  ],
-  "resources": [
-    {
-      "majorSchemaVersion": 2,
-      "name": "test-service",
-      "type": "org.postgresql",
-      "properties": {},
-      "parameters": {
-        "test-parameter": "resource-parameter",
-        "some-parameter-map": [
-          {
-            "first-parameter": "first-parameter",
-            "second-parameter": "second-parameter"
-          }
-        ]
+      "parametersMetadata" : {
+        "metadata" : { }
+      }
+    }, {
+      "majorSchemaVersion" : 2,
+      "name" : "test-module",
+      "isPublic" : true,
+      "properties" : { },
+      "parameters" : { },
+      "propertiesMetadata" : {
+        "metadata" : { }
       },
-      "isActive": true,
-      "isOptional": false,
-      "propertiesMetadata": {
-        "metadata": {}
-      },
-      "parametersMetadata": {
-        "metadata": {}
-      },
-      "requiredDependencies": []
-    }
-  ],
-  "parameters": {
-    "descriptor-parameter": "some-parameter"
+      "parametersMetadata" : {
+        "metadata" : { }
+      }
+    } ],
+    "propertiesMetadata" : {
+      "metadata" : { }
+    },
+    "parametersMetadata" : {
+      "metadata" : { }
+    },
+    "hooks" : [ ]
+  } ],
+  "resources" : [ {
+    "majorSchemaVersion" : 2,
+    "name" : "test-service",
+    "type" : "org.postgresql",
+    "properties" : { },
+    "parameters" : {
+      "test-parameter" : "resource-parameter",
+      "some-parameter-map" : [ {
+        "first-parameter" : "first-parameter",
+        "second-parameter" : "second-parameter"
+      } ]
+    },
+    "isActive" : true,
+    "isOptional" : false,
+    "propertiesMetadata" : {
+      "metadata" : { }
+    },
+    "parametersMetadata" : {
+      "metadata" : { }
+    },
+    "requiredDependencies" : [ ],
+    "processedAfter" : [ ]
+  } ],
+  "parameters" : {
+    "descriptor-parameter" : "some-parameter"
   },
-  "parametersMetadata": {
-    "metadata": {}
+  "parametersMetadata" : {
+    "metadata" : { }
   }
 }

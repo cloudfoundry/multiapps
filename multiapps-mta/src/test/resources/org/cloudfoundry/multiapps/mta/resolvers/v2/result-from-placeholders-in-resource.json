@@ -1,40 +1,39 @@
 {
-  "schemaVersion": "2.0.0",
-  "id": "placeholders-test",
-  "version": "1.0.0",
-  "modules": [],
-  "resources": [
-    {
-      "name": "bar",
-      "type": "managed-service",
-      "properties": {
-        "e": "aaa",
-        "f": "bbb",
-        "g": "aaa",
-        "h": "bbb"
-      },
-      "parameters": {
-        "b": "bbb",
-        "c": "aaa",
-        "d": "bbb"
-      },
-      "isActive": true,
-      "isOptional": false,
-      "propertiesMetadata": {
-        "metadata": {}
-      },
-      "parametersMetadata": {
-        "metadata": {}
-      },
-      "requiredDependencies": [],
-      "majorSchemaVersion": 2
-    }
-  ],
-  "parameters": {
-    "a": "aaa"
+  "majorSchemaVersion" : 2,
+  "schemaVersion" : "2.0.0",
+  "id" : "placeholders-test",
+  "version" : "1.0.0",
+  "modules" : [ ],
+  "resources" : [ {
+    "majorSchemaVersion" : 2,
+    "name" : "bar",
+    "type" : "managed-service",
+    "properties" : {
+      "e" : "aaa",
+      "f" : "bbb",
+      "g" : "aaa",
+      "h" : "bbb"
+    },
+    "parameters" : {
+      "b" : "bbb",
+      "c" : "aaa",
+      "d" : "bbb"
+    },
+    "isActive" : true,
+    "isOptional" : false,
+    "propertiesMetadata" : {
+      "metadata" : { }
+    },
+    "parametersMetadata" : {
+      "metadata" : { }
+    },
+    "requiredDependencies" : [ ],
+    "processedAfter" : [ ]
+  } ],
+  "parameters" : {
+    "a" : "aaa"
   },
-  "parametersMetadata": {
-    "metadata": {}
-  },
-  "majorSchemaVersion": 2
+  "parametersMetadata" : {
+    "metadata" : { }
+  }
 }

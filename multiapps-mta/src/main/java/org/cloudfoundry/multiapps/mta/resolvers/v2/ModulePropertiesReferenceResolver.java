@@ -3,6 +3,7 @@ package org.cloudfoundry.multiapps.mta.resolvers.v2;
 import static org.cloudfoundry.multiapps.mta.resolvers.ReferencePattern.FULLY_QUALIFIED;
 
 import java.util.Map;
+import java.util.Set;
 
 import org.cloudfoundry.multiapps.common.ContentException;
 import org.cloudfoundry.multiapps.mta.handlers.v2.DescriptorHandler;
@@ -18,8 +19,8 @@ public class ModulePropertiesReferenceResolver extends ReferenceResolver<Map<Str
     protected final ResolverBuilder propertiesResolverBuilder;
 
     public ModulePropertiesReferenceResolver(DeploymentDescriptor descriptor, Module module, Map<String, Object> properties, String prefix,
-                                             ResolverBuilder propertiesResolverBuilder) {
-        super("", prefix, new DescriptorHandler(), descriptor, module.getName(), FULLY_QUALIFIED);
+                                             ResolverBuilder propertiesResolverBuilder, Set<String> dynamicResolvableParameters) {
+        super("", prefix, new DescriptorHandler(), descriptor, module.getName(), FULLY_QUALIFIED, dynamicResolvableParameters);
         this.properties = properties;
         this.propertiesResolverBuilder = propertiesResolverBuilder;
     }
@@ -30,7 +31,7 @@ public class ModulePropertiesReferenceResolver extends ReferenceResolver<Map<Str
     }
 
     protected Map<String, Object> resolve(Map<String, Object> parameters) {
-        return propertiesResolverBuilder.build(parameters, this, patternToMatch, prefix, true)
+        return propertiesResolverBuilder.build(parameters, this, patternToMatch, prefix, true, dynamicResolvableParameters)
                                         .resolve();
     }
 

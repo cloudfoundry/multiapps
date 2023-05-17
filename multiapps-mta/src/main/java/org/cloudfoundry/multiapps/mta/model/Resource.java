@@ -38,7 +38,7 @@ public class Resource extends VersionedEntity
     @YamlElement(ResourceParser.REQUIRES)
     private List<RequiredDependency> requiredDependencies = Collections.emptyList();
     @YamlElement(ResourceParser.PROCESSED_AFTER)
-    private List<String> processedAfter;
+    private List<String> processedAfter = Collections.emptyList();
 
     // Required by Jackson.
     protected Resource() {

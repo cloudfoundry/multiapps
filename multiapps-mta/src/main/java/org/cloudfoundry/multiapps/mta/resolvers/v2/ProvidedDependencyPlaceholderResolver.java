@@ -2,6 +2,7 @@ package org.cloudfoundry.multiapps.mta.resolvers.v2;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.cloudfoundry.multiapps.common.ContentException;
 import org.cloudfoundry.multiapps.mta.builders.v2.ParametersChainBuilder;
@@ -21,8 +22,8 @@ public class ProvidedDependencyPlaceholderResolver extends PlaceholderResolver<P
 
     public ProvidedDependencyPlaceholderResolver(Module module, ProvidedDependency providedDependency, String prefix,
                                                  ParametersChainBuilder parametersChainBuilder, ResolverBuilder propertiesResolverBuilder,
-                                                 Map<String, String> singularToPluralMapping) {
-        super(providedDependency.getName(), prefix, singularToPluralMapping);
+                                                 Map<String, String> singularToPluralMapping, Set<String> dynamicResolvableParameters) {
+        super(providedDependency.getName(), prefix, singularToPluralMapping, dynamicResolvableParameters);
         this.parametersChainBuilder = parametersChainBuilder;
         this.module = module;
         this.providedDependency = providedDependency;
@@ -56,7 +57,8 @@ public class ProvidedDependencyPlaceholderResolver extends PlaceholderResolver<P
 
     @Override
     protected Map<String, Object> resolve(Map<String, Object> properties, final Map<String, Object> propertyValues, Boolean isStrict) {
-        return new PropertiesPlaceholderResolver(this.propertiesResolverBuilder).resolve(properties, propertyValues, prefix);
+        return new PropertiesPlaceholderResolver(this.propertiesResolverBuilder, dynamicResolvableParameters).resolve(properties,
+                                                                                                                   propertyValues, prefix);
     }
 
 }

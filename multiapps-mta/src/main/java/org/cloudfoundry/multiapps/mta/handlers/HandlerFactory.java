@@ -3,6 +3,7 @@ package org.cloudfoundry.multiapps.mta.handlers;
 import static java.text.MessageFormat.format;
 
 import java.util.Map;
+import java.util.Set;
 
 import org.cloudfoundry.multiapps.mta.Messages;
 import org.cloudfoundry.multiapps.mta.handlers.v2.DescriptorHandler;
@@ -44,12 +45,14 @@ public interface HandlerFactory {
 
     PlaceholderResolver<DeploymentDescriptor>
                        getDescriptorPlaceholderResolver(DeploymentDescriptor mergedDescriptor, ResolverBuilder propertiesResolver,
-                                                        ResolverBuilder parametersResolver, Map<String, String> singularToPluralMapping);
+                                                        ResolverBuilder parametersResolver, Map<String, String> singularToPluralMapping,
+                                                        Set<String> dynamicResolvableParameters);
 
     Resolver<DeploymentDescriptor> getDescriptorReferenceResolver(DeploymentDescriptor mergedDescriptor,
                                                                   ResolverBuilder modulesPropertiesResolverBuilder,
                                                                   ResolverBuilder resourcePropertiesResolverBuilder,
-                                                                  ResolverBuilder requiredDependenciesPropertiesResolverBuilder);
+                                                                  ResolverBuilder requiredDependenciesPropertiesResolverBuilder,
+                                                                  Set<String> dynamicResolvableParameters);
 
     ResourceBatchCalculator getResourceBatchCalculator(DeploymentDescriptor deploymentDescriptor);
 

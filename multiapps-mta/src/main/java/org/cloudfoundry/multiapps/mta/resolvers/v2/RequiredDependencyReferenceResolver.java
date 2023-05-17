@@ -3,6 +3,7 @@ package org.cloudfoundry.multiapps.mta.resolvers.v2;
 import static org.cloudfoundry.multiapps.mta.resolvers.ReferencePattern.SHORT;
 
 import java.util.Map;
+import java.util.Set;
 
 import org.cloudfoundry.multiapps.common.ContentException;
 import org.cloudfoundry.multiapps.mta.handlers.v2.DescriptorHandler;
@@ -19,13 +20,15 @@ public class RequiredDependencyReferenceResolver extends ReferenceResolver<Requi
     protected final ResolverBuilder propertiesResolverBuilder;
 
     public RequiredDependencyReferenceResolver(DeploymentDescriptor descriptor, NamedElement container, RequiredDependency dependency,
-                                               String prefix, ResolverBuilder propertiesResolverBuilder) {
-        this(descriptor, container, dependency, prefix, new DescriptorHandler(), propertiesResolverBuilder);
+                                               String prefix, ResolverBuilder propertiesResolverBuilder,
+                                               Set<String> dynamicResolvableParameters) {
+        this(descriptor, container, dependency, prefix, new DescriptorHandler(), propertiesResolverBuilder, dynamicResolvableParameters);
     }
 
     public RequiredDependencyReferenceResolver(DeploymentDescriptor descriptor, NamedElement container, RequiredDependency dependency,
-                                               String prefix, DescriptorHandler handler, ResolverBuilder propertiesResolverBuilder) {
-        super(dependency.getName(), prefix, handler, descriptor, container.getName(), SHORT);
+                                               String prefix, DescriptorHandler handler, ResolverBuilder propertiesResolverBuilder,
+                                               Set<String> dynamicResolvableParameters) {
+        super(dependency.getName(), prefix, handler, descriptor, container.getName(), SHORT, dynamicResolvableParameters);
         this.dependency = dependency;
         this.propertiesResolverBuilder = propertiesResolverBuilder;
     }
@@ -48,7 +51,7 @@ public class RequiredDependencyReferenceResolver extends ReferenceResolver<Requi
     @Override
     protected Map<String, Object> resolve(Map<String, Object> properties, final Map<String, Object> propertyValues, Boolean isStrict) {
         ProvidedValuesResolver valuesResolver = irrelevant -> propertyValues;
-        return propertiesResolverBuilder.build(properties, valuesResolver, patternToMatch, prefix, isStrict)
+        return propertiesResolverBuilder.build(properties, valuesResolver, patternToMatch, prefix, isStrict, dynamicResolvableParameters)
                                         .resolve();
     }
 

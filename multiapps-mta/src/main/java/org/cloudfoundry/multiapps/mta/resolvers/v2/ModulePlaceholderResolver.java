@@ -2,6 +2,7 @@ package org.cloudfoundry.multiapps.mta.resolvers.v2;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.cloudfoundry.multiapps.common.ContentException;
@@ -23,8 +24,8 @@ public class ModulePlaceholderResolver extends PlaceholderResolver<Module> {
 
     public ModulePlaceholderResolver(Module module, String prefix, ParametersChainBuilder parametersChainBuilder,
                                      ResolverBuilder propertiesResolverBuilder, ResolverBuilder parametersResolverBuilder,
-                                     Map<String, String> singularToPluralMapping) {
-        super(module.getName(), prefix, singularToPluralMapping);
+                                     Map<String, String> singularToPluralMapping, Set<String> dynamicResolvableParameters) {
+        super(module.getName(), prefix, singularToPluralMapping, dynamicResolvableParameters);
         this.module = module;
         this.parametersChainBuilder = parametersChainBuilder;
         this.propertiesResolverBuilder = propertiesResolverBuilder;
@@ -49,11 +50,13 @@ public class ModulePlaceholderResolver extends PlaceholderResolver<Module> {
     }
 
     protected Map<String, Object> getResolvedProperties(Map<String, Object> mergedParameters) {
-        return new PropertiesPlaceholderResolver(propertiesResolverBuilder).resolve(module.getProperties(), mergedParameters, prefix);
+        return new PropertiesPlaceholderResolver(propertiesResolverBuilder, dynamicResolvableParameters).resolve(module.getProperties(),
+                                                                                                              mergedParameters, prefix);
     }
 
     protected Map<String, Object> getResolvedParameters(Map<String, Object> mergedParameters) {
-        return new PropertiesPlaceholderResolver(parametersResolverBuilder).resolve(module.getParameters(), mergedParameters, prefix);
+        return new PropertiesPlaceholderResolver(parametersResolverBuilder, dynamicResolvableParameters).resolve(module.getParameters(),
+                                                                                                              mergedParameters, prefix);
     }
 
     protected List<ProvidedDependency> getResolvedProvidedDependencies() {
@@ -69,7 +72,8 @@ public class ModulePlaceholderResolver extends PlaceholderResolver<Module> {
                                                          prefix,
                                                          parametersChainBuilder,
                                                          propertiesResolverBuilder,
-                                                         singularToPluralMapping);
+                                                         singularToPluralMapping,
+                                                         dynamicResolvableParameters);
     }
 
     protected List<RequiredDependency> getResolvedRequiredDependencies() {
@@ -86,7 +90,8 @@ public class ModulePlaceholderResolver extends PlaceholderResolver<Module> {
                                                          parametersChainBuilder,
                                                          propertiesResolverBuilder,
                                                          parametersResolverBuilder,
-                                                         singularToPluralMapping);
+                                                         singularToPluralMapping,
+                                                         dynamicResolvableParameters);
     }
 
 }

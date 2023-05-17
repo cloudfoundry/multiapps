@@ -3,6 +3,7 @@ package org.cloudfoundry.multiapps.mta.resolvers.v2;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.cloudfoundry.multiapps.common.ContentException;
@@ -25,8 +26,9 @@ public class DescriptorPlaceholderResolver extends PlaceholderResolver<Deploymen
     protected final ParametersChainBuilder parametersChainBuilder;
 
     public DescriptorPlaceholderResolver(DeploymentDescriptor descriptor, ResolverBuilder propertiesResolverBuilder,
-                                         ResolverBuilder parametersResolverBuilder, Map<String, String> singularToPluralMapping) {
-        super("", "", singularToPluralMapping);
+                                         ResolverBuilder parametersResolverBuilder, Map<String, String> singularToPluralMapping,
+                                         Set<String> dynamicResolvableParameters) {
+        super("", "", singularToPluralMapping, dynamicResolvableParameters);
         this.deploymentDescriptor = descriptor;
         this.propertiesResolverBuilder = propertiesResolverBuilder;
         this.parametersResolverBuilder = parametersResolverBuilder;
@@ -44,8 +46,9 @@ public class DescriptorPlaceholderResolver extends PlaceholderResolver<Deploymen
     protected Map<String, Object> getResolvedProperties(Map<String, Object> propertiesToResolve) {
         List<Map<String, Object>> parametersList = Collections.singletonList(deploymentDescriptor.getParameters());
         addSingularParametersIfNecessary(parametersList);
-        return new PropertiesPlaceholderResolver(propertiesResolverBuilder).resolve(propertiesToResolve,
-                                                                                    PropertiesUtil.mergeProperties(parametersList), prefix);
+        return new PropertiesPlaceholderResolver(propertiesResolverBuilder,
+                                                 dynamicResolvableParameters).resolve(propertiesToResolve,
+                                                                                   PropertiesUtil.mergeProperties(parametersList), prefix);
     }
 
     protected ResourcePlaceholderResolver getResourceResolver(Resource resource) {
@@ -54,7 +57,8 @@ public class DescriptorPlaceholderResolver extends PlaceholderResolver<Deploymen
                                                parametersChainBuilder,
                                                propertiesResolverBuilder,
                                                parametersResolverBuilder,
-                                               singularToPluralMapping);
+                                               singularToPluralMapping,
+                                               dynamicResolvableParameters);
     }
 
     protected List<Resource> getResolvedResources() {
@@ -70,7 +74,8 @@ public class DescriptorPlaceholderResolver extends PlaceholderResolver<Deploymen
                                              parametersChainBuilder,
                                              propertiesResolverBuilder,
                                              parametersResolverBuilder,
-                                             singularToPluralMapping);
+                                             singularToPluralMapping,
+                                             dynamicResolvableParameters);
     }
 
     protected List<Module> getResolvedModules() {

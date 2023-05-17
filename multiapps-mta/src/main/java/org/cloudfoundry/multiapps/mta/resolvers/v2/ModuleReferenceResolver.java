@@ -2,6 +2,7 @@ package org.cloudfoundry.multiapps.mta.resolvers.v2;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.cloudfoundry.multiapps.common.ContentException;
@@ -19,14 +20,16 @@ public class ModuleReferenceResolver implements Resolver<Module> {
     protected final String prefix;
     protected final ResolverBuilder propertiesResolverBuilder;
     protected final ResolverBuilder requiredDependenciesPropertiesResolverBuilder;
+    protected final Set<String> dynamicResolvableParameters;
 
     public ModuleReferenceResolver(DeploymentDescriptor descriptor, Module module, String prefix, ResolverBuilder propertiesResolverBuilder,
-                                   ResolverBuilder requiredDependenciesPropertiesResolverBuilder) {
+                                   ResolverBuilder requiredDependenciesPropertiesResolverBuilder, Set<String> dynamicResolvableParameters) {
         this.descriptor = descriptor;
         this.module = module;
         this.requiredDependenciesPropertiesResolverBuilder = requiredDependenciesPropertiesResolverBuilder;
         this.prefix = NameUtil.getPrefixedName(prefix, module.getName());
         this.propertiesResolverBuilder = propertiesResolverBuilder;
+        this.dynamicResolvableParameters = dynamicResolvableParameters;
     }
 
     @Override
@@ -46,7 +49,12 @@ public class ModuleReferenceResolver implements Resolver<Module> {
     }
 
     protected ModulePropertiesReferenceResolver createModulePropertiesReferenceResolver(Map<String, Object> properties) {
-        return new ModulePropertiesReferenceResolver(descriptor, module, properties, prefix, propertiesResolverBuilder);
+        return new ModulePropertiesReferenceResolver(descriptor,
+                                                     module,
+                                                     properties,
+                                                     prefix,
+                                                     propertiesResolverBuilder,
+                                                     dynamicResolvableParameters);
     }
 
     protected List<RequiredDependency> getResolvedDependencies() {
@@ -65,7 +73,8 @@ public class ModuleReferenceResolver implements Resolver<Module> {
                                                        module,
                                                        requiredDependency,
                                                        prefix,
-                                                       requiredDependenciesPropertiesResolverBuilder);
+                                                       requiredDependenciesPropertiesResolverBuilder,
+                                                       dynamicResolvableParameters);
     }
 
 }

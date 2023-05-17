@@ -2,6 +2,7 @@ package org.cloudfoundry.multiapps.mta.resolvers.v3;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.cloudfoundry.multiapps.common.ContentException;
@@ -14,8 +15,14 @@ public class ModulePlaceholderResolver extends org.cloudfoundry.multiapps.mta.re
 
     public ModulePlaceholderResolver(Module module, String prefix, ParametersChainBuilder parametersChainBuilder,
                                      ResolverBuilder propertiesResolverBuilder, ResolverBuilder parametersResolverBuilder,
-                                     Map<String, String> singularToPluralMapping) {
-        super(module, prefix, parametersChainBuilder, propertiesResolverBuilder, parametersResolverBuilder, singularToPluralMapping);
+                                     Map<String, String> singularToPluralMapping, Set<String> dynamicResolvableParameters) {
+        super(module,
+              prefix,
+              parametersChainBuilder,
+              propertiesResolverBuilder,
+              parametersResolverBuilder,
+              singularToPluralMapping,
+              dynamicResolvableParameters);
     }
 
     @Override
@@ -40,7 +47,8 @@ public class ModulePlaceholderResolver extends org.cloudfoundry.multiapps.mta.re
                                            propertiesResolverBuilder,
                                            parametersResolverBuilder,
                                            singularToPluralMapping,
-                                           getMergedParameters());
+                                           getMergedParameters(),
+                                           dynamicResolvableParameters);
     }
 
 }

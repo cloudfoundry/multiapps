@@ -182,7 +182,8 @@
     "parametersMetadata" : {
       "metadata" : { }
     },
-    "requiredDependencies" : [ ]
+    "requiredDependencies" : [ ],
+    "processedAfter" : [ ]
   }, {
     "majorSchemaVersion" : 3,
     "name" : "custom-consumer",
@@ -240,7 +241,8 @@
       "parametersMetadata" : {
         "metadata" : { }
       }
-    } ]
+    } ],
+    "processedAfter" : [ ]
   } ],
   "parameters" : {
     "descriptor-param" : "~{baz/baz-test2}.baz-test2-reference"

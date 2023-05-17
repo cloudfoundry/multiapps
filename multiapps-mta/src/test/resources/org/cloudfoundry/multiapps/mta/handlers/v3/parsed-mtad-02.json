@@ -1,186 +1,178 @@
 {
-  "schemaVersion": "3.0.0",
-  "id": "com.sap.xs2.samples.javahelloworld",
-  "version": "0.1.0",
-  "modules": [
-    {
-      "name": "java-hello-world",
-      "type": "some.type",
-      "path": "somepath/",
-      "properties": {
-        "moduleSensitiveTaggedProperty": "tagged-property",
-        "moduleNormalProperty": "property",
-        "moduleSensitiveProperty": "sensitive-property"
-      },
-      "parameters": {
-        "moduleSensitiveTaggedParameter": "tagged-parameter",
-        "normalParameter": "parameter",
-        "moduleSensitiveParameter": "sensitive-parameter"
-      },
-      "requiredDependencies": [
-        {
-          "name": "some-requirement",
-          "group": "destinations",
-          "properties": {
-            "moduleRequiredTaggedSensitiveProperty": "tagged-property",
-            "moduleRequiredNormalProperty": "property",
-            "moduleRequiredSensitiveProperty": "sensitive-property"
-          },
-          "parameters": {
-            "moduleRequiredSensitiveTaggedParameter": "tagged-parameter",
-            "moduleRequiredNormalParameter": "parameter",
-            "moduleRequiredSensitiveParameter": "sensitive-parameter"
-          },
-          "propertiesMetadata": {
-            "metadata": {
-              "moduleRequiredSensitiveProperty": {
-                "sensitive": true
-              },
-              "moduleRequiredTaggedSensitiveProperty": {
-                "sensitive": true
-              }
-            }
-          },
-          "parametersMetadata": {
-            "metadata": {
-              "moduleRequiredSensitiveParameter": {
-                "sensitive": true
-              },
-              "moduleRequiredSensitiveTaggedParameter": {
-                "sensitive": true
-              }
-            }
-          },
-          "majorSchemaVersion": 3
-        }
-      ],
-      "providedDependencies": [
-        {
-          "name": "some-app",
-          "isPublic": false,
-          "properties": {
-            "moduleProvidedTaggedSensitiveProperty": "sensitive-property",
-            "moduleProvidedNormalProperty": "property",
-            "moduleProvidedSensitiveProperty": "sensitive-property"
-          },
-          "parameters": {},
-          "propertiesMetadata": {
-            "metadata": {
-              "moduleProvidedSensitiveProperty": {
-                "sensitive": true
-              },
-              "moduleProvidedTaggedSensitiveProperty": {
-                "sensitive": true
-              }
-            }
-          },
-          "parametersMetadata": {
-            "metadata": {}
-          },
-          "majorSchemaVersion": 3
-        },
-        {
-          "name": "java-hello-world",
-          "isPublic": false,
-          "properties": {},
-          "parameters": {},
-          "propertiesMetadata": {
-            "metadata": {}
-          },
-          "parametersMetadata": {
-            "metadata": {}
-          },
-          "majorSchemaVersion": 3
-        }
-      ],
-      "propertiesMetadata": {
-        "metadata": {
-          "moduleSensitiveProperty": {
-            "sensitive": true
-          },
-          "moduleSensitiveTaggedProperty": {
-            "sensitive": true
-          }
-        }
-      },
-      "parametersMetadata": {
-        "metadata": {
-          "moduleSensitiveParameter": {
-            "sensitive": true
-          },
-          "moduleSensitiveTaggedParameter": {
-            "sensitive": true
-          }
-        }
-      },
-      "hooks": [],
-      "majorSchemaVersion": 3
-    }
-  ],
-  "resources": [
-    {
-      "name": "some-resource",
-      "properties": {
-        "resourceSensitiveTaggedProperty": "tagged-property",
-        "resourceNormalProperty": "property",
-        "resourceSensitiveProperty": "sensitive-property"
-      },
-      "parameters": {
-        "resourceTaggedSensitiveParameter": "tagged-parameter",
-        "resourceNormalParameter": "parameter"
-      },
-      "isActive": true,
-      "isOptional": true,
-      "propertiesMetadata": {
-        "metadata": {
-          "resourceSensitiveProperty": {
-            "sensitive": true
-          },
-          "resourceSensitiveTaggedProperty": {
-            "sensitive": true
-          }
-        }
-      },
-      "parametersMetadata": {
-        "metadata": {
-          "resourceSensitiveParameter": {
-            "sensitive": true
-          },
-          "resourceTaggedSensitiveParameter": {
-            "sensitive": true
-          }
-        }
-      },
-      "requiredDependencies": [],
-      "majorSchemaVersion": 3
+  "majorSchemaVersion" : 3,
+  "schemaVersion" : "3.0.0",
+  "id" : "com.sap.xs2.samples.javahelloworld",
+  "version" : "0.1.0",
+  "modules" : [ {
+    "majorSchemaVersion" : 3,
+    "name" : "java-hello-world",
+    "type" : "some.type",
+    "path" : "somepath/",
+    "properties" : {
+      "moduleSensitiveTaggedProperty" : "tagged-property",
+      "moduleNormalProperty" : "property",
+      "moduleSensitiveProperty" : "sensitive-property"
     },
-    {
-      "name": "some-other-resource",
-      "properties": {},
-      "parameters": {},
-      "isActive": true,
-      "isOptional": false,
-      "propertiesMetadata": {
-        "metadata": {}
+    "parameters" : {
+      "moduleSensitiveTaggedParameter" : "tagged-parameter",
+      "normalParameter" : "parameter",
+      "moduleSensitiveParameter" : "sensitive-parameter"
+    },
+    "requiredDependencies" : [ {
+      "majorSchemaVersion" : 3,
+      "name" : "some-requirement",
+      "group" : "destinations",
+      "properties" : {
+        "moduleRequiredTaggedSensitiveProperty" : "tagged-property",
+        "moduleRequiredNormalProperty" : "property",
+        "moduleRequiredSensitiveProperty" : "sensitive-property"
       },
-      "parametersMetadata": {
-        "metadata": {}
+      "parameters" : {
+        "moduleRequiredSensitiveTaggedParameter" : "tagged-parameter",
+        "moduleRequiredNormalParameter" : "parameter",
+        "moduleRequiredSensitiveParameter" : "sensitive-parameter"
       },
-      "requiredDependencies": [],
-      "majorSchemaVersion": 3
-    }
-  ],
-  "parameters": {
-    "deploymendDescriptorSensitiveTaggedParameter": "tagged-parameter",
-    "deploymendDescriptorNormalParameter": "parameter",
-    "deploymentDescriptorSensitiveParameter": "sensitive-parameter"
+      "propertiesMetadata" : {
+        "metadata" : {
+          "moduleRequiredSensitiveProperty" : {
+            "sensitive" : true
+          },
+          "moduleRequiredTaggedSensitiveProperty" : {
+            "sensitive" : true
+          }
+        }
+      },
+      "parametersMetadata" : {
+        "metadata" : {
+          "moduleRequiredSensitiveParameter" : {
+            "sensitive" : true
+          },
+          "moduleRequiredSensitiveTaggedParameter" : {
+            "sensitive" : true
+          }
+        }
+      }
+    } ],
+    "providedDependencies" : [ {
+      "majorSchemaVersion" : 3,
+      "name" : "some-app",
+      "isPublic" : false,
+      "properties" : {
+        "moduleProvidedTaggedSensitiveProperty" : "sensitive-property",
+        "moduleProvidedNormalProperty" : "property",
+        "moduleProvidedSensitiveProperty" : "sensitive-property"
+      },
+      "parameters" : { },
+      "propertiesMetadata" : {
+        "metadata" : {
+          "moduleProvidedSensitiveProperty" : {
+            "sensitive" : true
+          },
+          "moduleProvidedTaggedSensitiveProperty" : {
+            "sensitive" : true
+          }
+        }
+      },
+      "parametersMetadata" : {
+        "metadata" : { }
+      }
+    }, {
+      "majorSchemaVersion" : 3,
+      "name" : "java-hello-world",
+      "isPublic" : false,
+      "properties" : { },
+      "parameters" : { },
+      "propertiesMetadata" : {
+        "metadata" : { }
+      },
+      "parametersMetadata" : {
+        "metadata" : { }
+      }
+    } ],
+    "propertiesMetadata" : {
+      "metadata" : {
+        "moduleSensitiveProperty" : {
+          "sensitive" : true
+        },
+        "moduleSensitiveTaggedProperty" : {
+          "sensitive" : true
+        }
+      }
+    },
+    "parametersMetadata" : {
+      "metadata" : {
+        "moduleSensitiveParameter" : {
+          "sensitive" : true
+        },
+        "moduleSensitiveTaggedParameter" : {
+          "sensitive" : true
+        }
+      }
+    },
+    "hooks" : [ ]
+  } ],
+  "resources" : [ {
+    "majorSchemaVersion" : 3,
+    "name" : "some-resource",
+    "properties" : {
+      "resourceSensitiveTaggedProperty" : "tagged-property",
+      "resourceNormalProperty" : "property",
+      "resourceSensitiveProperty" : "sensitive-property"
+    },
+    "parameters" : {
+      "resourceTaggedSensitiveParameter" : "tagged-parameter",
+      "resourceNormalParameter" : "parameter"
+    },
+    "isActive" : true,
+    "isOptional" : true,
+    "propertiesMetadata" : {
+      "metadata" : {
+        "resourceSensitiveProperty" : {
+          "sensitive" : true
+        },
+        "resourceSensitiveTaggedProperty" : {
+          "sensitive" : true
+        }
+      }
+    },
+    "parametersMetadata" : {
+      "metadata" : {
+        "resourceSensitiveParameter" : {
+          "sensitive" : true
+        },
+        "resourceTaggedSensitiveParameter" : {
+          "sensitive" : true
+        }
+      }
+    },
+    "requiredDependencies" : [ ],
+    "processedAfter" : [ ]
+  }, {
+    "majorSchemaVersion" : 3,
+    "name" : "some-other-resource",
+    "properties" : { },
+    "parameters" : { },
+    "isActive" : true,
+    "isOptional" : false,
+    "propertiesMetadata" : {
+      "metadata" : { }
+    },
+    "parametersMetadata" : {
+      "metadata" : { }
+    },
+    "requiredDependencies" : [ ],
+    "processedAfter" : [ ]
+  } ],
+  "parameters" : {
+    "deploymendDescriptorSensitiveTaggedParameter" : "tagged-parameter",
+    "deploymendDescriptorNormalParameter" : "parameter",
+    "deploymentDescriptorSensitiveParameter" : "sensitive-parameter"
   },
-  "parametersMetadata": {
-    "metadata": {
-      "deploymendDescriptorSensitiveTaggedParameter": {
-        "sensitive": true
+  "parametersMetadata" : {
+    "metadata" : {
+      "deploymendDescriptorSensitiveTaggedParameter" : {
+        "sensitive" : true
       }
     }
-  },
-  "majorSchemaVersion": 3
+  }
 }

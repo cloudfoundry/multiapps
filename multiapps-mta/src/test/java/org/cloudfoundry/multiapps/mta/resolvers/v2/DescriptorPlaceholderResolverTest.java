@@ -105,6 +105,7 @@ class DescriptorPlaceholderResolverTest {
         return new DescriptorPlaceholderResolver(deploymentDescriptor,
                                                  new ResolverBuilder(),
                                                  new ResolverBuilder(),
-                                                 Collections.emptyMap());
+                                                 Collections.emptyMap(),
+                                                 Collections.emptySet());
     }
 }

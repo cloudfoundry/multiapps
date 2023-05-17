@@ -2,6 +2,7 @@ package org.cloudfoundry.multiapps.mta.resolvers.v2;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.cloudfoundry.multiapps.common.ContentException;
 import org.cloudfoundry.multiapps.mta.builders.v2.ParametersChainBuilder;
@@ -22,8 +23,9 @@ public class RequiredDependencyPlaceholderResolver extends PlaceholderResolver<R
 
     public RequiredDependencyPlaceholderResolver(Module module, RequiredDependency requiredDependency, String prefix,
                                                  ParametersChainBuilder parametersChainBuilder, ResolverBuilder propertiesResolverBuilder,
-                                                 ResolverBuilder parametersResolverBuilder, Map<String, String> singularToPluralMapping) {
-        super(requiredDependency.getName(), prefix, singularToPluralMapping);
+                                                 ResolverBuilder parametersResolverBuilder, Map<String, String> singularToPluralMapping,
+                                                 Set<String> dynamicResolvableParameters) {
+        super(requiredDependency.getName(), prefix, singularToPluralMapping, dynamicResolvableParameters);
         this.parametersChainBuilder = parametersChainBuilder;
         this.module = module;
         this.requiredDependency = requiredDependency;
@@ -44,13 +46,15 @@ public class RequiredDependencyPlaceholderResolver extends PlaceholderResolver<R
     }
 
     protected Map<String, Object> getResolvedParameters(Map<String, Object> mergedParameters) {
-        return new PropertiesPlaceholderResolver(propertiesResolverBuilder).resolve(requiredDependency.getParameters(), mergedParameters,
-                                                                                    prefix);
+        return new PropertiesPlaceholderResolver(propertiesResolverBuilder,
+                                                 dynamicResolvableParameters).resolve(requiredDependency.getParameters(), mergedParameters,
+                                                                                   prefix);
     }
 
     protected Map<String, Object> getResolvedProperties(Map<String, Object> mergedParameters) {
-        return new PropertiesPlaceholderResolver(parametersResolverBuilder).resolve(requiredDependency.getProperties(), mergedParameters,
-                                                                                    prefix);
+        return new PropertiesPlaceholderResolver(parametersResolverBuilder,
+                                                 dynamicResolvableParameters).resolve(requiredDependency.getProperties(), mergedParameters,
+                                                                                   prefix);
     }
 
 }

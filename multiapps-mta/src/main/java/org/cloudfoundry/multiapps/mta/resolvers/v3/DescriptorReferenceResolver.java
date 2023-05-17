@@ -1,6 +1,7 @@
 package org.cloudfoundry.multiapps.mta.resolvers.v3;
 
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.cloudfoundry.multiapps.common.ContentException;
@@ -15,8 +16,9 @@ public class DescriptorReferenceResolver extends org.cloudfoundry.multiapps.mta.
 
     public DescriptorReferenceResolver(DeploymentDescriptor descriptor, ResolverBuilder modulesPropertiesResolverBuilder,
                                        ResolverBuilder resourcePropertiesResolverBuilder,
-                                       ResolverBuilder requiredDependenciesPropertiesResolverBuilder) {
-        super(descriptor, modulesPropertiesResolverBuilder, requiredDependenciesPropertiesResolverBuilder);
+                                       ResolverBuilder requiredDependenciesPropertiesResolverBuilder,
+                                       Set<String> dynamicResolvableParameters) {
+        super(descriptor, modulesPropertiesResolverBuilder, requiredDependenciesPropertiesResolverBuilder, dynamicResolvableParameters);
         this.resourcePropertiesResolverBuilder = resourcePropertiesResolverBuilder;
     }
 
@@ -38,7 +40,8 @@ public class DescriptorReferenceResolver extends org.cloudfoundry.multiapps.mta.
                                              resource,
                                              "",
                                              resourcePropertiesResolverBuilder,
-                                             requiredDependenciesPropertiesResolverBuilder);
+                                             requiredDependenciesPropertiesResolverBuilder,
+                                             dynamicResolvableParameters);
     }
 
     @Override
@@ -47,7 +50,8 @@ public class DescriptorReferenceResolver extends org.cloudfoundry.multiapps.mta.
                                            module,
                                            "",
                                            modulesPropertiesResolverBuilder,
-                                           requiredDependenciesPropertiesResolverBuilder);
+                                           requiredDependenciesPropertiesResolverBuilder,
+                                           dynamicResolvableParameters);
     }
 
 }

@@ -1,17 +1,17 @@
 {
   "majorSchemaVersion" : 3,
   "schemaVersion" : "3.0.0",
-  "id" : "com.sap.mta.sample",
-  "version" : "1.2.1-beta+20150403144937853",
+  "id" : "foo",
+  "version" : "1.0.0",
   "modules" : [ {
     "majorSchemaVersion" : 3,
-    "name" : "pricing-db",
-    "type" : "com.sap.hana.hdi",
+    "name" : "foo",
+    "type" : "foo",
     "properties" : { },
     "parameters" : { },
     "requiredDependencies" : [ {
       "majorSchemaVersion" : 3,
-      "name" : "pricing-db-service",
+      "name" : "bar",
       "properties" : { },
       "parameters" : { },
       "propertiesMetadata" : {
@@ -23,7 +23,7 @@
     } ],
     "providedDependencies" : [ {
       "majorSchemaVersion" : 3,
-      "name" : "pricing-db",
+      "name" : "foo",
       "isPublic" : false,
       "properties" : { },
       "parameters" : { },
@@ -40,34 +40,15 @@
     "parametersMetadata" : {
       "metadata" : { }
     },
-    "hooks" : [ {
-      "majorSchemaVersion" : 3,
-      "name" : "test-hook",
-      "type" : "tasks",
-      "phases" : [ "application.before-stop", "another.test-hook-phase", "foo", "a" ],
-      "parameters" : {
-        "task" : "test-task",
-        "command" : "this is test"
-      },
-      "requiredDependencies" : [ {
-        "majorSchemaVersion" : 3,
-        "name" : "plugin-provider",
-        "properties" : { },
-        "parameters" : { },
-        "propertiesMetadata" : {
-          "metadata" : { }
-        },
-        "parametersMetadata" : {
-          "metadata" : { }
-        }
-      } ]
-    } ]
+    "hooks" : [ ]
   } ],
   "resources" : [ {
     "majorSchemaVersion" : 3,
-    "name" : "pricing-db-service",
-    "type" : "com.sap.hana.hdi-container",
-    "properties" : { },
+    "name" : "bar",
+    "type" : "bar",
+    "properties" : {
+      "my-service-guid" : "{ds/bar/service-guid}"
+    },
     "parameters" : { },
     "isActive" : true,
     "isOptional" : false,
