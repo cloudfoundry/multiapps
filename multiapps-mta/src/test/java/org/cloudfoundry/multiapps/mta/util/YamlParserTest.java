@@ -39,7 +39,7 @@ public class YamlParserTest {
     class WithDescriptorContainingSecurityViolations {
 
         private static final String DESCRIPTOR = "mtad-with-security-violation.yaml";
-        private static final String EXPECTED_EXCEPTION_MESSAGE = "could not determine a constructor for the tag tag:yaml.org,2002:javax.script.ScriptEngineManager";
+        private static final String EXPECTED_EXCEPTION_MESSAGE = "Global tag is not allowed: tag:yaml.org,2002:javax.script.ScriptEngineManager";
 
         @Test
         void testWithStream() {

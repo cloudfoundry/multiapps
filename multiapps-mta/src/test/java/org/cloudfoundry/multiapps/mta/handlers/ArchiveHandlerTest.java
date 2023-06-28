@@ -22,6 +22,7 @@ class ArchiveHandlerTest {
 
     private static final String SAMPLE_MTAR = "com.sap.mta.sample-1.2.1-beta.mtar";
     private static final String SAMPLE_FLAT_MTAR = "com.sap.mta.sample-1.2.1-beta-flat.mtar";
+    private static final String LARGE_DESCRIPTOR_MTAR = "large.mta.descriptor.mtar";
     private static final long MAX_MTA_DESCRIPTOR_SIZE = 1024 * 1024L;
     private static final long MAX_MANIFEST_SIZE = 1024 * 1024L;
     private static final long MAX_RESOURCE_FILE_SIZE = 1024 * 1024 * 1024L;
@@ -54,6 +55,12 @@ class ArchiveHandlerTest {
     void testGetDescriptorExceedsSize() throws Exception {
         assertThrows(ContentException.class,
                      () -> ArchiveHandler.getDescriptor(ArchiveHandlerTest.class.getResourceAsStream(SAMPLE_MTAR), 1024L));
+    }
+
+    @Test
+    void testGetProcessedDescriptorExceedsSize() throws Exception {
+        assertThrows(ContentException.class,
+                     () -> ArchiveHandler.getDescriptor(ArchiveHandlerTest.class.getResourceAsStream(LARGE_DESCRIPTOR_MTAR), 10 * 1024L));
     }
 
     @Test
