@@ -75,22 +75,13 @@ public class YamlParser {
     }
 
     private Yaml getYamlWithTaggedObjectsConstructor() {
-        Representer representer = new Representer();
-        return new Yaml(new YamlTaggedObjectsConstructor(), representer, createDumperOptions(representer), loaderOptions);
+        Representer representer = new Representer(new DumperOptions());
+        return new Yaml(new YamlTaggedObjectsConstructor(loaderOptions), representer, new DumperOptions(), loaderOptions);
     }
 
     private Yaml getYamlWithSafeConstructor() {
-        YamlRepresenter yamlRepresenter = new YamlRepresenter();
-        return new Yaml(new SafeConstructor(), yamlRepresenter, createDumperOptions(yamlRepresenter), loaderOptions);
-    }
-
-    private DumperOptions createDumperOptions(Representer representer) {
-        DumperOptions dumperOptions = new DumperOptions();
-        dumperOptions.setDefaultFlowStyle(representer.getDefaultFlowStyle());
-        dumperOptions.setDefaultScalarStyle(representer.getDefaultScalarStyle());
-        dumperOptions.setAllowReadOnlyProperties(representer.getPropertyUtils().isAllowReadOnlyProperties());
-        dumperOptions.setTimeZone(representer.getTimeZone());
-        return dumperOptions;
+        YamlRepresenter yamlRepresenter = new YamlRepresenter(new DumperOptions());
+        return new Yaml(new SafeConstructor(loaderOptions), yamlRepresenter, new DumperOptions(), loaderOptions);
     }
 
 }

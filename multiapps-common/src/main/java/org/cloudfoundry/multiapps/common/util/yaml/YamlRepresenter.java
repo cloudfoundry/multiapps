@@ -10,6 +10,7 @@ import java.util.TreeSet;
 
 import org.apache.commons.lang3.ObjectUtils;
 import org.cloudfoundry.multiapps.common.Messages;
+import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.introspector.BeanAccess;
 import org.yaml.snakeyaml.introspector.Property;
 import org.yaml.snakeyaml.nodes.NodeTuple;
@@ -18,7 +19,8 @@ import org.yaml.snakeyaml.representer.Representer;
 
 public class YamlRepresenter extends Representer {
 
-    public YamlRepresenter() {
+    public YamlRepresenter(DumperOptions options) {
+        super(options);
         getPropertyUtils().setBeanAccess(BeanAccess.FIELD);
     }
 

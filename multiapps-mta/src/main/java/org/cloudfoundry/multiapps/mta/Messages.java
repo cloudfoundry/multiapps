@@ -7,6 +7,7 @@ public class Messages {
 
     // Exception messages:
     public static final String ERROR_SIZE_OF_FILE_EXCEEDS_CONFIGURED_MAX_SIZE_LIMIT = "The size \"{0}\" of mta file \"{1}\" exceeds the configured max size limit \"{2}\"";
+    public static final String ERROR_PROCESSED_SIZE_OF_FILE_EXCEEDS_CONFIGURED_MAX_SIZE_LIMIT = "The processed size \"{0}\" of mta file \"{1}\" exceeds the configured max size limit \"{2}\"";
     public static final String ERROR_RETRIEVING_MTA_MODULE_CONTENT = "Error retrieving content of MTA module \"{0}\"";
     public static final String ERROR_RETRIEVING_MTA_ARCHIVE_MANIFEST = "Error retrieving MTA archive manifest";
     public static final String REQUIRED_ELEMENT_IS_MISSING = "Required element \"{0}\" for object \"{1}\" is missing";
