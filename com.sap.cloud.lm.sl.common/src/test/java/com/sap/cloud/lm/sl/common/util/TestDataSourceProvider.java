@@ -43,7 +43,7 @@ public class TestDataSourceProvider {
 
     private static Connection createH2InMemory() throws SQLException {
         Connection connection = null;
-        connection = DriverManager.getConnection("jdbc:h2:mem:testdb", "sa", "");
+        connection = DriverManager.getConnection("jdbc:h2:mem:testdb;CASE_INSENSITIVE_IDENTIFIERS=true", "sa", "");
         return connection;
     }
 }
