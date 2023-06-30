@@ -4,7 +4,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.sap.cloud.lm.sl</groupId>
     <artifactId>com.sap.cloud.lm.sl.open.parent</artifactId>
-    <version>1.67.12</version>
+    <version>1.67.13-SNAPSHOT</version>
     <packaging>pom</packaging>
     <url>https://github.com/cloudfoundry-incubator/multiapps</url>
     <name>LM SL Open Source Parent</name>
@@ -19,7 +19,7 @@
         <commons-lang3.version>3.8.1</commons-lang3.version>
         <commons-collections4.version>4.2</commons-collections4.version>
         <commons-io.version>2.11.0</commons-io.version>
-        <liquibase.version>3.6.1</liquibase.version>
+        <liquibase.version>4.0.0</liquibase.version>
         <spring.version>5.3.23</spring.version>
         <jax-rs.version>2.0.1</jax-rs.version>
         <slf4j.version>1.7.25</slf4j.version>
