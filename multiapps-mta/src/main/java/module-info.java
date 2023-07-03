@@ -33,5 +33,6 @@ open module org.cloudfoundry.multiapps.mta {
 
     requires static java.compiler;
     requires static org.immutables.value;
+    requires commons.fileupload;
 
 }
