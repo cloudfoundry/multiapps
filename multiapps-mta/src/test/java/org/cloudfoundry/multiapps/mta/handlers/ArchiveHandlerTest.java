@@ -25,7 +25,6 @@ class ArchiveHandlerTest {
     private static final String LARGE_DESCRIPTOR_MTAR = "large.mta.descriptor.mtar";
     private static final long MAX_MTA_DESCRIPTOR_SIZE = 1024 * 1024L;
     private static final long MAX_MANIFEST_SIZE = 1024 * 1024L;
-    private static final long MAX_RESOURCE_FILE_SIZE = 1024 * 1024 * 1024L;
 
     @Test
     void testGetManifest() throws Exception {
@@ -60,7 +59,7 @@ class ArchiveHandlerTest {
     @Test
     void testGetProcessedDescriptorExceedsSize() throws Exception {
         assertThrows(ContentException.class,
-                     () -> ArchiveHandler.getDescriptor(ArchiveHandlerTest.class.getResourceAsStream(LARGE_DESCRIPTOR_MTAR), 10 * 1024L));
+                     () -> ArchiveHandler.getDescriptor(ArchiveHandlerTest.class.getResourceAsStream(LARGE_DESCRIPTOR_MTAR), 1024L));
     }
 
     @Test
@@ -95,21 +94,6 @@ class ArchiveHandlerTest {
         String descriptor = ArchiveHandler.getDescriptor(ArchiveHandlerTest.class.getResourceAsStream(SAMPLE_FLAT_MTAR),
                                                          MAX_MTA_DESCRIPTOR_SIZE);
         assertTrue(descriptor.contains("com.sap.mta.sample"));
-    }
-
-    @Test
-    void testGetModuleContentFlat() throws Exception {
-        InputStream mtarStream = ArchiveHandlerTest.class.getResourceAsStream(SAMPLE_FLAT_MTAR);
-        try (InputStream is = ArchiveHandler.getInputStream(mtarStream, "web/", MAX_RESOURCE_FILE_SIZE)) {
-            ZipInputStream zis = (ZipInputStream) is;
-            for (ZipEntry e; (e = zis.getNextEntry()) != null;) {
-                if (e.getName()
-                     .equals("web/readme.txt")) {
-                    String readmeContent = IOUtils.toString(zis, StandardCharsets.UTF_8);
-                    assertEquals("App router code will be packaged in this archive", readmeContent);
-                }
-            }
-        }
     }
 
     private InputStream getEntryStream(byte[] content, String entryName) throws IOException {

@@ -8,8 +8,8 @@ import java.util.jar.Manifest;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
+import org.apache.commons.fileupload.util.LimitedInputStream;
 import org.apache.commons.io.IOUtils;
-import org.apache.commons.io.output.StringBuilderWriter;
 import org.cloudfoundry.multiapps.common.ContentException;
 import org.cloudfoundry.multiapps.common.SLException;
 import org.cloudfoundry.multiapps.mta.Messages;
@@ -27,11 +27,8 @@ public class ArchiveHandler {
     }
 
     public static String getDescriptor(InputStream archiveStream, long maxMtaDescriptorSize) throws SLException {
-        try (InputStream descriptorStream = getInputStream(archiveStream, MTA_DEPLOYMENT_DESCRIPTOR_NAME, maxMtaDescriptorSize);
-            InputStream in = new LimitedSizeInputStream(descriptorStream, maxMtaDescriptorSize, MTA_DEPLOYMENT_DESCRIPTOR_NAME);
-            final StringBuilderWriter sw = new StringBuilderWriter()) {
-            IOUtils.copy(in, sw, StandardCharsets.UTF_8);
-            return sw.toString();
+        try (InputStream descriptorStream = getInputStream(archiveStream, MTA_DEPLOYMENT_DESCRIPTOR_NAME, maxMtaDescriptorSize)) {
+            return IOUtils.toString(descriptorStream, StandardCharsets.UTF_8);
         } catch (IOException e) {
             throw new SLException(e, Messages.ERROR_RETRIEVING_MTA_MODULE_CONTENT);
         }
@@ -51,8 +48,18 @@ public class ArchiveHandler {
             for (ZipEntry e; (e = zis.getNextEntry()) != null;) {
                 if (e.getName()
                      .equals(entryName)) {
+                    // quick and unreliable check for file size without file processing
                     validateZipEntrySize(e, maxEntrySize);
-                    return zis;
+                    // ensure processed file size indeed is lower than the configured limit
+                    return new LimitedInputStream(zis, maxEntrySize) {
+                        @Override
+                        protected void raiseError(long maxSize, long currentSize) {
+                            throw new ContentException(Messages.ERROR_PROCESSED_SIZE_OF_FILE_EXCEEDS_CONFIGURED_MAX_SIZE_LIMIT,
+                                                       currentSize,
+                                                       entryName,
+                                                       maxSize);
+                        }
+                    };
                 }
             }
             throw new ContentException(Messages.CANNOT_FIND_ARCHIVE_ENTRY, entryName);
