@@ -37,7 +37,7 @@ public class YamlUtilTest {
             String descriptorString = TestUtil.getResourceAsString(DESCRIPTOR, getClass());
             assertNotNull(YamlUtil.convertYamlToMap(descriptorString));
         }
-        
+
         @Test
         void testConvertToYamlToMap() {
             Map<String, Object> initialMap = YamlUtil.convertYamlToMap(TestUtil.getResourceAsInputStream(DESCRIPTOR, getClass()));

@@ -18,7 +18,7 @@ import com.sap.cloud.lm.sl.common.util.CommonUtil;
 public class YamlRepresenter extends Representer {
 
     public YamlRepresenter(DumperOptions dumperOptions) {
-    	super(dumperOptions);
+        super(dumperOptions);
         getPropertyUtils().setBeanAccess(BeanAccess.FIELD);
     }
 

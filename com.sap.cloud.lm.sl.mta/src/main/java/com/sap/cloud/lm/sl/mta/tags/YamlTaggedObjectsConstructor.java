@@ -9,7 +9,7 @@ public class YamlTaggedObjectsConstructor extends SafeConstructor {
     private static final String SENSITIVE_TAG = "!sensitive";
 
     public YamlTaggedObjectsConstructor(LoaderOptions loaderOptions) {
-    	super(loaderOptions);
+        super(loaderOptions);
         this.yamlConstructors.put(new Tag(SENSITIVE_TAG), new SecureConstruct());
     }
 }
