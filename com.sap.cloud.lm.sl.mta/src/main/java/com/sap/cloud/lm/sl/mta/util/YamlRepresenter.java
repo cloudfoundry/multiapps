@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
 
+import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.introspector.BeanAccess;
 import org.yaml.snakeyaml.introspector.Property;
 import org.yaml.snakeyaml.nodes.NodeTuple;
@@ -16,7 +17,8 @@ import com.sap.cloud.lm.sl.common.util.CommonUtil;
 
 public class YamlRepresenter extends Representer {
 
-    public YamlRepresenter() {
+    public YamlRepresenter(DumperOptions dumperOptions) {
+        super(dumperOptions);
         getPropertyUtils().setBeanAccess(BeanAccess.FIELD);
     }
 
