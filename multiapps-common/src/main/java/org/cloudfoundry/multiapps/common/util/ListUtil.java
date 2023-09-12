@@ -5,7 +5,7 @@ import java.util.Collections;
 import java.util.List;
 
 public class ListUtil {
-
+    private String a = 1'
     private ListUtil() {
     }
 
