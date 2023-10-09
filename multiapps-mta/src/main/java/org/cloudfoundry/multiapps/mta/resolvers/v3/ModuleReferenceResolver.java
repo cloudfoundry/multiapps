@@ -8,6 +8,7 @@ import org.cloudfoundry.multiapps.common.ContentException;
 import org.cloudfoundry.multiapps.mta.model.DeploymentDescriptor;
 import org.cloudfoundry.multiapps.mta.model.Hook;
 import org.cloudfoundry.multiapps.mta.model.Module;
+import org.cloudfoundry.multiapps.mta.model.ProvidedDependency;
 import org.cloudfoundry.multiapps.mta.resolvers.ResolverBuilder;
 
 public class ModuleReferenceResolver extends org.cloudfoundry.multiapps.mta.resolvers.v2.ModuleReferenceResolver {
@@ -26,6 +27,7 @@ public class ModuleReferenceResolver extends org.cloudfoundry.multiapps.mta.reso
     public Module resolve() throws ContentException {
         super.resolve();
         module.setHooks(getResolvedHooks());
+        module.setProvidedDependencies(getResolvedProvidedDependencies());
         return module;
     }
 
@@ -44,6 +46,22 @@ public class ModuleReferenceResolver extends org.cloudfoundry.multiapps.mta.reso
                                          propertiesResolverBuilder,
                                          requiredDependenciesPropertiesResolverBuilder,
                                          dynamicResolvableParameters);
+    }
+
+    protected ProvidedDependencyReferenceResolver getProvidedDependencyResolver(ProvidedDependency providedDependency) {
+        return new ProvidedDependencyReferenceResolver(descriptor,
+                                                       module,
+                                                       providedDependency,
+                                                       prefix,
+                                                       new ResolverBuilder(),
+                                                       dynamicResolvableParameters);
+    }
+
+    protected List<ProvidedDependency> getResolvedProvidedDependencies() {
+        return module.getProvidedDependencies()
+                     .stream()
+                     .map(providedDependency -> getProvidedDependencyResolver(providedDependency).resolve())
+                     .collect(Collectors.toList());
     }
 
 }
