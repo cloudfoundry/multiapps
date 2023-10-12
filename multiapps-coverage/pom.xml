@@ -29,9 +29,6 @@
           </plugin>
         </plugins>
     </build>
-       <module>multiapps-common</module>
-        <module>multiapps-common-test</module>
-        <module>multiapps-mta</module>
     <dependencies>
         <dependency>
             <groupId>org.cloudfoundry.multiapps</groupId>
