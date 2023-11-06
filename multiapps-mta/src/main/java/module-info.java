@@ -29,7 +29,7 @@ open module org.cloudfoundry.multiapps.mta {
     requires org.apache.commons.collections4;
     requires org.apache.commons.io;
     requires org.apache.commons.lang3;
-    requires semver4j;
+    requires org.semver4j;
 
     requires static java.compiler;
     requires static org.immutables.value;
