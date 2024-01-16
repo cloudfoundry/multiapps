@@ -23,8 +23,7 @@
         <commons-lang3.version>3.12.0</commons-lang3.version>
         <commons-collections4.version>4.4</commons-collections4.version>
         <commons-io.version>2.11.0</commons-io.version>
-        <slf4j.version>2.0.6</slf4j.version>
-        <snakeyaml.version>2.0</snakeyaml.version>
+        <snakeyaml.version>2.2</snakeyaml.version>
         <!-- Be very wary when updating Semver to newer versions because there is an issue -->
         <!-- https://github.com/semver4j/semver4j/issues/208 which must fixed before adoption -->
         <semver4j.version>3.1.0</semver4j.version>
@@ -32,8 +31,8 @@
         <jaxb-api.version>2.3.3</jaxb-api.version>
         <jaxb-core.version>2.3.0.1</jaxb-core.version>
         <jaxb-impl.version>2.3.4</jaxb-impl.version>
-        <jackson.version>2.14.2</jackson.version>
-        <jackson.databind.version>2.14.2</jackson.databind.version>
+        <jackson.version>2.16.1</jackson.version>
+        <jackson.databind.version>2.16.1</jackson.databind.version>
     </properties>
 
     <modules>
@@ -275,12 +274,6 @@
                 <groupId>org.apache.commons</groupId>
                 <artifactId>commons-collections4</artifactId>
                 <version>${commons-collections4.version}</version>
-            </dependency>
-            <!-- https://mvnrepository.com/artifact/org.slf4j/slf4j-api -->
-            <dependency>
-                <groupId>org.slf4j</groupId>
-                <artifactId>slf4j-api</artifactId>
-                <version>${slf4j.version}</version>
             </dependency>
             <!-- https://mvnrepository.com/artifact/commons-io/commons-io -->
             <dependency>
