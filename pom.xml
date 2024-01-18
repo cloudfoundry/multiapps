@@ -25,7 +25,9 @@
         <commons-io.version>2.11.0</commons-io.version>
         <slf4j.version>2.0.6</slf4j.version>
         <snakeyaml.version>2.0</snakeyaml.version>
-        <semver4j.version>5.2.2</semver4j.version>
+        <!-- Be very wary when updating Semver to newer versions because there is an issue -->
+        <!-- https://github.com/semver4j/semver4j/issues/208 which must fixed before adoption -->
+        <semver4j.version>3.1.0</semver4j.version>
         <immutables.version>2.8.8</immutables.version>
         <jaxb-api.version>2.3.3</jaxb-api.version>
         <jaxb-core.version>2.3.0.1</jaxb-core.version>
@@ -292,9 +294,9 @@
                 <artifactId>snakeyaml</artifactId>
                 <version>${snakeyaml.version}</version>
             </dependency>
-            <!-- https://mvnrepository.com/artifact/org.semver4j/semver4j -->
+            <!-- https://mvnrepository.com/artifact/com.vdurmont/semver4j -->
             <dependency>
-                <groupId>org.semver4j</groupId>
+                <groupId>com.vdurmont</groupId>
                 <artifactId>semver4j</artifactId>
                 <version>${semver4j.version}</version>
             </dependency>

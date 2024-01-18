@@ -1,7 +1,5 @@
 package org.cloudfoundry.multiapps.mta.model;
 
-import java.util.function.Predicate;
-
 public enum VersionRule {
 
     SAME_HIGHER(VersionRule::isNotDowngrade),
@@ -10,14 +8,22 @@ public enum VersionRule {
 
     ALL(VersionRule::isAny);
 
-    private final Predicate<DeploymentType> versionRuleValidator;
+    private interface VersionRuleValidator {
+        boolean allows(DeploymentType deploymentType);
+    }
 
-    VersionRule(Predicate<DeploymentType> versionRuleValidator) {
+    private VersionRuleValidator versionRuleValidator;
+
+    VersionRule(VersionRuleValidator versionRuleValidator) {
         this.versionRuleValidator = versionRuleValidator;
     }
 
     public boolean allows(DeploymentType deploymentType) {
-        return versionRuleValidator.test(deploymentType);
+        return versionRuleValidator.allows(deploymentType);
+    }
+
+    public static VersionRule value(String caseInsensitiveValue) {
+        return VersionRule.valueOf(caseInsensitiveValue.toUpperCase());
     }
 
     private static boolean isNotDowngrade(DeploymentType deploymentType) {
