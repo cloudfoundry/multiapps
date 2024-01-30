@@ -1,5 +1,7 @@
 package org.cloudfoundry.multiapps.mta.resolvers.v2;
 
+import static org.cloudfoundry.multiapps.mta.resolvers.ReferencePattern.FULLY_QUALIFIED;
+
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -7,19 +9,20 @@ import org.cloudfoundry.multiapps.common.ContentException;
 import org.cloudfoundry.multiapps.mta.builders.v2.ParametersChainBuilder;
 import org.cloudfoundry.multiapps.mta.model.*;
 import org.cloudfoundry.multiapps.mta.model.Module;
-import org.cloudfoundry.multiapps.mta.resolvers.*;
+import org.cloudfoundry.multiapps.mta.resolvers.PlaceholderResolver;
+import org.cloudfoundry.multiapps.mta.resolvers.PropertiesPlaceholderResolver;
+import org.cloudfoundry.multiapps.mta.resolvers.Reference;
+import org.cloudfoundry.multiapps.mta.resolvers.ResolverBuilder;
 import org.cloudfoundry.multiapps.mta.util.PropertiesUtil;
-
-import static org.cloudfoundry.multiapps.mta.resolvers.ReferencePattern.FULLY_QUALIFIED;
-import static org.cloudfoundry.multiapps.mta.resolvers.ReferencePattern.PLACEHOLDER;
 
 public class DescriptorPlaceholderResolver extends PlaceholderResolver<DeploymentDescriptor> {
 
+    private static final String CONFIG = "config";
+    private static final String DEFAULT_URL = "${default-url}";
+    private static final String DEFAULT_LIVE_URL = "default-live-url";
     protected final DeploymentDescriptor deploymentDescriptor;
-
     protected final ResolverBuilder propertiesResolverBuilder;
     protected final ResolverBuilder parametersResolverBuilder;
-
     protected final ParametersChainBuilder parametersChainBuilder;
 
     public DescriptorPlaceholderResolver(DeploymentDescriptor descriptor, ResolverBuilder propertiesResolverBuilder,
@@ -45,7 +48,8 @@ public class DescriptorPlaceholderResolver extends PlaceholderResolver<Deploymen
         addSingularParametersIfNecessary(parametersList);
         return new PropertiesPlaceholderResolver(propertiesResolverBuilder,
                                                  dynamicResolvableParameters).resolve(propertiesToResolve,
-                                                                                   PropertiesUtil.mergeProperties(parametersList), prefix);
+                                                                                      PropertiesUtil.mergeProperties(parametersList),
+                                                                                      prefix);
     }
 
     protected ResourcePlaceholderResolver getResourceResolver(Resource resource) {
@@ -59,95 +63,125 @@ public class DescriptorPlaceholderResolver extends PlaceholderResolver<Deploymen
     }
 
     protected List<Resource> getResolvedResources() {
-        List<Resource> resources = deploymentDescriptor.getResources();
-
-        for (Resource resource: resources) {
-            if (resource.getParameters().containsKey("config")) {
-                Map<String, Object> resourceParameters = (Map<String, Object>) resource.getParameters().get("config");
-
-                for (Map.Entry<String, Object> resourceParameter: resourceParameters.entrySet()) {
-                    if(resourceParameter.getValue() instanceof Map) {
-                        resolveMapParameter((Map<String, Object>) resourceParameter.getValue(), resource);
-                    } else if (resourceParameter.getValue() instanceof String) {
-                        resolveConfigParameter(resourceParameter, resource);
-                        //resourceParameters.put(resourceParameter.getKey(), resolvedParameter);
-                    }
-                }
-            }
-        }
-        deploymentDescriptor.setResources(resources);
+        deploymentDescriptor.getResources()
+                            .forEach(this::resolveResource);
         return deploymentDescriptor.getResources()
                                    .stream()
                                    .map(resource -> getResourceResolver(resource).resolve())
                                    .collect(Collectors.toList());
     }
 
-    private void resolveMapParameter(Map<String, Object> resourceParameter, Resource resource) {
-        for (Map.Entry<String, Object> resourceParameterEntry: resourceParameter.entrySet()) {
-            if (resourceParameterEntry.getValue() instanceof Map) {
-                resolveMapParameter((Map<String, Object>) resourceParameterEntry.getValue(), resource);
-            } else if (resourceParameterEntry.getValue() instanceof String) {
-                resolveConfigParameter(resourceParameterEntry, resource);
-            }
+    private void resolveResource(Resource resource) {
+        if (resource.getParameters()
+                    .containsKey(CONFIG)) {
+            Map<String, Object> resourceParameters = castToMap(resource.getParameters()
+                                                                       .get(CONFIG));
+            resourceParameters.entrySet()
+                              .forEach(entry -> resolveResourceParameter(entry, resource));
         }
+    }
+
+    private Map<String, Object> castToMap(Object entryValue) {
+        return (Map<String, Object>) entryValue;
+    }
+
+    private void resolveResourceParameter(Map.Entry<String, Object> entry, Resource resource) {
+        if (entry.getValue() instanceof Map) {
+            resolveMapParameter(castToMap(entry.getValue()), resource);
+        } else if (entry.getValue() instanceof String) {
+            resolveConfigParameter(entry, resource);
+        }
+    }
+
+    private void resolveMapParameter(Map<String, Object> resourceParameter, Resource resource) {
+        resourceParameter.entrySet()
+                         .forEach(entry -> resolveResourceParameter(entry, resource));
     }
 
     private void resolveConfigParameter(Map.Entry<String, Object> resourceParameter, Resource resource) {
         String resourceParameterValue = (String) resourceParameter.getValue();
         List<Reference> references = FULLY_QUALIFIED.match(resourceParameterValue);
 
-        if (!references.isEmpty()) {
-            for (Reference reference : references) {
+        references.forEach(ref -> updateParamsFromReference(resource, ref, resourceParameterValue, resourceParameter));
+    }
 
-                Optional<Module> requiredModule = deploymentDescriptor.getModules().stream().filter(module -> getModule(module, reference.getDependencyName())).findFirst();
+    private void updateParamsFromReference(Resource resource, Reference ref, String resourceParameterValue,
+                                           Map.Entry<String, Object> resourceParameter) {
+        deploymentDescriptor.getModules()
+                            .stream()
+                            .filter(module -> isModuleNeeded(module, ref.getDependencyName()))
+                            .findFirst()
+                            .ifPresent(module -> updateMapFromModule(resource, ref, module, resourceParameterValue, resourceParameter));
+    }
 
-                if (requiredModule.isPresent()) {
-                    Optional<ProvidedDependency> providedDependency = requiredModule.get().getProvidedDependencies().stream().filter(providedDependencyy -> providedDependencyy.getName().equals(reference.getDependencyName())).findAny();
-                    Optional<RequiredDependency> requiredDependency = resource.getRequiredDependencies().stream().filter(requiredDependency1 -> requiredDependency1.getName().equals(reference.getDependencyName())).findAny();
+    private void updateMapFromModule(Resource resource, Reference ref, Module module, String resourceParameterValue,
+                                     Map.Entry<String, Object> resourceParameter) {
+        Optional<ProvidedDependency> providedDependencyOpt = module.getProvidedDependencies()
+                                                                   .stream()
+                                                                   .filter(dp -> dp.getName()
+                                                                                   .equals(ref.getDependencyName()))
+                                                                   .findAny();
+        Optional<RequiredDependency> requiredDependencyOpt = resource.getRequiredDependencies()
+                                                                     .stream()
+                                                                     .filter(reqDp -> reqDp.getName()
+                                                                                           .equals(ref.getDependencyName()))
+                                                                     .findAny();
 
-                    if (providedDependency.isPresent() && requiredDependency.isPresent()) {
-                        Object requiredDependencyValue = providedDependency.get().getProperties().get(reference.getKey());
+        if (providedDependencyOpt.isPresent() && requiredDependencyOpt.isPresent()) {
+            Object requiredDependencyValue = providedDependencyOpt.get()
+                                                                  .getProperties()
+                                                                  .get(ref.getKey());
 
-                        if (requiredDependencyValue instanceof Map) {
-                            resolveModuleProvidedDependency((Map<String, Object>) requiredDependencyValue, requiredModule.get());
-                            resourceParameter.setValue(requiredDependencyValue);
-                        } else if (requiredDependencyValue instanceof String) {
-                            String requiredDependencyValueString = String.valueOf(requiredDependencyValue);
-                            if (requiredDependencyValueString.contains("${default-url}")) {
-                                requiredDependencyValueString = requiredDependencyValueString.replace("${default-url}", (String) requiredModule.get().getParameters().get("default-live-url"));
-
-                                String b = resourceParameterValue.replace(reference.getMatchedPattern(), requiredDependencyValueString);
-                                resourceParameter.setValue(b);
-                            }
-                        }
-                    }
-                }
+            if (requiredDependencyValue instanceof Map) {
+                resolveModuleProvidedDependency(castToMap(requiredDependencyValue), module);
+                resourceParameter.setValue(requiredDependencyValue);
+            } else if (isStringValueReplaceable(requiredDependencyValue)) {
+                replaceValueInResourceParameter(module, resourceParameterValue, resourceParameter, ref,
+                                                castToString(requiredDependencyValue));
             }
         }
+    }
+
+    private boolean isStringValueReplaceable(Object object) {
+        return object instanceof String && castToString(object).contains(DEFAULT_URL);
+    }
+
+    private void replaceValueInResourceParameter(Module module, String resourceParameterValue, Map.Entry<String, Object> resourceParameter,
+                                                 Reference reference, String requiredDependencyValueString) {
+        requiredDependencyValueString = requiredDependencyValueString.replace(DEFAULT_URL, castToString(module.getParameters()
+                                                                                                              .get(DEFAULT_LIVE_URL)));
+        requiredDependencyValueString = resourceParameterValue.replace(reference.getMatchedPattern(), requiredDependencyValueString);
+
+        resourceParameter.setValue(requiredDependencyValueString);
     }
 
     private void resolveModuleProvidedDependency(Map<String, Object> requiredDependencyMap, Module module) {
-        for (Map.Entry<String, Object> requiredDependencyEntry: requiredDependencyMap.entrySet()) {
-            if (requiredDependencyEntry.getValue() instanceof Map) {
-                resolveModuleProvidedDependency((Map<String, Object>) requiredDependencyEntry.getValue(), module);
-            } else if (requiredDependencyEntry.getValue() instanceof String) {
-                String requiredDependencyString = (String) requiredDependencyEntry.getValue();
-                if (requiredDependencyString.contains("${default-url}")) {
-                    requiredDependencyString = requiredDependencyString.replace("${default-url}", (String) module.getParameters().get("default-live-url"));
-                    requiredDependencyEntry.setValue(requiredDependencyString);
-                }
-            }
+        requiredDependencyMap.entrySet()
+                             .forEach(entry -> updateModuleDependencyFromMap(module, entry));
+    }
+
+    private void updateModuleDependencyFromMap(Module module, Map.Entry<String, Object> entry) {
+        if (isStringValueReplaceable(entry.getValue())) {
+            entry.setValue(castToString(entry.getValue()).replace(DEFAULT_URL, castToString(module.getParameters()
+                                                                                                  .get(DEFAULT_LIVE_URL))));
+        } else if (entry.getValue() instanceof Map) {
+            resolveModuleProvidedDependency(castToMap(entry.getValue()), module);
         }
     }
 
-    private boolean getModule(Module module, String name) {
-        for (ProvidedDependency providedDependency: module.getProvidedDependencies()) {
-            if (providedDependency.getName().equals(name)) {
-                return true;
-            }
-        }
+    private boolean isModuleNeeded(Module module, String name) {
+        return module.getProvidedDependencies()
+                     .stream()
+                     .anyMatch(dependency -> dependency.getName()
+                                                       .equals(name));
+    }
 
-        return false;
+    private Resource resolveResourceWithVersion(Resource resource) {
+        return getResourceResolver(resource).resolve();
+    }
+
+    private String castToString(Object object) {
+        return String.valueOf(object);
     }
 
     protected ModulePlaceholderResolver getModuleResolver(Module module) {
