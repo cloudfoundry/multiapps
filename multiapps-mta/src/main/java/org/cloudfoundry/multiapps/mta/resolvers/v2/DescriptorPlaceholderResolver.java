@@ -62,12 +62,11 @@ public class DescriptorPlaceholderResolver extends PlaceholderResolver<Deploymen
                                                propertiesResolverBuilder,
                                                parametersResolverBuilder,
                                                singularToPluralMapping,
-                                               dynamicResolvableParameters);
+                                               dynamicResolvableParameters,
+                                               resourceLiveParameterResolver);
     }
 
     protected List<Resource> getResolvedResources() {
-        deploymentDescriptor.getResources()
-                            .forEach(resourceLiveParameterResolver::resolveResource);
         return deploymentDescriptor.getResources()
                                    .stream()
                                    .map(resource -> getResourceResolver(resource).resolve())

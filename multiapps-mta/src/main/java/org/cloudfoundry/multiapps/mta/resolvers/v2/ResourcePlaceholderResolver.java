@@ -18,20 +18,24 @@ public class ResourcePlaceholderResolver extends PlaceholderResolver<Resource> {
     protected final ParametersChainBuilder parametersChainBuilder;
     protected final ResolverBuilder propertiesResolverBuilder;
     protected final ResolverBuilder parametersResolverBuilder;
+    protected final ResourceLiveParameterResolver resourceLiveParameterResolver;
 
     public ResourcePlaceholderResolver(Resource resource, String prefix, ParametersChainBuilder parametersChainBuilder,
                                        ResolverBuilder propertiesResolverBuilder, ResolverBuilder parametersResolverBuilder,
-                                       Map<String, String> singularToPluralMapping, Set<String> dynamicResolvableParameters) {
+                                       Map<String, String> singularToPluralMapping, Set<String> dynamicResolvableParameters,
+                                       ResourceLiveParameterResolver resourceLiveParameterResolver) {
         super(resource.getName(), prefix, singularToPluralMapping, dynamicResolvableParameters);
         this.resource = resource;
         this.parametersChainBuilder = parametersChainBuilder;
         this.propertiesResolverBuilder = propertiesResolverBuilder;
         this.parametersResolverBuilder = parametersResolverBuilder;
+        this.resourceLiveParameterResolver = resourceLiveParameterResolver;
     }
 
     @Override
     public Resource resolve() throws ContentException {
         String resourceName = resource.getName();
+        resourceLiveParameterResolver.resolveResource(resource);
         List<Map<String, Object>> parametersChain = parametersChainBuilder.buildResourceChain(resourceName);
         addSingularParametersIfNecessary(parametersChain);
         Map<String, Object> mergedParameters = PropertiesUtil.mergeProperties(parametersChain);
@@ -42,14 +46,14 @@ public class ResourcePlaceholderResolver extends PlaceholderResolver<Resource> {
 
     protected Map<String, Object> getResolvedProperties(Map<String, Object> mergedParametersChain) {
         return new PropertiesPlaceholderResolver(propertiesResolverBuilder, dynamicResolvableParameters).resolve(resource.getProperties(),
-                                                                                                              mergedParametersChain,
-                                                                                                              prefix);
+                                                                                                                 mergedParametersChain,
+                                                                                                                 prefix);
     }
 
     protected Map<String, Object> getResolvedParameters(Map<String, Object> mergedParametersChain) {
         return new PropertiesPlaceholderResolver(parametersResolverBuilder, dynamicResolvableParameters).resolve(resource.getParameters(),
-                                                                                                              mergedParametersChain,
-                                                                                                              prefix);
+                                                                                                                 mergedParametersChain,
+                                                                                                                 prefix);
     }
 
 }
