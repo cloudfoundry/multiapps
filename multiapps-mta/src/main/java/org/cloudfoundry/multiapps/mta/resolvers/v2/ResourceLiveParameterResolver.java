@@ -13,7 +13,7 @@ import org.cloudfoundry.multiapps.mta.resolvers.ReferencePattern;
 
 public class ResourceLiveParameterResolver {
 
-    private static final String CONFIG = "config";
+    private static final String RESOURCE_PARAMETER_KEY_CONFIG = "config";
     private static final String DEFAULT_URL_PLACEHOLDER = "${default-url}";
     private static final String DEFAULT_URI_PLACEHOLDER = "${default-uri}";
     private static final String DEFAULT_HOST_PLACEHOLDER = "${default-host}";
@@ -29,13 +29,13 @@ public class ResourceLiveParameterResolver {
         this.deploymentDescriptor = deploymentDescriptor;
     }
 
-    public void resolveResource(Resource resource) {
+    public void resolve(Resource resource) {
         if (resource.getParameters()
-                    .containsKey(CONFIG)) {
+                    .containsKey(RESOURCE_PARAMETER_KEY_CONFIG)) {
             Map<String, Object> serviceCreationParameters = castToMap(resource.getParameters()
-                                                                              .get(CONFIG));
+                                                                              .get(RESOURCE_PARAMETER_KEY_CONFIG));
             serviceCreationParameters.entrySet()
-                                     .forEach(entry -> resolveResourceParameter(entry, resource));
+                                     .forEach(this::resolveResourceParameter);
         }
     }
 
@@ -43,67 +43,64 @@ public class ResourceLiveParameterResolver {
         return (Map<String, Object>) entryValue;
     }
 
-    private void resolveResourceParameter(Map.Entry<String, Object> entry, Resource resource) {
+    private void resolveResourceParameter(Map.Entry<String, Object> entry) {
         if (entry.getValue() instanceof Map) {
-            resolveMapParameter(castToMap(entry.getValue()), resource);
+            castToMap(entry.getValue()).entrySet()
+                                       .forEach(this::resolveResourceParameter);
         } else if (entry.getValue() instanceof String) {
-            resolveConfigParameter(entry, resource);
+            resolveConfigParameter(entry);
         }
     }
 
-    private void resolveMapParameter(Map<String, Object> resourceParameter, Resource resource) {
-        resourceParameter.entrySet()
-                         .forEach(entry -> resolveResourceParameter(entry, resource));
-    }
-
-    private void resolveConfigParameter(Map.Entry<String, Object> resourceParameter, Resource resource) {
+    private void resolveConfigParameter(Map.Entry<String, Object> resourceParameter) {
         String resourceParameterValue = (String) resourceParameter.getValue();
         List<Reference> matchedReferences = ReferencePattern.FULLY_QUALIFIED.match(resourceParameterValue);
 
-        matchedReferences.forEach(ref -> updateParamsFromReference(resource, ref, resourceParameterValue, resourceParameter));
+        matchedReferences.forEach(reference -> updateParamsFromReference(reference, resourceParameterValue, resourceParameter));
     }
 
-    private void updateParamsFromReference(Resource resource, Reference ref, String resourceParameterValue,
+    private void updateParamsFromReference(Reference reference, String resourceParameterValue,
                                            Map.Entry<String, Object> resourceParameter) {
         deploymentDescriptor.getModules()
                             .stream()
-                            .filter(module -> isModuleNeeded(module, ref.getDependencyName()))
+                            .filter(module -> isModuleNeeded(module, reference.getDependencyName()))
                             .findFirst()
-                            .ifPresent(module -> updateMapFromModule(resource, ref, module, resourceParameterValue, resourceParameter));
+                            .ifPresent(module -> updateConfigParameterFromModule(reference, module, resourceParameterValue,
+                                                                                 resourceParameter));
     }
 
-    private void updateMapFromModule(Resource resource, Reference ref, Module module, String resourceParameterValue,
-                                     Map.Entry<String, Object> resourceParameter) {
+    private void updateConfigParameterFromModule(Reference reference, Module module, String resourceParameterValue,
+                                                 Map.Entry<String, Object> resourceParameter) {
         Optional<ProvidedDependency> moduleProvidedDependencyOpt = module.getProvidedDependencies()
                                                                          .stream()
-                                                                         .filter(dp -> dp.getName()
-                                                                                         .equals(ref.getDependencyName()))
+                                                                         .filter(providedDependency -> providedDependency.getName()
+                                                                                                                         .equals(reference.getDependencyName()))
                                                                          .findAny();
 
         if (moduleProvidedDependencyOpt.isPresent()) {
             Object requiredDependencyValue = moduleProvidedDependencyOpt.get()
                                                                         .getProperties()
-                                                                        .get(ref.getKey());
+                                                                        .get(reference.getKey());
 
             if (requiredDependencyValue instanceof Map) {
                 resolveModuleProvidedDependency(castToMap(requiredDependencyValue), module);
                 resourceParameter.setValue(requiredDependencyValue);
-            } else if (isStringValueReplaceable(requiredDependencyValue)) {
-                replaceValueInResourceParameter(module, resourceParameterValue, resourceParameter, ref,
+            } else if (resourceParameterValue instanceof String && doesParameterContainDefaultPlaceholder(requiredDependencyValue)) {
+                replaceValueInResourceParameter(module, resourceParameterValue, resourceParameter, reference,
                                                 castToString(requiredDependencyValue));
             }
         }
     }
 
-    private boolean isStringValueReplaceable(Object object) {
-        return object instanceof String && idleToLiveParameterPairs.keySet()
-                                                                   .stream()
-                                                                   .anyMatch(defaultParamPlaceholder -> castToString(object).contains(defaultParamPlaceholder));
+    private boolean doesParameterContainDefaultPlaceholder(Object object) {
+        return idleToLiveParameterPairs.keySet()
+                                       .stream()
+                                       .anyMatch(defaultParamPlaceholder -> castToString(object).contains(defaultParamPlaceholder));
     }
 
     private void replaceValueInResourceParameter(Module module, String resourceParameterValue, Map.Entry<String, Object> resourceParameter,
                                                  Reference reference, String requiredDependencyValueString) {
-        Map.Entry<String, String> requiredIdleToLiveParameterPair = getMapEntryOnCondition(requiredDependencyValueString);
+        Map.Entry<String, String> requiredIdleToLiveParameterPair = matchPlaceholderInParameter(requiredDependencyValueString);
         requiredDependencyValueString = requiredDependencyValueString.replace(requiredIdleToLiveParameterPair.getKey(),
                                                                               castToString(module.getParameters()
                                                                                                  .get(requiredIdleToLiveParameterPair.getValue())));
@@ -118,16 +115,18 @@ public class ResourceLiveParameterResolver {
     }
 
     private void updateModuleDependencyFromMap(Module module, Map.Entry<String, Object> entry) {
-        if (isStringValueReplaceable(entry.getValue())) {
-            var idleToLiveParameterPair = getMapEntryOnCondition(castToString(entry.getValue()));
-            entry.setValue(castToString(entry.getValue()).replace(idleToLiveParameterPair.getKey(), castToString(module.getParameters()
-                                                                                                                       .get(idleToLiveParameterPair.getValue()))));
-        } else if (entry.getValue() instanceof Map) {
+        if (entry.getValue() instanceof Map) {
             resolveModuleProvidedDependency(castToMap(entry.getValue()), module);
+        } else if (entry.getValue() instanceof String && doesParameterContainDefaultPlaceholder(entry.getValue())) {
+            var matchedPlaceholderEntry = matchPlaceholderInParameter(castToString(entry.getValue()));
+            String replacedParameter = castToString(entry.getValue()).replace(matchedPlaceholderEntry.getKey(),
+                                                                              castToString(module.getParameters()
+                                                                                                 .get(matchedPlaceholderEntry.getValue())));
+            entry.setValue(replacedParameter);
         }
     }
 
-    private Map.Entry<String, String> getMapEntryOnCondition(String replaceableString) {
+    private Map.Entry<String, String> matchPlaceholderInParameter(String replaceableString) {
         return idleToLiveParameterPairs.entrySet()
                                        .stream()
                                        .filter(idleToLiveParameterPair -> replaceableString.contains(idleToLiveParameterPair.getKey()))

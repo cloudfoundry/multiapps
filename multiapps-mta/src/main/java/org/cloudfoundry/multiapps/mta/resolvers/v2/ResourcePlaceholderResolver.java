@@ -35,7 +35,7 @@ public class ResourcePlaceholderResolver extends PlaceholderResolver<Resource> {
     @Override
     public Resource resolve() throws ContentException {
         String resourceName = resource.getName();
-        resourceLiveParameterResolver.resolveResource(resource);
+        resourceLiveParameterResolver.resolve(resource);
         List<Map<String, Object>> parametersChain = parametersChainBuilder.buildResourceChain(resourceName);
         addSingularParametersIfNecessary(parametersChain);
         Map<String, Object> mergedParameters = PropertiesUtil.mergeProperties(parametersChain);
