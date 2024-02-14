@@ -85,17 +85,17 @@ public class ResourceLiveParameterResolver {
             if (requiredDependencyValue instanceof Map) {
                 resolveModuleProvidedDependency(castToMap(requiredDependencyValue), module);
                 resourceParameter.setValue(requiredDependencyValue);
-            } else if (resourceParameterValue instanceof String && doesParameterContainDefaultPlaceholder(requiredDependencyValue)) {
+            } else if (resourceParameterValue instanceof String && doesParameterContainDefaultPlaceholder(castToString(requiredDependencyValue))) {
                 replaceValueInResourceParameter(module, resourceParameterValue, resourceParameter, reference,
                                                 castToString(requiredDependencyValue));
             }
         }
     }
 
-    private boolean doesParameterContainDefaultPlaceholder(Object object) {
+    private boolean doesParameterContainDefaultPlaceholder(String parameter) {
         return idleToLiveParameterPairs.keySet()
                                        .stream()
-                                       .anyMatch(defaultParamPlaceholder -> castToString(object).contains(defaultParamPlaceholder));
+                                       .anyMatch(parameter::contains);
     }
 
     private void replaceValueInResourceParameter(Module module, String resourceParameterValue, Map.Entry<String, Object> resourceParameter,
@@ -117,7 +117,7 @@ public class ResourceLiveParameterResolver {
     private void updateModuleDependencyFromMap(Module module, Map.Entry<String, Object> entry) {
         if (entry.getValue() instanceof Map) {
             resolveModuleProvidedDependency(castToMap(entry.getValue()), module);
-        } else if (entry.getValue() instanceof String && doesParameterContainDefaultPlaceholder(entry.getValue())) {
+        } else if (entry.getValue() instanceof String && doesParameterContainDefaultPlaceholder(castToString(entry.getValue()))) {
             var matchedPlaceholderEntry = matchPlaceholderInParameter(castToString(entry.getValue()));
             String replacedParameter = castToString(entry.getValue()).replace(matchedPlaceholderEntry.getKey(),
                                                                               castToString(module.getParameters()
