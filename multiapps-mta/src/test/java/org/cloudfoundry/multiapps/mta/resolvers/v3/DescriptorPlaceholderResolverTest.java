@@ -16,9 +16,8 @@ import org.junit.jupiter.params.provider.MethodSource;
 
 class DescriptorPlaceholderResolverTest {
 
-    private static final Set<String> DYNAMIC_RESOLVABLE_PARAMETERS = Set.of("service-guid");
     protected static final String SYSTEM_PARAMETERS_LOCATION = "system-parameters.json";
-
+    private static final Set<String> DYNAMIC_RESOLVABLE_PARAMETERS = Set.of("service-guid");
     protected final Tester tester = Tester.forClass(getClass());
     protected DescriptorPlaceholderResolver resolver;
 
@@ -59,7 +58,8 @@ class DescriptorPlaceholderResolverTest {
                                                  new ResolverBuilder(),
                                                  new ResolverBuilder(),
                                                  Collections.emptyMap(),
-                                                 DYNAMIC_RESOLVABLE_PARAMETERS);
+                                                 DYNAMIC_RESOLVABLE_PARAMETERS,
+                                                 Collections.emptyMap());
     }
 
 }

@@ -46,7 +46,7 @@ public interface HandlerFactory {
     PlaceholderResolver<DeploymentDescriptor>
                        getDescriptorPlaceholderResolver(DeploymentDescriptor mergedDescriptor, ResolverBuilder propertiesResolver,
                                                         ResolverBuilder parametersResolver, Map<String, String> singularToPluralMapping,
-                                                        Set<String> dynamicResolvableParameters);
+                                                        Set<String> dynamicResolvableParameters, Map<String, String> idleToLiveParameterPairs);
 
     Resolver<DeploymentDescriptor> getDescriptorReferenceResolver(DeploymentDescriptor mergedDescriptor,
                                                                   ResolverBuilder modulesPropertiesResolverBuilder,

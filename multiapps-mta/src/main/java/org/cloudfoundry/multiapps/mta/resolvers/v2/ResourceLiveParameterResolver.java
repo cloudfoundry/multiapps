@@ -4,49 +4,46 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
+import org.cloudfoundry.multiapps.common.util.MiscUtil;
 import org.cloudfoundry.multiapps.mta.model.DeploymentDescriptor;
 import org.cloudfoundry.multiapps.mta.model.Module;
 import org.cloudfoundry.multiapps.mta.model.ProvidedDependency;
 import org.cloudfoundry.multiapps.mta.model.Resource;
 import org.cloudfoundry.multiapps.mta.resolvers.Reference;
 import org.cloudfoundry.multiapps.mta.resolvers.ReferencePattern;
+import org.cloudfoundry.multiapps.mta.resolvers.Resolver;
 
-public class ResourceLiveParameterResolver {
+public class ResourceLiveParameterResolver implements Resolver<Resource> {
 
     private static final String RESOURCE_PARAMETER_KEY_CONFIG = "config";
-    private static final String DEFAULT_URL_PLACEHOLDER = "${default-url}";
-    private static final String DEFAULT_URI_PLACEHOLDER = "${default-uri}";
-    private static final String DEFAULT_HOST_PLACEHOLDER = "${default-host}";
-    private static final String DEFAULT_LIVE_URL = "default-live-url";
-    private static final String DEFAULT_LIVE_HOST = "default-live-host";
-    private static final String DEFAULT_LIVE_URI = "default-live-uri";
-    private static final Map<String, String> idleToLiveParameterPairs = Map.of(DEFAULT_URL_PLACEHOLDER, DEFAULT_LIVE_URL,
-                                                                               DEFAULT_URI_PLACEHOLDER, DEFAULT_LIVE_URI,
-                                                                               DEFAULT_HOST_PLACEHOLDER, DEFAULT_LIVE_HOST);
-    private DeploymentDescriptor deploymentDescriptor;
+    private final DeploymentDescriptor deploymentDescriptor;
+    private final Map<String, String> idleToLiveParameterPairs;
+    private Resource resource;
 
-    public ResourceLiveParameterResolver(DeploymentDescriptor deploymentDescriptor) {
+    public ResourceLiveParameterResolver(DeploymentDescriptor deploymentDescriptor, Resource resource,
+                                         Map<String, String> idleToLiveParameterPairs) {
         this.deploymentDescriptor = deploymentDescriptor;
+        this.idleToLiveParameterPairs = idleToLiveParameterPairs;
+        this.resource = resource;
     }
 
-    public void resolve(Resource resource) {
+    @Override
+    public Resource resolve() {
         if (resource.getParameters()
                     .containsKey(RESOURCE_PARAMETER_KEY_CONFIG)) {
-            Map<String, Object> serviceCreationParameters = castToMap(resource.getParameters()
-                                                                              .get(RESOURCE_PARAMETER_KEY_CONFIG));
+            Map<String, Object> serviceCreationParameters = MiscUtil.<Map<String, Object>> cast(resource.getParameters()
+                                                                                                        .get(RESOURCE_PARAMETER_KEY_CONFIG));
             serviceCreationParameters.entrySet()
                                      .forEach(this::resolveResourceParameter);
         }
-    }
-
-    private Map<String, Object> castToMap(Object entryValue) {
-        return (Map<String, Object>) entryValue;
+        return resource;
     }
 
     private void resolveResourceParameter(Map.Entry<String, Object> entry) {
         if (entry.getValue() instanceof Map) {
-            castToMap(entry.getValue()).entrySet()
-                                       .forEach(this::resolveResourceParameter);
+            MiscUtil.<Map<String, Object>> cast(entry.getValue())
+                    .entrySet()
+                    .forEach(this::resolveResourceParameter);
         } else if (entry.getValue() instanceof String) {
             resolveConfigParameter(entry);
         }
@@ -71,11 +68,7 @@ public class ResourceLiveParameterResolver {
 
     private void updateConfigParameterFromModule(Reference reference, Module module, String resourceParameterValue,
                                                  Map.Entry<String, Object> resourceParameter) {
-        Optional<ProvidedDependency> moduleProvidedDependencyOpt = module.getProvidedDependencies()
-                                                                         .stream()
-                                                                         .filter(providedDependency -> providedDependency.getName()
-                                                                                                                         .equals(reference.getDependencyName()))
-                                                                         .findAny();
+        Optional<ProvidedDependency> moduleProvidedDependencyOpt = getModuleProvidedDependency(reference, module);
 
         if (moduleProvidedDependencyOpt.isPresent()) {
             Object requiredDependencyValue = moduleProvidedDependencyOpt.get()
@@ -83,13 +76,22 @@ public class ResourceLiveParameterResolver {
                                                                         .get(reference.getKey());
 
             if (requiredDependencyValue instanceof Map) {
-                resolveModuleProvidedDependency(castToMap(requiredDependencyValue), module);
+                resolveModuleProvidedDependency(MiscUtil.cast(requiredDependencyValue), module);
                 resourceParameter.setValue(requiredDependencyValue);
-            } else if (resourceParameterValue instanceof String && doesParameterContainDefaultPlaceholder(castToString(requiredDependencyValue))) {
+            } else if (resourceParameterValue instanceof String
+                && doesParameterContainDefaultPlaceholder(castToString(requiredDependencyValue))) {
                 replaceValueInResourceParameter(module, resourceParameterValue, resourceParameter, reference,
                                                 castToString(requiredDependencyValue));
             }
         }
+    }
+
+    private Optional<ProvidedDependency> getModuleProvidedDependency(Reference reference, Module module) {
+        return module.getProvidedDependencies()
+                     .stream()
+                     .filter(providedDependency -> providedDependency.getName()
+                                                                     .equals(reference.getDependencyName()))
+                     .findAny();
     }
 
     private boolean doesParameterContainDefaultPlaceholder(String parameter) {
@@ -116,7 +118,7 @@ public class ResourceLiveParameterResolver {
 
     private void updateModuleDependencyFromMap(Module module, Map.Entry<String, Object> entry) {
         if (entry.getValue() instanceof Map) {
-            resolveModuleProvidedDependency(castToMap(entry.getValue()), module);
+            resolveModuleProvidedDependency(MiscUtil.cast(entry.getValue()), module);
         } else if (entry.getValue() instanceof String && doesParameterContainDefaultPlaceholder(castToString(entry.getValue()))) {
             var matchedPlaceholderEntry = matchPlaceholderInParameter(castToString(entry.getValue()));
             String replacedParameter = castToString(entry.getValue()).replace(matchedPlaceholderEntry.getKey(),
@@ -144,5 +146,4 @@ public class ResourceLiveParameterResolver {
     private String castToString(Object object) {
         return String.valueOf(object);
     }
-
 }

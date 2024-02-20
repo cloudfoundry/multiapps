@@ -41,12 +41,13 @@ public class HandlerFactoryV3 implements org.cloudfoundry.multiapps.mta.handlers
     public PlaceholderResolver<DeploymentDescriptor>
            getDescriptorPlaceholderResolver(DeploymentDescriptor mergedDescriptor, ResolverBuilder propertiesResolverBuilder,
                                             ResolverBuilder parametersResolverBuilder, Map<String, String> singularToPluralMapping,
-                                            Set<String> dynamicResolvableParameters) {
+                                            Set<String> dynamicResolvableParameters, Map<String, String> idleToLiveParameterPairs) {
         return new DescriptorPlaceholderResolver(mergedDescriptor,
                                                  propertiesResolverBuilder,
                                                  parametersResolverBuilder,
                                                  singularToPluralMapping,
-                                                 dynamicResolvableParameters);
+                                                 dynamicResolvableParameters,
+                idleToLiveParameterPairs);
     }
 
     @Override

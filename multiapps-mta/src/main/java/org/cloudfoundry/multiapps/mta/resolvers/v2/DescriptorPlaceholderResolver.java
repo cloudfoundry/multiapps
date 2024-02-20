@@ -14,28 +14,26 @@ import org.cloudfoundry.multiapps.mta.model.Resource;
 import org.cloudfoundry.multiapps.mta.resolvers.PlaceholderResolver;
 import org.cloudfoundry.multiapps.mta.resolvers.PropertiesPlaceholderResolver;
 import org.cloudfoundry.multiapps.mta.resolvers.ResolverBuilder;
+import org.cloudfoundry.multiapps.mta.resolvers.ResourceLiveParameterResolverBuilder;
 import org.cloudfoundry.multiapps.mta.util.PropertiesUtil;
 
 public class DescriptorPlaceholderResolver extends PlaceholderResolver<DeploymentDescriptor> {
 
-    private static final String CONFIG = "config";
-    private static final String DEFAULT_URL = "${default-url}";
-    private static final String DEFAULT_LIVE_URL = "default-live-url";
     protected final DeploymentDescriptor deploymentDescriptor;
     protected final ResolverBuilder propertiesResolverBuilder;
     protected final ResolverBuilder parametersResolverBuilder;
     protected final ParametersChainBuilder parametersChainBuilder;
-    private final ResourceLiveParameterResolver resourceLiveParameterResolver;
+    private final ResourceLiveParameterResolverBuilder resourceLiveParameterResolverBuilder;
 
     public DescriptorPlaceholderResolver(DeploymentDescriptor descriptor, ResolverBuilder propertiesResolverBuilder,
                                          ResolverBuilder parametersResolverBuilder, Map<String, String> singularToPluralMapping,
-                                         Set<String> dynamicResolvableParameters) {
+                                         Set<String> dynamicResolvableParameters, Map<String, String> idleToLiveParameterPairs) {
         super("", "", singularToPluralMapping, dynamicResolvableParameters);
         this.deploymentDescriptor = descriptor;
         this.propertiesResolverBuilder = propertiesResolverBuilder;
         this.parametersResolverBuilder = parametersResolverBuilder;
         this.parametersChainBuilder = new ParametersChainBuilder(descriptor, null);
-        this.resourceLiveParameterResolver = new ResourceLiveParameterResolver(deploymentDescriptor);
+        this.resourceLiveParameterResolverBuilder = new ResourceLiveParameterResolverBuilder(deploymentDescriptor, idleToLiveParameterPairs);
     }
 
     @Override
@@ -63,7 +61,7 @@ public class DescriptorPlaceholderResolver extends PlaceholderResolver<Deploymen
                                                parametersResolverBuilder,
                                                singularToPluralMapping,
                                                dynamicResolvableParameters,
-                                               resourceLiveParameterResolver);
+                                               resourceLiveParameterResolverBuilder);
     }
 
     protected List<Resource> getResolvedResources() {

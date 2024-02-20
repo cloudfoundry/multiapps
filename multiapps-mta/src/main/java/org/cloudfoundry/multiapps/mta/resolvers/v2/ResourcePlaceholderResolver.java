@@ -10,6 +10,7 @@ import org.cloudfoundry.multiapps.mta.model.Resource;
 import org.cloudfoundry.multiapps.mta.resolvers.PlaceholderResolver;
 import org.cloudfoundry.multiapps.mta.resolvers.PropertiesPlaceholderResolver;
 import org.cloudfoundry.multiapps.mta.resolvers.ResolverBuilder;
+import org.cloudfoundry.multiapps.mta.resolvers.ResourceLiveParameterResolverBuilder;
 import org.cloudfoundry.multiapps.mta.util.PropertiesUtil;
 
 public class ResourcePlaceholderResolver extends PlaceholderResolver<Resource> {
@@ -18,24 +19,24 @@ public class ResourcePlaceholderResolver extends PlaceholderResolver<Resource> {
     protected final ParametersChainBuilder parametersChainBuilder;
     protected final ResolverBuilder propertiesResolverBuilder;
     protected final ResolverBuilder parametersResolverBuilder;
-    protected final ResourceLiveParameterResolver resourceLiveParameterResolver;
+    protected final ResourceLiveParameterResolverBuilder resourceLiveParameterResolverBuilder;
 
     public ResourcePlaceholderResolver(Resource resource, String prefix, ParametersChainBuilder parametersChainBuilder,
                                        ResolverBuilder propertiesResolverBuilder, ResolverBuilder parametersResolverBuilder,
                                        Map<String, String> singularToPluralMapping, Set<String> dynamicResolvableParameters,
-                                       ResourceLiveParameterResolver resourceLiveParameterResolver) {
+                                       ResourceLiveParameterResolverBuilder resourceLiveParameterResolverBuilder) {
         super(resource.getName(), prefix, singularToPluralMapping, dynamicResolvableParameters);
         this.resource = resource;
         this.parametersChainBuilder = parametersChainBuilder;
         this.propertiesResolverBuilder = propertiesResolverBuilder;
         this.parametersResolverBuilder = parametersResolverBuilder;
-        this.resourceLiveParameterResolver = resourceLiveParameterResolver;
+        this.resourceLiveParameterResolverBuilder = resourceLiveParameterResolverBuilder;
     }
 
     @Override
     public Resource resolve() throws ContentException {
         String resourceName = resource.getName();
-        resourceLiveParameterResolver.resolve(resource);
+        getResourceWithResolvedLiveParameters(resource);
         List<Map<String, Object>> parametersChain = parametersChainBuilder.buildResourceChain(resourceName);
         addSingularParametersIfNecessary(parametersChain);
         Map<String, Object> mergedParameters = PropertiesUtil.mergeProperties(parametersChain);
@@ -54,6 +55,10 @@ public class ResourcePlaceholderResolver extends PlaceholderResolver<Resource> {
         return new PropertiesPlaceholderResolver(parametersResolverBuilder, dynamicResolvableParameters).resolve(resource.getParameters(),
                                                                                                                  mergedParametersChain,
                                                                                                                  prefix);
+    }
+
+    private Resource getResourceWithResolvedLiveParameters(Resource resource) {
+        return resourceLiveParameterResolverBuilder.build(resource).resolve();
     }
 
 }
