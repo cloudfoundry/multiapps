@@ -14,25 +14,26 @@ import org.cloudfoundry.multiapps.mta.model.Resource;
 import org.cloudfoundry.multiapps.mta.resolvers.PlaceholderResolver;
 import org.cloudfoundry.multiapps.mta.resolvers.PropertiesPlaceholderResolver;
 import org.cloudfoundry.multiapps.mta.resolvers.ResolverBuilder;
+import org.cloudfoundry.multiapps.mta.resolvers.ResourceLiveParameterResolverBuilder;
 import org.cloudfoundry.multiapps.mta.util.PropertiesUtil;
 
 public class DescriptorPlaceholderResolver extends PlaceholderResolver<DeploymentDescriptor> {
 
     protected final DeploymentDescriptor deploymentDescriptor;
-
     protected final ResolverBuilder propertiesResolverBuilder;
     protected final ResolverBuilder parametersResolverBuilder;
-
     protected final ParametersChainBuilder parametersChainBuilder;
+    private final ResourceLiveParameterResolverBuilder resourceLiveParameterResolverBuilder;
 
     public DescriptorPlaceholderResolver(DeploymentDescriptor descriptor, ResolverBuilder propertiesResolverBuilder,
                                          ResolverBuilder parametersResolverBuilder, Map<String, String> singularToPluralMapping,
-                                         Set<String> dynamicResolvableParameters) {
+                                         Set<String> dynamicResolvableParameters, Map<String, String> idleToLiveParameterPairs) {
         super("", "", singularToPluralMapping, dynamicResolvableParameters);
         this.deploymentDescriptor = descriptor;
         this.propertiesResolverBuilder = propertiesResolverBuilder;
         this.parametersResolverBuilder = parametersResolverBuilder;
         this.parametersChainBuilder = new ParametersChainBuilder(descriptor, null);
+        this.resourceLiveParameterResolverBuilder = new ResourceLiveParameterResolverBuilder(deploymentDescriptor, idleToLiveParameterPairs);
     }
 
     @Override
@@ -48,7 +49,8 @@ public class DescriptorPlaceholderResolver extends PlaceholderResolver<Deploymen
         addSingularParametersIfNecessary(parametersList);
         return new PropertiesPlaceholderResolver(propertiesResolverBuilder,
                                                  dynamicResolvableParameters).resolve(propertiesToResolve,
-                                                                                   PropertiesUtil.mergeProperties(parametersList), prefix);
+                                                                                      PropertiesUtil.mergeProperties(parametersList),
+                                                                                      prefix);
     }
 
     protected ResourcePlaceholderResolver getResourceResolver(Resource resource) {
@@ -58,7 +60,8 @@ public class DescriptorPlaceholderResolver extends PlaceholderResolver<Deploymen
                                                propertiesResolverBuilder,
                                                parametersResolverBuilder,
                                                singularToPluralMapping,
-                                               dynamicResolvableParameters);
+                                               dynamicResolvableParameters,
+                                               resourceLiveParameterResolverBuilder);
     }
 
     protected List<Resource> getResolvedResources() {
