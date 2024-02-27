@@ -2,14 +2,14 @@
     xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>com.sap.cloud.lm.sl.mta</artifactId>
+    <artifactId>multiapps-mta</artifactId>
     <packaging>jar</packaging>
-    <name>LM SL MTA Model and Parser</name>
+    <name>MultiApps MTA Model and Parsers</name>
 
     <parent>
-        <groupId>com.sap.cloud.lm.sl</groupId>
-        <artifactId>com.sap.cloud.lm.sl.open.parent</artifactId>
-        <version>1.67.16-SNAPSHOT</version>
+        <groupId>org.cloudfoundry.multiapps</groupId>
+        <artifactId>multiapps-parent</artifactId>
+        <version>1.67.15-SNAPSHOT</version>
     </parent>
 
     <dependencies>
@@ -26,12 +26,12 @@
             <artifactId>semver4j</artifactId>
         </dependency>
         <dependency>
-            <groupId>com.sap.cloud.lm.sl</groupId>
-            <artifactId>com.sap.cloud.lm.sl.common</artifactId>
+            <groupId>org.cloudfoundry.multiapps</groupId>
+            <artifactId>multiapps-common</artifactId>
         </dependency>
         <dependency>
-            <groupId>com.sap.cloud.lm.sl</groupId>
-            <artifactId>com.sap.cloud.lm.sl.common</artifactId>
+            <groupId>org.cloudfoundry.multiapps</groupId>
+            <artifactId>multiapps-common</artifactId>
             <type>test-jar</type>
         </dependency>
     </dependencies>
