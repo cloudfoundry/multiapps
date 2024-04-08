@@ -1,0 +1,23 @@
+_schema-version: "3.0.0"
+ID: hello
+version: 0.1.0
+
+modules:
+  - name: ztanaa
+    type: java.tomcat
+    path: backend.war
+    provides:
+      - name: backend-live
+        properties:
+          url: ${routes/0/route}
+          url1: ${routes/1/route}
+        parameters:
+          use-live-routes: true
+      - name: backend-idle
+        properties:
+          url: ${routes/0/route}
+          url1: ${routes/1/route}
+    parameters:
+      routes:
+        - route: "default-route.default-host.default-domain"
+        - route: "custom-route.custom-host.custom-domain"
