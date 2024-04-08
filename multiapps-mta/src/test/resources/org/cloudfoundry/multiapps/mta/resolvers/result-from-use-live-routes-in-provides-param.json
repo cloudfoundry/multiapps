@@ -1,0 +1,78 @@
+{
+  "majorSchemaVersion" : 3,
+  "schemaVersion" : "3.0.0",
+  "id" : "hello",
+  "version" : "0.1.0",
+  "modules" : [ {
+    "majorSchemaVersion" : 3,
+    "name" : "ztanaa",
+    "type" : "java.tomcat",
+    "path" : "backend.war",
+    "properties" : { },
+    "parameters" : {
+      "routes" : [ {
+        "route" : "default-route.default-host.default-domain"
+      }, {
+        "route" : "custom-route.custom-host.custom-domain"
+      } ]
+    },
+    "requiredDependencies" : [ ],
+    "providedDependencies" : [ {
+      "majorSchemaVersion" : 3,
+      "name" : "backend-live",
+      "isPublic" : false,
+      "properties" : {
+        "url" : "default-route.default-host.default-domain",
+        "url1" : "custom-route.custom-host.custom-domain"
+      },
+      "parameters" : {
+        "use-live-routes" : true
+      },
+      "propertiesMetadata" : {
+        "metadata" : { }
+      },
+      "parametersMetadata" : {
+        "metadata" : { }
+      }
+    }, {
+      "majorSchemaVersion" : 3,
+      "name" : "backend-idle",
+      "isPublic" : false,
+      "properties" : {
+        "url" : "${routes/0/route}",
+        "url1" : "${routes/1/route}"
+      },
+      "parameters" : { },
+      "propertiesMetadata" : {
+        "metadata" : { }
+      },
+      "parametersMetadata" : {
+        "metadata" : { }
+      }
+    }, {
+      "majorSchemaVersion" : 3,
+      "name" : "ztanaa",
+      "isPublic" : false,
+      "properties" : { },
+      "parameters" : { },
+      "propertiesMetadata" : {
+        "metadata" : { }
+      },
+      "parametersMetadata" : {
+        "metadata" : { }
+      }
+    } ],
+    "propertiesMetadata" : {
+      "metadata" : { }
+    },
+    "parametersMetadata" : {
+      "metadata" : { }
+    },
+    "hooks" : [ ]
+  } ],
+  "resources" : [ ],
+  "parameters" : { },
+  "parametersMetadata" : {
+    "metadata" : { }
+  }
+}
