@@ -40,7 +40,7 @@ public class MapUtil {
         return result;
     }
 
-    public static boolean parseBooleanFlag(final Map<String, Object> parameters, String flagName, boolean defaultValue)
+    public static Boolean parseBooleanFlag(final Map<String, Object> parameters, String flagName, Boolean defaultValue)
         throws ContentException {
         Object flagValue = parameters.get(flagName);
 
