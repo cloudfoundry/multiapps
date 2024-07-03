@@ -1,5 +1,7 @@
 package org.cloudfoundry.multiapps.common.util;
 
+import jakarta.xml.bind.DatatypeConverter;
+
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -7,8 +9,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-
-import javax.xml.bind.DatatypeConverter;
 
 public class DigestHelper {
 
