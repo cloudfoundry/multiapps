@@ -11,11 +11,11 @@ open module org.cloudfoundry.multiapps.common {
 
     requires com.fasterxml.jackson.annotation;
     requires com.fasterxml.jackson.datatype.jsr310;
-    requires java.xml.bind;
     requires org.apache.commons.io;
     requires org.apache.commons.lang3;
 
     requires static java.compiler;
     requires static org.immutables.value;
-
+    requires java.xml;
+    requires jakarta.xml.bind;
 }
