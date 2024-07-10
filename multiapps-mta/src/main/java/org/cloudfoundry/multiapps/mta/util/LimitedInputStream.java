@@ -19,7 +19,7 @@ public abstract class LimitedInputStream extends FilterInputStream {
     @Override
     public int read() throws IOException {
         int i = super.read();
-        if (i > 0) {
+        if (i >= 0) {
             counter.incrementAndGet();
             checkSize();
         }
