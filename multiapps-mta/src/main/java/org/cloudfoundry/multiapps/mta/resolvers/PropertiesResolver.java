@@ -88,7 +88,7 @@ public class PropertiesResolver implements SimplePropertyVisitor, Resolver<Map<S
     private StringBuilder resolveReferenceInPlace(String key, StringBuilder value, Reference reference) {
         String matchedPattern = reference.getMatchedPattern();
         int patternStartIndex = value.indexOf(matchedPattern);
-        Object resolvedReference = resolveReferenceInContext(key, reference);
+        Object resolvedReference = resolveReferenceInContext(key, reference, resolutionContext != null);
         if (resolvedReference != null) {
             return value.replace(patternStartIndex, patternStartIndex + matchedPattern.length(), resolvedReference.toString());
         }
@@ -102,14 +102,24 @@ public class PropertiesResolver implements SimplePropertyVisitor, Resolver<Map<S
     }
 
     protected Object resolveReferenceInContext(String key, Reference reference) {
+        return resolveReferenceInContext(key, reference, false);
+    }
+
+    protected Object resolveReferenceInContext(String key, Reference reference, boolean shouldBackupContext) {
         boolean resolutionContextWasCreated = false;
+        HashSet<String> contextKeysBackup = null;
         if (resolutionContext == null) {
             resolutionContext = new ResolutionContext(NameUtil.getPrefixedName(prefix, key));
             resolutionContextWasCreated = true;
+        } else if (shouldBackupContext) {
+            // if multiple refs are resolved sequentially in a value - backup and revert context after each ref
+            contextKeysBackup = new HashSet<>(resolutionContext.referencedKeys);
         }
         Object resolvedValue = resolveReference(reference);
         if (resolutionContextWasCreated) {
             resolutionContext = null;
+        } else if (contextKeysBackup != null) {
+            resolutionContext.setReferencedKeys(contextKeysBackup);
         }
         return resolvedValue;
     }
@@ -220,7 +230,7 @@ public class PropertiesResolver implements SimplePropertyVisitor, Resolver<Map<S
 
     private static class ResolutionContext {
 
-        private String rootKey;
+        private final String rootKey;
         private Set<String> referencedKeys = new HashSet<>();
 
         public ResolutionContext(String rootKey) {
@@ -232,6 +242,10 @@ public class PropertiesResolver implements SimplePropertyVisitor, Resolver<Map<S
                 throw new ContentException(Messages.DETECTED_CIRCULAR_REFERENCE, rootKey);
             }
             referencedKeys.add(key);
+        }
+
+        public void setReferencedKeys(Set<String> keys) {
+            this.referencedKeys = keys;
         }
 
     }

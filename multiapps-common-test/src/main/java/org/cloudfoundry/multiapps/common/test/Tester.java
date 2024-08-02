@@ -98,8 +98,8 @@ public class Tester {
         }
         String exceptionMessage = e.getMessage();
         assertTrue(exceptionMessage.contains(expectation.getExpectationAsString()),
-                   MessageFormat.format("Exception's message doesn't match up! Expected [{0}] to contain [{1}]!",
-                                        expectation.getExpectationAsString(), exceptionMessage));
+                   MessageFormat.format("Exception's message doesn't match up! Expected [{0}] to contain [{1}]!", exceptionMessage,
+                                        expectation.getExpectationAsString()));
     }
 
     private Object loadResourceAsJsonObject(String resource) {

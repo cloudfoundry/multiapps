@@ -23,3 +23,19 @@ tricky-map:
   : "5": stop
   ? "3/4/5"
   : this is actually unreachable
+foo: ${qux}-${baz}-${bar}-${baz}-${qux}
+bar: ${baz}-${qux}
+baz: ${qux}
+qux: "qux"
+NO_CIRCULAR_REF: ${foo}-${bar}-${baz}
+NO_CIRCULAR_REF_IN_MAP:
+  a: ${NO_CIRCULAR_REF_IN_MAP/b}-${NO_CIRCULAR_REF_IN_MAP/c}
+  b: ${NO_CIRCULAR_REF_IN_MAP/c}
+  c: "ha"
+head: ${baz}-${body}
+body: ${baz}-${tail}
+tail: ${baz}-${head}
+CIRCULAR_REF: ${foo}-${head}
+CIRCULAR_REF_MAP_IN_MAP:
+  key:
+    key: ${head}
