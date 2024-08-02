@@ -13,41 +13,42 @@ import org.junit.jupiter.params.provider.MethodSource;
 
 class PropertiesResolverTest {
 
-    protected static final PropertiesResolver testResolver = new PropertiesResolver(null,
-                                                                                    null,
-                                                                                    null,
-                                                                                    "test-",
-                                                                                    false,
-                                                                                    Collections.emptySet());
+    protected static final Map<String, Object> replacementValues = TestUtil.getMap("moduleProperties.yaml", PropertiesResolverTest.class);
 
     private final Tester tester = Tester.forClass(getClass());
 
     static Stream<Arguments> testResolve() {
-        return Stream.of(Arguments.of("moduleProperties.yaml", "test-map/a-list/1", new Expectation("second-item")),
-                         Arguments.of("moduleProperties.yaml", "test-list/0/foo", new Expectation("@foo")),
-                         Arguments.of("moduleProperties.yaml", "test-list/0/foo/", new Expectation("@foo")),
-                         Arguments.of("moduleProperties.yaml", "test-list/1", new Expectation("{fizz=@fizz, buzz=@buzz}")),
-                         Arguments.of("moduleProperties.yaml", "test-list/1/buzz", new Expectation("@buzz")),
-                         Arguments.of("moduleProperties.yaml", "test-list/2", new Expectation("a string in list")),
-                         Arguments.of("moduleProperties.yaml", "hosts/0/", new Expectation("some host")),
-                         Arguments.of("moduleProperties.yaml", "hosts/1.0",
+        return Stream.of(Arguments.of("list-in-map", "${test-map/a-list/1}", new Expectation("second-item")),
+                         Arguments.of("map-in-list", "${test-list/0/foo}", new Expectation("@foo")),
+                         Arguments.of("map-in-list-extra-slash", "${test-list/0/foo/}", new Expectation("@foo")),
+                         Arguments.of("complex-value", "${test-list/1}", new Expectation("{buzz=@buzz, fizz=@fizz}")),
+                         Arguments.of("simple-value", "${test-list/2}", new Expectation("a string in list")),
+                         Arguments.of("first-in-list", "${hosts/0/}", new Expectation("some host")),
+                         Arguments.of("bad-index", "${hosts/1.0}",
                                       new Expectation(Expectation.Type.EXCEPTION, "Unable to resolve \"test-#hosts/1.0\"")),
-                         Arguments.of("moduleProperties.yaml", "test-list/10/foo/",
+                         Arguments.of("too-high-index", "${test-list/10/foo/}",
                                       new Expectation(Expectation.Type.EXCEPTION, "Unable to resolve \"test-#test-list/10/foo/\"")),
-                         Arguments.of("moduleProperties.yaml", "test-list//foo/",
+                         Arguments.of("missing-index", "${test-list//foo/}",
                                       new Expectation(Expectation.Type.EXCEPTION, "Unable to resolve \"test-#test-list//foo/\"")),
-                         Arguments.of("moduleProperties.yaml", "tricky-map/just a key", new Expectation("foo")),
-                         Arguments.of("moduleProperties.yaml", "tricky-map/0/1", new Expectation("baz")),
-                         Arguments.of("moduleProperties.yaml", "tricky-map/one/two/", new Expectation("why")),
-                         Arguments.of("moduleProperties.yaml", "tricky-map/3/4/5", new Expectation("stop")));
+                         Arguments.of("corner-case-whitespace", "${tricky-map/just a key}", new Expectation("foo")),
+                         Arguments.of("corner-case-map-and-list", "${tricky-map/0/1}", new Expectation("baz")),
+                         Arguments.of("corner-case-slash-1", "${tricky-map/one/two/}", new Expectation("why")),
+                         Arguments.of("corner-case-slash-2", "${tricky-map/3/4/5}", new Expectation("stop")),
+                         Arguments.of("9-qux", "${NO_CIRCULAR_REF}", new Expectation("qux-qux-qux-qux-qux-qux-qux-qux-qux")),
+                         Arguments.of("9-qux-direct", "${foo}-${bar}-${baz}", new Expectation("qux-qux-qux-qux-qux-qux-qux-qux-qux")),
+                         Arguments.of("2-ha", "${NO_CIRCULAR_REF_IN_MAP/a}", new Expectation("ha-ha")),
+                         Arguments.of("circular-ref", "${CIRCULAR_REF}",
+                                      new Expectation(Expectation.Type.EXCEPTION, "Circular reference detected in \"test-#circular-ref\"")),
+                         Arguments.of("circular-ref-map", "${CIRCULAR_REF_MAP_IN_MAP/key/key}", new Expectation(Expectation.Type.EXCEPTION,
+                                                                                                                "Circular reference detected in \"test-#circular-ref-map\"")));
     }
 
     @ParameterizedTest
     @MethodSource
-    void testResolve(String modulePropertiesLocation, String parameterExpression, Expectation expectation) {
-        Map<String, Object> moduleProperties = TestUtil.getMap(modulePropertiesLocation, getClass());
-
-        tester.test(() -> testResolver.resolveReferenceInDepth(new Reference(null, parameterExpression), moduleProperties), expectation);
+    void testResolve(String parameterName, String parameterValue, Expectation expectation) {
+        PropertiesResolver testResolver = new PropertiesResolver(null, irrelevant -> replacementValues, ReferencePattern.PLACEHOLDER,
+                                                                 "test-", false, Collections.emptySet());
+        tester.test(() -> testResolver.visit(parameterName, parameterValue), expectation);
     }
 
 }
