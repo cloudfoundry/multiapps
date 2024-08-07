@@ -73,7 +73,7 @@ public class PropertiesResolver implements SimplePropertyVisitor, Resolver<Map<S
     private Object resolveReferences(String key, String value) {
         List<Reference> references = detectReferences(value);
         if (isSimpleReference(value, references)) {
-            return resolveReferenceInContext(key, references.get(0));
+            return resolveReferenceInContext(key, references.get(0), false);
         }
         StringBuilder result = new StringBuilder(value);
         for (Reference reference : references) {
@@ -101,10 +101,6 @@ public class PropertiesResolver implements SimplePropertyVisitor, Resolver<Map<S
                                                                      .length();
     }
 
-    protected Object resolveReferenceInContext(String key, Reference reference) {
-        return resolveReferenceInContext(key, reference, false);
-    }
-
     protected Object resolveReferenceInContext(String key, Reference reference, boolean shouldBackupContext) {
         boolean resolutionContextWasCreated = false;
         HashSet<String> contextKeysBackup = null;
@@ -112,7 +108,7 @@ public class PropertiesResolver implements SimplePropertyVisitor, Resolver<Map<S
             resolutionContext = new ResolutionContext(NameUtil.getPrefixedName(prefix, key));
             resolutionContextWasCreated = true;
         } else if (shouldBackupContext) {
-            // if multiple refs are resolved sequentially in a value - backup and revert context after each ref
+            // if multiple refs are resolved sequentially in a value - backup and revert context after each resolution
             contextKeysBackup = new HashSet<>(resolutionContext.referencedKeys);
         }
         Object resolvedValue = resolveReference(reference);
