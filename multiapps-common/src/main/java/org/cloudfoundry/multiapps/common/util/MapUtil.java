@@ -52,6 +52,6 @@ public class MapUtil {
             throw new ContentException(Messages.COULD_NOT_PARSE_BOOLEAN_FLAG, flagName);
         }
 
-        return ((Boolean) flagValue).booleanValue();
+        return (Boolean) flagValue;
     }
 }
