@@ -106,6 +106,7 @@ class DescriptorPlaceholderResolverTest {
                                                  new ResolverBuilder(),
                                                  new ResolverBuilder(),
                                                  Collections.emptyMap(),
-                                                 Collections.emptySet());
+                                                 Collections.emptySet(),
+                                                 Collections.emptyMap());
     }
 }

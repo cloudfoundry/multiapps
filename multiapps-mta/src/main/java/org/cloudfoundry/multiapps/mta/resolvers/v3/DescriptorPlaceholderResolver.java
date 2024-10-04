@@ -11,8 +11,8 @@ public class DescriptorPlaceholderResolver extends org.cloudfoundry.multiapps.mt
 
     public DescriptorPlaceholderResolver(DeploymentDescriptor descriptor, ResolverBuilder propertiesResolverBuilder,
                                          ResolverBuilder parametersResolverBuilder, Map<String, String> singularToPluralMapping,
-                                         Set<String> dynamicResolvableParameters) {
-        super(descriptor, propertiesResolverBuilder, parametersResolverBuilder, singularToPluralMapping, dynamicResolvableParameters);
+                                         Set<String> dynamicResolvableParameters, Map<String, String> idleToLiveParameterPairs) {
+        super(descriptor, propertiesResolverBuilder, parametersResolverBuilder, singularToPluralMapping, dynamicResolvableParameters, idleToLiveParameterPairs);
     }
 
     @Override
