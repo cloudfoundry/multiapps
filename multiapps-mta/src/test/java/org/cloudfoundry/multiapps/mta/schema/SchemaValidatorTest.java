@@ -22,6 +22,11 @@ public class SchemaValidatorTest {
                          Arguments.of("/mta/sample/v2/mtad-01-v2.yaml", Schemas.MTAD, new Expectation(null)),
                          // Valid platform JSON:
                          Arguments.of("/mta/sample/platform-01.json", Schemas.PLATFORM, new Expectation(null)),
+                         Arguments.of("/mta/sample/v2/list.json", Schemas.LIST, new Expectation(null)),
+                         // Invalid json list
+                         Arguments.of("/mta/sample/v2/invalid-list.json", Schemas.LIST,
+                                      new Expectation(Expectation.Type.EXCEPTION,
+                                                      "Unexpected end-of-input: expected close marker for Array")),
                          // Deployment descriptor is missing a required key:
                          Arguments.of("mtad-03.yaml", Schemas.MTAD,
                                       new Expectation(Expectation.Type.EXCEPTION, "Missing required key \"ID\"")),

@@ -7,17 +7,26 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Stream;
 
+import org.cloudfoundry.multiapps.common.ContentException;
 import org.cloudfoundry.multiapps.common.test.TestUtil;
 import org.cloudfoundry.multiapps.common.test.Tester;
 import org.cloudfoundry.multiapps.common.test.Tester.Expectation;
 import org.cloudfoundry.multiapps.common.util.JsonUtil;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+
 class PropertiesUtilTest {
 
     private final Tester tester = Tester.forClass(getClass());
+    private final String TEST_PARAMETER_KEY = "test-key";
+    private final String TEST_MISSING_PARAMETER_KEY = "missing-test-key";
+    private final String TEST_PARAMETER_VALUE = "test-value";
 
     static Stream<Arguments> mergeTest() {
         return Stream.of(
@@ -76,6 +85,60 @@ class PropertiesUtilTest {
 
         tester.test(() -> PropertiesUtil.getPluralOrSingular(parametersList, pluralKey, singularKey), expectation);
 
+    }
+
+    @Test
+    void testGetRequiredParameterWithProvidedParameter() {
+        Map<String, Object> parameters = new HashMap<>();
+        parameters.put(TEST_PARAMETER_KEY, TEST_PARAMETER_VALUE);
+        String result = PropertiesUtil.getRequiredParameter(parameters, TEST_PARAMETER_KEY);
+
+        assertEquals(TEST_PARAMETER_VALUE ,result);
+    }
+
+    @Test
+    void testGetRequiredParameterWithoutProvidedParameter() {
+        Map<String, Object> parameters = new HashMap<>();
+        parameters.put(TEST_PARAMETER_KEY, TEST_PARAMETER_VALUE);
+
+        assertThrows(ContentException.class,() -> PropertiesUtil.getRequiredParameter(parameters, TEST_MISSING_PARAMETER_KEY));
+    }
+
+    @Test
+    void testGetRequiredParameterWithoutProvidedKey() {
+        Map<String, Object> parameters = new HashMap<>();
+        parameters.put(TEST_PARAMETER_KEY, TEST_PARAMETER_VALUE);
+
+        assertThrows(ContentException.class,() -> PropertiesUtil.getRequiredParameter(parameters, null));
+    }
+
+    @Test
+    void testGetOptionalParameterWithProvidedParameter() {
+        Map<String, Object> parameters = new HashMap<>();
+        parameters.put(TEST_PARAMETER_KEY, TEST_PARAMETER_VALUE);
+        String result = PropertiesUtil.getOptionalParameter(parameters, TEST_PARAMETER_KEY);
+
+        assertEquals(TEST_PARAMETER_VALUE ,result);
+    }
+
+    @Test
+    void testGetOptionalParameterWithoutProvidedParameter() {
+        Map<String, Object> parameters = new HashMap<>();
+        parameters.put(TEST_PARAMETER_KEY, TEST_PARAMETER_VALUE);
+
+        String result = PropertiesUtil.getOptionalParameter(parameters, TEST_MISSING_PARAMETER_KEY);
+
+        assertNull(result);
+    }
+
+    @Test
+    void testGetOptionalParameterWithoutProvidedKey() {
+        Map<String, Object> parameters = new HashMap<>();
+        parameters.put(TEST_PARAMETER_KEY, TEST_PARAMETER_VALUE);
+
+        String result = PropertiesUtil.getOptionalParameter(parameters, null);
+
+        assertNull(result);
     }
 
     static Stream<Arguments> testParsingGetPluralOrSingular() {
