@@ -1,19 +1,28 @@
 package org.cloudfoundry.multiapps.common.util;
 
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
+import java.util.Arrays;
 import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
 import org.apache.commons.io.IOUtils;
 import org.cloudfoundry.multiapps.common.Messages;
 import org.cloudfoundry.multiapps.common.ParsingException;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+
+import com.fasterxml.jackson.core.type.TypeReference;
 
 class JsonUtilTest {
 
@@ -22,32 +31,35 @@ class JsonUtilTest {
         String invalidJson = "{]";
         InputStream invalidJsonInputStream = IOUtils.toInputStream(invalidJson, Charset.defaultCharset());
 
-        ParsingException resultException = Assertions.assertThrows(ParsingException.class,
-                                                                   () -> JsonUtil.convertJsonToMap(invalidJsonInputStream));
+        ParsingException resultException = assertThrows(ParsingException.class, () -> JsonUtil.convertJsonToMap(invalidJsonInputStream));
 
         String errorMessage = resultException.getCause()
                                              .getMessage();
-        ParsingException expectedException = new ParsingException(resultException.getCause(), Messages.CANNOT_CONVERT_JSON_STREAM_TO_MAP,
-                                                                  errorMessage, invalidJsonInputStream);
-        Assertions.assertEquals(expectedException.getMessage(), resultException.getMessage());
+        ParsingException expectedException = new ParsingException(resultException.getCause(),
+                                                                  Messages.CANNOT_CONVERT_JSON_STREAM_TO_MAP,
+                                                                  errorMessage,
+                                                                  invalidJsonInputStream);
+        assertEquals(expectedException.getMessage(), resultException.getMessage());
     }
 
     @Test
     void testConvertJsonToMapWithInvalidJsonString() {
         String invalidJson = "{]";
 
-        ParsingException resultException = Assertions.assertThrows(ParsingException.class, () -> JsonUtil.convertJsonToMap(invalidJson));
+        ParsingException resultException = assertThrows(ParsingException.class, () -> JsonUtil.convertJsonToMap(invalidJson));
 
         String errorMessage = resultException.getCause()
                                              .getMessage();
 
-        ParsingException expectedException = new ParsingException(resultException.getCause(), Messages.CANNOT_CONVERT_JSON_STRING_TO_MAP,
-                                                                  errorMessage, invalidJson);
-        Assertions.assertEquals(expectedException.getMessage(), resultException.getMessage());
+        ParsingException expectedException = new ParsingException(resultException.getCause(),
+                                                                  Messages.CANNOT_CONVERT_JSON_STRING_TO_MAP,
+                                                                  errorMessage,
+                                                                  invalidJson);
+        assertEquals(expectedException.getMessage(), resultException.getMessage());
     }
 
     @Test
-    void test1() throws Exception {
+    void test1() {
         Foo foo = new Foo(Map.of("test1", createTestProperties()));
 
         String json = JsonUtil.toJson(foo, true);
@@ -62,7 +74,7 @@ class JsonUtilTest {
     }
 
     @Test
-    void test2() throws Exception {
+    void test2() {
         Map<String, Object> properties = new TreeMap<>();
         properties.put("test1", createTestProperties());
         Bar bar = new Bar(properties);
@@ -80,7 +92,7 @@ class JsonUtilTest {
     }
 
     @Test
-    void test3() throws Exception {
+    void test3() {
         String json = JsonUtil.toJson(createTestProperties(), true);
         System.out.println(json);
 
@@ -101,6 +113,105 @@ class JsonUtilTest {
 
         assertTrue(fooMap.isEmpty());
         assertNull(barMap);
+    }
+
+    @Test
+    void testConvertJsonToMap_withValidInputStream() {
+        String json = "{\"key1\":\"value1\", \"key2\":\"value2\"}";
+        InputStream jsonInputStream = new ByteArrayInputStream(json.getBytes(StandardCharsets.UTF_8));
+        Map<String, String> expectedMap = new HashMap<>();
+        expectedMap.put("key1", "value1");
+        expectedMap.put("key2", "value2");
+
+        Map<String, String> result = JsonUtil.convertJsonToMap(jsonInputStream, new TypeReference<Map<String, String>>() {
+        });
+
+        assertEquals(expectedMap, result);
+    }
+
+    @Test
+    void testConvertJsonToMap_withValidString() {
+        String json = "{\"key1\":\"value1\", \"key2\":\"value2\"}";
+        Map<String, String> expectedMap = new HashMap<>();
+        expectedMap.put("key1", "value1");
+        expectedMap.put("key2", "value2");
+
+        Map<String, String> result = JsonUtil.convertJsonToMap(json, new TypeReference<Map<String, String>>() {
+        });
+        assertEquals(expectedMap, result);
+    }
+
+    @Test
+    void testConvertJsonToList_withValidInputStream() {
+        String json = "[\"value1\", \"value2\"]";
+        InputStream jsonInputStream = new ByteArrayInputStream(json.getBytes(StandardCharsets.UTF_8));
+        List<Object> expectedList = Arrays.asList("value1", "value2");
+
+        List<Object> result = JsonUtil.convertJsonToList(jsonInputStream);
+
+        assertEquals(expectedList, result);
+    }
+
+    @Test
+    void testConvertJsonToList_withValidString() {
+        String json = "[\"value1\", \"value2\"]";
+        List<Object> expectedList = Arrays.asList("value1", "value2");
+
+        List<Object> result = JsonUtil.convertJsonToList(json);
+
+        assertEquals(expectedList, result);
+    }
+
+    @Test
+    void testToJsonBinary_withValidObject() {
+        String json = "{\"key\":\"value\"}";
+        Map<String, String> object = new HashMap<>();
+        object.put("key", "value");
+
+        byte[] result = JsonUtil.toJsonBinary(object);
+
+        assertArrayEquals(json.getBytes(StandardCharsets.UTF_8), result);
+    }
+
+    @Test
+    void testFromJsonBinary_withValidBinary() {
+        String json = "{\"key\":\"value\"}";
+        byte[] jsonBinary = json.getBytes(StandardCharsets.UTF_8);
+        Map<String, String> expectedMap = new HashMap<>();
+        expectedMap.put("key", "value");
+
+        Map<String, String> result = JsonUtil.fromJsonBinary(jsonBinary, new TypeReference<Map<String, String>>() {
+        });
+
+        assertEquals(expectedMap, result);
+    }
+
+    @Test
+    void testFromJsonBinary_withEmptyBinary() {
+        byte[] emptyBinary = new byte[0];
+        assertThrows(ParsingException.class, () -> JsonUtil.fromJsonBinary(emptyBinary, new TypeReference<Map<String, String>>() {
+        }));
+    }
+
+    @Test
+    void testConvertJsonToMap_withInvalidJson_shouldThrowParsingException() {
+        String invalidJson = "invalid-json";
+        InputStream jsonInputStream = new ByteArrayInputStream(invalidJson.getBytes(StandardCharsets.UTF_8));
+
+        assertThrows(ParsingException.class, () -> {
+            JsonUtil.convertJsonToMap(jsonInputStream, new TypeReference<Map<String, String>>() {
+            });
+        });
+    }
+
+    @Test
+    void testConvertJsonToList_withInvalidJson_shouldThrowParsingException() {
+        String invalidJson = "invalid-json";
+        InputStream jsonInputStream = new ByteArrayInputStream(invalidJson.getBytes(StandardCharsets.UTF_8));
+
+        assertThrows(ParsingException.class, () -> {
+            JsonUtil.convertJsonToList(jsonInputStream);
+        });
     }
 
     private Map<String, Object> createTestProperties() {
