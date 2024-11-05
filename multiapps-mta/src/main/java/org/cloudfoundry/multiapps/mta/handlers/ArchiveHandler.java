@@ -5,9 +5,9 @@ import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 import java.util.jar.JarFile;
 import java.util.jar.Manifest;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipInputStream;
 
+import org.apache.commons.compress.archivers.zip.ZipArchiveEntry;
+import org.apache.commons.compress.archivers.zip.ZipArchiveInputStream;
 import org.apache.commons.io.IOUtils;
 import org.cloudfoundry.multiapps.common.ContentException;
 import org.cloudfoundry.multiapps.common.SLException;
@@ -17,6 +17,11 @@ import org.cloudfoundry.multiapps.mta.util.LimitedInputStream;
 public class ArchiveHandler {
 
     public static final String MTA_DEPLOYMENT_DESCRIPTOR_NAME = "META-INF/mtad.yaml";
+    public static final String MTA_MANIFEST_NAME = "META-INF/MANIFEST.MF";
+
+    private ArchiveHandler() {
+
+    }
 
     public static Manifest getManifest(InputStream archiveStream, long maxManifestSize) throws SLException {
         try (InputStream manifestStream = getInputStream(archiveStream, JarFile.MANIFEST_NAME, maxManifestSize)) {
@@ -44,8 +49,8 @@ public class ArchiveHandler {
 
     public static InputStream getInputStream(InputStream is, String entryName, long maxEntrySize) {
         try {
-            ZipInputStream zis = new ZipInputStream(is);
-            for (ZipEntry e; (e = zis.getNextEntry()) != null;) {
+            ZipArchiveInputStream zis = new ZipArchiveInputStream(is);
+            for (ZipArchiveEntry e; (e = zis.getNextEntry()) != null;) {
                 if (e.getName()
                      .equals(entryName)) {
                     // quick and unreliable check for file size without file processing
@@ -68,7 +73,7 @@ public class ArchiveHandler {
         }
     }
 
-    private static void validateZipEntrySize(ZipEntry zipEntry, long maxEntrySize) {
+    private static void validateZipEntrySize(ZipArchiveEntry zipEntry, long maxEntrySize) {
         if (zipEntry.getSize() > maxEntrySize) {
             throw new ContentException(Messages.ERROR_SIZE_OF_FILE_EXCEEDS_CONFIGURED_MAX_SIZE_LIMIT,
                                        zipEntry.getSize(),

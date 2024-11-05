@@ -27,7 +27,7 @@ class ArchiveHandlerTest {
     private static final long MAX_MANIFEST_SIZE = 1024 * 1024L;
 
     @Test
-    void testGetManifest() throws Exception {
+    void testGetManifest() {
         Manifest manifest = ArchiveHandler.getManifest(ArchiveHandlerTest.class.getResourceAsStream(SAMPLE_MTAR), MAX_MANIFEST_SIZE);
         Map<String, Attributes> entries = manifest.getEntries();
         assertEquals(4, entries.size());
@@ -38,26 +38,26 @@ class ArchiveHandlerTest {
     }
 
     @Test
-    void testGetManifestExceedsSizeLimit() throws Exception {
+    void testGetManifestExceedsSizeLimit() {
         assertThrows(ContentException.class,
                      () -> ArchiveHandler.getManifest(ArchiveHandlerTest.class.getResourceAsStream(SAMPLE_MTAR), 512L));
     }
 
     @Test
-    void testGetDescriptor() throws Exception {
+    void testGetDescriptor() {
         String descriptor = ArchiveHandler.getDescriptor(ArchiveHandlerTest.class.getResourceAsStream(SAMPLE_MTAR),
                                                          MAX_MTA_DESCRIPTOR_SIZE);
         assertTrue(descriptor.contains("com.sap.mta.sample"));
     }
 
     @Test
-    void testGetDescriptorExceedsSize() throws Exception {
+    void testGetDescriptorExceedsSize() {
         assertThrows(ContentException.class,
                      () -> ArchiveHandler.getDescriptor(ArchiveHandlerTest.class.getResourceAsStream(SAMPLE_MTAR), 1024L));
     }
 
     @Test
-    void testGetProcessedDescriptorExceedsSize() throws Exception {
+    void testGetProcessedDescriptorExceedsSize() {
         assertThrows(ContentException.class,
                      () -> ArchiveHandler.getDescriptor(ArchiveHandlerTest.class.getResourceAsStream(LARGE_DESCRIPTOR_MTAR), 1024L));
     }
@@ -73,13 +73,13 @@ class ArchiveHandlerTest {
     }
 
     @Test
-    void testGetModuleContentExceedsSize() throws Exception {
+    void testGetModuleContentExceedsSize() {
         assertThrows(ContentException.class, () -> ArchiveHandler.getFileContent(ArchiveHandlerTest.class.getResourceAsStream(SAMPLE_MTAR),
                                                                                  "web/web-server.zip", 128L));
     }
 
     @Test
-    void testGetManifestFlat() throws Exception {
+    void testGetManifestFlat() {
         Manifest manifest = ArchiveHandler.getManifest(ArchiveHandlerTest.class.getResourceAsStream(SAMPLE_FLAT_MTAR), MAX_MANIFEST_SIZE);
         Map<String, Attributes> entries = manifest.getEntries();
         assertEquals(4, entries.size());
@@ -90,7 +90,7 @@ class ArchiveHandlerTest {
     }
 
     @Test
-    void testGetDescriptorFlat() throws Exception {
+    void testGetDescriptorFlat() {
         String descriptor = ArchiveHandler.getDescriptor(ArchiveHandlerTest.class.getResourceAsStream(SAMPLE_FLAT_MTAR),
                                                          MAX_MTA_DESCRIPTOR_SIZE);
         assertTrue(descriptor.contains("com.sap.mta.sample"));

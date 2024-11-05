@@ -33,6 +33,7 @@
         <jackson.databind.version>2.17.2</jackson.databind.version>
         <jaxb-runtime.version>4.0.5</jaxb-runtime.version>
         <jakarta.xml.bind-api.version>4.0.2</jakarta.xml.bind-api.version>
+        <apache.compress.version>1.27.1</apache.compress.version>
     </properties>
 
     <modules>
@@ -286,6 +287,12 @@
                 <groupId>com.vdurmont</groupId>
                 <artifactId>semver4j</artifactId>
                 <version>${semver4j.version}</version>
+            </dependency>
+            <!-- https://mvnrepository.com/artifact/org.apache.commons/commons-compress -->
+            <dependency>
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-compress</artifactId>
+                <version>${apache.compress.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.cloudfoundry.multiapps</groupId>
