@@ -20,17 +20,17 @@
         </sonar.coverage.jacoco.xmlReportPaths>
         <junit.version>5.10.2</junit.version>
         <junit-platform.version>1.10.2</junit-platform.version>
-        <mockito.version>5.11.0</mockito.version>
-        <commons-lang3.version>3.16.0</commons-lang3.version>
+        <mockito.version>5.14.2</mockito.version>
+        <commons-lang3.version>3.17.0</commons-lang3.version>
         <commons-collections4.version>4.4</commons-collections4.version>
         <commons-io.version>2.17.0</commons-io.version>
-        <snakeyaml.version>2.2</snakeyaml.version>
+        <snakeyaml.version>2.3</snakeyaml.version>
         <!-- Be very wary when updating Semver to newer versions because there is an issue -->
         <!-- https://github.com/semver4j/semver4j/issues/208 which must fixed before adoption -->
         <semver4j.version>3.1.0</semver4j.version>
         <immutables.version>2.10.1</immutables.version>
-        <jackson.version>2.17.2</jackson.version>
-        <jackson.databind.version>2.17.2</jackson.databind.version>
+        <jackson.version>2.18.1</jackson.version>
+        <jackson.databind.version>2.18.2</jackson.databind.version>
         <jaxb-runtime.version>4.0.5</jaxb-runtime.version>
         <jakarta.xml.bind-api.version>4.0.2</jakarta.xml.bind-api.version>
         <apache.compress.version>1.27.1</apache.compress.version>
