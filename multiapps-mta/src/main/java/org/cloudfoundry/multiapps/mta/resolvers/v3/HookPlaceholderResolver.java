@@ -46,7 +46,7 @@ public class HookPlaceholderResolver extends PlaceholderResolver<Hook> {
 
     private Map<String, Object> getResolvedHookParameters(Hook hook, Map<String, Object> mergedParameters) {
         return new PropertiesPlaceholderResolver(parametersResolverBuilder, dynamicResolvableParameters).resolve(hook.getParameters(),
-                                                                                                              mergedParameters, prefix);
+                                                                                                                 mergedParameters, prefix);
     }
 
     private List<RequiredDependency> getResolvedHookDependencies(Hook hook) {

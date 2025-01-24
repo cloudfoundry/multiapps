@@ -28,19 +28,24 @@ public abstract class ReferenceResolver<T> extends PatternResolver<T> {
     }
 
     public Map<String, Object> resolveProvidedValues(String dependencyName) throws ContentException {
-        assertRequiredDependencyExists(dependencyName);
+        Resource consumerResource = handler.findResource(descriptor, consumerName);
+        if (!doesRequiredDependencyExists(dependencyName) && (consumerResource == null || !consumerResource.isOptional())) {
+            throw new ContentException(format(Messages.ILLEGAL_REFERENCES_DETECTED, consumerName, dependencyName));
+        }
+
         ProvidedDependency providedDependency = handler.findProvidedDependency(descriptor, dependencyName);
         if (providedDependency != null) {
             return providedDependency.getProperties();
         }
         Resource resource = handler.findResource(descriptor, dependencyName);
+        if (resource == null && consumerResource.isOptional()) {
+            return Map.of();
+        }
         return resource.getProperties();
     }
 
-    protected void assertRequiredDependencyExists(String dependencyName) {
+    protected boolean doesRequiredDependencyExists(String dependencyName) {
         RequiredDependency requiredDependency = handler.findRequiredDependency(descriptor, consumerName, dependencyName);
-        if (requiredDependency == null) {
-            throw new ContentException(format(Messages.ILLEGAL_REFERENCES_DETECTED, consumerName, dependencyName));
-        }
+        return requiredDependency != null;
     }
 }

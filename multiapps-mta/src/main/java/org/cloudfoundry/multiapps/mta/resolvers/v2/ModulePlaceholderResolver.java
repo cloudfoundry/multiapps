@@ -51,12 +51,12 @@ public class ModulePlaceholderResolver extends PlaceholderResolver<Module> {
 
     protected Map<String, Object> getResolvedProperties(Map<String, Object> mergedParameters) {
         return new PropertiesPlaceholderResolver(propertiesResolverBuilder, dynamicResolvableParameters).resolve(module.getProperties(),
-                                                                                                              mergedParameters, prefix);
+                                                                                                                 mergedParameters, prefix);
     }
 
     protected Map<String, Object> getResolvedParameters(Map<String, Object> mergedParameters) {
         return new PropertiesPlaceholderResolver(parametersResolverBuilder, dynamicResolvableParameters).resolve(module.getParameters(),
-                                                                                                              mergedParameters, prefix);
+                                                                                                                 mergedParameters, prefix);
     }
 
     protected List<ProvidedDependency> getResolvedProvidedDependencies() {

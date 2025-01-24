@@ -58,7 +58,8 @@ public class ProvidedDependencyPlaceholderResolver extends PlaceholderResolver<P
     @Override
     protected Map<String, Object> resolve(Map<String, Object> properties, final Map<String, Object> propertyValues, Boolean isStrict) {
         return new PropertiesPlaceholderResolver(this.propertiesResolverBuilder, dynamicResolvableParameters).resolve(properties,
-                                                                                                                   propertyValues, prefix);
+                                                                                                                      propertyValues,
+                                                                                                                      prefix);
     }
 
 }
