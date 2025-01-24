@@ -42,14 +42,14 @@ public class ResourcePlaceholderResolver extends PlaceholderResolver<Resource> {
 
     protected Map<String, Object> getResolvedProperties(Map<String, Object> mergedParametersChain) {
         return new PropertiesPlaceholderResolver(propertiesResolverBuilder, dynamicResolvableParameters).resolve(resource.getProperties(),
-                                                                                                              mergedParametersChain,
-                                                                                                              prefix);
+                                                                                                                 mergedParametersChain,
+                                                                                                                 prefix);
     }
 
     protected Map<String, Object> getResolvedParameters(Map<String, Object> mergedParametersChain) {
         return new PropertiesPlaceholderResolver(parametersResolverBuilder, dynamicResolvableParameters).resolve(resource.getParameters(),
-                                                                                                              mergedParametersChain,
-                                                                                                              prefix);
+                                                                                                                 mergedParametersChain,
+                                                                                                                 prefix);
     }
 
 }

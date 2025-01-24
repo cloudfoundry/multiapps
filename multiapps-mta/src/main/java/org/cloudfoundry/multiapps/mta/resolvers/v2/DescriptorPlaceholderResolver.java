@@ -48,7 +48,8 @@ public class DescriptorPlaceholderResolver extends PlaceholderResolver<Deploymen
         addSingularParametersIfNecessary(parametersList);
         return new PropertiesPlaceholderResolver(propertiesResolverBuilder,
                                                  dynamicResolvableParameters).resolve(propertiesToResolve,
-                                                                                   PropertiesUtil.mergeProperties(parametersList), prefix);
+                                                                                      PropertiesUtil.mergeProperties(parametersList),
+                                                                                      prefix);
     }
 
     protected ResourcePlaceholderResolver getResourceResolver(Resource resource) {

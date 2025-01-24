@@ -14,6 +14,7 @@ import org.cloudfoundry.multiapps.mta.resolvers.ResolverBuilder;
 
 public class ResourcePropertiesReferenceResolver extends ReferenceResolver<Map<String, Object>> implements ProvidedValuesResolver {
 
+    protected final Resource resource;
     protected Map<String, Object> properties;
     protected ResolverBuilder propertiesResolverBuilder;
 
@@ -23,11 +24,13 @@ public class ResourcePropertiesReferenceResolver extends ReferenceResolver<Map<S
         super("", prefix, new DescriptorHandler(), descriptor, resource.getName(), FULLY_QUALIFIED, dynamicResolvableParameters);
         this.properties = properties;
         this.propertiesResolverBuilder = propertiesResolverBuilder;
+        this.resource = resource;
     }
 
     @Override
     public Map<String, Object> resolve() {
-        return propertiesResolverBuilder.build(properties, this, patternToMatch, prefix, true, dynamicResolvableParameters)
+        return propertiesResolverBuilder.build(properties, this, patternToMatch, prefix, !resource.isOptional(),
+                                               dynamicResolvableParameters)
                                         .resolve();
     }
 }

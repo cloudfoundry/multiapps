@@ -48,13 +48,13 @@ public class RequiredDependencyPlaceholderResolver extends PlaceholderResolver<R
     protected Map<String, Object> getResolvedParameters(Map<String, Object> mergedParameters) {
         return new PropertiesPlaceholderResolver(propertiesResolverBuilder,
                                                  dynamicResolvableParameters).resolve(requiredDependency.getParameters(), mergedParameters,
-                                                                                   prefix);
+                                                                                      prefix);
     }
 
     protected Map<String, Object> getResolvedProperties(Map<String, Object> mergedParameters) {
         return new PropertiesPlaceholderResolver(parametersResolverBuilder,
                                                  dynamicResolvableParameters).resolve(requiredDependency.getProperties(), mergedParameters,
-                                                                                   prefix);
+                                                                                      prefix);
     }
 
 }
