@@ -8,14 +8,17 @@ import java.util.regex.Pattern;
 public enum ReferencePattern implements ValueMatcher {
 
     PLACEHOLDER("(?<!\\\\)\\$\\{(.+?)\\}", "${%s}"), SHORT("(?<!\\\\)~\\{(.+?)\\}", "~{%s}"), FULLY_QUALIFIED("(?<!\\\\)~\\{(.+?)/(.+?)\\}",
-        "~{%s/%s}");
+                                                                                                              "~{%s/%s}");
 
     private String pattern;
     private String patternFormat;
 
+    private final Pattern compiledPattern;
+    
     ReferencePattern(String pattern, String patternFormat) {
         this.pattern = pattern;
         this.patternFormat = patternFormat;
+        this.compiledPattern = Pattern.compile(pattern);
     }
 
     protected boolean hasPropertySetSegment() {
@@ -28,8 +31,7 @@ public enum ReferencePattern implements ValueMatcher {
 
     @Override
     public List<Reference> match(String line) {
-        Matcher matcher = Pattern.compile(this.pattern)
-                                 .matcher(line);
+        Matcher matcher = this.compiledPattern.matcher(line);
         List<Reference> references = new ArrayList<>();
         while (matcher.find()) {
             String matchedValue = matcher.group(0);

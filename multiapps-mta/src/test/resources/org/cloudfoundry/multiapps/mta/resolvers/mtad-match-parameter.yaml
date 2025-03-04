@@ -1,0 +1,11 @@
+_schema-version: 3
+ID: reference-test
+version: 1.0.0
+
+
+modules:
+  - name: foo
+    type: application
+    parameters:
+      module-parameter: a
+      other-parameter: b

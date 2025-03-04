@@ -1,0 +1,36 @@
+_schema-version: 3
+ID: reference-test
+version: 1.0.0
+
+parameters:
+  global-parameter: ${a}
+
+modules:
+  - name: foo
+    type: application
+    parameters:
+      module-parameter: bbb
+    provides:
+      - name: backend-live
+        parameters:
+          dependency-parameter: ${ref-url}
+    requires:
+      - name: bar
+        parameters:
+          dependency-parameter: ${ref-url}
+    hooks:
+      - name: test-hook1
+        type: task
+        phases:
+          - application.before-stop.live
+        parameters:
+          hook-parameter: before-stop-task
+
+resources:
+  - name: baz
+    parameters:
+      resource-parameter: ~{e}
+    requires:
+      - name: bar
+        parameters:
+          dependency-parameter: ${ref-url}

@@ -1,0 +1,45 @@
+_schema-version: 3
+ID: reference-test
+version: 1.0.0
+
+parameters:
+  a: ${a}
+
+modules:
+  - name: foo
+    type: application
+    parameters:
+      b: bbb
+      b-ref: ${b}
+    properties:
+      c: ${c}
+    provides:
+      - name: backend-live
+        parameters:
+          url: ${ref-url}
+      - name: backend-idle
+        properties:
+          url: ${ref-url-2}
+    requires:
+      - name: bar
+        properties:
+          d: ${d}
+    hooks:
+      - name: test-hook1
+        type: task
+        phases:
+          - application.before-stop.live
+        parameters:
+          name: before-stop-task
+          command: "sleep(${task-ref})"
+
+resources:
+  - name: baz
+    parameters:
+      e: ~{e}
+    properties:
+      f: ~{f}
+    requires:
+      - name: bar
+        properties:
+          reference: ${non-existing-resource}
