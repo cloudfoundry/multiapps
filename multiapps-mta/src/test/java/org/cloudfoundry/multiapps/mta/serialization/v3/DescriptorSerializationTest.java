@@ -10,12 +10,12 @@ import org.junit.jupiter.params.provider.Arguments;
 
 public class DescriptorSerializationTest extends org.cloudfoundry.multiapps.mta.serialization.v2.DescriptorSerializationTest {
 
-    static Stream<Arguments> testDeploymentDescriptorSerialization() {
+    static Stream<Arguments> testDeploymentDescriptorSerializationSource() {
         return Stream.of(Arguments.of("mtad-00.yaml", new Expectation(Expectation.Type.JSON, "serialized-descriptor-00.json")),
                          Arguments.of("mtad-01.yaml", new Expectation(Expectation.Type.JSON, "serialized-descriptor-01.json")));
     }
 
-    static Stream<Arguments> testExtensionDescriptorSerialization() {
+    static Stream<Arguments> testExtensionDescriptorSerializationSource() {
         return Stream.of(Arguments.of("extension-descriptor-00.mtaext",
                                       new Expectation(Expectation.Type.JSON, "serialized-extension-00.json")),
                          Arguments.of("extension-descriptor-01.mtaext",

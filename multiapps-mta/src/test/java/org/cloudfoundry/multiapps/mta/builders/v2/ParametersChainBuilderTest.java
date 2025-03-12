@@ -7,7 +7,7 @@ import java.util.stream.Stream;
 
 import org.cloudfoundry.multiapps.common.test.Tester;
 import org.cloudfoundry.multiapps.common.test.Tester.Expectation;
-import org.cloudfoundry.multiapps.mta.handlers.v2.DescriptorParser;
+import org.cloudfoundry.multiapps.mta.builders.common.AbstractChainBuilderTest;
 import org.cloudfoundry.multiapps.mta.model.DeploymentDescriptor;
 import org.cloudfoundry.multiapps.mta.model.Platform;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -17,11 +17,6 @@ import org.junit.jupiter.params.provider.MethodSource;
 class ParametersChainBuilderTest extends AbstractChainBuilderTest {
 
     protected final Tester tester = Tester.forClass(getClass());
-
-    @Override
-    protected DescriptorParser createDescriptorParser() {
-        return new DescriptorParser();
-    }
 
     @Override
     protected PropertiesChainBuilder createPropertiesChainBuilder(DeploymentDescriptor dd, Platform p) {
@@ -86,11 +81,11 @@ class ParametersChainBuilderTest extends AbstractChainBuilderTest {
 
     static Stream<Arguments> resourceTypeChainSource() {
         return Stream.of(Arguments.of("mtad-02.yaml", "platform-04.json",
-                        new Expectation(Expectation.Type.JSON, "resource-type-chain-01.json")),
-                Arguments.of("mtad-02.yaml", "platform-02.json",
-                        new Expectation(Expectation.Type.JSON, "resource-type-chain-02.json")),
-                Arguments.of("mtad-02.yaml", "platform-05.json",
-                        new Expectation(Expectation.Type.JSON, "resource-type-chain-03.json")));
+                                      new Expectation(Expectation.Type.JSON, "resource-type-chain-01.json")),
+                         Arguments.of("mtad-02.yaml", "platform-02.json",
+                                      new Expectation(Expectation.Type.JSON, "resource-type-chain-02.json")),
+                         Arguments.of("mtad-02.yaml", "platform-05.json",
+                                      new Expectation(Expectation.Type.JSON, "resource-type-chain-03.json")));
     }
 
 }

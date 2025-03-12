@@ -1,4 +1,4 @@
-package org.cloudfoundry.multiapps.mta.builders.v2;
+package org.cloudfoundry.multiapps.mta.builders.common;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -6,6 +6,7 @@ import java.util.Map;
 
 import org.cloudfoundry.multiapps.common.test.Tester;
 import org.cloudfoundry.multiapps.mta.MtaTestUtil;
+import org.cloudfoundry.multiapps.mta.builders.v2.PropertiesChainBuilder;
 import org.cloudfoundry.multiapps.mta.handlers.v2.DescriptorParser;
 import org.cloudfoundry.multiapps.mta.model.DeploymentDescriptor;
 import org.cloudfoundry.multiapps.mta.model.Module;
@@ -46,8 +47,8 @@ public class AbstractChainBuilderTest {
         return new DescriptorParser();
     }
 
-
-    void executeTestBuildModuleChain(Tester tester, String deploymentDescriptorLocation, String platformLocation, Tester.Expectation expectation) {
+    protected void executeTestBuildModuleChain(Tester tester, String deploymentDescriptorLocation, String platformLocation,
+                                               Tester.Expectation expectation) {
         DeploymentDescriptor deploymentDescriptor = parseDeploymentDescriptor(deploymentDescriptorLocation);
         Platform platform = parsePlatform(platformLocation);
 
@@ -61,7 +62,8 @@ public class AbstractChainBuilderTest {
         }, expectation);
     }
 
-    void executeTestBuildModuleChainWithoutDependencies(Tester tester, String deploymentDescriptorLocation, String platformLocation, Tester.Expectation expectation) {
+    protected void executeTestBuildModuleChainWithoutDependencies(Tester tester, String deploymentDescriptorLocation,
+                                                                  String platformLocation, Tester.Expectation expectation) {
         DeploymentDescriptor deploymentDescriptor = parseDeploymentDescriptor(deploymentDescriptorLocation);
         Platform platform = parsePlatform(platformLocation);
 
@@ -75,7 +77,8 @@ public class AbstractChainBuilderTest {
         }, expectation);
     }
 
-    void executeTestBuildResourceChain(Tester tester, String deploymentDescriptorLocation, String platformLocation, Tester.Expectation expectation) {
+    protected void executeTestBuildResourceChain(Tester tester, String deploymentDescriptorLocation, String platformLocation,
+                                                 Tester.Expectation expectation) {
         DeploymentDescriptor deploymentDescriptor = parseDeploymentDescriptor(deploymentDescriptorLocation);
         Platform platform = parsePlatform(platformLocation);
 

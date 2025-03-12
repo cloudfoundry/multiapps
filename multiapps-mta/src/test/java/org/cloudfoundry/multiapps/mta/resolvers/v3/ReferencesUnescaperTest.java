@@ -7,7 +7,7 @@ import org.junit.jupiter.params.provider.Arguments;
 
 public class ReferencesUnescaperTest extends org.cloudfoundry.multiapps.mta.resolvers.v2.ReferencesUnescaperTest {
 
-    static Stream<Arguments> testUnescaping() {
+    static Stream<Arguments> unescapingResource() {
         return Stream.of(Arguments.of("mtad-with-escaped-placeholders.yaml",
                                       new Expectation(Expectation.Type.JSON, "result-from-unescaping-placeholders.json")),
                          Arguments.of("mtad-with-escaped-references.yaml",

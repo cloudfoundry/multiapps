@@ -1,31 +1,29 @@
 package org.cloudfoundry.multiapps.mta.handlers.v2;
 
-import java.util.List;
 import java.util.stream.Stream;
 
 import org.cloudfoundry.multiapps.common.test.Tester;
 import org.cloudfoundry.multiapps.common.test.Tester.Expectation;
-import org.cloudfoundry.multiapps.mta.MtaTestUtil;
-import org.cloudfoundry.multiapps.mta.model.DeploymentDescriptor;
-import org.cloudfoundry.multiapps.mta.model.ExtensionDescriptor;
+import org.cloudfoundry.multiapps.mta.handlers.common.AbstractDescriptorMergerTest;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
-public class DescriptorMergerTest {
+public class DescriptorMergerTest extends AbstractDescriptorMergerTest {
 
     protected final Tester tester = Tester.forClass(getClass());
-    protected final DescriptorMerger descriptorMerger = createDescriptorMerger();
 
+    @Override
     protected DescriptorMerger createDescriptorMerger() {
         return new DescriptorMerger();
     }
 
+    @Override
     protected DescriptorParser createDescriptorParser() {
         return new DescriptorParser();
     }
 
-    static Stream<Arguments> testMerge() {
+    static Stream<Arguments> mergeSource() {
         return Stream.of(
                          // Valid deployment and extension descriptor:
                          Arguments.of("/mta/sample/v2/mtad-01.yaml", new String[] { "/mta/sample/v2/config-01.mtaext", },
@@ -37,20 +35,8 @@ public class DescriptorMergerTest {
     }
 
     @ParameterizedTest
-    @MethodSource
-    public void testMerge(String deploymentDescriptorLocation, String[] extensionDescriptorLocations, Expectation expectation) {
-        DescriptorParser descriptorParser = createDescriptorParser();
-        DeploymentDescriptor deploymentDescriptor = parseDeploymentDescriptor(deploymentDescriptorLocation, descriptorParser);
-        List<ExtensionDescriptor> extensionDescriptors = parseExtensionDescriptor(extensionDescriptorLocations, descriptorParser);
-        tester.test(() -> descriptorMerger.merge(deploymentDescriptor, extensionDescriptors), expectation);
+    @MethodSource("mergeSource")
+    void testMerge(String deploymentDescriptorLocation, String[] extensionDescriptorLocations, Expectation expectation) {
+        executeTestMerge(tester, deploymentDescriptorLocation, extensionDescriptorLocations, expectation);
     }
-
-    private List<ExtensionDescriptor> parseExtensionDescriptor(String[] extensionDescriptorLocations, DescriptorParser descriptorParser) {
-        return MtaTestUtil.loadExtensionDescriptors(extensionDescriptorLocations, descriptorParser, getClass());
-    }
-
-    private DeploymentDescriptor parseDeploymentDescriptor(String deploymentDescriptorLocation, DescriptorParser descriptorParser) {
-        return MtaTestUtil.loadDeploymentDescriptor(deploymentDescriptorLocation, descriptorParser, getClass());
-    }
-
 }

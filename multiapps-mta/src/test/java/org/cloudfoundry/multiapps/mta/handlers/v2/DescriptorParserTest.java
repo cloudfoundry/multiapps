@@ -1,26 +1,30 @@
 package org.cloudfoundry.multiapps.mta.handlers.v2;
 
-import java.io.InputStream;
-import java.util.Map;
 import java.util.stream.Stream;
 
 import org.cloudfoundry.multiapps.common.test.Tester;
 import org.cloudfoundry.multiapps.common.test.Tester.Expectation;
-import org.cloudfoundry.multiapps.common.util.YamlParser;
+import org.cloudfoundry.multiapps.mta.handlers.common.AbstractDescriptorParserTest;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
-public class DescriptorParserTest {
+public class DescriptorParserTest extends AbstractDescriptorParserTest {
 
-    protected final DescriptorParser parser = createDescriptorParser();
     protected final Tester tester = Tester.forClass(getClass());
 
+    @Override
     protected DescriptorParser createDescriptorParser() {
         return new DescriptorParser();
     }
 
-    static Stream<Arguments> testParseDeploymentDescriptorYaml() {
+    @ParameterizedTest
+    @MethodSource("parseDeploymentDescriptorYamlSoure")
+    void testParseDeploymentDescriptorYaml(String deploymentDescriptorLocation, Expectation expectation) {
+        executeTestParseDeploymentDescriptorYaml(tester, deploymentDescriptorLocation, expectation);
+    }
+
+    static Stream<Arguments> parseDeploymentDescriptorYamlSoure() {
         return Stream.of(
                          // Valid deployment descriptor:
                          Arguments.of("/mta/sample/v2/mtad-01.yaml", new Expectation(Expectation.Type.JSON, "mtad-01.yaml.json")),
@@ -68,7 +72,13 @@ public class DescriptorParserTest {
                                       new Expectation(Expectation.Type.JSON, "parsed-mtad-with-partial-schema-version.json")));
     }
 
-    static Stream<Arguments> testParseExtensionDescriptorYaml() {
+    @ParameterizedTest
+    @MethodSource("parseExtensionDescriptorYamlSource")
+    void testParseExtensionDescriptorYaml(String extensionDescriptorLocation, Expectation expectation) {
+        executeTestParseExtensionDescriptorYaml(tester, extensionDescriptorLocation, expectation);
+    }
+
+    static Stream<Arguments> parseExtensionDescriptorYamlSource() {
         return Stream.of(
                          // Valid extension descriptor:
                          Arguments.of("/mta/sample/v2/config-01.mtaext", new Expectation(Expectation.Type.JSON, "config-01.mtaext.json")),
@@ -100,26 +110,6 @@ public class DescriptorParserTest {
                          // Partial schema version support test (string):
                          Arguments.of("config-with-partial-schema-version-major.minor-quoted.mtaext",
                                       new Expectation(Expectation.Type.JSON, "parsed-config-with-partial-schema-version.json")));
-    }
-
-    @ParameterizedTest
-    @MethodSource
-    public void testParseDeploymentDescriptorYaml(String deploymentDescriptorLocation, Expectation expectation) {
-        InputStream deploymentDescriptorYaml = getClass().getResourceAsStream(deploymentDescriptorLocation);
-        tester.test(() -> {
-            Map<String, Object> deploymentDescriptorMap = new YamlParser().convertYamlToMap(deploymentDescriptorYaml);
-            return parser.parseDeploymentDescriptor(deploymentDescriptorMap);
-        }, expectation);
-    }
-
-    @ParameterizedTest
-    @MethodSource
-    public void testParseExtensionDescriptorYaml(String extensionDescriptorLocation, Expectation expectation) {
-        InputStream extensionDescriptorYaml = getClass().getResourceAsStream(extensionDescriptorLocation);
-        tester.test(() -> {
-            Map<String, Object> extensionDescriptorMap = new YamlParser().convertYamlToMap(extensionDescriptorYaml);
-            return parser.parseExtensionDescriptor(extensionDescriptorMap);
-        }, expectation);
     }
 
 }
