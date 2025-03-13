@@ -22,7 +22,7 @@ public class DeployOrderTest extends AbstractDeployOrderTest {
 
     @ParameterizedTest
     @MethodSource("sortedModulesSource")
-    void testGetSortedModules(String deploymentDescriptorLocation, Expectation expectation) {
+    protected void testGetSortedModules(String deploymentDescriptorLocation, Expectation expectation) {
         executeTestGetSortedModules(tester, deploymentDescriptorLocation, expectation);
     }
 

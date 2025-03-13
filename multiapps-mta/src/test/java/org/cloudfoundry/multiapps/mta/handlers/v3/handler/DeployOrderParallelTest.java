@@ -27,16 +27,15 @@ public class DeployOrderParallelTest extends DeployOrderTest {
         return new DescriptorHandler();
     }
 
+    @Override
     @ParameterizedTest
     @MethodSource("sortedModulesSource")
     public void testGetSortedModules(String deploymentDescriptorLocation, Tester.Expectation expectation) {
         String deploymentDescriptorYaml = TestUtil.getResourceAsString(deploymentDescriptorLocation, getClass());
         DeploymentDescriptor deploymentDescriptor = new DescriptorParserFacade().parseDeploymentDescriptor(deploymentDescriptorYaml);
 
-        tester.test(() -> {
-            return getDeployedAfterMapString(handler.getModulesForDeployment(deploymentDescriptor, PARALLEL_DEPLOYMENTS_PROP,
-                                                                             DEPENDENCY_TYPE_PROP, DEPENDENCY_TYPE_HARD));
-        }, expectation);
+        tester.test(() -> getDeployedAfterMapString(handler.getModulesForDeployment(deploymentDescriptor, PARALLEL_DEPLOYMENTS_PROP,
+                                                                         DEPENDENCY_TYPE_PROP, DEPENDENCY_TYPE_HARD)), expectation);
     }
 
     static Stream<Arguments> sortedModulesSource() {

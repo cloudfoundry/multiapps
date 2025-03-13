@@ -25,10 +25,8 @@ public abstract class AbstractDeployOrderTest {
         String deploymentDescriptorYaml = TestUtil.getResourceAsString(deploymentDescriptorLocation, getClass());
         DeploymentDescriptor deploymentDescriptor = new DescriptorParserFacade().parseDeploymentDescriptor(deploymentDescriptorYaml);
 
-        tester.test(() -> {
-            return Arrays.toString(getNames(handler.getModulesForDeployment(deploymentDescriptor, PARALLEL_DEPLOYMENTS_PROP,
-                                                                            DEPENDENCY_TYPE_PROP, DEPENDENCY_TYPE_HARD)));
-        }, expectation);
+        tester.test(() -> Arrays.toString(getNames(handler.getModulesForDeployment(deploymentDescriptor, PARALLEL_DEPLOYMENTS_PROP,
+                                                                        DEPENDENCY_TYPE_PROP, DEPENDENCY_TYPE_HARD))), expectation);
     }
 
     private String[] getNames(List<? extends Module> modules) {
