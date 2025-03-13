@@ -5,7 +5,7 @@ import java.util.stream.Stream;
 import org.cloudfoundry.multiapps.common.test.Tester.Expectation;
 import org.junit.jupiter.params.provider.Arguments;
 
-public class DescriptorParserTest extends org.cloudfoundry.multiapps.mta.handlers.v2.DescriptorParserTest {
+class DescriptorParserTest extends org.cloudfoundry.multiapps.mta.handlers.v2.DescriptorParserTest {
 
     @Override
     protected DescriptorParser createDescriptorParser() {
