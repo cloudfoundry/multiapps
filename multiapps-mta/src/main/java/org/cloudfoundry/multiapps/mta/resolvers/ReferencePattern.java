@@ -26,6 +26,10 @@ public enum ReferencePattern implements ValueMatcher {
         return PLACEHOLDER.equals(this);
     }
 
+    public String getPattern() {
+        return pattern;
+    }
+
     @Override
     public List<Reference> match(String line) {
         Matcher matcher = Pattern.compile(this.pattern)
