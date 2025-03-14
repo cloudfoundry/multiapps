@@ -5,9 +5,19 @@ import java.util.stream.Stream;
 import org.cloudfoundry.multiapps.common.test.Tester.Expectation;
 import org.junit.jupiter.params.provider.Arguments;
 
-public class DescriptorMergerTest extends org.cloudfoundry.multiapps.mta.handlers.v2.DescriptorMergerTest {
+class DescriptorMergerTest extends org.cloudfoundry.multiapps.mta.handlers.v2.DescriptorMergerTest {
 
-    static Stream<Arguments> testMerge() {
+    @Override
+    protected DescriptorMerger createDescriptorMerger() {
+        return new DescriptorMerger();
+    }
+
+    @Override
+    protected DescriptorParser createDescriptorParser() {
+        return new DescriptorParser();
+    }
+
+    static Stream<Arguments> mergeSource() {
         return Stream.of(
                          // Valid deployment and extension descriptor:
                          Arguments.of("/mta/sample/v3/mtad-01.yaml", new String[] { "/mta/sample/v3/config-01.mtaext", },
@@ -24,17 +34,7 @@ public class DescriptorMergerTest extends org.cloudfoundry.multiapps.mta.handler
                                       new Expectation(Expectation.Type.JSON, "/mta/sample/v3/merged-07.yaml.json")),
                          // Merge optional resources
                          Arguments.of("/mta/sample/v3/mtad-07.yaml", new String[] { "/mta/sample/v3/config-10.mtaext", },
-                                 new Expectation(Expectation.Type.JSON, "/mta/sample/v3/merged-08.yaml.json")));
-    }
-
-    @Override
-    protected DescriptorMerger createDescriptorMerger() {
-        return new DescriptorMerger();
-    }
-
-    @Override
-    protected DescriptorParser createDescriptorParser() {
-        return new DescriptorParser();
+                                      new Expectation(Expectation.Type.JSON, "/mta/sample/v3/merged-08.yaml.json")));
     }
 
 }

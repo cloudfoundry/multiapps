@@ -7,7 +7,17 @@ import org.junit.jupiter.params.provider.Arguments;
 
 public class DescriptorValidatorTest extends org.cloudfoundry.multiapps.mta.handlers.v2.DescriptorValidatorTest {
 
-    static Stream<Arguments> testValidateDeploymentDescriptor() {
+    @Override
+    protected DescriptorParser createDescriptorParser() {
+        return new DescriptorParser();
+    }
+
+    @Override
+    protected DescriptorValidator createDescriptorValidator() {
+        return new DescriptorValidator();
+    }
+
+    static Stream<Arguments> validateDeploymentDescriptorSource() {
         return Stream.of(
                          // Valid deployment descriptor:
                          Arguments.of("/mta/sample/v3/mtad-01.yaml", new Expectation(null)),
@@ -21,7 +31,7 @@ public class DescriptorValidatorTest extends org.cloudfoundry.multiapps.mta.hand
                          Arguments.of("/mta/sample/v3/mtad-04.yaml", new Expectation(null)));
     }
 
-    static Stream<Arguments> testValidateExtensionDescriptors() {
+    static Stream<Arguments> validateExtensionDescriptorsSource() {
         return Stream.of(
                          // Valid extension descriptors:
                          Arguments.of("/mta/sample/v3/mtad-01.yaml", new String[] { "/mta/sample/v3/config-01.mtaext" },
@@ -44,7 +54,7 @@ public class DescriptorValidatorTest extends org.cloudfoundry.multiapps.mta.hand
                                                       "Cannot modify parameter \"web-server#test\" in extension descriptor \"com.sap.mta.sample.v3.config-06\"")));
     }
 
-    static Stream<Arguments> testValidateMergedDescriptor() {
+    static Stream<Arguments> validateMergedDescriptorSource() {
         return Stream.of(
                          // With non-overwritable parameter in the merged descriptor:
                          Arguments.of("/mta/sample/v3/merged-03.yaml",
@@ -52,16 +62,6 @@ public class DescriptorValidatorTest extends org.cloudfoundry.multiapps.mta.hand
                                                       "The parameter \"web-server#test\" is not optional and has no value.")),
                          // Unresolved properties in merged descriptor:
                          Arguments.of("/mta/sample/v3/merged-06.yaml", new Expectation(null)));
-    }
-
-    @Override
-    protected DescriptorParser createDescriptorParser() {
-        return new DescriptorParser();
-    }
-
-    @Override
-    protected DescriptorValidator createDescriptorValidator() {
-        return new DescriptorValidator();
     }
 
 }

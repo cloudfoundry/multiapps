@@ -5,14 +5,14 @@ import java.util.stream.Stream;
 import org.cloudfoundry.multiapps.common.test.Tester.Expectation;
 import org.junit.jupiter.params.provider.Arguments;
 
-public class DescriptorParserTest extends org.cloudfoundry.multiapps.mta.handlers.v2.DescriptorParserTest {
+class DescriptorParserTest extends org.cloudfoundry.multiapps.mta.handlers.v2.DescriptorParserTest {
 
     @Override
     protected DescriptorParser createDescriptorParser() {
         return new DescriptorParser();
     }
 
-    static Stream<Arguments> testParseDeploymentDescriptorYaml() {
+    static Stream<Arguments> parseDeploymentDescriptorYamlSoure() {
         return Stream.of(Arguments.of("mtad-00.yaml", new Expectation(Expectation.Type.JSON, "parsed-mtad-00.json")),
                          Arguments.of("mtad-01.yaml", new Expectation(Expectation.Type.JSON, "parsed-mtad-01.json")),
                          // Sensitive properties and parameters test:
@@ -43,7 +43,7 @@ public class DescriptorParserTest extends org.cloudfoundry.multiapps.mta.handler
                                       new Expectation(Expectation.Type.JSON, "parsed-mtad-with-two-hooks.json")));
     }
 
-    static Stream<Arguments> testParseExtensionDescriptorYaml() {
+    static Stream<Arguments> parseExtensionDescriptorYamlSource() {
         return Stream.of(
                          // Valid extension descriptor:
                          Arguments.of("config-00.mtaext", new Expectation(Expectation.Type.JSON, "parsed-config-00.mtaext")),
