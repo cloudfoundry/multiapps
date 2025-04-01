@@ -194,7 +194,7 @@ public class Resource extends VersionedEntity
     @Override
     public void accept(ElementContext context, Visitor visitor) {
         visitor.visit(context, this);
-        if (majorSchemaVersion > 3) {
+        if (majorSchemaVersion > 2) {
             for (RequiredDependency requiredDependency : requiredDependencies) {
                 visitor.visit(new ElementContext(this, context), requiredDependency);
             }
