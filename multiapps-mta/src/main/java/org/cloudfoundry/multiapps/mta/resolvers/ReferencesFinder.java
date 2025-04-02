@@ -87,8 +87,11 @@ public class ReferencesFinder extends Visitor implements SimplePropertyVisitor {
     private void referencePatternMatches(String valueToMatch) {
         for (Pattern compiledPattern : ReferencePattern.COMPILED_PATTERNS) {
             Matcher matcher = compiledPattern.matcher(MiscUtil.cast(valueToMatch));
-            if (matcher.matches()) {
-                addReference(matcher.group(1));
+            while (matcher.find()) {
+                for (int i = 1; i <= matcher.groupCount(); i++) {
+                    String reference = matcher.group(i);
+                    addReference(reference);
+                }
             }
         }
     }

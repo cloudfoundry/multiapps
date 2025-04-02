@@ -1,0 +1,15 @@
+_schema-version: "3.1.0"
+ID: reference-test
+version: 1.0.0
+
+modules:
+  - name: foo
+    type: application
+    hooks:
+      - name: test-hook1
+        type: task
+        phases:
+          - application.before-stop.live
+        parameters:
+          hook-parameter: test
+          other-hook-parameter: test
