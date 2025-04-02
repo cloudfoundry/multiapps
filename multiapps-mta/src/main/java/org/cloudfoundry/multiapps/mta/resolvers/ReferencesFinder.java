@@ -1,8 +1,6 @@
 package org.cloudfoundry.multiapps.mta.resolvers;
 
-import java.util.Collections;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 import java.util.regex.Matcher;
@@ -26,9 +24,9 @@ public class ReferencesFinder extends Visitor implements SimplePropertyVisitor {
 
     private Set<String> foundReferences;
 
-    public Set<String> findReferences(DeploymentDescriptor descriptor) {
+    public void fillWithReferences(DeploymentDescriptor descriptor, Set<String> referenceContainer) {
+        this.foundReferences = referenceContainer;
         descriptor.accept(this);
-        return foundReferences != null ? foundReferences : Collections.emptySet();
     }
 
     @Override
@@ -90,17 +88,10 @@ public class ReferencesFinder extends Visitor implements SimplePropertyVisitor {
             while (matcher.find()) {
                 for (int i = 1; i <= matcher.groupCount(); i++) {
                     String reference = matcher.group(i);
-                    addReference(reference);
+                    foundReferences.add(reference);
                 }
             }
         }
-    }
-
-    private void addReference(String reference) {
-        if (foundReferences == null) {
-            foundReferences = new HashSet<>();
-        }
-        foundReferences.add(reference);
     }
 
 }

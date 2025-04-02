@@ -1,6 +1,7 @@
 package org.cloudfoundry.multiapps.mta.resolvers;
 
 import java.io.InputStream;
+import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Stream;
 
@@ -32,8 +33,9 @@ public class ReferencesFinderTest {
     @MethodSource
     void testGetReferences(String descriptorLocation, Set<String> expectedResult) {
         ReferencesFinder finder = new ReferencesFinder();
+        Set<String> actualReferences = new HashSet<>();
         DeploymentDescriptor descriptor = parseDeploymentDescriptor(descriptorLocation);
-        Set<String> actualReferences = finder.findReferences(descriptor);
+        finder.fillWithReferences(descriptor, actualReferences);
         assertEquals(expectedResult, actualReferences);
     }
 

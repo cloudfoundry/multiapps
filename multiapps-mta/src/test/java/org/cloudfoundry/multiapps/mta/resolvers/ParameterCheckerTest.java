@@ -39,8 +39,8 @@ public class ParameterCheckerTest {
         ParameterChecker parameterChecker = new ParameterCheckerTestImpl();
         DeploymentDescriptor descriptor = parseDeploymentDescriptor(descriptorLocation);
         List<String> container = new ArrayList<>();
-        List<String> actualMatches = parameterChecker.checkMatches(descriptor, container);
-        assertEquals(expectedResult, actualMatches);
+        parameterChecker.fillListWithUnmatched(descriptor, container);
+        assertEquals(expectedResult, container);
     }
 
     private DeploymentDescriptor parseDeploymentDescriptor(String deploymentDescriptorLocation) {
