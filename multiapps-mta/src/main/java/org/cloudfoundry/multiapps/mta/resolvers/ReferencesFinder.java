@@ -13,8 +13,6 @@ import org.cloudfoundry.multiapps.mta.model.DeploymentDescriptor;
 import org.cloudfoundry.multiapps.mta.model.ElementContext;
 import org.cloudfoundry.multiapps.mta.model.Hook;
 import org.cloudfoundry.multiapps.mta.model.Module;
-import org.cloudfoundry.multiapps.mta.model.ParametersContainer;
-import org.cloudfoundry.multiapps.mta.model.PropertiesContainer;
 import org.cloudfoundry.multiapps.mta.model.ProvidedDependency;
 import org.cloudfoundry.multiapps.mta.model.RequiredDependency;
 import org.cloudfoundry.multiapps.mta.model.Resource;
@@ -31,44 +29,36 @@ public class ReferencesFinder extends Visitor implements SimplePropertyVisitor {
 
     @Override
     public void visit(ElementContext context, DeploymentDescriptor descriptor) {
-        findReferencesInParameters(descriptor);
+        findReferencesInMap(descriptor.getParameters());
     }
 
     @Override
     public void visit(ElementContext context, Module module) {
-        findReferencesInProperties(module);
-        findReferencesInParameters(module);
+        findReferencesInMap(module.getParameters());
+        findReferencesInMap(module.getProperties());
     }
 
     @Override
     public void visit(ElementContext context, ProvidedDependency providedDependency) {
-        findReferencesInProperties(providedDependency);
-        findReferencesInParameters(providedDependency);
+        findReferencesInMap(providedDependency.getParameters());
+        findReferencesInMap(providedDependency.getProperties());
     }
 
     @Override
     public void visit(ElementContext context, RequiredDependency requiredDependency) {
-        findReferencesInProperties(requiredDependency);
-        findReferencesInParameters(requiredDependency);
+        findReferencesInMap(requiredDependency.getParameters());
+        findReferencesInMap(requiredDependency.getProperties());
     }
 
     @Override
     public void visit(ElementContext context, Resource resource) {
-        findReferencesInProperties(resource);
-        findReferencesInParameters(resource);
+        findReferencesInMap(resource.getParameters());
+        findReferencesInMap(resource.getProperties());
     }
 
     @Override
     public void visit(ElementContext context, Hook hook) {
-        findReferencesInParameters(hook);
-    }
-
-    private void findReferencesInProperties(PropertiesContainer propertiesContainer) {
-        findReferencesInMap(propertiesContainer.getProperties());
-    }
-
-    private void findReferencesInParameters(ParametersContainer parametersContainer) {
-        findReferencesInMap(parametersContainer.getParameters());
+        findReferencesInMap(hook.getParameters());
     }
 
     private void findReferencesInMap(Map<String, Object> map) {
