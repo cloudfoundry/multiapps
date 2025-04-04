@@ -1,21 +1,30 @@
 package org.cloudfoundry.multiapps.mta.resolvers;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 public enum ReferencePattern implements ValueMatcher {
 
     PLACEHOLDER("(?<!\\\\)\\$\\{(.+?)\\}", "${%s}"), SHORT("(?<!\\\\)~\\{(.+?)\\}", "~{%s}"), FULLY_QUALIFIED("(?<!\\\\)~\\{(.+?)/(.+?)\\}",
-        "~{%s/%s}");
+                                                                                                              "~{%s/%s}");
 
     private String pattern;
     private String patternFormat;
 
+    private final Pattern compiledPattern;
+
+    public static final List<Pattern> COMPILED_PATTERNS = Arrays.stream(values())
+                                                                .map(referencePattern -> referencePattern.compiledPattern)
+                                                                .collect(Collectors.toList());
+
     ReferencePattern(String pattern, String patternFormat) {
         this.pattern = pattern;
         this.patternFormat = patternFormat;
+        this.compiledPattern = Pattern.compile(pattern);
     }
 
     protected boolean hasPropertySetSegment() {
@@ -28,8 +37,7 @@ public enum ReferencePattern implements ValueMatcher {
 
     @Override
     public List<Reference> match(String line) {
-        Matcher matcher = Pattern.compile(this.pattern)
-                                 .matcher(line);
+        Matcher matcher = this.compiledPattern.matcher(line);
         List<Reference> references = new ArrayList<>();
         while (matcher.find()) {
             String matchedValue = matcher.group(0);

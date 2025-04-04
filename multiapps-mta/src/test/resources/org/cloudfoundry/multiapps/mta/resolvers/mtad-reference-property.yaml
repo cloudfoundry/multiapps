@@ -1,0 +1,16 @@
+_schema-version: 3
+ID: reference-test
+version: 1.0.0
+
+modules:
+  - name: foo
+    type: application
+    properties:
+      b: bbb
+      b2: ${b}
+
+resources:
+  - name: baz
+    properties:
+      parameters1: ~{c/d}.foo-test2-value
+      baz-test2: ~{e/f}.bar-test1-value.nonexisting.~{bar/non-existing}
