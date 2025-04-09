@@ -39,7 +39,7 @@ public class ParameterCheckerTest {
         ParameterChecker parameterChecker = new ParameterCheckerTestImpl();
         DeploymentDescriptor descriptor = parseDeploymentDescriptor(descriptorLocation);
         List<String> container = new ArrayList<>();
-        parameterChecker.fillListWithUnmatched(descriptor, container);
+        parameterChecker.getCustomParameters(descriptor);
         assertEquals(expectedResult, container);
     }
 

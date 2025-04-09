@@ -35,7 +35,7 @@ public class ReferencesFinderTest {
         ReferencesFinder finder = new ReferencesFinder();
         Set<String> actualReferences = new HashSet<>();
         DeploymentDescriptor descriptor = parseDeploymentDescriptor(descriptorLocation);
-        finder.fillWithReferences(descriptor, actualReferences);
+        finder.getAllReferences(descriptor);
         assertEquals(expectedResult, actualReferences);
     }
 

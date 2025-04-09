@@ -1,5 +1,6 @@
 package org.cloudfoundry.multiapps.mta.resolvers;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -30,9 +31,10 @@ public abstract class ParameterChecker extends Visitor implements SimpleProperty
 
     protected abstract Set<String> getDependencyParametersToMatch();
 
-    public void fillListWithUnmatched(DeploymentDescriptor descriptor, List<String> container) {
-        this.matchedParameters = container;
+    public List<String> getCustomParameters(DeploymentDescriptor descriptor) {
+        this.matchedParameters = new ArrayList<>();
         descriptor.accept(this);
+        return matchedParameters;
     }
 
     @Override
