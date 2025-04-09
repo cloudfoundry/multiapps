@@ -2,12 +2,10 @@ package org.cloudfoundry.multiapps.mta.resolvers;
 
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
-import org.cloudfoundry.multiapps.common.util.MiscUtil;
 import org.cloudfoundry.multiapps.mta.helpers.SimplePropertyVisitor;
 import org.cloudfoundry.multiapps.mta.helpers.VisitableObject;
 import org.cloudfoundry.multiapps.mta.model.DeploymentDescriptor;
@@ -75,13 +73,10 @@ public class ReferencesFinder extends Visitor implements SimplePropertyVisitor {
     }
 
     private void referencePatternMatches(String valueToMatch) {
-        for (Pattern compiledPattern : ReferencePattern.COMPILED_PATTERNS) {
-            Matcher matcher = compiledPattern.matcher(MiscUtil.cast(valueToMatch));
-            while (matcher.find()) {
-                for (int i = 1; i <= matcher.groupCount(); i++) {
-                    String reference = matcher.group(i);
-                    foundReferences.add(reference);
-                }
+        for (ReferencePattern pattern : ReferencePattern.values()) {
+            List<Reference> references = pattern.match(valueToMatch);
+            for (Reference reference : references) {
+                foundReferences.add(reference.getKey());
             }
         }
     }

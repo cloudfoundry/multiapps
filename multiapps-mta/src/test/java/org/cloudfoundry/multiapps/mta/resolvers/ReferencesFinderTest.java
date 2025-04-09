@@ -1,7 +1,6 @@
 package org.cloudfoundry.multiapps.mta.resolvers;
 
 import java.io.InputStream;
-import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Stream;
 
@@ -18,9 +17,9 @@ public class ReferencesFinderTest {
     static Stream<Arguments> testGetReferences() {
         return Stream.of(
             Arguments.of("mtad-reference-parameter.yaml",
-                         Set.of("a", "b", "bar", "c", "d", "e", "non-existing", "f", "c/d", "bar/non-existing", "e/f")),
+                         Set.of("a", "b", "d", "non-existing", "f", "c/d", "bar/non-existing", "e/f")),
             Arguments.of("mtad-reference-property.yaml",
-                         Set.of("b", "bar", "c", "d", "e", "non-existing", "f", "c/d", "bar/non-existing", "e/f")),
+                         Set.of("b", "d", "non-existing", "f", "c/d", "bar/non-existing", "e/f")),
             Arguments.of("mtad-reference-provides-requires.yaml",
                          Set.of("ref-url-2", "non-existing", "non-existing-resource", "ref-url")),
             Arguments.of("mtad-reference-hooks.yaml",
@@ -33,9 +32,8 @@ public class ReferencesFinderTest {
     @MethodSource
     void testGetReferences(String descriptorLocation, Set<String> expectedResult) {
         ReferencesFinder finder = new ReferencesFinder();
-        Set<String> actualReferences = new HashSet<>();
         DeploymentDescriptor descriptor = parseDeploymentDescriptor(descriptorLocation);
-        finder.getAllReferences(descriptor);
+        Set<String> actualReferences = finder.getAllReferences(descriptor);
         assertEquals(expectedResult, actualReferences);
     }
 

@@ -1,7 +1,6 @@
 package org.cloudfoundry.multiapps.mta.resolvers;
 
 import java.io.InputStream;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Stream;
@@ -38,9 +37,8 @@ public class ParameterCheckerTest {
     void testGetMatches(String descriptorLocation, List<String> expectedResult) {
         ParameterChecker parameterChecker = new ParameterCheckerTestImpl();
         DeploymentDescriptor descriptor = parseDeploymentDescriptor(descriptorLocation);
-        List<String> container = new ArrayList<>();
-        parameterChecker.getCustomParameters(descriptor);
-        assertEquals(expectedResult, container);
+        List<String> actualResult = parameterChecker.getCustomParameters(descriptor);
+        assertEquals(expectedResult, actualResult);
     }
 
     private DeploymentDescriptor parseDeploymentDescriptor(String deploymentDescriptorLocation) {
