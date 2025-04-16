@@ -13,3 +13,4 @@ modules:
         parameters:
           name: before-stop-task
           command: ${default-time}
+          foo: true

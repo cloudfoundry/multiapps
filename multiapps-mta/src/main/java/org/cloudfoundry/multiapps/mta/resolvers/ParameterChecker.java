@@ -2,7 +2,9 @@ package org.cloudfoundry.multiapps.mta.resolvers;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.cloudfoundry.multiapps.mta.helpers.SimplePropertyVisitor;
 import org.cloudfoundry.multiapps.mta.helpers.VisitableObject;
@@ -17,7 +19,7 @@ import org.cloudfoundry.multiapps.mta.model.Resource;
 import org.cloudfoundry.multiapps.mta.model.Visitor;
 
 public abstract class ParameterChecker extends Visitor implements SimplePropertyVisitor {
-    private List<String> matchedParameters;
+    private List<CustomParameterContainer> unsupportedParameters;
 
     private Set<String> currentParameters;
 
@@ -31,67 +33,72 @@ public abstract class ParameterChecker extends Visitor implements SimpleProperty
 
     protected abstract Set<String> getDependencyParametersToMatch();
 
-    public List<String> getCustomParameters(DeploymentDescriptor descriptor) {
-        this.matchedParameters = new ArrayList<>();
+    public List<CustomParameterContainer> getCustomParameters(DeploymentDescriptor descriptor) {
+        this.unsupportedParameters = new ArrayList<>();
         descriptor.accept(this);
-        return matchedParameters;
+        return this.unsupportedParameters;
     }
 
     @Override
     public void visit(ElementContext context, DeploymentDescriptor descriptor) {
-        currentParameters = getGlobalParametersToMatch();
-        findMatchesInParameters(descriptor);
+        matchAndStore(null, getGlobalParametersToMatch(), descriptor, null);
     }
 
     @Override
     public void visit(ElementContext context, Module module) {
-        currentParameters = getModuleParametersToMatch();
-        findMatchesInParameters(module);
+        matchAndStore(module.getName(), getModuleParametersToMatch(), module, context.getPrefixedName());
     }
 
     @Override
     public void visit(ElementContext context, ProvidedDependency providedDependency) {
-        currentParameters = getDependencyParametersToMatch();
-        findMatchesInParameters(providedDependency);
+        matchAndStore(providedDependency.getName(), getDependencyParametersToMatch(), providedDependency, context.getPrefixedName());
     }
 
     @Override
     public void visit(ElementContext context, RequiredDependency requiredDependency) {
-        currentParameters = getDependencyParametersToMatch();
-        findMatchesInParameters(requiredDependency);
+        matchAndStore(requiredDependency.getName(), getDependencyParametersToMatch(), requiredDependency, context.getPrefixedName());
     }
 
     @Override
     public void visit(ElementContext context, Resource resource) {
-        currentParameters = getResourceParametersToMatch();
-        findMatchesInParameters(resource);
+        matchAndStore(resource.getName(), getResourceParametersToMatch(), resource, context.getPrefixedName());
     }
 
     @Override
     public void visit(ElementContext context, Hook hook) {
-        currentParameters = getModuleHookParametersToMatch();
-        findMatchesInParameters(hook);
+        matchAndStore(hook.getName(), getModuleHookParametersToMatch(), hook, context.getPrefixedName());
     }
 
-    private void findMatchesInParameters(ParametersContainer parametersContainer) {
-        findMatchesInKeySet(parametersContainer.getParameters()
-                                               .keySet());
+    private void matchAndStore(String name, Set<String> parametersToMatch, ParametersContainer parametersContainer, String prefixedName) {
+        this.currentParameters = parametersToMatch;
+        List<String> unmatched = findMatchesInParameters(parametersContainer);
+        if (!unmatched.isEmpty()) {
+            unsupportedParameters.add(new CustomParameterContainer(name, unmatched, prefixedName));
+        }
     }
 
-    private void findMatchesInKeySet(Set<String> keys) {
-        new VisitableObject(keys).accept(this);
+    private List<String> findMatchesInParameters(ParametersContainer parametersContainer) {
+        List<String> matchedKeys = (List<String>) findMatchesInKeySet(parametersContainer.getParameters()
+                                                                                         .keySet());
+        return matchedKeys.stream()
+                          .filter(Objects::nonNull)
+                          .collect(Collectors.toList());
+    }
+
+    private Object findMatchesInKeySet(Set<String> keys) {
+        return new VisitableObject(keys).accept(this);
     }
 
     @Override
     public Object visit(String key, String value) {
-        parameterKeyMatches(value);
-        return value;
+        return parameterKeyMatches(value);
     }
 
-    private void parameterKeyMatches(String valueToMatch) {
+    private String parameterKeyMatches(String valueToMatch) {
         if (currentParameters != null && !currentParameters.contains(valueToMatch)) {
-            matchedParameters.add(valueToMatch);
+            return valueToMatch;
         }
+        return null;
     }
 
 }
