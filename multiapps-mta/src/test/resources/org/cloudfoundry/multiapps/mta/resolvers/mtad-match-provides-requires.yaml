@@ -1,0 +1,26 @@
+_schema-version: 3
+ID: reference-test
+version: 1.0.0
+
+modules:
+  - name: ztana
+    type: java.tomcat
+    path: backend.war
+    provides:
+      - name: backend-live
+        parameters:
+          dependency-parameter: test
+          other-provided-dependency-parameter: test
+    requires:
+      - name: bar
+        parameters:
+          dependency-parameter: test
+          other-required-dependency-parameter: test
+
+resources:
+  - name: baz
+    requires:
+      - name: bar
+        parameters:
+          dependency-parameter: test
+          other-resource-dependency-parameter: test
