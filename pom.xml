@@ -18,19 +18,19 @@
         <sonar.organization>cloudfoundry</sonar.organization>
         <sonar.coverage.jacoco.xmlReportPaths>../multiapps-coverage/target/site/jacoco-aggregate/jacoco.xml
         </sonar.coverage.jacoco.xmlReportPaths>
-        <junit.version>5.12.1</junit.version>
+        <junit.version>5.12.2</junit.version>
         <junit-platform.version>1.12.1</junit-platform.version>
-        <mockito.version>5.14.2</mockito.version>
+        <mockito.version>5.17.0</mockito.version>
         <commons-lang3.version>3.17.0</commons-lang3.version>
-        <commons-collections4.version>4.4</commons-collections4.version>
+        <commons-collections4.version>4.5.0</commons-collections4.version>
         <commons-io.version>2.18.0</commons-io.version>
-        <snakeyaml.version>2.3</snakeyaml.version>
+        <snakeyaml.version>2.4</snakeyaml.version>
         <!-- Be very wary when updating Semver to newer versions because there is an issue -->
         <!-- https://github.com/semver4j/semver4j/issues/208 which must fixed before adoption -->
         <semver4j.version>3.1.0</semver4j.version>
         <immutables.version>2.10.1</immutables.version>
-        <jackson.version>2.18.3</jackson.version>
-        <jackson.databind.version>2.18.3</jackson.databind.version>
+        <jackson.version>2.19.0</jackson.version>
+        <jackson.databind.version>2.19.0</jackson.databind.version>
         <jaxb-runtime.version>4.0.5</jaxb-runtime.version>
         <jakarta.xml.bind-api.version>4.0.2</jakarta.xml.bind-api.version>
         <apache.compress.version>1.27.1</apache.compress.version>
