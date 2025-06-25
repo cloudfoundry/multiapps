@@ -18,8 +18,8 @@
         <sonar.organization>cloudfoundry</sonar.organization>
         <sonar.coverage.jacoco.xmlReportPaths>../multiapps-coverage/target/site/jacoco-aggregate/jacoco.xml
         </sonar.coverage.jacoco.xmlReportPaths>
-        <junit.version>5.13.1</junit.version>
-        <junit-platform.version>1.13.1</junit-platform.version>
+        <junit.version>5.13.2</junit.version>
+        <junit-platform.version>1.13.2</junit-platform.version>
         <mockito.version>5.18.0</mockito.version>
         <commons-lang3.version>3.17.0</commons-lang3.version>
         <commons-collections4.version>4.5.0</commons-collections4.version>
