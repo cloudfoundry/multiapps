@@ -21,7 +21,7 @@
         <junit.version>5.13.2</junit.version>
         <junit-platform.version>1.13.2</junit-platform.version>
         <mockito.version>5.18.0</mockito.version>
-        <commons-lang3.version>3.17.0</commons-lang3.version>
+        <commons-lang3.version>3.18.0</commons-lang3.version>
         <commons-collections4.version>4.5.0</commons-collections4.version>
         <commons-io.version>2.19.0</commons-io.version>
         <snakeyaml.version>2.4</snakeyaml.version>
