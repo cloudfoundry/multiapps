@@ -1,0 +1,50 @@
+ID: com.sap.mta.v2.test.config-02
+_schema-version: 3.3.0
+version: 1.0.0
+
+modules:
+  - name: module-a
+    type: com.sap.application.content
+    parameters:
+      content:
+        subaccount:
+          existing_destinations_policy: update
+          destinations:
+            - Name: destination-a
+              URL: ~{module-b/invalid/0/url}
+              forwardAuthToken: true
+              ServiceInstanceName: "service-a"
+    requires:
+      - name: service-destination
+        parameters:
+          content-target: true
+      - name: service-a
+      - name: module-b
+
+  - name: module-b
+    type: application
+    path: "appBits.zip"
+    requires:
+      - name: service-a
+    parameters:
+      buildpack: staticfile_buildpack
+      memory: 1G
+      disk-quota: 1G
+    provides:
+      - name: module-b
+        properties:
+          default-url: ${default-url}
+
+resources:
+  - name: service-destination
+    type: org.cloudfoundry.managed-service
+    parameters:
+      service: destination
+      service-name: service-destination
+      service-plan: lite
+
+  - name: service-a
+    type: org.cloudfoundry.managed-service
+    parameters:
+      service: xsuaa
+      service-plan: application

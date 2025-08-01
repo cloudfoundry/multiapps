@@ -1,9 +1,5 @@
 package org.cloudfoundry.multiapps.common.test;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.junit.jupiter.api.Assertions.fail;
-
 import java.text.MessageFormat;
 import java.util.List;
 import java.util.Objects;
@@ -14,6 +10,10 @@ import org.apache.commons.lang3.function.FailableCallable;
 import org.apache.commons.lang3.function.FailableRunnable;
 import org.cloudfoundry.multiapps.common.util.JsonUtil;
 import org.junit.jupiter.api.Assertions;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
 
 public class Tester {
 
@@ -94,12 +94,13 @@ public class Tester {
     private void validateFailure(Expectation expectation, Exception e) {
         if (!expectation.expectsFailure()) {
             e.printStackTrace();
-            fail("Test failed: " + e.toString());
+            fail("Test failed: " + e);
         }
         String exceptionMessage = e.getMessage();
         assertTrue(exceptionMessage.contains(expectation.getExpectationAsString()),
-                   MessageFormat.format("Exception's message doesn't match up! Expected [{0}] to contain [{1}]!", exceptionMessage,
-                                        expectation.getExpectationAsString()));
+                   MessageFormat.format("Exception's message doesn't match up! Expected [{0}] to contain [{1}]!",
+                                        expectation.getExpectationAsString(), exceptionMessage)
+        );
     }
 
     private Object loadResourceAsJsonObject(String resource) {
