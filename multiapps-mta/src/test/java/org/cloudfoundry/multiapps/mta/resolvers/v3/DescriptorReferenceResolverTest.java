@@ -21,18 +21,21 @@ class DescriptorReferenceResolverTest {
 
     static Stream<Arguments> testResolve() {
         return Stream.of(
-                         // (0) Resolve references in resources:
-                         Arguments.of("merged-01.yaml", new Expectation(Expectation.Type.JSON, "resolved-01.yaml.json")),
-                         // (1) Resolve references in resources - cyclic dependencies & corner cases:
-                         Arguments.of("merged-02.yaml", new Expectation(Expectation.Type.JSON, "resolved-02.yaml.json")),
-                         // (2) Test error reporting on failure to resolve value:
-                         Arguments.of("merged-03.yaml",
-                                      new Expectation(Expectation.Type.EXCEPTION, "Unable to resolve \"baz##non-existing\"")),
-                         // (3) Resolve references in hooks:
-                         Arguments.of("merged-04.yaml", new Expectation(Expectation.Type.JSON, "resolved-03.yaml.json")),
-                         // (4)
-                         Arguments.of("mtad-with-escaped-references.yaml",
-                                      new Expectation(Expectation.Type.JSON, "result-from-escaped-references.json")));
+            // (0) Resolve references in resources:
+            Arguments.of("merged-01.yaml", new Expectation(Expectation.Type.JSON, "resolved-01.yaml.json")),
+            // (1) Resolve references in resources - cyclic dependencies & corner cases:
+            Arguments.of("merged-02.yaml", new Expectation(Expectation.Type.JSON, "resolved-02.yaml.json")),
+            // (2) Test error reporting on failure to resolve value:
+            Arguments.of("merged-03.yaml",
+                         new Expectation(Expectation.Type.EXCEPTION, "Unable to resolve \"baz##bar#non-existing\"")),
+            // (3) Resolve references in hooks:
+            Arguments.of("merged-04.yaml", new Expectation(Expectation.Type.JSON, "resolved-03.yaml.json")),
+            // (4)
+            Arguments.of("mtad-with-escaped-references.yaml",
+                         new Expectation(Expectation.Type.JSON, "result-from-escaped-references.json")),
+            // (5)
+            Arguments.of("merged-05.yaml",
+                         new Expectation(Expectation.Type.EXCEPTION, "Unable to resolve \"module-a##module-b#invalid/0/url\"")));
     }
 
     @ParameterizedTest
