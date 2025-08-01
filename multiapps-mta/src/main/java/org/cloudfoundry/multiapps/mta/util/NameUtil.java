@@ -20,4 +20,14 @@ public final class NameUtil {
         return prefix + separator + name;
     }
 
+    public static String getPrefixedPath(String prefix, String path) {
+        if (StringUtils.isEmpty(prefix)) {
+            return path;
+        }
+        String prefixWithSeparator = prefix + DEFAULT_PREFIX_SEPARATOR;
+        if (path.startsWith(prefixWithSeparator)) {
+            return path;
+        }
+        return prefixWithSeparator + path;
+    }
 }
