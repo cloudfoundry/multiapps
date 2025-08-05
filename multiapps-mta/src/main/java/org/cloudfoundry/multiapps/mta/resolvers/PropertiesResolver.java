@@ -150,7 +150,9 @@ public class PropertiesResolver implements SimplePropertyVisitor, Resolver<Map<S
     private Object getObjectForLateResolveIfPresent(Reference reference) {
         String referenceKey = reference.getKey();
         if (isStrict && !dynamicResolvableParameters.contains(referenceKey)) {
-            throw new ContentException(Messages.UNABLE_TO_RESOLVE, NameUtil.getPrefixedName(prefix, referenceKey));
+            throw new ContentException(Messages.UNABLE_TO_RESOLVE,
+                                       NameUtil.getPrefixedPath(prefix, buildFullQualifiedPath(reference)));
+
         }
         if (dynamicResolvableParameters.contains(referenceKey) && prefix != null) {
             return MessageFormat.format(DynamicParameterUtil.PATTERN_FOR_DYNAMIC_PARAMETERS, prefix, reference.getKey());
@@ -174,7 +176,7 @@ public class PropertiesResolver implements SimplePropertyVisitor, Resolver<Map<S
             keyPart = addOldKeyAsPrefixIfUnresolved(keyPart, referencePartsMatcher.group(1));
 
             if (currentProperty instanceof Collection) {
-                currentProperty = resolveKeyInIterable(keyPart, (Collection<?>) currentProperty, deepReferenceKey);
+                currentProperty = resolveKeyInIterable(reference, (Collection<?>) currentProperty, deepReferenceKey);
                 keyPart = "";
             } else if (currentProperty instanceof Map) {
                 @SuppressWarnings("unchecked")
@@ -184,12 +186,16 @@ public class PropertiesResolver implements SimplePropertyVisitor, Resolver<Map<S
                     keyPart = "";
                 }
             } else {
-                throw new ContentException(Messages.UNABLE_TO_RESOLVE, NameUtil.getPrefixedName(prefix, deepReferenceKey));
+                throw new ContentException(Messages.UNABLE_TO_RESOLVE,
+                                           NameUtil.getPrefixedPath(prefix, buildFullQualifiedPath(reference)));
+
             }
         }
 
         if (!keyPart.isEmpty()) {
-            throw new ContentException(Messages.UNABLE_TO_RESOLVE, NameUtil.getPrefixedName(prefix, deepReferenceKey));
+            throw new ContentException(Messages.UNABLE_TO_RESOLVE,
+                                       NameUtil.getPrefixedPath(prefix, buildFullQualifiedPath(reference)));
+
         }
 
         return currentProperty;
@@ -202,15 +208,23 @@ public class PropertiesResolver implements SimplePropertyVisitor, Resolver<Map<S
         return oldKey + "/" + newKey;
     }
 
-    private Object resolveKeyInIterable(String key, Collection<?> listOfProperties, String longKey) {
-        if (StringUtils.isNumeric(key)) {
-            try {
-                return IterableUtils.get(listOfProperties, Integer.parseInt(key));
-            } catch (IndexOutOfBoundsException e) {
-                throw new ContentException(e, Messages.UNABLE_TO_RESOLVE, NameUtil.getPrefixedName(prefix, longKey));
+    private Object resolveKeyInIterable(Reference reference, Collection<?> listOfProperties, String longKey) {
+        String deepReferenceKey = reference.getKey();
+        try {
+            if (StringUtils.isNumeric(deepReferenceKey)) {
+                return IterableUtils.get(listOfProperties, Integer.parseInt(deepReferenceKey));
             }
+            throw new ContentException(Messages.UNABLE_TO_RESOLVE, buildFullQualifiedPath(reference));
+        } catch (IndexOutOfBoundsException e) {
+            throw new ContentException(e, Messages.UNABLE_TO_RESOLVE, buildFullQualifiedPath(reference));
         }
-        throw new ContentException(Messages.UNABLE_TO_RESOLVE, NameUtil.getPrefixedName(prefix, longKey));
+    }
+
+    private String buildFullQualifiedPath(Reference reference) {
+        String raw = reference.getDependencyName() != null
+            ? reference.getDependencyName() + NameUtil.DEFAULT_PREFIX_SEPARATOR + reference.getKey()
+            : reference.getKey();
+        return NameUtil.getPrefixedPath(prefix, raw);
     }
 
     private String getReferencedPropertyKeyWithSuffix(Reference reference) {
