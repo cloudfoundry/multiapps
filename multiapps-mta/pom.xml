@@ -21,7 +21,7 @@
             <artifactId>commons-collections4</artifactId>
         </dependency>
         <dependency>
-            <groupId>com.vdurmont</groupId>
+            <groupId>org.semver4j</groupId>
             <artifactId>semver4j</artifactId>
         </dependency>
         <dependency>
