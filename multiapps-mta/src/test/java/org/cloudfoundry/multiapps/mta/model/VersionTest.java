@@ -8,8 +8,9 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertInstanceOf;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -54,9 +55,20 @@ class VersionTest {
         @Test
         @DisplayName("should coerce loose versions like '1', '1.2', or 'v1.2.3'")
         void testParseCoercibleVersions() {
-            assertDoesNotThrow(() -> Version.parseVersion("1"));
-            assertDoesNotThrow(() -> Version.parseVersion("1.2"));
-            assertDoesNotThrow(() -> Version.parseVersion("v1.2.3"));
+            Version v1 = Version.parseVersion("1");
+            assertEquals(1, v1.getMajor());
+            assertEquals(0, v1.getMinor());
+            assertEquals(0, v1.getPatch());
+
+            Version v2 = Version.parseVersion("1.2");
+            assertEquals(1, v2.getMajor());
+            assertEquals(2, v2.getMinor());
+            assertEquals(0, v2.getPatch());
+
+            Version v3 = Version.parseVersion("v1.2.3");
+            assertEquals(1, v3.getMajor());
+            assertEquals(2, v3.getMinor());
+            assertEquals(3, v3.getPatch());
         }
 
         @Test
@@ -64,9 +76,10 @@ class VersionTest {
         void testInvalidVersionThrowsException() {
             String invalidVersion = "not-a-version";
 
-            ParsingException exception = assertThrows(ParsingException.class,
+            Exception exception = assertThrows(ParsingException.class,
                                                       () -> Version.parseVersion(invalidVersion));
 
+            assertInstanceOf(ParsingException.class, exception);
             assertTrue(exception.getMessage()
                                 .contains(MessageFormat.format(Messages.UNABLE_TO_PARSE_VERSION, invalidVersion)));
         }
@@ -118,7 +131,6 @@ class VersionTest {
             String raw = "3.4.5-alpha+build";
             Version version = Version.parseVersion(raw);
 
-            assertTrue(version.toString().startsWith("3.4.5"));
             assertEquals(raw, version.toString());
         }
     }
@@ -140,6 +152,69 @@ class VersionTest {
             Version version = Version.parseVersion("1.0.0-alpha");
             assertEquals(1, version.getMajor());
             assertTrue(version.toString().contains("alpha"));
+        }
+    }
+
+    @Nested
+    @DisplayName("satisfies() behavior")
+    class SatisfiesBehavior {
+
+        @Test
+        @DisplayName("simple comparisons: greater/less/equal")
+        void testSimpleComparisons() {
+            Version v = Version.parseVersion("3.1.4");
+
+            assertTrue(v.satisfies(">3.0.0"));
+            assertTrue(v.satisfies(">=3.1.4"));
+            assertFalse(v.satisfies("<3.0.0"));
+            assertFalse(v.satisfies("<=3.1.3"));
+        }
+
+        @Test
+        @DisplayName("composite ranges (space separated)")
+        void testCompositeRanges() {
+            Version v = Version.parseVersion("3.1.4");
+
+            assertTrue(v.satisfies(">=3.1.4 <4.0.0"));
+            assertTrue(v.satisfies(">=3.0.0 <=3.1.4"));
+            assertFalse(v.satisfies(">=3.2.0 <4.0.0"));
+        }
+
+        @Test
+        @DisplayName("caret and tilde ranges")
+        void testCaretAndTilde() {
+            Version v = Version.parseVersion("1.3.5");
+
+            assertTrue(v.satisfies("^1.3.0"));
+            assertTrue(v.satisfies("~1.3.0"));
+            assertFalse(v.satisfies("^2.0.0"));
+        }
+
+        @Test
+        @DisplayName("malformed or non-matching requirement strings are treated as non-matching (false)")
+        void testMalformedRequirementsReturnFalse() {
+            Version v = Version.parseVersion("3.1.4");
+
+            assertFalse(v.satisfies("not-a-requirement"));
+            assertFalse(v.satisfies("pesho3.1.4"));
+            assertFalse(v.satisfies("3.1.4.2.3.4.5"));
+        }
+
+        @Test
+        @DisplayName("null requirement propagates NullPointerException")
+        void testNullRequirement() {
+            Version v = Version.parseVersion("3.1.4");
+            assertThrows(NullPointerException.class, () -> v.satisfies(null));
+        }
+
+        @Test
+        @DisplayName("use versions with build metadata and timestamps for positive results")
+        void testSatisfiesWithComplexVersions() {
+            Version v = Version.parseVersion("1.2.3-20251105063220+e303076b5d51da7f0f3a10cd69de018ac0a3853d");
+
+            assertTrue(v.satisfies(">=1.2.0"));
+            assertFalse(v.satisfies(">1.2.3"));
+            assertFalse(v.satisfies("=1.2.3"));
         }
     }
 }

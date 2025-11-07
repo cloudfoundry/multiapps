@@ -68,7 +68,8 @@ public class Version implements Comparable<Version> {
 
     public boolean satisfies(String requirement) {
         try {
-            return version.satisfies(requirement);
+            // The second parameter is preventing the default behavior of Semver to treat the suffix as a pre-release tag.
+            return version.satisfies(requirement, true);
         } catch (SemverException e) {
             throw new IllegalArgumentException(MessageFormat.format(Messages.UNABLE_TO_PARSE_VERSION_REQUIREMENT, requirement));
         }
