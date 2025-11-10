@@ -18,6 +18,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class VersionTest {
 
+
     @Nested
     @DisplayName("parseVersion() tests")
     class ParseVersionTests {
@@ -27,9 +28,7 @@ class VersionTest {
         void testParseStandardVersion() {
             Version version = Version.parseVersion("1.2.3");
 
-            assertEquals(1, version.getMajor());
-            assertEquals(2, version.getMinor());
-            assertEquals(3, version.getPatch());
+            assertVersionParts(version, 1, 2, 3);
             assertEquals("1.2.3", version.toString());
         }
 
@@ -45,30 +44,22 @@ class VersionTest {
             assertNotNull(v3);
 
             // Check major/minor/patch extracted properly
-            assertEquals(0, v1.getMajor());
-            assertEquals(1, v1.getPatch());
-            assertEquals(1, v2.getMajor());
-            assertEquals(2, v2.getMinor());
-            assertEquals(0, v3.getPatch());
+            assertVersionParts(v1, 0, 0, 1);
+            assertVersionParts(v2, 1, 2, 0);
+            assertVersionParts(v3, 1, 0, 0);
         }
 
         @Test
         @DisplayName("should coerce loose versions like '1', '1.2', or 'v1.2.3'")
         void testParseCoercibleVersions() {
             Version v1 = Version.parseVersion("1");
-            assertEquals(1, v1.getMajor());
-            assertEquals(0, v1.getMinor());
-            assertEquals(0, v1.getPatch());
+            assertVersionParts(v1, 1, 0, 0);
 
             Version v2 = Version.parseVersion("1.2");
-            assertEquals(1, v2.getMajor());
-            assertEquals(2, v2.getMinor());
-            assertEquals(0, v2.getPatch());
+            assertVersionParts(v2, 1, 2, 0);
 
             Version v3 = Version.parseVersion("v1.2.3");
-            assertEquals(1, v3.getMajor());
-            assertEquals(2, v3.getMinor());
-            assertEquals(3, v3.getPatch());
+            assertVersionParts(v3, 1, 2, 3);
         }
 
         @Test
@@ -215,6 +206,16 @@ class VersionTest {
             assertTrue(v.satisfies(">=1.2.0"));
             assertFalse(v.satisfies(">1.2.3"));
             assertFalse(v.satisfies("=1.2.3"));
+
+            // Additional checks: composite ranges and boundaries
+            assertTrue(v.satisfies(">=1.2.0 <2.0.0"));
+            assertFalse(v.satisfies(">1.2.3 <2.0.0"));
         }
+    }
+
+    private void assertVersionParts(Version version, int major, int minor, int patch) {
+        assertEquals(major, version.getMajor());
+        assertEquals(minor, version.getMinor());
+        assertEquals(patch, version.getPatch());
     }
 }
