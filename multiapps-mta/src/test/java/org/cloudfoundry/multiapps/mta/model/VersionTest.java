@@ -18,7 +18,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class VersionTest {
 
-    public static final String UNABLE_TO_PARSE_VERSION = "Unable to parse version";
+    private static final String UNABLE_TO_PARSE_VERSION = "Unable to parse version";
 
     // ---------------------------------------------------------------------------------------------
     //  PARSING AND NORMALIZATION TESTS
@@ -41,6 +41,12 @@ class VersionTest {
             assertVersionParts(v1, 0, 0, 1);
             assertVersionParts(v2, 1, 2, 0);
             assertVersionParts(v3, 1, 0, 0);
+        }
+
+        private void assertVersionParts(Version version, int major, int minor, int patch) {
+            assertEquals(major, version.getMajor());
+            assertEquals(minor, version.getMinor());
+            assertEquals(patch, version.getPatch());
         }
 
         @ParameterizedTest(name = "Partial version \"{0}\" should normalize to \"{1}\"")
@@ -195,11 +201,5 @@ class VersionTest {
             assertTrue(v.satisfies(">=1.2.0 <2.0.0"));
             assertFalse(v.satisfies(">1.2.3 <2.0.0"));
         }
-    }
-
-    private void assertVersionParts(Version version, int major, int minor, int patch) {
-        assertEquals(major, version.getMajor());
-        assertEquals(minor, version.getMinor());
-        assertEquals(patch, version.getPatch());
     }
 }
