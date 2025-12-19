@@ -4,11 +4,15 @@ import java.text.MessageFormat;
 
 import org.cloudfoundry.multiapps.common.ParsingException;
 import org.cloudfoundry.multiapps.mta.Messages;
+import org.cloudfoundry.multiapps.mta.parsers.PartialVersionConverter;
 
-import org.semver4j.Semver;
-import org.semver4j.SemverException;
+import com.vdurmont.semver4j.Semver;
+import com.vdurmont.semver4j.Semver.SemverType;
+import com.vdurmont.semver4j.SemverException;
 
 public class Version implements Comparable<Version> {
+
+    private static final PartialVersionConverter PARTIAL_VERSION_CONVERTER = new PartialVersionConverter();
 
     private final Semver version;
 
@@ -28,12 +32,21 @@ public class Version implements Comparable<Version> {
         return version.getPatch();
     }
 
+    public String getBuild() {
+        return version.getBuild();
+    }
+
+    public String[] getSuffixTokens() {
+        return version.getSuffixTokens();
+    }
+
     public static Version parseVersion(String versionString) {
-        var version = Semver.coerce(versionString);
-        if (version == null) {
-            throw new ParsingException(MessageFormat.format(Messages.UNABLE_TO_PARSE_VERSION, versionString));
+        try {
+            String fullVersionString = PARTIAL_VERSION_CONVERTER.convertToFullVersionString(versionString);
+            return new Version(new Semver(fullVersionString, SemverType.NPM));
+        } catch (SemverException e) {
+            throw new ParsingException(e, Messages.UNABLE_TO_PARSE_VERSION, versionString);
         }
-        return new Version(version);
     }
 
     @Override
@@ -43,7 +56,7 @@ public class Version implements Comparable<Version> {
 
     @Override
     public String toString() {
-        return version.toString();
+        return version.getValue();
     }
 
     @Override
@@ -68,8 +81,7 @@ public class Version implements Comparable<Version> {
 
     public boolean satisfies(String requirement) {
         try {
-            // The second parameter is preventing the default behavior of Semver to treat the suffix as a pre-release tag.
-            return version.satisfies(requirement, true);
+            return version.satisfies(requirement);
         } catch (SemverException e) {
             throw new IllegalArgumentException(MessageFormat.format(Messages.UNABLE_TO_PARSE_VERSION_REQUIREMENT, requirement));
         }
