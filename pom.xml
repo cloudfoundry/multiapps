@@ -18,18 +18,20 @@
         <sonar.organization>cloudfoundry</sonar.organization>
         <sonar.coverage.jacoco.xmlReportPaths>../multiapps-coverage/target/site/jacoco-aggregate/jacoco.xml
         </sonar.coverage.jacoco.xmlReportPaths>
-        <junit.version>6.0.1</junit.version>
-        <mockito.version>5.20.0</mockito.version>
-        <commons-lang3.version>3.19.0</commons-lang3.version>
+        <junit.version>5.13.4</junit.version>
+        <junit-platform.version>1.13.2</junit-platform.version>
+        <mockito.version>5.18.0</mockito.version>
+        <commons-lang3.version>3.18.0</commons-lang3.version>
         <commons-collections4.version>4.5.0</commons-collections4.version>
         <commons-io.version>2.20.0</commons-io.version>
-        <snakeyaml.version>2.5</snakeyaml.version>
-        <semver4j.version>6.0.0</semver4j.version>
-        <immutables.version>2.11.7</immutables.version>
-        <jackson.version>3.0.1</jackson.version>
-        <jackson.datatype.jsr310.version>2.20.1</jackson.datatype.jsr310.version>
-        <jaxb-runtime.version>4.0.6</jaxb-runtime.version>
-        <jakarta.xml.bind-api.version>4.0.4</jakarta.xml.bind-api.version>
+        <snakeyaml.version>2.4</snakeyaml.version>
+        <!-- Be very wary when updating Semver to newer versions because there is an issue -->
+        <!-- https://github.com/semver4j/semver4j/issues/208 which must fixed before adoption -->
+        <semver4j.version>3.1.0</semver4j.version>
+        <immutables.version>2.10.1</immutables.version>
+        <jackson.version>2.19.2</jackson.version>
+        <jaxb-runtime.version>4.0.5</jaxb-runtime.version>
+        <jakarta.xml.bind-api.version>4.0.2</jakarta.xml.bind-api.version>
         <apache.compress.version>1.28.0</apache.compress.version>
     </properties>
 
@@ -119,7 +121,7 @@
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-javadoc-plugin</artifactId>
-                    <version>3.12.0</version>
+                    <version>3.11.2</version>
                 </plugin>
                 <!-- https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-release-plugin -->
                 <plugin>
@@ -215,7 +217,7 @@
             <dependency>
                 <groupId>org.junit.platform</groupId>
                 <artifactId>junit-platform-launcher</artifactId>
-                <version>${junit.version}</version>
+                <version>${junit-platform.version}</version>
                 <scope>test</scope>
             </dependency>
             <!-- https://mvnrepository.com/artifact/org.junit.jupiter/junit-jupiter-engine -->
@@ -244,17 +246,16 @@
                 <artifactId>jaxb-runtime</artifactId>
                 <version>${jaxb-runtime.version}</version>
             </dependency>
-            <!-- https://mvnrepository.com/artifact/tools.jackson.core/jackson-databind -->
+            <!-- https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-databind -->
             <dependency>
-                <groupId>tools.jackson.core</groupId>
+                <groupId>com.fasterxml.jackson.core</groupId>
                 <artifactId>jackson-databind</artifactId>
                 <version>${jackson.version}</version>
             </dependency>
-            <!-- https://mvnrepository.com/artifact/com.fasterxml.jackson.datatype/jackson-datatype-jsr310 -->
             <dependency>
                 <groupId>com.fasterxml.jackson.datatype</groupId>
                 <artifactId>jackson-datatype-jsr310</artifactId>
-                <version>${jackson.datatype.jsr310.version}</version>
+                <version>${jackson.version}</version>
             </dependency>
             <!-- https://mvnrepository.com/artifact/org.apache.commons/commons-lang3 -->
             <dependency>
@@ -280,9 +281,9 @@
                 <artifactId>snakeyaml</artifactId>
                 <version>${snakeyaml.version}</version>
             </dependency>
-            <!-- https://mvnrepository.com/artifact/org.semver4j/semver4j -->
+            <!-- https://mvnrepository.com/artifact/com.vdurmont/semver4j -->
             <dependency>
-                <groupId>org.semver4j</groupId>
+                <groupId>com.vdurmont</groupId>
                 <artifactId>semver4j</artifactId>
                 <version>${semver4j.version}</version>
             </dependency>
