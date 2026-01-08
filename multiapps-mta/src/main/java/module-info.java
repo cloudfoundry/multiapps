@@ -24,13 +24,13 @@ open module org.cloudfoundry.multiapps.mta {
     exports org.cloudfoundry.multiapps.mta.validators.v2;
     exports org.cloudfoundry.multiapps.mta.validators.v3;
 
-    requires transitive org.cloudfoundry.multiapps.common;
-
     requires org.apache.commons.collections4;
+    requires org.apache.commons.compress;
     requires org.apache.commons.io;
     requires org.apache.commons.lang3;
-    requires semver4j;
-    requires org.apache.commons.compress;
+    requires org.semver4j;
+
+    requires transitive org.cloudfoundry.multiapps.common;
 
     requires static java.compiler;
     requires static org.immutables.value;
