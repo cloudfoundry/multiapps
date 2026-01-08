@@ -4,7 +4,6 @@ import java.text.MessageFormat;
 
 import org.cloudfoundry.multiapps.common.ParsingException;
 import org.cloudfoundry.multiapps.mta.Messages;
-
 import org.semver4j.Semver;
 import org.semver4j.SemverException;
 
