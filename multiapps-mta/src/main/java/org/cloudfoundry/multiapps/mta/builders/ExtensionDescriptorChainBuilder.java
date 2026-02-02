@@ -9,6 +9,7 @@ import java.util.stream.Collectors;
 
 import org.apache.commons.collections4.CollectionUtils;
 import org.cloudfoundry.multiapps.common.ContentException;
+import org.cloudfoundry.multiapps.mta.Constants;
 import org.cloudfoundry.multiapps.mta.Messages;
 import org.cloudfoundry.multiapps.mta.model.DeploymentDescriptor;
 import org.cloudfoundry.multiapps.mta.model.Descriptor;
@@ -29,7 +30,7 @@ public class ExtensionDescriptorChainBuilder {
     }
 
     private boolean isSecureDescriptor(ExtensionDescriptor extensionDescriptor) {
-        return extensionDescriptor.getId().equals("__mta.secure");
+        return extensionDescriptor.getId().equals(Constants.SECURE_EXTENSION_DESCRIPTOR_ID);
     }
 
     public List<ExtensionDescriptor> build(DeploymentDescriptor deploymentDescriptor, List<ExtensionDescriptor> extensionDescriptors) throws ContentException {
@@ -42,8 +43,10 @@ public class ExtensionDescriptorChainBuilder {
         List<ExtensionDescriptor> chain = new ArrayList<>();
         Descriptor currentDescriptor = deploymentDescriptor;
         ExtensionDescriptor secureDescriptor = null;
+
         while (currentDescriptor != null) {
             ExtensionDescriptor nextDescriptor = extensionDescriptorsPerParent.remove(currentDescriptor.getId());
+
             if(nextDescriptor != null && isSecureDescriptor(nextDescriptor)) {
                 secureDescriptor = nextDescriptor;
                 continue;
@@ -52,14 +55,18 @@ public class ExtensionDescriptorChainBuilder {
             CollectionUtils.addIgnoreNull(chain, nextDescriptor);
             currentDescriptor = nextDescriptor;
         }
+
         CollectionUtils.addIgnoreNull(chain, secureDescriptor);
+
         if(secureDescriptor == null && this.secureExtensionDescriptor != null) {
             CollectionUtils.addIgnoreNull(chain, this.secureExtensionDescriptor);
         }
+
         if (!extensionDescriptorsPerParent.isEmpty() && isStrict) {
             throw new ContentException(Messages.CANNOT_BUILD_EXTENSION_DESCRIPTOR_CHAIN_BECAUSE_DESCRIPTORS_0_HAVE_AN_UNKNOWN_PARENT,
                                        String.join(",", Descriptor.getIds(extensionDescriptorsPerParent.values())));
         }
+
         return chain;
     }
 
@@ -70,20 +77,19 @@ public class ExtensionDescriptorChainBuilder {
     }
 
     private Map<String, ExtensionDescriptor> prune(Map<String, List<ExtensionDescriptor>> extensionDescriptorsPerParent) {
-        this.secureExtensionDescriptor = null;
         return extensionDescriptorsPerParent.entrySet()
                                             .stream()
                                             .collect(Collectors.toMap(Map.Entry::getKey, entry -> {
                                                 List<ExtensionDescriptor> localList = entry.getValue();
 
                                                 for(ExtensionDescriptor extensionDescriptor : localList) {
-                                                    if(extensionDescriptor.getId().equals("__mta.secure")) {
+                                                    if(extensionDescriptor.getId().equals(Constants.SECURE_EXTENSION_DESCRIPTOR_ID)) {
                                                         this.secureExtensionDescriptor = extensionDescriptor;
                                                     }
                                                 }
 
                                                 for(ExtensionDescriptor extensionDescriptor : localList) {
-                                                    if(!extensionDescriptor.getId().equals("__mta.secure")) {
+                                                    if(!extensionDescriptor.getId().equals(Constants.SECURE_EXTENSION_DESCRIPTOR_ID)) {
                                                         return extensionDescriptor;
                                                     }
                                                 }
@@ -96,7 +102,7 @@ public class ExtensionDescriptorChainBuilder {
         for (Map.Entry<String, List<ExtensionDescriptor>> extensionDescriptorsForParent : extensionDescriptorsPerParent.entrySet()) {
             String parent = extensionDescriptorsForParent.getKey();
             List<ExtensionDescriptor> extensionDescriptors = extensionDescriptorsForParent.getValue();
-            long nonSecureCountOfExtensionDescriptors = extensionDescriptors.stream().filter(descriptor -> !descriptor.getId().equals("__mta.secure")).count();
+            long nonSecureCountOfExtensionDescriptors = extensionDescriptors.stream().filter(descriptor -> !descriptor.getId().equals(Constants.SECURE_EXTENSION_DESCRIPTOR_ID)).count();
             if (nonSecureCountOfExtensionDescriptors > 1 && isStrict) {
                 throw new ContentException(Messages.MULTIPLE_EXTENSION_DESCRIPTORS_EXTEND_THE_PARENT_0, parent);
             }

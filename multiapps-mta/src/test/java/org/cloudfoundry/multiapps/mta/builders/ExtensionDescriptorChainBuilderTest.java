@@ -12,6 +12,7 @@ import java.util.Collections;
 import java.util.List;
 
 import org.cloudfoundry.multiapps.common.ContentException;
+import org.cloudfoundry.multiapps.mta.Constants;
 import org.cloudfoundry.multiapps.mta.Messages;
 import org.cloudfoundry.multiapps.mta.model.DeploymentDescriptor;
 import org.cloudfoundry.multiapps.mta.model.ExtensionDescriptor;
@@ -111,12 +112,12 @@ class ExtensionDescriptorChainBuilderTest {
         ExtensionDescriptor normalExtensionDescriptor = buildExtensionDescriptor(BAR_ID, FOO_ID);
         ExtensionDescriptor secureExtensionDescriptor = buildSecureExtensionDescriptor(FOO_ID);
 
-        List<ExtensionDescriptor> extensionDescriptors = Arrays.asList(secureExtensionDescriptor, normalExtensionDescriptor);
+        List<ExtensionDescriptor> extensionDescriptors = List.of(secureExtensionDescriptor, normalExtensionDescriptor);
 
         ExtensionDescriptorChainBuilder extensionDescriptorChainBuilder = new ExtensionDescriptorChainBuilder();
         List<ExtensionDescriptor> extensionDescriptorChain = extensionDescriptorChainBuilder.build(deploymentDescriptor, extensionDescriptors);
 
-        assertEquals(Arrays.asList(normalExtensionDescriptor, secureExtensionDescriptor), extensionDescriptorChain);
+        assertEquals(List.of(normalExtensionDescriptor, secureExtensionDescriptor), extensionDescriptorChain);
     }
 
     @Test
@@ -137,9 +138,9 @@ class ExtensionDescriptorChainBuilderTest {
         DeploymentDescriptor deploymentDescriptor = buildDeploymentDescriptor(FOO_ID);
         ExtensionDescriptor firstExtensionDescriptor = buildExtensionDescriptor(BAR_ID, FOO_ID);
         ExtensionDescriptor secureExtensionDescriptor = buildSecureExtensionDescriptor(BAR_ID);
-        ExtensionDescriptor extensionDescriptorAfterSecureOne = buildExtensionDescriptor(QUX_ID, "__mta.secure");
+        ExtensionDescriptor extensionDescriptorAfterSecureOne = buildExtensionDescriptor(QUX_ID, Constants.SECURE_EXTENSION_DESCRIPTOR_ID);
 
-        List<ExtensionDescriptor> extensionDescriptors = Arrays.asList(extensionDescriptorAfterSecureOne, firstExtensionDescriptor, secureExtensionDescriptor);
+        List<ExtensionDescriptor> extensionDescriptors = List.of(extensionDescriptorAfterSecureOne, firstExtensionDescriptor, secureExtensionDescriptor);
 
         ExtensionDescriptorChainBuilder extensionDescriptorChainBuilder = new ExtensionDescriptorChainBuilder(true);
 
@@ -157,14 +158,14 @@ class ExtensionDescriptorChainBuilderTest {
         DeploymentDescriptor deploymentDescriptor = buildDeploymentDescriptor(FOO_ID);
         ExtensionDescriptor firstExtensionDescriptor = buildExtensionDescriptor(BAR_ID, FOO_ID);
         ExtensionDescriptor secureExtensionDescriptor = buildSecureExtensionDescriptor(BAR_ID);
-        ExtensionDescriptor extensionDescriptorAfterSecureOne = buildExtensionDescriptor(QUX_ID, "__mta.secure");
+        ExtensionDescriptor extensionDescriptorAfterSecureOne = buildExtensionDescriptor(QUX_ID, Constants.SECURE_EXTENSION_DESCRIPTOR_ID);
 
-        List<ExtensionDescriptor> extensionDescriptors = Arrays.asList(extensionDescriptorAfterSecureOne, secureExtensionDescriptor, firstExtensionDescriptor);
+        List<ExtensionDescriptor> extensionDescriptors = List.of(extensionDescriptorAfterSecureOne, secureExtensionDescriptor, firstExtensionDescriptor);
 
         ExtensionDescriptorChainBuilder extensionDescriptorChainBuilder = new ExtensionDescriptorChainBuilder(false);
         List<ExtensionDescriptor> extensionDescriptorChain = extensionDescriptorChainBuilder.build(deploymentDescriptor, extensionDescriptors);
 
-        assertEquals(Arrays.asList(firstExtensionDescriptor, secureExtensionDescriptor), extensionDescriptorChain);
+        assertEquals(List.of(firstExtensionDescriptor, secureExtensionDescriptor), extensionDescriptorChain);
     }
 
     @Test
@@ -174,14 +175,14 @@ class ExtensionDescriptorChainBuilderTest {
         ExtensionDescriptor firstSecureExtensionDescriptor = buildSecureExtensionDescriptor(FOO_ID);
         ExtensionDescriptor secondSecureExtensionDescriptor = buildSecureExtensionDescriptor(FOO_ID);
 
-        List<ExtensionDescriptor> extensionDescriptors = Arrays.asList(firstSecureExtensionDescriptor, firstExtensionDescriptor, secondSecureExtensionDescriptor);
+        List<ExtensionDescriptor> extensionDescriptors = List.of(firstSecureExtensionDescriptor, firstExtensionDescriptor, secondSecureExtensionDescriptor);
 
         ExtensionDescriptorChainBuilder extensionDescriptorChainBuilder = new ExtensionDescriptorChainBuilder();
         List<ExtensionDescriptor> extensionDescriptorChain = extensionDescriptorChainBuilder.build(deploymentDescriptor, extensionDescriptors);
 
         assertEquals(2, extensionDescriptorChain.size());
         assertEquals(firstExtensionDescriptor, extensionDescriptorChain.get(0));
-        assertEquals("__mta.secure", extensionDescriptorChain.get(1).getId());
+        assertEquals(Constants.SECURE_EXTENSION_DESCRIPTOR_ID, extensionDescriptorChain.get(1).getId());
         assertSame(secondSecureExtensionDescriptor, extensionDescriptorChain.get(1));
     }
 
@@ -199,7 +200,7 @@ class ExtensionDescriptorChainBuilderTest {
     private ExtensionDescriptor buildSecureExtensionDescriptor(String parentId) {
         return ExtensionDescriptor.createV2()
                                   .setParentId(parentId)
-                                  .setId("__mta.secure");
+                                  .setId(Constants.SECURE_EXTENSION_DESCRIPTOR_ID);
     }
 
 }
