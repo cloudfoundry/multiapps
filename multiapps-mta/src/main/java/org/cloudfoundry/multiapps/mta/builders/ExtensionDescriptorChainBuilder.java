@@ -2,6 +2,7 @@ package org.cloudfoundry.multiapps.mta.builders;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -34,6 +35,7 @@ public class ExtensionDescriptorChainBuilder {
     }
 
     public List<ExtensionDescriptor> build(DeploymentDescriptor deploymentDescriptor, List<ExtensionDescriptor> extensionDescriptors) throws ContentException {
+        saveSecureExtensionDescriptor(extensionDescriptors);
         Map<String, ExtensionDescriptor> extensionDescriptorsPerParent = getExtensionDescriptorsPerParent(extensionDescriptors);
         return build(deploymentDescriptor, extensionDescriptorsPerParent);
     }
@@ -42,25 +44,14 @@ public class ExtensionDescriptorChainBuilder {
                                             Map<String, ExtensionDescriptor> extensionDescriptorsPerParent) {
         List<ExtensionDescriptor> chain = new ArrayList<>();
         Descriptor currentDescriptor = deploymentDescriptor;
-        ExtensionDescriptor secureDescriptor = null;
 
         while (currentDescriptor != null) {
             ExtensionDescriptor nextDescriptor = extensionDescriptorsPerParent.remove(currentDescriptor.getId());
-
-            if(nextDescriptor != null && isSecureDescriptor(nextDescriptor)) {
-                secureDescriptor = nextDescriptor;
-                continue;
-            }
-
             CollectionUtils.addIgnoreNull(chain, nextDescriptor);
             currentDescriptor = nextDescriptor;
         }
 
-        CollectionUtils.addIgnoreNull(chain, secureDescriptor);
-
-        if(secureDescriptor == null && this.secureExtensionDescriptor != null) {
-            CollectionUtils.addIgnoreNull(chain, this.secureExtensionDescriptor);
-        }
+        CollectionUtils.addIgnoreNull(chain, this.secureExtensionDescriptor);
 
         if (!extensionDescriptorsPerParent.isEmpty() && isStrict) {
             throw new ContentException(Messages.CANNOT_BUILD_EXTENSION_DESCRIPTOR_CHAIN_BECAUSE_DESCRIPTORS_0_HAVE_AN_UNKNOWN_PARENT,
@@ -77,25 +68,23 @@ public class ExtensionDescriptorChainBuilder {
     }
 
     private Map<String, ExtensionDescriptor> prune(Map<String, List<ExtensionDescriptor>> extensionDescriptorsPerParent) {
-        return extensionDescriptorsPerParent.entrySet()
-                                            .stream()
-                                            .collect(Collectors.toMap(Map.Entry::getKey, entry -> {
-                                                List<ExtensionDescriptor> localList = entry.getValue();
+        Map<String, ExtensionDescriptor> resultMap = new LinkedHashMap<>();
 
-                                                for(ExtensionDescriptor extensionDescriptor : localList) {
-                                                    if(extensionDescriptor.getId().equals(Constants.SECURE_EXTENSION_DESCRIPTOR_ID)) {
-                                                        this.secureExtensionDescriptor = extensionDescriptor;
-                                                    }
-                                                }
+        for (Map.Entry<String, List<ExtensionDescriptor>> entry : extensionDescriptorsPerParent.entrySet()) {
+            ExtensionDescriptor firstNonSecureExtensionDescriptor = null;
 
-                                                for(ExtensionDescriptor extensionDescriptor : localList) {
-                                                    if(!extensionDescriptor.getId().equals(Constants.SECURE_EXTENSION_DESCRIPTOR_ID)) {
-                                                        return extensionDescriptor;
-                                                    }
-                                                }
+            for (ExtensionDescriptor currentExtensionDescriptorForParent : entry.getValue()) {
+                if (!isSecureDescriptor(currentExtensionDescriptorForParent)) {
+                    firstNonSecureExtensionDescriptor = currentExtensionDescriptorForParent;
+                    break;
+                }
+            }
 
-                                                return localList.get(0);
-                                            }));
+            if (firstNonSecureExtensionDescriptor != null) {
+                resultMap.put(entry.getKey(), firstNonSecureExtensionDescriptor);
+            }
+        }
+        return resultMap;
     }
 
     private void validateSingleExtensionDescriptorPerParent(Map<String, List<ExtensionDescriptor>> extensionDescriptorsPerParent) {
@@ -107,6 +96,18 @@ public class ExtensionDescriptorChainBuilder {
                 throw new ContentException(Messages.MULTIPLE_EXTENSION_DESCRIPTORS_EXTEND_THE_PARENT_0, parent);
             }
         }
+    }
+
+    private void saveSecureExtensionDescriptor(List<ExtensionDescriptor> extensionDescriptors) {
+        ExtensionDescriptor lastSecureExtensionDescriptor = null;
+
+        for(ExtensionDescriptor extensionDescriptor : extensionDescriptors) {
+            if(isSecureDescriptor(extensionDescriptor)) {
+                lastSecureExtensionDescriptor = extensionDescriptor;
+            }
+        }
+
+        this.secureExtensionDescriptor = lastSecureExtensionDescriptor;
     }
 
 }
