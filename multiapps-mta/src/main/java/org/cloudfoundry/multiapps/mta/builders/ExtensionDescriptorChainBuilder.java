@@ -1,13 +1,5 @@
 package org.cloudfoundry.multiapps.mta.builders;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-import java.util.stream.Collectors;
-
 import org.apache.commons.collections4.CollectionUtils;
 import org.cloudfoundry.multiapps.common.ContentException;
 import org.cloudfoundry.multiapps.mta.Constants;
@@ -15,6 +7,12 @@ import org.cloudfoundry.multiapps.mta.Messages;
 import org.cloudfoundry.multiapps.mta.model.DeploymentDescriptor;
 import org.cloudfoundry.multiapps.mta.model.Descriptor;
 import org.cloudfoundry.multiapps.mta.model.ExtensionDescriptor;
+
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 public class ExtensionDescriptorChainBuilder {
 
@@ -31,10 +29,12 @@ public class ExtensionDescriptorChainBuilder {
     }
 
     private boolean isSecureDescriptor(ExtensionDescriptor extensionDescriptor) {
-        return extensionDescriptor.getId().equals(Constants.SECURE_EXTENSION_DESCRIPTOR_ID);
+        return extensionDescriptor.getId()
+                                  .equals(Constants.SECURE_EXTENSION_DESCRIPTOR_ID);
     }
 
-    public List<ExtensionDescriptor> build(DeploymentDescriptor deploymentDescriptor, List<ExtensionDescriptor> extensionDescriptors) throws ContentException {
+    public List<ExtensionDescriptor> build(DeploymentDescriptor deploymentDescriptor, List<ExtensionDescriptor> extensionDescriptors)
+        throws ContentException {
         saveSecureExtensionDescriptor(extensionDescriptors);
         Map<String, ExtensionDescriptor> extensionDescriptorsPerParent = getExtensionDescriptorsPerParent(extensionDescriptors);
         return build(deploymentDescriptor, extensionDescriptorsPerParent);
@@ -62,7 +62,9 @@ public class ExtensionDescriptorChainBuilder {
     }
 
     private Map<String, ExtensionDescriptor> getExtensionDescriptorsPerParent(List<ExtensionDescriptor> extensionDescriptors) {
-        Map<String, List<ExtensionDescriptor>> extensionDescriptorsPerParent = extensionDescriptors.stream().collect(Collectors.groupingBy(ExtensionDescriptor::getParentId));
+        Map<String, List<ExtensionDescriptor>> extensionDescriptorsPerParent = extensionDescriptors.stream()
+                                                                                                   .collect(Collectors.groupingBy(
+                                                                                                       ExtensionDescriptor::getParentId));
         validateSingleExtensionDescriptorPerParent(extensionDescriptorsPerParent);
         return prune(extensionDescriptorsPerParent);
     }
@@ -91,7 +93,11 @@ public class ExtensionDescriptorChainBuilder {
         for (Map.Entry<String, List<ExtensionDescriptor>> extensionDescriptorsForParent : extensionDescriptorsPerParent.entrySet()) {
             String parent = extensionDescriptorsForParent.getKey();
             List<ExtensionDescriptor> extensionDescriptors = extensionDescriptorsForParent.getValue();
-            long nonSecureCountOfExtensionDescriptors = extensionDescriptors.stream().filter(descriptor -> !descriptor.getId().equals(Constants.SECURE_EXTENSION_DESCRIPTOR_ID)).count();
+            long nonSecureCountOfExtensionDescriptors = extensionDescriptors.stream()
+                                                                            .filter(descriptor -> !descriptor.getId()
+                                                                                                             .equals(
+                                                                                                                 Constants.SECURE_EXTENSION_DESCRIPTOR_ID))
+                                                                            .count();
             if (nonSecureCountOfExtensionDescriptors > 1 && isStrict) {
                 throw new ContentException(Messages.MULTIPLE_EXTENSION_DESCRIPTORS_EXTEND_THE_PARENT_0, parent);
             }
@@ -101,8 +107,8 @@ public class ExtensionDescriptorChainBuilder {
     private void saveSecureExtensionDescriptor(List<ExtensionDescriptor> extensionDescriptors) {
         ExtensionDescriptor lastSecureExtensionDescriptor = null;
 
-        for(ExtensionDescriptor extensionDescriptor : extensionDescriptors) {
-            if(isSecureDescriptor(extensionDescriptor)) {
+        for (ExtensionDescriptor extensionDescriptor : extensionDescriptors) {
+            if (isSecureDescriptor(extensionDescriptor)) {
                 lastSecureExtensionDescriptor = extensionDescriptor;
             }
         }
