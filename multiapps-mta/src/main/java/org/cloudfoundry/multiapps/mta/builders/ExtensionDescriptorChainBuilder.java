@@ -73,17 +73,11 @@ public class ExtensionDescriptorChainBuilder {
         Map<String, ExtensionDescriptor> resultMap = new LinkedHashMap<>();
 
         for (Map.Entry<String, List<ExtensionDescriptor>> entry : extensionDescriptorsPerParent.entrySet()) {
-            ExtensionDescriptor firstNonSecureExtensionDescriptor = null;
-
             for (ExtensionDescriptor currentExtensionDescriptorForParent : entry.getValue()) {
                 if (!isSecureDescriptor(currentExtensionDescriptorForParent)) {
-                    firstNonSecureExtensionDescriptor = currentExtensionDescriptorForParent;
+                    resultMap.put(entry.getKey(), currentExtensionDescriptorForParent);
                     break;
                 }
-            }
-
-            if (firstNonSecureExtensionDescriptor != null) {
-                resultMap.put(entry.getKey(), firstNonSecureExtensionDescriptor);
             }
         }
         return resultMap;
