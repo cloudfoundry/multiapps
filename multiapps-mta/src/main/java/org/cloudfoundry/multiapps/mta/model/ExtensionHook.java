@@ -1,14 +1,14 @@
 package org.cloudfoundry.multiapps.mta.model;
 
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
-
 import org.apache.commons.lang3.ObjectUtils;
 import org.cloudfoundry.multiapps.common.util.yaml.YamlElement;
 import org.cloudfoundry.multiapps.mta.parsers.v3.ExtensionHookParser;
 
-public class ExtensionHook extends VersionedEntity implements VisitableElement, NamedElement {
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
+
+public class ExtensionHook extends VersionedEntity implements VisitableElement, NamedElement, ParametersContainer {
 
     // Required by Jackson.
     protected ExtensionHook() {

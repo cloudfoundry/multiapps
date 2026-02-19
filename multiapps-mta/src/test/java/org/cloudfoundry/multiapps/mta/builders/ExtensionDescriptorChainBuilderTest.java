@@ -1,18 +1,20 @@
 package org.cloudfoundry.multiapps.mta.builders;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import org.cloudfoundry.multiapps.common.ContentException;
+import org.cloudfoundry.multiapps.mta.Constants;
+import org.cloudfoundry.multiapps.mta.Messages;
+import org.cloudfoundry.multiapps.mta.model.DeploymentDescriptor;
+import org.cloudfoundry.multiapps.mta.model.ExtensionDescriptor;
+import org.junit.jupiter.api.Test;
 
 import java.text.MessageFormat;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-import org.cloudfoundry.multiapps.common.ContentException;
-import org.cloudfoundry.multiapps.mta.Messages;
-import org.cloudfoundry.multiapps.mta.model.DeploymentDescriptor;
-import org.cloudfoundry.multiapps.mta.model.ExtensionDescriptor;
-import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertSame;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class ExtensionDescriptorChainBuilderTest {
 
@@ -50,8 +52,9 @@ class ExtensionDescriptorChainBuilderTest {
         ContentException contentException = assertThrows(ContentException.class,
                                                          () -> extensionDescriptorChainBuilder.build(deploymentDescriptor,
                                                                                                      extensionDescriptors));
-        String expectedMessage = MessageFormat.format(Messages.CANNOT_BUILD_EXTENSION_DESCRIPTOR_CHAIN_BECAUSE_DESCRIPTORS_0_HAVE_AN_UNKNOWN_PARENT,
-                                                      extensionDescriptor2.getId());
+        String expectedMessage = MessageFormat.format(
+            Messages.CANNOT_BUILD_EXTENSION_DESCRIPTOR_CHAIN_BECAUSE_DESCRIPTORS_0_HAVE_AN_UNKNOWN_PARENT,
+            extensionDescriptor2.getId());
 
         assertEquals(expectedMessage, contentException.getMessage());
     }
@@ -102,6 +105,96 @@ class ExtensionDescriptorChainBuilderTest {
         assertEquals(Collections.emptyList(), extensionDescriptorChain);
     }
 
+    @Test
+    void testBuildWithNormalAndSecureExtensionDescriptorsWhereSecureIsLastInTheChain() {
+        DeploymentDescriptor deploymentDescriptor = buildDeploymentDescriptor(FOO_ID);
+        ExtensionDescriptor normalExtensionDescriptor = buildExtensionDescriptor(BAR_ID, FOO_ID);
+        ExtensionDescriptor secureExtensionDescriptor = buildSecureExtensionDescriptor(FOO_ID);
+
+        List<ExtensionDescriptor> extensionDescriptors = List.of(secureExtensionDescriptor, normalExtensionDescriptor);
+
+        ExtensionDescriptorChainBuilder extensionDescriptorChainBuilder = new ExtensionDescriptorChainBuilder();
+        List<ExtensionDescriptor> extensionDescriptorChain = extensionDescriptorChainBuilder.build(deploymentDescriptor,
+                                                                                                   extensionDescriptors);
+
+        assertEquals(List.of(normalExtensionDescriptor, secureExtensionDescriptor), extensionDescriptorChain);
+    }
+
+    @Test
+    void testBuildWithOnlySecureExtensionDescriptor() {
+        DeploymentDescriptor deploymentDescriptor = buildDeploymentDescriptor(FOO_ID);
+        ExtensionDescriptor secureExtensionDescriptor = buildSecureExtensionDescriptor(FOO_ID);
+
+        List<ExtensionDescriptor> extensionDescriptors = Collections.singletonList(secureExtensionDescriptor);
+
+        ExtensionDescriptorChainBuilder extensionDescriptorChainBuilder = new ExtensionDescriptorChainBuilder();
+        List<ExtensionDescriptor> extensionDescriptorChain = extensionDescriptorChainBuilder.build(deploymentDescriptor,
+                                                                                                   extensionDescriptors);
+
+        assertEquals(Collections.singletonList(secureExtensionDescriptor), extensionDescriptorChain);
+    }
+
+    @Test
+    void testBuildWhenSecureExtensionDescriptorIsExtendedStrictMode() {
+        DeploymentDescriptor deploymentDescriptor = buildDeploymentDescriptor(FOO_ID);
+        ExtensionDescriptor firstExtensionDescriptor = buildExtensionDescriptor(BAR_ID, FOO_ID);
+        ExtensionDescriptor secureExtensionDescriptor = buildSecureExtensionDescriptor(BAR_ID);
+        ExtensionDescriptor extensionDescriptorAfterSecureOne = buildExtensionDescriptor(QUX_ID, Constants.SECURE_EXTENSION_DESCRIPTOR_ID);
+
+        List<ExtensionDescriptor> extensionDescriptors = List.of(extensionDescriptorAfterSecureOne, firstExtensionDescriptor,
+                                                                 secureExtensionDescriptor);
+
+        ExtensionDescriptorChainBuilder extensionDescriptorChainBuilder = new ExtensionDescriptorChainBuilder(true);
+
+        ContentException contentException = assertThrows(ContentException.class,
+                                                         () -> extensionDescriptorChainBuilder.build(deploymentDescriptor,
+                                                                                                     extensionDescriptors));
+
+        String expectedMessage = MessageFormat.format(
+            Messages.CANNOT_BUILD_EXTENSION_DESCRIPTOR_CHAIN_BECAUSE_DESCRIPTORS_0_HAVE_AN_UNKNOWN_PARENT,
+            extensionDescriptorAfterSecureOne.getId()
+        );
+        assertEquals(expectedMessage, contentException.getMessage());
+    }
+
+    @Test
+    void testBuildWhenSecureExtensionDescriptorIsExtendedNonStrictMode() {
+        DeploymentDescriptor deploymentDescriptor = buildDeploymentDescriptor(FOO_ID);
+        ExtensionDescriptor firstExtensionDescriptor = buildExtensionDescriptor(BAR_ID, FOO_ID);
+        ExtensionDescriptor secureExtensionDescriptor = buildSecureExtensionDescriptor(BAR_ID);
+        ExtensionDescriptor extensionDescriptorAfterSecureOne = buildExtensionDescriptor(QUX_ID, Constants.SECURE_EXTENSION_DESCRIPTOR_ID);
+
+        List<ExtensionDescriptor> extensionDescriptors = List.of(extensionDescriptorAfterSecureOne, secureExtensionDescriptor,
+                                                                 firstExtensionDescriptor);
+
+        ExtensionDescriptorChainBuilder extensionDescriptorChainBuilder = new ExtensionDescriptorChainBuilder(false);
+        List<ExtensionDescriptor> extensionDescriptorChain = extensionDescriptorChainBuilder.build(deploymentDescriptor,
+                                                                                                   extensionDescriptors);
+
+        assertEquals(List.of(firstExtensionDescriptor, secureExtensionDescriptor), extensionDescriptorChain);
+    }
+
+    @Test
+    void testBuildWhenTwoSecureExtensionDescriptorsWhereOnlyTheLastOneGetsAppended() {
+        DeploymentDescriptor deploymentDescriptor = buildDeploymentDescriptor(FOO_ID);
+        ExtensionDescriptor firstExtensionDescriptor = buildExtensionDescriptor(BAR_ID, FOO_ID);
+        ExtensionDescriptor firstSecureExtensionDescriptor = buildSecureExtensionDescriptor(FOO_ID);
+        ExtensionDescriptor secondSecureExtensionDescriptor = buildSecureExtensionDescriptor(FOO_ID);
+
+        List<ExtensionDescriptor> extensionDescriptors = List.of(firstSecureExtensionDescriptor, firstExtensionDescriptor,
+                                                                 secondSecureExtensionDescriptor);
+
+        ExtensionDescriptorChainBuilder extensionDescriptorChainBuilder = new ExtensionDescriptorChainBuilder();
+        List<ExtensionDescriptor> extensionDescriptorChain = extensionDescriptorChainBuilder.build(deploymentDescriptor,
+                                                                                                   extensionDescriptors);
+
+        assertEquals(2, extensionDescriptorChain.size());
+        assertEquals(firstExtensionDescriptor, extensionDescriptorChain.get(0));
+        assertEquals(Constants.SECURE_EXTENSION_DESCRIPTOR_ID, extensionDescriptorChain.get(1)
+                                                                                       .getId());
+        assertSame(secondSecureExtensionDescriptor, extensionDescriptorChain.get(1));
+    }
+
     private DeploymentDescriptor buildDeploymentDescriptor(String id) {
         return DeploymentDescriptor.createV2()
                                    .setId(id);
@@ -111,6 +204,12 @@ class ExtensionDescriptorChainBuilderTest {
         return ExtensionDescriptor.createV2()
                                   .setParentId(parentId)
                                   .setId(id);
+    }
+
+    private ExtensionDescriptor buildSecureExtensionDescriptor(String parentId) {
+        return ExtensionDescriptor.createV2()
+                                  .setParentId(parentId)
+                                  .setId(Constants.SECURE_EXTENSION_DESCRIPTOR_ID);
     }
 
 }
