@@ -26,8 +26,8 @@
         <snakeyaml.version>2.5</snakeyaml.version>
         <semver4j.version>6.0.0</semver4j.version>
         <immutables.version>2.12.1</immutables.version>
-        <jackson.version>3.0.4</jackson.version>
-        <jackson.datatype.jsr310.version>2.20.2</jackson.datatype.jsr310.version> <!--version 2.21.0 is not compatible with jackson 3.0.4-->
+        <jackson.version>3.1.0</jackson.version>
+        <jackson.datatype.jsr310.version>2.21.2</jackson.datatype.jsr310.version>
         <jaxb-runtime.version>4.0.6</jaxb-runtime.version>
         <jakarta.xml.bind-api.version>4.0.5</jakarta.xml.bind-api.version>
         <apache.compress.version>1.28.0</apache.compress.version>
