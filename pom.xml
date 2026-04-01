@@ -18,17 +18,17 @@
         <sonar.organization>cloudfoundry</sonar.organization>
         <sonar.coverage.jacoco.xmlReportPaths>../multiapps-coverage/target/site/jacoco-aggregate/jacoco.xml
         </sonar.coverage.jacoco.xmlReportPaths>
-        <junit.version>6.0.2</junit.version>
-        <mockito.version>5.21.0</mockito.version>
+        <junit.version>6.0.3</junit.version>
+        <mockito.version>5.23.0</mockito.version>
         <commons-lang3.version>3.20.0</commons-lang3.version>
         <commons-collections4.version>4.5.0</commons-collections4.version>
         <commons-io.version>2.21.0</commons-io.version>
-        <snakeyaml.version>2.5</snakeyaml.version>
+        <snakeyaml.version>2.6</snakeyaml.version>
         <semver4j.version>6.0.0</semver4j.version>
         <immutables.version>2.12.1</immutables.version>
-        <jackson.version>3.1.0</jackson.version>
+        <jackson.version>3.1.1</jackson.version>
         <jackson.datatype.jsr310.version>2.21.2</jackson.datatype.jsr310.version>
-        <jaxb-runtime.version>4.0.6</jaxb-runtime.version>
+        <jaxb-runtime.version>4.0.7</jaxb-runtime.version>
         <jakarta.xml.bind-api.version>4.0.5</jakarta.xml.bind-api.version>
         <apache.compress.version>1.28.0</apache.compress.version>
     </properties>
@@ -77,7 +77,7 @@
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-compiler-plugin</artifactId>
-                    <version>3.14.1</version>
+                    <version>3.15.0</version>
                     <configuration>
                         <source>25</source>
                         <target>25</target>
@@ -93,7 +93,7 @@
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-surefire-plugin</artifactId>
-                    <version>3.5.4</version>
+                    <version>3.5.5</version>
                     <configuration>
                         <!-- Surefire excludes nested classes by default, so we need to explicitly specify that nothing should 
                             be excluded. -->
@@ -107,7 +107,7 @@
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-source-plugin</artifactId>
-                    <version>3.2.1</version>
+                    <version>3.4.0</version>
                 </plugin>
                 <!-- https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-deploy-plugin -->
                 <plugin>
@@ -131,19 +131,19 @@
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-gpg-plugin</artifactId>
-                    <version>1.6</version>
+                    <version>3.2.8</version>
                 </plugin>
                 <!-- https://mvnrepository.com/artifact/org.sonatype.central/central-publishing-maven-plugin -->
                 <plugin>
                     <groupId>org.sonatype.central</groupId>
                     <artifactId>central-publishing-maven-plugin</artifactId>
-                    <version>0.8.0</version>
+                    <version>0.10.0</version>
                 </plugin>
                 <!-- https://mvnrepository.com/artifact/org.sonarsource.scanner.maven/sonar-maven-plugin -->
                 <plugin>
                     <groupId>org.sonarsource.scanner.maven</groupId>
                     <artifactId>sonar-maven-plugin</artifactId>
-                    <version>5.1.0.4751</version>
+                    <version>5.5.0.6356</version>
                 </plugin>
                 <!-- https://mvnrepository.com/artifact/org.jacoco/jacoco-maven-plugin -->
                 <plugin>
