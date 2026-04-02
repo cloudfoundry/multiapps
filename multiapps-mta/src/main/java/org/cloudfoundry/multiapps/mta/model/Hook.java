@@ -28,6 +28,7 @@ public class Hook extends VersionedEntity implements VisitableElement, NamedElem
         copy.phases = original.phases;
         copy.parameters = new TreeMap<>(original.parameters);
         copy.requiredDependencies = copyRequiredDependencies(original.requiredDependencies);
+        copy.phaseConfigs = original.phaseConfigs;
         return copy;
     }
 
@@ -47,6 +48,8 @@ public class Hook extends VersionedEntity implements VisitableElement, NamedElem
     private Map<String, Object> parameters = Collections.emptyMap();
     @YamlElement(HookParser.REQUIRES)
     private List<RequiredDependency> requiredDependencies = Collections.emptyList();
+    @YamlElement(HookParser.PHASE_CONFIGS)
+    private List<Map<String, String>> phaseConfigs = Collections.emptyList();
 
     public static Hook createV3() {
         return new Hook(3);
@@ -95,6 +98,15 @@ public class Hook extends VersionedEntity implements VisitableElement, NamedElem
 
     public Hook setRequiredDependencies(List<RequiredDependency> requiredDependencies) {
         this.requiredDependencies = ObjectUtils.defaultIfNull(requiredDependencies, this.requiredDependencies);
+        return this;
+    }
+
+    public List<Map<String, String>> getPhaseConfigs() {
+        return phaseConfigs;
+    }
+
+    public Hook setPhaseConfigs(List<Map<String, String>> phaseConfigs) {
+        this.phaseConfigs = ObjectUtils.defaultIfNull(phaseConfigs, this.phaseConfigs);
         return this;
     }
 

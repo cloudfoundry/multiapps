@@ -40,7 +40,8 @@
         "command" : "sleep(1000)",
         "name" : "before-stop-task"
       },
-      "requiredDependencies" : [ ]
+      "requiredDependencies" : [ ],
+      "phaseConfigs" : [ ]
     }, {
       "majorSchemaVersion" : 3,
       "name" : "test-hook2",
@@ -66,7 +67,8 @@
         "parametersMetadata" : {
           "metadata" : { }
         }
-      } ]
+      } ],
+      "phaseConfigs" : [ ]
     } ]
   } ],
   "resources" : [ ],

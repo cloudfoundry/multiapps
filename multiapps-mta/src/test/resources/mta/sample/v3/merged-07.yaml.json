@@ -64,7 +64,8 @@
         "parametersMetadata" : {
           "metadata" : { }
         }
-      } ]
+      } ],
+      "phaseConfigs" : [ ]
     } ]
   } ],
   "resources" : [ {

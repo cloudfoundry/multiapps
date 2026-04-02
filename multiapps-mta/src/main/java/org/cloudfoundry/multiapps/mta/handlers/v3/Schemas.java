@@ -12,6 +12,7 @@ public class Schemas extends org.cloudfoundry.multiapps.mta.handlers.v2.Schemas 
     public static final MapElement PROVIDED_DEPENDENCY = new MapElement();
     public static final MapElement RESOURCE = new MapElement();
     public static final MapElement HOOK = new MapElement();
+    public static final MapElement HOOK_PHASE_CONFIG = new MapElement();
 
     public static final MapElement MTAEXT = new MapElement();
     public static final MapElement EXT_MODULE = new MapElement();
@@ -47,6 +48,10 @@ public class Schemas extends org.cloudfoundry.multiapps.mta.handlers.v2.Schemas 
         HOOK.add("phases", new ListElement(STRING_REQUIRED));
         HOOK.add("parameters", PROPERTIES);
         HOOK.add("requires", new ListElement(REQUIRED_DEPENDENCY));
+        HOOK.add("phase-configs", new ListElement(HOOK_PHASE_CONFIG));
+
+        HOOK_PHASE_CONFIG.add("phase", STRING_REQUIRED);
+        HOOK_PHASE_CONFIG.add("target-app", STRING_REQUIRED);
 
         REQUIRED_DEPENDENCY.add("name", UNIQUE_MTA_IDENTIFIER);
         REQUIRED_DEPENDENCY.add("list", STRING);
