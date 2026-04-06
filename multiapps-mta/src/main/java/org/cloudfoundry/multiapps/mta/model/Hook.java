@@ -6,6 +6,7 @@ import java.util.Map;
 import java.util.TreeMap;
 import java.util.stream.Collectors;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import org.apache.commons.lang3.ObjectUtils;
 import org.cloudfoundry.multiapps.common.util.yaml.YamlElement;
 import org.cloudfoundry.multiapps.mta.parsers.v3.HookParser;
@@ -48,6 +49,7 @@ public class Hook extends VersionedEntity implements VisitableElement, NamedElem
     private Map<String, Object> parameters = Collections.emptyMap();
     @YamlElement(HookParser.REQUIRES)
     private List<RequiredDependency> requiredDependencies = Collections.emptyList();
+    @JsonInclude(JsonInclude.Include.NON_EMPTY)
     @YamlElement(HookParser.PHASE_CONFIGS)
     private List<Map<String, String>> phaseConfigs = Collections.emptyList();
 

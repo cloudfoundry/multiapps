@@ -49,8 +49,7 @@
         "parametersMetadata" : {
           "metadata" : { }
         }
-      } ],
-      "phaseConfigs" : [ ]
+      } ]
     }, {
       "majorSchemaVersion" : 3,
       "name" : "foo",
@@ -59,8 +58,7 @@
       "parameters" : {
         "qux" : "quz"
       },
-      "requiredDependencies" : [ ],
-      "phaseConfigs" : [ ]
+      "requiredDependencies" : [ ]
     } ]
   } ],
   "resources" : [ {

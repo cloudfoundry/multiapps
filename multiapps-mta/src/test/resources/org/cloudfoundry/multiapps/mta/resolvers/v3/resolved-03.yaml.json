@@ -79,8 +79,7 @@
         "parametersMetadata" : {
           "metadata" : { }
         }
-      } ],
-      "phaseConfigs" : [ ]
+      } ]
     }, {
       "majorSchemaVersion" : 3,
       "name" : "test-hook2",
@@ -107,8 +106,7 @@
         "parametersMetadata" : {
           "metadata" : { }
         }
-      } ],
-      "phaseConfigs" : [ ]
+      } ]
     } ]
   }, {
     "majorSchemaVersion" : 3,
