@@ -6,7 +6,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-
 import org.cloudfoundry.multiapps.common.ParsingException;
 import org.cloudfoundry.multiapps.mta.model.ExtensionHook;
 import org.cloudfoundry.multiapps.mta.model.ExtensionRequiredDependency;

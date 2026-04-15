@@ -22,7 +22,6 @@ public class HookParser extends ModelParser<Hook> {
     public static final String PHASES = "phases";
     public static final String PARAMETERS = "parameters";
     public static final String REQUIRES = "requires";
-    public static final String PHASE_CONFIGS = "phase-configs";
 
     protected final Set<String> usedRequiredDependencyNames = new HashSet<>();
 
@@ -41,8 +40,7 @@ public class HookParser extends ModelParser<Hook> {
                    .setParameters(getParameters())
                    .setPhases(getPhases())
                    .setRequiredDependencies(getRequiredDependencies())
-                   .setType(getType())
-                   .setPhaseConfigs(getPhaseConfigs());
+                   .setType(getType());
     }
 
     private String getType() {
@@ -73,11 +71,6 @@ public class HookParser extends ModelParser<Hook> {
 
     private String getName() {
         return getStringElement(NAME);
-    }
-
-    @SuppressWarnings("unchecked")
-    private List<Map<String, String>> getPhaseConfigs() {
-        return (List<Map<String, String>>) source.get(PHASE_CONFIGS);
     }
 
 }
