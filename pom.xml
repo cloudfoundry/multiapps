@@ -156,14 +156,18 @@
                     <artifactId>spotless-maven-plugin</artifactId>
                     <version>3.4.0</version>
                     <configuration>
+                        <!-- THE MAGIC LINE: Spotless will only format files changed relative to this branch -->
+                        <ratchetFrom>origin/master</ratchetFrom>
                         <java>
                             <eclipse>
-                                <file>https://raw.githubusercontent.com/cloudfoundry/multiapps/main/ide/mta_formatter_java_eclipse_bridge.xml</file>
+                                <file>
+                                    https://raw.githubusercontent.com/cloudfoundry/multiapps/master/ide/mta_formatter_java_eclipse_bridge.xml
+                                </file>
                             </eclipse>
                             <importOrder>
                                 <order>java|javax,,\\#</order>
                             </importOrder>
-                            <removeUnusedImports />
+                            <removeUnusedImports/>
                         </java>
                     </configuration>
                 </plugin>
