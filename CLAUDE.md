@@ -57,17 +57,6 @@ mvn clean verify -Pcoverage
 mvn clean verify -Pcoverage,sonar
 ```
 
-## Formatting Rule
-
-Before completing any task or committing code, you **MUST** run:
-
-```bash
-mvn spotless:apply
-```
-
-This ensures the codebase follows the standard formatting rules. The Eclipse formatter
-configuration files are located in the `ide/` directory for IDE integration.
-
 ## Dependency Notes
 
 - Downstream consumers reference this library via the `multiapps.version` property in
