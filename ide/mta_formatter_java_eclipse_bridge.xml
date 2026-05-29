@@ -240,6 +240,7 @@
 		<setting id="org.eclipse.jdt.core.formatter.blank_lines_after_package" value="1"/>
 		<setting id="org.eclipse.jdt.core.formatter.blank_lines_before_imports" value="1"/>
 		<setting id="org.eclipse.jdt.core.formatter.blank_lines_after_imports" value="1"/>
+		<setting id="org.eclipse.jdt.core.formatter.blank_lines_between_import_groups" value="1"/>
 		<setting id="org.eclipse.jdt.core.formatter.blank_lines_between_type_declarations" value="1"/>
 		<setting id="org.eclipse.jdt.core.formatter.blank_lines_before_first_class_body_declaration" value="0"/>
 		<setting id="org.eclipse.jdt.core.formatter.blank_lines_after_last_class_body_declaration" value="0"/>
