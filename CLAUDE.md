@@ -15,7 +15,7 @@ or internal company context into this codebase.
 ## Tech Stack
 
 - **Java 25**, compiled with `maven-compiler-plugin` (source/target 25)
-- **JUnit 5** (`junit-jupiter` 6.x) + **Mockito** for testing
+- **JUnit 6** (`junit-jupiter` 6.x) + **Mockito** for testing
 - **Maven** multi-module build (parent POM: `multiapps-parent`)
 
 ## Maven Modules
