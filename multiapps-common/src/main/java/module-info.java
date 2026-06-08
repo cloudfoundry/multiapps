@@ -16,6 +16,5 @@ open module org.cloudfoundry.multiapps.common {
 
     requires static java.compiler;
     requires static org.immutables.value;
-    requires java.xml;
     requires jakarta.xml.bind;
 }
