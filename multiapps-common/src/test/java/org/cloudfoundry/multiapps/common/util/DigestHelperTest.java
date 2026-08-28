@@ -10,15 +10,15 @@ class DigestHelperTest {
 
     @Test
     void testComputeFileChecksum() throws Exception {
-        assertEquals("439B99DFFD0583200D5D21F4CD1BF035",
+        assertEquals("92CB62F85B7C1AB36729D35C96FCF875CBEC1C7ECCBAAD3B173CF53A00EFD2EC",
                      DigestHelper.computeFileChecksum(Paths.get("src/test/resources/org/cloudfoundry/multiapps/common/util/web.zip"),
-                                                      "MD5"));
+                                                      "SHA256"));
     }
 
     @Test
     void testComputeDirectoryChecksum() throws Exception {
-        assertEquals("EDEF7E9885FED1A58597212AF0522614",
-                     DigestHelper.computeDirectoryCheckSum(Paths.get("src/test/resources/org/cloudfoundry/multiapps/common/util"), "MD5"));
+        assertEquals("6631688B333F6D2EBEC3666671685509D00707DE0992E6C2A4C88D7F4F8443BB",
+                     DigestHelper.computeDirectoryCheckSum(Paths.get("src/test/resources/org/cloudfoundry/multiapps/common/util"), "SHA256"));
     }
 
 }
