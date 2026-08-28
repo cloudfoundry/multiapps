@@ -1,18 +1,18 @@
 package org.cloudfoundry.multiapps.common.util;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertNull;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
 import org.cloudfoundry.multiapps.common.ContentException;
 import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class MapUtilTest {
 
@@ -24,6 +24,8 @@ class MapUtilTest {
         TEST_PARAMETERS.put("emptyFlag", null);
         TEST_PARAMETERS.put("incorrectTypeFlag1", "false");
         TEST_PARAMETERS.put("incorrectTypeFlag2", "1");
+        TEST_PARAMETERS.put("mapFlag", Map.of("key", "value"));
+        TEST_PARAMETERS.put("incorrectMapFlag", "not-a-map");
     }
 
     @Test
@@ -127,5 +129,31 @@ class MapUtilTest {
 
         assertNotNull(result);
         assertTrue(result.isEmpty());
+    }
+
+    @Test
+    void testParseMap_withPresentMapValue() {
+        Map<String, Object> expectedMap = Map.of("key", "value");
+
+        assertEquals(expectedMap, MapUtil.parseMap(TEST_PARAMETERS, "mapFlag", null));
+    }
+
+    @Test
+    void testParseMap_withMissingKey() {
+        Map<String, Object> defaultValue = Map.of("default", "val");
+
+        assertEquals(defaultValue, MapUtil.parseMap(TEST_PARAMETERS, "notPresentFlag", defaultValue));
+    }
+
+    @Test
+    void testParseMap_withNullValue() {
+        Map<String, Object> defaultValue = Map.of("default", "val");
+
+        assertEquals(defaultValue, MapUtil.parseMap(TEST_PARAMETERS, "emptyFlag", defaultValue));
+    }
+
+    @Test
+    void testParseMap_withIncorrectType() {
+        assertThrows(ContentException.class, () -> MapUtil.parseMap(TEST_PARAMETERS, "incorrectMapFlag", null));
     }
 }
