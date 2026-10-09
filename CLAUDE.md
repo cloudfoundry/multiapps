@@ -9,8 +9,8 @@ Cloud Foundry MultiApps Controller.
 
 ## Security Boundary
 
-This is an **OPEN SOURCE** repository. Never introduce proprietary logic, credentials,
-or internal company context into this codebase.
+**OPEN SOURCE** — see the root `CLAUDE.md` security-boundary table. Never introduce
+proprietary logic, credentials, or internal company context.
 
 ## Tech Stack
 
