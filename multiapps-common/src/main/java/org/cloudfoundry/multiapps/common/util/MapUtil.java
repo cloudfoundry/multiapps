@@ -54,4 +54,20 @@ public class MapUtil {
 
         return (Boolean) flagValue;
     }
+
+    @SuppressWarnings("unchecked")
+    public static Map<String, Object> parseMap(final Map<String, Object> parameters, String flagName,
+                                               Map<String, Object> defaultValue) throws ContentException {
+        Object flagValue = parameters.get(flagName);
+
+        if (flagValue == null) {
+            return defaultValue;
+        }
+
+        if (!(flagValue instanceof Map)) {
+            throw new ContentException(Messages.COULD_NOT_PARSE_MAP_FLAG, flagName);
+        }
+
+        return (Map<String, Object>) flagValue;
+    }
 }
