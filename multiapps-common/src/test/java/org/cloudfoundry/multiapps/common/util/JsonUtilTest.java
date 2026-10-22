@@ -22,7 +22,7 @@ import org.cloudfoundry.multiapps.common.Messages;
 import org.cloudfoundry.multiapps.common.ParsingException;
 import org.junit.jupiter.api.Test;
 
-import com.fasterxml.jackson.core.type.TypeReference;
+import tools.jackson.core.type.TypeReference;
 
 class JsonUtilTest {
 
