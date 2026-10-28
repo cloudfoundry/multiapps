@@ -1,6 +1,5 @@
 package org.cloudfoundry.multiapps.common.util;
 
-import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 import java.text.MessageFormat;
@@ -16,13 +15,15 @@ import org.cloudfoundry.multiapps.common.ParsingException;
 import com.fasterxml.jackson.annotation.JsonAutoDetect.Visibility;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.PropertyAccessor;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.DeserializationFeature;
-import com.fasterxml.jackson.databind.JavaType;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.ObjectWriter;
-import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import tools.jackson.core.JacksonException;
+import tools.jackson.core.type.TypeReference;
+import tools.jackson.databind.DeserializationFeature;
+import tools.jackson.databind.JavaType;
+import tools.jackson.databind.MapperFeature;
+import tools.jackson.databind.ObjectMapper;
+import tools.jackson.databind.ObjectWriter;
+import tools.jackson.databind.cfg.EnumFeature;
+import tools.jackson.databind.json.JsonMapper;
 
 public class JsonUtil {
 
@@ -34,19 +35,48 @@ public class JsonUtil {
     }
 
     private static ObjectMapper createObjectMapper() {
-        return new ObjectMapper().setVisibility(PropertyAccessor.ALL, Visibility.NONE)
-                                 .setVisibility(PropertyAccessor.FIELD, Visibility.ANY)
-                                 .setSerializationInclusion(Include.NON_NULL)
-                                 .disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES)
-                                 .registerModule(new JavaTimeModule());
+        return JsonMapper.builder()
+                         .changeDefaultVisibility(vc -> vc.withVisibility(PropertyAccessor.ALL, Visibility.NONE)
+                                                          .withVisibility(PropertyAccessor.FIELD, Visibility.ANY))
+                         .changeDefaultPropertyInclusion(incl -> incl.withValueInclusion(Include.NON_NULL)
+                                                                     .withContentInclusion(Include.NON_NULL))
+                         .disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES)
+                         // Preserve Jackson 2 behavior: these defaults flipped in Jackson 3 and would change the
+                         // byte output / read leniency of already-persisted DB-column and Flowable-variable JSON.
+                         .disable(MapperFeature.SORT_PROPERTIES_ALPHABETICALLY)
+                         .enable(MapperFeature.ALLOW_FINAL_FIELDS_AS_MUTATORS)
+                         .enable(MapperFeature.ACCEPT_CASE_INSENSITIVE_ENUMS)
+                         .enable(MapperFeature.EXTERNAL_TYPE_ID_ALWAYS_VISIBLE)
+                         // Jackson 3 defaults to (de)serializing enums via toString(); Jackson 2 used name(). Several
+                         // domain enums override toString() to lowercase, so keep name() to stay wire/persistence
+                         // compatible with data written by the Jackson 2 version of the service.
+                         .disable(EnumFeature.WRITE_ENUMS_USING_TO_STRING)
+                         .disable(EnumFeature.READ_ENUMS_USING_TO_STRING)
+                         .disable(DeserializationFeature.FAIL_ON_TRAILING_TOKENS)
+                         .disable(DeserializationFeature.FAIL_ON_NULL_FOR_PRIMITIVES)
+                         .build();
     }
 
     private static ObjectMapper createObjectMapperWithNulls() {
         // Visibilities are required to parse properly "immutables" objects
-        return new ObjectMapper().setVisibility(PropertyAccessor.ALL, Visibility.NONE)
-                                 .setVisibility(PropertyAccessor.FIELD, Visibility.ANY)
-                                 .disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES)
-                                 .registerModule(new JavaTimeModule());
+        return JsonMapper.builder()
+                         .changeDefaultVisibility(vc -> vc.withVisibility(PropertyAccessor.ALL, Visibility.NONE)
+                                                          .withVisibility(PropertyAccessor.FIELD, Visibility.ANY))
+                         .disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES)
+                         // Preserve Jackson 2 behavior: these defaults flipped in Jackson 3 and would change the
+                         // byte output / read leniency of already-persisted DB-column and Flowable-variable JSON.
+                         .disable(MapperFeature.SORT_PROPERTIES_ALPHABETICALLY)
+                         .enable(MapperFeature.ALLOW_FINAL_FIELDS_AS_MUTATORS)
+                         .enable(MapperFeature.ACCEPT_CASE_INSENSITIVE_ENUMS)
+                         .enable(MapperFeature.EXTERNAL_TYPE_ID_ALWAYS_VISIBLE)
+                         // Jackson 3 defaults to (de)serializing enums via toString(); Jackson 2 used name(). Several
+                         // domain enums override toString() to lowercase, so keep name() to stay wire/persistence
+                         // compatible with data written by the Jackson 2 version of the service.
+                         .disable(EnumFeature.WRITE_ENUMS_USING_TO_STRING)
+                         .disable(EnumFeature.READ_ENUMS_USING_TO_STRING)
+                         .disable(DeserializationFeature.FAIL_ON_TRAILING_TOKENS)
+                         .disable(DeserializationFeature.FAIL_ON_NULL_FOR_PRIMITIVES)
+                         .build();
     }
 
     public static Map<String, Object> convertJsonToMap(InputStream json) {
@@ -128,7 +158,7 @@ public class JsonUtil {
         }
         try {
             return getObjectMapper(jsonSerializationStrategy).readValue(json, typeReference);
-        } catch (IOException e) {
+        } catch (JacksonException e) {
             throw new ParsingException(e, errorMessage, e.getMessage(), json);
         }
     }
@@ -140,7 +170,7 @@ public class JsonUtil {
         }
         try {
             return getObjectMapper(jsonSerializationStrategy).readValue(json, typeReference);
-        } catch (IOException e) {
+        } catch (JacksonException e) {
             throw new ParsingException(e, errorMessage, e.getMessage(), json.substring(0, Math.min(json.length(), MAX_LENGTH)));
         }
     }
@@ -169,7 +199,7 @@ public class JsonUtil {
     public static String toJson(Object object, JsonSerializationStrategy jsonSerializationStrategy, boolean indentedOutput) {
         try {
             return getObjectWriter(jsonSerializationStrategy, indentedOutput).writeValueAsString(object);
-        } catch (JsonProcessingException e) {
+        } catch (JacksonException e) {
             throw new IllegalArgumentException(e.getMessage(), e);
         }
     }
@@ -215,7 +245,7 @@ public class JsonUtil {
     private static <T> T fromJson(ObjectMapper objectMapper, String json, JavaType javaType) {
         try {
             return objectMapper.readValue(json, javaType);
-        } catch (IOException e) {
+        } catch (JacksonException e) {
             throw new ParsingException(e,
                                        Messages.CANNOT_PARSE_JSON_STRING_TO_TYPE,
                                        json.substring(0, Math.min(json.length(), MAX_LENGTH)),
