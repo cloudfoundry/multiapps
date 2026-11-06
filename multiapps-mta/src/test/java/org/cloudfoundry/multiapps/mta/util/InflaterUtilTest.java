@@ -24,7 +24,11 @@ class InflaterUtilTest {
         });
         String expectedDeploymentDescriptor = new String(getClass().getResourceAsStream("expected-deployment-descriptor.yaml")
                                                                    .readAllBytes());
-        assertEquals(expectedDeploymentDescriptor, actualDeploymentDescriptor.toString());
+        assertEquals(normalizeLineEndings(expectedDeploymentDescriptor), normalizeLineEndings(actualDeploymentDescriptor.toString()));
+    }
+
+    private static String normalizeLineEndings(String s) {
+        return s.replace("\r\n", "\n").replace("\r", "\n");
     }
 
     private BoundedInputStream getDeploymentDescriptorEntryStream() throws IOException {
