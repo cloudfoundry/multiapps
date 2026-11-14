@@ -21,7 +21,7 @@
         <junit.version>6.0.3</junit.version>
         <mockito.version>5.23.0</mockito.version>
         <commons-lang3.version>3.20.0</commons-lang3.version>
-        <commons-collections4.version>4.5.0</commons-collections4.version>
+        <commons-collections4.version>4.6.0</commons-collections4.version>
         <commons-io.version>2.21.0</commons-io.version>
         <snakeyaml.version>2.6</snakeyaml.version>
         <semver4j.version>6.0.0</semver4j.version>
